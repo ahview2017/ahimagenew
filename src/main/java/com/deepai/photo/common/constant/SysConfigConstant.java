@@ -81,6 +81,12 @@ public class SysConfigConstant {
 	public	static String 	PICTUREMAXLENGTH="PICTUREMAXLENGTH";//稿件图片上传大小（文件大小）最大限制（图片文件大小不能高于此值），单位KB，8192字节=8M
 	public	static String 	PICTUREMINLENGTH="PICTUREMINLENGTH";//稿件图片上传大小（文件大小）最小限制（图片文件大小不能低于此值），单位M，1048576字节=1M
 	public 	static String   QIANBAO_FILE_PATH="QIANBAO_FILE_PATH" ;
+	// add by liu.jinfeng@2017年9月5日 下午9:03:52
+    public static String SMALL_PIC_SIZE400 = "SMALL_PIC_SIZE400";// 400小图尺寸限制
+    public static String SMALL_PIC_PATH400 = "SMALL_PIC_PATH400";// 400小图位置
+    public static String WATERMARK_PIC_PATH1200 = "WATERMARK_PIC_PATH1200";// 1200
+    public static String MEDIUM_PIC_SIZE1200 = "MEDIUM_PIC_SIZE1200";// D:/trsphoto/medium/
+    public static String MEDIUM_PIC_PATH1200 = "MEDIUM_PIC_PATH1200";// D:/trsphoto/medium/
 	public static Map<String,String> config;
 	
 	

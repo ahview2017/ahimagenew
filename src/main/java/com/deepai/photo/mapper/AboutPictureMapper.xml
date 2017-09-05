@@ -159,6 +159,10 @@
   			LEFT JOIN cp_water_mark_picture w on p.TRAGET_ID=w.ID
 			WHERE p.PIC_TYPE=5 and  w.ID=#{tragetId}
   		</if>
+  		<if test="picType!=null and ((picType &gt;=0 and picType &lt;=4) or (picType &gt;=8 and picType &lt;=10))">
+  			LEFT JOIN cp_picture w on p.TRAGET_ID=w.ID
+			WHERE p.PIC_TYPE=#{picType} and  w.ID=#{tragetId}
+  		</if>
   		<if test="picType!=null and picType &gt;=0 and picType &lt;=4">
   			LEFT JOIN cp_picture w on p.TRAGET_ID=w.ID
 			WHERE p.PIC_TYPE=#{picType} and  w.ID=#{tragetId}
