@@ -37,6 +37,11 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
         vm.photoUNameWay = '0';
         //从cookie里取得角色id
         vm.adminRoleId = $cookies.get('admin_roleId');
+
+        console.log("99999999999999999999999999selmasvideo:"+($("#selmasvideo").val()==''));
+
+
+
         //存储稿件图片信息
         vm.manuscriptPicData = [];
 
@@ -182,6 +187,7 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
 					vm.masUrl = "http://192.168.18.85:8081/mas/openapi/pages.do?method=exPlay&appKey=TRSPMS123&type=vod&id="+vm.manuscriptDetail.videoId;
 				}
 				vm.masUrl =  $sce.trustAsResourceUrl(vm.masUrl);
+				console.log("vm.manuscriptDetail.videoId:"+vm.manuscriptDetail.videoId);
 				console.log("<<<<<<<<<<<masUrl:"+vm.masUrl);
 				console.log(resp.data);
                 vm.groupStatus = resp.data.groupStatus;
@@ -797,8 +803,7 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
     //编辑稿件请求
     function req_saveEditManuscript(){
         //编辑稿件请求
-		var videoId = document.getElementById("selmasvideo").value;
-		console.info("============videoId:"+videoId);
+		var videoId = $("#selmasvideo").val();
         req.post(vm.editGropPicUrl,{
             fTime: vm.editManuscript.fTime,
             picData:  angular.toJson(vm.manuscriptPicData,true),

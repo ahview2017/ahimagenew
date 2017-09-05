@@ -2237,7 +2237,6 @@ public class GroupPicController {
             HttpServletResponse response, Integer groupId,Integer type) {
         ResponseMessage result = new ResponseMessage();
         CpUser user = SessionUtils.getUser(request);
-
         CommonValidation.checkParamBlank(groupId + "", "稿件id");
         CommonValidation.checkParamBlank(type + "", "签报类型");
         
