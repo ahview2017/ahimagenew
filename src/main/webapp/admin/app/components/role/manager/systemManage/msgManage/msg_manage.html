@@ -1,0 +1,1160 @@
+<div class="user-manager-container">
+	<div>
+		<role-common-tit value="消息管理"></role-common-tit>
+	</div>
+	<div class="contribute-tit clear">
+
+		<div class="active-slide-item fll" ng-class="{ 'active-slide-nav' : msgManage.acitiveSlideTit == 1}" 
+             ng-click="msgManage.chooseManuscriptType(1)">站内信
+		</div>
+		<div class="active-slide-item fll" ng-class="{ 'active-slide-nav' : msgManage.acitiveSlideTit == 2}" 
+		     ng-hide="msgManage.adminRoleId == 3" 
+             ng-click="msgManage.chooseManuscriptType(2)">电子邮件
+		</div>
+		<div class="active-slide-item fll" ng-class="{ 'active-slide-nav' : msgManage.acitiveSlideTit == 3}" 
+		     ng-hide="(msgManage.adminRoleId == 2) || (msgManage.adminRoleId == 3) || (msgManage.adminRoleId == 4)" 
+             ng-click="msgManage.chooseManuscriptType(3)">网站留言
+		</div>
+		<div class="active-slide-item fll" ng-class="{ 'active-slide-nav' : msgManage.acitiveSlideTit == 4}" 
+             ng-click="msgManage.chooseManuscriptType(4)">网站公告
+		</div>
+		<div class="active-slide-item fll" ng-class="{ 'active-slide-nav' : msgManage.acitiveSlideTit == 5}" 
+		     ng-hide="msgManage.adminRoleId == 3" 
+             ng-click="msgManage.chooseManuscriptType(5)">手机短信
+		</div>
+	</div>
+	<!--站内信-->
+	<div class="c-user-table" ng-show="msgManage.acitiveSlideTit == 1">
+		<div class="t-search-hd clear">
+			<div class="user-hd-left fll">
+				<label for="checkAllMsg">
+                    <input type="checkbox" ng-model="msgManage.isMsgMallHadAllCheck" id="checkAllMsg"
+                           ng-click="msgManage.onMsgMallCheckAllClick()"/>
+                    <span class="user-check-txt cursor">全选</span>
+                </label>
+				<span class="dib cursor user-add-btn" 
+				      ng-click="msgManage.msgModalShow('msg-letter-add-modal')">新建</span>
+				<span class="dib cursor user-add-btn msg-read-btn"
+				      ng-click="msgManage.onSetMsgMallClick(0,null,0)">标记为已读</span>
+				<span class="dib cursor user-add-btn msg-del-btn" 
+				      ng-click="msgManage.onShowDeleteMsgMallModelClick(0,null)">批量删除</span>
+			</div>
+			<div class="user-hd-right flr">
+				<input class="user-search-input" ng-model="msgManage.msgMallSearchModel" placeholder="可查询发送者姓名" ng-keydown="msgManage.onEnterSearchMsgMallClick($event)" />
+				<img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic" ng-click="msgManage.onSearchMsgMallDataClick()" />
+				<span class="dib cursor user-search-btn" ng-click="msgManage.msgModalShow('msg-letter-sele-modal')">高级检索</span>
+			</div>
+		</div>
+		<div class="t-uinfo-bd">
+			<div class="table-responsive">
+				<table class="table table-bordered uInfo-table">
+					<thead>
+						<tr>
+                        <th class="uinfo-hd-th" style="width:7%;"></th>
+                        <th class="uinfo-hd-th" style="width:18%;">消息标题</th>
+                        <th class="uinfo-hd-th" style="width:16%;">发送者</th>
+						<th class="uinfo-hd-th" style="width:16%;">接收者</th>
+                        <th class="uinfo-hd-th" style="width:17%;">发送时间</th>
+                        <th class="uinfo-hd-th" style="width:12%;">状态</th>
+                        <th class="uinfo-hd-th" style="width:14%;">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr dir-paginate="msgMallItem in msgManage.msgMallArray | itemsPerPage: msgManage.selPageRows" 
+						total-items="msgManage.msgList_total" 
+						current-page="msgManage.pagination.current" 
+						ng-init="msgManage.checkBoxMsgMallArray[$index] = false">
+							<!-- <tr ng-repeat="msgMallItem in msgManage.msgMallArray"
+                        ng-init="msgManage.checkBoxMsgMallArray[$index] = false">-->
+							<td  style="width:7%;"  class="wbba">
+								<input type="checkbox" ng-model="msgManage.checkBoxMsgMallArray[$index]" 
+								ng-true-value="{{msgMallItem.id}}" ng-false-value="false" />
+							</td>
+							<td  style="width:18%;"  class="wbba">
+								<!--<span ng-if="msgMallItem.msg_CONTENT"-->
+								<!--ng-bind-html="msgMallItem.msg_CONTENT | trustHtml"></span>-->
+								<!--<span ng-if="!msgMallItem.msg_CONTENT">&#45;&#45;&#45;&#45;&#45;&#45;</span>-->
+								<span class="curp" ng-class="{'msg-title-bold':msgMallItem.statu == 1}" 
+								      ng-click="msgManage.onShowMsgDetailModalClick(msgMallItem.msgTitle,msgMallItem.msg_CONTENT,msgMallItem.id,0,msgMallItem.statu)">
+                                {{msgMallItem.msgTitle}}
+                            </span>
+							</td>
+							<td style="width:16%;"  class="wbba">
+							    <span ng-class="{'msg-title-bold':msgMallItem.statu == 1}">
+                                {{msgMallItem.send_name}}</span>
+							</td>
+							<td style="width:16%;"  class="wbba">
+								<span ng-class="{'msg-title-bold':msgMallItem.statu == 1}">
+                            	{{msgMallItem.ac_name}}</span>
+							</td>
+							<td  style="width:17%;"  class="wbba">
+								<span ng-class="{'msg-title-bold':msgMallItem.statu == 1}">
+                            	      {{msgMallItem.datetime|date:'yyyy-MM-dd'}}
+								</span>
+							</td>
+							<td  style="width:12%;"  class="wbba">
+								<span ng-class="{'msg-title-bold':msgMallItem.statu == 1}">
+                            	{{msgMallItem.statu|msgWorkStatusFilter}}</span>
+							</td>
+							<td   style="width:14%;" class="wbba">
+								<!--<img src="admin/assets/img/role/look_user_info.png" class="cursor" width="20" height="20"-->
+								<!--ng-click="msgManage.msgModalShow('msg-letter-comm-modal')"/>-->
+								<img src="admin/assets/img/role/u_pwd_reset.png" class="cursor u-pwd-reset" width="20" 
+									 title="标记为已读" height="20" 
+									 ng-click="msgManage.onSetMsgMallClick(-1,msgMallItem.id,msgMallItem.statu)" />
+								<img src="admin/assets/img/role/red_del.png" class="cursor" width="20" height="20" 
+									 title="删除" 
+									 ng-click="msgManage.onShowDeleteMsgMallModelClick(-1,msgMallItem.id)" />
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!-- 分页 -->
+			<div class="paging-con-box mt10 clear">
+				<div class="photo-record-page fll">
+					<select ng-model="msgManage.selPageRows" class="mr10">
+						<option value="50">50</option>
+						<option value="40">40</option>
+						<option value="30">30</option>
+						<option value="20">20</option>
+						<option value="10">10</option>
+					</select>
+					<span>共找到</span>
+					<span class="color_red">{{msgManage.msgList_total}}</span>
+					<span>条记录</span>
+				</div>
+				<div class="photo-now-page fll">
+					<span>第 </span>
+					<span>{{msgManage.pagination.current}}</span>
+					<span>/</span>
+					<span>{{msgManage.msgTotalPages}}</span>
+					<span>页</span>
+				</div>
+				<div class="photo-jump-page flr">
+				    <dir-pagination-controls on-page-change="msgManage.pageChanged(newPageNumber)" 
+											 template-url="admin/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+					</dir-pagination-controls>
+				</div>
+			</div>
+			<!--站内信添加弹框-->
+			<div class="common-modal-style" id="msg-letter-add-modal" 
+			     ng-mousemove="msgManage.moveModal('add-modal-tit','msg-letter-add-modal')"
+				 style="display:none">
+				<div class="role-add-con">
+					<div id="add-modal-tit" class="role-add-tit oH">
+						<span class="fll">站内信</span>
+						<span class="flr curp tit-close"
+						      ng-click="msgManage.onCloseCurrentModalClick(1)">×</span>
+					</div>
+					<div class="role-add-main msg-content-box">
+						<div class="role-add-form-info advertise-add-form-info clear">
+							<div class="role-form-info-bottom clear">
+								<div class="role-remark-txt fll">消息标题</div>
+								<input type="text" class="adverse-remark-input fll" 
+								       ng-model="msgManage.msgMallTitleModel" />
+							</div>
+							<div class="role-form-info-bottom clear">
+								<div class="role-remark-txt fll">接收对象</div>
+								<select class="adverse-remark-input fll" 
+								        ng-model="msgManage.msgMallReModel">
+									<option value="">请选择</option>
+									<option value="1">管理员</option>
+									<option value="2">值班编辑</option>
+									<option value="3">摄影师</option>
+									<option value="4">销售</option>
+									<option value="5">订户</option>
+								</select>
+							</div>
+							<div class="role-form-info-bottom clear">
+								<div class="role-remark-txt fll">信息内容</div>
+								<script id="msgMallConEditId" type="text/plain" 
+								        style="width:840px;height:320px;margin-left: 93px;"></script>
+								<!--<textarea class="web-info-area fll"-->
+								<!--ng-model="msgManage.msgMallConModel"></textarea>-->
+							</div>
+						</div>
+					</div>
+					<div class="tac">
+						<span class="dib cursor user-add-btn" ng-click="msgManage.onAddMsgMallClick()">发送</span>
+						<span class="dib cursor user-add-btn role-del-btn" ng-click="msgManage.onCloseCurrentModalClick(1)">取消</span>
+					</div>
+				</div>
+			</div>
+			<!--站内信高级检索弹出框-->
+			<div class="common-modal-style absolute_left" id="msg-letter-sele-modal" style="display:none;">
+				<div class="user-add-con">
+					<div id="search-modal-tit" class="role-add-tit oH">
+						<span class="fll">高级检索</span>
+						<span class="flr curp tit-close" ng-click="msgManage.onCloseCurrentModalClick(1)">×</span>
+					</div>
+					<div class="role-add-main">
+						<div class="user-form-info clear">
+							<div class="user-form-info-top clear">
+								<div class="fll user-form-part clear">
+									<div class="user-search-left_o  fll">消息标题</div>
+									<div class="user-search-right fll">
+										<input type="text" class="user-add-input" ng-model="msgManage.msgTitle" />
+									</div>
+								</div>
+								<div class="fll user-form-part clear">
+									<div class="user-search-left_o fll">发送者</div>
+									<div class="user-search-right fll">
+										<input type="text" class="user-add-input" ng-model="msgManage.sendName" />
+									</div>
+								</div>
+								<div class="fll user-form-part clear">
+									<div class="fll user-search-left_o">状态</div>
+									<div class="fll user-search-right">
+                                    <select class="user-add-input" ng-model="msgManage.msgStatus">
+                                        <option value="">请选择</option>
+                                        <option value="0">已读</option>
+                                        <option value="1">未读</option>
+                                    </select>
+                                </div>
+								</div>
+							</div>
+							<div class="user-form-info-top clear">
+								<div class="fll user-form-part clear">
+									<div class="user-search-left_o  fll">发布时间</div>
+									<div class="user-search-right fll">
+										<input type="text" class="Wdate user-add-input_o" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" class="Wdate" ng-model="msgManage.startTime" datepicker/>
+									</div>
+								</div>
+								<div class="fll user-form-part clear">									
+									<div class="user-search-left_o  fll">结束时间</div>
+									<div class="user-search-right fll">
+									    <input type="text" class="Wdate user-add-input_o" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" class="Wdate" ng-model="msgManage.endTime " datepicker/>
+									</div>
+								</div>
+							</div>
+							<div class="tar mt10">
+								<span class="dib cursor user-high-search-btn" ng-click="msgManage.userAdvanceSearch()">检索</span>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<!---站内信删除弹框-->
+			<div class="common-modal-style" id="msg-letter-del-modal" 
+			     ng-mousemove="msgManage.moveModal('del-modal-tit','msg-letter-del-modal')" 
+				 style="display:none">
+				<div class="role-add-con">
+					<div id="del-modal-tit" class="role-add-tit">
+						删除提醒
+					</div>
+					<div class="role-modal-con">
+						你确定要删除该消息吗？
+					</div>
+					<div class="tac mt10">
+						<span class="dib cursor user-add-btn" ng-click="msgManage.onDeleteMsgMallData()">确定</span>
+						<span class="dib cursor user-add-btn role-del-btn" 
+						      ng-click="msgManage.adminMsgModalHide('msg-letter-del-modal')">取消</span>
+					</div>
+				</div>
+			</div>
+			<!--站内信通信弹框-->
+			<div class="common-modal-style" id="msg-letter-comm-modal" style="display:none">
+				<div class="msg-comm-con">
+					<div class="clear">
+						<img src="admin/assets/img/role/close.png" width="22" height="22" class="flr cursor" 
+						     ng-click="msgManage.msgModalHide('msg-letter-comm-modal')">
+					</div>
+					<div class="msg-comm-top clear">
+						<div class="fll reply-msg-con clear">
+							<textarea class="msg-letter-textarea fll"></textarea>
+						</div>
+						<div class="fll reply-msg-desc clear">
+							<span class="dib cursor user-add-btn msg-letter-send flr">发送</span>
+						</div>
+					</div>
+					<div class="msg-comm-bottom clear">
+						<div class="fll reply-msg-desc">
+							<img src="admin/assets/img/role/message.png" width="38" height="38"><br/>
+							<span>wuli</span>
+						</div>
+						<div class="fll reply-msg-con">
+							<textarea class="msg-letter-textarea fll"></textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--电子邮件-->
+	<div class="c-user-table" ng-show="msgManage.acitiveSlideTit == 2">
+		<div class="t-search-hd clear">
+			<div class="user-hd-left fll">
+				<label for="checkAllmsgEmail">
+                    <input type="checkbox" ng-model="msgManage.isMsgEmailHadAllCheck"
+                           id="checkAllmsgEmail"
+                           ng-click="msgManage.onMsgEmailCheckAllClick()"/>
+                    <span class="user-check-txt">全选</span>
+                </label>
+				<span class="dib cursor user-add-btn" ng-click="msgManage.newMailModalShow('msg-mail-add-modal')">新建</span>
+				<span class="dib cursor user-add-btn msg-del-btn" 
+					  ng-click="msgManage.onShowDeleteMsgEmailModelClick(0,null)">批量删除</span>
+			</div>
+			<div class="user-hd-right flr">
+				<input class="user-search-input" ng-model="msgManage.msgEmailSearchModel" placeholder="可查询邮件标题" ng-keydown="msgManage.onEnterSearchMsgEmailClick($event)" />
+				<img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic" ng-click="msgManage.onSearchMsgEmailDataClick()" />
+				<span class="dib cursor user-search-btn" ng-click="msgManage.msgModalShow('msg-mail-sele-modal')">高级检索</span>
+			</div>
+		</div>
+		<div class="t-uinfo-bd">
+			<div class="table-responsive">
+				<table class="table table-bordered uInfo-table">
+					<thead>
+						<tr>
+							<th class="uinfo-hd-th"  style="width:7%;"></th>
+                       		<th class="uinfo-hd-th"  style="width:20%;">邮件标题</th>
+							<th class="uinfo-hd-th"  style="width:18%;">发送者</th>
+							<th class="uinfo-hd-th"  style="width:18%;">接收者</th>
+                        	<th class="uinfo-hd-th"  style="width:25%;">发送时间</th>
+                        	<th class="uinfo-hd-th"  style="width:12%;">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr dir-paginate="msgEmailItem in msgManage.msgEmailArray | itemsPerPage: msgManage.selPageRows" 
+							total-items="msgManage.msgEailList_total" 
+							current-page="msgManage.pagination.current" 
+							ng-init="msgManage.checkBoxMsgEmailArray[$index] = false">
+							<td  style="width:7%;" class="wbba">
+								<input type="checkbox" ng-model="msgManage.checkBoxMsgEmailArray[$index]"
+								       ng-true-value="{{msgEmailItem.id}}" ng-false-value="false" />
+							</td>
+							<td  style="width:20%;"  class="wbba">
+								<span class="curp" 
+									  ng-click="msgManage.onShowMsgDetailModalClick(msgEmailItem.emailTitle,msgEmailItem.emailContent,null,1,1)">
+                           		{{msgEmailItem.emailTitle}}</span></td>
+							<td style="width:18%;"  class="wbba">{{msgEmailItem.sender}}</td>
+							<td style="width:18%;"  class="wbba">{{msgEmailItem.emailReciverRole|msgMailReceiverFilter:msgEmailItem.emailReciver}}</td>
+							<td style="width:25%;"  class="wbba">{{msgEmailItem.datetime|date:'yyyy-MM-dd'}}</td>
+							<td style="width:12%;"  class="wbba">
+								<img src="admin/assets/img/role/red_del.png" class="cursor" width="20" height="20" 
+								     title="删除" 
+									 ng-click="msgManage.onShowDeleteMsgEmailModelClick(-1,msgEmailItem.id)" />
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!-- 分页 -->
+			<div class="paging-con-box mt10 clear">
+				<div class="photo-record-page fll">
+					<select ng-model="msgManage.selPageRows" class="mr10">
+						<option value="50">50</option>
+						<option value="40">40</option>
+						<option value="30">30</option>
+						<option value="20">20</option>
+						<option value="10">10</option>
+					</select>
+					<span>共找到</span>
+					<span class="color_red">{{msgManage.msgEailList_total}}</span>
+					<span>条记录</span>
+				</div>
+				<div class="photo-now-page fll">
+					<span>第 </span>
+					<span>{{msgManage.pagination.current}}</span>
+					<span>/</span>
+					<span>{{msgManage.emailTotalPages}}</span>
+					<span>页</span>
+				</div>
+				<div class="photo-jump-page flr">
+				     <dir-pagination-controls on-page-change="msgManage.pageChanged(newPageNumber)" 
+					                          template-url="admin/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+					</dir-pagination-controls>
+				</div>
+			</div>
+			<!--电子邮件添加弹框-->
+			<div class="common-modal-style" id="msg-mail-add-modal" 
+				 ng-mousemove="msgManage.moveModal('add2-modal-tit','msg-mail-add-modal')" 
+				 style="display:none">
+				<div class="role-add-con">
+					<div id="add2-modal-tit" class="role-add-tit oH">
+						<span class="fll">电子邮件</span>
+						<span class="flr curp tit-close" 
+						      ng-click="msgManage.onCloseCurrentModalClick(2)">×</span>
+					</div>
+					<div class="role-add-main msg-content-box role-add-main-msgManage">
+						<div class="role-add-form-info advertise-add-form-info clear">
+							<div class="role-form-info-bottom clear">
+								<div class="role-remark-txt fll">邮件标题</div>
+								<input type="text" class="adverse-remark-input fll" 
+								       ng-model="msgManage.msgEmailTitleModel" />
+							</div>
+							<!--<div class="role-form-info-bottom clear">
+                                <div class="role-remark-txt fll">接收对象</div>
+                                <select class="adverse-remark-input fll"
+                                        ng-model="msgManage.msgEmailReModel">
+                                    <option value="">请选择</option>
+                                    <option value="1">管理员</option>
+                                    <option value="2">值班编辑</option>
+                                    <option value="3">摄影师</option>
+                                    <option value="4">销售</option>
+                                    <option value="5">订户</option>
+                                </select>
+                            </div>-->
+							<div class="role-form-info-bottom clear">
+								<div class="role-remark-txt fll">
+									<span class="role-remark-txt">接收对象</span>
+								</div>
+								<div class="adverse-remark-input fll">
+									<div ng-dropdown-multiselect options="msgManage.selCpCategories"  class="w100p"
+										 selected-model="msgManage.selReceptObjArr" extra-settings="msgManage.receptObjSettings"
+										 translation-texts="msgManage.defaultReceptObj">
+									</div>
+									<!--<select class="selectpicker adverse-remark-input" name="draftSortSelect"
+											multiple id="msgCategory" title="请选择" ng-model="msgManage.msgCategoryId">
+									</select>-->
+								</div>
+							</div>
+							<div class="role-form-info-bottom clear role-form-info-bottom_i">
+								<div class="role-remark-txt fll">邮件内容</div>
+								<script id="msgEmailConEditId" type="text/plain" 
+								        style="width:840px;height:320px;margin-left: 93px;position:absolute;z-index:0;"></script>
+								<!--<textarea class="web-info-area fll"-->
+								<!--ng-model="msgManage.msgEmailConModel"></textarea>-->
+							</div>
+						</div>
+					</div>
+					<div class="tac">
+						<!--<input type="button" class="dib cursor user-add-btn"-->
+						<!--ng-disabled="msgManage.isOnSendEmailClickFlag"-->
+						<!--ng-class="{'user-add-btn-no-click':msgManage.isOnSendEmailClickFlag}"-->
+						<!--ng-click="msgManage.onAddMsgEmailClick(1)" value="保存"/>-->
+						<input type="button" class="dib cursor user-add-btn" ng-disabled="msgManage.isOnSendEmailClickFlag" ng-class="{'user-add-btn-no-click':msgManage.isOnSendEmailClickFlag}" ng-click="msgManage.onAddMsgEmailClick(0)" value="发送" />
+						<span class="dib cursor user-add-btn role-del-btn" ng-click="msgManage.onCloseCurrentModalClick(2)">取消</span>
+					</div>
+				</div>
+			</div>
+			<!--电子邮件高级检索弹出框-->
+			<div class="common-modal-style absolute_left" id="msg-mail-sele-modal" style="display:none;">
+				<div class="user-add-con">
+					<div id="search-modal-tit" class="role-add-tit oH">
+						<span class="fll">高级检索</span>
+						<span class="flr curp tit-close" ng-click="msgManage.onCloseCurrentModalClick(2)">×</span>
+					</div>
+					<div class="role-add-main">
+						<div class="user-form-info clear">
+							<div class="user-form-info-top clear">
+								<div class="fll user-form-part_emaildate clear">
+									<div class="user-search-left_o  fll">邮件标题</div>
+									<div class="user-search-right fll">
+										<input type="text" class="user-add-input" ng-model="msgManage.title" />
+									</div>
+								</div>
+								<div class="fll user-form-part_emaildate clear">
+									<div class="user-search-left_o fll">接收者</div>
+									<div class="user-search-right fll">
+										<input type="text" class="user-add-input" ng-model="msgManage.reciver" />
+									</div>
+								</div>
+							</div>
+							<div class="user-form-info-top clear">
+								<div class="fll user-form-part_emaildate clear">
+									<div class="user-search-left_o  fll">发送时间</div>
+									<div class="user-search-right fll">
+										<input type="text" class="Wdate user-add-input_o" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" class="Wdate" ng-model="msgManage.timeFrom" datepicker/>
+									</div>
+								</div>
+								<div class="fll user-form-part_emaildate clear">
+									<div class="user-search-left_o  fll">结束时间</div>
+									<div class="user-search-right fll">
+										<input type="text" class="Wdate user-add-input_o" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" class="Wdate" ng-model="msgManage.timeTo " datepicker/>
+									</div>
+								</div>
+							</div>
+							<div class="tar mt10">
+								<span class="dib cursor user-high-search-btn" ng-click="msgManage.emailAdvanceSearch()">检索</span>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<!--电子邮件删除弹框-->
+			<div class="common-modal-style" id="msg-mail-del-modal"
+				 ng-mousemove="msgManage.moveModal('del2-modal-tit','msg-mail-del-modal')"
+				  style="display:none">
+				<div class="role-add-con">
+					<div id="del2-modal-tit" class="role-add-tit">
+						删除提醒
+					</div>
+					<div class="role-modal-con">
+						你确定要删除该消息吗？
+					</div>
+					<div class="tac mt10">
+						<span class="dib cursor user-add-btn"
+						      ng-click="msgManage.onDeleteMsgEmailData()">确定</span>
+						<span class="dib cursor user-add-btn role-del-btn" 
+							  ng-click="msgManage.adminMsgModalHide('msg-mail-del-modal')">取消</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--网站留言-->
+	<div class="c-user-table" ng-show="msgManage.acitiveSlideTit == 3">
+		<div class="t-search-hd clear">
+			<div class="user-hd-left fll">
+				<label for="checkAllMsgNet">
+                    <input type="checkbox" ng-model="msgManage.isMsgNetInHadAllCheck"
+                           id="checkAllMsgNet"
+                           ng-click="msgManage.onMsgNetInCheckAllClick()"/>
+                    <span class="user-check-txt">全选</span>
+                </label>
+				<span class="dib cursor user-add-btn msg-del-btn" 
+				      ng-click="msgManage.msgModalShow('msg-leaveword-del-modal')">批量删除</span>
+			</div>
+			<div class="user-hd-right flr">
+				<input class="user-search-input" ng-model="msgManage.msgNetInSearchModel" placeholder="可查询留言内容" ng-keydown="msgManage.onEnterSearchMsgNetInClick($event)" />
+				<img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic" ng-click="msgManage.onSearchMsgNetInDataClick()" />
+				<span class="dib cursor user-search-btn" ng-click="msgManage.msgModalShow('msg-leaveword-sele-modal')">高级检索</span>
+			</div>
+		</div>
+		<div class="t-uinfo-bd">
+			<div class="table-responsive">
+				<table class="table table-bordered uInfo-table">
+					<thead>
+						<tr>
+							<th class="uinfo-hd-th"  style="width:7%;"></th>
+	                        <th class="uinfo-hd-th"  style="width:36%;">网站留言</th>
+	                        <th class="uinfo-hd-th"  style="width:25%;">留言时间</th>
+	                        <th class="uinfo-hd-th"  style="width:19%;">联系方式</th>
+	                        <th class="uinfo-hd-th"  style="width:13%;">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr dir-paginate="msgNetInItem in msgManage.msgNetInArray | itemsPerPage: msgManage.selPageRows" 
+							total-items="msgManage.msgNetList_total" 								
+							current-page="msgManage.pagination.current" 
+							ng-init="msgManage.checkBoxMsgNetInArray[$index] = false">
+							<td   style="width:7%;" class="wbba">
+                            	<input type="checkbox" ng-model="msgManage.checkBoxMsgNetInArray[$index]"
+                                   ng-true-value="{{msgNetInItem.id}}" ng-false-value="false"/>
+							</td>
+							<td  style="width:36%;"  class="wbba">{{msgNetInItem.smContent}}</td>
+							<td  style="width:25%;"  class="wbba">{{msgNetInItem.datetime|date:'yyyy-MM-dd HH:mm:ss'}}</td>
+							<td  style="width:19%;"  class="wbba">{{msgNetInItem.smLink || '------'}}</td>
+							<td   style="width:13%;"  class="wbba">
+								<img src="admin/assets/img/role/red_del.png" class="cursor" width="20" height="20" 
+									title="删除" 
+									ng-click="msgManage.onShowDeleteMsgNetInModelClick(-1,msgNetInItem.id)" />
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!-- 分页 -->
+			<div class="paging-con-box mt10 clear">
+				<div class="photo-record-page fll">
+					<select ng-model="msgManage.selPageRows" class="mr10">
+						<option value="50">50</option>
+						<option value="40">40</option>
+						<option value="30">30</option>
+						<option value="20">20</option>
+						<option value="10">10</option>
+					</select>
+					<span>共找到</span>
+					<span class="color_red">{{msgManage.msgNetList_total}}</span>
+					<span>条记录</span>
+				</div>
+				<div class="photo-now-page fll">
+					<span>第 </span>
+					<span>{{msgManage.pagination.current}}</span>
+					<span>/</span>
+					<span>{{msgManage.msgNetTotalPages}}</span>
+					<span>页</span>
+				</div>
+				<div class="photo-jump-page flr">
+					<dir-pagination-controls on-page-change="msgManage.pageChanged(newPageNumber)"
+					 						 template-url="admin/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+					</dir-pagination-controls>
+				</div>
+			</div>
+			<!--网站留言高级检索弹出框-->
+			<div class="common-modal-style absolute_left" id="msg-leaveword-sele-modal" style="display:none;">
+				<div class="user-add-con">
+					<div id="search-modal-tit" class="role-add-tit oH">
+						<span class="fll">高级检索</span>
+						<span class="flr curp tit-close" ng-click="msgManage.onCloseCurrentModalClick(3)">×</span>
+					</div>
+					<div class="role-add-main">
+						<div class="user-form-info clear">
+							<div class="user-form-info-top clear">
+								<div class="fll user-form-part_emaildate clear">
+									<div class="user-search-left_o  fll">网站留言</div>
+									<div class="user-search-right fll">
+										<input type="text" class="user-add-input" ng-model="msgManage.content" />
+									</div>
+								</div>
+								<div class="fll user-form-part_emaildate clear">
+									<div class="user-search-left_o fll">联系方式</div>
+									<div class="user-search-right fll">
+										<input type="text" class="user-add-input" ng-model="msgManage.smLink" />
+									</div>
+								</div>
+							</div>
+							<div class="user-form-info-top clear">
+								<div class="fll user-form-part_emaildate clear">
+									<div class="user-search-left_o  fll">留言时间</div>
+									<div class="user-search-right fll">
+										<input type="text" class="Wdate user-add-input_o" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" class="Wdate" ng-model="msgManage.timefrom" datepicker/>
+									</div>
+								</div>
+								<div class="fll user-form-part_emaildate clear">
+									<div class="user-search-left_o  fll">结束时间</div>
+									<div class="user-search-right fll">
+										<input type="text" class="Wdate user-add-input_o" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" class="Wdate" ng-model="msgManage.timeto" datepicker/>
+									</div>
+								</div>
+							</div>
+							<div class="tar mt10">
+								<span class="dib cursor user-high-search-btn" ng-click="msgManage.leavewordAdvanceSearch()">检索</span>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<!--网站留言删除弹框-->
+			<div class="common-modal-style" id="msg-leaveword-del-modal" ng-mousemove="msgManage.moveModal('del3-modal-tit','msg-leaveword-del-modal')" style="display:none">
+				<div class="role-add-con">
+					<div id="del3-modal-tit" class="role-add-tit">
+						删除提醒
+					</div>
+					<div class="role-modal-con">
+						你确定要删除该消息吗？
+					</div>
+					<div class="tac mt10">
+						<span class="dib cursor user-add-btn"
+						 	  ng-click="msgManage.onDeleteMsgNetInData()">确定</span>
+						<span class="dib cursor user-add-btn role-del-btn" 
+						      ng-click="msgManage.adminMsgModalHide('msg-leaveword-del-modal')">取消</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--网站公告-->
+	<div class="c-user-table" ng-show="msgManage.acitiveSlideTit == 4">
+		<div class="t-search-hd clear">
+			<div class="user-hd-left fll">
+				<label for="checkAllSiteNotice">
+                    <input type="checkbox" ng-model="msgManage.isMsgNetAdHadAllCheck"
+                           id="checkAllSiteNotice"
+                           ng-click="msgManage.onMsgNetAdCheckAllClick()"/>
+                    <span class="user-check-txt">全选</span>
+                </label>
+				<span class="dib cursor user-add-btn" 
+					ng-click="msgManage.msgModalShow('site-notice-add-modal')">新建</span>
+				<span class="dib cursor user-add-btn role-modify-btn" 
+					ng-click="msgManage.onShowEditMsgNetAdModelClick(0,null,null)">修改</span>
+				<span class="dib cursor user-add-btn msg-del-btn"
+				 	ng-click="msgManage.onShowDeleteMsgNetAdModelClick(0,null)">批量删除</span>
+			</div>
+			<div class="user-hd-right flr">
+				 
+				 <input class="user-search-input" ng-model="msgManage.msgNetAdSearchModel"
+						placeholder="可查询公告标题" 
+						ng-keydown="msgManage.onEnterSearchMsgNetAdClick($event)" />
+				<img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic"
+					 ng-click="msgManage.onSearchMsgNetAdDataClick()" />
+				<span class="dib cursor user-search-btn" ng-click="msgManage.msgModalShow('msg-notice-sele-modal')">高级检索</span>
+			</div>
+		</div>
+		<div class="t-uinfo-bd">
+			<div class="table-responsive">
+				<table class="table table-bordered uInfo-table">
+					<thead>
+						<tr>
+							<th class="uinfo-hd-th" style="width:7%;"></th>
+							<!--todo 暂时隐藏，以后可能用到-->
+							<!--<th class="uinfo-hd-th">所属专题</th>-->
+							<th class="uinfo-hd-th" style="width:23%;">公告标题</th>
+	                        <th class="uinfo-hd-th" style="width:20%;">发布时间</th>
+	                        <th class="uinfo-hd-th" style="width:15%;">发布者</th>
+	                        <th class="uinfo-hd-th" style="width:12%;">状态</th>
+							<th class="uinfo-hd-th" style="width:10%;">置顶</th>
+							<th class="uinfo-hd-th"  style="width:13%;">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr dir-paginate="msgNetAdItem in msgManage.msgNetAdArray | itemsPerPage: msgManage.selPageRows" 
+							total-items="msgManage.siteNoticeList_total" 
+							current-page="msgManage.pagination.current" 
+							ng-init="msgManage.checkBoxMsgNetAdArray[$index] = false">
+							<td  style="width:7%;" class="wbba">
+								<input type="checkbox" ng-model="msgManage.checkBoxMsgNetAdArray[$index]" 
+								       ng-true-value="{{msgNetAdItem.id}}" ng-false-value="false" />
+							</td>
+							<!--todo 暂时隐藏，以后可能用到-->
+							<!--<td>{{msgNetAdItem.topicName}}</td>-->
+							<td  style="width:23%;"  class="wbba">
+								<span class="curp" 
+								      ng-click="msgManage.onShowMsgDetailModalClick(msgNetAdItem.noticeTitle,msgNetAdItem.noticeContent,null,2,1)">
+                            	{{msgNetAdItem.noticeTitle}}</span>
+							</td>
+							<td  style="width:20%;"  class="wbba">{{msgNetAdItem.datetime|date:'yyyy-MM-dd'}}</td>
+							<td  style="width:15%;"  class="wbba">{{msgNetAdItem.creater}}</td>
+							<td  style="width:12%;"  class="wbba">{{msgNetAdItem.status|msgManageStatusFilter}}</td>
+							<td  style="width:10%;"  class="wbba">{{msgNetAdItem.tipId|msgManageTipIdFilter}}</td>
+							<td  style="width:13%;"  class="wbba">
+								
+								<img src="admin/assets/img/role/look_user_info.png" class="cursor" width="20" height="20" 
+									 title="修改" 
+									 ng-click="msgManage.onShowEditMsgNetAdModelClick(-1,msgNetAdItem.id,$index)" />
+								<img src="admin/assets/img/role/red_del.png" class="cursor ml5" width="20" height="20" 
+									 title="删除" 
+									 ng-click="msgManage.onShowDeleteMsgNetAdModelClick(-1,msgNetAdItem.id)" />
+								<!--<img src="admin/assets/img/role/red_del.png" class="cursor" width="20" height="20" title="置顶" ng-click="msgManage.onShowTipMsgNetAdModelClick(msgNetAdItem.id,msgNetAdItem.tipId)" />-->
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!-- 分页 -->
+			<div class="paging-con-box mt10 clear">
+				<div class="photo-record-page fll">
+					<select ng-model="msgManage.selPageRows" class="mr10">
+						<option value="50">50</option>
+						<option value="40">40</option>
+						<option value="30">30</option>
+						<option value="20">20</option>
+						<option value="10">10</option>
+					</select>
+					<span>共找到</span>
+					<span class="color_red">{{msgManage.siteNoticeList_total}}</span>
+					<span>条记录</span>
+				</div>
+				<div class="photo-now-page fll">
+					<span>第 </span>
+					<span>{{msgManage.pagination.current}}</span>
+					<span>/</span>
+					<span>{{msgManage.siteNoticeTotalPages}}</span>
+					<span>页</span>
+				</div>
+				<div class="photo-jump-page flr">
+					<dir-pagination-controls on-page-change="msgManage.pageChanged(newPageNumber)" 
+											 template-url="admin/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+					</dir-pagination-controls>
+				</div>
+			</div>
+			<!--网站公告高级检索弹出框-->
+			<div class="common-modal-style absolute_left" id="msg-notice-sele-modal" style="display:none;">
+				<div class="user-add-con">
+					<div id="search-modal-tit" class="role-add-tit oH">
+						<span class="fll">高级检索</span>
+						<span class="flr curp tit-close" ng-click="msgManage.onCloseCurrentModalClick(4)">×</span>
+					</div>
+					<div class="role-add-main">
+						<div class="user-form-info clear">
+							<div class="user-form-info-top clear">
+								<div class="fll user-form-part clear">
+									<div class="user-search-left_o  fll">公告标题</div>
+									<div class="user-search-right fll">
+										<input type="text" class="user-add-input" ng-model="msgManage.searchName" />
+									</div>
+								</div>
+								<div class="fll user-form-part clear">
+									<div class="user-search-left_o fll">发布者</div>
+									<div class="user-search-right fll">
+										<input type="text" class="user-add-input" ng-model="msgManage.creater" />
+									</div>
+								</div>
+								<div class="fll user-form-part clear">
+									<div class="fll user-search-left_o">发布状态</div>
+									<div class="fll user-search-right">
+                                    <select class="user-add-input" ng-model="msgManage.status">
+                                        <option value="">请选择</option>
+                                        <option value="0">不发布</option>
+                                        <option value="1">发布</option>
+                                    </select>
+                                </div>
+								</div>
+							</div>
+							<div class="user-form-info-top clear">
+								<div class="fll user-form-part clear">
+									<div class="user-search-left_o  fll">发布时间</div>
+									<div class="user-search-right fll">
+										<input type="text" class="Wdate user-add-input_o" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" class="Wdate" ng-model="msgManage.timeFrom" datepicker/>
+									</div>
+								</div>
+								<div class="fll user-form-part clear">									
+									<div class="user-search-left_o  fll">结束时间</div>
+									<div class="user-search-right fll">
+									    <input type="text" class="Wdate user-add-input_o" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" class="Wdate" ng-model="msgManage.timeTo " datepicker/>
+									</div>
+								</div>
+							</div>
+							<div class="tar mt10">
+								<span class="dib cursor user-high-search-btn" ng-click="msgManage.noticeAdvanceSearch()">检索</span>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<!--网站公告添加弹框-->
+			<div class="common-modal-style" id="site-notice-add-modal" ng-mousemove="msgManage.moveModal('add4-modal-tit','site-notice-add-modal')" style="display:none">
+				<div class="role-add-con">
+					<div id="add4-modal-tit" class="role-add-tit oH">
+						<span class="fll">网站公告</span>
+						<span class="flr curp tit-close" 
+						ng-click="msgManage.onCloseCurrentModalClick(4)">×</span>
+					</div>
+					<div class="role-add-main msg-content-box">
+						<div class="role-add-form-info advertise-add-form-info clear">
+							<div class="role-form-info-bottom clear">
+								<div class="role-remark-txt fll">标题</div>
+								<input type="text" class="adverse-remark-input fll" 
+										ng-model="msgManage.msgNetAdTitleModel" />
+							</div>
+							<!--<div class="role-form-info-bottom clear">-->
+							<!--<div class="msg-remark-txt fll">所属专题</div>-->
+							<!--<select class="adverse-remark-input fll"-->
+							<!--ng-model="msgManage.msgNetAdTopicModel">-->
+							<!--<option value="1">专题1</option>-->
+							<!--<option value="2">专题2</option>-->
+							<!--</select>-->
+							<!--</div>-->
+							<div class="role-form-info-bottom clear">
+								<div class="role-remark-txt fll">是否发布</div>
+								<div class="msg-remark-input fll tal">
+									<input type="radio" value="1" ng-model="msgManage.msgNetAdPbModel">
+									<span class="adverse-txt-yes">发布</span>
+									<input type="radio" value="0" ng-model="msgManage.msgNetAdPbModel">
+									<span class="adverse-txt-yes">不发布</span>
+								</div>
+							</div>
+							<div class="role-form-info-bottom clear">
+								<div class="role-remark-txt fll">是否置顶</div>
+								<div class="msg-remark-input fll tal">
+									<input type="radio" value="1" ng-model="msgManage.msgNetAdTipModel">
+									<span class="adverse-txt-yes">置顶</span>
+									<input type="radio" value="0" ng-model="msgManage.msgNetAdTipModel">
+									<span class="adverse-txt-yes">不置顶</span>
+								</div>
+							</div>
+							<div class="role-form-info-bottom clear">
+								<div class="role-remark-txt fll">公告说明</div>
+								<script id="msgNetAdConEditId" type="text/plain" 
+										style="width:840px;height:320px;margin-left: 93px;"></script>
+								<!--<textarea class="web-info-area fll"-->
+								<!--ng-model="msgManage.msgNetAdConModel"></textarea>-->
+							</div>
+						</div>
+					</div>
+					<div class="tac">
+						<span class="dib cursor user-add-btn" 
+							ng-click="msgManage.onAddMsgNetAdClick()">新增</span>
+						<span class="dib cursor user-add-btn role-del-btn" 
+							ng-click="msgManage.onCloseCurrentModalClick(4)">取消</span>
+					</div>
+				</div>
+			</div>
+			<!--网站公告编辑弹框-->
+			<div class="common-modal-style" id="site-notice-edit-modal" 
+				 ng-mousemove="msgManage.moveModal('edit-modal-tit','site-notice-edit-modal')" 
+				 style="display:none">
+				<div class="role-add-con">
+					<div id="edit-modal-tit" class="role-add-tit oH">
+						<span class="fll">网站公告</span>
+						<span class="flr curp tit-close" 
+						      ng-click="msgManage.onCloseCurrentModalClick(3)">×</span>
+					</div>
+					<div class="role-add-main msg-content-box">
+						<div class="role-add-form-info advertise-add-form-info clear">
+							<div class="role-form-info-bottom clear">
+								<div class="role-remark-txt fll">标题</div>
+								<input type="text" class="adverse-remark-input fll" 
+								       ng-model="msgManage.msgEditNetAdTitleModel" />
+							</div>
+							<div class="role-form-info-bottom clear">
+								<div class="role-remark-txt fll">是否发布</div>
+								<div class="msg-remark-input fll tal">
+									<input type="radio" value="1" ng-model="msgManage.msgEditNetAdPbModel">
+									<span class="adverse-txt-yes">发布</span>
+									<input type="radio" value="0" ng-model="msgManage.msgEditNetAdPbModel">
+									<span class="adverse-txt-yes">不发布</span>
+								</div>
+							</div>
+							<div class="role-form-info-bottom clear">
+								<div class="role-remark-txt fll">是否置顶</div>
+								<div class="msg-remark-input fll tal">
+									<input type="radio" value="1" ng-model="msgManage.msgEditNetAdTipModel">
+									<span class="adverse-txt-yes">置顶</span>
+									<input type="radio" value="0" ng-model="msgManage.msgEditNetAdTipModel">
+									<span class="adverse-txt-yes">不置顶</span>
+								</div>
+							</div>
+							<div class="role-form-info-bottom clear">
+								<div class="role-remark-txt fll">公告说明</div>
+								<script id="msgEditNetAdConEditId" type="text/plain" 
+									style="width:840px;height:320px;margin-left: 93px;"></script>
+							</div>
+						</div>
+					</div>
+					<div class="tac">
+						<span class="dib cursor user-add-btn" 
+							ng-click="msgManage.onEditMsgNetAdData()">保存</span>
+						<span class="dib cursor user-add-btn role-del-btn" 
+							ng-click="msgManage.onCloseCurrentModalClick(3)">取消</span>
+					</div>
+				</div>
+			</div>
+			<!--网站公告删除弹框-->
+			<div class="common-modal-style" id="site-notice-del-modal" 
+				 ng-mousemove="msgManage.moveModal('del4-modal-tit','site-notice-del-modal')" 
+				 style="display:none">
+				<div class="role-add-con">
+					<div id="del4-modal-tit" class="role-add-tit">
+						删除提醒
+					</div>
+					<div class="role-modal-con">
+						你确定要删除该消息吗？
+					</div>
+					<div class="tac mt10">
+						<span class="dib cursor user-add-btn" 
+							ng-click="msgManage.onDeleteMsgNetAdData()">确定</span>
+						<span class="dib cursor user-add-btn role-del-btn" 
+							ng-click="msgManage.adminMsgModalHide('site-notice-del-modal')">取消</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--手机短信-->
+	<div class="c-user-table" ng-show="msgManage.acitiveSlideTit == 5">
+		<div class="t-search-hd clear">
+			<div class="user-hd-left fll">
+				<label for="checkAllMsgPhone">
+                    <input type="checkbox" ng-model="msgManage.isMsgPhoneHadAllCheck"
+                           id="checkAllMsgPhone"
+                           ng-click="msgManage.onMsgPhoneCheckAllClick()"/>
+                    <span class="user-check-txt">全选</span>
+                </label>
+				<span class="dib cursor user-add-btn" 
+					  ng-click="msgManage.msgModalShow('short-msg-add-modal')">新建</span>
+				<span class="dib cursor user-add-btn msg-del-btn" 
+				      ng-click="msgManage.onShowDeleteMsgPhoneModelClick(0,null)">批量删除</span>
+			</div>
+			<div class="user-hd-right flr">
+				
+				<input class="user-search-input" ng-model="msgManage.msgPhoneSearchModel" 
+				       placeholder="可查询短信内容" 
+					   ng-keydown="msgManage.onEnterSearchMsgPhoneClick($event)" />
+				<img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic" 
+					 ng-click="msgManage.onSearchMsgPhoneDataClick()" />
+				<span class="dib cursor user-search-btn" ng-click="msgManage.msgModalShow('msg-msg-sele-modal')">高级检索</span>
+			</div>
+		</div>
+		<div class="t-uinfo-bd">
+			<div class="table-responsive">
+				<table class="table table-bordered uInfo-table">
+					<thead>
+						<tr>
+							<th class="uinfo-hd-th" style="width:6%;"></th>
+							<th class="uinfo-hd-th" style="width:28%;">消息内容</th>
+							<th class="uinfo-hd-th" style="width:12%;">发送者</th>
+							<th class="uinfo-hd-th" style="width:12%;">接收者</th>
+							<th class="uinfo-hd-th" style="width:20%;">发送时间</th>
+	                        <th class="uinfo-hd-th" style="width:12%;">状态</th>
+	                        <th class="uinfo-hd-th"  style="width:10%;">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr dir-paginate="msgPhoneItem in msgManage.msgPhoneArray | itemsPerPage: msgManage.selPageRows" 
+							total-items="msgManage.SMSList_total" 
+							current-page="msgManage.pagination.current" 
+							ng-init="msgManage.checkBoxMsgPhoneArray[$index] = false">
+							<td style="width:6%;" class="wbba">
+								<input type="checkbox" ng-model="msgManage.checkBoxMsgPhoneArray[$index]" 
+								       ng-true-value="{{msgPhoneItem.id}}" ng-false-value="false" />
+							</td>
+							<td  style="width:28%;" class="wbba">{{msgPhoneItem.content}}</td>
+							<td  style="width:12%;" class="wbba">{{msgPhoneItem.sender}}</td>
+							<td  style="width:12%;" class="wbba">{{msgPhoneItem.phoneReciverRole}}</td>
+							<td  style="width:20%;" class="wbba">{{msgPhoneItem.datetime|date:'yyyy-MM-dd'}}</td>
+							<td  style="width:12%;" class="wbba">{{msgPhoneItem.status|phoneMsgStatusFilter}}</td>
+							<td  style="width:10%;" class="wbba">
+								<img src="admin/assets/img/role/red_del.png" class="cursor" width="20" height="20"
+									 title="删除" 
+									 ng-click="msgManage.onShowDeleteMsgPhoneModelClick(-1,msgPhoneItem.id)" />
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!-- 分页 -->
+			<div class="paging-con-box mt10 clear">
+				<div class="photo-record-page fll">
+					<select ng-model="msgManage.selPageRows" class="mr10">
+						<option value="50">50</option>
+						<option value="40">40</option>
+						<option value="30">30</option>
+						<option value="20">20</option>
+						<option value="10">10</option>
+					</select>
+					<span>共找到</span>
+					<span class="color_red">{{msgManage.SMSList_total}}</span>
+					<span>条记录</span>
+				</div>
+				<div class="photo-now-page fll">
+					<span>第 </span>
+					<span>{{msgManage.pagination.current}}</span>
+					<span>/</span>
+					<span>{{msgManage.SMStotalPages}}</span>
+					<span>页</span>
+				</div>
+				<div class="photo-jump-page flr">
+					<dir-pagination-controls on-page-change="msgManage.pageChanged(newPageNumber)" 
+											 template-url="admin/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+					</dir-pagination-controls>
+				</div>
+			</div>
+			<!--手机短信高级检索弹出框-->
+			<div class="common-modal-style absolute_left" id="msg-msg-sele-modal" style="display:none;">
+				<div class="user-add-con">
+					<div id="search-modal-tit" class="role-add-tit oH">
+						<span class="fll">高级检索</span>
+						<span class="flr curp tit-close" ng-click="msgManage.onCloseCurrentModalClick(5)">×</span>
+					</div>
+					<div class="role-add-main">
+						<div class="user-form-info clear">
+							<div class="user-form-info-top clear">
+								<div class="fll user-form-part clear">
+									<div class="user-search-left_o  fll">消息内容</div>
+									<div class="user-search-right fll">
+										<input type="text" class="user-add-input" ng-model="msgManage.search" />
+									</div>
+								</div>
+								<div class="fll user-form-part clear">
+									<div class="user-search-left_o fll">发送者</div>
+									<div class="user-search-right fll">
+										<input type="text" class="user-add-input" ng-model="msgManage.sender" />
+									</div>
+								</div>
+								<div class="fll user-form-part clear">
+									<div class="fll user-search-left_o">状态</div>
+									<div class="fll user-search-right">
+                                    <select class="user-add-input" ng-model="msgManage.status">
+                                        <option value="">请选择</option>
+                                        <option value="0">发送成功</option>
+                                        <option value="1">保存信息</option>
+                                        <option value="2">发送信息失败</option>
+                                    </select>
+                                </div>
+								</div>
+							</div>
+							<div class="user-form-info-top clear">
+								<div class="fll user-form-part clear">
+									<div class="user-search-left_o  fll">发送时间</div>
+									<div class="user-search-right fll">
+										<input type="text" class="Wdate user-add-input_o" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" class="Wdate" ng-model="msgManage.timeFrom" datepicker/>
+									</div>
+								</div>
+								<div class="fll user-form-part clear">									
+									<div class="user-search-left_o  fll">结束时间</div>
+									<div class="user-search-right fll">
+									    <input type="text" class="Wdate user-add-input_o" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" class="Wdate" ng-model="msgManage.timeTo" datepicker/>
+									</div>
+								</div>
+							</div>
+							<div class="tar mt10">
+								<span class="dib cursor user-high-search-btn" ng-click="msgManage.msgAdvanceSearch()">检索</span>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<!--手机短信添加弹框-->
+			<div class="common-modal-style" id="short-msg-add-modal" ng-mousemove="msgManage.moveModal('add5-modal-tit','short-msg-add-modal')" style="display:none">
+				<div class="role-add-con">
+					<div id="add5-modal-tit" class="role-add-tit oH">
+						<span class="fll">手机短信</span>
+						<span class="flr curp tit-close" 
+							  ng-click="msgManage.onCloseCurrentModalClick(5)">×</span>
+					</div>
+					<div class="role-add-main msg-content-box">
+						<div class="role-add-form-info advertise-add-form-info clear">
+							<div class="role-form-info-bottom clear">
+								<div class="msg-remark-txt fll">接收对象</div>
+								<select class="adverse-remark-input fll" 
+										ng-model="msgManage.msgPhoneReModel">
+									<option value="">请选择</option>
+									<option value="1">管理员</option>
+									<option value="2">值班编辑</option>
+									<option value="3">摄影师</option>
+									<option value="4">销售</option>
+									<option value="5">订户</option>
+									<option value="7">测试</option>
+								</select>
+							</div>
+							<div class="role-form-info-bottom clear">
+								<div class="msg-remark-txt fll">信息内容</div>
+								<textarea class="web-info-area fll" 
+								          ng-model="msgManage.msgPhoneConModel"></textarea>
+							</div>
+						</div>
+					</div>
+					<div class="tac">
+						<!--<input type="button" class="dib cursor user-add-btn"-->
+						<!--ng-disabled="msgManage.isOnSendPhoneClickFlag"-->
+						<!--ng-class="{'user-add-btn-no-click':msgManage.isOnSendPhoneClickFlag}"-->
+						<!--ng-click="msgManage.onAddMsgPhoneClick(1)" value="保存"/>-->
+						<input type="button" class="dib cursor user-add-btn"
+						       ng-disabled="msgManage.isOnSendPhoneClickFlag"
+							   ng-class="{'user-add-btn-no-click':msgManage.isOnSendPhoneClickFlag}"
+							   ng-click="msgManage.onAddMsgPhoneClick(0)" value="发送" />
+					    <span class="dib cursor user-add-btn role-del-btn" 
+						       ng-click="msgManage.onCloseCurrentModalClick(5)">取消</span>
+					</div>
+				</div>
+			</div>
+			<!--手机短信删除弹框-->
+			<div class="common-modal-style" id="short-msg-del-modal" 
+				 ng-mousemove="msgManage.moveModal('del5-modal-tit','short-msg-del-modal')"
+ 				 style="display:none">
+				<div class="role-add-con">
+					<div id="del5-modal-tit" class="role-add-tit">
+						删除提醒
+					</div>
+					<div class="role-modal-con">
+						你确定要删除该消息吗？
+					</div>
+					<div class="tac mt10">
+						<span class="dib cursor user-add-btn" 
+							ng-click="msgManage.onDeleteMsgPhoneData()">确定</span>
+						<span class="dib cursor user-add-btn role-del-btn" 
+							ng-click="msgManage.adminMsgModalHide('short-msg-del-modal')">取消</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 查看详细内容弹框 -->
+	<div class="common-modal-style" id="msgDetailContentModalId" 
+	     ng-mousemove="msgManage.moveModal('msgDetailTitleId','msgDetailContentModalId')" 
+		 style="display:none">
+		<div class="role-add-con">
+			<div id="msgDetailTitleId" class="role-add-tit oH">
+				<span class="fll">消息内容</span>
+					  <span class="flr curp tit-close"
+				 ng-click="msgManage.onCloseMsgDetailClick(msgManage.msgDetailShowType,true)">×</span>
+			</div>
+			<div class="role-add-main msg-content-box">
+				<div class="role-add-form-info advertise-add-form-info clear">
+					<div>{{msgManage.msgDetailShowTitle}}</div>
+				</div>
+				<div class="role-add-form-info advertise-add-form-info clear">
+					<div ng-bind-html="msgManage.msgDetailContent | trustHtml"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

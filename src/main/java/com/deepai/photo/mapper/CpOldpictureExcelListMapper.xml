@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deepai.photo.mapper.CpOldpictureExcelListMapper" >
+  <resultMap id="BaseResultMap" type="com.deepai.photo.bean.CpOldpictureExcelList" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="OLD_DATE" property="oldDate" jdbcType="VARCHAR" />
+    <result column="YEARS" property="years" jdbcType="VARCHAR" />
+    <result column="CATEGORY" property="category" jdbcType="VARCHAR" />
+    <result column="FIGURE" property="figure" jdbcType="VARCHAR" />
+    <result column="PLACE" property="place" jdbcType="VARCHAR" />
+    <result column="AUTHOR" property="author" jdbcType="VARCHAR" />
+    <result column="EDITOR" property="editor" jdbcType="VARCHAR" />
+    <result column="NUMBER" property="number" jdbcType="VARCHAR" />
+    <result column="PIC_FILE_NAME" property="picFileName" jdbcType="VARCHAR" />
+    <result column="KEYWORDS" property="keywords" jdbcType="VARCHAR" />
+    <result column="HANDIN" property="handin" jdbcType="VARCHAR" />
+    <result column="EDITTIME" property="edittime" jdbcType="TIMESTAMP" />
+    <result column="EXCELID" property="excelid" jdbcType="INTEGER" />
+    <result column="FILE_ALLPATH" property="fileAllpath" jdbcType="VARCHAR" />
+    <result column="PIC_GROUP_ID" property="picGroupId" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.deepai.photo.bean.CpOldpictureExcelList" extends="BaseResultMap" >
+    <result column="MEMO" property="memo" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, TITLE, OLD_DATE, YEARS, CATEGORY, FIGURE, PLACE, AUTHOR, EDITOR, NUMBER, PIC_FILE_NAME, 
+    KEYWORDS, HANDIN, EDITTIME, EXCELID, FILE_ALLPATH, PIC_GROUP_ID
+  </sql>
+  <sql id="Blob_Column_List" >
+    MEMO
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.deepai.photo.bean.CpOldpictureExcelListExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from cp_oldpicture_excel_list
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.deepai.photo.bean.CpOldpictureExcelListExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cp_oldpicture_excel_list
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from cp_oldpicture_excel_list
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from cp_oldpicture_excel_list
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.deepai.photo.bean.CpOldpictureExcelListExample" >
+    delete from cp_oldpicture_excel_list
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.deepai.photo.bean.CpOldpictureExcelList" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cp_oldpicture_excel_list (TITLE, OLD_DATE, YEARS, 
+      CATEGORY, FIGURE, PLACE, 
+      AUTHOR, EDITOR, NUMBER, 
+      PIC_FILE_NAME, KEYWORDS, HANDIN, 
+      EDITTIME, EXCELID, FILE_ALLPATH, 
+      PIC_GROUP_ID, MEMO)
+    values (#{title,jdbcType=VARCHAR}, #{oldDate,jdbcType=VARCHAR}, #{years,jdbcType=VARCHAR}, 
+      #{category,jdbcType=VARCHAR}, #{figure,jdbcType=VARCHAR}, #{place,jdbcType=VARCHAR}, 
+      #{author,jdbcType=VARCHAR}, #{editor,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, 
+      #{picFileName,jdbcType=VARCHAR}, #{keywords,jdbcType=VARCHAR}, #{handin,jdbcType=VARCHAR}, 
+      #{edittime,jdbcType=TIMESTAMP}, #{excelid,jdbcType=INTEGER}, #{fileAllpath,jdbcType=VARCHAR}, 
+      #{picGroupId,jdbcType=INTEGER}, #{memo,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.deepai.photo.bean.CpOldpictureExcelList" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cp_oldpicture_excel_list
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="title != null" >
+        TITLE,
+      </if>
+      <if test="oldDate != null" >
+        OLD_DATE,
+      </if>
+      <if test="years != null" >
+        YEARS,
+      </if>
+      <if test="category != null" >
+        CATEGORY,
+      </if>
+      <if test="figure != null" >
+        FIGURE,
+      </if>
+      <if test="place != null" >
+        PLACE,
+      </if>
+      <if test="author != null" >
+        AUTHOR,
+      </if>
+      <if test="editor != null" >
+        EDITOR,
+      </if>
+      <if test="number != null" >
+        NUMBER,
+      </if>
+      <if test="picFileName != null" >
+        PIC_FILE_NAME,
+      </if>
+      <if test="keywords != null" >
+        KEYWORDS,
+      </if>
+      <if test="handin != null" >
+        HANDIN,
+      </if>
+      <if test="edittime != null" >
+        EDITTIME,
+      </if>
+      <if test="excelid != null" >
+        EXCELID,
+      </if>
+      <if test="fileAllpath != null" >
+        FILE_ALLPATH,
+      </if>
+      <if test="picGroupId != null" >
+        PIC_GROUP_ID,
+      </if>
+      <if test="memo != null" >
+        MEMO,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="oldDate != null" >
+        #{oldDate,jdbcType=VARCHAR},
+      </if>
+      <if test="years != null" >
+        #{years,jdbcType=VARCHAR},
+      </if>
+      <if test="category != null" >
+        #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="figure != null" >
+        #{figure,jdbcType=VARCHAR},
+      </if>
+      <if test="place != null" >
+        #{place,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="editor != null" >
+        #{editor,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null" >
+        #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="picFileName != null" >
+        #{picFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="keywords != null" >
+        #{keywords,jdbcType=VARCHAR},
+      </if>
+      <if test="handin != null" >
+        #{handin,jdbcType=VARCHAR},
+      </if>
+      <if test="edittime != null" >
+        #{edittime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="excelid != null" >
+        #{excelid,jdbcType=INTEGER},
+      </if>
+      <if test="fileAllpath != null" >
+        #{fileAllpath,jdbcType=VARCHAR},
+      </if>
+      <if test="picGroupId != null" >
+        #{picGroupId,jdbcType=INTEGER},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.deepai.photo.bean.CpOldpictureExcelListExample" resultType="java.lang.Integer" >
+    select count(*) from cp_oldpicture_excel_list
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update cp_oldpicture_excel_list
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null" >
+        TITLE = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.oldDate != null" >
+        OLD_DATE = #{record.oldDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.years != null" >
+        YEARS = #{record.years,jdbcType=VARCHAR},
+      </if>
+      <if test="record.category != null" >
+        CATEGORY = #{record.category,jdbcType=VARCHAR},
+      </if>
+      <if test="record.figure != null" >
+        FIGURE = #{record.figure,jdbcType=VARCHAR},
+      </if>
+      <if test="record.place != null" >
+        PLACE = #{record.place,jdbcType=VARCHAR},
+      </if>
+      <if test="record.author != null" >
+        AUTHOR = #{record.author,jdbcType=VARCHAR},
+      </if>
+      <if test="record.editor != null" >
+        EDITOR = #{record.editor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.number != null" >
+        NUMBER = #{record.number,jdbcType=VARCHAR},
+      </if>
+      <if test="record.picFileName != null" >
+        PIC_FILE_NAME = #{record.picFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.keywords != null" >
+        KEYWORDS = #{record.keywords,jdbcType=VARCHAR},
+      </if>
+      <if test="record.handin != null" >
+        HANDIN = #{record.handin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.edittime != null" >
+        EDITTIME = #{record.edittime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.excelid != null" >
+        EXCELID = #{record.excelid,jdbcType=INTEGER},
+      </if>
+      <if test="record.fileAllpath != null" >
+        FILE_ALLPATH = #{record.fileAllpath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.picGroupId != null" >
+        PIC_GROUP_ID = #{record.picGroupId,jdbcType=INTEGER},
+      </if>
+      <if test="record.memo != null" >
+        MEMO = #{record.memo,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update cp_oldpicture_excel_list
+    set ID = #{record.id,jdbcType=INTEGER},
+      TITLE = #{record.title,jdbcType=VARCHAR},
+      OLD_DATE = #{record.oldDate,jdbcType=VARCHAR},
+      YEARS = #{record.years,jdbcType=VARCHAR},
+      CATEGORY = #{record.category,jdbcType=VARCHAR},
+      FIGURE = #{record.figure,jdbcType=VARCHAR},
+      PLACE = #{record.place,jdbcType=VARCHAR},
+      AUTHOR = #{record.author,jdbcType=VARCHAR},
+      EDITOR = #{record.editor,jdbcType=VARCHAR},
+      NUMBER = #{record.number,jdbcType=VARCHAR},
+      PIC_FILE_NAME = #{record.picFileName,jdbcType=VARCHAR},
+      KEYWORDS = #{record.keywords,jdbcType=VARCHAR},
+      HANDIN = #{record.handin,jdbcType=VARCHAR},
+      EDITTIME = #{record.edittime,jdbcType=TIMESTAMP},
+      EXCELID = #{record.excelid,jdbcType=INTEGER},
+      FILE_ALLPATH = #{record.fileAllpath,jdbcType=VARCHAR},
+      PIC_GROUP_ID = #{record.picGroupId,jdbcType=INTEGER},
+      MEMO = #{record.memo,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update cp_oldpicture_excel_list
+    set ID = #{record.id,jdbcType=INTEGER},
+      TITLE = #{record.title,jdbcType=VARCHAR},
+      OLD_DATE = #{record.oldDate,jdbcType=VARCHAR},
+      YEARS = #{record.years,jdbcType=VARCHAR},
+      CATEGORY = #{record.category,jdbcType=VARCHAR},
+      FIGURE = #{record.figure,jdbcType=VARCHAR},
+      PLACE = #{record.place,jdbcType=VARCHAR},
+      AUTHOR = #{record.author,jdbcType=VARCHAR},
+      EDITOR = #{record.editor,jdbcType=VARCHAR},
+      NUMBER = #{record.number,jdbcType=VARCHAR},
+      PIC_FILE_NAME = #{record.picFileName,jdbcType=VARCHAR},
+      KEYWORDS = #{record.keywords,jdbcType=VARCHAR},
+      HANDIN = #{record.handin,jdbcType=VARCHAR},
+      EDITTIME = #{record.edittime,jdbcType=TIMESTAMP},
+      EXCELID = #{record.excelid,jdbcType=INTEGER},
+      FILE_ALLPATH = #{record.fileAllpath,jdbcType=VARCHAR},
+      PIC_GROUP_ID = #{record.picGroupId,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.deepai.photo.bean.CpOldpictureExcelList" >
+    update cp_oldpicture_excel_list
+    <set >
+      <if test="title != null" >
+        TITLE = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="oldDate != null" >
+        OLD_DATE = #{oldDate,jdbcType=VARCHAR},
+      </if>
+      <if test="years != null" >
+        YEARS = #{years,jdbcType=VARCHAR},
+      </if>
+      <if test="category != null" >
+        CATEGORY = #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="figure != null" >
+        FIGURE = #{figure,jdbcType=VARCHAR},
+      </if>
+      <if test="place != null" >
+        PLACE = #{place,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        AUTHOR = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="editor != null" >
+        EDITOR = #{editor,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null" >
+        NUMBER = #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="picFileName != null" >
+        PIC_FILE_NAME = #{picFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="keywords != null" >
+        KEYWORDS = #{keywords,jdbcType=VARCHAR},
+      </if>
+      <if test="handin != null" >
+        HANDIN = #{handin,jdbcType=VARCHAR},
+      </if>
+      <if test="edittime != null" >
+        EDITTIME = #{edittime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="excelid != null" >
+        EXCELID = #{excelid,jdbcType=INTEGER},
+      </if>
+      <if test="fileAllpath != null" >
+        FILE_ALLPATH = #{fileAllpath,jdbcType=VARCHAR},
+      </if>
+      <if test="picGroupId != null" >
+        PIC_GROUP_ID = #{picGroupId,jdbcType=INTEGER},
+      </if>
+      <if test="memo != null" >
+        MEMO = #{memo,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.deepai.photo.bean.CpOldpictureExcelList" >
+    update cp_oldpicture_excel_list
+    set TITLE = #{title,jdbcType=VARCHAR},
+      OLD_DATE = #{oldDate,jdbcType=VARCHAR},
+      YEARS = #{years,jdbcType=VARCHAR},
+      CATEGORY = #{category,jdbcType=VARCHAR},
+      FIGURE = #{figure,jdbcType=VARCHAR},
+      PLACE = #{place,jdbcType=VARCHAR},
+      AUTHOR = #{author,jdbcType=VARCHAR},
+      EDITOR = #{editor,jdbcType=VARCHAR},
+      NUMBER = #{number,jdbcType=VARCHAR},
+      PIC_FILE_NAME = #{picFileName,jdbcType=VARCHAR},
+      KEYWORDS = #{keywords,jdbcType=VARCHAR},
+      HANDIN = #{handin,jdbcType=VARCHAR},
+      EDITTIME = #{edittime,jdbcType=TIMESTAMP},
+      EXCELID = #{excelid,jdbcType=INTEGER},
+      FILE_ALLPATH = #{fileAllpath,jdbcType=VARCHAR},
+      PIC_GROUP_ID = #{picGroupId,jdbcType=INTEGER},
+      MEMO = #{memo,jdbcType=LONGVARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.deepai.photo.bean.CpOldpictureExcelList" >
+    update cp_oldpicture_excel_list
+    set TITLE = #{title,jdbcType=VARCHAR},
+      OLD_DATE = #{oldDate,jdbcType=VARCHAR},
+      YEARS = #{years,jdbcType=VARCHAR},
+      CATEGORY = #{category,jdbcType=VARCHAR},
+      FIGURE = #{figure,jdbcType=VARCHAR},
+      PLACE = #{place,jdbcType=VARCHAR},
+      AUTHOR = #{author,jdbcType=VARCHAR},
+      EDITOR = #{editor,jdbcType=VARCHAR},
+      NUMBER = #{number,jdbcType=VARCHAR},
+      PIC_FILE_NAME = #{picFileName,jdbcType=VARCHAR},
+      KEYWORDS = #{keywords,jdbcType=VARCHAR},
+      HANDIN = #{handin,jdbcType=VARCHAR},
+      EDITTIME = #{edittime,jdbcType=TIMESTAMP},
+      EXCELID = #{excelid,jdbcType=INTEGER},
+      FILE_ALLPATH = #{fileAllpath,jdbcType=VARCHAR},
+      PIC_GROUP_ID = #{picGroupId,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+   <insert id="insertList" useGeneratedKeys="true" parameterType="java.util.List">  
+         <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+		      SELECT LAST_INSERT_ID()
+		 </selectKey>
+         insert into cp_oldpicture_excel_list (TITLE, OLD_DATE, YEARS, 
+      CATEGORY, FIGURE, PLACE, 
+      AUTHOR, EDITOR, NUMBER, 
+      PIC_FILE_NAME, KEYWORDS, HANDIN, 
+       EXCELID, 
+      MEMO,FILE_ALLPATH)
+    values
+      <foreach collection="list" item="item" index="index" separator="," > 
+           (#{item.title,jdbcType=VARCHAR}, #{item.oldDate,jdbcType=VARCHAR}, #{item.years,jdbcType=VARCHAR}, 
+      #{item.category,jdbcType=VARCHAR}, #{item.figure,jdbcType=VARCHAR}, #{item.place,jdbcType=VARCHAR}, 
+      #{item.author,jdbcType=VARCHAR}, #{item.editor,jdbcType=VARCHAR}, #{item.number,jdbcType=VARCHAR}, 
+      #{item.picFileName,jdbcType=VARCHAR}, #{item.keywords,jdbcType=VARCHAR}, #{item.handin,jdbcType=VARCHAR}, 
+      #{item.excelid,jdbcType=INTEGER},  #{item.memo,jdbcType=LONGVARCHAR},#{item.fileAllpath,jdbcType=VARCHAR})
+        </foreach>  
+    </insert>  
+    
+   <select id="getExcelPhotoExcelList"  resultType="map" parameterType="map" >
+       SELECT
+	cp_oldpicture_excel_list.*, cp_pic_group.GROUP_STATUS
+FROM
+	cp_oldpicture_excel_list
+LEFT JOIN cp_pic_group ON cp_oldpicture_excel_list.PIC_GROUP_ID = cp_pic_group.ID
+WHERE
+	cp_oldpicture_excel_list.EXCELID = #{map.excelId} AND cp_pic_group.GROUP_STATUS >=0
+       
+   </select>
+</mapper>

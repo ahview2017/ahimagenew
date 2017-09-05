@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deepai.photo.mapper.EnManagerColumnMapper">
+	<select id="selectColumnByRandomProperties" resultType="com.deepai.photo.bean.CpColumn">
+	    select
+	    id, name,  pid, recommend_id recommendId, order_id orderId, position,  state
+	    from cp_column
+		<where> 
+		    <if test="state != null">
+		         state = #{state}
+		    </if> 
+		    <if test="pid != null">
+		        AND pid = #{pid}
+		    </if>
+		    <if test="position != null">
+		        AND position =  #{position}
+		    </if>
+		</where>
+	   	order by order_id
+  </select>
+  <insert id="addEnManagerColumnRecommend">
+  		INSERT into cp_column(name,pid,recommend_id,order_id,position,state,langType,max_configurable_sign_position) VALUES(#{name},#{pid},#{recommendId},#{orderId},#{position},#{state},#{langType},#{signPosition})
+  </insert>
+  <select id="selectMaxId" resultType="java.lang.Integer">
+  		select max(id) from cp_column
+  </select>
+  <update id="editEnManagerColumn">
+  		update cp_column set 
+  		name = #{name},order_id = #{orderId},state=#{state},max_configurable_sign_position=#{signPosition},langType=#{langType}
+  		where id = #{id}
+  </update>
+  <select id="selectColumnById" resultType="com.deepai.photo.bean.CpColumn">
+  		select id,name,pid,recommend_id recommendId,order_id orderId,position,state from cp_column where id = #{id}
+  </select>
+  <delete id="deleteGroupColumnByColumnId">
+  		delete from cp_pic_group_column where column_id = #{columnId}
+  </delete>
+  <delete id="deleteColumnById">
+  		delete from cp_column where id = #{id}
+  </delete>
+</mapper>

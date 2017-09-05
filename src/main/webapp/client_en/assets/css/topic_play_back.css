@@ -1,0 +1,26 @@
+.topic_play_box{
+	width:100%;	
+	text-align: center;
+	margin-top:30px;
+	border:solid 1px #ccc;
+	padding:10px;
+}
+.topic_play_topic{
+	float: left;	
+	padding:5px;
+	width:33%;
+    margin-left:0.16%;
+    margin-right:0.16%;
+    margin-bottom:10px;
+}
+.topic_play_topic img{
+	display: inline-block;
+	max-width:100%;	
+}
+.top-img-hover{	
+    transition: all 0.3s linear;
+}
+.top-img-hover:hover{
+    box-shadow: 0 0 5px #3f3f3f;
+    transform:scale(1.04);
+}

@@ -1,0 +1,829 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deepai.photo.mapper.AboutPictureMapper" >
+<resultMap id="GroupPicMap" type="com.deepai.photo.bean.CpPicGroup" >
+   <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="AUTHOR" property="author" jdbcType="VARCHAR" />
+    <result column="TURE_NAME" property="truename" jdbcType="VARCHAR" />
+    <result column="AUTHOR_ID" property="authorId" jdbcType="INTEGER" />
+    <result column="CATEGORY_INFO" property="categoryInfo" jdbcType="VARCHAR" />
+    <result column="COVER_PICTURE_ID" property="coverPictureId" jdbcType="INTEGER" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="APPLY_TIME" property="applyTime" jdbcType="TIMESTAMP" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+    <result column="CREATOR_ID" property="creatorId" jdbcType="INTEGER" />
+    <result column="DELETE_FLAG" property="deleteFlag" jdbcType="TINYINT" />
+    <result column="KEYWORDS" property="keywords" jdbcType="VARCHAR" />
+    <result column="MEMO" property="memo" jdbcType="VARCHAR" />
+    <result column="PICTURE_COUNT" property="pictureCount" jdbcType="INTEGER" />
+    <result column="PICTURE_DELETED_COUNT" property="pictureDeletedCount" jdbcType="INTEGER" />
+    <result column="PLACE" property="place" jdbcType="VARCHAR" />
+    <result column="PEOPLE" property="people" jdbcType="VARCHAR" />
+    <result column="FILE_TIME" property="fileTime" jdbcType="TIMESTAMP" />
+    <result column="PROPERTIES" property="properties" jdbcType="TINYINT" />
+    <result column="SITE_ID" property="siteId" jdbcType="INTEGER" />
+    <result column="GROUP_STATUS" property="groupStatus" jdbcType="INTEGER" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="TINYINT" />
+    <result column="IS_LOCKED" property="isLocked" jdbcType="INTEGER" />
+    <result column="LOCKER_NAME" property="lockerName" jdbcType="VARCHAR" />
+    <result column="UNLOCK_NAME" property="unlockName" jdbcType="VARCHAR" />
+    <result column="TRUCK_AUTHOR_TRUE_NAME" property="truckAuthorTrueName" jdbcType="VARCHAR" />
+    <result column="TRUCKS_AUTHOR_TRUE_NAME" property="trucksAuthorTrueName" jdbcType="VARCHAR" />
+    <result column="SECURITY_TYPE" property="securityType" jdbcType="TINYINT" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CAL_GROUP_PRICE" property="calGroupPrice" jdbcType="VARCHAR" />
+    <result column="DISCOUNT_PRICE" property="discountPrice" jdbcType="DECIMAL" />
+    <result column="DISCOUNT_RATE" property="discountRate" jdbcType="DECIMAL" />
+    <result column="FORUMS_INFO" property="forumsInfo" jdbcType="VARCHAR" />
+    <result column="FORUMS_TIME" property="forumsTime" jdbcType="TIMESTAMP" />
+    <result column="GOODS_TYPE" property="goodsType" jdbcType="INTEGER" />
+    <result column="PRICE_TYPE" property="priceType" jdbcType="INTEGER" />
+    <result column="PRICE" property="price" jdbcType="INTEGER" />
+    <result column="REDUCE_PRICE" property="reducePrice" jdbcType="DECIMAL" />
+    <result column="EMERGENCY" property="emergency" jdbcType="INTEGER" />
+    <result column="LANG_TYPE" property="langType" jdbcType="INTEGER" />
+    <result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="FRIST_PFD_USER" property="fristPfdUser" jdbcType="VARCHAR" />
+    <result column="SOURCE_ID" property="sourceId" jdbcType="INTEGER" />
+    <result column="SGIN_TIME" property="sginTime" jdbcType="TIMESTAMP" />
+    <result column="LOCATION_TYPE" property="locationType" jdbcType="INTEGER" />
+    <result column="MASVIDEO_SIGN" property="masvideoSign" jdbcType="INTEGER" />
+    <result column="VIDEO_ID" property="videoId" jdbcType="INTEGER" />
+    <result column="QBSTATUS" property="qbStatus" jdbcType="INTEGER" />
+    <collection property="cates" ofType="com.deepai.photo.bean.CpCategory">
+    	<id column="cid" property="id" jdbcType="INTEGER" />
+		<result column="CATEGORY_NAME" property="categoryName" jdbcType="VARCHAR" />
+    </collection>
+    <collection property="pros" ofType="com.deepai.photo.bean.CpPicGroupProcess">
+    	<id column="poId" property="id" jdbcType="INTEGER" />
+	    <result column="FLOW_TYPE" property="flowType" jdbcType="INTEGER" />
+	    <result column="PICGROUP_ID" property="picgroupId" jdbcType="INTEGER" />
+	    <result column="OPERATE_USER_ID" property="operateUserId" jdbcType="INTEGER" />
+	    <result column="OPERATE_USERNAME" property="operateUsername" jdbcType="VARCHAR" />
+	    <result column="OPERATE_TIME" property="operateTime" jdbcType="TIMESTAMP" />
+	    <result column="OPERATE_MEMO" property="operateMemo" jdbcType="VARCHAR" />
+	    <result column="PROOFREAD_ID" property="proofreadId" jdbcType="INTEGER" />
+    </collection>
+    <collection property="pics" ofType="com.deepai.photo.bean.CpPicture">
+   		<id column="pid" property="id" jdbcType="INTEGER" />
+	    <result column="ALLOW_SALE" property="allowSale" jdbcType="TINYINT" />
+	    <result column="AUDITOR" property="auditor" jdbcType="VARCHAR" />
+	    <result column="pAUTHOR_ID" property="authorId" jdbcType="INTEGER" />
+	    <result column="pAUTHOR_NAME" property="authorName" jdbcType="VARCHAR" />
+	    <result column="CATEGORY_INFO" property="categoryInfo" jdbcType="VARCHAR" />
+	    <result column="COLOR_TYPE" property="colorType" jdbcType="VARCHAR" />
+	    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+	    <result column="DELETE_FLAG" property="deleteFlag" jdbcType="TINYINT" />
+	    <result column="EDITOR" property="editor" jdbcType="VARCHAR" />
+	    <result column="EX_DATETIME" property="exDatetime" jdbcType="TIMESTAMP" />
+	    <result column="EX_FNUMBER" property="exFnumber" jdbcType="VARCHAR" />
+	    <result column="EX_ISO" property="exIso" jdbcType="VARCHAR" />
+	    <result column="EX_MODEL" property="exModel" jdbcType="VARCHAR" />
+	    <result column="FILENAME" property="filename" jdbcType="VARCHAR" />
+	    <result column="pFILM_TIME" property="filmTime" jdbcType="TIMESTAMP" />
+	    <result column="IS_HISTORY_PICTURE" property="isHistoryPicture" jdbcType="TINYINT" />
+	    <result column="IS_IPTC" property="isIptc" jdbcType="TINYINT" />
+	    <result column="IS_LOCKED" property="isLocked" jdbcType="TINYINT" />
+	    <result column="IS_REFERRED_BY_PRODUCT" property="isReferredByProduct" jdbcType="TINYINT" />
+	    <result column="IS_REFERRED_BY_PUBLISH" property="isReferredByPublish" jdbcType="TINYINT" />
+	    <result column="IS_SOURCE_PICTURE" property="isSourcePicture" jdbcType="TINYINT" />
+	    <result column="pKEYWORDS" property="keywords" jdbcType="VARCHAR" />
+	    <result column="LOCKER_NAME" property="lockerName" jdbcType="VARCHAR" />
+	    <result column="pMEMO" property="memo" jdbcType="VARCHAR" />
+	    <result column="NEGATIVE_TYPE" property="negativeType" jdbcType="TINYINT" />
+	    <result column="ORIENTATION" property="orientation" jdbcType="TINYINT" />
+	    <result column="pPEOPLE" property="people" jdbcType="VARCHAR" />
+	    <result column="PICTURE_HEIGHT" property="pictureHeight" jdbcType="INTEGER" />
+	    <result column="PICTURE_LENGTH" property="pictureLength" jdbcType="INTEGER" />
+	    <result column="PICTURE_SOURCE_ID" property="pictureSourceId" jdbcType="INTEGER" />
+	    <result column="PICTURE_STATE" property="pictureState" jdbcType="INTEGER" />
+	    <result column="PICTURE_WIDTH" property="pictureWidth" jdbcType="INTEGER" />
+	    <result column="PLACE" property="place" jdbcType="VARCHAR" />
+	    <result column="PRICE" property="price" jdbcType="DECIMAL" />
+	    <result column="PRODUCT_TIME" property="productTime" jdbcType="TIMESTAMP" />
+	    <result column="PUBLISH_TIME" property="publishTime" jdbcType="TIMESTAMP" />
+	    <result column="SECURITY_TYPE" property="securityType" jdbcType="TINYINT" />
+	    <result column="SITE_ID" property="siteId" jdbcType="INTEGER" />
+	    <result column="SOURCE_ID" property="sourceId" jdbcType="INTEGER" />
+	    <result column="SOURCE_PICTURE_ID" property="sourcePictureId" jdbcType="INTEGER" />
+	    <result column="SOURCE_PICTURE_LENGTH" property="sourcePictureLength" jdbcType="INTEGER" />
+	    <result column="SOURCE_PICTURE_NAME" property="sourcePictureName" jdbcType="VARCHAR" />
+	    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+	    <result column="UPLOADER" property="uploader" jdbcType="VARCHAR" />
+	    <result column="EX_EXPOSURE_TIME" property="exExposureTime" jdbcType="VARCHAR" />
+	    <result column="UPLOAD_PROGRESS" property="uploadProgress" jdbcType="INTEGER" />
+	    <result column="GOODS_TYPE" property="goodsType" jdbcType="VARCHAR" />
+	    <result column="DISCOUNT_PRICE" property="discountPrice" jdbcType="DECIMAL" />
+	    <result column="CAL_PRICE" property="calPrice" jdbcType="DECIMAL" />
+	    <result column="DISCOUNT_RATE" property="discountRate" jdbcType="DECIMAL" />
+	    <result column="FORUMS_INFO" property="forumsInfo" jdbcType="VARCHAR" />
+	    <result column="FORUMS_TIME" property="forumsTime" jdbcType="TIMESTAMP" />
+	    <result column="REDUCE_PRICE" property="reducePrice" jdbcType="DECIMAL" />
+	    <result column="IS_COVER" property="isCover" jdbcType="INTEGER" />
+	    <result column="GROUP_ID" property="groupId" jdbcType="INTEGER" />
+	    <result column="SORT_ID" property="sortId" jdbcType="INTEGER" />
+	    <result column="ALL_PATH" property="oriAllPath" jdbcType="VARCHAR" />
+    </collection>
+  </resultMap>
+  <!-- 根据ID批量删除下载级别 -->
+  <update id="delDownLevelByIds" parameterType="map">
+  	UPDATE cp_download_level SET UPDATE_USER=#{username} ,UPDATE_TIME=#{updatetime} ,DELETE_FLAG=1 where id in 
+  		<foreach collection="ids" item="id" open="(" close=")" separator=",">
+  			#{id}
+  		</foreach>
+  </update>
+  
+  <!-- 根据条件查询下载级别 -->
+  <select id="selectDownLevelByQuery" parameterType="map" resultType="map">
+  	select * from cp_download_level t where t.DELETE_FLAG=0
+  		<if test="siteId !=null">
+  			and t.SITE_ID =#{siteId} 
+  		</if>
+  		<if test="levelName != null">
+  			and t.LEVEL_NAME like CONCAT('%',#{levelName},'%')
+  		</if> 
+  		ORDER BY CREATE_TIME DESC 	
+  </select>
+  
+  <!-- 修改水印默认 -->
+  <update id="updateIsDefault" parameterType="map">
+  	update cp_water_mark_picture set IS_DEFAULT_WMPIC=#{new} where IS_DEFAULT_WMPIC=#{old}
+  </update>
+  
+  <!-- 根据图片id和type查图片全路径 -->
+  <select id="selectPicPathByType" parameterType="map" resultType="String">
+  	SELECT p.ALL_PATH from cp_pic_allpath p
+  		<if test="picType!=null and picType==5">
+  			LEFT JOIN cp_water_mark_picture w on p.TRAGET_ID=w.ID
+			WHERE p.PIC_TYPE=5 and  w.ID=#{tragetId}
+  		</if>
+  		<if test="picType!=null and picType &gt;=0 and picType &lt;=4">
+  			LEFT JOIN cp_picture w on p.TRAGET_ID=w.ID
+			WHERE p.PIC_TYPE=#{picType} and  w.ID=#{tragetId}
+  		</if>
+  		<if test="picType!=null and picType==6">
+  			LEFT JOIN cp_user_idpic w on p.TRAGET_ID=w.ID
+			WHERE p.PIC_TYPE=6 and  w.ID=#{tragetId}
+  		</if>
+  		ORDER BY p.ID DESC LIMIT 1
+  </select>
+  <!-- 获取系统默认水印图片 -->
+  <select id="selectDeafautWaterPic" parameterType="map" resultType="String">
+  	SELECT p.ALL_PATH from cp_pic_allpath p 
+		LEFT JOIN cp_water_mark_picture w on p.TRAGET_ID=w.ID
+		WHERE p.PIC_TYPE=5 and  w.IS_DEFAULT_WMPIC=1 and and w.SITE_ID=#{0}
+  		LIMIT 1
+  </select>
+  
+  <!-- 根据ID批量删除水印图片 -->
+  <update id="delWaterMarkByIds" parameterType="map">
+  	UPDATE cp_water_mark_picture SET UPDATE_USER=#{username} ,UPDATE_TIME=#{updatetime} ,DELETE_FLAG=1 where ID in 
+  		<foreach collection="ids" item="id" open="(" close=")" separator=",">
+  			#{id}
+  		</foreach>
+  </update>
+  
+   <!-- 根据ID批量删除稿件图片 -->
+  <update id="delPictureByIds" parameterType="map">
+  	UPDATE cp_picture SET  DELETE_FLAG=1 where ID in 
+  		<foreach collection="ids" item="id" open="(" close=")" separator=",">
+  			#{id}
+  		</foreach>
+  </update>
+   <!-- 根据ID批量删除稿件 -->
+  <update id="delGroupByIds" parameterType="map">
+  	UPDATE cp_pic_group SET  DELETE_FLAG=#{flag} where ID in 
+  		<foreach collection="ids" item="id" open="(" close=")" separator=",">
+  			#{id}
+  		</foreach>
+  		<!-- and CREATOR_ID = #{createId} -->
+  </update>
+  
+   <!-- 根据权限查询拥有此权限的用户 -->
+  <select id="selectUserByRight" parameterType="map" resultType="map">
+<!--   select u.ID,u.USER_NAME,ar.RIGHT_ID from cp_user u 
+	LEFT JOIN cp_auth_right ar on ar.TRAGET_ID=u.id 
+	where ar.TYPE=1 and ar.RIGHT_ID=#{0}
+	UNION 
+	select u.ID,u.USER_NAME,ar.RIGHT_ID from cp_user u 
+	LEFT JOIN cp_user_role ur on ur.USER_ID=u.ID 
+	LEFT JOIN cp_auth_right ar on ar.TRAGET_ID=ur.ROLE_ID
+	where ar.TYPE=0 and ar.RIGHT_ID=#{0} -->
+	
+	select u.ID,u.USER_NAME,ar.RIGHT_ID,r.LANG_TYPE from cp_user u 
+	LEFT JOIN cp_auth_right ar on ar.TRAGET_ID=u.id 
+	left join cp_right r on ar.RIGHT_ID = r.ID
+	where ar.TYPE=1 and u.USER_STATUS=0 and ar.RIGHT_ID=#{0}
+	<if test="langType != null">
+		 and r.LANG_TYPE=#{langType}
+	 </if>
+	UNION 
+	select u.ID,u.USER_NAME,ar.RIGHT_ID,r.LANG_TYPE from cp_user u 
+	LEFT JOIN cp_user_role ur on ur.USER_ID=u.ID 
+	LEFT JOIN cp_auth_right ar on ar.TRAGET_ID=ur.ROLE_ID 
+	left join cp_role r on ur.role_ID = r.ID
+	where ar.TYPE=0 and u.USER_STATUS=0 and ar.RIGHT_ID=#{0}
+	<if test="langType != null">
+		 and r.LANG_TYPE=#{langType}
+	 </if>
+  </select>
+
+  <!-- 查询用户是否拥有此权限 -->
+  <select id="isUserRight" parameterType="map" resultType="int">
+ select COUNT(*) from (select u.ID  from cp_user u 
+	LEFT JOIN cp_auth_right ar on ar.TRAGET_ID=u.id 
+	where ar.TYPE=1 and ar.RIGHT_ID=#{rightId} and u.id=#{userId}
+	UNION 
+	select u.ID  from cp_user u 
+	LEFT JOIN cp_user_role ur on ur.USER_ID=u.ID 
+	LEFT JOIN cp_auth_right ar on ar.TRAGET_ID=ur.ROLE_ID
+	where ar.TYPE=0 and ar.RIGHT_ID=#{rightId} and u.id=#{userId}) t
+  </select>
+  
+  <!-- 查询旧稿件的所有图片 -->
+  <select id="selectPicIdsByGroup" parameterType="map" resultType="int">
+  select p.ID from cp_picture p where p.GROUP_ID=#{0}
+  </select>
+  
+  <!-- 复制稿件图片，生成历史版本 -->
+  <insert id="copyPicsByGroupId" parameterType="map">
+	INSERT INTO cp_picture (
+		ALLOW_SALE,
+		AUDITOR,
+		AUTHOR_ID,
+		AUTHOR_NAME,
+		CATEGORY_INFO,
+		COLOR_TYPE,
+		CREATE_TIME,
+		DELETE_FLAG,
+		EDITOR,
+		EX_DATETIME,
+		EX_FNUMBER,
+		EX_ISO,
+		EX_MODEL,
+		FILENAME,
+		FILM_TIME,
+		IS_HISTORY_PICTURE,
+		IS_IPTC,
+		IS_LOCKED,
+		IS_REFERRED_BY_PRODUCT,
+		IS_REFERRED_BY_PUBLISH,
+		IS_SOURCE_PICTURE,
+		KEYWORDS,
+		LOCKER_NAME,
+		NEGATIVE_TYPE,
+		ORIENTATION,
+		PEOPLE,
+		PICTURE_HEIGHT,
+		PICTURE_LENGTH,
+		PICTURE_SOURCE_ID,
+		PICTURE_STATE,
+		PICTURE_WIDTH,
+		PLACE,
+		PRICE,
+		PRODUCT_TIME,
+		PUBLISH_TIME,
+		SECURITY_TYPE,
+		SITE_ID,
+		SOURCE_ID,
+		SOURCE_PICTURE_ID,
+		SOURCE_PICTURE_LENGTH,
+		SOURCE_PICTURE_NAME,
+		TITLE,
+		UPLOADER,
+		EX_EXPOSURE_TIME,
+		UPLOAD_PROGRESS,
+		GOODS_TYPE,
+		DISCOUNT_PRICE,
+		MEMO,
+		CAL_PRICE,
+		DISCOUNT_RATE,
+		FORUMS_INFO,
+		FORUMS_TIME,
+		REDUCE_PRICE,
+		IS_COVER,
+		GROUP_ID,
+		SORT_ID
+		) SELECT
+			ALLOW_SALE,
+		AUDITOR,
+		AUTHOR_ID,
+		AUTHOR_NAME,
+		CATEGORY_INFO,
+		COLOR_TYPE,
+		CREATE_TIME,
+		DELETE_FLAG,
+		EDITOR,
+		EX_DATETIME,
+		EX_FNUMBER,
+		EX_ISO,
+		EX_MODEL,
+		FILENAME,
+		FILM_TIME,
+		IS_HISTORY_PICTURE,
+		IS_IPTC,
+		IS_LOCKED,
+		IS_REFERRED_BY_PRODUCT,
+		IS_REFERRED_BY_PUBLISH,
+		IS_SOURCE_PICTURE,
+		KEYWORDS,
+		LOCKER_NAME,
+		NEGATIVE_TYPE,
+		ORIENTATION,
+		PEOPLE,
+		PICTURE_HEIGHT,
+		PICTURE_LENGTH,
+		PICTURE_SOURCE_ID,
+		PICTURE_STATE,
+		PICTURE_WIDTH,
+		PLACE,
+		PRICE,
+		PRODUCT_TIME,
+		PUBLISH_TIME,
+		SECURITY_TYPE,
+		SITE_ID,
+		SOURCE_ID,
+		SOURCE_PICTURE_ID,
+		SOURCE_PICTURE_LENGTH,
+		SOURCE_PICTURE_NAME,
+		TITLE,
+		UPLOADER,
+		EX_EXPOSURE_TIME,
+		UPLOAD_PROGRESS,
+		GOODS_TYPE,
+		DISCOUNT_PRICE,
+		MEMO,
+		CAL_PRICE,
+		DISCOUNT_RATE,
+		FORUMS_INFO,
+		FORUMS_TIME,
+		REDUCE_PRICE,
+		IS_COVER,
+		#{1},
+		SORT_ID
+		FROM
+			cp_picture p
+		WHERE
+			p.DELETE_FLAG=0
+			and p.GROUP_ID = #{0}
+  </insert>
+  
+  <!-- 将稿件图片deleteFlag置为1 -->
+  <update id="delPicsByGroupId" parameterType="map">
+  	update cp_picture set DELETE_FLAG=1 where GROUP_ID=#{0}
+  </update>
+  
+  <!-- 查询稿件 -->
+  <select id="selectGroupsByQuery" parameterType="map" resultType="map">
+  select g.*,p.ID picId ,p.FILENAME,p.EX_DATETIME,p.EX_FNUMBER,p.EX_ISO,p.EX_MODEL,gp.PUSH_SIGN from cp_pic_group g 
+	LEFT JOIN cp_picture p on g.COVER_PICTURE_ID=p.ID 
+	LEFT JOIN cp_group_push gp on g.ID=gp.GROUP_ID 
+	<if test="query!=null and query.fileName !=null">
+		LEFT JOIN cp_picture t ON g.id = t.GROUP_ID
+	</if>
+	<if test="signId != null or cateId !=null ">
+		LEFT JOIN cp_pic_group_category c on c.GROUP_ID=g.ID
+	</if>
+	where g.SOURCE_ID=0
+		<if test="userId != null">
+			and g.AUTHOR_ID=#{userId} 
+		</if>
+		<if test="creatUserId != null">
+			and g.CREATOR_ID=#{creatUserId} 
+		</if>
+		<if test="siteId != null">
+			and g.SITE_ID=#{siteId} 
+		</if>
+		<if test="langType != null">
+			and g.LANG_TYPE=#{langType} 
+		</if>
+		<if test="deleteFlag != null">
+			and g.DELETE_FLAG=#{deleteFlag} 
+		</if>
+		<if test="statusS != null">
+			and g.GROUP_STATUS in (${statusS})
+		</if>
+		<if test="notStatus != null">
+			and g.GROUP_STATUS !=#{notStatus}
+		</if>
+		<if test="status != null">
+			and g.GROUP_STATUS =#{status}
+		</if>	
+		<if test="properties != null">
+			and g.PROPERTIES=#{properties}
+		</if>	
+		<if test="fristPfdUser != null">
+			and g.FRIST_PFD_USER=#{fristPfdUser}
+		</if>	
+		<if test="signId != null">
+			and c.TYPE=1 and c.CATEGORY_ID=#{signId}
+		</if>	
+		<if test="cateId != null">
+			and c.TYPE=0 and c.CATEGORY_ID=#{cateId}
+		</if>	
+		<if test="query !=null">
+			<if test="query.id !=null">
+				and g.id=#{query.id}
+			</if>
+			<if test="query.langType !=null">
+				and g.LANG_TYPE=#{query.langType}
+			</if>
+			<if test="query.title !=null">
+				and g.TITLE like CONCAT('%',#{query.title},'%')
+			</if>
+			<if test="query.author !=null">
+				and g.AUTHOR like CONCAT('%',#{query.author},'%')
+			</if>
+			<if test="query.place !=null">
+				and g.PLACE like CONCAT('%',#{query.place},'%')
+			</if>
+			<if test="query.editor !=null">
+				and g.UPDATE_USER like CONCAT('%',#{query.editor},'%')
+			</if>
+			<if test="query.memo !=null">
+				and g.MEMO like CONCAT('%',#{query.memo},'%')
+			</if>
+			<if test="query.fileName !=null">
+				and t.FILENAME like CONCAT('%',#{query.fileName},'%')
+			</if>
+			<if test="query.beginTime !=null">
+				and g.CREATE_TIME &gt;=#{query.beginTime}
+			</if>
+			<if test="query.endTime !=null">
+				and g.CREATE_TIME &lt;=#{query.endTime}
+			</if>
+			<if test="query.paramStr !=null">
+				and (g.ID LIKE CONCAT('%',#{query.paramStr},'%') or g.TITLE LIKE CONCAT('%',#{query.paramStr},'%') or g.AUTHOR LIKE CONCAT('%',#{query.paramStr},'%') )
+			</if>
+		</if>
+		<if test="orderby !=null">
+			ORDER BY  ${orderby}
+		</if>
+		<if test="orderby ==null">
+			ORDER BY  g.GROUP_STATUS desc , g.APPLY_TIME desc
+		</if>
+  </select>
+   <select id="selectCountGroups" resultType="int" parameterType="map">
+ select  count(DISTINCT g.ID) from cp_pic_group g 
+	LEFT JOIN cp_picture p on g.COVER_PICTURE_ID=p.ID 
+	LEFT JOIN cp_group_push gp on g.ID=gp.GROUP_ID 	
+	LEFT JOIN cp_pic_group_category c on c.GROUP_ID=g.ID
+	where g.SOURCE_ID=0  
+		<if test="siteId != null">
+			and g.SITE_ID=#{siteId} 
+		</if>
+		<if test="langType != null">
+			and g.LANG_TYPE=#{langType} 
+		</if>
+		<if test="deleteFlag != null">
+			and g.DELETE_FLAG=#{deleteFlag} 
+		</if>
+		<if test="statusS != null">
+			and g.GROUP_STATUS in (${statusS})
+		</if>
+		<if test="notStatus != null">
+			and g.GROUP_STATUS !=#{notStatus}
+		</if>
+		<if test="status != null">
+			and g.GROUP_STATUS =#{status}
+		</if>	
+		<if test="properties != null">
+			and g.PROPERTIES=#{properties}
+		</if>	
+		<if test="signId != null">
+			and c.TYPE=1 and c.CATEGORY_ID=#{signId}
+		</if>	
+		<if test="cateId != null">
+			and c.CATEGORY_ID IN (select id FROM cp_category
+			where PARENT_ID=#{cateId} or id=#{cateId})
+		</if>	
+		<if test="query !=null">
+			<if test="query.id !=null">
+				and g.id=#{query.id}
+			</if>
+			<if test="query.langType !=null">
+				and g.LANG_TYPE=#{query.langType}
+			</if>
+			<if test="query.title !=null">
+				and g.TITLE like CONCAT('%',#{query.title},'%')
+			</if>
+			<if test="query.author !=null">
+				and g.AUTHOR like CONCAT('%',#{query.author},'%')
+			</if>
+			<if test="query.place !=null">
+				and g.PLACE like CONCAT('%',#{query.place},'%')
+			</if>
+			<if test="query.editor !=null">
+				and g.UPDATE_USER like CONCAT('%',#{query.editor},'%')
+			</if>
+			<if test="query.memo !=null">
+				and g.MEMO like CONCAT('%',#{query.memo},'%')
+			</if>
+			<if test="query.fileName !=null">
+				and t.FILENAME like CONCAT('%',#{query.fileName},'%')
+			</if>
+			<if test="query.beginTime !=null">
+				and g.CREATE_TIME &gt;=#{query.beginTime}
+			</if>
+			<if test="query.paramStr !=null">
+				and (g.ID LIKE CONCAT('%',#{query.paramStr},'%') or g.TITLE LIKE CONCAT('%',#{query.paramStr},'%') or g.AUTHOR LIKE CONCAT('%',#{query.paramStr},'%') )
+			</if>
+		</if>
+		
+  </select>
+  <select id="selectGroups"  parameterType="map" resultType="map">
+   select DISTINCT g.*,p.ID picId ,p.FILENAME,p.EX_DATETIME,p.EX_FNUMBER,p.EX_ISO,p.EX_MODEL,gp.PUSH_SIGN from cp_pic_group g 
+	LEFT JOIN cp_picture p on g.COVER_PICTURE_ID=p.ID 
+	LEFT JOIN cp_group_push gp on g.ID=gp.GROUP_ID 	
+	LEFT JOIN cp_pic_group_category c on c.GROUP_ID=g.ID
+	where g.SOURCE_ID=0  
+		<if test="siteId != null">
+			and g.SITE_ID=#{siteId} 
+		</if>
+		<if test="langType != null">
+			and g.LANG_TYPE=#{langType} 
+		</if>
+		<if test="deleteFlag != null">
+			and g.DELETE_FLAG=#{deleteFlag} 
+		</if>
+		<if test="statusS != null">
+			and g.GROUP_STATUS in (${statusS})
+		</if>
+		<if test="notStatus != null">
+			and g.GROUP_STATUS !=#{notStatus}
+		</if>
+		<if test="status != null">
+			and g.GROUP_STATUS =#{status}
+		</if>	
+		<if test="properties != null">
+			and g.PROPERTIES=#{properties}
+		</if>	
+		<if test="signId != null">
+			and c.TYPE=1 and c.CATEGORY_ID=#{signId}
+		</if>	
+		<if test="cateId != null">
+			and c.CATEGORY_ID IN (select id FROM cp_category
+			where PARENT_ID=#{cateId} or id=#{cateId})
+		</if>	
+		<if test="query !=null">
+			<if test="query.id !=null">
+				and g.id=#{query.id}
+			</if>
+			<if test="query.langType !=null">
+				and g.LANG_TYPE=#{query.langType}
+			</if>
+			<if test="query.title !=null">
+				and g.TITLE like CONCAT('%',#{query.title},'%')
+			</if>
+			<if test="query.author !=null">
+				and g.AUTHOR like CONCAT('%',#{query.author},'%')
+			</if>
+			<if test="query.place !=null">
+				and g.PLACE like CONCAT('%',#{query.place},'%')
+			</if>
+			<if test="query.editor !=null">
+				and g.UPDATE_USER like CONCAT('%',#{query.editor},'%')
+			</if>
+			<if test="query.memo !=null">
+				and g.MEMO like CONCAT('%',#{query.memo},'%')
+			</if>
+			<if test="query.fileName !=null">
+				and t.FILENAME like CONCAT('%',#{query.fileName},'%')
+			</if>
+			<if test="query.beginTime !=null">
+				and g.CREATE_TIME &gt;=#{query.beginTime}
+			</if>
+			<if test="query.paramStr !=null">
+				and (g.ID LIKE CONCAT('%',#{query.paramStr},'%') or g.TITLE LIKE CONCAT('%',#{query.paramStr},'%') or g.AUTHOR LIKE CONCAT('%',#{query.paramStr},'%') )
+			</if>
+		</if>		
+		<if test="orderby !=null">
+			ORDER BY  ${orderby}
+		</if>
+		<if test="orderby ==null">
+			ORDER BY  g.GROUP_STATUS desc , g.APPLY_TIME desc
+		</if> 
+		limit #{pageNo},#{pageSize}
+  </select>
+  <select id="selectGroupsCountByQuery" resultType="int" parameterType="map">
+  select COUNT(*) from cp_pic_group g ,cp_picture p WHERE
+  g.COVER_PICTURE_ID=p.ID 
+  <if test="siteId!=null">
+  and  g.SITE_ID=#{siteId}
+  </if>
+   and g.GROUP_STATUS =#{status} 
+  and g.DELETE_FLAG=#{deleteFlag}
+  and g.FRIST_PFD_USER=#{fristPfdUser} 
+  </select>
+  <!-- 查询稿件历史版本 -->
+  <select id="selectGroupHistoryVersion" parameterType="map" resultType="map">
+ 	select g.UPDATE_TIME, g.*,p.ID picId ,p.FILENAME from cp_pic_group g 
+		LEFT JOIN cp_picture p on g.COVER_PICTURE_ID=p.ID
+		where g.id=#{groupId} 
+		UNION
+		select g.UPDATE_TIME, g.*,p.ID picId ,p.FILENAME from cp_pic_group g 
+		LEFT JOIN cp_picture p on g.COVER_PICTURE_ID=p.ID
+		where g.SOURCE_ID=#{groupId} 
+	ORDER BY 1 
+  </select>
+  <!-- 查询稿件历史版本 -->
+  <select id="selectMergeGroup" parameterType="map" resultType="map">
+ 	SELECT g.ID,g.MEMO,g.PICTURE_COUNT,p.ID pid from cp_pic_group g 
+    	LEFT JOIN cp_picture p on p.GROUP_ID=g.ID
+    WHERE g.ID in 
+    	<foreach collection="gIds" item="id" open="(" close=")" separator=",">
+    		#{id}
+    	</foreach>
+  </select>
+  
+  <!-- 批量修改稿件狀態 -->
+  <update id="changeStatusBatch" parameterType="map">
+ 	 update cp_pic_group  
+	 <foreach collection="groups" item="group">
+	 	set GROUP_STATUS=#{group.groupStatus},UPDATE_USER =#{group.updateUser},UPDATE_TIME = #{group.updateTime}
+	 	where ID = #{group.id}
+	 </foreach>
+  </update>
+  
+  <!-- 查询稿件图片详情 及稿件分类-->
+  <select id="selectGroupPics" resultMap="GroupPicMap">
+  SELECT
+   		g.*,p.ID pid, u.TURE_NAME,
+		p.FILENAME,
+		p.SOURCE_PICTURE_NAME,
+		p.PICTURE_HEIGHT,
+		p.PICTURE_WIDTH,
+		p.PICTURE_LENGTH,
+		p.FILM_TIME pFILM_TIME,
+		p.PEOPLE pPEOPLE,
+		p.IS_COVER,p.SORT_ID,
+		p.AUTHOR_NAME pAUTHOR_NAME,
+		p.AUTHOR_ID pAUTHOR_ID,
+		p.KEYWORDS pKEYWORDS,
+		p.MEMO pMEMO,p.SORT_ID ,
+		p.EX_DATETIME,
+		p.EX_FNUMBER,
+		p.EX_ISO,
+		p.EX_MODEL,
+		ca.ID cid,ca.CATEGORY_NAME,
+		po.OPERATE_USERNAME,po.ID poId,po.OPERATE_USER_ID,po.OPERATE_TIME,po.FLOW_TYPE
+	FROM
+		cp_pic_group g
+	LEFT JOIN cp_picture p ON p.GROUP_ID = g.ID and p.DELETE_FLAG=0
+	LEFT JOIN cp_pic_group_category c on c.GROUP_ID=g.ID
+	LEFT JOIN cp_user u on g.AUTHOR_ID=u.ID
+	left join cp_category ca on ca.ID=c.CATEGORY_ID and c.TYPE=0
+	LEFT JOIN cp_pic_group_process po on po.PICGROUP_ID=g.ID and po.FLOW_TYPE &gt;=1 and po.FLOW_TYPE &lt;=3
+	WHERE
+		g.ID=#{groupId}  
+	ORDER BY p.IS_COVER desc,p.SORT_ID
+  </select>
+  <!-- 查询图片的信息和其稿件信息-->
+  <select id="selectPicInfo" resultMap="GroupPicMap">
+  SELECT
+   		g.*, p.ID pid,
+		p.FILENAME,
+		p.SOURCE_PICTURE_NAME,
+		p.PICTURE_HEIGHT,
+		p.PICTURE_WIDTH,
+		p.PICTURE_LENGTH,
+		p.FILM_TIME pFILM_TIME,
+		p.PEOPLE pPEOPLE,
+		p.IS_COVER,
+		p.AUTHOR_NAME pAUTHOR_NAME,
+		p.AUTHOR_ID pAUTHOR_ID,
+		p.KEYWORDS pKEYWORDS,
+		p.MEMO pMEMO,p.SORT_ID ,
+		ca.ID cid,ca.CATEGORY_NAME,
+		po.OPERATE_USERNAME,po.ID poId,po.OPERATE_USER_ID,po.OPERATE_TIME,po.FLOW_TYPE,	a.ALL_PATH
+	FROM
+		cp_pic_group g
+	LEFT JOIN cp_picture p ON p.GROUP_ID = g.ID and p.DELETE_FLAG=0
+	LEFT JOIN cp_pic_group_category c on c.GROUP_ID=g.ID
+	left join cp_category ca on ca.ID=c.CATEGORY_ID and c.TYPE=0
+	LEFT JOIN cp_pic_group_process po on po.PICGROUP_ID=g.ID and po.FLOW_TYPE &gt;=1 and po.FLOW_TYPE &lt;=3
+	LEFT JOIN cp_pic_allpath a on p.ID=a.TRAGET_ID and a.PIC_TYPE=3
+	WHERE
+		p.ID in 
+		<foreach collection="picIdArr" item="picId" separator="," open="(" close=")">
+			#{picId}
+		</foreach>
+  </select>
+  <!-- 查询图片的信息和其稿件信息-->
+  <select id="selectPicInfoByOrder" resultMap="GroupPicMap">
+  SELECT
+   		g.*, p.ID pid,
+		p.FILENAME,
+		p.SOURCE_PICTURE_NAME,
+		p.PICTURE_HEIGHT,
+		p.PICTURE_WIDTH,
+		p.PICTURE_LENGTH,
+		p.FILM_TIME pFILM_TIME,
+		p.PEOPLE pPEOPLE,
+		p.IS_COVER,
+		p.AUTHOR_NAME pAUTHOR_NAME,
+		p.AUTHOR_ID pAUTHOR_ID,
+		p.KEYWORDS pKEYWORDS,
+		p.MEMO pMEMO,p.SORT_ID ,
+		ca.ID cid,ca.CATEGORY_NAME,
+		po.OPERATE_USERNAME,po.ID poId,po.OPERATE_USER_ID,po.OPERATE_TIME,po.FLOW_TYPE,	a.ALL_PATH
+	FROM
+		cp_pic_group g
+	LEFT JOIN cp_picture p ON p.GROUP_ID = g.ID and p.DELETE_FLAG=0
+	LEFT JOIN cp_pic_group_category c on c.GROUP_ID=g.ID
+	left join cp_category ca on ca.ID=c.CATEGORY_ID and c.TYPE=0
+	LEFT JOIN cp_pic_group_process po on po.PICGROUP_ID=g.ID and po.FLOW_TYPE &gt;=1 and po.FLOW_TYPE &lt;=3
+	LEFT JOIN cp_pic_allpath a on p.ID=a.TRAGET_ID and a.PIC_TYPE=3
+	WHERE
+		p.ID in (SELECT d.PIC_ID from cp_order_detail d where d.ORDER_ID=#{orderId})
+  </select>
+  
+  <!-- 查询图片的信息和其稿件信息-->
+  <select id="selectPicInfoByOrderDetail" resultMap="GroupPicMap">
+  SELECT
+   		g.*, p.ID pid,
+		p.FILENAME,
+		p.SOURCE_PICTURE_NAME,
+		p.PICTURE_HEIGHT,
+		p.PICTURE_WIDTH,
+		p.PICTURE_LENGTH,
+		p.FILM_TIME pFILM_TIME,
+		p.PEOPLE pPEOPLE,
+		p.IS_COVER,
+		p.AUTHOR_NAME pAUTHOR_NAME,
+		p.AUTHOR_ID pAUTHOR_ID,
+		p.KEYWORDS pKEYWORDS,
+		p.MEMO pMEMO,p.SORT_ID ,
+		ca.ID cid,ca.CATEGORY_NAME,
+		po.OPERATE_USERNAME,po.ID poId,po.OPERATE_USER_ID,po.OPERATE_TIME,po.FLOW_TYPE,	a.ALL_PATH
+	FROM
+		cp_pic_group g
+	LEFT JOIN cp_picture p ON p.GROUP_ID = g.ID and p.DELETE_FLAG=0
+	LEFT JOIN cp_pic_group_category c on c.GROUP_ID=g.ID
+	left join cp_category ca on ca.ID=c.CATEGORY_ID and c.TYPE=0
+	LEFT JOIN cp_pic_group_process po on po.PICGROUP_ID=g.ID and po.FLOW_TYPE &gt;=1 and po.FLOW_TYPE &lt;=3
+	LEFT JOIN cp_pic_allpath a on p.ID=a.TRAGET_ID and a.PIC_TYPE=3
+	WHERE
+		p.ID in 
+		<foreach collection="picIds" item="item" open="(" close=")" separator="," >
+          #{item}
+        </foreach>
+  </select>
+  
+  <!-- 查询图片的信息和其稿件信息-->
+  <select id="selectPicInfoByGroupId" resultMap="GroupPicMap">
+  SELECT
+   		g.*, p.ID pid,
+		p.FILENAME,
+		p.SOURCE_PICTURE_NAME,
+		p.PICTURE_HEIGHT,
+		p.PICTURE_WIDTH,
+		p.PICTURE_LENGTH,
+		p.FILM_TIME pFILM_TIME,
+		p.PEOPLE pPEOPLE,
+		p.IS_COVER,
+		p.AUTHOR_NAME pAUTHOR_NAME,
+		p.AUTHOR_ID pAUTHOR_ID,
+		p.KEYWORDS pKEYWORDS,
+		p.MEMO pMEMO,p.SORT_ID ,
+		ca.ID cid,ca.CATEGORY_NAME,
+		po.OPERATE_USERNAME,po.ID poId,po.OPERATE_USER_ID,po.OPERATE_TIME,po.FLOW_TYPE,	a.ALL_PATH
+	FROM
+		cp_pic_group g
+	LEFT JOIN cp_picture p ON p.GROUP_ID = g.ID and p.DELETE_FLAG=0
+	LEFT JOIN cp_pic_group_category c on c.GROUP_ID=g.ID
+	left join cp_category ca on ca.ID=c.CATEGORY_ID and c.TYPE=0
+	LEFT JOIN cp_pic_group_process po on po.PICGROUP_ID=g.ID and po.FLOW_TYPE &gt;=1 and po.FLOW_TYPE &lt;=3
+	LEFT JOIN cp_pic_allpath a on p.ID=a.TRAGET_ID and a.PIC_TYPE=3
+	WHERE
+		g.id=#{groupId}
+  </select>
+   <select id="showNoReadPicGroupNum" resultType="int" parameterType="int">
+  SELECT COUNT(*) from  cp_user a , cp_pic_group b WHERE b.CREATE_TIME BETWEEN a.LAST_LOGIN_TIME and NOW() and a.ID=#{id}
+  </select> 
+  <!-- 修改一审值班人员 -->
+  <update id="updateDutyUser">
+ 	 update cp_pic_group  
+	 <set>
+		<if test="editorName != null">
+			FRIST_PFD_USER = #{editorName,jdbcType=VARCHAR},
+		</if>
+	 </set>
+	 where ID = #{groupId}
+  </update>
+  <update id="updateProcessUser">
+ 	 update cp_pic_group_process  
+	 <set>
+		<if test="editorId != null">
+			OPERATE_USER_ID = #{editorId,jdbcType=INTEGER},
+		</if>
+		<if test="editorName != null">
+			OPERATE_USERNAME = #{editorName,jdbcType=VARCHAR},
+		</if>
+	 </set>
+	 where PICGROUP_ID = #{groupId}
+  </update>
+  
+</mapper>

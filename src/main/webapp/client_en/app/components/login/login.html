@@ -1,0 +1,50 @@
+<div class="client-login-container">
+    <div class="client-login-con">
+        <div class="client-hd-login-tit">
+            <h4 class="cuser-login-tit">User Login</h4>
+        </div>
+        <div class="client-bd-login-con">
+            <div class="client-bd-login-detail">
+                <div class="c-login-item clear">
+                    <div class="c-login-item-txt fll">
+                                                    username：
+                    </div>
+                    <div class="c-login-item-input fll">
+                        <input type="text" class="c-login-info-input" ng-model="login.user.name" ng-keydown="login.enterLogin($event)"/>
+                    </div>
+                </div>
+                <div class="c-login-item pwd-spec-item clear">
+                    <div class="c-login-item-txt fll">
+                                                  password：
+                    </div>
+                    <div class="c-login-item-input fll">
+                        <input type="password" class="c-login-info-input" ng-model="login.user.pwd"ng-keydown="login.enterLogin($event)"/>
+                    </div>
+                </div>
+                <div class="c-login-item clear">
+                    <div class="c-login-item-txt fll">
+                                                    Verification Code：
+                    </div>
+                    <div class="c-login-item-input fll">
+
+                        <input type="text" class="c-login-info-input"
+                               ng-model="login.inputImgVCodeModel"  ng-keydown="login.enterLogin($event)"/>
+                        <div class='login_y'>
+                            <img src="/cnsphoto/yanzheng.do" onclick="javascript:this.src='/cnsphoto/yanzheng.do?tm='+Math.random()" id="vCodeId"/>
+                            <a class="cursor change-hover-color" href="javascript:void(0);" onclick="document.getElementById('vCodeId').src='/cnsphoto/yanzheng.do?tm='+Math.random()">
+                                                                        change
+                            </a>
+                        </div>
+                    </div>                    
+                </div>
+                <div class="forget-register-box">
+                   <button type="submit" class="client-login-go-btn login_btn" ng-click="login.loginIn()">login</button>                                          
+                   <a class="change-hover-color login_btn" ui-sref="root.forgetPassword">&nbsp;forgot&nbsp;</a>
+                   <span>                        
+                        <a class="change-hover-color login_btn" ui-sref="root.register">&nbsp;register&nbsp;</a>                        
+                   </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

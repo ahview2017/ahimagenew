@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deepai.photo.mapper.CpPictureDownloadrecordMapper">
+	<resultMap id="BaseResultMap" type="com.deepai.photo.bean.CpPictureDownloadrecord">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="DOWNLOAD_TIME" property="downloadTime"
+			jdbcType="TIMESTAMP" />
+		<result column="PICTURE_GROUP _ID" property="pictureGroupId"
+			jdbcType="INTEGER" />
+		<result column="PICTURE_ID" property="pictureId" jdbcType="INTEGER" />
+		<result column="PICTURE_SIZE" property="pictureSize" jdbcType="VARCHAR" />
+		<result column="PICTURE_TYPE" property="pictureType" jdbcType="INTEGER" />
+		<result column="SITE_ID" property="siteId" jdbcType="INTEGER" />
+		<result column="USER_ID" property="userId" jdbcType="INTEGER" />
+		<result column="WATERMARKER" property="watermarker" jdbcType="TINYINT" />
+		<result column="USERNAME" property="username" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		ID, DOWNLOAD_TIME, "PICTURE_GROUP _ID", PICTURE_ID,
+		PICTURE_SIZE,
+		PICTURE_TYPE, SITE_ID,
+		USER_ID, WATERMARKER, USERNAME
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.deepai.photo.bean.CpPictureDownloadrecordExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from cp_picture_downloadrecord
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from cp_picture_downloadrecord
+		where ID = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		cp_picture_downloadrecord
+		where ID = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample"
+		parameterType="com.deepai.photo.bean.CpPictureDownloadrecordExample">
+		delete from cp_picture_downloadrecord
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.deepai.photo.bean.CpPictureDownloadrecord">
+		<selectKey resultType="java.lang.Integer" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into cp_picture_downloadrecord (DOWNLOAD_TIME, "PICTURE_GROUP
+		_ID", PICTURE_ID,
+		PICTURE_SIZE, PICTURE_TYPE, SITE_ID,
+		USER_ID,
+		WATERMARKER, USERNAME
+		)
+		values (#{downloadTime,jdbcType=TIMESTAMP},
+		#{pictureGroupId,jdbcType=INTEGER}, #{pictureId,jdbcType=INTEGER},
+		#{pictureSize,jdbcType=VARCHAR}, #{pictureType,jdbcType=INTEGER},
+		#{siteId,jdbcType=INTEGER},
+		#{userId,jdbcType=INTEGER},
+		#{watermarker,jdbcType=TINYINT}, #{username,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.deepai.photo.bean.CpPictureDownloadrecord">
+		<selectKey resultType="java.lang.Integer" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into cp_picture_downloadrecord
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="downloadTime != null">
+				DOWNLOAD_TIME,
+			</if>
+			<if test="pictureGroupId != null">
+				"PICTURE_GROUP _ID",
+			</if>
+			<if test="pictureId != null">
+				PICTURE_ID,
+			</if>
+			<if test="pictureSize != null">
+				PICTURE_SIZE,
+			</if>
+			<if test="pictureType != null">
+				PICTURE_TYPE,
+			</if>
+			<if test="siteId != null">
+				SITE_ID,
+			</if>
+			<if test="userId != null">
+				USER_ID,
+			</if>
+			<if test="watermarker != null">
+				WATERMARKER,
+			</if>
+			<if test="username != null">
+				USERNAME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="downloadTime != null">
+				#{downloadTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="pictureGroupId != null">
+				#{pictureGroupId,jdbcType=INTEGER},
+			</if>
+			<if test="pictureId != null">
+				#{pictureId,jdbcType=INTEGER},
+			</if>
+			<if test="pictureSize != null">
+				#{pictureSize,jdbcType=VARCHAR},
+			</if>
+			<if test="pictureType != null">
+				#{pictureType,jdbcType=INTEGER},
+			</if>
+			<if test="siteId != null">
+				#{siteId,jdbcType=INTEGER},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=INTEGER},
+			</if>
+			<if test="watermarker != null">
+				#{watermarker,jdbcType=TINYINT},
+			</if>
+			<if test="username != null">
+				#{username,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample"
+		parameterType="com.deepai.photo.bean.CpPictureDownloadrecordExample"
+		resultType="java.lang.Integer">
+		select count(*) from cp_picture_downloadrecord
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update cp_picture_downloadrecord
+		<set>
+			<if test="record.id != null">
+				ID = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.downloadTime != null">
+				DOWNLOAD_TIME =
+				#{record.downloadTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.pictureGroupId != null">
+				"PICTURE_GROUP _ID" =
+				#{record.pictureGroupId,jdbcType=INTEGER},
+			</if>
+			<if test="record.pictureId != null">
+				PICTURE_ID = #{record.pictureId,jdbcType=INTEGER},
+			</if>
+			<if test="record.pictureSize != null">
+				PICTURE_SIZE = #{record.pictureSize,jdbcType=VARCHAR},
+			</if>
+			<if test="record.pictureType != null">
+				PICTURE_TYPE = #{record.pictureType,jdbcType=INTEGER},
+			</if>
+			<if test="record.siteId != null">
+				SITE_ID = #{record.siteId,jdbcType=INTEGER},
+			</if>
+			<if test="record.userId != null">
+				USER_ID = #{record.userId,jdbcType=INTEGER},
+			</if>
+			<if test="record.watermarker != null">
+				WATERMARKER = #{record.watermarker,jdbcType=TINYINT},
+			</if>
+			<if test="record.username != null">
+				USERNAME = #{record.username,jdbcType=VARCHAR},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update cp_picture_downloadrecord
+		set ID =
+		#{record.id,jdbcType=INTEGER},
+		DOWNLOAD_TIME =
+		#{record.downloadTime,jdbcType=TIMESTAMP},
+		"PICTURE_GROUP _ID" =
+		#{record.pictureGroupId,jdbcType=INTEGER},
+		PICTURE_ID =
+		#{record.pictureId,jdbcType=INTEGER},
+		PICTURE_SIZE =
+		#{record.pictureSize,jdbcType=VARCHAR},
+		PICTURE_TYPE =
+		#{record.pictureType,jdbcType=INTEGER},
+		SITE_ID =
+		#{record.siteId,jdbcType=INTEGER},
+		USER_ID =
+		#{record.userId,jdbcType=INTEGER},
+		WATERMARKER =
+		#{record.watermarker,jdbcType=TINYINT},
+		USERNAME =
+		#{record.username,jdbcType=VARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.deepai.photo.bean.CpPictureDownloadrecord">
+		update cp_picture_downloadrecord
+		<set>
+			<if test="downloadTime != null">
+				DOWNLOAD_TIME = #{downloadTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="pictureGroupId != null">
+				"PICTURE_GROUP _ID" = #{pictureGroupId,jdbcType=INTEGER},
+			</if>
+			<if test="pictureId != null">
+				PICTURE_ID = #{pictureId,jdbcType=INTEGER},
+			</if>
+			<if test="pictureSize != null">
+				PICTURE_SIZE = #{pictureSize,jdbcType=VARCHAR},
+			</if>
+			<if test="pictureType != null">
+				PICTURE_TYPE = #{pictureType,jdbcType=INTEGER},
+			</if>
+			<if test="siteId != null">
+				SITE_ID = #{siteId,jdbcType=INTEGER},
+			</if>
+			<if test="userId != null">
+				USER_ID = #{userId,jdbcType=INTEGER},
+			</if>
+			<if test="watermarker != null">
+				WATERMARKER = #{watermarker,jdbcType=TINYINT},
+			</if>
+			<if test="username != null">
+				USERNAME = #{username,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.deepai.photo.bean.CpPictureDownloadrecord">
+		update
+		cp_picture_downloadrecord
+		set DOWNLOAD_TIME =
+		#{downloadTime,jdbcType=TIMESTAMP},
+		"PICTURE_GROUP _ID" =
+		#{pictureGroupId,jdbcType=INTEGER},
+		PICTURE_ID =
+		#{pictureId,jdbcType=INTEGER},
+		PICTURE_SIZE =
+		#{pictureSize,jdbcType=VARCHAR},
+		PICTURE_TYPE =
+		#{pictureType,jdbcType=INTEGER},
+		SITE_ID = #{siteId,jdbcType=INTEGER},
+		USER_ID = #{userId,jdbcType=INTEGER},
+		WATERMARKER =
+		#{watermarker,jdbcType=TINYINT},
+		USERNAME =
+		#{username,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<!-- 自定义sql分割 -->
+	<!-- 获取下载图片列表 -->
+	<select id="getDownloadPictures" parameterType="map" resultType="map">
+		SELECT
+		c.ID id,
+		c.DOWNLOAD_TIME downloadTime,
+		c.PICTURE_GROUP_ID pictureGroupId,
+		c.PICTURE_ID pictureId,
+		d.TITLE title,
+		d.UPLOADER uploader,
+		e.TITLE groupTitle,
+		d.FILENAME filename
+		FROM
+		cp_picture_downloadrecord c ,cp_picture d, cp_pic_group e  
+		WHERE
+		 c.PICTURE_ID =d.ID and 
+		 d.GROUP_ID=e.ID
+		<if test="siteId!=null"> AND c.SITE_ID = #{siteId}</if>
+		<if test="userId!=null"> AND c.USER_ID = #{userId}</if>
+		<if test="title!=null"> AND e.TITLE LIKE CONCAT('%',#{title},'%')</if>
+		<if test="uploader!=null"> AND d.UPLOADER LIKE CONCAT('%',#{uploader},'%')
+		</if>
+		<if test="fileName!=null"> AND d.FILENAME LIKE CONCAT('%',#{fileName},'%')
+		</if>
+		<if test="starttime!=null">
+	    <![CDATA[ and DATE_FORMAT(c.DOWNLOAD_TIME, '%Y-%m-%d') >=  DATE_FORMAT(#{starttime}, '%Y-%m-%d')]]>
+		</if>
+		<if test="endtime!=null">
+	    <![CDATA[ and DATE_FORMAT(c.DOWNLOAD_TIME, '%Y-%m-%d') <=  DATE_FORMAT(#{endtime}, '%Y-%m-%d')]]>
+		</if>
+		<if test="flag==1">
+			and DATE_SUB(CURDATE(), INTERVAL 1 WEEK) &lt;= date(c.DOWNLOAD_TIME)
+		</if>
+		<!-- <if test="flag==2">
+			and DATE_SUB(CURDATE(), INTERVAL 1 YEAR) &lt;= date(c.DOWNLOAD_TIME)
+		</if> -->
+		<if test="userName!=null">
+		and c.USERNAME=#{userName}
+		</if>
+		<if test="langType!=null"> AND e.LANG_TYPE = #{langType}</if>
+		ORDER BY c.DOWNLOAD_TIME DESC
+	</select>
+</mapper>

@@ -1,0 +1,127 @@
+<!--content-->
+<div id='navigation_box' class="container clearfloat">
+    <!--选项卡导航-->
+    <div  id='navigation'>
+        <div class='nav_title'><span>{{upLanMuName.name}}</span></div>
+        <ul id='nav_ul'>
+            <li ng-repeat="nextLanMu in nextLanMu" ng-click="nextLanMuDetail(nextLanMu.id,nextLanMu.recommendId)" repeat-finish>{{nextLanMu.name}}</li>
+        </ul>
+    </div> 
+    <!--栏目总体展示--> 
+    <div class='nav_cont_content nav_cont_d'>
+        <div class='nav_cont_top clearfloat'>
+            <!--首图轮播-->
+            <div class="slideBox">
+              <div class="hd">
+                <ul id='ul_width'>
+                   <li ng-repeat='upColumnPictures in upColumnPictures'>
+                   </li>
+                </ul>
+                <div class='bg'></div>
+               </div>
+               <div class="bd">
+                 <ul>
+                     <li ng-repeat='upColumnPictures in upColumnPictures' repeat-finish>
+                       <!-- <a  href="javascript:void(0)" ui-sref="root.news_photos({id:upColumnPictures.cpPicGroup.id})">-->
+                         <a  href="javascript:void(0)" ng-hide="!upColumnPictures.wmPath" ui-sref="root.news_photos({id:upColumnPictures.COVER_PICTURE_ID})">
+<!--                           <img ng-src="{{upColumnPictures.cpPicGroup.cpLanmuGroupPic.allpath}}" >-->
+                            <img ng-if="upColumnPictures.wmPath" ng-src="{{upColumnPictures.wmPath}}" >
+                            <!--<div class='z1 z1_b'>{{upColumnPictures.TITLE}}</div>-->
+                           <div class='z1'>{{upColumnPictures.TITLE}}</div>
+                        </a>
+                         <a  href="javascript:void(0)" ng-hide="upColumnPictures.wmPath">
+                             <img ng-if="!upColumnPictures.wmPath" ng-src="D:/trsphoto/zh/classification/20170728153406_1501227246723_p.png">
+                             <!--<div class='z1 z1_b'>{{upColumnPictures.TITLE}}</div>-->
+                             <div class='z1'>{{upColumnPictures.TITLE}}</div>
+                         </a>
+                    </li>
+                  </ul>
+                </div>
+                <a class="prev" href="javascript:void(0)"><</a>
+                <a class="next" href="javascript:void(0)">></a>
+            </div> 
+
+        </div>
+
+        <!--内容 -->
+        <div class='politics_news clearfloat' ng-repeat="zeroLanmuPicture in columnGroupPictures" repeat-finish>
+            <span class='toggle_click'ng-click="nextLanMuDetail(zeroLanmuPicture.columnId,zeroLanmuPicture.recommendId)">
+                <h1 class='h1 toggle_clicks'>{{zeroLanmuPicture.columnName}}</h1></span>
+            <div class='politics_cont_pic3' ng-repeat="columnGroup in zeroLanmuPicture.groupList">
+                <a class='politics_cont_pic3_a' href='javascript:void(0);'ng-hide="!columnGroup.smallPath" ui-sref="root.news_photos({id:columnGroup.ID})">
+                    <img ng-if="columnGroup.smallPath" src="{{columnGroup.smallPath}}">
+                    <p class="politics_cont_words">{{columnGroup.TITLE}}</p>
+                </a>
+                <a class='politics_cont_pic3_a' href='javascript:void(0);' ng-hide="columnGroup.smallPath">
+                    <img ng-if="!columnGroup.smallPath" src="D:/trsphoto/zh/classification/20170728153406_1501227246723_p.png">
+                    <p class="politics_cont_words">{{columnGroup.TITLE}}</p>
+                </a>
+            </div>           
+        </div>        
+    </div>
+
+    <!--子栏目内容-->
+    <!--1-->
+    <div class='nav_cont_content nav_cont_d'>
+        <!--大图-->
+        <div class='nav_cont_top clearfloat'>
+            <!--子栏目轮播-->
+          <!-- <div id="slideBox" class="slideBox"> -->
+          <div class="slideBox">
+            <div class="hd">
+                <ul id='ul_width_b'>
+                   <li ng-repeat='cpLanmuPic in cpLanmuPictures'></li>
+                </ul>
+                <div class='bg'></div>
+            </div>
+            <div class="bd">
+                <ul>
+                     <li ng-repeat='cpLanmuPic in cpLanmuPictures' repeat-finish>
+                        <a  href="javascript:void(0)" ng-hide="!cpLanmuPic.wmPath" ui-sref="root.news_photos({id:cpLanmuPic.COVER_PICTURE_ID})">
+                            <img ng-if="cpLanmuPic.wmPath" ng-src="{{cpLanmuPic.wmPath}}">
+                           <div class='z1 z1_b'>{{cpLanmuPic.TITLE}}</div>
+                        </a>
+                         <a  href="javascript:void(0)" ng-hide="cpLanmuPic.wmPath">
+                             <img ng-if="!cpLanmuPic.wmPath" ng-src="D:/trsphoto/zh/classification/20170728153406_1501227246723_p.png">
+                             <div class='z1 z1_b'>{{cpLanmuPic.TITLE}}</div>
+                         </a>
+                    </li>
+                </ul>
+            </div>
+            <a class="prev" href="javascript:void(0)"><</a>
+            <a class="next" href="javascript:void(0)">></a>
+          </div> 
+
+        </div>
+
+        <!--小图-->
+        <div class='politics_news clearfloat' repeatFinish>
+            <div style="width: 884px;height: 30px">
+                <span class='toggle_click toggle_click_style' ng-click="more()">more</span>
+            </div>
+            <div class='politics_cont_pic3' ng-repeat="ColumnGroup in NextColumnGroup">
+               <a target='_blank'class='politics_cont_pic3_a'href='javascript:void(0)'ng-hide="!ColumnGroup.smallPath"  ui-sref="root.news_photos({id:ColumnGroup.ID})">
+                    <img ng-if="ColumnGroup.smallPath" ng-src="{{ColumnGroup.smallPath}}" >
+                    <p class="politics_cont_words">{{ColumnGroup.TITLE}}</p>
+                </a>
+                <a target='_blank' class='politics_cont_pic3_a'href='javascript:void(0)' ng-hide="ColumnGroup.smallPath">
+                    <img ng-if="!ColumnGroup.smallPath" ng-src="D:/trsphoto/zh/classification/20170728153406_1501227246723_p.png">
+                    <p class="politics_cont_words">{{ColumnGroup.TITLE}}</p>
+                </a>
+
+            </div>
+        </div>
+        <!--分页-->
+        <div class='fenye_box  learfloat'id='fenye_box' ng-hide="isShow==1">
+            <ul class='fenye'>
+                <li class='fenye_li' ng-click="targetPage(page,other,'first')">FirstPage</li>
+                <li class='fenye_li' ng-click="targetPage(page,other,'pre')"><<</li>
+
+                <li class='fenye_li' ng-click="targetPage(page,other,'next')">>></li>
+                <li class='fenye_li' ng-click="targetPage(page,other,'last')">LastPage</li>
+            </ul>
+            <p class='fenye_go'><span class='fenye_font' ng-click="targetPage(page,other,'pageNo')">GO</span><input class='fenye_font' type='text'  id="pageNumber" value="1">page</p>
+        </div>
+    </div>
+        
+</div>

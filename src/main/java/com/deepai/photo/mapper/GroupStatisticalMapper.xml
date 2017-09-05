@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deepai.photo.mapper.GroupStatisticalMapper">
+	<select id="showAllGroupStatistical" resultType="com.deepai.photo.bean.CpGroupStatistical">
+		select * from (
+		SELECT c.AUTHOR ,COUNT(*) as sendCount ,SUM(c.PICTURE_COUNT) as
+		pictureCount from cp_pic_group c where
+		c.SOURCE_ID=0 and
+		c.DELETE_FLAG=0 and c.SITE_ID=1 GROUP BY c.AUTHOR )e
+		LEFT JOIN
+		(
+		select
+		AUTHOR, COUNT(*) as throughCount,SUM(PICTURE_COUNT) as
+		throughPictureCount from
+		cp_pic_group where GROUP_STATUS=4
+		and
+		SOURCE_ID=0 and DELETE_FLAG=0 and SITE_ID=1 and GROUP_STATUS=4 GROUP
+		BY AUTHOR
+		)d on e.AUTHOR=d.AUTHOR
+	</select>
+	<select id="searchGroupStatistical" resultType="com.deepai.photo.bean.CpGroupStatistical" parameterType="com.deepai.photo.bean.CpGroupStatistical">
+   	 select * from (
+		SELECT c.AUTHOR ,COUNT(*) as sendCount ,SUM(c.PICTURE_COUNT) as
+		pictureCount from cp_pic_group c where
+		c.SOURCE_ID=0 and
+		c.DELETE_FLAG=0 and c.SITE_ID=1 GROUP BY c.AUTHOR )e
+		LEFT JOIN
+		(
+		select
+		AUTHOR, COUNT(*) as throughCount,SUM(PICTURE_COUNT) as
+		throughPictureCount from
+		cp_pic_group where GROUP_STATUS=4
+		and
+		SOURCE_ID=0 and DELETE_FLAG=0 and SITE_ID=1 and GROUP_STATUS=4 GROUP
+		BY AUTHOR
+		)d on e.AUTHOR=d.AUTHOR  where e.AUTHOR like CONCAT ('%',#{author},'%')
+	</select>
+	<!-- <select id="searchGroupStatistical" resultType="com.deepai.photo.bean.CpGroupStatistical"
+		parameterType="com.deepai.photo.bean.CpGroupStatistical">
+	select * from (
+		SELECT c.AUTHOR ,COUNT(*) as sendCount ,SUM(c.PICTURE_COUNT) as
+		pictureCount from cp_pic_group c 
+		<if test="type !=null">
+		,(SELECT a.CATEGORY_ID as categary,b.CATEGORY_NAME,a.GROUP_ID  from  cp_pic_group_category  a , cp_category b WHERE a.CATEGORY_ID=b.ID 
+		<if test="type !=null">
+		and a.CATEGORY_ID=#{type}
+		</if>
+		)d 
+		</if>
+		where
+		c.SOURCE_ID=0 
+		<if test="type !=null">
+		and c.ID=d.GROUP_ID 
+		</if>
+		and c.DELETE_FLAG=0 and c.SITE_ID=1 
+		<if test="startTime!=null and endTime!=null">
+		and c.CREATE_TIME BETWEEN #{startTime} and #{endTime} 
+		</if>
+		 GROUP BY c.AUTHOR )e
+		LEFT JOIN
+		(
+		select
+		g.AUTHOR, COUNT(*) as throughCount,SUM(g.PICTURE_COUNT) as
+		throughPictureCount from
+		cp_pic_group g
+		<if test="type !=null">
+		,(SELECT a.CATEGORY_ID as categary,b.CATEGORY_NAME,a.GROUP_ID  from  cp_pic_group_category  a , cp_category b WHERE a.CATEGORY_ID=b.ID 
+		<if test="type !=null">
+		and a.CATEGORY_ID=#{type}
+		</if> 
+		)d
+		</if>
+     where g.GROUP_STATUS=4
+       <if test="type !=null">
+      and g.ID=d.GROUP_ID
+      </if>
+		and
+		g.SOURCE_ID=0 and g.DELETE_FLAG=0 and g.SITE_ID=1 and g.GROUP_STATUS=4 
+		<if test="startTime!=null and endTime!=null">
+		and CREATE_TIME BETWEEN #{startTime} and #{endTime} 
+		</if>
+		 GROUP
+		BY AUTHOR
+		)d on e.AUTHOR=d.AUTHOR where 1=1 
+		<if test="author!=null">
+		and e.AUTHOR=#{author} 
+		</if>
+	</select> -->
+	<select id="GroupStatisticalForPlace" resultType="com.deepai.photo.bean.CpGroupStatistical" >
+		select * from (
+		SELECT SUBSTR(c.PLACE,1,3) as place,COUNT(*) as sendCount ,SUM(c.PICTURE_COUNT) as
+		pictureCount from cp_pic_group c where
+		c.SOURCE_ID=0 and
+		c.DELETE_FLAG=0 and c.SITE_ID=1 GROUP BY    SUBSTR(c.PLACE,1,2)   )e
+		LEFT JOIN
+		(
+		select
+		SUBSTR(PLACE,1,3) as PLACE2, COUNT(*) as throughCount,SUM(PICTURE_COUNT) as
+		throughPictureCount from
+		cp_pic_group where GROUP_STATUS=4
+		and
+		SOURCE_ID=0 and DELETE_FLAG=0 and SITE_ID=1 and GROUP_STATUS=4 GROUP BY  SUBSTR(PLACE,1,2)    		)d on e.place=d.PLACE2 
+		where 1=1 
+		<if test="place!=null">
+	   and  place LIKE CONCAT ('%', #{place}, '%')
+	   </if>
+	</select>
+     <select id="GroupStatisticalForType" resultType="com.deepai.photo.bean.CpGroupStatistical">
+select * from (	  select * from (
+		SELECT 
+    a.CATEGORY_ID as categary , b.CATEGORY_NAME as categaryName,  COUNT(*) as sendCount ,SUM(c.PICTURE_COUNT) as
+		pictureCount from cp_pic_group c , cp_pic_group_category  a , cp_category b where
+		c.SOURCE_ID=0 and  
+		c.DELETE_FLAG=0 and c.SITE_ID=1  	and a.CATEGORY_ID=b.ID 
+   and a.GROUP_ID=c.ID   GROUP BY a.CATEGORY_ID )e
+		LEFT JOIN
+		(
+		select
+		a.CATEGORY_ID as categary1, COUNT(*) as throughCount,SUM(PICTURE_COUNT) as
+		throughPictureCount from cp_pic_group_category  a , cp_category b ,
+		cp_pic_group c where GROUP_STATUS=4
+		and
+		c.SOURCE_ID=0 and c.DELETE_FLAG=0 and c.SITE_ID=1 and c.GROUP_STATUS=4 and a.CATEGORY_ID=b.ID and a.GROUP_ID=c.ID GROUP BY a.CATEGORY_ID
+	)d on e.categary=d.categary1 )g where 1=1 
+	<if test="categaryName!=null">
+	and  g.categaryName LIKE CONCAT ('%', #{categaryName}, '%')
+	</if>
+	</select> 
+</mapper>

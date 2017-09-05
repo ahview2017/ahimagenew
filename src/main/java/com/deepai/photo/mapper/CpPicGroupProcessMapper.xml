@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deepai.photo.mapper.CpPicGroupProcessMapper" >
+  <resultMap id="BaseResultMap" type="com.deepai.photo.bean.CpPicGroupProcess" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="FLOW_TYPE" property="flowType" jdbcType="INTEGER" />
+    <result column="PICGROUP_ID" property="picgroupId" jdbcType="INTEGER" />
+    <result column="OPERATE_USER_ID" property="operateUserId" jdbcType="INTEGER" />
+    <result column="OPERATE_USERNAME" property="operateUsername" jdbcType="VARCHAR" />
+    <result column="OPERATE_TIME" property="operateTime" jdbcType="TIMESTAMP" />
+    <result column="OPERATE_MEMO" property="operateMemo" jdbcType="VARCHAR" />
+    <result column="PROOFREAD_ID" property="proofreadId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, FLOW_TYPE, PICGROUP_ID, OPERATE_USER_ID, OPERATE_USERNAME, OPERATE_TIME, OPERATE_MEMO, 
+    PROOFREAD_ID
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.deepai.photo.bean.CpPicGroupProcessExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cp_pic_group_process
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+   
+      order by operate_time desc
+
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from cp_pic_group_process
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from cp_pic_group_process
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.deepai.photo.bean.CpPicGroupProcessExample" >
+    delete from cp_pic_group_process
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.deepai.photo.bean.CpPicGroupProcess" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cp_pic_group_process (FLOW_TYPE, PICGROUP_ID, OPERATE_USER_ID, 
+      OPERATE_USERNAME, OPERATE_TIME, OPERATE_MEMO, 
+      PROOFREAD_ID)
+    values (#{flowType,jdbcType=INTEGER}, #{picgroupId,jdbcType=INTEGER}, #{operateUserId,jdbcType=INTEGER}, 
+      #{operateUsername,jdbcType=VARCHAR}, #{operateTime,jdbcType=TIMESTAMP}, #{operateMemo,jdbcType=VARCHAR}, 
+      #{proofreadId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.deepai.photo.bean.CpPicGroupProcess" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cp_pic_group_process
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="flowType != null" >
+        FLOW_TYPE,
+      </if>
+      <if test="picgroupId != null" >
+        PICGROUP_ID,
+      </if>
+      <if test="operateUserId != null" >
+        OPERATE_USER_ID,
+      </if>
+      <if test="operateUsername != null" >
+        OPERATE_USERNAME,
+      </if>
+      <if test="operateTime != null" >
+        OPERATE_TIME,
+      </if>
+      <if test="operateMemo != null" >
+        OPERATE_MEMO,
+      </if>
+      <if test="proofreadId != null" >
+        PROOFREAD_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="flowType != null" >
+        #{flowType,jdbcType=INTEGER},
+      </if>
+      <if test="picgroupId != null" >
+        #{picgroupId,jdbcType=INTEGER},
+      </if>
+      <if test="operateUserId != null" >
+        #{operateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="operateUsername != null" >
+        #{operateUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="operateTime != null" >
+        #{operateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operateMemo != null" >
+        #{operateMemo,jdbcType=VARCHAR},
+      </if>
+      <if test="proofreadId != null" >
+        #{proofreadId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.deepai.photo.bean.CpPicGroupProcessExample" resultType="java.lang.Integer" >
+    select count(*) from cp_pic_group_process
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update cp_pic_group_process
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.flowType != null" >
+        FLOW_TYPE = #{record.flowType,jdbcType=INTEGER},
+      </if>
+      <if test="record.picgroupId != null" >
+        PICGROUP_ID = #{record.picgroupId,jdbcType=INTEGER},
+      </if>
+      <if test="record.operateUserId != null" >
+        OPERATE_USER_ID = #{record.operateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.operateUsername != null" >
+        OPERATE_USERNAME = #{record.operateUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operateTime != null" >
+        OPERATE_TIME = #{record.operateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.operateMemo != null" >
+        OPERATE_MEMO = #{record.operateMemo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.proofreadId != null" >
+        PROOFREAD_ID = #{record.proofreadId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update cp_pic_group_process
+    set ID = #{record.id,jdbcType=INTEGER},
+      FLOW_TYPE = #{record.flowType,jdbcType=INTEGER},
+      PICGROUP_ID = #{record.picgroupId,jdbcType=INTEGER},
+      OPERATE_USER_ID = #{record.operateUserId,jdbcType=INTEGER},
+      OPERATE_USERNAME = #{record.operateUsername,jdbcType=VARCHAR},
+      OPERATE_TIME = #{record.operateTime,jdbcType=TIMESTAMP},
+      OPERATE_MEMO = #{record.operateMemo,jdbcType=VARCHAR},
+      PROOFREAD_ID = #{record.proofreadId,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.deepai.photo.bean.CpPicGroupProcess" >
+    update cp_pic_group_process
+    <set >
+      <if test="flowType != null" >
+        FLOW_TYPE = #{flowType,jdbcType=INTEGER},
+      </if>
+      <if test="picgroupId != null" >
+        PICGROUP_ID = #{picgroupId,jdbcType=INTEGER},
+      </if>
+      <if test="operateUserId != null" >
+        OPERATE_USER_ID = #{operateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="operateUsername != null" >
+        OPERATE_USERNAME = #{operateUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="operateTime != null" >
+        OPERATE_TIME = #{operateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operateMemo != null" >
+        OPERATE_MEMO = #{operateMemo,jdbcType=VARCHAR},
+      </if>
+      <if test="proofreadId != null" >
+        PROOFREAD_ID = #{proofreadId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.deepai.photo.bean.CpPicGroupProcess" >
+    update cp_pic_group_process
+    set FLOW_TYPE = #{flowType,jdbcType=INTEGER},
+      PICGROUP_ID = #{picgroupId,jdbcType=INTEGER},
+      OPERATE_USER_ID = #{operateUserId,jdbcType=INTEGER},
+      OPERATE_USERNAME = #{operateUsername,jdbcType=VARCHAR},
+      OPERATE_TIME = #{operateTime,jdbcType=TIMESTAMP},
+      OPERATE_MEMO = #{operateMemo,jdbcType=VARCHAR},
+      PROOFREAD_ID = #{proofreadId,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

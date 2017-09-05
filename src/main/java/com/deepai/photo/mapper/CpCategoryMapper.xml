@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deepai.photo.mapper.CpCategoryMapper">
+	<resultMap id="BaseResultMap" type="com.deepai.photo.bean.CpCategory">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="CATEGORY_NAME" property="categoryName"
+			jdbcType="VARCHAR" />
+		<result column="CATEGORY_NUMBER" property="categoryNumber"
+			jdbcType="VARCHAR" />
+		<result column="CATEGORY_ORDER" property="categoryOrder"
+			jdbcType="INTEGER" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+		<result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+		<result column="CATEGORY_GRADE" property="categoryGrade"
+			jdbcType="INTEGER" />
+		<result column="MEMO" property="memo" jdbcType="VARCHAR" />
+		<result column="PARENT_ID" property="parentId" jdbcType="INTEGER" />
+		<result column="SITE_ID" property="siteId" jdbcType="INTEGER" />
+		<result column="IMAGE" property="image" jdbcType="VARCHAR" />
+		<result column="SHOW_TYPE" property="showType" jdbcType="TINYINT" />
+		<result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="DELETE_FLAG" property="deleteFlag" jdbcType="TINYINT" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		ID, CATEGORY_NAME, CATEGORY_NUMBER, CATEGORY_ORDER,
+		CREATE_TIME,
+		CREATE_USER, CATEGORY_GRADE,
+		MEMO, PARENT_ID, SITE_ID,
+		IMAGE, SHOW_TYPE, UPDATE_USER, UPDATE_TIME,
+		DELETE_FLAG
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.deepai.photo.bean.CpCategoryExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from cp_category
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from cp_category
+		where ID = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		cp_category
+		where ID = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.deepai.photo.bean.CpCategoryExample">
+		delete from cp_category
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.deepai.photo.bean.CpCategory">
+		<selectKey resultType="java.lang.Integer" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into cp_category (CATEGORY_NAME, CATEGORY_NUMBER,
+		CATEGORY_ORDER,
+		CREATE_TIME, CREATE_USER, CATEGORY_GRADE,
+		MEMO,
+		PARENT_ID, SITE_ID,
+		IMAGE, SHOW_TYPE, UPDATE_USER,
+		UPDATE_TIME,
+		DELETE_FLAG)
+		values (#{categoryName,jdbcType=VARCHAR},
+		#{categoryNumber,jdbcType=VARCHAR}, #{categoryOrder,jdbcType=INTEGER},
+		#{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR},
+		#{categoryGrade,jdbcType=INTEGER},
+		#{memo,jdbcType=VARCHAR},
+		#{parentId,jdbcType=INTEGER}, #{siteId,jdbcType=INTEGER},
+		#{image,jdbcType=VARCHAR}, #{showType,jdbcType=TINYINT},
+		#{updateUser,jdbcType=VARCHAR},
+		#{updateTime,jdbcType=TIMESTAMP},
+		#{deleteFlag,jdbcType=TINYINT})
+	</insert>
+	<insert id="insertSelective" parameterType="com.deepai.photo.bean.CpCategory">
+		<selectKey resultType="java.lang.Integer" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into cp_category
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="categoryName != null">
+				CATEGORY_NAME,
+			</if>
+			<if test="categoryNumber != null">
+				CATEGORY_NUMBER,
+			</if>
+			<if test="categoryOrder != null">
+				CATEGORY_ORDER,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="createUser != null">
+				CREATE_USER,
+			</if>
+			<if test="categoryGrade != null">
+				CATEGORY_GRADE,
+			</if>
+			<if test="memo != null">
+				MEMO,
+			</if>
+			<if test="parentId != null">
+				PARENT_ID,
+			</if>
+			<if test="siteId != null">
+				SITE_ID,
+			</if>
+			<if test="image != null">
+				IMAGE,
+			</if>
+			<if test="showType != null">
+				SHOW_TYPE,
+			</if>
+			<if test="updateUser != null">
+				UPDATE_USER,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+			<if test="deleteFlag != null">
+				DELETE_FLAG,
+			</if>
+			<if test="langType != null">
+				LANG_TYPE,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="categoryName != null">
+				#{categoryName,jdbcType=VARCHAR},
+			</if>
+			<if test="categoryNumber != null">
+				#{categoryNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="categoryOrder != null">
+				#{categoryOrder,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createUser != null">
+				#{createUser,jdbcType=VARCHAR},
+			</if>
+			<if test="categoryGrade != null">
+				#{categoryGrade,jdbcType=INTEGER},
+			</if>
+			<if test="memo != null">
+				#{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="parentId != null">
+				#{parentId,jdbcType=INTEGER},
+			</if>
+			<if test="siteId != null">
+				#{siteId,jdbcType=INTEGER},
+			</if>
+			<if test="image != null">
+				#{image,jdbcType=VARCHAR},
+			</if>
+			<if test="showType != null">
+				#{showType,jdbcType=TINYINT},
+			</if>
+			<if test="updateUser != null">
+				#{updateUser,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deleteFlag != null">
+				#{deleteFlag,jdbcType=TINYINT},
+			</if>
+			<if test="langType != null">
+				#{langType,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.deepai.photo.bean.CpCategoryExample"
+		resultType="java.lang.Integer">
+		select count(*) from cp_category
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update cp_category
+		<set>
+			<if test="record.id != null">
+				ID = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.categoryName != null">
+				CATEGORY_NAME = #{record.categoryName,jdbcType=VARCHAR},
+			</if>
+			<if test="record.categoryNumber != null">
+				CATEGORY_NUMBER =
+				#{record.categoryNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="record.categoryOrder != null">
+				CATEGORY_ORDER =
+				#{record.categoryOrder,jdbcType=INTEGER},
+			</if>
+			<if test="record.createTime != null">
+				CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.createUser != null">
+				CREATE_USER = #{record.createUser,jdbcType=VARCHAR},
+			</if>
+			<if test="record.categoryGrade != null">
+				CATEGORY_GRADE =
+				#{record.categoryGrade,jdbcType=INTEGER},
+			</if>
+			<if test="record.memo != null">
+				MEMO = #{record.memo,jdbcType=VARCHAR},
+			</if>
+			<if test="record.parentId != null">
+				PARENT_ID = #{record.parentId,jdbcType=INTEGER},
+			</if>
+			<if test="record.siteId != null">
+				SITE_ID = #{record.siteId,jdbcType=INTEGER},
+			</if>
+			<if test="record.image != null">
+				IMAGE = #{record.image,jdbcType=VARCHAR},
+			</if>
+			<if test="record.showType != null">
+				SHOW_TYPE = #{record.showType,jdbcType=TINYINT},
+			</if>
+			<if test="record.updateUser != null">
+				UPDATE_USER = #{record.updateUser,jdbcType=VARCHAR},
+			</if>
+			<if test="record.updateTime != null">
+				UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.deleteFlag != null">
+				DELETE_FLAG = #{record.deleteFlag,jdbcType=TINYINT},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update cp_category
+		set ID = #{record.id,jdbcType=INTEGER},
+		CATEGORY_NAME = #{record.categoryName,jdbcType=VARCHAR},
+		CATEGORY_NUMBER = #{record.categoryNumber,jdbcType=VARCHAR},
+		CATEGORY_ORDER = #{record.categoryOrder,jdbcType=INTEGER},
+		CREATE_TIME
+		= #{record.createTime,jdbcType=TIMESTAMP},
+		CREATE_USER =
+		#{record.createUser,jdbcType=VARCHAR},
+		CATEGORY_GRADE =
+		#{record.categoryGrade,jdbcType=INTEGER},
+		MEMO =
+		#{record.memo,jdbcType=VARCHAR},
+		PARENT_ID =
+		#{record.parentId,jdbcType=INTEGER},
+		SITE_ID =
+		#{record.siteId,jdbcType=INTEGER},
+		IMAGE =
+		#{record.image,jdbcType=VARCHAR},
+		SHOW_TYPE =
+		#{record.showType,jdbcType=TINYINT},
+		UPDATE_USER =
+		#{record.updateUser,jdbcType=VARCHAR},
+		UPDATE_TIME =
+		#{record.updateTime,jdbcType=TIMESTAMP},
+		DELETE_FLAG =
+		#{record.deleteFlag,jdbcType=TINYINT}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.deepai.photo.bean.CpCategory">
+		update cp_category
+		<set>
+			<if test="categoryName != null">
+				CATEGORY_NAME = #{categoryName,jdbcType=VARCHAR},
+			</if>
+			<if test="categoryNumber != null">
+				CATEGORY_NUMBER = #{categoryNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="categoryOrder != null">
+				CATEGORY_ORDER = #{categoryOrder,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createUser != null">
+				CREATE_USER = #{createUser,jdbcType=VARCHAR},
+			</if>
+			<if test="categoryGrade != null">
+				CATEGORY_GRADE = #{categoryGrade,jdbcType=INTEGER},
+			</if>
+			<if test="memo != null">
+				MEMO = #{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="parentId != null">
+				PARENT_ID = #{parentId,jdbcType=INTEGER},
+			</if>
+			<if test="siteId != null">
+				SITE_ID = #{siteId,jdbcType=INTEGER},
+			</if>
+			<if test="image != null">
+				IMAGE = #{image,jdbcType=VARCHAR},
+			</if>
+			<if test="showType != null">
+				SHOW_TYPE = #{showType,jdbcType=TINYINT},
+			</if>
+			<if test="updateUser != null">
+				UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deleteFlag != null">
+				DELETE_FLAG = #{deleteFlag,jdbcType=TINYINT},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.deepai.photo.bean.CpCategory">
+		update cp_category
+		set CATEGORY_NAME = #{categoryName,jdbcType=VARCHAR},
+		CATEGORY_NUMBER =
+		#{categoryNumber,jdbcType=VARCHAR},
+		CATEGORY_ORDER =
+		#{categoryOrder,jdbcType=INTEGER},
+		CREATE_TIME =
+		#{createTime,jdbcType=TIMESTAMP},
+		CREATE_USER =
+		#{createUser,jdbcType=VARCHAR},
+		CATEGORY_GRADE =
+		#{categoryGrade,jdbcType=INTEGER},
+		MEMO = #{memo,jdbcType=VARCHAR},
+		PARENT_ID = #{parentId,jdbcType=INTEGER},
+		SITE_ID =
+		#{siteId,jdbcType=INTEGER},
+		IMAGE = #{image,jdbcType=VARCHAR},
+		SHOW_TYPE = #{showType,jdbcType=TINYINT},
+		UPDATE_USER =
+		#{updateUser,jdbcType=VARCHAR},
+		UPDATE_TIME =
+		#{updateTime,jdbcType=TIMESTAMP},
+		DELETE_FLAG =
+		#{deleteFlag,jdbcType=TINYINT}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+
+	<!-- 以下为自定义 -->
+	<!-- 修改某个分类及其子类的状态为已删除 -->
+	<delete id="delcpcategorys" parameterType="java.lang.Integer">
+	delete from  cp_category where id=#{id}
+		<!-- UPDATE cp_category
+		SET
+		cp_category.DELETE_FLAG = 1
+		WHERE
+		cp_category.ID IN (
+		SELECT
+		a.ID
+		FROM
+		(
+		SELECT
+		ID
+		FROM
+		cp_category
+		WHERE
+		FIND_IN_SET(ID,
+		getcpcategory(#{id,jdbcType=INTEGER}))
+		) a
+		) -->
+	</delete>
+	<delete id="deleaLL">
+	delete from  cp_category where id=#{id} or PARENT_ID=#{id}
+	</delete>
+</mapper>

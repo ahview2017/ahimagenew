@@ -1,0 +1,27 @@
+/*摄影师-稿费统计-查看详情*/
+.pay-return-btn a{
+    font-size: 20px;
+}
+/*摄影师-图片需求*/
+.pic-demand-check-item .check-demand-txt{
+    width: 30%;
+}
+.pic-demand-check-item .check-demand-details{
+    width: 70%;
+}
+.picDemand-add-btn{
+    width: 75px;
+    height: 30px;
+    color: #FFF;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+    background: #44B549;
+    line-height: 30px;
+    text-align: center;
+    margin-top: 25px;
+}
+.role-add-tit .picDemand-tit-del{
+    color: red;
+    cursor: pointer;
+}

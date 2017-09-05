@@ -1,0 +1,58 @@
+<div class="release_need">
+    <div class="releaseNeed-cont">
+        <div class="oH aRow">
+            <div class="fll w10p mt15 fwb">需求说明：</div>
+            <div class="fll w40p">
+                <textarea ng-model="releaseNeed.tempNeedData.desc"
+                          placeholder="请输入不超过2000字的详细说明内容"></textarea>
+            </div>
+            <div class="fll w50p mt15">
+                （请尽量详细说明需要图片的构图以及横片或竖片）
+            </div>
+        </div>
+        <div class="oH aRow">
+            <div class="fll w10p fwb">购买张数：</div>
+            <div class="fll w40p">
+                <input type="text" ng-model="releaseNeed.tempNeedData.count"/>
+            </div>
+        </div>
+        <div class="oH aRow">
+            <div class="fll w10p fwb">图片用途：</div>
+            <div class="fll w40p">
+                <input type="text" ng-model="releaseNeed.tempNeedData.userDesc"/>
+            </div>
+            <div class="fll w50p">
+                （用于报刊、杂志封面、书籍出版或广告等）
+            </div>
+        </div>
+        <div class="oH aRow">
+            <div class="fll w10p fwb">刊载媒介：</div>
+            <div class="fll w40p">
+                <input type="text" ng-model="releaseNeed.tempNeedData.kanzaimeijian"/>
+            </div>
+            <div class="fll w50p">
+                （不同的刊载媒介有不同的价格优惠标准，请如实填写）
+            </div>
+        </div>
+        <div class="oH aRow">
+            <div class="fll w10p fwb">欲购价格：</div>
+            <div class="fll w40p">
+                <input type="text" ng-model="releaseNeed.tempNeedData.price"/>
+            </div>
+            <div class="fll w50p">
+                （请参考本网站“价格表”，但特供图片的服务级别同您的报价紧密相连）
+            </div>
+        </div>
+        <div class="oH aRow">
+            <div class="fll w10p fwb">使用时间：</div>
+            <div class="fll">
+                <input type="text" class="Wdate proof-date-input demand-use-time" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss'});" class="Wdate" ng-model="releaseNeed.tempNeedData.Starttime" datepicker/>
+                <span class="fll demand-use-time-txt">至</span>
+                <input type="text" class="Wdate proof-date-input demand-use-time" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss'});" class="Wdate" ng-model="releaseNeed.tempNeedData.Endtime" datepicker/>
+            </div>
+        </div>
+        <div class="releaseNeed-btn">
+            <button ng-click="releaseNeed.addNeed()">提交</button>
+        </div>
+    </div>
+</div>

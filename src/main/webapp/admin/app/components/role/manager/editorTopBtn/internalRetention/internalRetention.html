@@ -1,0 +1,279 @@
+<div class="user-manager-container" id='manager-containers'>
+    <div class="oH edt-dbTit">
+        <role-common-tit value="内部留资" class="fll"></role-common-tit>
+        <div class="user-hd-right flr">
+            <input class="user-search-input" placeholder="可根据稿件ID、标题、作者名 检索"
+                   ng-model="internalRetention.search.paramStr"
+                    ng-keydown="internalRetention.enterSearchData($event)"/>
+            <img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic"
+                 ng-click="internalRetention.onSearchDataClick()"/>
+            <span class="dib cursor user-search-btn"
+                  ng-click="internalRetention.projectModalShow('internalRetentionModalId')">高级检索</span>
+        </div>
+    </div>
+    <div class="contribute-tit clear">
+        <div class="active-slide-item fll">全部</div>
+    </div>
+    <div>
+        <div class="database-tit clear">
+            <div class="active-slide-item fll database-tit1"
+                 ng-class="{ 'database-tit1-active' : internalRetention.activeArrayTit == 1}"
+                 ng-click="internalRetention.chooseArrayType(1)">
+            </div>
+            <div class="active-slide-item fll database-tit2"
+                 ng-class="{ 'database-tit2-active' : internalRetention.activeArrayTit == 2}"
+                 ng-click="internalRetention.chooseArrayType(2)">
+            </div>全选
+            <input type="checkbox" name="all">
+            <input type="button" style="margin-left: 20px" class="dib cursor push-add-btn" ng-click="internalRetention.ModalShow('internalRetention-type-modal')" value="下载组图">
+        </div>
+        <div class="c-user-table oH">
+            <div class="fll database-left-box">
+                <div>
+                    <div class="m-item-parent" ng-repeat="item in internalRetention.selCpCategories">
+                        <div class="m-sale-manage cursor" ng-click="internalRetention.navFunc(item.categoryName)">
+                            <span class="m-market-manage">{{item.categoryName}}</span>
+                        </div>
+                        <div ng-repeat="each in item.categories" ng-show="internalRetention.navActiveMenu == item.categoryName"
+                             ng-click="internalRetention.onShowHadPubDetailClick(each.id,$index)">
+                            <p class="m-item-option tac"
+                               ng-class="{'m-item-option-check':$index==internalRetention.hadPubPosition}">
+                                <a class="m-item-name">
+                                    <span>{{each.categoryName}}</span>
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="fll database-right-box">
+                <div class="c-user-table oH" ng-show="internalRetention.activeArrayTit == 1">
+                    <div class="clear">
+                        <div class="database-cont"
+                             dir-paginate="dbItem in internalRetention.inInformRowDataArray | itemsPerPage: internalRetention.selPageRows"
+                             total-items="internalRetention.innerInfoList_total"
+                             current-page="internalRetention.pagination.current">
+
+                            <p>
+                                <a class="curp uifi-title" target='_blank'ui-sref="role.manager.internalRetentionDetail({id:dbItem.ID,dtType:internalRetention.variedtypeArr[0]})"><img ng-src="{{dbItem.samllPath}}"/></a>
+                            </p>
+
+                            <p><a class="curp uifi-title"target='_blank' ui-sref="role.manager.internalRetentionDetail({id:dbItem.ID,dtType:internalRetention.variedtypeArr[0]})">{{dbItem.TITLE}}</a></p>
+
+                            <p>
+                                作者：中新社发&nbsp;<span>{{dbItem.AUTHOR}}</span> 摄
+                            </p>
+
+                            <p>
+                                发布时间：<span>{{dbItem.CREATE_TIME|date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                            </p>
+                            <p>
+                                <input type="checkbox" name="check" class="check"  ng-model="internalRetention.selCheckback[dbItem.ID]"  value="{{dbItem.ID}}">
+                            </p>
+                        </div>
+                    </div>
+                    <!-- 分页 -->
+                    <div class="paging-con-box mt10 clear">
+                        <div class="photo-record-page fll">
+                            <select ng-model="internalRetention.selPageRows" class="mr10">
+                                <option value="50">50</option>
+                                <option value="40">40</option>
+                                <option value="30">30</option>
+                                <option value="20">20</option>
+                                <option value="10">10</option>
+                            </select>
+                            <span>共找到</span>
+                            <span class="color_red">{{internalRetention.innerInfoList_total}}</span>
+                            <span>条记录</span>
+                        </div>
+                        <div class="photo-now-page fll">
+                            <span>第 </span>
+                            <span>{{internalRetention.pagination.current}}</span>
+                            <span>/</span>
+                            <span>{{internalRetention.totalPages}}</span>
+                            <span>页</span>
+                        </div>
+                        <div class="photo-jump-page flr">
+                            <dir-pagination-controls on-page-change="internalRetention.pageChanged(newPageNumber)"
+                                                     template-url="admin/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+                            </dir-pagination-controls>
+                        </div>
+                    </div>
+                </div>
+                <div class="c-user-table" ng-show="internalRetention.activeArrayTit == 2">
+                    <div class="t-uinfo-bd">
+                        <div class="table-responsive min-height">
+                            <table class="table table-bordered uInfo-table">
+                                <thead>
+                                <tr>
+                                    <th class="uinfo-hd-th"></th>
+                                    <th class="uinfo-hd-th">ID</th>
+                                    <th class="uinfo-hd-th">缩略图</th>
+                                    <th class="uinfo-hd-th">文章标题</th>
+                                    <th class="uinfo-hd-th">作者</th>
+                                    <th class="uinfo-hd-th">发布时间</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                <tr  dir-paginate="dbItem in internalRetention.inInformRowDataArray | itemsPerPage: internalRetention.selPageRows"
+                                     total-items="internalRetention.innerInfoList_total"
+                                     current-page="internalRetention.pagination.current" send-show-middle-pic>
+                                    <td>
+                                        <input type="checkbox" name="checked" ng-model="internalRetention.selCheckback[dbItem.ID]" class="check" value="{{dbItem.ID}}"></td>
+                                    <td>{{dbItem.ID}}</td>
+                                    <td class='pic_parent'>
+                                        <a class="curp uifi-title" target='_blank'ui-sref="role.manager.internalRetentionDetail({id:dbItem.ID})">
+                                        	<img ng-src="{{dbItem.samllPath}}" class='apic_parent_pic'/>
+                                        </a>
+                                        <div class='pic_children'>
+												<img ng-src='{{dbItem.watermarkedmediumPath}}'>
+												<div class='showMiddlepics'>                                    		                                          		
+                                    	           <table border='1' width='100%' cellpadding="10">
+                                    	           	  <caption >EXIF信息</caption>
+                                    	           	  <tr>
+                                    	           	  	<td>光圈数</td>
+                                    	           	  	<td>{{dbItem.EX_FNUMBER}}</td>
+                                    	           	  	<td>感光度</td>
+                                    	           	  	<td>{{dbItem.EX_ISO}}</td>
+                                    	           	  </tr>
+                                    	           	  <tr>
+                                    	           	  	<td>拍摄相机</td>
+                                    	           	  	<td>{{dbItem.EX_MODEL}}</td>
+                                    	           	  	<td>拍摄时间</td>
+                                    	           	  	<td>{{dbItem.EX_DATETIME |date : 'yyyy-MM-dd HH:mm:ss'}}</td>
+                                    	           	  </tr>
+                                    	           </table>
+												</div>
+										</div>
+                                    </td>
+                                    <td><a class="curp uifi-title" target='_blank'ui-sref="role.manager.internalRetentionDetail({id:dbItem.ID})">{{dbItem.TITLE}}</a></td>
+                                    <td>{{dbItem.AUTHOR}}</td>
+                                    <td>
+                                        <p>{{dbItem.CREATE_TIME|date:'yyyy-MM-dd'}}</p>
+
+                                        <p>{{dbItem.CREATE_TIME|date:'HH:mm:ss'}}</p>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- 分页 -->
+                        <div class="paging-con-box mt10 clear">
+                            <div class="photo-record-page fll">
+                                <select ng-model="internalRetention.selPageRows" class="mr10">
+                                    <option value="50">50</option>
+                                    <option value="40">40</option>
+                                    <option value="30">30</option>
+                                    <option value="20">20</option>
+                                    <option value="10">10</option>
+                                </select>
+                                <span>共找到</span>
+                                <span class="color_red">{{internalRetention.innerInfoList_total}}</span>
+                                <span>条记录</span>
+                            </div>
+                            <div class="photo-now-page fll">
+                                <span>第 </span>
+                                <span>{{internalRetention.pagination.current}}</span>
+                                <span>/</span>
+                                <span>{{internalRetention.totalPages}}</span>
+                                <span>页</span>
+                            </div>
+                            <div class="photo-jump-page flr">
+                                <dir-pagination-controls on-page-change="internalRetention.pageChanged(newPageNumber)"
+                                                         template-url="admin/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+                                </dir-pagination-controls>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--高级检索弹框-->
+    <div class="common-modal-style" id="internalRetentionModalId"
+         ng-mousemove="internalRetention.moveModal('search-modal-tit','internalRetentionModalId')"
+         style="display:none">
+        <div class="role-add-con">
+            <div id="search-modal-tit" class="role-add-tit oH">
+                <span class="fll">高级检索</span>
+                <span class="flr curp tit-close"
+                      ng-click="internalRetention.projectModalHide('internalRetentionModalId')">×</span>
+            </div>
+            <div class="role-add-main">
+                <div class="role-add-form-info clear">
+                    <div class="role-form-info-top clear">
+                        <div class="fll send-ms-search-part">
+                            <span>标题</span>
+                            <input type="text" class="role-add-input" ng-model="internalRetention.search.title"/>
+                        </div>
+                        <div class="fll send-ms-search-part">
+                            <span>作者</span>
+                            <input type="text" class="role-add-input" ng-model="internalRetention.search.author"/>
+                        </div>
+                        <div class="fll send-ms-search-part">
+                            <span>地点</span>
+                            <input type="text" class="role-add-input" ng-model="internalRetention.search.place"/>
+                        </div>
+                        <div class="fll send-ms-search-part">
+                            <span>人物</span>
+                            <input type="text" class="role-add-input" ng-model="internalRetention.search.editor"/>
+                        </div>
+                    </div>
+                    <div class="role-form-info-top clear mt15">
+                        <div class="fll send-ms-search-part">
+                            <span>内容</span>
+                            <input type="text" class="role-add-input" ng-model="internalRetention.search.memo"/>
+                        </div>
+                        <div class="fll send-ms-search-part">
+                            <span>文件</span>
+                            <input type="text" class="role-add-input" ng-model="internalRetention.search.fileName"/>
+                        </div>
+                        <div class="fll send-ms-search-part">
+                            <span>编号</span>
+                            <input type="text" class="role-add-input" ng-model="internalRetention.search.id"/>
+                        </div>
+                    </div>
+                    <div class="role-form-info-top clear mt15">
+                        <div class="fll manuscript-serach-date">
+                            <span class="fll">开始时间</span>
+                            <input type="text" class="Wdate proof-date-input"
+                                   onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss'});" class="Wdate"
+                                   ng-model="internalRetention.search.beginTime" datepicker/>
+                        </div>
+                        <div class="fll manuscript-serach-date">
+                            <span class="fll">结束时间</span>
+                            <input type="text" class="Wdate proof-date-input"
+                                   onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss'});" class="Wdate"
+                                   ng-model="internalRetention.search.endTime" datepicker/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tac mt10">
+                <span class="dib cursor user-add-btn"
+                      ng-click="internalRetention.onAdvancedSearchClick()">确定</span>
+                <span class="dib cursor user-add-btn role-del-btn"
+                      ng-click="internalRetention.projectModalHide('internalRetentionModalId')">取消</span>
+            </div>
+        </div>
+    </div>
+</div>
+<!--下载类别弹框-->
+<div class="common-modal-style" id="internalRetention-type-modal"  style="display:none">
+    <div class="role-add-con">
+        <div id="del-modal-tit" class="role-add-tit">
+            下载类别 <span class="flr curp tit-close"
+                       ng-click="internalRetention.ModalHide('internalRetention-type-modal')">×</span>
+        </div>
+        <div class="role-modal-con">
+            请选择下载类别？<input type='hidden' ng-model='internalRetention.deleFriendLinkId'>
+
+        </div>
+        <div class="tac mt10">
+            <span class="dib cursor user-add-btn" ng-click="internalRetention.downloadGroupPic(0)">组图</span>
+            <span class="dib cursor user-add-btn " ng-click="internalRetention.downloadGroupPic(1)">图文</span>
+        </div>
+    </div>
+</div>

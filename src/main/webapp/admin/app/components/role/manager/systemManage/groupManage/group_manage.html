@@ -1,0 +1,128 @@
+<div class="user-manager-container">
+    <div class="c-common-titbox">
+        <role-common-tit value="{{groupManage.reMyRoleName}}"></role-common-tit>
+    </div>
+    <div class="c-user-table">
+        <div class="t-search-hd clear">
+            <div class="user-hd-left fll">
+                <label for="inputAllCheckId">
+                    <input class='group_selectall'type="checkbox"/>
+                    <span class="user-check-txt  cursor">全选</span>
+                </label>
+                <span class="dib cursor user-add-btn" id='addGroup'ng-click='groupManage.cleanData()'>添加</span>
+                <span class="dib cursor user-add-btn role-del-btn" ng-click='groupManage.deleteAll()'>删除</span>
+            </div>
+            <div class="user-hd-right flr">
+                <input class="user-search-input" style="width: 320px"placeholder="可查询群组名"ng-model='groupManage.groupName'/>
+                <img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic" ng-click='groupManage.selectGroup()'/>                
+            </div>
+        </div>
+        <div class="t-uinfo-bd">
+            <div class="table-responsive">
+                <table class="table table-bordered uInfo-table">
+                    <thead>
+                        <tr>
+                            <th class="uinfo-hd-th"></th>
+                            <th class="uinfo-hd-th">ID</th>
+                            <th class="uinfo-hd-th">群组名</th>
+                            <th class="uinfo-hd-th">群组简介</th>
+                            <th class="uinfo-hd-th">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr dir-paginate="grouplist in groupManage.groupList | itemsPerPage: groupManage.selPageRows"
+                            total-items="groupManage.userList_total"
+                            current-page="groupManage.pagination.current" group-cancel-close>
+                            <td><input class='group_select' type="checkbox" value='{{grouplist.id}}'/></td>
+                            <td>{{grouplist.id}}</td>
+                            <td>{{grouplist.groupName}}</td>
+                            <td>{{grouplist.memo}}</td>                                                                       
+                            <td>
+                                <img src="admin/assets/img/role/look_user_info.png" class=" u-pwd-reset cursor goup_update_name"
+                                    width="20" height="20" title="修改群组信息" ng-click='groupManage.editGroup(grouplist.id)'/>
+                                <img src="admin/assets/img/role/group_upd_name.png" class="cursor goup_update"
+                                    width="20" height="20" title="修改群组成员"ui-sref='role.manager.groupManageDetail({groupId:grouplist.id})'/>
+                                <img src="admin/assets/img/role/red_del.png" class="cursor u-pwd-reset"
+                                    width="20" title="删除此群组" height="20" ng-click='groupManage.deleteGroup(grouplist.id)'/>
+                            </td>
+                         </tr>                         
+                    </tbody>
+                </table>
+            </div>
+            <!--分页-->
+            <div class="paging-con-box mt10 clear">
+                <div class="photo-record-page fll">
+                    <select ng-model="groupManage.selPageRows" class="mr10">
+                        <option value="50">50</option>
+                        <option value="40">40</option>
+                        <option value="30">30</option>
+                        <option value="20">20</option>
+                        <option value="10">10</option>
+                    </select>
+                    <span>共找到</span>
+                    <span class="color_red">{{groupManage.userList_total}}</span>
+                    <span>条记录</span>
+                </div>
+                <div class="photo-now-page fll">
+                    <span>第 </span>
+                    <span>{{groupManage.pagination.current}}</span>
+                    <span>/</span>
+                    <span>{{groupManage.totalPages}}</span>
+                    <span>页</span>
+                </div>
+                <div class="photo-jump-page flr">
+                    <dir-pagination-controls on-page-change="groupManage.pageChanged(newPageNumber)"
+                                             template-url="admin/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+                    </dir-pagination-controls>
+                </div>
+            </div>
+        </div>        
+        <!--添加管理群组弹框-->
+        <div class="common-modal-style common-modal-style-width group_con group_cont">
+            <div class="role-add-con role-add-cont">
+                <div id="add-modal-tit" class="user-add-tit clear">
+                    <span class="fll">新添群组</span>
+                    <span class="flr curp tit-close">×</span>
+                </div>
+                <div class='clearfloat group_addgroup'>                	
+                    	<div>
+                    		<span>群组名</span>
+                    		<input type='text' ng-model='groupManage.groupNames'>
+                    	</div>
+                    	<div class='mt15'>
+                    		<span>群组简介</span>
+                    		<input type='text' ng-model='groupManage.groupMemo'>
+                    	</div>
+                </div>
+                <div class="tac mt10">
+                    <span class="dib cursor user-add-btn" ng-click='groupManage.addGroup()'>保存</span>
+                    <span class="dib cursor user-add-btn role-del-btn btn_cancel">取消</span>
+                </div>
+            </div>
+        </div>
+        <!--修改群组信息弹框-->
+        <div class="common-modal-style common-modal-style-width group_con goup_update_na">
+            <div class="role-add-con role-add-conte">
+                <div id="add-modal-tit" class="user-add-tit clear">
+                    <span class="fll">修改群组信息</span>
+                    <span class="flr curp tit-close">×</span>
+                </div>
+                <div class='clearfloat group_addgroup'>                	
+                    	<div>
+                    		<span>群组名</span>
+                    		<input type='text' ng-model='groupManage.editName'>
+                    	</div>
+                    	<div class='mt15'>
+                    		<span>群组简介</span>
+                    		<input type='text' ng-model='groupManage.editMemo'>
+                    	</div>
+                    	<input type='hidden' ng-model='groupManage.editId'>
+                </div>
+                <div class="tac mt10">
+                    <span class="dib cursor user-add-btn" ng-click="groupManage.updateGroup()">保存</span>
+                    <span class="dib cursor user-add-btn role-del-btn btn_cancel">取消</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

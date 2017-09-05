@@ -1,0 +1,94 @@
+<div>
+    <div class="m-dl-line">
+        <p class="m-login-time">
+            上次登录时间：
+            <span ng-if="managerIndex.lastLoginTime != 'null'">{{managerIndex.lastLoginTime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+            <span ng-if="managerIndex.lastLoginTime == 'null'">无</span>
+        </p>
+    </div>
+    <div class="m-net-msg">
+        <!--系统公告-->
+        <div class="m-msgway-item clear">
+            <div class="i-way-name clear">
+                <span class="n-sys-notice fll">系统公告</span>
+                <span class="n-sys-more flr cursor" ui-sref="role.manager.msgManage({msgType: 4})">>>更多</span>
+            </div>
+            <div class="i-way-list">
+                <div class="l-news-each clear" ng-repeat="item in managerIndex.showToHomePage">
+                    <div class="n-spec-dot fll">
+                        ●
+                    </div>
+                    <div class="n-spec-detail fll cursor" ng-click="managerIndex.msgDetailShow(item.noticeTitle,item.noticeContent)">
+                        {{item.noticeTitle}}
+                    </div>
+                    <div class="n-spec-time flr">
+                       {{item.createTime | date:'yyyy-MM-hh HH:mm:ss'}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--站内信-->
+        <div class="m-msgway-item clear">
+            <div class="i-way-name clear">
+                <span class="n-sys-notice fll">站内信</span>
+                <span class="n-sys-more flr cursor" ui-sref="role.manager.msgManage({msgType: 1})">>>更多</span>
+            </div>
+            <div class="i-way-list">
+                <div class="l-news-each clear" ng-repeat="item in managerIndex.stationLetter">
+                    <div class="n-spec-dot fll">
+                        ●
+                    </div>
+                    <div class="n-spec-detail fll cursor" ng-click="managerIndex.msgDetailShow(item.msgTitle,item.msg_CONTENT)">
+                        <span>
+                            {{item.msgTitle}}
+                        </span>
+                    </div>
+                    <div class="n-spec-time flr">
+                        {{item.datetime | date:'yyyy-MM-hh HH:mm:ss'}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--网站留言-->
+        <div class="m-msgway-item clear" ng-hide="(managerIndex.adminRoleId == 2) || (managerIndex.adminRoleId == 3)">
+            <div class="i-way-name clear">
+                <span class="n-sys-notice fll">网站留言</span>
+                <span class="n-sys-more flr cursor" ui-sref="role.manager.msgManage({msgType: 3})">>>更多</span>
+            </div>
+            <div class="i-way-list">
+                <div class="l-news-each clear" ng-repeat="item in managerIndex.siteMsg">
+                    <div class="n-spec-dot fll">
+                        ●
+                    </div>
+                    <div class="n-spec-detail fll">
+                        <span  ng-if="item.smContent">{{item.smContent}}</span>
+                        <span  ng-if="!item.smContent">------</span>
+                    </div>
+                    <div class="n-spec-time flr">
+                        {{item.datetime | date:'yyyy-MM-hh HH:mm:ss'}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 查看详细内容弹框 -->
+    <div class="common-modal-style" id="indexMsgDetailContentModal"
+         ng-mousemove="managerIndex.moveModal('msgDetailTitleId','indexMsgDetailContentModal')"
+         style="display:none">
+        <div class="role-add-con">
+            <div id="msgDetailTitleId" class="role-add-tit oH">
+                <span class="fll">消息内容</span>
+                        <span class="flr curp tit-close"
+                              ng-click="managerIndex.manageModalHide('indexMsgDetailContentModal')">×</span>
+            </div>
+            <div class="role-add-main">
+                <div class="role-add-form-info advertise-add-form-info clear">
+                    <div>{{managerIndex.msgTitle}}</div>
+                </div>
+                <div class="role-add-form-info advertise-add-form-info clear">
+                    <div ng-bind-html="managerIndex.msgContent | trustHtml"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

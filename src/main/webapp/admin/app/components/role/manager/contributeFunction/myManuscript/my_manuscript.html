@@ -1,0 +1,209 @@
+<div class="user-manager-container" id='tests'>
+    <div translate>
+    	100071
+        <!--<role-common-tit value="我的稿件"></role-common-tit>-->
+    </div>
+    <div class="contribute-tit clear">
+        <div class="active-slide-item fll" ng-class="{ 'active-slide-nav' : myManuscript.acitiveSlideTit == 1}" ng-click="myManuscript.chooseManuscriptType(0,1)" translate>100072</div>
+        <div class="active-slide-item fll" ng-class="{ 'active-slide-nav' : myManuscript.acitiveSlideTit == 2}" ng-click="myManuscript.chooseManuscriptType(1,2)" translate>100073</div>
+        <div class="active-slide-item fll" ng-class="{ 'active-slide-nav' : myManuscript.acitiveSlideTit == 3}" ng-click="myManuscript.chooseManuscriptType(2,3)" translate>100074</div>
+        <div class="active-slide-item fll" ng-class="{ 'active-slide-nav' : myManuscript.acitiveSlideTit == 4}" ng-click="myManuscript.chooseManuscriptType(4,4)" translate>100075</div>
+        <div class="active-slide-item fll" ng-class="{ 'active-slide-nav' : myManuscript.acitiveSlideTit == 5}" ng-click="myManuscript.chooseManuscriptType(3,5)" translate>100076</div>
+    </div>
+    <div class="c-user-table">
+        <div class="t-search-hd clear">
+            <div class="user-hd-right flr">
+                <input class="user-search-input" ng-model="myManuscript.search.paramStr"
+                       placeholder="可根据稿件ID、标题、作者名 检索" ng-keydown="myManuscript.enterQuery($event)"/>
+                <img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic"
+                     ng-click="myManuscript.onSearchDataClick()"/>
+                <span class="dib cursor user-search-btn" ng-click="myManuscript.advanceSearchModalShow('wait-manuscript-search-modal')" translate>100044</span>
+            </div>
+        </div>
+        <div class="t-uinfo-bd">
+            <div class="table-responsive">
+                <table  class="table table-bordered uInfo-table">
+                    <thead>
+                    <tr>
+                        <th class="uinfo-hd-th" translate>100045</th>
+                        <th class="uinfo-hd-th" translate>100046</th>
+                        <th class="uinfo-hd-th" translate>100047</th>
+                        <th class="uinfo-hd-th" translate>100048</th>
+                        <th class="uinfo-hd-th" translate>100049</th>
+                        <th class="uinfo-hd-th" translate>100077</th>
+                        <th class="uinfo-hd-th"  ng-hide="myManuscript.gType == 4" translate>100050</th>
+                        <th class="uinfo-hd-th"  ng-hide="myManuscript.gType == 4" translate>100078</th>
+                        <th class="uinfo-hd-th" ng-if="myManuscript.gType == 3" translate>100051</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr dir-paginate="item in myManuscript.mymanuscriptList | itemsPerPage: myManuscript.selPageRows"
+                        total-items="myManuscript.myMsList_total"
+                        current-page="myManuscript.pagination.current" show-middle-pic>
+                            <td>{{item.ID}}</td>
+                            <td>
+                               {{item.GOODS_TYPE | draftImgTypeFilter}}
+                            </td>
+                            <td class='pic_parent'>
+                                <a target='_blank'ui-sref="role.manager.myManuscriptDetail({id: item.ID,gType: myManuscript.gType})">
+                                	<img ng-src="{{item.samllPath}}"  class="cursor"/>                                
+                                </a>
+                                <div class='pic_children'>
+                                    	<img ng-src='{{item.wmPath}}'>
+                                    	<div class='showMiddlepics'>                                    		                                          		
+                                    	    <table border='1' width='100%' cellpadding="10">
+                                    	        <caption >EXIF信息</caption>
+                                    	        <tr>
+                                    	           	<td>光圈数</td>
+                                    	           	<td>{{item.EX_FNUMBER}}</td>
+                                    	           	<td>感光度</td>
+                                    	           	<td>{{item.EX_ISO}}</td>
+                                    	        </tr>
+                                    	        <tr>
+                                    	           	<td>拍摄相机</td>
+                                    	           	<td>{{item.EX_MODEL}}</td>
+                                    	           	<td>拍摄时间</td>
+                                    	           	<td>{{item.EX_DATETIME |date : 'yyyy-MM-dd HH:mm:ss'}}</td>
+                                    	        </tr>
+                                    	    </table>
+										 </div>
+                                </div>
+                            </td>
+                            <td>
+                                {{item.PICTURE_COUNT}}
+                            </td>
+                            <td>
+                            	<a class="cursor uifi-title" target='_blank' ui-sref="role.manager.myManuscriptDetail({id: item.ID,gType: myManuscript.gType})">
+                            		{{item.TITLE}}
+                            	</a>
+                            </td>
+                            <td>
+                                <p ng-if="item.APPLY_TIME">{{item.APPLY_TIME | date : 'yyyy-MM-dd'}}</p>
+                                <p ng-if="item.APPLY_TIME">{{item.APPLY_TIME | date : 'HH:mm:ss'}}</p>
+                                <p ng-if="!item.APPLY_TIME">------</p>
+                            </td>
+                            <td ng-hide="myManuscript.gType == 4">
+                                <p ng-if="item.UPDATE_TIME">{{item.UPDATE_TIME | date : 'yyyy-MM-dd'}}</p>
+                                <p ng-if="item.UPDATE_TIME">{{item.UPDATE_TIME | date : 'HH:mm:ss'}}</p>
+                                <p ng-if="!item.UPDATE_TIME">------</p>
+                            </td>
+                            <td ng-hide="myManuscript.gType == 4">{{item.GROUP_STATUS | grouppStatusFilter}}</td>
+                            <td ng-if="myManuscript.gType == 3">
+                                <img src="admin/assets/img/role/look_user_info.png" class="cursor" width="20" height="20"
+                                        title="编辑" ng-click="myManuscript.editSendManuscript(item.ID)"/>
+                                <img src="admin/assets/img/role/red_del.png" class="cursor" width="20" height="20" title="删除"
+                                        ng-click="myManuscript.delBackManuscriptModalShow('back-ms-del-modal',item.ID)"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- 分页 -->
+            <div class="paging-con-box mt10 clear">
+                <div class="photo-record-page fll">
+                    <select ng-model="myManuscript.selPageRows" class="mr10">
+                        <option value="50">50</option>
+                        <option value="40">40</option>
+                        <option value="30">30</option>
+                        <option value="20">20</option>
+                        <option value="10">10</option>
+                        <option value="6">6</option>
+                    </select>
+                    <span translate>100052</span>
+                    <span class="color_red">{{myManuscript.myMsList_total}}</span>
+                    <span translate>100053</span>
+                </div>
+                <div class="photo-now-page fll">
+                    <span translate>100054</span>
+                    <span>{{myManuscript.pagination.current}}</span>
+                    <span>/</span>
+                    <span>{{myManuscript.totalPages}}</span>
+                    <span translate>100055</span>
+                </div>
+                <div class="photo-jump-page flr">
+                    <dir-pagination-controls on-page-change="myManuscript.pageChanged(newPageNumber)"
+                                             template-url="admin/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+                    </dir-pagination-controls>
+                </div>
+            </div>
+            <!--我的稿件删除弹框-->
+            <div class="common-modal-style" id="back-ms-del-modal" style="display:none">
+                <div class="role-add-con">
+                    <div class="role-add-tit" translate>
+                        100059
+                    </div>
+                    <div class="role-modal-con" translate>
+                        100060
+                    </div>
+                    <div class="tac mt10">
+                        <span class="dib cursor user-add-btn"  ng-click="myManuscript.delBackManuscript('back-ms-del-modal')">确定</span>
+                        <span class="dib cursor user-add-btn role-del-btn"  ng-click="myManuscript.myManuscriptModalHide('back-ms-del-modal')">取消</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--高级检索弹框-->
+    <div class="common-modal-style common-modal-style-wid" id="wait-manuscript-search-modal"
+         ng-mousemove="myManuscript.moveModal('search-modal-tit','wait-manuscript-search-modal')"
+         style="display:none">
+        <div class="role-add-con">
+            <div id="search-modal-tit" class="role-add-tit oH">
+                <span class="fll" translate>100044</span>
+                <span class="flr curp tit-close"
+                      ng-click="myManuscript.myManuscriptModalHide('wait-manuscript-search-modal')">×</span>
+            </div>
+            <div class="role-add-main">
+                <div class="role-add-form-info clear">
+                    <div class="role-form-info-top clear">
+                        <div class="fll send-ms-search-part">
+                            <span translate>100049</span>
+                            <input type="text" class="role-add-input" ng-model="myManuscript.search.title"/>
+                        </div>
+                        <div class="fll send-ms-search-part">
+                            <span translate>100016</span>
+                            <input type="text" class="role-add-input" ng-model="myManuscript.search.author"/>
+                        </div>
+                        <div class="fll send-ms-search-part mt15">
+                            <span translate>100061</span>
+                            <input type="text" class="role-add-input" ng-model="myManuscript.search.place"/>
+                        </div>
+                        <div class="fll send-ms-search-part mt15">
+                            <span translate>100024</span>
+                            <input type="text" class="role-add-input" ng-model="myManuscript.search.editor"/>
+                        </div>
+                    </div>
+                    <div class="role-form-info-top clear mt15">
+                        <div class="fll send-ms-search-part">
+                            <span translate>100062</span>
+                            <input type="text" class="role-add-input" ng-model="myManuscript.search.memo"/>
+                        </div>
+                        <div class="fll send-ms-search-part">
+                            <span translate>100063</span>
+                            <input type="text" class="role-add-input" ng-model="myManuscript.search.fileName"/>
+                        </div>
+                        <div class="fll send-ms-search-part mt15">
+                            <span translate>100045</span>
+                            <input type="text" class="role-add-input" ng-model="myManuscript.search.id"/>
+                        </div>
+                    </div>
+                    <div class="role-form-info-top clear mt15">
+                        <div class="fll manuscript-serach-date">
+                            <span class="fll" translate>100064</span>
+                            <input type="text" class="Wdate proof-date-input" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss'});" class="Wdate" ng-model="myManuscript.search.beginTime" datepicker/>
+                        </div>
+                        <div class="fll manuscript-serach-date">
+                            <span class="fll" translate>100065</span>
+                            <input type="text" class="Wdate proof-date-input" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss'});" class="Wdate" ng-model="myManuscript.search.endTime" datepicker/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tac mt10">
+                <span class="dib cursor user-add-btn" ng-click="myManuscript.saveAdvanceSearch('wait-manuscript-search-modal')" translate>100058</span>
+                <span class="dib cursor user-add-btn role-del-btn"
+                      ng-click="myManuscript.myManuscriptModalHide('wait-manuscript-search-modal')" translate>100039</span>
+            </div>
+        </div>
+    </div>
+</div>

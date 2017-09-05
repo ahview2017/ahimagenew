@@ -1,0 +1,316 @@
+<div class="user-manager-container">
+    <div class="c-common-titbox">
+        <role-common-tit value="摄影师管理"></role-common-tit>
+    </div>
+    <div class="c-user-table">
+        <div class="t-search-hd clear">
+            <div class="user-hd-left fll">
+                <input type="checkbox" class=""/>
+                <span class="user-check-txt">全选</span>
+                <span class="dib cursor user-add-btn" ng-click="cameristManage.userModalShow('user-add-modal')">添加</span>
+            </div>
+            <div class="user-hd-right flr">
+                <input class="user-search-input"/>
+                <img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic"/>
+                <span class="dib cursor user-search-btn"  ng-click="cameristManage.userModalShow('user-search-modal')">高级检索</span>
+            </div>
+        </div>
+        <div class="t-uinfo-bd">
+            <div class="table-responsive">
+                <table  class="table table-bordered uInfo-table">
+                    <thead>
+                    <tr>
+                        <th class="uinfo-hd-th">
+                            <input type="checkbox"/>
+                        </th>
+                        <th class="uinfo-hd-th">ID</th>
+                        <th class="uinfo-hd-th">登录名</th>
+                        <th class="uinfo-hd-th">真实姓名</th>
+                        <th class="uinfo-hd-th">作者名</th>
+                        <th class="uinfo-hd-th">状态</th>
+                        <th class="uinfo-hd-th">最近登录时间</th>
+                        <th class="uinfo-hd-th">注册时间</th>
+                        <th class="uinfo-hd-th">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <input type="checkbox"/>
+                        </td>
+                        <td>123</td>
+                        <td>trs</td>
+                        <td>拓尔思</td>
+                        <td>拓尔思</td>
+                        <td>离线</td>
+                        <td>2016-09-01</td>
+                        <td>2016-09-01</td>
+                        <td>
+                            <img src="admin/assets/img/role/look_user_info.png" class="cursor" width="20" height="20"/>
+                            <img src="admin/assets/img/role/u_pwd_reset.png" class="cursor u-pwd-reset" width="20" height="20"
+                                 ng-click="cameristManage.userModalShow('user-pwd-reset-modal')"/>
+                            <img src="admin/assets/img/role/unlock_user.png" class="cursor" width="20" height="20"
+                                 ng-click="cameristManage.userModalShow('user-unlock-modal')"/>
+                            <img src="admin/assets/img/role/login_log.png" class="cursor ml10" width="20" height="20"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!--用户添加弹框-->
+        <div class="common-modal-style" id="user-add-modal" style="display:none">
+            <div class="role-add-con">
+                <div class="user-add-tit">
+                    新添或修改用户信息
+                </div>
+                <div class="user-add-main clear">
+                    <div class="user-add-part clear">
+                        <div class="user-add-spec-item clear">
+                            <div class="user-add-spec-tit">
+                                用户名
+                            </div>
+                            <div class="user-add-spec-input">
+                                <input type="text">
+                            </div>
+                        </div>
+                        <div class="user-add-spec-item clear">
+                            <div class="user-add-spec-tit">
+                                真实姓名
+                            </div>
+                            <div class="user-add-spec-input">
+                                <input type="text">
+                            </div>
+                        </div>
+                        <div class="user-add-spec-item clear">
+                            <div class="user-add-spec-tit">
+                                身份证号
+                            </div>
+                            <div class="user-add-spec-input">
+                                <input type="text">
+                            </div>
+                        </div>
+                        <div class="user-add-spec-item clear">
+                            <div class="user-add-spec-tit">
+                                单位名称
+                            </div>
+                            <div class="user-add-spec-input">
+                                <input type="text">
+                            </div>
+                        </div>
+                        <div class="user-add-spec-item clear">
+                            <div class="user-add-spec-tit">
+                                注册时间
+                            </div>
+                            <div class="user-add-spec-input">
+                                <input type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="user-add-part clear">
+                        <div class="user-add-spec-item clear">
+                            <div class="user-add-spec-tit">
+                                绑定邮件
+                            </div>
+                            <div class="user-add-spec-input">
+                                <input type="text">
+                            </div>
+                        </div>
+                        <div class="user-add-spec-item clear">
+                            <div class="user-add-spec-tit">
+                                绑定手机
+                            </div>
+                            <div class="user-add-spec-input">
+                                <input type="text">
+                            </div>
+                        </div>
+                        <div class="user-add-spec-item clear">
+                            <div class="user-add-spec-tit">
+                                作者名
+                            </div>
+                            <div class="user-add-spec-input">
+                                <input type="text">
+                            </div>
+                        </div>
+                        <div class="user-add-spec-item clear">
+                            <div class="user-add-spec-tit">
+                                邮政编码
+                            </div>
+                            <div class="user-add-spec-input">
+                                <input type="text">
+                            </div>
+                        </div>
+                        <div class="user-add-spec-item clear">
+                            <div class="user-add-spec-tit">
+                                联系邮箱
+                            </div>
+                            <div class="user-add-spec-input">
+                                <input type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="user-add-part clear">
+                        <div class="user-add-spec-item clear">
+                            <div class="user-add-spec-tit">
+                                用户类别
+                            </div>
+                            <div class="user-add-spec-input">
+                                <input type="text">
+                            </div>
+                        </div>
+                        <div class="user-add-spec-item clear">
+                            <div class="user-add-spec-tit">
+                                所属省市
+                            </div>
+                            <div class="user-add-spec-input">
+                                <input type="text">
+                            </div>
+                        </div>
+                        <div class="user-add-spec-item clear">
+                            <div class="user-add-spec-tit">
+                                详细地址
+                            </div>
+                            <div class="user-add-spec-input">
+                                <input type="text">
+                            </div>
+                        </div>
+                        <div class="user-add-spec-item clear">
+                            <div class="user-add-spec-tit">
+                                联系电话
+                            </div>
+                            <div class="user-add-spec-input">
+                                <input type="text">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tac mt10">
+                    <span class="dib cursor user-add-btn">保存</span>
+                    <span class="dib cursor user-add-btn role-del-btn" ng-click="cameristManage.userModalHide('user-add-modal')">取消</span>
+                </div>
+            </div>
+        </div>
+        <!--高级检索模态框-->
+        <div class="common-modal-style" id="user-search-modal" style="display:none">
+            <div>
+                <div class="role-add-main">
+                    <div class="user-form-info clear">
+                        <div class="user-form-info-top clear">
+                            <div class="fll user-form-part clear">
+                                <div class="user-search-left  fll">用户名</div>
+                                <div class="user-search-right fll">
+                                    <input type="text" class="user-add-input"/>
+                                </div>
+                            </div>
+                            <div class="fll user-form-part clear">
+                                <div class="user-search-left fll">用户角色</div>
+                                <div class="user-search-right fll">
+                                    <select class="user-add-input"></select>
+                                </div>
+                            </div>
+                            <div class="fll user-form-part clear">
+                                <div class="fll user-search-left">用户状态</div>
+                                <div class="fll user-search-right">
+                                    <select class="user-add-input"></select>
+                                </div>
+                            </div>
+                            <div class="fll user-form-part clear">
+                                <div class="fll user-search-left">所属地域</div>
+                                <div class="fll user-search-right">
+                                    <select class="user-add-input"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="user-form-info-top clear">
+                            <div class="fll user-form-part clear">
+                                <div class="user-search-left  fll">联系方式</div>
+                                <div class="user-search-right fll">
+                                    <input type="text" class="user-add-input"/>
+                                </div>
+                            </div>
+                            <div class="fll user-form-part clear">
+                                <div class="user-search-left fll">摄影方向</div>
+                                <div class="user-search-right fll">
+                                    <select class="user-add-input"></select>
+                                </div>
+                            </div>
+                            <div class="fll user-form-part clear">
+                                <div class="fll user-search-left">所属省市</div>
+                                <div class="fll user-search-right">
+                                    <select class="user-add-input"></select>
+                                </div>
+                            </div>
+                            <div class="fll user-form-part clear">
+                                <div class="fll user-search-left">排序号</div>
+                                <div class="fll user-search-right">
+                                    <select class="user-add-input"></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tar mt10">
+                    <span class="dib cursor user-high-search-btn" ng-click="cameristManage.userModalHide('user-search-modal')">检索</span>
+                </div>
+            </div>
+        </div>
+        <!--密码重置模态框-->
+        <div class="common-modal-style" id="user-pwd-reset-modal" style="display:none">
+            <div class="role-add-con">
+                <div class="role-add-tit">
+                    密码重置
+                </div>
+                <div class="role-modal-con">
+                    <div class="user-pwd-reset-hd clear">
+                        <div class="user-pwd-reset-item fll">
+                            用户ID：40081
+                        </div>
+                        <div class="user-pwd-reset-item fll">
+                            用户姓名：40081
+                        </div>
+                        <div class="user-pwd-reset-item fll">
+                            登录名：40081
+                        </div>
+                    </div>
+                    <div class="user-pwd-reset-bd">
+                        <div class="user-pwd-rstcon-item clear">
+                            <div class="user-pwd-rstcon-left fll tar">
+                                <span>新密码：</span>
+                            </div>
+                            <div class="user-pwd-rstcon-right fll tal">
+                                <input type="text" class="r-pwd-rest-input"/>
+                            </div>
+                        </div>
+                        <div class="user-pwd-rstcon-item clear">
+                            <div class="user-pwd-rstcon-left fll tar">
+                                <span>密码确认：</span>
+                            </div>
+                            <div class="user-pwd-rstcon-right fll tal">
+                                <input type="text" class="r-pwd-rest-input"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tac">
+                    <span class="dib cursor user-submit-btn">提交</span>
+                    <span class="dib cursor user-cancel-btn" ng-click="cameristManage.userModalHide('user-pwd-reset-modal')">取消</span>
+                </div>
+            </div>
+        </div>
+        <!--解锁用户弹框-->
+        <div class="common-modal-style" id="user-unlock-modal" style="display:none">
+            <div class="role-add-con">
+                <div class="role-add-tit">
+                    确认框
+                </div>
+                <div class="role-modal-con">
+                    是否确认解锁用户？
+                </div>
+                <div class="tac mt10">
+                    <span class="dib cursor user-add-btn"  ng-click="cameristManage.userModalHide('user-unlock-modal')">确定</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

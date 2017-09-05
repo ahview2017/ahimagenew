@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deepai.photo.mapper.CpOldpictureExcelInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.deepai.photo.bean.CpOldpictureExcelInfo" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="FILE_NAME" property="fileName" jdbcType="VARCHAR" />
+    <result column="UPLOAD_DATE" property="uploadDate" jdbcType="TIMESTAMP" />
+    <result column="UPLOAD_USERID" property="uploadUserid" jdbcType="INTEGER" />
+    <result column="FILE_PATH" property="filePath" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="INTEGER" />
+    <result column="PIC_UPLOAD_NUM" property="picUploadNum" jdbcType="INTEGER" />
+    <result column="STORAGE_NUM" property="storageNum" jdbcType="INTEGER" />
+    <result column="RECORD_TOTAL" property="recordTotal" jdbcType="INTEGER" />
+    <result column="FILE_ALLPATH" property="fileAllpath" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, FILE_NAME, UPLOAD_DATE, UPLOAD_USERID, FILE_PATH, STATUS, PIC_UPLOAD_NUM, STORAGE_NUM, 
+    RECORD_TOTAL, FILE_ALLPATH
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.deepai.photo.bean.CpOldpictureExcelInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cp_oldpicture_excel_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from cp_oldpicture_excel_info
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from cp_oldpicture_excel_info
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.deepai.photo.bean.CpOldpictureExcelInfoExample" >
+    delete from cp_oldpicture_excel_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.deepai.photo.bean.CpOldpictureExcelInfo" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cp_oldpicture_excel_info (FILE_NAME, UPLOAD_DATE, UPLOAD_USERID, 
+      FILE_PATH, STATUS, PIC_UPLOAD_NUM, 
+      STORAGE_NUM, RECORD_TOTAL, FILE_ALLPATH
+      )
+    values (#{fileName,jdbcType=VARCHAR}, #{uploadDate,jdbcType=TIMESTAMP}, #{uploadUserid,jdbcType=INTEGER}, 
+      #{filePath,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{picUploadNum,jdbcType=INTEGER}, 
+      #{storageNum,jdbcType=INTEGER}, #{recordTotal,jdbcType=INTEGER}, #{fileAllpath,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.deepai.photo.bean.CpOldpictureExcelInfo" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cp_oldpicture_excel_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="fileName != null" >
+        FILE_NAME,
+      </if>
+      <if test="uploadDate != null" >
+        UPLOAD_DATE,
+      </if>
+      <if test="uploadUserid != null" >
+        UPLOAD_USERID,
+      </if>
+      <if test="filePath != null" >
+        FILE_PATH,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="picUploadNum != null" >
+        PIC_UPLOAD_NUM,
+      </if>
+      <if test="storageNum != null" >
+        STORAGE_NUM,
+      </if>
+      <if test="recordTotal != null" >
+        RECORD_TOTAL,
+      </if>
+      <if test="fileAllpath != null" >
+        FILE_ALLPATH,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="fileName != null" >
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadDate != null" >
+        #{uploadDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uploadUserid != null" >
+        #{uploadUserid,jdbcType=INTEGER},
+      </if>
+      <if test="filePath != null" >
+        #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="picUploadNum != null" >
+        #{picUploadNum,jdbcType=INTEGER},
+      </if>
+      <if test="storageNum != null" >
+        #{storageNum,jdbcType=INTEGER},
+      </if>
+      <if test="recordTotal != null" >
+        #{recordTotal,jdbcType=INTEGER},
+      </if>
+      <if test="fileAllpath != null" >
+        #{fileAllpath,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.deepai.photo.bean.CpOldpictureExcelInfoExample" resultType="java.lang.Integer" >
+    select count(*) from cp_oldpicture_excel_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update cp_oldpicture_excel_info
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.fileName != null" >
+        FILE_NAME = #{record.fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uploadDate != null" >
+        UPLOAD_DATE = #{record.uploadDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.uploadUserid != null" >
+        UPLOAD_USERID = #{record.uploadUserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.filePath != null" >
+        FILE_PATH = #{record.filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.picUploadNum != null" >
+        PIC_UPLOAD_NUM = #{record.picUploadNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.storageNum != null" >
+        STORAGE_NUM = #{record.storageNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.recordTotal != null" >
+        RECORD_TOTAL = #{record.recordTotal,jdbcType=INTEGER},
+      </if>
+      <if test="record.fileAllpath != null" >
+        FILE_ALLPATH = #{record.fileAllpath,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update cp_oldpicture_excel_info
+    set ID = #{record.id,jdbcType=INTEGER},
+      FILE_NAME = #{record.fileName,jdbcType=VARCHAR},
+      UPLOAD_DATE = #{record.uploadDate,jdbcType=TIMESTAMP},
+      UPLOAD_USERID = #{record.uploadUserid,jdbcType=INTEGER},
+      FILE_PATH = #{record.filePath,jdbcType=VARCHAR},
+      STATUS = #{record.status,jdbcType=INTEGER},
+      PIC_UPLOAD_NUM = #{record.picUploadNum,jdbcType=INTEGER},
+      STORAGE_NUM = #{record.storageNum,jdbcType=INTEGER},
+      RECORD_TOTAL = #{record.recordTotal,jdbcType=INTEGER},
+      FILE_ALLPATH = #{record.fileAllpath,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.deepai.photo.bean.CpOldpictureExcelInfo" >
+    update cp_oldpicture_excel_info
+    <set >
+      <if test="fileName != null" >
+        FILE_NAME = #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadDate != null" >
+        UPLOAD_DATE = #{uploadDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uploadUserid != null" >
+        UPLOAD_USERID = #{uploadUserid,jdbcType=INTEGER},
+      </if>
+      <if test="filePath != null" >
+        FILE_PATH = #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="picUploadNum != null" >
+        PIC_UPLOAD_NUM = #{picUploadNum,jdbcType=INTEGER},
+      </if>
+      <if test="storageNum != null" >
+        STORAGE_NUM = #{storageNum,jdbcType=INTEGER},
+      </if>
+      <if test="recordTotal != null" >
+        RECORD_TOTAL = #{recordTotal,jdbcType=INTEGER},
+      </if>
+      <if test="fileAllpath != null" >
+        FILE_ALLPATH = #{fileAllpath,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.deepai.photo.bean.CpOldpictureExcelInfo" >
+    update cp_oldpicture_excel_info
+    set FILE_NAME = #{fileName,jdbcType=VARCHAR},
+      UPLOAD_DATE = #{uploadDate,jdbcType=TIMESTAMP},
+      UPLOAD_USERID = #{uploadUserid,jdbcType=INTEGER},
+      FILE_PATH = #{filePath,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=INTEGER},
+      PIC_UPLOAD_NUM = #{picUploadNum,jdbcType=INTEGER},
+      STORAGE_NUM = #{storageNum,jdbcType=INTEGER},
+      RECORD_TOTAL = #{recordTotal,jdbcType=INTEGER},
+      FILE_ALLPATH = #{fileAllpath,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+  <select id="getMaxId" resultType="java.lang.Integer" >
+    select max(ID)+1 from cp_oldpicture_excel_info
+  </select>
+  <update id="updateStorageNumById" parameterType="java.lang.Integer" >
+  	UPDATE cp_oldpicture_excel_info
+	SET STORAGE_NUM = STORAGE_NUM+1 
+	WHERE id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

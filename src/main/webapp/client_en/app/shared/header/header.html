@@ -1,0 +1,46 @@
+<div class="bj">
+    <div class="bj1">
+        <div class="bj1z">
+            <div class="logo"><a href='index_en.html'><img src="client_en/assets/images/logo.png" /></a></div>
+            <div class="xiao"><img src="client_en/assets/images/xiao.png" /></div>
+        </div>
+        <div class="bj1y">
+            <div class="bj1y1">
+                <div class="sou">
+                    <div class="search radius6">
+                        <form name="searchform" method="post" action="/e/search/index.php">
+                            <input name='ecmsfrom' type='hidden' value='9'>
+                            <input type="hidden" name="show" value="title,newstext">
+                            <select name="classid" id="choose">
+                                <option value="0">politics</option>
+                                <option value="1">politics1</option>
+                            </select>
+                        </form>
+                    </div>
+                    <div class="sou2">
+                    	<input name="" type="text" ng-model="header.searchAllName"/>
+                    	<div class='fullText' ui-sref='root.fullText' ng-click="header.searchAll()"></div>
+                    </div>
+                    <div class="sou3"><a ui-sref='root.advSearch' class='adv_wid'><img src="client_en/assets/images/bfd.png" /></a></div>
+                </div>
+                <div class="den">
+                	<div class="den2_l" ng-if="(!client_uName)"><a ui-sref='root.login' class='header_login'>login</a></div>
+                	<div class="den2_l" ng-if="(client_uName)"><a href='javascript:void(0);' title='Current user' class='header_login'>welcome：{{client_uName}}</a></div>
+                    <div class="den1" ng-if='header.roleTogg_5'><a ui-sref='root.shoppingCart'><img src="client_en/assets/images/gwc.png" title='Shopping Cart'/>Shopping Cart</a></div>
+                    <div class="fll" ng-if='header.roleTogg_5'><a ui-sref='root.myOrder'><img class='myorder'src="client_en/assets/images/order.png" title='My order' />My order</a></div>
+                    <div class="den2_l" ng-if="header.roleTogg_3"><a target='_blank'href='/admin.html#/login'>contribute</a></div>
+                    <div class="den2_l" ng-if="(client_uName)" ng-click="header.logout()"><a href='javascript:void(0);'>logout</a></div>
+                    <!--<div class="den2"><a ui-sref='root.login'><img src="client_en/assets/images/yh.png" title='用户登录' /></a></div>-->
+                    <div class="den3"><a href='/'>中文</a></div>
+                </div>
+            </div>
+
+            <div class="bj1y2">
+                <ul>
+                    <li  ng-repeat="upLanMu in upLanMu"><a target='_blank' ui-sref="root.news({id:upLanMu.id})" >{{upLanMu.name}}</a></li>                    
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>

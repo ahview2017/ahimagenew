@@ -1,0 +1,1974 @@
+<div class="user-manager-container">
+	<div class="c-common-titbox">
+		<role-common-tit value="{{userManage.reMyRoleName}}"></role-common-tit>
+	</div>
+	<div class="c-user-table">
+		<div class="t-search-hd clear">
+			<div class="user-hd-left fll">
+				<label for="inputAllCheckId">
+					<input type="checkbox" id="inputAllCheckId" ng-model="userManage.isHadAllCheck"
+						   ng-click="userManage.onCheckAllClick()"/>
+					<span class="user-check-txt  cursor">全选</span>
+				</label>
+				<span class="dib cursor user-add-btn" ng-click="userManage.userAddModalShow('user-add-modal')">添加</span>
+				<span class="dib cursor user-add-btn role-del-btn" ng-click="userManage.onShowDeleteModelClick(0,null)">删除</span>
+				<span class="dib cursor user-add-btn" ng-click="userManage.userModalShow('user-export-modal')">导出</span>
+			</div>
+			<div class="user-hd-right flr">
+				<!--用户管理需要搜索用户类型-->
+                <input class="user-search-input" style="width: 320px" ng-model="userManage.userSearchModel"
+					   placeholder="可查询id、登录名、真实姓名、作者名及用户类型"
+					   ng-if="(userManage.reMyRoleId == 1) || userManage.reMyRoleId == 26"
+					   ng-keydown="userManage.enterSearchUser($event)"/>
+					   <img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic"
+                     ng-click="userManage.onSearchDataClick()"/>
+				<!--摄影师管理、订户管理时不需要搜索用户类型-->
+				<input class="user-search-input" style="width: 320px" ng-model="userManage.userSearchModel"
+					   placeholder="可查询id、登录名、真实姓名、作者名"
+					   ng-if="(userManage.reMyRoleId == 2) || (userManage.reMyRoleId == 4)"
+					   ng-keydown="userManage.enterSearchUser($event)"/>
+				<span class="dib cursor user-search-btn" ng-click="userManage.userModalShow('user-search-modal')">高级检索</span>
+			</div>
+		</div>
+		<div class="t-uinfo-bd">
+			<div class="table-responsive">
+				<table class="table table-bordered uInfo-table">
+					<thead>
+						<tr>
+							<th class="uinfo-hd-th" style="width:4%;">
+							</th>
+							<th class="uinfo-hd-th" style="width:6%;">ID</th>
+							<th class="uinfo-hd-th" style="width:10%;">登录名</th>
+							<th class="uinfo-hd-th" style="width:10%;">真实姓名</th>
+							<th class="uinfo-hd-th" style="width:10%;">作者名</th>
+							<th class="uinfo-hd-th" style="width:16%;">用户类型</th>
+							<th class="uinfo-hd-th white_space" style="width:6%;">语言</th>
+							<th class="uinfo-hd-th" style="width:8%;">状态</th>
+							<th class="uinfo-hd-th" style="width:10%;">最近登录时间</th>
+							<th class="uinfo-hd-th" style="width:10%;">注册时间</th>
+							<th class="uinfo-hd-th" style="width:10%;">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr dir-paginate="item in userManage.userManageArray | itemsPerPage: userManage.selPageRows" total-items="userManage.userList_total" current-page="userManage.pagination.current" ng-init="userManage.checkBoxArray[$index] = false" photographer-disable-bids>
+							<!--<tr ng-repeat="item in userManage.userManageArray"-->
+							<!--ng-init="userManage.checkBoxArray[$index] = false">-->
+							<td style="width:4%;" class="wbba">
+								<input type="checkbox" ng-model="userManage.checkBoxArray[$index]" ng-true-value="{{item.ID}}" ng-false-value="false" />
+							</td>
+							<td class='id_color wbba' style="width:6%;">{{item.ID}}</td>
+							<td class='username_color cursor wbba' style="width:10%;" ng-click="userManage.onShowEditModelClick(item.ID,$index)">{{item.USER_NAME}}</td>
+							<td class='truename_color wbba' style="width:10%;">{{item.TURE_NAME}}</td>
+							<td class='authorname_color wbba' style="width:10%;">{{item.AUTHOR_NAME}}</td>
+							<td class='roles_color wbba' style="width:16%;">
+								<span title="{{item.roles|userShowArrayTypeFilter:false}}">
+                                        {{item.roles|userShowArrayTypeFilter:true}}
+							</span>
+							</td>
+							<td class='langType_tog langtype_color wbba' value='{{item.LANG_TYPE}}' style="width:6%;"></td>
+							<td class='user_status_color wbba' style="width:8%;">{{item.USER_STATUS|userManageTypeFilter}}</td>
+							<td class='last_login_time_color wbba' style="width:10%;">
+								<p>{{item.LAST_LOGIN_TIME|date:'yyyy-MM-dd'}}</p>
+								<p>{{item.LAST_LOGIN_TIME|date:'HH:mm:ss'}}</p>
+							</td>
+							<td class='reg_date_color wbba' style="width:10%;">{{item.REG_DATE|date:'yyyy-MM-dd HH:mm:ss'}}
+							</td>
+							<td style="width:10%;">
+								<img src="admin/assets/img/role/look_user_info.png" class="cursor" width="20" height="20" title="修改" ng-click="userManage.onShowEditModelClick(item.ID,$index)" />
+								<img src="admin/assets/img/role/u_pwd_reset.png" class="cursor u-pwd-reset" width="20" height="20" title="密码重置" ng-click="userManage.onShowUpdatePwdClick(item.ID,$index)" />
+								<img src="admin/assets/img/role/unlock_user.png" class="cursor" width="20" height="20" title="手动解禁" ng-click="userManage.onShowLockClick(item.ID,item.USER_STATUS)" />
+								<img src="admin/assets/img/role/red_del.png" class="cursor u-pwd-reset" width="20" title="删除" height="20" ng-click="userManage.onShowDeleteModelClick(-1,item.ID)" />
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!--分页-->
+			<div class="paging-con-box mt10 clear">
+				<div class="photo-record-page fll">
+					<select ng-model="userManage.selPageRows" class="mr10">
+						<option value="50">50</option>
+						<option value="40">40</option>
+						<option value="30">30</option>
+						<option value="20">20</option>
+						<option value="10">10</option>
+					</select>
+					<span>共找到</span>
+					<span class="color_red">{{userManage.userList_total}}</span>
+					<span>条记录</span>
+				</div>
+				<div class="photo-now-page fll">
+					<span>第 </span>
+					<span>{{userManage.pagination.current}}</span>
+					<span>/</span>
+					<span>{{userManage.totalPages}}</span>
+					<span>页</span>
+				</div>
+				<div class="photo-jump-page flr">
+					<dir-pagination-controls on-page-change="userManage.pageChanged(newPageNumber)" template-url="admin/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+					</dir-pagination-controls>
+				</div>
+			</div>
+		</div>
+
+		<!--用户添加弹框-->
+		<div class="common-modal-style" id="user-add-modal" ng-mousemove="userManage.modalMove('add-modal-tit','user-add-modal')" style="display:none">
+			<div class="role-add-con">
+				<div id="add-modal-tit" class="user-add-tit clear">
+					<span class="fll">新添用户信息</span>
+					<span class="flr curp tit-close" ng-click="userManage.onCancelAddModalClick()">×</span>
+				</div>
+				<div style="overflow: auto;height: 420px;width: 100%">
+					<div class="user-add-main clear">
+						<div class="clear user-info-stage-item">
+							<div class="user-user-each-item">
+								<!--用户名-->
+								<div class="user-add-spec-part clear">
+									<div class="user-add-spec-tit">
+										用户名<span class="color_red">*</span>
+									</div>
+									<div class="user-add-spec-input">
+										<input type="text" ng-model="userManage.addUserName" class="user-border-gray" autocomplete="off"
+											   limit-to="32">
+										<div style="display:none;" class="invalid-length-hint color_red">用户名要少于32个字符</div>
+									</div>
+								</div>
+								<!--订户级别-->
+								<div class="user-add-spec-part clear" ng-if="userManage.addSubLevelFlag">
+									<div class="user-add-spec-tit">
+										订户级别
+									</div>
+									<div class="user-add-spec-input">
+										<select ng-model="userManage.addUserLevel" class="user-border-gray">
+											<option value="">请选择</option>
+											<option value="0" ng-selected="true">普通用户</option>
+											<option value="1">VIP</option>
+										</select>
+									</div>
+								</div>
+								<!--密码-->
+								<div class="user-add-spec-part clear">
+									<div class="user-add-spec-tit">
+										密码<span class="color_red">*</span>
+									</div>
+									<div class="user-add-spec-input">
+										<input type="password" ng-model="userManage.addPassword" class="user-border-gray" limit-to="50">
+										<div style="display:none;" class="invalid-length-hint color_red">密码要少于50个字符</div>
+									</div>
+								</div>
+
+								<div class="user-add-spec-part clear" ng-if="userManage.addSubLevelFlag">
+									<div class="user-add-spec-tit">
+										订阅类型
+									</div>
+									<div class="user-add-spec-input">
+										<select ng-model="userManage.addSubscriptionType" class="user-border-gray">
+											<option value="">请选择</option>
+											<option value="1">图书</option>
+											<option value="2">杂志</option>
+											<option value="3">报纸</option>
+											<option value="4">网络</option>
+											<option value="5">影视</option>
+											<option value="6">广告</option>
+											<option value="7">其它</option>
+										</select>
+									</div>
+								</div>
+
+								<!--用户状态,当不是订户是显示-->
+								<div class="user-add-spec-part clear" ng-if="!userManage.addSubLevelFlag">
+									<div class="user-add-spec-tit">
+										用户状态<span class="color_red">*</span>
+									</div>
+									<div class="user-add-spec-input">
+										<select ng-model="userManage.addUserStatus" class="user-border-gray">
+											<option value="">请选择</option>
+											<option value="0">已开通</option>
+											<option value="1">正申请</option>
+											<option value="2">已删除</option>
+											<option value="3">已禁用</option>
+										</select>
+									</div>
+								</div>
+								<!--摄影方向，当是摄影师是显示-->
+								<div class="user-add-spec-part clear" ng-if='userManage.addphotodirection'>
+									<div class="user-add-spec-tit">
+										摄影方向
+									</div>
+									<div class="user-add-spec-input" style="height: 24px">
+										<div ng-dropdown-multiselect options="userManage.addphotodirectionArray" selected-model="userManage.adddirectionArray" extra-settings="userManage.optiondirectionSettings" translation-texts="userManage.optionDefaultText">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="user-user-each-item">
+								<!--用户类型-->
+								<div class="user-add-spec-part clear">
+									<div class="user-add-spec-tit">
+										用户类型<span class="color_red">*</span>
+									</div>
+									<div class="user-add-spec-input" style="height: 24px">
+										<div ng-dropdown-multiselect options="userManage.addRoleArray" selected-model="userManage.addUserTypeArray" extra-settings="userManage.optionAddSettings" translation-texts="userManage.optionAddDefaultText" events="userManage.onAddSelectOptionEvents">
+										</div>
+									</div>
+								</div>
+								<!--订户类型-->
+								<div class="user-add-spec-part clear" ng-if="userManage.addSubLevelFlag">
+									<div class="user-add-spec-tit">
+										订户类型
+									</div>
+									<div class="user-add-spec-input">
+										<select ng-model="userManage.addSubscriberType">
+											<option value="0">个人</option>
+											<option value="1">企业</option>
+										</select>
+									</div>
+								</div>
+								<!--密码确认-->
+								<div class="user-add-spec-part clear">
+									<div class="user-add-spec-tit">
+										密码确认<span class="color_red">*</span>
+									</div>
+									<div class="user-add-spec-input">
+										<input type="password" ng-model="userManage.addConfirmPwd" class="user-border-gray" limit-to="50">
+										<div style="display:none;" class="invalid-length-hint color_red">密码要少于50个字符</div>
+									</div>
+								</div>
+								<!--语种选择-->
+								<div class="user-add-spec-part clear">
+									<div class="user-add-spec-tit">
+										语种选择
+									</div>
+									<div class="user-add-spec-input">
+										<select ng-model="userManage.addlangType">
+											<option value='0'>中文</option>
+											<option value='1'>英文</option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="user-user-each-item">
+								<!--真实姓名-->
+								<div class="user-add-spec-part clear">
+									<div class="user-add-spec-tit">
+										真实姓名<span class="color_red">*</span>
+									</div>
+									<div class="user-add-spec-input">
+										<input type="text" ng-model="userManage.addTrueName" class="user-border-gray"
+											   limit-to="100" autocomplete="off">
+										<div style="display:none;" class="invalid-length-hint color_red">真实姓名要少于100个字符</div>
+									</div>
+								</div>
+								<!--身份证号-->
+								<div class="user-add-spec-part clear">
+									<div class="user-add-spec-tit">
+										<span>身份证号</span>
+										<span class="color_red" ng-hide="userManage.addSubscriberType == 1">*</span>
+									</div>
+									<div class="user-add-spec-input">
+										<input type="text" ng-model="userManage.addIdCardNum" class="user-border-gray" limit-to="64">
+										<div style="display:none;" class="invalid-length-hint color_red">身份证号要少于64个字符</div>
+									</div>
+								</div>
+								<!--用户状态,当是订户是显示-->
+								<div class="user-add-spec-part clear" ng-if="userManage.addSubLevelFlag">
+									<div class="user-add-spec-tit">
+										用户状态<span class="color_red">*</span>
+									</div>
+									<div class="user-add-spec-input">
+										<select ng-model="userManage.addUserStatus" class="user-border-gray">
+											<option value="">请选择</option>
+											<option value="0">已开通</option>
+											<option value="1">正申请</option>
+											<option value="2">已删除</option>
+											<option value="3">已禁用</option>
+										</select>
+									</div>
+								</div>
+								<!--邮政编码-->
+								<div class="user-add-spec-part clear">
+									<div class="user-add-spec-tit">
+										<span>邮政编码</span>
+										<span class="color_red">*</span>
+									</div>
+									<div class="user-add-spec-input">
+										<input type="text" ng-model="userManage.addZipCode" class="user-border-gray" limit-to="255">
+										<div style="display:none;" class="invalid-length-hint color_red">邮政编码要少于255个字符</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="clear user-info-stage-item">
+							<div class="user-user-each-item">
+								<!--绑定邮件-->
+								<div class="user-add-spec-part clear">
+									<div class="user-add-spec-tit">
+										联系邮件<span class="color_red">*</span>
+									</div>
+									<div class="user-add-spec-input">
+										<input type="text" ng-model="userManage.addUserEmail" class="user-border-gray" limit-to="100">
+										<div style="display:none;" class="invalid-length-hint color_red">联系邮件要少于100个字符</div>
+									</div>
+								</div>
+								<!--作者名-->
+								<div class="user-add-spec-part clear">
+									<div class="user-add-spec-tit">
+										作者名<span class="color_red">*</span>
+									</div>
+									<div class="user-add-spec-input">
+										<input type="text" ng-model="userManage.addWorkName" class="user-border-gray" limit-to="100">
+										<div style="display:none;" class="invalid-length-hint color_red">作者名要少于100个字符</div>
+									</div>
+								</div>
+								<!--单位地址-->
+								<div class="user-add-spec-part clear">
+									<div class="user-add-spec-tit">
+										单位地址
+									</div>
+									<div class="user-add-spec-input">
+										<input type="text" ng-model="userManage.addUnitPath" class="user-border-gray" limit-to="200">
+										<div style="display:none;" class="invalid-length-hint color_red">单位地址要少于200个字符</div>
+									</div>
+								</div>
+								<!--通信地址-->
+								<div class="user-add-spec-part clear">
+									<div class="user-add-spec-tit">
+										通信地址
+									</div>
+									<div class="user-add-spec-input">
+										<input type="text" ng-model="userManage.addInformPath" class="user-border-gray" limit-to="255">
+										<div style="display:none;" class="invalid-length-hint color_red">通信地址要少于255个字符</div>
+									</div>
+								</div>
+								<!--接收稿费方式-->
+								<div class="user-add-spec-part clear">
+									<div class="user-add-spec-tit">
+										接收稿费方式
+									</div>
+									<div class="user-add-spec-input">
+										<select ng-model="userManage.addInformPayType" class="user-border-gray">
+											<option value="">请选择</option>
+											<option value="0">邮寄</option>
+											<option value="1">电汇</option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="user-user-each-item">
+								<!--绑定手机-->
+								<div class="user-add-spec-part clear">
+									<div class="user-add-spec-tit">
+										移动电话<span class="color_red">*</span>
+									</div>
+									<div class="user-add-spec-input">
+										<input type="text" ng-model="userManage.addUserPhone" class="user-border-gray" limit-to="100">
+										<div style="display:none;" class="invalid-length-hint color_red">移动电话要少于100个字符</div>
+									</div>
+								</div>
+								<!--详细地址-->
+								<div class="user-add-spec-part clear">
+									<div class="user-add-spec-tit">
+										详细地址
+									</div>
+									<div class="user-add-spec-input">
+										<input type="text" ng-model="userManage.addDetailPath" class="user-border-gray" limit-to="500">
+										<div style="display:none;" class="invalid-length-hint color_red">详细地址要少于500个字符</div>
+									</div>
+								</div>
+								<!--单位电话-->
+								<div class="user-add-spec-part clear">
+									<div class="user-add-spec-tit">
+										单位电话
+									</div>
+									<div class="user-add-spec-input">
+										<input type="text" ng-model="userManage.addUnitPhone" class="user-border-gray" limit-to="100">
+										<div style="display:none;" class="invalid-length-hint color_red">单位电话要少于100个字符</div>
+									</div>
+								</div>
+								<!--收稿费人姓名-->
+								<div class="user-add-spec-part clear">
+									<div class="user-add-spec-tit">
+										收稿费人姓名
+									</div>
+									<div class="user-add-spec-input">
+										<input type="text" ng-model="userManage.addInformName" class="user-border-gray" limit-to="255">
+										<div style="display:none;" class="invalid-length-hint color_red">收稿费人姓名要少于255个字符</div>
+									</div>
+								</div>
+								<!--邮政编码-->
+								<div class="user-add-spec-part clear">
+									<div class="user-add-spec-tit">
+										邮政编码
+									</div>
+									<div class="user-add-spec-input">
+										<input type="text" ng-model="userManage.addMailNum" class="user-border-gray" limit-to="255">
+										<div style="display:none;" class="invalid-length-hint color_red">邮政编码要少于255个字符</div>
+									</div>
+								</div>
+							</div>
+							<div class="user-user-each-item">
+								<!--所属省市-->
+								<div class="user-add-spec-part clear">
+									<div class="user-add-spec-tit">
+										所属省市
+									</div>
+									<div class="user-add-spec-input">
+										<!--<input type="text" ng-model="userManage.addUserCity">-->
+										<select class="draft-procity-select user-border-gray" ng-change="userManage.changeProv(userManage.addUserProv)" ng-model="userManage.addUserProv" ng-options="prov.p as prov.p for prov in userManage.msCityList">
+											<option value="">请选择</option>
+										</select>
+										<select class="draft-procity-select user-border-gray" ng-model="userManage.addUserCity" ng-options="city.n as city.n for city in userManage.cities">
+											<option value="">请选择</option>
+										</select>
+									</div>
+								</div>
+								<!--单位名称-->
+								<div class="user-add-spec-part clear">
+									<div class="user-add-spec-tit">
+										单位名称
+									</div>
+									<div class="user-add-spec-input">
+										<input type="text" ng-model="userManage.addUnitName" class="user-border-gray" limit-to="200">
+										<div style="display:none;" class="invalid-length-hint color_red">单位名称要少于200个字符</div>
+									</div>
+								</div>
+								<!--单位传真-->
+								<div class="user-add-spec-part clear">
+									<div class="user-add-spec-tit">
+										单位传真
+									</div>
+									<div class="user-add-spec-input">
+										<input type="text" ng-model="userManage.addUnitFax" class="user-border-gray" limit-to="100">
+										<div style="display:none;" class="invalid-length-hint color_red">单位传真要少于100个字符</div>
+									</div>
+								</div>
+								<!--收稿费人身份证号-->
+								<div class="user-add-spec-part clear">
+									<div class="user-add-spec-tit">
+										收稿费人身份证号
+									</div>
+									<div class="user-add-spec-input">
+										<input type="text" ng-model="userManage.addInformIdCard" class="user-border-gray" limit-to="255">
+										<div style="display:none;" class="invalid-length-hint color_red">收稿费人身份证号要少于255个字符</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="clear user-info-stage-item">
+							<div class="user-user-each-item">
+								<!--密码提示问题-->
+								<div class="user-add-spec-part clear">
+									<div class="user-add-spec-tit">
+										密码提示问题
+									</div>
+									<div class="user-add-spec-input">
+										<input type="text" ng-model="userManage.addPwdTipQue" class="user-border-gray" limit-to="200">
+										<div style="display:none;" class="invalid-length-hint color_red">密码提示问题要少于200个字符</div>
+									</div>
+								</div>
+							</div>
+							<div class="user-user-each-item">
+								<!--密码提示答案-->
+								<div class="user-add-spec-part clear">
+									<div class="user-add-spec-tit">
+										密码提示答案
+									</div>
+									<div class="user-add-spec-input">
+										<input type="text" ng-model="userManage.addPwdTipAns" class="user-border-gray" limit-to="200">
+										<div style="display:none;" class="invalid-length-hint color_red">密码提示答案要少于200个字符</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="clear user-info-stage-item">
+							<div class="user-user-each-item">
+								<!--邮政储蓄存折账号或卡号-->
+								<div class="user-add-spec-part clear">
+									<div class="user-add-spec-tit">
+										邮政储蓄存折账号或卡号
+									</div>
+									<div class="user-add-spec-input">
+										<input type="text" ng-model="userManage.addAccountNum" class="user-border-gray" limit-to="100">
+										<div style="display:none;" class="invalid-length-hint color_red">邮政储蓄存折账号或卡号要少于100个字符</div>
+									</div>
+								</div>
+								<!--开户行-->
+								<div class="user-add-spec-part clear">
+									<div class="user-add-spec-tit">
+										开户行
+									</div>
+									<div class="user-add-spec-input">
+										<!--<input type="text" ng-model="userManage.addAccountBank" class="user-border-gray">-->
+										<input type="text" readonly value='中国邮政储蓄银行' class="user-border-gray">
+									</div>
+								</div>
+							</div>
+							<div class="user-user-each-item">
+								<!--上述存折或卡的户名-->
+								<div class="user-add-spec-part clear">
+									<div class="user-add-spec-tit">
+										上述存折或卡的户名
+									</div>
+									<div class="user-add-spec-input">
+										<input type="text" ng-model="userManage.addAccountName" class="user-border-gray" limit-to="50">
+										<div style="display:none;" class="invalid-length-hint color_red">上述存折或卡的户名要少于50个字符</div>
+									</div>
+								</div>
+								<!--是否公布个人信息-->
+								<div class="user-add-spec-part clear">
+									<div class="user-add-spec-tit">
+										是否公布个人信息<span class="color_red">*</span>
+									</div>
+									<div class="user-add-spec-input">
+										<select ng-model="userManage.addIsPubInform" class="user-border-gray">
+											<option value="">请选择</option>
+											<option value="0">否</option>
+											<option value="1">是</option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="user-user-each-item">
+								<!--上述卡户名的身份证号-->
+								<div class="user-add-spec-part clear">
+									<div class="user-add-spec-tit">
+										上述卡户名的身份证号
+									</div>
+									<div class="user-add-spec-input">
+										<input type="text" ng-model="userManage.addAccountIdCard" class="user-border-gray" limit-to="50">
+										<div style="display:none;" class="invalid-length-hint color_red">上述卡户名的身份证号要少于50个字符</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="clear user-info-stage-item">
+							<div class="user-user-each-item">
+								<!--备注-->
+								<div class="user-add-spec-part clear">
+									<div class="user-add-spec-tit">
+										备注
+									</div>
+									<div class="user-add-spec-input">
+										<input type="text" ng-model="userManage.addUserRemark" class="user-border-gray" limit-to="2000">
+										<div style="display:none;" class="invalid-length-hint color_red">备注要少于2000个字符</div>
+									</div>
+								</div>
+							</div>
+							<div class="user-user-each-item">
+								<!--QQ号-->
+								<div class="user-add-spec-part clear">
+									<div class="user-add-spec-tit">
+										QQ号
+									</div>
+									<div class="user-add-spec-input">
+										<input type="text" ng-model="userManage.addUserQQNum" class="user-border-gray" limit-to="255">
+										<div style="display:none;" class="invalid-length-hint color_red">QQ号要少于255个字符</div>
+									</div>
+								</div>
+							</div>
+							<div class="user-user-each-item">
+								<!--微信号-->
+								<div class="user-add-spec-part clear">
+									<div class="user-add-spec-tit">
+										微信号
+									</div>
+									<div class="user-add-spec-input">
+										<input type="text" ng-model="userManage.addUserWxNum" class="user-border-gray" limit-to="255">
+										<div style="display:none;" class="invalid-length-hint color_red">微信号要少于255个字符</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="tac mt10">
+					<span class="dib cursor user-add-btn" ng-click="userManage.onAddUserManageClick()">保存</span>
+					<span class="dib cursor user-add-btn role-del-btn" ng-click="userManage.onCancelAddModalClick()">取消</span>
+				</div>
+			</div>
+		</div>
+		<!--用户编辑信息弹框-->
+		<div class="common-modal-style" id="user-info-modal" ng-mousemove="userManage.modalMove('info-modal-tit','user-info-modal')" style="display:none;">
+			<div class="role-add-con">
+				<div class="user-info-slide-tit">
+					<div id="info-modal-tit" class="user-add-tit clear">
+						<span class="fll">用户信息</span>
+						<span class="flr curp tit-close" ng-click="userManage.onCancelEditModalClick()">×</span>
+					</div>
+					<div class="user-info-slide-con clear">
+						<div class="active-slide-item fll" ng-class="{ 'active-slide-nav' : userManage.acitiveSlideTit == 1}" ng-click="userManage.chooseUserInfoItem(1)">修改用户
+						</div>
+						<div class="active-slide-item fll" ng-class="{ 'active-slide-nav' : userManage.acitiveSlideTit == 2}" ng-click="userManage.chooseUserInfoItem(2)">充值管理
+						</div>
+						<div class="active-slide-item fll" ng-class="{ 'active-slide-nav' : userManage.acitiveSlideTit == 3}" ng-click="userManage.chooseUserInfoItem(3)">下载管理
+						</div>
+						<!--<div class="active-slide-item fll"
+                             ng-class="{ 'active-slide-nav' : userManage.acitiveSlideTit == 4}"
+                             ng-click="userManage.chooseUserInfoItem(4)">签发授权
+                        </div>-->
+						<div class="active-slide-item fll" ng-class="{ 'active-slide-nav' : userManage.acitiveSlideTit == 5}" ng-click="userManage.chooseUserInfoItem(5)">登录日志
+						</div>
+						<div class="active-slide-item fll" ng-class="{ 'active-slide-nav' : userManage.acitiveSlideTit == 6}" ng-click="userManage.chooseUserInfoItem(6)">操作日志
+						</div>
+					</div>
+				</div>
+				<!--修改用户-->
+				<div class="user-info-item" ng-if="userManage.acitiveSlideTit == 1">
+					<div style="overflow: auto;height: 420px;width: 100%">
+						<div class="user-add-main clear">
+							<div class="clear user-info-stage-item">
+								<div class="user-user-each-item">
+									<!--用户名-->
+									<div class="user-add-spec-part clear">
+										<div class="user-add-spec-tit">
+											用户名<span class="color_red">*</span>
+										</div>
+										<div class="user-add-spec-input">
+											<input type="text" readonly="readonly" ng-model="userManage.editUserName" class="user-border-gray" limit-to="255">
+											<div style="display:none;" class="invalid-length-hint color_red">用户名要少于32个字符</div>
+										</div>
+									</div>
+									<!--订户级别-->
+									<div class="user-add-spec-part clear" ng-if="userManage.editSubLevelFlag">
+										<div class="user-add-spec-tit">
+											订户级别
+										</div>
+										<div class="user-add-spec-input">
+											<select ng-model="userManage.editUserLevel" class="user-border-gray">
+												<option value="">请选择</option>
+												<option value="0" ng-selected="true">普通用户</option>
+												<option value="1">VIP</option>
+											</select>
+										</div>
+									</div>
+									<!--密码-->
+									<div class="user-add-spec-part clear">
+										<div class="user-add-spec-tit">
+											密码<span class="color_red">*</span>
+										</div>
+										<div class="user-add-spec-input">
+											<input type="password" readonly="readonly" ng-model="userManage.editPassword" class="user-pwd-read-input" limit-to="50">
+											<div style="display:none;" class="invalid-length-hint color_red">密码要少于50个字符</div>
+										</div>
+									</div>
+
+									<div class="user-add-spec-part clear" ng-if="userManage.editSubLevelFlag">
+										<div class="user-add-spec-tit">
+											订阅类型
+										</div>
+										<div class="user-add-spec-input">
+											<select ng-model="userManage.editSubscriptionType" class="user-border-gray">
+												<option value="">请选择</option>
+												<option value="1">图书</option>
+												<option value="2">杂志</option>
+												<option value="3">报纸</option>
+												<option value="4">网络</option>
+												<option value="5">影视</option>
+												<option value="6">广告</option>
+												<option value="7">其它</option>
+											</select>
+										</div>
+									</div>
+
+									<!--用户状态,当不是订户是显示-->
+									<div class="user-add-spec-part clear" ng-if="!userManage.editSubLevelFlag">
+										<div class="user-add-spec-tit">
+											用户状态<span class="color_red">*</span>
+										</div>
+										<div class="user-add-spec-input">
+											<select ng-model="userManage.editUserStatus" class="user-border-gray">
+												<option value="">请选择</option>
+												<option value="0">已开通</option>
+												<option value="1">正申请</option>
+												<option value="2">已删除</option>
+												<option value="3">已禁用</option>
+											</select>
+										</div>
+									</div>
+									<!--摄影方向，当是摄影师是显示-->
+									<div class="user-add-spec-part clear" ng-if='userManage.editphotodirection'>
+										<div class="user-add-spec-tit">
+											摄影方向
+										</div>
+										<div class="user-add-spec-input" style="height: 24px">
+											<div ng-dropdown-multiselect options="userManage.editphotodirectionArray" 
+												selected-model="userManage.editdirectionArray" 
+												extra-settings="userManage.optioneditdirectionSettings" 
+												translation-texts="userManage.optioneditDefaultText">
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="user-user-each-item">
+									<!--用户类型-->
+									<div class="user-add-spec-part clear">
+										<div class="user-add-spec-tit">
+											用户类型<span class="color_red">*</span>
+										</div>
+										<div class="user-add-spec-input" style="height: 24px">
+											<div ng-dropdown-multiselect options="userManage.editRoleArray"
+												 selected-model="userManage.editUserTypeArray" extra-settings="userManage.optionEditSettings"
+												 translation-texts="userManage.optionEditDefaultText" events="userManage.onEditSelectOptionEvents"
+													>
+											</div>
+										</div>
+									</div>
+									<!--订户类型-->
+									<div class="user-add-spec-part clear" ng-if="userManage.editSubLevelFlag">
+										<div class="user-add-spec-tit">
+											订户类型
+										</div>
+										<div class="user-add-spec-input">
+											<select ng-model="userManage.editSubscriberType">
+												<option value="0">个人</option>
+												<option value="1">企业</option>
+											</select>
+										</div>
+									</div>
+									<!--密码确认-->
+									<div class="user-add-spec-part clear">
+										<div class="user-add-spec-tit">
+											密码确认<span class="color_red">*</span>
+										</div>
+										<div class="user-add-spec-input">
+
+											<input type="password" readonly="readonly" ng-model="userManage.editConfirmPwd" class="user-pwd-read-input"
+												   limit-to="50">
+											<div style="display:none;" class="invalid-length-hint color_red">密码要少于50个字符</div>
+										</div>
+									</div>
+									<!--语种选择-->
+									<div class="user-add-spec-part clear">
+										<div class="user-add-spec-tit">
+											语种选择
+										</div>
+										<div class="user-add-spec-input">
+											<select ng-model="userManage.editlangType">
+												<option value='0'>中文</option>
+												<option value='1'>英文</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="user-user-each-item">
+									<!--真实姓名-->
+									<div class="user-add-spec-part clear">
+										<div class="user-add-spec-tit">
+											真实姓名<span class="color_red">*</span>
+										</div>
+										<div class="user-add-spec-input">
+											<input type="text" ng-model="userManage.editTrueName" class="user-border-gray"
+												   limit-to="100"/>
+											<div style="display:none;" class="invalid-length-hint color_red">真实姓名要少于100个字符</div>
+										</div>
+									</div>
+									<!--身份证号-->
+									<div class="user-add-spec-part clear">
+										<div class="user-add-spec-tit">
+											<span>身份证号</span>
+											<span class="color_red" ng-hide="userManage.editSubscriberType == 1">*</span>
+										</div>
+										<div class="user-add-spec-input">
+											<input type="text" ng-model="userManage.editIdCardNum" class="user-border-gray" limit-to="64">
+											<div style="display:none;" class="invalid-length-hint color_red">身份证号要少于64个字符</div>
+										</div>
+									</div>
+									<!--用户状态,当是订户是显示-->
+									<div class="user-add-spec-part clear" ng-if="userManage.editSubLevelFlag">
+										<div class="user-add-spec-tit">
+											用户状态<span class="color_red">*</span>
+										</div>
+										<div class="user-add-spec-input">
+											<select ng-model="userManage.editUserStatus" class="user-border-gray">
+												<option value="">请选择</option>
+												<option value="0">已开通</option>
+												<option value="1">正申请</option>
+												<option value="2">已删除</option>
+												<option value="3">已禁用</option>
+											</select>
+										</div>
+									</div>
+									<!--邮政编码-->
+									<div class="user-add-spec-part clear">
+										<div class="user-add-spec-tit">
+											<span>邮政编码</span>
+											<span class="color_red">*</span>
+										</div>
+										<div class="user-add-spec-input">
+											<input type="text" ng-model="userManage.editZipCode" class="user-border-gray" limit-to="255">
+											<div style="display:none;" class="invalid-length-hint color_red">邮政编码要少于255个字符</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="clear user-info-stage-item">
+								<div class="user-user-each-item">
+									<!--绑定邮件-->
+									<div class="user-add-spec-part clear">
+										<div class="user-add-spec-tit">
+											联系邮件<span class="color_red">*</span>
+										</div>
+										<div class="user-add-spec-input">
+											<input type="text" ng-model="userManage.editUserEmail" class="user-border-gray" limit-to="100">
+											<div style="display:none;" class="invalid-length-hint color_red">联系邮件要少于100个字符</div>
+										</div>
+									</div>
+									<!--作者名-->
+									<div class="user-add-spec-part clear">
+										<div class="user-add-spec-tit">
+											作者名<span class="color_red">*</span>
+										</div>
+										<div class="user-add-spec-input">
+											<input type="text" ng-model="userManage.editWorkName" class="user-border-gray" limit-to="100">
+											<div style="display:none;" class="invalid-length-hint color_red">作者名要少于100个字符</div>
+										</div>
+									</div>
+									<!--单位地址-->
+									<div class="user-add-spec-part clear">
+										<div class="user-add-spec-tit">
+											单位地址
+										</div>
+										<div class="user-add-spec-input">
+											<input type="text" ng-model="userManage.editUnitPath" class="user-border-gray" limit-to="200">
+											<div style="display:none;" class="invalid-length-hint color_red">单位地址要少于200个字符</div>
+										</div>
+									</div>
+									<!--通信地址-->
+									<div class="user-add-spec-part clear">
+										<div class="user-add-spec-tit">
+											通信地址
+										</div>
+										<div class="user-add-spec-input">
+											<input type="text" ng-model="userManage.editInformPath" class="user-border-gray" limit-to="255">
+											<div style="display:none;" class="invalid-length-hint color_red">通信地址要少于255个字符</div>
+										</div>
+									</div>
+									<!--接收稿费方式-->
+									<div class="user-add-spec-part clear">
+										<div class="user-add-spec-tit">
+											接收稿费方式
+										</div>
+										<div class="user-add-spec-input">
+											<select ng-model="userManage.editInformPayType" class="user-border-gray">
+												<option value="">请选择</option>
+												<option value="0">邮寄</option>
+												<option value="1">电汇</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="user-user-each-item">
+									<!--绑定手机-->
+									<div class="user-add-spec-part clear">
+										<div class="user-add-spec-tit">
+											移动电话<span class="color_red">*</span>
+										</div>
+										<div class="user-add-spec-input">
+											<input type="text" ng-model="userManage.editUserPhone" class="user-border-gray" limit-to="100">
+											<div style="display:none;" class="invalid-length-hint color_red">移动电话要少于100个字符</div>
+										</div>
+									</div>
+									<!--详细地址-->
+									<div class="user-add-spec-part clear">
+										<div class="user-add-spec-tit">
+											详细地址
+										</div>
+										<div class="user-add-spec-input">
+											<input type="text" ng-model="userManage.editDetailPath" class="user-border-gray" limit-to="500">
+											<div style="display:none;" class="invalid-length-hint color_red">详细地址要少于500个字符</div>
+										</div>
+									</div>
+									<!--单位电话-->
+									<div class="user-add-spec-part clear">
+										<div class="user-add-spec-tit">
+											单位电话
+										</div>
+										<div class="user-add-spec-input">
+											<input type="text" ng-model="userManage.editUnitPhone" class="user-border-gray" limit-to="100">
+											<div style="display:none;" class="invalid-length-hint color_red">单位电话要少于100个字符</div>
+										</div>
+									</div>
+									<!--收稿费人姓名-->
+									<div class="user-add-spec-part clear">
+										<div class="user-add-spec-tit">
+											收稿费人姓名
+										</div>
+										<div class="user-add-spec-input">
+											<input type="text" ng-model="userManage.editInformName" class="user-border-gray" limit-to="255">
+											<div style="display:none;" class="invalid-length-hint color_red">收稿费人姓名要少于255个字符</div>
+										</div>
+									</div>
+									<!--邮政编码-->
+									<div class="user-add-spec-part clear">
+										<div class="user-add-spec-tit">
+											邮政编码
+										</div>
+										<div class="user-add-spec-input">
+											<input type="text" ng-model="userManage.editMailNum" class="user-border-gray" limit-to="255">
+											<div style="display:none;" class="invalid-length-hint color_red">邮政编码要少于255个字符</div>
+										</div>
+									</div>
+								</div>
+								<div class="user-user-each-item">
+									<!--所属省市-->
+									<div class="user-add-spec-part clear">
+										<div class="user-add-spec-tit">
+											所属省市
+										</div>
+										<div class="user-add-spec-input">
+											<select class="draft-procity-select user-border-gray" ng-change="userManage.changeProv(userManage.editUserProv)" ng-model="userManage.editUserProv" ng-options="prov.p as prov.p for prov in userManage.msCityList">
+												<option value="">请选择</option>
+											</select>
+											<select class="draft-procity-select user-border-gray" ng-model="userManage.editUserCity" ng-options="city.n as city.n for city in userManage.cities">
+												<option value="">请选择</option>
+											</select>
+										</div>
+									</div>
+									<!--单位名称-->
+									<div class="user-add-spec-part clear">
+										<div class="user-add-spec-tit">
+											单位名称
+										</div>
+										<div class="user-add-spec-input">
+											<input type="text" ng-model="userManage.editUnitName" class="user-border-gray" limit-to="200">
+											<div style="display:none;" class="invalid-length-hint color_red">单位名称要少于200个字符</div>
+										</div>
+									</div>
+									<!--单位传真-->
+									<div class="user-add-spec-part clear">
+										<div class="user-add-spec-tit">
+											单位传真
+										</div>
+										<div class="user-add-spec-input">
+											<input type="text" ng-model="userManage.editUnitFax" class="user-border-gray" limit-to="100">
+											<div style="display:none;" class="invalid-length-hint color_red">单位传真要少于100个字符</div>
+										</div>
+									</div>
+									<!--收稿费人身份证号-->
+									<div class="user-add-spec-part clear">
+										<div class="user-add-spec-tit">
+											收稿费人身份证号
+										</div>
+										<div class="user-add-spec-input">
+											<input type="text" ng-model="userManage.editInformIdCard" class="user-border-gray" limit-to="255">
+											<div style="display:none;" class="invalid-length-hint color_red">收稿费人身份证号要少于255个字符</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="clear user-info-stage-item">
+								<div class="user-user-each-item">
+									<!--密码提示问题-->
+									<div class="user-add-spec-part clear">
+										<div class="user-add-spec-tit">
+											密码提示问题
+										</div>
+										<div class="user-add-spec-input">
+											<input type="text" ng-model="userManage.editPwdTipQue" class="user-border-gray" limit-to="200">
+											<div style="display:none;" class="invalid-length-hint color_red">密码提示问题要少于200个字符</div>
+										</div>
+									</div>
+								</div>
+								<div class="user-user-each-item">
+									<!--密码提示答案-->
+									<div class="user-add-spec-part clear">
+										<div class="user-add-spec-tit">
+											密码提示答案
+										</div>
+										<div class="user-add-spec-input">
+											<input type="text" ng-model="userManage.editPwdTipAns" class="user-border-gray" limit-to="200">
+											<div style="display:none;" class="invalid-length-hint color_red">密码提示问题要少于200个字符</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="clear user-info-stage-item">
+								<div class="user-user-each-item">
+									<!--邮政储蓄存折账号或卡号-->
+									<div class="user-add-spec-part clear">
+										<div class="user-add-spec-tit">
+											邮政储蓄存折账号或卡号
+										</div>
+										<div class="user-add-spec-input">
+											<input type="text" ng-model="userManage.editAccountNum" class="user-border-gray" limit-to="100">
+											<div style="display:none;" class="invalid-length-hint color_red">邮政储蓄存折账号或卡号要少于100个字符</div>
+										</div>
+									</div>
+									<!--开户行-->
+									<div class="user-add-spec-part clear">
+										<div class="user-add-spec-tit">
+											开户行
+										</div>
+										<div class="user-add-spec-input">
+											<input readonly type="text" ng-model="userManage.editAccountBank" class="user-border-gray" limit-to="50">
+											<div style="display:none;" class="invalid-length-hint color_red">开户行要少于50个字符</div>
+										</div>
+									</div>
+								</div>
+								<div class="user-user-each-item">
+									<!--上述存折或卡的户名-->
+									<div class="user-add-spec-part clear">
+										<div class="user-add-spec-tit">
+											上述存折或卡的户名
+										</div>
+										<div class="user-add-spec-input">
+											<input type="text" ng-model="userManage.editAccountName" class="user-border-gray" limit-to="50">
+											<div style="display:none;" class="invalid-length-hint color_red">上述存折或卡的户名要少于50个字符</div>
+										</div>
+									</div>
+									<!--是否公布个人信息-->
+									<div class="user-add-spec-part clear">
+										<div class="user-add-spec-tit">
+											是否公布个人信息<span class="color_red">*</span>
+										</div>
+										<div class="user-add-spec-input">
+											<select ng-model="userManage.editIsPubInform" class="user-border-gray">
+												<option value="">请选择</option>
+												<option value="0">否</option>
+												<option value="1">是</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="user-user-each-item">
+									<!--上述卡户名的身份证号-->
+									<div class="user-add-spec-part clear">
+										<div class="user-add-spec-tit">
+											上述卡户名的身份证号
+										</div>
+										<div class="user-add-spec-input">
+											<input type="text" ng-model="userManage.editAccountIdCard" class="user-border-gray" limit-to="50">
+											<div style="display:none;" class="invalid-length-hint color_red">上述卡户名的身份证号要少于50个字符</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="clear user-info-stage-item">
+								<div class="user-user-each-item">
+									<!--备注-->
+									<div class="user-add-spec-part clear">
+										<div class="user-add-spec-tit">
+											备注
+										</div>
+										<div class="user-add-spec-input">
+											<input type="text" ng-model="userManage.editUserRemark" class="user-border-gray" limit-to="2000">
+											<div style="display:none;" class="invalid-length-hint color_red">备注要少于2000个字符</div>
+										</div>
+									</div>
+								</div>
+								<div class="user-user-each-item">
+									<!--QQ号-->
+									<div class="user-add-spec-part clear">
+										<div class="user-add-spec-tit">
+											QQ号
+										</div>
+										<div class="user-add-spec-input">
+											<input type="text" ng-model="userManage.editUserQQNum" class="user-border-gray" limit-to="255">
+											<div style="display:none;" class="invalid-length-hint color_red">QQ号要少于255个字符</div>
+										</div>
+									</div>
+								</div>
+								<div class="user-user-each-item">
+									<!--微信号-->
+									<div class="user-add-spec-part clear">
+										<div class="user-add-spec-tit">
+											微信号
+										</div>
+										<div class="user-add-spec-input">
+											<input type="text" ng-model="userManage.editUserWxNum" class="user-border-gray" limit-to="255">
+											<div style="display:none;" class="invalid-length-hint color_red">微信号要少于255个字符</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="tac mt10">
+						<input type="button" class="dib cursor user-add-btn" ng-disabled="userManage.isClickFlag" ng-class="{'user-add-btn-no-click':userManage.updateBtnIfUseFlag}" ng-click="userManage.onEditUserManageClick()" value="保存" id="update-uinfo-save-btn">
+						<span class="dib cursor user-add-btn role-del-btn" ng-click="userManage.onCancelEditModalClick()">取消</span>
+					</div>
+				</div>
+				<!--充值管理-->
+				<div class="user-info-item" ng-if="userManage.acitiveSlideTit == 2">
+					<div class="role-modal-con user-recharge-manage">
+						<div class="user-pwd-reset-hd clear">
+							<div class="user-info-detail-item fll">
+								用户ID：{{userManage.payUserId}}
+							</div>
+							<div class="user-info-detail-item fll">
+								用户姓名：{{userManage.payLoginName}}
+							</div>
+							<div class="user-info-detail-item fll">
+								登录名：{{userManage.payUserName}}
+							</div>
+							<div class="user-info-detail-item fll">
+								账户余额：{{userManage.payMoney}}
+							</div>
+						</div>
+						<div class="user-pwd-reset-bd">
+							<div class="user-pwd-rstcon-item clear">
+								<div class="user-pwd-rstcon-left fll tar">
+									<span>充值额：</span>
+								</div>
+								<div class="user-pwd-rstcon-right fll tal">
+									<input type="text" class="r-pwd-rest-input" ng-model="userManage.payUpMoney" />
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="tac">
+						<input type="button" class="dib cursor user-submit-btn" ng-disabled="userManage.isOnTipUpPayClickFlag" ng-class="{'user-submit-btn-bg':userManage.isOnTipUpPayClickFlag}" ng-click="userManage.onTipUpPayClick()" value="提交" />
+						<span class="dib cursor user-cancel-btn" ng-click="userManage.userModalHide('user-info-modal')">取消</span>
+					</div>
+				</div>
+				<!--下载管理-->
+				<div class="user-info-item user-info-down-manage" ng-if="userManage.acitiveSlideTit == 3">
+					<div class="role-modal-con user-recharge-manage" style="overflow: auto;height: 390px;width: 100%">
+						<div class="user-pwd-reset-hd clear">
+							<div class="user-pwd-reset-item fll">
+								用户ID：{{userManage.payUserId}}
+							</div>
+							<div class="user-pwd-reset-item fll">
+								用户姓名：{{userManage.payLoginName}}
+							</div>
+							<div class="user-pwd-reset-item fll">
+								登录名：{{userManage.payUserName}}
+							</div>
+						</div>
+						<div class="user-pwd-reset-bd">
+							<div class="user-down-mange-con clear">
+								<div class="user-down-item clear">
+									<div class="user-down-mg-item user-down-mg-item1  fll">
+										下载级别<span class="color_red">*</span>：
+									</div>
+									<div class="user-down-mg-item user-down-mg-item2 fll">
+										<select class="user-down-select" ng-model="userManage.editDownLevelId" ng-options="level.ID as level.LEVEL_NAME for level in userManage.downloadLevelList">
+											<option value="">---请选择---</option>
+										</select>
+										<img src="admin/assets/img/role/zxs_question.jpg" width="14" height="12" class="user-down-ques">
+									</div>
+								</div>
+								<div class="user-down-item clear">
+									<div class="user-down-mg-item user-down-mg-item1 fll">
+										下载方式<span class="color_red">*</span>：
+									</div>
+									<div class="user-down-mg-item user-down-mg-item2 fll">
+										<input name="downloadWay" type="radio" value="0" ng-click="userManage.onSelectDownWayClick(0)" ng-model="userManage.editDownWay" />充值&nbsp;&nbsp;
+										<input name="downloadWay" type="radio" value="1" ng-click="userManage.onSelectDownWayClick(1)" ng-model="userManage.editDownWay" />张数&nbsp;&nbsp;
+										<input name="downloadWay" type="radio" value="2" ng-click="userManage.onSelectDownWayClick(2)" ng-model="userManage.editDownWay" />充值与张数
+									</div>
+								</div>
+								<div class="user-down-item clear">
+									<div class="user-down-mg-item user-down-mg-item1 fll">
+										结算方式：
+									</div>
+									<div class="user-down-mg-item user-down-mg-item2 fll">
+										{{userManage.currentDownPayWay}}
+									</div>
+								</div>
+								<div class="user-down-item clear">
+									<div class="user-down-mg-item user-down-mg-item1 fll">
+										是否允许下载<span class="color_red">*</span>：
+									</div>
+									<div class="user-down-mg-item user-down-mg-item2 fll">
+										<select class="user-down-select" ng-model="userManage.editDownIsAgree" ng-options="down.value as down.name for down in userManage.editDownIsAgreeArr">
+										</select>
+										<img src="admin/assets/img/role/zxs_question.jpg" width="14" height="12" class="user-down-ques">
+									</div>
+								</div>
+								<div class="user-down-item clear">
+									<div class="user-down-mg-item user-down-mg-item1 fll">
+										下载限制类型：
+									</div>
+									<div class="user-down-mg-item user-down-mg-item2 fll">
+										<select class="user-down-select" ng-model="userManage.editDownLimitType0" ng-if="userManage.editDownWay == 0" ng-options="type.value as type.name for type in userManage.downLimitTypeData">
+											<option value="">---请选择---</option>
+										</select>
+										<select class="user-down-select" ng-model="userManage.editDownLimitType1" ng-if="userManage.editDownWay == 1" ng-options="type.value as type.name for type in userManage.downLimitTypeData">
+											<option value="">---请选择---</option>
+										</select>
+										<select class="user-down-select" ng-model="userManage.editDownLimitType2" ng-if="userManage.editDownWay == 2" ng-options="type.value as type.name for type in userManage.downLimitTypeData">
+											<option value="">---请选择---</option>
+										</select>
+
+										<!--<select class="user-down-select" ng-if="userManage.editDownWay == 0"
+												ng-model="userManage.editDownLimitType0">
+											<option value="">-&#45;&#45;请选择-&#45;&#45;</option>
+											<option value="0">每天</option>
+											<option value="1">每月</option>
+											<option value="2">每年</option>
+											<option value="3">总共</option>
+										</select>
+										<select class="user-down-select" ng-if="userManage.editDownWay == 1"
+												ng-model="userManage.editDownLimitType1">
+											<option value="">-&#45;&#45;请选择-&#45;&#45;</option>
+											<option value="0">每天</option>
+											<option value="1">每月</option>
+											<option value="2">每年</option>
+											<option value="3">总共</option>
+										</select>
+										<select class="user-down-select"  ng-if="userManage.editDownWay == 2"
+												ng-model="userManage.editDownLimitType2">
+											<option value="">-&#45;&#45;请选择-&#45;&#45;</option>
+											<option value="0">每天</option>
+											<option value="1">每月</option>
+											<option value="2">每年</option>
+											<option value="3">总共</option>
+										</select>-->
+									</div>
+								</div>
+								<div class="user-down-item clear">
+									<div class="user-down-mg-item user-down-mg-item1 fll">
+										<!--总下载数量/限制数量：-->
+										该限制内已下载数量/限制数量:
+										<span class="color_red">*</span>
+									</div>
+									<div class="user-down-mg-item user-down-mg-item2 fll">
+										<span ng-if="userManage.editDownWay==0">{{userManage.editDownNumShow0 || 0}}</span>
+										<span ng-if="userManage.editDownWay==1">{{userManage.editDownNumShow1 || 0}}</span>
+										<span ng-if="userManage.editDownWay==2">{{userManage.editDownNumShow2 || 0}}</span>
+										<span>/</span>
+										<!--充值-->
+										<input type="text" class="user-down-count" ng-if="userManage.editDownWay==0" ng-model="userManage.editDownLimitNum0" />
+										<!--张数-->
+										<input type="text" class="user-down-count" ng-if="userManage.editDownWay==1" ng-model="userManage.editDownLimitNum1" />
+										<!--充值与张数-->
+										<input type="text" class="user-down-count" ng-if="userManage.editDownWay==2" ng-model="userManage.editDownLimitNum2" />
+									</div>
+								</div>
+								<!-- 充值 -->
+								<div ng-show="userManage.editDownWay==0||userManage.editDownWay==2">
+									<div class="oH" ng-show="userManage.editDownWay==2">
+										<span class="user-info-item-download-tit fll">充值</span>
+									</div>
+									<div class="user-down-item clear">
+										<div class="user-down-mg-item user-down-mg-item1 fll">
+											协议价格：
+										</div>
+										<div class="user-down-mg-item user-down-mg-item2 fll">
+											<input type="text" class="user-down-input" ng-model="userManage.editDownPayTalkPrice" />
+											<span>元</span>
+										</div>
+									</div>
+									<div class="user-down-item clear">
+										<div class="user-down-mg-item user-down-mg-item1 fll">
+											特殊定价图打折系数：
+										</div>
+										<div class="user-down-mg-item user-down-mg-item2 fll">
+											<input type="text" class="user-down-input" ng-model="userManage.editDownPaySellRate" />
+											<span>%</span>
+										</div>
+									</div>
+									<div class="user-down-item clear">
+										<div class="user-down-mg-item user-down-mg-item1 fll">
+											税收系数：
+											<span class="color_red">*</span>
+										</div>
+										<div class="user-down-mg-item user-down-mg-item2 fll">
+											<input type="text" class="user-down-input" ng-model="userManage.editDownPayMoneyRate" />
+										</div>
+									</div>
+									<div class="user-down-item clear">
+										<div class="user-down-mg-item user-down-mg-item1 fll">
+											分成基价：
+											<span class="color_red">*</span>
+										</div>
+										<div class="user-down-mg-item user-down-mg-item2 fll">
+											<input type="text" class="user-down-input" ng-model="userManage.editDownPayBasicPrice" />
+											<span>元</span>
+										</div>
+									</div>
+									<div class="user-down-item clear">
+										<div class="user-down-mg-item user-down-mg-item1 fll">
+											已下载数量：
+										</div>
+										<div class="user-down-mg-item user-down-mg-item2 fll">
+											<!--<input type="text" class="user-down-input" readonly-->
+											<!--ng-model="userManage.editDownPayHadDownNum"/>-->
+											<span>{{userManage.balanceHadDownNum}}</span>
+										</div>
+									</div>
+									<div class="user-down-item clear">
+										<div class="user-down-mg-item user-down-mg-item1 fll">
+											余额：
+										</div>
+										<div class="user-down-mg-item user-down-mg-item2 fll">
+											<span>{{userManage.editDownPayMoneyShow}}</span>元
+										</div>
+									</div>
+								</div>
+								<!-- 张数 -->
+								<div ng-show="userManage.editDownWay==1||userManage.editDownWay==2">
+									<div class="oH" ng-show="userManage.editDownWay==2">
+										<span class="user-info-item-download-tit fll">张数</span>
+									</div>
+									<div class="user-down-item clear">
+										<div class="user-down-mg-item user-down-mg-item1 fll">
+											协议价格：
+										</div>
+										<div class="user-down-mg-item user-down-mg-item2 fll">
+											<input type="text" class="user-down-input" ng-model="userManage.editDownPackTalkPrice" />
+											<span>元</span>
+										</div>
+									</div>
+									<div class="user-down-item clear">
+										<div class="user-down-mg-item user-down-mg-item1 fll">
+											分成基价：
+											<span class="color_red">*</span>
+										</div>
+										<div class="user-down-mg-item user-down-mg-item2 fll">
+											<input type="text" class="user-down-input" ng-model="userManage.editDownPackBasicPrice" />
+											<span>元</span>
+										</div>
+									</div>
+									<div class="user-down-item clear">
+										<div class="user-down-mg-item user-down-mg-item1 fll">
+											已下载数量/购买数量：
+										</div>
+										<div class="user-down-mg-item user-down-mg-item2 fll">
+											<!--<input type="text" class="user-down-count" readonly-->
+											<!--ng-model="userManage.editDownPackHadNum"/>-->
+											<span>{{userManage.editDownPackHadNum|| 0}}</span>
+											<span>/</span>
+											<input type="text" class="user-down-count" ng-model="userManage.editDownPackBuyNum" />
+										</div>
+									</div>
+									<div class="user-down-item clear">
+										<div class="clear">
+											<div class="user-down-mg-item user-down-mg-item1 fll">
+												合同期限时间：
+											</div>
+											<div class="user-down-mg-item user-down-mg-item2 fll">
+												<div class="dropdown mr10 fll">
+													<input type="text" class="Wdate proof-date-input" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" class="Wdate" ng-model="userManage.downPackStartTime" datepicker/>
+												</div>
+												<div class="fll mt7">
+													到
+												</div>
+												<div class="dropdown ml10 fll">
+													<input type="text" class="Wdate proof-date-input" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" class="Wdate" ng-model="userManage.downPackEndTime" datepicker/>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="tac">
+						<span class="dib cursor user-submit-btn" ng-click="userManage.onEditDownManageClick()">保存</span>
+						<span class="dib cursor user-cancel-btn" ng-click="userManage.userModalHide('user-info-modal')">取消</span>
+					</div>
+				</div>
+				<!--签发授权-->
+				<div class="user-info-item" ng-if="userManage.acitiveSlideTit == 4">
+					<div class="user-info-auth-option">
+						<p>
+							<input type="checkbox" /> 签发中新社图片网
+						</p>
+
+						<p>
+							<input type="checkbox" /> 签发全部专题
+						</p>
+
+						<p>
+							<input type="checkbox" /> 签发常设频道
+						</p>
+
+						<p>
+							<input type="checkbox" /> 签发全部子网
+						</p>
+					</div>
+					<div class="tac">
+						<span class="dib cursor user-submit-btn">保存</span>
+						<span class="dib cursor user-cancel-btn" ng-click="userManage.userModalHide('user-info-modal')">取消</span>
+					</div>
+				</div>
+				<!--登录日志-->
+				<div class="user-info-item" ng-if="userManage.acitiveSlideTit == 5">
+					<div class="role-modal-con user-recharge-manage">
+						<div class="user-pwd-reset-hd clear">
+							<div class="user-info-detail-item fll">
+								用户ID：{{userManage.payUserId}}
+							</div>
+							<div class="user-info-detail-item fll">
+								用户姓名：{{userManage.payLoginName}}
+							</div>
+						</div>
+						<div class="user-pwd-reset-hd u-login-log-day clear">
+
+							<span>最近</span>
+							<input type="text" class="user-log-day-num" ng-model="userManage.loginLogDaysModel" ng-keydown="userManage.enterQueryLog($event)"/>
+							<span>天</span>
+						</div>
+
+						<div class="table-responsive user-login-log-box">
+							<table class="table table-bordered uInfo-table">
+								<thead>
+									<tr>
+										<th class="uinfo-hd-th">登录时间</th>
+										<th class="uinfo-hd-th">登录IP</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="loginItem in userManage.loginLogArray">
+										<td>{{loginItem.OPE_TIME|date:'yyyy-MM-dd HH:mm:ss'}}</td>
+										<td>{{loginItem.OPE_IP}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<!-- 分页 -->
+					<div class="flr" style="position: relative;top: -20px;">
+						<ul class="pagination" id="paginationLoginId"></ul>
+					</div>
+					<div class="tac">
+						<span class="dib cursor user-cancel-btn" ng-click="userManage.userModalHide('user-info-modal')">取消</span>
+					</div>
+				</div>
+				<!--操作日志-->
+				<div class="user-info-item" ng-if="userManage.acitiveSlideTit == 6">
+					<div class="role-modal-con user-recharge-manage">
+						<div class="user-pwd-reset-hd clear">
+							<div class="user-info-detail-item fll">
+								用户ID：{{userManage.payUserId}}
+							</div>
+							<div class="user-info-detail-item fll">
+								用户姓名：{{userManage.payLoginName}}
+							</div>
+						</div>
+						<div class="user-pwd-reset-hd u-login-log-day clear">
+							<span>最近</span>
+							<input type="text" class="user-log-day-num" ng-model="userManage.workLogDaysModel" ng-keydown="userManage.enterQueryLog($event)" />
+							<span>天</span>
+						</div>
+						<div class="table-responsive user-login-log-box">
+							<table class="table table-bordered uInfo-table">
+								<thead>
+									<tr>
+										<th class="uinfo-hd-th">操作人</th>
+										<th class="uinfo-hd-th">操作时间</th>
+										<th class="uinfo-hd-th">信息</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="workItem in userManage.workLogArray">
+										<td>{{workItem.OPE_USER}}</td>
+										<td>{{workItem.OPE_TIME|date:'yyyy-MM-dd HH:mm:ss'}}</td>
+										<td>{{workItem.OPE_CONTENT}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<!-- 分页 -->
+					<div class="flr" style="position: relative;top: -20px;">
+						<ul class="pagination" id="paginationWorkId"></ul>
+					</div>
+					<div class="tac">
+						<span class="dib cursor user-cancel-btn" ng-click="userManage.userModalHide('user-info-modal')">取消</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--用户数据导出模态框-->
+		<div class="common-modal-style common-modal-style-widt user-export-modal-ll " id="user-export-modal" ng-mousemove="userManage.modalMove('export-modal-tit','user-export-modal')" style="display:none">
+			<div class="user-add-con">
+				<div id="export-modal-tit" class="role-add-tit oH">
+					<span class="fll">导出用户信息</span>
+					<span class="flr curp tit-close" ng-click="userManage.databaseModalHide('user-export-modal')">×</span>
+				</div>
+				<div class='user-export-spanall-box'><input class='user_selectall' type='checkbox'><span class='user-export-spanall'>全选</span></div>
+				<div class="role-add-main">
+					<div class="user-form-info clear">
+						<div>
+							<div class="user-form-info-top clear">
+								<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='userName' checked><span class='user-export-span'>用户名</span></div>
+								<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='tureName' checked><span class='user-export-span'>真实姓名</span></div>
+								<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='address' checked><span class='user-export-span'>用户详细地址</span></div>
+								<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='zipcode' checked><span class='user-export-span'>用户邮编</span></div>
+							</div>
+							<div class="user-form-info-top clear">
+								<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='emailBind' checked><span class='user-export-span'>联系邮箱</span></div>
+								<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='telBind' checked><span class='user-export-span'>移动电话</span></div>
+								<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='telContact' checked><span class='user-export-span'>联系电话</span></div>
+								<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='QQ' checked><span class='user-export-span'>QQ</span></div>
+							</div>
+							<div class="user-form-info-top clear">
+								<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='WeChat' checked><span class='user-export-span'>微信</span></div>
+							</div>
+							<div class="tac user-more-btn-box">
+								<span class="dib cursor unfold-detail-info user-more-btn" ng-click="userManage.showmoreexport()">更多信息</span>
+							</div>
+							<div class='user-more  user-more-export ' ng-if="userManage.showmoreexportInfo">
+								<div class="user-form-info-top clear">
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='uploadCount'><span class='user-export-span'>上传图片数</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='pubCount'><span class='user-export-span'>发布图片数</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='keepCount'><span class='user-export-span'>留资图片数</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='applyDate'><span class='user-export-span'>申请时间</span></div>
+								</div>
+								<div class="user-form-info-top clear">
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='regDate'><span class='user-export-span'>注册时间</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='downloadLevel'><span class='user-export-span'>下载级别</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='isDownload'><span class='user-export-span'>是否允许下载</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='contractPerrice'><span class='user-export-span'>用户合同协议价格</span></div>
+								</div>
+								<div class="user-form-info-top clear">
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='contractStartTime'><span class='user-export-span'>下载起始时间</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='downloadType'><span class='user-export-span'>用户下载方式</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='contractLimitNum'><span class='user-export-span'>下载限制数量</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='contractBuyNum'><span class='user-export-span'>当前合同期购买数量</span></div>
+								</div>
+
+								<div class="user-form-info-top clear">
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='contractBasePerrice'><span class='user-export-span'>合同-分成基价</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='contractEndTime'><span class='user-export-span'>下载结束时间</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='contractLimitType'><span class='user-export-span'>合同下载限制类型</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='contractLimitDlNum'><span class='user-export-span'>下载限制类型内已下载数量</span></div>
+								</div>
+								<div class="user-form-info-top clear">
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='contractNum'><span class='user-export-span'>当前合同期内已下载数量</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='contractAllNum'><span class='user-export-span'>合同下载总数量</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='account'><span class='user-export-span'>当前账户余额</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='balancePerrice'><span class='user-export-span'>余额-协议价格</span></div>
+								</div>
+								<div class="user-form-info-top clear">
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='balanceBasePerrice'><span class='user-export-span'>余额-普通图-分成基价</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='balanceSale'><span class='user-export-span'>余额-特殊图打折系数</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='balacnceRevenue'><span class='user-export-span'>余额-税收系数</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='balanceLimitType'><span class='user-export-span'>余额下载限制类型</span></div>
+								</div>
+								<div class="user-form-info-top clear">
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='balanceLimitNum'><span class='user-export-span'>余额内限制数量</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='balanceLimitDlNum'><span class='user-export-span'>下载限制类型内已下载数量</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='balanceAllNum'><span class='user-export-span'>余额下载总数量</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='threelimitType'><span class='user-export-span'>合同和余额下载限制类型</span></div>
+								</div>
+								<div class="user-form-info-top clear">
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='threelimitNum'><span class='user-export-span'>合同和余额下载限制数量</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='threeLimitDlNum'><span class='user-export-span'>下载限制类型内已下载数量</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='downlineNum'><span class='user-export-span'>线下下载总数量</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='onLineNum'><span class='user-export-span'>线上(在线支付)交易下载数量</span></div>
+								</div>
+								<div class="user-form-info-top clear">
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='allDownloadNum'><span class='user-export-span'>用户总下载图片数=线下</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='unitname'><span class='user-export-span'>单位名称</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='unitAddress'><span class='user-export-span'>单位地址</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='unitTel'><span class='user-export-span'>单位电话</span></div>
+								</div>
+								<div class="user-form-info-top clear">
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='unitFax'><span class='user-export-span'>单位传真</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='authorName'><span class='user-export-span'>笔名/联系人</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='sunscriberType'><span class='user-export-span'>订户类型</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='isPubllish'><span class='user-export-span'>是否公布个人信息</span></div>
+								</div>
+								<div class="user-form-info-top clear">
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='feeType'><span class='user-export-span'>接收稿费方式</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='bankAccount'><span class='user-export-span'>电汇-邮政储蓄存折帐号或卡号</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='bankuserName'><span class='user-export-span'>电汇-上述存折或卡的户名</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='bankName'><span class='user-export-span'>电汇-上述邮局名称，开户行</span></div>
+								</div>
+								<div class="user-form-info-top clear">
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='bankIdCard'><span class='user-export-span'>银行或邮局账号身份证</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='mallAddress'><span class='user-export-span'>邮寄-通信地址</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='mallUsername'><span class='user-export-span'>邮寄-收稿费人姓名</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='mallIdCard'><span class='user-export-span'>邮寄-身份证号</span></div>
+								</div>
+								<div class="user-form-info-top clear">
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='mallZipCode'><span class='user-export-span'>邮寄-邮政编码</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='disCount'><span class='user-export-span'>无折扣-免费</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='photographyDirection'><span class='user-export-span'>摄影方向</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='zone'><span class='user-export-span'>所属地域</span></div>
+								</div>
+								<div class="user-form-info-top clear">
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='subscriptionType'><span class='user-export-span'>订阅类型</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='province'><span class='user-export-span'>所属省</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='city'><span class='user-export-span'>所属市</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='idCard'><span class='user-export-span'>身份证号</span></div>
+								</div>
+								<div class="user-form-info-top clear">
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='photographerLevel'><span class='user-export-span'>摄影师等级</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='userStarts'><span class='user-export-span'>用户状态</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='isUnit'><span class='user-export-span'>是否是企业用户</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='payType'><span class='user-export-span'>支付方式</span></div>
+								</div>
+								<div class="user-form-info-top clear">
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='siteId'><span class='user-export-span'>子库ID</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='updatteUser'><span class='user-export-span'>最后更新人</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='usertype'><span class='user-export-span'>用户类型</span></div>
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='userDivide'><span class='user-export-span'>摄影师分成系数</span></div>
+								</div>
+								<div class="user-form-info-top clear">
+									<div class='user-export-select-box clear'><input class='user_select' type='checkbox' value='memo'><span class='user-export-span'>备注</span></div>
+								</div>
+							</div>
+						</div>
+						<div class="tac mt10">
+							<span class="dib cursor user-add-btn" ng-click="userManage.userexport()">导出</span>
+							<span class="dib cursor user-add-btn role-del-btn" ng-click="userManage.databaseModalHide('user-export-modal')">取消</span>
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<!--高级检索模态框-->
+		<div class="common-modal-style common-modal-style-widt user-search-modal-ll " id="user-search-modal" ng-mousemove="userManage.modalMove('search-modal-tit','user-search-modal')" style="display:none">
+			<div class="user-add-con">
+				<div id="search-modal-tit" class="role-add-tit oH">
+					<span class="fll">高级检索</span>
+					<span class="flr curp tit-close" ng-click="userManage.databaseModalHide('user-search-modal')">×</span>
+				</div>
+				<div class="role-add-main">
+					<div class="user-form-info clear">
+						<div class="user-form-info-top clear">
+							<div class="fll user-form-part clear">
+								<div class="user-search-left  fll">用户名</div>
+								<div class="user-search-right fll">
+									<input type="text" class="user-add-input" ng-model="userManage.search.userName" />
+								</div>
+							</div>
+							<div class="fll user-form-part clear">
+								<div class="user-search-left  fll">用户ID</div>
+								<div class="user-search-right fll">
+									<input type="text" class="user-add-input" ng-model="userManage.search.userId" />
+								</div>
+							</div>
+							<div class="fll user-form-part clear">
+								<div class="user-search-left  fll">真实姓名</div>
+								<div class="user-search-right fll">
+									<input type="text" class="user-add-input" ng-model="userManage.search.trueName" />
+								</div>
+							</div>
+						</div>
+						<div class="user-form-info-top clear">
+							<div class="fll user-form-part clear">
+								<div class="user-search-left fll">用户角色</div>
+								<div class="user-search-right fll">
+									<select class="user-add-input" ng-model="userManage.search.roleId">
+										<option value="">请选择</option>
+										<option ng-repeat="role in userManage.userRoleList" value="{{role.ID}}">{{role.ROLE_NAME}}</option>
+									</select>
+								</div>
+							</div>
+							<div class="fll user-form-part clear">
+								<div class="user-search-left fll">角色ID</div>
+								<div class="user-search-right fll">
+									<input type="text" class="user-add-input" ng-model="userManage.search.roleId" />
+								</div>
+							</div>
+							<div class="fll user-form-part clear">
+								<div class="fll user-search-left">用户状态</div>
+								<div class="fll user-search-right">
+									<select class="user-add-input" ng-model="userManage.search.userStatus">
+										<option value="">请选择</option>
+										<option value="0">已开通</option>
+										<option value="1">正申请</option>
+										<option value="2">已删除</option>
+										<option value="3">已禁用</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="user-form-info-top clear">
+							<div class="fll user-form-part clear">
+								<div class="user-search-left fll">摄影方向</div>
+								<div class="user-search-right fll">
+									<select class="user-add-input" ng-model="userManage.search.direction">
+										<option value="">请选择</option>
+										<option value="1">时政</option>
+										<option value="2">财经</option>
+										<option value="3">娱乐</option>
+										<option value="4">体育</option>
+										<option value="5">社会</option>
+										<option value="6">风光</option>
+										<option value="7">图标漫画</option>
+										<option value="8">其他</option>
+									</select>
+								</div>
+							</div>
+							<div class="fll user-form-part clear">
+								<div class="fll user-search-left">排序字段</div>
+								<div class="fll user-search-right">
+									<select class="user-add-input" ng-model="userManage.search.orderTime">
+										<option value="">请选择</option>
+										<option value="0">注册时间</option>
+										<option value="1">登录时间</option>
+									</select>
+								</div>
+							</div>
+							<div class="fll user-form-part clear">
+								<div class="fll user-search-left">所属地域</div>
+								<div class="fll user-search-right">
+									<select class="user-add-input" ng-model="userManage.search.zone">
+										<option value="">请选择</option>
+										<option value="ZCN">中国大陆</option>
+										<option value="ZHK">香港</option>
+										<option value="ZMC">澳门</option>
+										<option value="ZTW">台湾</option>
+										<option value="ZO">其他</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="user-form-info-top clear">
+							<div class="fll user-form-other-part clear">
+								<div class="fll user-search-other-left">所属省市</div>
+								<div class="fll user-search-other-central">
+									<select class="user-add-input" ng-change="userManage.changeProv(userManage.search.selProv)" ng-model="userManage.search.selProv" ng-options="prov.p as prov.p for prov in userManage.msCityList">
+										<option value="">请选择</option>
+									</select>
+								</div>
+								<div class="fll user-search-other-right">
+									<select class="user-add-input" ng-model="userManage.search.selCity" ng-options="city.n as city.n for city in userManage.cities">
+										<option value="">请选择</option>
+									</select>
+								</div>
+							</div>
+							<div class="fll user-form-other-part clear">
+								<div class="user-search-other-left  fll">联系方式</div>
+								<div class="fll user-search-other-central fll">
+									<select ng-model="userManage.search.telContact" ng-click='userManage.gettelContact()' class="user-add-input">
+										<option value="">请选择</option>
+										<option value="0">联系邮箱</option>
+										<option value="1">移动电话</option>
+										<option value="2">QQ</option>
+										<option value="3">微信</option>
+									</select>
+								</div>
+								<div class="user-search-other-right  fll">
+									<input type="text" class="user-add-input emailBind" ng-model="userManage.search.emailBind" />
+									<input type="text" class="user-add-input telBind" ng-model="userManage.search.telBind" />
+									<input type="text" class="user-add-input standBy1" ng-model="userManage.search.standBy1" />
+									<input type="text" class="user-add-input standBy2" ng-model="userManage.search.standBy2" />
+								</div>
+							</div>
+						</div>
+						<div class="tac user-more-btn-box">
+							<span class="dib cursor unfold-detail-info user-more-btn" ng-click="userManage.showDetailBasicInfo()">更多关键字</span>
+						</div>
+						<div class='user-more' ng-if="userManage.showBasicInfo">
+							<div class="user-form-info-top clear">
+								<!--订户级别-->
+								<div class="fll user-form-part clear" ng-if="userManage.editSubLevelFlag">
+									<div class="user-search-left fll">订户级别</div>
+									<div class="user-search-right fll">
+										<select ng-model="userManage.editUserLevel" class="user-add-input">
+											<option value="">请选择</option>
+											<option value="0" ng-selected="true">普通用户</option>
+											<option value="1">VIP</option>
+										</select>
+									</div>
+								</div>
+								<!--用户状态,当不是订户时显示-->
+								<div class="fll user-form-part clear" ng-if="!userManage.editSubLevelFlag">
+									<div class="user-search-left fll">用户状态</div>
+									<div class="user-search-right fll">
+										<select ng-model="userManage.editUserStatus" class="user-add-input">
+											<option value="">请选择</option>
+											<option value="0">已开通</option>
+											<option value="1">正申请</option>
+											<option value="2">已删除</option>
+											<option value="3">已禁用</option>
+										</select>
+									</div>
+								</div>
+								<div class="fll user-form-part clear">
+									<div class="user-search-left  fll">单位传真</div>
+									<div class="user-search-right fll">
+										<input type="text" class="user-add-input" ng-model="userManage.search.unitFlax" />
+									</div>
+								</div>
+								<div class="fll user-form-part clear">
+									<div class="user-search-left  fll">单位电话</div>
+									<div class="user-search-right fll">
+										<input type="text" class="user-add-input" ng-model="userManage.search.unitTel" />
+									</div>
+								</div>
+							</div>
+							<div class="user-form-info-top clear">
+								<div class="fll user-form-part clear">
+									<div class="user-search-left  fll">作者名</div>
+									<div class="user-search-right fll">
+										<input type="text" class="user-add-input" ng-model="userManage.search.authorName" />
+									</div>
+								</div>
+								<div class="fll user-form-part clear">
+									<div class="user-search-left  fll">详细地址</div>
+									<div class="user-search-right fll">
+										<input type="text" class="user-add-input" ng-model="userManage.search.address" />
+									</div>
+								</div>
+								<div class="fll user-form-part clear">
+									<div class="user-search-left  fll">单位名称</div>
+									<div class="user-search-right fll">
+										<input type="text" class="user-add-input" ng-model="userManage.search.unitName" />
+									</div>
+								</div>
+							</div>
+							<div class="user-form-info-top clear">
+								<div class="fll user-form-part clear">
+									<div class="user-search-left  fll">单位地址</div>
+									<div class="user-search-right fll">
+										<input type="text" class="user-add-input" ng-model="userManage.search.unitAddress" />
+									</div>
+								</div>
+								<div class="fll user-form-part clear">
+									<div class="user-search-left  fll">通信地址</div>
+									<div class="user-search-right fll">
+										<input type="text" class="user-add-input" ng-model="userManage.search.mailAddress" />
+									</div>
+								</div>
+								<div class="fll user-form-part clear">
+									<div class="user-search-left  fll">收稿费人姓名</div>
+									<div class="user-search-right fll">
+										<input type="text" class="user-add-input" ng-model="userManage.search.mailUserName" />
+									</div>
+								</div>
+							</div>
+							<div class="user-form-info-top clear">
+								<div class="fll user-form-part clear">
+									<div class="user-search-left  fll">收稿费人身份证卡号</div>
+									<div class="user-search-right fll">
+										<input type="text" class="user-add-input" ng-model="userManage.search.mailIdCard" />
+									</div>
+								</div>
+								<div class="fll user-form-part clear">
+									<div class="user-search-left  fll">接收稿费方式</div>
+									<div class="user-search-right fll">
+										<select ng-model="userManage.search.feeType" class="user-add-input">
+											<option value="">请选择</option>
+											<option value="邮寄">邮寄</option>
+											<option value="电汇">电汇</option>
+										</select>
+									</div>
+								</div>
+								<div class="fll user-form-part clear">
+									<div class="user-search-left  fll">邮政编码</div>
+									<div class="user-search-right fll">
+										<input type="text" class="user-add-input" ng-model="userManage.search.mailZipCode" />
+									</div>
+								</div>
+							</div>
+							<div class="user-form-info-top clear">
+								<div class="fll user-form-part clear">
+									<div class="user-search-left  fll">邮政储蓄存折卡号或账号</div>
+									<div class="user-search-right fll">
+										<input type="text" class="user-add-input" ng-model="userManage.search.bankAccount" />
+									</div>
+								</div>
+								<div class="fll user-form-part clear">
+									<div class="user-search-left  fll">上述存折或卡的户名</div>
+									<div class="user-search-right fll">
+										<input type="text" class="user-add-input" ng-model="userManage.search.bankUserName" />
+									</div>
+								</div>
+								<div class="fll user-form-part clear">
+									<div class="user-search-left  fll">上述卡户名的身份证号</div>
+									<div class="user-search-right fll">
+										<input type="text" class="user-add-input" ng-model="userManage.search.bankIdCard" />
+									</div>
+								</div>
+							</div>
+							<div class="user-form-info-top clear">
+								<div class="fll user-form-part clear">
+									<div class="user-search-left  fll">开户行</div>
+									<div class="user-search-right fll">
+										<input type="text" class="user-add-input" ng-model="userManage.search.bankName" />
+									</div>
+								</div>
+								<div class="fll user-form-part clear">
+									<div class="user-search-left  fll">备注</div>
+									<div class="user-search-right fll">
+										<input type="text" class="user-add-input" ng-model="userManage.search.memo" />
+									</div>
+								</div>
+							</div>
+
+						</div>
+						<div class="tar mt10">
+							<span class="dib cursor user-high-search-btn" ng-click="userManage.userAdvanceSearch('user-search-modal')">检索</span>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<!--密码重置模态框-->
+		<div class="common-modal-style" id="user-pwd-reset-modal" ng-mousemove="userManage.modalMove('pwdReset-modal-tit','user-pwd-reset-modal')" style="display:none">
+			<div class="role-add-con">
+				<div id="pwdReset-modal-tit" class="role-add-tit oH">
+					<span class="fll">密码重置</span>
+					<span class="flr curp tit-close" ng-click="userManage.userModalHide('user-pwd-reset-modal')">×</span>
+				</div>
+				<div class="role-modal-con">
+					<div class="user-pwd-reset-hd clear">
+						<div class="user-pwd-reset-item fll">
+							用户ID：{{userManage.updatePwdUserId}}
+						</div>
+						<div class="user-pwd-reset-item fll">
+							用户名：{{userManage.updatePwdUserName}}
+						</div>
+						<div class="user-pwd-reset-item fll">
+							真实姓名：{{userManage.updatePwdLoginName}}
+						</div>
+					</div>
+					<div class="user-pwd-reset-bd">
+						<div class="user-pwd-rstcon-item clear">
+							<div class="user-pwd-rstcon-left fll tar">
+								<span>新密码：</span>
+							</div>
+							<div class="user-pwd-rstcon-right fll tal">
+								<input type="password" class="r-pwd-rest-input" ng-model="userManage.updateNewPwd" />
+							</div>
+						</div>
+						<div class="user-pwd-rstcon-item clear">
+							<div class="user-pwd-rstcon-left fll tar">
+								<span>密码确认：</span>
+							</div>
+							<div class="user-pwd-rstcon-right fll tal">
+								<input type="password" class="r-pwd-rest-input" ng-model="userManage.updateConNewPwd" />
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="tac">
+					<input class="dib cursor user-submit-btn" ng-disabled="userManage.isOnUpPwdClickFlag" ng-class="{'user-submit-btn-bg':userManage.isOnUpPwdClickFlag}" ng-click="userManage.onUpdatePwdClick()" value="提交" />
+					<span class="dib cursor user-cancel-btn" ng-click="userManage.userModalHide('user-pwd-reset-modal')">取消</span>
+				</div>
+			</div>
+		</div>
+		<!--解锁用户弹框-->
+		<div class="common-modal-style" id="user-unlock-modal" ng-mousemove="userManage.modalMove('unlock-modal-tit','user-unlock-modal')" style="display:none">
+			<div class="role-add-con">
+				<div id="unlock-modal-tit" class="role-add-tit">
+					确认框
+				</div>
+				<div class="role-modal-con">
+					{{userManage.workLockTypeStr}}
+				</div>
+				<div class="tac mt10">
+					<span class="dib cursor user-add-btn" ng-click="userManage.onWorkLockClick()">确定</span>
+					<span class="dib cursor user-add-btn role-del-btn" ng-click="userManage.userModalHide('user-unlock-modal')">取消</span>
+				</div>
+			</div>
+		</div>
+		<!--删除用户弹框-->
+		<div class="common-modal-style" id="userDelModalId" ng-mousemove="userManage.modalMove('del-modal-tit','userDelModalId')" style="display:none">
+			<div class="role-add-con">
+				<div id="del-modal-tit" class="role-add-tit">
+					删除提醒
+				</div>
+				<div class="role-modal-con">
+					你确定要删除该用户吗？
+				</div>
+				<div class="tac mt10">
+					<span class="dib cursor user-add-btn" ng-click="userManage.onDeleteUserDataClick()">确定</span>
+					<span class="dib cursor user-add-btn role-del-btn" ng-click="userManage.userModalHide('userDelModalId')">取消</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

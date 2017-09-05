@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deepai.photo.mapper.CpShopCarMapper" >
+  <resultMap id="BaseResultMap" type="com.deepai.photo.bean.CpShopCar" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="PIC_ID" property="picId" jdbcType="INTEGER" />
+    <result column="PIC_TYPE" property="picType" jdbcType="INTEGER" />
+    <result column="PIC_NAME" property="picName" jdbcType="VARCHAR" />
+    <result column="PIC_TITLE" property="picTitle" jdbcType="VARCHAR" />
+    <result column="CREATE_USERNAME" property="createUsername" jdbcType="VARCHAR" />
+    <result column="CREATE_USERID" property="createUserid" jdbcType="INTEGER" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="GROUP_ID" property="groupId" jdbcType="INTEGER" />
+    <result column="PRICE" property="price" jdbcType="DECIMAL" />
+    <result column="WIDTH" property="width" jdbcType="INTEGER" />
+    <result column="HEIGHT" property="height" jdbcType="VARCHAR" />
+    <result column="ORDER_ID" property="orderId" jdbcType="VARCHAR" />
+    <result column="ALL_PATH" property="allPath" jdbcType="VARCHAR" />
+    <result column="PUBLIC_TIME" property="publicTime" jdbcType="VARCHAR" />
+    <result column="PICTURE_LENGH" property="pictureLengh" jdbcType="INTEGER" />
+    <result column="PICTURE_CRETER" property="pictureCreter" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, PIC_ID, PIC_TYPE, PIC_NAME, PIC_TITLE, CREATE_USERNAME, CREATE_USERID, CREATE_TIME, 
+    GROUP_ID, PRICE, WIDTH, HEIGHT, ORDER_ID, ALL_PATH, PUBLIC_TIME, PICTURE_LENGH, PICTURE_CRETER
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.deepai.photo.bean.CpShopCarExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cp_shop_car
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from cp_shop_car
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from cp_shop_car
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.deepai.photo.bean.CpShopCarExample" >
+    delete from cp_shop_car
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.deepai.photo.bean.CpShopCar" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cp_shop_car (PIC_ID, PIC_TYPE, PIC_NAME, 
+      PIC_TITLE, CREATE_USERNAME, CREATE_USERID, 
+      CREATE_TIME, GROUP_ID, PRICE, 
+      WIDTH, HEIGHT, ORDER_ID, 
+      ALL_PATH, PUBLIC_TIME, PICTURE_LENGH, 
+      PICTURE_CRETER)
+    values (#{picId,jdbcType=INTEGER}, #{picType,jdbcType=INTEGER}, #{picName,jdbcType=VARCHAR}, 
+      #{picTitle,jdbcType=VARCHAR}, #{createUsername,jdbcType=VARCHAR}, #{createUserid,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{groupId,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, 
+      #{width,jdbcType=INTEGER}, #{height,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, 
+      #{allPath,jdbcType=VARCHAR}, #{publicTime,jdbcType=VARCHAR}, #{pictureLengh,jdbcType=INTEGER}, 
+      #{pictureCreter,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.deepai.photo.bean.CpShopCar" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cp_shop_car
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="picId != null" >
+        PIC_ID,
+      </if>
+      <if test="picType != null" >
+        PIC_TYPE,
+      </if>
+      <if test="picName != null" >
+        PIC_NAME,
+      </if>
+      <if test="picTitle != null" >
+        PIC_TITLE,
+      </if>
+      <if test="createUsername != null" >
+        CREATE_USERNAME,
+      </if>
+      <if test="createUserid != null" >
+        CREATE_USERID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="groupId != null" >
+        GROUP_ID,
+      </if>
+      <if test="price != null" >
+        PRICE,
+      </if>
+      <if test="width != null" >
+        WIDTH,
+      </if>
+      <if test="height != null" >
+        HEIGHT,
+      </if>
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="allPath != null" >
+        ALL_PATH,
+      </if>
+      <if test="publicTime != null" >
+        PUBLIC_TIME,
+      </if>
+      <if test="pictureLengh != null" >
+        PICTURE_LENGH,
+      </if>
+      <if test="pictureCreter != null" >
+        PICTURE_CRETER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="picId != null" >
+        #{picId,jdbcType=INTEGER},
+      </if>
+      <if test="picType != null" >
+        #{picType,jdbcType=INTEGER},
+      </if>
+      <if test="picName != null" >
+        #{picName,jdbcType=VARCHAR},
+      </if>
+      <if test="picTitle != null" >
+        #{picTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="createUsername != null" >
+        #{createUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserid != null" >
+        #{createUserid,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="groupId != null" >
+        #{groupId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="width != null" >
+        #{width,jdbcType=INTEGER},
+      </if>
+      <if test="height != null" >
+        #{height,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="allPath != null" >
+        #{allPath,jdbcType=VARCHAR},
+      </if>
+      <if test="publicTime != null" >
+        #{publicTime,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureLengh != null" >
+        #{pictureLengh,jdbcType=INTEGER},
+      </if>
+      <if test="pictureCreter != null" >
+        #{pictureCreter,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.deepai.photo.bean.CpShopCarExample" resultType="java.lang.Integer" >
+    select count(*) from cp_shop_car
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update cp_shop_car
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.picId != null" >
+        PIC_ID = #{record.picId,jdbcType=INTEGER},
+      </if>
+      <if test="record.picType != null" >
+        PIC_TYPE = #{record.picType,jdbcType=INTEGER},
+      </if>
+      <if test="record.picName != null" >
+        PIC_NAME = #{record.picName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.picTitle != null" >
+        PIC_TITLE = #{record.picTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUsername != null" >
+        CREATE_USERNAME = #{record.createUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUserid != null" >
+        CREATE_USERID = #{record.createUserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.groupId != null" >
+        GROUP_ID = #{record.groupId,jdbcType=INTEGER},
+      </if>
+      <if test="record.price != null" >
+        PRICE = #{record.price,jdbcType=DECIMAL},
+      </if>
+      <if test="record.width != null" >
+        WIDTH = #{record.width,jdbcType=INTEGER},
+      </if>
+      <if test="record.height != null" >
+        HEIGHT = #{record.height,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderId != null" >
+        ORDER_ID = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.allPath != null" >
+        ALL_PATH = #{record.allPath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.publicTime != null" >
+        PUBLIC_TIME = #{record.publicTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pictureLengh != null" >
+        PICTURE_LENGH = #{record.pictureLengh,jdbcType=INTEGER},
+      </if>
+      <if test="record.pictureCreter != null" >
+        PICTURE_CRETER = #{record.pictureCreter,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update cp_shop_car
+    set ID = #{record.id,jdbcType=INTEGER},
+      PIC_ID = #{record.picId,jdbcType=INTEGER},
+      PIC_TYPE = #{record.picType,jdbcType=INTEGER},
+      PIC_NAME = #{record.picName,jdbcType=VARCHAR},
+      PIC_TITLE = #{record.picTitle,jdbcType=VARCHAR},
+      CREATE_USERNAME = #{record.createUsername,jdbcType=VARCHAR},
+      CREATE_USERID = #{record.createUserid,jdbcType=INTEGER},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      GROUP_ID = #{record.groupId,jdbcType=INTEGER},
+      PRICE = #{record.price,jdbcType=DECIMAL},
+      WIDTH = #{record.width,jdbcType=INTEGER},
+      HEIGHT = #{record.height,jdbcType=VARCHAR},
+      ORDER_ID = #{record.orderId,jdbcType=VARCHAR},
+      ALL_PATH = #{record.allPath,jdbcType=VARCHAR},
+      PUBLIC_TIME = #{record.publicTime,jdbcType=VARCHAR},
+      PICTURE_LENGH = #{record.pictureLengh,jdbcType=INTEGER},
+      PICTURE_CRETER = #{record.pictureCreter,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.deepai.photo.bean.CpShopCar" >
+    update cp_shop_car
+    <set >
+      <if test="picId != null" >
+        PIC_ID = #{picId,jdbcType=INTEGER},
+      </if>
+      <if test="picType != null" >
+        PIC_TYPE = #{picType,jdbcType=INTEGER},
+      </if>
+      <if test="picName != null" >
+        PIC_NAME = #{picName,jdbcType=VARCHAR},
+      </if>
+      <if test="picTitle != null" >
+        PIC_TITLE = #{picTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="createUsername != null" >
+        CREATE_USERNAME = #{createUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserid != null" >
+        CREATE_USERID = #{createUserid,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="groupId != null" >
+        GROUP_ID = #{groupId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        PRICE = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="width != null" >
+        WIDTH = #{width,jdbcType=INTEGER},
+      </if>
+      <if test="height != null" >
+        HEIGHT = #{height,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        ORDER_ID = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="allPath != null" >
+        ALL_PATH = #{allPath,jdbcType=VARCHAR},
+      </if>
+      <if test="publicTime != null" >
+        PUBLIC_TIME = #{publicTime,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureLengh != null" >
+        PICTURE_LENGH = #{pictureLengh,jdbcType=INTEGER},
+      </if>
+      <if test="pictureCreter != null" >
+        PICTURE_CRETER = #{pictureCreter,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.deepai.photo.bean.CpShopCar" >
+    update cp_shop_car
+    set PIC_ID = #{picId,jdbcType=INTEGER},
+      PIC_TYPE = #{picType,jdbcType=INTEGER},
+      PIC_NAME = #{picName,jdbcType=VARCHAR},
+      PIC_TITLE = #{picTitle,jdbcType=VARCHAR},
+      CREATE_USERNAME = #{createUsername,jdbcType=VARCHAR},
+      CREATE_USERID = #{createUserid,jdbcType=INTEGER},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      GROUP_ID = #{groupId,jdbcType=INTEGER},
+      PRICE = #{price,jdbcType=DECIMAL},
+      WIDTH = #{width,jdbcType=INTEGER},
+      HEIGHT = #{height,jdbcType=VARCHAR},
+      ORDER_ID = #{orderId,jdbcType=VARCHAR},
+      ALL_PATH = #{allPath,jdbcType=VARCHAR},
+      PUBLIC_TIME = #{publicTime,jdbcType=VARCHAR},
+      PICTURE_LENGH = #{pictureLengh,jdbcType=INTEGER},
+      PICTURE_CRETER = #{pictureCreter,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

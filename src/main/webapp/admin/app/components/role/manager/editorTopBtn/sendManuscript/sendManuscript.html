@@ -1,0 +1,580 @@
+<div class="user-manager-container" id='tests'>
+    <!--待发稿件头部-->
+    <div class="wait-draft-hd oH">
+        <role-common-tit value="待发稿件" class="fll"></role-common-tit>
+        <div class="fll edt-allot oH">
+            <span class="fll" ng-class="{'edt-allot-active': sendManuscript.edtAllot == 1}" ng-click="sendManuscript.chooseEdtAllot(1)">自动分配</span>
+            <span class="fll" ng-class="{'edt-allot-active': sendManuscript.edtAllot == 2}" ng-click="sendManuscript.chooseEdtAllot(2)">显示全部</span>
+        </div>
+        <div class="flr">
+            <span class="fll mr10 mt5">当前校审级别</span>&nbsp;
+            <div class="l-role-name por z20">
+                <p class="role-detail-name selLang duty-type-toggle-click" ng-if="$index == 0 && (sendManuscript.reMyRoleId!=1 && sendManuscript.reMyRoleId!=26)"
+                   ng-repeat="item in sendManuscript.variedtypeArr" ng-click="sendManuscript.toggleProofGrade()">
+                    {{item | dtTypeFilter}}
+                </p>
+                <p class="role-detail-name duty-type-toggle-click" ng-if="($index > 0) && (sendManuscript.dtTypeifShow) && (dutyTypeClickFlag) && (sendManuscript.reMyRoleId!=1 && sendManuscript.reMyRoleId!=26)" ng-class="{selLang:$first,'bdn':$last}"
+                   ng-repeat="item in sendManuscript.variedtypeArr" ng-click="sendManuscript.chooseProofGrade($index)">
+                    {{item | dtTypeFilter}}
+                </p>
+                <p class="role-detail-name selLang duty-type-toggle-click" ng-if="sendManuscript.variedtypeArr.length == 0 || (sendManuscript.reMyRoleId==1 || sendManuscript.reMyRoleId==26)">
+                    无
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="wait-draft-bd">
+        <div class="contribute-tit clear">
+            <div class="active-slide-item fll" ng-class="{ 'active-slide-nav' : sendManuscript.acitiveSlideTit == 0}" ng-click="sendManuscript.chooseManuscriptType(0)">新闻图片</div>
+            <div class="active-slide-item fll" ng-class="{ 'active-slide-nav' : sendManuscript.acitiveSlideTit == 1}" ng-click="sendManuscript.chooseManuscriptType(1)">专题图片</div>
+            <div class="active-slide-item fll" ng-class="{ 'active-slide-nav' : sendManuscript.acitiveSlideTit == 2}" ng-click="sendManuscript.chooseManuscriptType(2)">已删图片</div>
+        </div>
+        <!--新闻图片-->
+        <div class="c-user-table" ng-if="sendManuscript.acitiveSlideTit == 0">
+            <div class="t-search-hd clear">
+                <!--todo 暂时去掉一审的稿件合并功能-->
+                <div class="user-hd-left fll" ng-if="sendManuscript.variedtypeArr[0] == 1">
+                    <input type="checkbox" ng-model="sendManuscript.newsPicselectedAll" ng-click="sendManuscript.checkAll(sendManuscript.newsPicselectedAll,0)"/>
+                    <span class="user-check-txt">全选</span>
+                    <span class="dib cursor edt-merge-btn" ng-click="sendManuscript.downLoadPic()">下载原图</span>
+                </div>
+                <div class="user-hd-left fll" ng-if="sendManuscript.variedtypeArr[0] != 1">
+                    <input type="checkbox" ng-model="sendManuscript.newsPicselectedAll" ng-click="sendManuscript.checkAll(sendManuscript.newsPicselectedAll,0)"/>
+                    <span class="user-check-txt">全选</span>
+                    <span class="dib cursor edt-merge-btn" ng-click="sendManuscript.mergeManuscriptModalShow('wait-manuscript-merge-modal')">稿件合并</span>
+                    <span class="dib cursor edt-merge-btn" ng-click="sendManuscript.downLoadPic()">下载原图</span>
+                </div>
+                <div class="user-hd-right flr">
+                    <input class="user-search-input" placeholder="可根据稿件ID、标题、作者名 检索" ng-model="sendManuscript.search.paramStr"
+                            ng-keydown="sendManuscript.enterQuery($event)"/>
+                    <img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic"
+                         ng-click="sendManuscript.onSearchDataClick()"/>
+                    <span class="dib cursor user-search-btn" ng-click="sendManuscript.advanceSearchModalShow('wait-manuscript-search-modal')">高级检索</span>
+                </div>
+            </div>
+            <div class="t-uinfo-bd">
+                <div class="table-responsive">
+                    <table  class="table table-bordered uInfo-table">
+                        <thead>
+                            <tr>
+                                <th class="uinfo-hd-th">
+                                </th>
+                                <th class="uinfo-hd-th">编号</th>
+                                <th class="uinfo-hd-th">图片类型</th>
+                                <th class="uinfo-hd-th">缩略图</th>
+                                <th class="uinfo-hd-th">图片数</th>
+                                <th class="uinfo-hd-th">标题</th>
+                                <th class="uinfo-hd-th">作者</th>
+                                <th class="uinfo-hd-th">上传时间</th>
+                                <th class="uinfo-hd-th">编辑时间</th>
+                                <th class="uinfo-hd-th">稿件状态</th>
+                                <th class="uinfo-hd-th">是否在编</th>
+                                <th class="uinfo-hd-th">编辑人</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tr dir-paginate="item in sendManuscript.waitManuscriptList | itemsPerPage: sendManuscript.selPageRows"
+                            total-items="sendManuscript.sendMsList_total"
+                            current-page="sendManuscript.pagination.current" show-middle-pic>
+                                <td>
+                                    <input type="checkbox" ng-model="sendManuscript.selWaitMsIds[item.ID]" value='{{item.picId}}'/>
+                                </td>
+                                <td>{{item.ID}}</td>
+                                <td>{{item.GOODS_TYPE | draftImgTypeFilter}}</td>
+                                <td class='pic_parent'>
+                                    <a class='curp uifi-title' ng-if="sendManuscript.reMyRoleId == 1 || sendManuscript.reMyRoleId == 26"><img ng-src="{{item.samllPath}}"/></a>
+                                    <a class='curp uifi-title ' ng-if="sendManuscript.reMyRoleId != 1 && sendManuscript.reMyRoleId != 26" target='_blank'ui-sref="role.manager.sendManuscriptDetail({id: item.ID,dtType: sendManuscript.variedtypeArr[0]})"><img ng-src="{{item.samllPath}}"/></a>
+                                    <div class='pic_children'>
+                                    	<img ng-src='{{item.watermarkedmediumPath}}'>
+                                    	<div class='showMiddlepics'>                                    		                                          		
+                                    	    <table border='1' width='100%' cellpadding="10">
+                                    	        <caption >EXIF信息</caption>
+                                    	        <tr>
+                                    	           	<td>光圈数</td>
+                                    	           	<td>{{item.EX_FNUMBER}}</td>
+                                    	           	<td>感光度</td>
+                                    	           	<td>{{item.EX_ISO}}</td>
+                                    	        </tr>
+                                    	        <tr>
+                                    	           	<td>拍摄相机</td>
+                                    	           	<td>{{item.EX_MODEL}}</td>
+                                    	           	<td>拍摄时间</td>
+                                    	           	<td>{{item.EX_DATETIME |date : 'yyyy-MM-dd HH:mm:ss'}}</td>
+                                    	        </tr>
+                                    	    </table>
+										 </div>
+                                    </div>
+                                </td>
+                                <td>{{item.PICTURE_COUNT}}</td>
+                                <td><a class="curp uifi-title" target='_blank' ui-sref="role.manager.sendManuscriptDetail({id: item.ID,dtType: sendManuscript.variedtypeArr[0]})">{{item.TITLE}}</a></td>
+                                <td class='author_cur'ng-click='sendManuscript.authorinfor(item.AUTHOR_ID)'>{{item.AUTHOR}}</td>
+                                <td>
+                                    <p>{{item.APPLY_TIME | date : 'yyyy-MM-dd'}}</p>
+                                    <p>{{item.APPLY_TIME | date : 'HH:mm:ss'}}</p>
+                                </td>
+                                <td>
+                                    <p>{{item.UPDATE_TIME | date : 'yyyy-MM-dd'}}</p>
+                                    <p>{{item.UPDATE_TIME | date : 'HH:mm:ss'}}</p>
+                                </td>
+                                <td>{{item.GROUP_STATUS | grouppStatusFilter}}</td>
+                                <td>{{item.IS_LOCKED | isLockFilter}}</td>
+                                <td ng-if="sendManuscript.reMyRoleId!=1 && sendManuscript.reMyRoleId!=26">{{item.FRIST_PFD_USER}}</td>
+                                <td ng-if="sendManuscript.reMyRoleId==1 || sendManuscript.reMyRoleId==26">
+                                    <span class="cursor" ng-click="sendManuscript.getAllEditor(item.ID,item.FRIST_PFD_USER)">{{item.FRIST_PFD_USER}}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!--专题图片-->
+        <div class="c-user-table" ng-if="sendManuscript.acitiveSlideTit == 1">
+            <div class="t-search-hd clear">
+            	<div class="user-hd-left fll" ng-if="sendManuscript.variedtypeArr[0] == 1">
+                    <input type="checkbox" ng-model="sendManuscript.newsPicselectedAll" ng-click="sendManuscript.checkAll(sendManuscript.newsPicselectedAll,0)"/>
+                    <span class="user-check-txt">全选</span>
+                    <span class="dib cursor edt-merge-btn" ng-click="sendManuscript.downLoadPic()">下载原图</span>
+                </div>
+                <div class="user-hd-left fll" ng-if="sendManuscript.variedtypeArr[0] != 1">
+                    <label for="checkAllSendMs">
+                        <input type="checkbox" ng-model="sendManuscript.topicPicSelectedAll" id="checkAllSendMs"
+                               ng-click="sendManuscript.checkAll(sendManuscript.topicPicSelectedAll,1)"/>
+                        <span class="user-check-txt cursor">全选</span>
+                    </label>
+                    <span class="dib cursor edt-merge-btn"  ng-click="sendManuscript.mergeManuscriptModalShow('wait-manuscript-merge-modal')">稿件合并</span>
+                    <span class="dib cursor edt-merge-btn" ng-click="sendManuscript.downLoadPic()">下载原图</span>
+                </div>
+                <div class="user-hd-right flr">
+                    <input class="user-search-input" placeholder="可根据稿件ID、标题、作者名 检索" ng-model="sendManuscript.search.paramStr"/>
+                    <img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic"
+                         ng-click="sendManuscript.onSearchDataClick()"/>
+                    <span class="dib cursor user-search-btn" ng-click="sendManuscript.advanceSearchModalShow('wait-manuscript-search-modal')">高级检索</span>
+                </div>
+            </div>
+            <div class="t-uinfo-bd">
+                <div class="table-responsive">
+                    <table  class="table table-bordered uInfo-table">
+                        <thead>
+                            <tr>
+                                <th class="uinfo-hd-th">
+                                </th>
+                                <th class="uinfo-hd-th">编号</th>
+                                <th class="uinfo-hd-th">图片类型</th>
+                                <th class="uinfo-hd-th">缩略图</th>
+                                <th class="uinfo-hd-th">图片数</th>
+                                <th class="uinfo-hd-th">标题</th>
+                                <td class="uinfo-hd-th">作者</td>
+                                <th class="uinfo-hd-th">上传时间</th>
+                                <th class="uinfo-hd-th">编辑时间</th>
+                                <th>稿件状态</th>
+                                <th>是否在编</th>
+                                <th class="uinfo-hd-th">编辑人</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tr dir-paginate="item in sendManuscript.waitManuscriptList | itemsPerPage: sendManuscript.selPageRows"
+                            total-items="sendManuscript.sendMsList_total"
+                            current-page="sendManuscript.pagination.current" show-middle-pic>
+                                <td>
+                                    <input type="checkbox" ng-model="sendManuscript.selWaitMsIds[item.ID]" value='{{item.ID}}'/>
+                                </td>
+                                <td>{{item.ID}}</td>
+                                <td>{{item.GOODS_TYPE | draftImgTypeFilter}}</td>
+                                <td class='pic_parent'>
+                                    <a class='curp uifi-title' target='_blank' ng-if="sendManuscript.reMyRoleId == 1 || sendManuscript.reMyRoleId == 26"><img ng-src="{{item.samllPath}}"></a>
+                                    <a class='curp uifi-title' target='_blank' ng-if="sendManuscript.reMyRoleId != 1 && sendManuscript.reMyRoleId != 26" ui-sref="role.manager.sendManuscriptDetail({id: item.ID, dtType: sendManuscript.variedtypeArr[0]})"><img ng-src="{{item.samllPath}}"></a>
+                                    <div class='pic_children'>
+                                    	<img ng-src='{{item.watermarkedmediumPath}}'>
+                                    	<div class='showMiddlepics'>                                    		                                          		
+                                    	    <table border='1' width='100%' cellpadding="10">
+                                    	        <caption >EXIF信息</caption>
+                                    	        <tr>
+                                    	           	<td>光圈数</td>
+                                    	           	<td>{{item.EX_FNUMBER}}</td>
+                                    	           	<td>感光度</td>
+                                    	           	<td>{{item.EX_ISO}}</td>
+                                    	        </tr>
+                                    	        <tr>
+                                    	           	<td>拍摄相机</td>
+                                    	           	<td>{{item.EX_MODEL}}</td>
+                                    	           	<td>拍摄时间</td>
+                                    	           	<td>{{item.EX_DATETIME |date : 'yyyy-MM-dd HH:mm:ss'}}</td>
+                                    	        </tr>
+                                    	    </table>
+										</div>
+                                    </div>
+                                </td>
+                                <td>{{item.PICTURE_COUNT}}</td>
+                                <td><a class="curp uifi-title" target='_blank' ui-sref="role.manager.sendManuscriptDetail({id: item.ID,dtType: sendManuscript.variedtypeArr[0]})">{{item.TITLE}}</a></td>
+                                <td class='author_cur'ng-click='sendManuscript.authorinfor(item.AUTHOR_ID)'>{{item.AUTHOR}}</td>
+                                <td>
+                                    <p>{{item.APPLY_TIME | date : 'yyyy-MM-dd'}}</p>
+                                    <p>{{item.APPLY_TIME | date : 'HH:mm:ss'}}</p>
+                                </td>
+                                <td>
+                                    <p>{{item.UPDATE_TIME | date : 'yyyy-MM-dd'}}</p>
+                                    <p>{{item.UPDATE_TIME | date : 'HH:mm:ss'}}</p>
+                                </td>
+                                <td>{{item.GROUP_STATUS | grouppStatusFilter}}</td>
+                                <td>{{item.IS_LOCKED | isLockFilter}}</td>
+                                <td ng-if="sendManuscript.reMyRoleId!=1 && sendManuscript.reMyRoleId!=26">{{item.FRIST_PFD_USER}}</td>
+                                <td ng-if="sendManuscript.reMyRoleId==1 || sendManuscript.reMyRoleId==26">
+                                    <span class="cursor" ng-click="sendManuscript.getAllEditor(item.ID,item.FRIST_PFD_USER)">{{item.FRIST_PFD_USER}}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!--已删图片-->
+        <div class="c-user-table" ng-if="sendManuscript.acitiveSlideTit == 2">
+            <div class="t-search-hd clear">
+                <div class="user-hd-left fll">
+                    <label for="checkAllDelPic">
+                        <input type="checkbox" ng-model="sendManuscript.deletedPicselectedAll" id="checkAllDelPic"
+                               ng-click="sendManuscript.checkAll(sendManuscript.deletedPicselectedAll,2)"/>
+                        <span class="user-check-txt cursor">全选</span>
+                    </label>
+                    <span class="dib cursor edt-recover-btn" ng-click="sendManuscript.recoverPic()">恢复图片</span>
+                    <span class="dib cursor edt-delete-btn" ng-click="sendManuscript.thoroughDelModalShow('wait-del-modal')">彻底删除</span>
+                    <span class="dib cursor edt-merge-btn" ng-click="sendManuscript.downLoadPic()">下载原图</span>
+                </div>
+
+                <div class="user-hd-right flr">
+                    <input class="user-search-input" placeholder="可根据稿件ID、标题、作者名 检索" ng-model="sendManuscript.search.paramStr"/>
+                    <img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic"
+                         ng-click="sendManuscript.onSearchDataClick()"/>
+                    <span class="dib cursor user-search-btn" ng-click="sendManuscript.advanceSearchModalShow('wait-manuscript-search-modal')">高级检索</span>
+                </div>
+            </div>
+            <div class="t-uinfo-bd">
+                <div class="table-responsive">
+                    <table  class="table table-bordered uInfo-table">
+                        <thead>
+                            <tr>
+                                <th class="uinfo-hd-th">
+                                </th>
+                                <th class="uinfo-hd-th">编号</th>
+                                <th class="uinfo-hd-th">图片类型</th>
+                                <th class="uinfo-hd-th">缩略图</th>
+                                <th class="uinfo-hd-th">图片数</th>
+                                <th class="uinfo-hd-th">标题</th>
+                                <th class="uinfo-hd-th">作者</th>
+                                <th class="uinfo-hd-th">上传时间</th>
+                                <th class="uinfo-hd-th">编辑时间</th>
+                                <th>稿件状态</th>
+                                <th>是否在编</th>
+                                <th class="uinfo-hd-th">编辑人</th>
+                                <th class="uinfo-hd-th">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tr dir-paginate="item in sendManuscript.waitManuscriptList | itemsPerPage: sendManuscript.selPageRows"
+                            total-items="sendManuscript.sendMsList_total"
+                            current-page="sendManuscript.pagination.current" show-middle-pic>
+                                <td>
+                                    <input type="checkbox"  ng-model="sendManuscript.selWaitMsIds[item.ID]"value='{{item.ID}}'/>
+                                </td>
+                                <td>{{item.ID}}</td>
+                                <td>{{item.GOODS_TYPE | draftImgTypeFilter}}</td>
+                                <td class='pic_parent'>
+                                    <a class='curp uifi-title' target='_blank' ng-if="sendManuscript.reMyRoleId == 1 || sendManuscript.reMyRoleId == 26"><img ng-src="{{item.samllPath}}"/></a>
+                                    <a class='curp uifi-title' target='_blank' ng-if="sendManuscript.reMyRoleId != 1 && sendManuscript.reMyRoleId != 26" ui-sref="role.manager.sendManuscriptDetail({id: item.ID, dtType: sendManuscript.variedtypeArr[0]})"><img ng-src="{{item.samllPath}}"/></a>
+                                    <div class='pic_children'>
+                                    	<img ng-src='{{item.watermarkedmediumPath}}'>
+                                    	<div class='showMiddlepics'>
+                                    		<p class='showMiddlepics-title'>EXIF信息：</p>
+                                    		<p>光圈数:{{item.EX_FNUMBER}}； 感光度:{{item.EX_ISO}}； 拍摄相机:{{item.EX_MODEL}}； 拍摄时间:{{item.EX_DATETIME |date : 'yyyy-MM-dd HH:mm:ss'}}</p>                                    		
+                                    	</div>
+                                    	<div class='showMiddlepics'>                                    		                                          		
+                                    	    <table border='1' width='100%' cellpadding="10">
+                                    	        <caption >EXIF信息</caption>
+                                    	        <tr>
+                                    	           	<td>光圈数</td>
+                                    	           	<td>{{item.EX_FNUMBER}}</td>
+                                    	           	<td>感光度</td>
+                                    	           	<td>{{item.EX_ISO}}</td>
+                                    	        </tr>
+                                    	        <tr>
+                                    	           	<td>拍摄相机</td>
+                                    	           	<td>{{item.EX_MODEL}}</td>
+                                    	           	<td>拍摄时间</td>
+                                    	           	<td>{{item.EX_DATETIME |date : 'yyyy-MM-dd HH:mm:ss'}}</td>
+                                    	        </tr>
+                                    	    </table>
+										</div>
+                                    </div>
+                                </td>
+                                <td>{{item.PICTURE_COUNT}}</td>
+                                <td><a class="curp uifi-title" target='_blank' ui-sref="role.manager.sendManuscriptDetail({id: item.ID,dtType: sendManuscript.variedtypeArr[0]})">{{item.TITLE}}</a></td>
+                                <td class='author_cur'ng-click='sendManuscript.authorinfor(item.AUTHOR_ID)'>{{item.AUTHOR}}</td>
+                                <td>
+                                    <p>{{item.APPLY_TIME | date : 'yyyy-MM-dd'}}</p>
+                                    <p>{{item.APPLY_TIME | date : 'HH:mm:ss'}}</p>
+                                </td>
+                                <td>
+                                    <span ng-if="item.UPDATE_TIME">
+                                        <p>{{item.UPDATE_TIME | date : 'yyyy-MM-dd'}}</p>
+                                         <p>{{item.UPDATE_TIME | date : 'HH:mm:ss'}}</p>
+                                    </span>
+                                    <span ng-if="!item.UPDATE_TIME">
+                                        --------
+                                    </span>
+                                </td>
+                                <td>{{item.GROUP_STATUS | grouppStatusFilter}}</td>
+                                <td>{{item.IS_LOCKED | isLockFilter}}</td>
+                                <td ng-if="sendManuscript.reMyRoleId!=1 && sendManuscript.reMyRoleId!=26">{{item.FRIST_PFD_USER}}</td>
+                                <td ng-if="sendManuscript.reMyRoleId==1 || sendManuscript.reMyRoleId==26">
+                                    <span class="cursor" ng-click="sendManuscript.getAllEditor(item.ID,item.FRIST_PFD_USER)">{{item.FRIST_PFD_USER}}</span>
+                                </td>
+                                <td>
+                                    <img src="admin/assets/img/role/recover_icon.png" title="恢复" class="cursor u-pwd-reset" width="20" height="20"
+                                         ng-click="sendManuscript.recoverPic()"/>
+                                    <img src="admin/assets/img/role/red_del.png" title="删除" class="cursor" width="20" height="20"
+                                         ng-click="sendManuscript.thoroughDelItemModalShow('wait-del-modal',item.ID)"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- 分页 -->
+        <div class="paging-con-box mt10 clear">
+            <div class="photo-record-page fll">
+                <select ng-model="sendManuscript.selPageRows" class="mr10">
+                    <option value="50">50</option>
+                    <option value="40">40</option>
+                    <option value="30">30</option>
+                    <option value="20">20</option>
+                    <option value="10">10</option>
+                    <option value="6">6</option>
+                </select>
+                <span>共找到</span>
+                <span class="color_red">{{sendManuscript.sendMsList_total}}</span>
+                <span>条记录</span>
+            </div>
+            <div class="photo-now-page fll">
+                <span>第 </span>
+                <span>{{sendManuscript.pagination.current}}</span>
+                <span>/</span>
+                <span>{{sendManuscript.totalPages}}</span>
+                <span>页</span>
+            </div>
+            <div class="photo-jump-page flr">
+                <dir-pagination-controls on-page-change="sendManuscript.pageChanged(newPageNumber)"
+                                         template-url="admin/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+                </dir-pagination-controls>
+            </div>
+        </div>
+    </div>
+    <!--作者信息弹框-->
+	<div class="common-modal-style" id="authorinformation-modal" ng-mousemove="sendManuscript.moveModal('authorinformation-tit','authorinformation-modal')" style="display:none">
+			<div class="role-add-con">
+				<div id="authorinformation-tit" class="user-add-tit clear">
+					<span class="fll">查看作者信息</span>
+					<span class="flr curp tit-close" ng-click="sendManuscript.hideAuthorinfor()">×</span>
+				</div>
+			</div>
+			<div class='clearfloat'>
+			   <div class='authorinformation_box'>
+			   	<span class='authorinformation_left'>用户名:</span><span class='authorinformation_right' title='{{sendManuscript.author.userName}}'>{{sendManuscript.author.userName}}</span>
+			   </div>
+			   <div class='authorinformation_box'>
+			   	 <span class='authorinformation_left'>真实姓名:</span><span class='authorinformation_right' title='{{sendManuscript.author.tureName}}'>{{sendManuscript.author.tureName}}</span>
+			   </div>
+			   <div class='authorinformation_box'>
+			   	 <span class='authorinformation_left'>作者名:</span><span class='authorinformation_right' title='{{sendManuscript.author.authorName}}'>{{sendManuscript.author.authorName}}</span>
+			   </div>
+			   <div class='authorinformation_box'>
+			   	 <span class='authorinformation_left'>联系邮箱:</span><span class='authorinformation_right' title='{{sendManuscript.author.emailBind}}'>{{sendManuscript.author.emailBind}}</span>
+			   </div>
+			   <div class='authorinformation_box'>
+			   	 <span class='authorinformation_left'>联系手机:</span><span class='authorinformation_right' title='{{sendManuscript.author.telBind}}'>{{sendManuscript.author.telBind}}</span>
+			   </div>
+			   <div class='authorinformation_box'>
+			   	 <span class='authorinformation_left'>详细地址:</span><span class='authorinformation_right'title='{{sendManuscript.author.address}}'>{{sendManuscript.author.address}}</span>
+			   </div>
+			   <div class='authorinformation_box'>
+			   	 <span class='authorinformation_left'>用户类别:</span><span class='authorinformation_right'title='{{sendManuscript.author.rolenames}}'>{{sendManuscript.author.rolenames}}</span>
+			   </div>
+			   <div class='authorinformation_box'>
+			   	 <span class='authorinformation_left'>身份证号:</span><span class='authorinformation_right' title='{{sendManuscript.author.idCard}}'>{{sendManuscript.author.idCard}}</span>
+			   </div>
+			   <div class='authorinformation_box'>
+			   	 <span class='authorinformation_left'>所属省市:</span><span class='authorinformation_right' title='{{sendManuscript.author.province}} {{sendManuscript.author.city}}'>{{sendManuscript.author.province}}&nbsp;{{sendManuscript.author.city}}</span>
+			   </div>
+			   <div class='authorinformation_box'>
+			   	 <span class='authorinformation_left'>单位名称:</span><span class='authorinformation_right' title='{{sendManuscript.author.unitName}}'>{{sendManuscript.author.unitName}}</span>
+			   </div>
+			   <div class='authorinformation_box'>
+			   	 <span class='authorinformation_left'>Q Q:</span><span class='authorinformation_right' title='{{sendManuscript.author.standby1}}'>{{sendManuscript.author.standby1}}</span>
+			   </div>
+			   <div class='authorinformation_box'>
+			   	 <span class='authorinformation_left'>微 信:</span><span class='authorinformation_right' title='{{sendManuscript.author.standby2}}'>{{sendManuscript.author.standby2}}</span>
+			   </div>
+			</div>
+	</div>
+    <!--修改一审编辑弹框-->
+    <div class="common-modal-style send-model-style" id="editorInformation-modal"
+         ng-mousemove="sendManuscript.moveModal('editorInformation-tit','editorInformation-modal')"
+         style="display: none;">
+        <div class="role-add-con">
+            <div id="sel-modal-tit" class="role-add-tit oH">
+                <span class="fll">修改一审编辑</span>
+                <span class="flr curp tit-close"
+                      ng-click="sendManuscript.hideEditorInfor()">×</span>
+            </div>
+            <div class="ova" style="height: 210px;">
+                <div class="role-add-main">
+                    <div class="role-add-form-info clear">
+                        <div ng-repeat="item in sendManuscript.dutyEditorList">
+                            <div class="fll role-option-part tal">
+                                <input name="editorName" type="radio" ng-checked="item.USER_NAME==sendManuscript.editorNameFlag" value="{{item.USER_NAME}}">
+                                <span>{{item.USER_NAME}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tac mt10">
+                    <span class="dib cursor user-add-btn" ng-click="sendManuscript.saveSelDutyEditor()">保存</span>
+                    <span class="dib cursor user-add-btn role-del-btn" ng-click="sendManuscript.hideEditorInfor()">取消</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--删除弹框-->
+    <div class="common-modal-style" id="wait-del-modal"
+         ng-mousemove="sendManuscript.moveModal('del-modal-tit','wait-del-modal')"
+         style="display:none">
+        <div class="role-add-con">
+            <div id="del-modal-tit" class="role-add-tit">
+                删除提醒
+            </div>
+            <div class="role-modal-con">
+                你确定要彻底删除该稿件吗？
+            </div>
+            <div class="tac mt10">
+                <span class="dib cursor user-add-btn" ng-click="sendManuscript.thoroughDel('wait-del-modal')">确定</span>
+                <span class="dib cursor user-add-btn" ng-click="sendManuscript.sendManuscriptModalHide('wait-del-modal')">取消</span>
+            </div>
+        </div>
+    </div>
+    <!--稿件合并弹框-->
+    <div class="common-modal-style" id="wait-manuscript-merge-modal"
+         ng-mousemove="sendManuscript.moveModal('merge-modal-tit','wait-manuscript-merge-modal')"
+         style="display:none">
+        <div class="role-add-con">
+            <div id="merge-modal-tit" class="role-add-tit oH">
+                <span class="fll">稿件合并</span>
+                <span class="flr curp tit-close"
+                      ng-click="sendManuscript.sendManuscriptModalHide('wait-manuscript-merge-modal')">×</span>
+            </div>
+            <div class="ova" style="height: 465px;">
+                <div class="role-modal-con">
+                    <div>
+                        稿件合并，请选择主图：
+                    </div>
+                    <div>
+                        <div class="table-responsive">
+                            <table  class="table table-bordered uInfo-table fz16">
+                                <thead>
+                                <tr>
+                                    <th class="uinfo-hd-th">编号</th>
+                                    <th class="uinfo-hd-th">标题</th>
+                                    <th class="uinfo-hd-th">人物</th>
+                                    <th class="uinfo-hd-th">地点</th>
+                                    <th class="uinfo-hd-th">上传时间</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="item in sendManuscript.waitManuscriptList | filter: sendManuscript.filterMergedMenuscript">
+                                    <td>
+                                        <input type="radio" name="mergeMsRadio" ng-model="sendManuscript.selMergeWaitMsIds" ng-value="item.ID"/>
+                                        <span class="ml10">{{item.ID}}</span>
+                                    </td>
+                                    <td>{{item.TITLE}}</td>
+                                    <td>{{item.PEOPLE}}</td>
+                                    <td>{{item.PLACE}}</td>
+                                    <td>{{item.APPLY_TIME | date : 'yyyy-MM-dd HH:mm:ss'}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tac mt10">
+                    <span class="dib cursor user-add-btn" ng-click="sendManuscript.comfirmMergeManuscript('wait-manuscript-merge-modal')">保存</span>
+                <span class="dib cursor user-add-btn cancel-btn-color"
+                      ng-click="sendManuscript.sendManuscriptModalHide('wait-manuscript-merge-modal')">取消</span>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <!--高级检索弹框-->
+    <div class="common-modal-style common-modal-style-width-s" id="wait-manuscript-search-modal"
+         ng-mousemove="sendManuscript.moveModal('search-modal-tit','wait-manuscript-search-modal')"
+         style="display:none">
+        <div class="role-add-con">
+            <div id="search-modal-tit" class="role-add-tit oH">
+                <span class="fll">高级检索</span>
+                <span class="flr curp tit-close"
+                      ng-click="sendManuscript.sendManuscriptModalHide('wait-manuscript-search-modal')">×</span>
+            </div>
+            <div class="role-add-main">
+                <div class="role-add-form-info clear">
+                    <div class="role-form-info-top clear">
+                        <div class="fll send-ms-search-part">
+                            <span>标题</span>
+                            <input type="text" class="role-add-input" ng-model="sendManuscript.search.title"/>
+                        </div>
+                        <div class="fll send-ms-search-part">
+                            <span>作者</span>
+                            <input type="text" class="role-add-input" ng-model="sendManuscript.search.author"/>
+                        </div>
+                        <div class="fll send-ms-search-part">
+                            <span>地点</span>
+                            <input type="text" class="role-add-input" ng-model="sendManuscript.search.place"/>
+                        </div>
+                        <div class="fll send-ms-search-part">
+                            <span>人物</span>
+                            <input type="text" class="role-add-input" ng-model="sendManuscript.search.editor"/>
+                        </div>
+                    </div>
+                    <div class="role-form-info-top clear mt15">
+                        <div class="fll send-ms-search-part">
+                            <span>内容</span>
+                            <input type="text" class="role-add-input" ng-model="sendManuscript.search.memo"/>
+                        </div>
+                        <div class="fll send-ms-search-part">
+                            <span>文件</span>
+                            <input type="text" class="role-add-input" ng-model="sendManuscript.search.fileName"/>
+                        </div>
+                        <div class="fll send-ms-search-part">
+                            <span>编号</span>
+                            <input type="text" class="role-add-input" ng-model="sendManuscript.search.id"/>
+                        </div>
+                    </div>
+                    <div class="role-form-info-top clear mt15">
+                        <div class="fll manuscript-serach-date">
+                            <span class="fll">开始时间</span>
+                            <input type="text" class="Wdate proof-date-input" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss'});" class="Wdate" ng-model="sendManuscript.search.beginTime" datepicker/>
+                        </div>
+                        <div class="fll manuscript-serach-date">
+                            <span class="fll">结束时间</span>
+                            <input type="text" class="Wdate proof-date-input" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss'});" class="Wdate" ng-model="sendManuscript.search.endTime" datepicker/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tac mt10">
+                <span class="dib cursor user-add-btn" ng-click="sendManuscript.saveAdvanceSearch('wait-manuscript-search-modal')">确定</span>
+                <span class="dib cursor user-add-btn role-del-btn"
+                      ng-click="sendManuscript.sendManuscriptModalHide('wait-manuscript-search-modal')">取消</span>
+            </div>
+        </div>
+    </div>
+</div>

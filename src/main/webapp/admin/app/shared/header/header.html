@@ -1,0 +1,102 @@
+<div class="header-container">
+    <!--遮罩层-->
+    <div class="mask-layer-container" ng-show="layerIfShow">
+        <mask-layer></mask-layer>
+    </div>
+    <!--header-->
+    <div class="login-header">
+        <div class="l-header-content clear">
+            <!--header left-->
+            <div class="l-role-left">
+                <div class="l-header-logo cursor" ng-click="header.jumpClientIndex()">
+                    <span class="l-first-part">CNS</span>
+                    <span class="l-later-part">PHOTO</span>
+                </div>
+                <div class="l-repository clear">
+                    <div class="l-cns-txt" ng-click="header.jumpClientIndex()">
+                        中国新闻图片网
+                    </div>
+                    <div class="l-cns-ziku">
+                        <i class="icon-angle-down"></i>
+                    </div>
+                </div>
+            </div>
+            <!--header right-->
+           <div class="l-role-right clear">
+               <!--待发稿件数量提醒(只有值班编辑显示)-->
+               <div class="l-role-envelope fll mr20 cursor"  ng-if="header.adminRoleId == 2" ui-sref="role.manager.sendManuscript">
+                   <i class="icon-signout wait-ms-icon fll"></i>
+                   <span class="badge mess-dot fll" ng-if="picGroupNum">{{picGroupNum}}</span>
+               </div>
+               <!--未读消息提醒-->
+               <div class="l-role-envelope fll mr20 cursor"  ui-sref="role.manager.msgManage">
+                   <i class="icon-envelope-alt role-envelope-icon fll"></i>
+                   <span class="badge mess-dot fll" ng-if="unreadMsgNum">{{unreadMsgNum}}</span>
+               </div>
+               <div class="l-user-box clear">
+                   <div class="l-user-info fll">
+                       <div class="l-vip-grade toggle toggle_l" id="enChange">
+                           <!--<span>中文</span>-->
+                           <select class="toggle" ng-model="currentLang" ng-change="header.switchLang(currentLang)">
+                               <option value="0">中文</option>
+                               <option value="1">English</option>
+                           </select>
+                       </div>
+                       <div class="l-vip-name fll exit">
+                           <!--<i class="icon-envelope-alt"></i>-->
+                           <!--<span>|</span>-->
+                           <a class="cursor u-exit"  ng-click="header.logOut()" translate>100003</a>
+                       </div>
+                   </div>
+               </div>
+               <div class="l-role-box clear">
+                   <div class="l-role-des" translate>
+                       100001
+                   </div>
+                   <div class="l-role-name por z20">
+                       <!--{{userRole}}-->
+                       <p class="role-detail-name selLang role-toggle-click" ng-if="!userRole">
+                           无
+                       </p>
+                       <p class="role-detail-name selLang role-toggle-click" ng-if="$index == 0" ng-click="header.chooseRole($index,item)"
+                          ng-repeat="item in userRole">
+                           {{item.roleName}}
+                       </p>
+                       <!--<p class="role-detail-name selLang" ng-click="header.chooseRole()">-->
+                           <!--{{header.adminRoleName}}-->
+                       <!--</p>-->
+                       <p class="role-detail-name role-toggle-click" ng-if="($index > 0) && (header.roleifShow) && (roleClickFlag)" ng-class="{selLang:$first,'bdn':$last}"
+                          ng-repeat="item in userRole" ng-click="header.chooseRole($index,item)">
+                           {{item.roleName}}
+                       </p>
+                   </div>
+
+                   <!--<div class="l-role-name por z20">-->
+                       <!--<p class="role-detail-name selLang" ng-if="$index == 0"-->
+                          <!--ng-repeat="item in header.variedRole" ng-click="header.chooseRole($index)">-->
+                           <!--{{item.name}}-->
+                       <!--</p>-->
+                       <!--<p class="role-detail-name" ng-if="($index > 0) && (header.roleifShow)" ng-class="{selLang:$first,'bdn':$last}"-->
+                          <!--ng-repeat="item in header.variedRole" ng-click="header.chooseRole($index)">-->
+                           <!--{{item.name}}-->
+                       <!--</p>-->
+                   <!--</div>-->
+               </div>
+               <div class="l-user-box clear" ui-sref="role.manager.basicInfo">
+                    <div class="fll">
+                        <img ng-if="userPortrait" ng-src="{{userPortrait}}" width="38" height="38" class="l-user-tx cursor"/>
+                        <img ng-if="!userPortrait" src="admin/assets/img/role/icon_default_head.png" width="38" height="38" class="l-user-tx cursor"/>
+                    </div>
+                    <div class="l-user-info fll">
+                        <!--<div class="l-vip-grade">-->
+                            <!--<span>LV2</span>-->
+                        <!--</div>-->
+                        <div class="l-vip-name fll mt10">
+                            <span class="cursor">{{header.uName}}</span>
+                        </div>
+                    </div>
+               </div>
+           </div>
+        </div>
+    </div>
+</div>

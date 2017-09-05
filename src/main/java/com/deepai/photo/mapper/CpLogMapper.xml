@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deepai.photo.mapper.CpLogMapper" >
+  <resultMap id="BaseResultMap" type="com.deepai.photo.bean.CpLog" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="LOGTYPE_ID" property="logtypeId" jdbcType="INTEGER" />
+    <result column="SITE_ID" property="siteId" jdbcType="INTEGER" />
+    <result column="OPE_IP" property="opeIp" jdbcType="VARCHAR" />
+    <result column="OPE_USER_ID" property="opeUserId" jdbcType="INTEGER" />
+    <result column="OPE_USER" property="opeUser" jdbcType="VARCHAR" />
+    <result column="OPE_TIME" property="opeTime" jdbcType="TIMESTAMP" />
+    <result column="OPE_CONTENT" property="opeContent" jdbcType="VARCHAR" />
+    <result column="OPE_PARAM" property="opeParam" jdbcType="VARCHAR" />
+    <result column="OPE_IDS" property="opeIds" jdbcType="VARCHAR" />
+    <result column="OPE_RESULT" property="opeResult" jdbcType="VARCHAR" />
+    <result column="OPE_TYPE" property="opeType" jdbcType="TINYINT" />
+    <result column="OPE_MEMO" property="opeMemo" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, LOGTYPE_ID, SITE_ID, OPE_IP, OPE_USER_ID, OPE_USER, OPE_TIME, OPE_CONTENT, OPE_PARAM, 
+    OPE_IDS, OPE_RESULT, OPE_TYPE, OPE_MEMO
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.deepai.photo.bean.CpLogExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cp_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from cp_log
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from cp_log
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.deepai.photo.bean.CpLogExample" >
+    delete from cp_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.deepai.photo.bean.CpLog" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cp_log (LOGTYPE_ID, SITE_ID, OPE_IP, 
+      OPE_USER_ID, OPE_USER, OPE_TIME, 
+      OPE_CONTENT, OPE_PARAM, OPE_IDS, 
+      OPE_RESULT, OPE_TYPE, OPE_MEMO
+      )
+    values (#{logtypeId,jdbcType=INTEGER}, #{siteId,jdbcType=INTEGER}, #{opeIp,jdbcType=VARCHAR}, 
+      #{opeUserId,jdbcType=INTEGER}, #{opeUser,jdbcType=VARCHAR}, #{opeTime,jdbcType=TIMESTAMP}, 
+      #{opeContent,jdbcType=VARCHAR}, #{opeParam,jdbcType=VARCHAR}, #{opeIds,jdbcType=VARCHAR}, 
+      #{opeResult,jdbcType=VARCHAR}, #{opeType,jdbcType=TINYINT}, #{opeMemo,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.deepai.photo.bean.CpLog" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cp_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="logtypeId != null" >
+        LOGTYPE_ID,
+      </if>
+      <if test="siteId != null" >
+        SITE_ID,
+      </if>
+      <if test="opeIp != null" >
+        OPE_IP,
+      </if>
+      <if test="opeUserId != null" >
+        OPE_USER_ID,
+      </if>
+      <if test="opeUser != null" >
+        OPE_USER,
+      </if>
+      <if test="opeTime != null" >
+        OPE_TIME,
+      </if>
+      <if test="opeContent != null" >
+        OPE_CONTENT,
+      </if>
+      <if test="opeParam != null" >
+        OPE_PARAM,
+      </if>
+      <if test="opeIds != null" >
+        OPE_IDS,
+      </if>
+      <if test="opeResult != null" >
+        OPE_RESULT,
+      </if>
+      <if test="opeType != null" >
+        OPE_TYPE,
+      </if>
+      <if test="opeMemo != null" >
+        OPE_MEMO,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="logtypeId != null" >
+        #{logtypeId,jdbcType=INTEGER},
+      </if>
+      <if test="siteId != null" >
+        #{siteId,jdbcType=INTEGER},
+      </if>
+      <if test="opeIp != null" >
+        #{opeIp,jdbcType=VARCHAR},
+      </if>
+      <if test="opeUserId != null" >
+        #{opeUserId,jdbcType=INTEGER},
+      </if>
+      <if test="opeUser != null" >
+        #{opeUser,jdbcType=VARCHAR},
+      </if>
+      <if test="opeTime != null" >
+        #{opeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="opeContent != null" >
+        #{opeContent,jdbcType=VARCHAR},
+      </if>
+      <if test="opeParam != null" >
+        #{opeParam,jdbcType=VARCHAR},
+      </if>
+      <if test="opeIds != null" >
+        #{opeIds,jdbcType=VARCHAR},
+      </if>
+      <if test="opeResult != null" >
+        #{opeResult,jdbcType=VARCHAR},
+      </if>
+      <if test="opeType != null" >
+        #{opeType,jdbcType=TINYINT},
+      </if>
+      <if test="opeMemo != null" >
+        #{opeMemo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.deepai.photo.bean.CpLogExample" resultType="java.lang.Integer" >
+    select count(*) from cp_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update cp_log
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.logtypeId != null" >
+        LOGTYPE_ID = #{record.logtypeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.siteId != null" >
+        SITE_ID = #{record.siteId,jdbcType=INTEGER},
+      </if>
+      <if test="record.opeIp != null" >
+        OPE_IP = #{record.opeIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.opeUserId != null" >
+        OPE_USER_ID = #{record.opeUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.opeUser != null" >
+        OPE_USER = #{record.opeUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.opeTime != null" >
+        OPE_TIME = #{record.opeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.opeContent != null" >
+        OPE_CONTENT = #{record.opeContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.opeParam != null" >
+        OPE_PARAM = #{record.opeParam,jdbcType=VARCHAR},
+      </if>
+      <if test="record.opeIds != null" >
+        OPE_IDS = #{record.opeIds,jdbcType=VARCHAR},
+      </if>
+      <if test="record.opeResult != null" >
+        OPE_RESULT = #{record.opeResult,jdbcType=VARCHAR},
+      </if>
+      <if test="record.opeType != null" >
+        OPE_TYPE = #{record.opeType,jdbcType=TINYINT},
+      </if>
+      <if test="record.opeMemo != null" >
+        OPE_MEMO = #{record.opeMemo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update cp_log
+    set ID = #{record.id,jdbcType=INTEGER},
+      LOGTYPE_ID = #{record.logtypeId,jdbcType=INTEGER},
+      SITE_ID = #{record.siteId,jdbcType=INTEGER},
+      OPE_IP = #{record.opeIp,jdbcType=VARCHAR},
+      OPE_USER_ID = #{record.opeUserId,jdbcType=INTEGER},
+      OPE_USER = #{record.opeUser,jdbcType=VARCHAR},
+      OPE_TIME = #{record.opeTime,jdbcType=TIMESTAMP},
+      OPE_CONTENT = #{record.opeContent,jdbcType=VARCHAR},
+      OPE_PARAM = #{record.opeParam,jdbcType=VARCHAR},
+      OPE_IDS = #{record.opeIds,jdbcType=VARCHAR},
+      OPE_RESULT = #{record.opeResult,jdbcType=VARCHAR},
+      OPE_TYPE = #{record.opeType,jdbcType=TINYINT},
+      OPE_MEMO = #{record.opeMemo,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.deepai.photo.bean.CpLog" >
+    update cp_log
+    <set >
+      <if test="logtypeId != null" >
+        LOGTYPE_ID = #{logtypeId,jdbcType=INTEGER},
+      </if>
+      <if test="siteId != null" >
+        SITE_ID = #{siteId,jdbcType=INTEGER},
+      </if>
+      <if test="opeIp != null" >
+        OPE_IP = #{opeIp,jdbcType=VARCHAR},
+      </if>
+      <if test="opeUserId != null" >
+        OPE_USER_ID = #{opeUserId,jdbcType=INTEGER},
+      </if>
+      <if test="opeUser != null" >
+        OPE_USER = #{opeUser,jdbcType=VARCHAR},
+      </if>
+      <if test="opeTime != null" >
+        OPE_TIME = #{opeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="opeContent != null" >
+        OPE_CONTENT = #{opeContent,jdbcType=VARCHAR},
+      </if>
+      <if test="opeParam != null" >
+        OPE_PARAM = #{opeParam,jdbcType=VARCHAR},
+      </if>
+      <if test="opeIds != null" >
+        OPE_IDS = #{opeIds,jdbcType=VARCHAR},
+      </if>
+      <if test="opeResult != null" >
+        OPE_RESULT = #{opeResult,jdbcType=VARCHAR},
+      </if>
+      <if test="opeType != null" >
+        OPE_TYPE = #{opeType,jdbcType=TINYINT},
+      </if>
+      <if test="opeMemo != null" >
+        OPE_MEMO = #{opeMemo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.deepai.photo.bean.CpLog" >
+    update cp_log
+    set LOGTYPE_ID = #{logtypeId,jdbcType=INTEGER},
+      SITE_ID = #{siteId,jdbcType=INTEGER},
+      OPE_IP = #{opeIp,jdbcType=VARCHAR},
+      OPE_USER_ID = #{opeUserId,jdbcType=INTEGER},
+      OPE_USER = #{opeUser,jdbcType=VARCHAR},
+      OPE_TIME = #{opeTime,jdbcType=TIMESTAMP},
+      OPE_CONTENT = #{opeContent,jdbcType=VARCHAR},
+      OPE_PARAM = #{opeParam,jdbcType=VARCHAR},
+      OPE_IDS = #{opeIds,jdbcType=VARCHAR},
+      OPE_RESULT = #{opeResult,jdbcType=VARCHAR},
+      OPE_TYPE = #{opeType,jdbcType=TINYINT},
+      OPE_MEMO = #{opeMemo,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

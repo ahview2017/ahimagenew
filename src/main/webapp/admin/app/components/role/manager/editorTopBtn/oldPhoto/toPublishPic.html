@@ -1,0 +1,74 @@
+<div class="user-manager-container">
+    <div class="c-common-titbox">
+        <role-common-tit value="老照片"></role-common-tit>
+    </div>
+    <div class="c-user-table">
+        <div class="t-search-hd clear">
+            <div class="user-hd-left smt-detail-operate fll">
+                <span ui-sref="role.manager.oldPhoto" class="cursor">返回</span>
+            </div>
+        </div>
+        <div class="t-uinfo-bd">
+            <div class="table-responsive">
+                <table class="table table-bordered uInfo-table">
+                    <thead>
+                        <tr>
+                            <th class="uinfo-hd-th">编号</th>
+                            <th class="uinfo-hd-th">文件名</th>
+                            <th class="uinfo-hd-th">存放路径</th>
+                            <th class="uinfo-hd-th">标题</th>
+                            <th class="uinfo-hd-th">人物</th>
+                            <th class="uinfo-hd-th">作者</th>
+                            <th class="uinfo-hd-th">拍摄日期</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr dir-paginate="item in toPublishPic.toPublishPicList | itemsPerPage: toPublishPic.selPageRows"
+                            total-items="toPublishPic.topubPicList_total"
+                            current-page="toPublishPic.pagination.current">
+                            <td>
+                               {{item.NUMBER}}
+                            </td>
+                            <td>{{item.PIC_FILE_NAME}}</td>
+                            <td>{{item.FILE_ALLPATH}}</td>
+                            <td>{{item.TITLE}}</td>
+                            <td>{{item.FIGURE}}</td>
+                            <td>{{item.AUTHOR}}</td>
+                            <td>
+                                <span ng-if="item.OLD_DATE">{{item.OLD_DATE}}</span>
+                                <span ng-if="!item.OLD_DATE">------</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- 分页 -->
+            <div class="paging-con-box mt10 clear">
+                <div class="photo-record-page fll">
+                    <select ng-model="toPublishPic.selPageRows" class="mr10">
+                        <option value="50">50</option>
+                        <option value="40">40</option>
+                        <option value="30">30</option>
+                        <option value="20">20</option>
+                        <option value="10">10</option>
+                    </select>
+                    <span>共找到</span>
+                    <span class="color_red">{{toPublishPic.topubPicList_total}}</span>
+                    <span>条记录</span>
+                </div>
+                <div class="photo-now-page fll">
+                    <span>第 </span>
+                    <span>{{toPublishPic.pagination.current}}</span>
+                    <span>/</span>
+                    <span>{{toPublishPic.totalPages}}</span>
+                    <span>页</span>
+                </div>
+                <div class="photo-jump-page flr">
+                    <dir-pagination-controls on-page-change="toPublishPic.pageChanged(newPageNumber)"
+                                             template-url="admin/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+                    </dir-pagination-controls>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

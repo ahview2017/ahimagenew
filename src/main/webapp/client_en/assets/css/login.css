@@ -1,0 +1,92 @@
+.client-login-container{
+    border: 1px solid #ccc;
+    min-height: 280px;
+    width:1100px;
+    margin:30px auto 0 auto;
+	font-family: "微软雅黑",arial;    
+}
+.client-login-con{
+    width: 86%;
+    margin: 0 auto;
+}
+.client-hd-login-tit{
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+}
+.cuser-login-tit{
+    padding:20px 0;
+    font-size: 16px;
+    font-weight: bold;
+}
+.client-bd-login-detail{
+    width: 405px;
+    margin:20px auto 20px;
+    border: 1px solid #ccc;
+    padding:20px;
+}
+.c-login-item{
+
+}
+.c-login-item-txt{
+	display:inline-block;
+    width: 79px;
+    font-weight: bold;
+}
+.c-login-item-input{
+    display: inline-block;;
+}
+.c-login-info-input{
+    width: 160px;
+}
+.pwd-spec-item{
+    margin: 10px 0;
+}
+.login_btn{
+	background: #0f88eb;
+    width:85px;
+    height:24px;
+    line-height:24px;
+    border-radius:5px;
+    font-size:15px;
+    font-family: "微软雅黑",arial;
+    display: inline-block;
+    color:#fff !important;
+}
+.client-login-go-btn{
+	display: inline-block;
+    /*border: 1px solid #9B9B9B;*/
+    border:none;    
+    outline: none!important;
+    background: #0f88eb;
+    width:85px;
+    border-radius:5px;
+}
+.forget-register-box{
+    text-align: center;
+    margin-top: 12px;
+}
+a.change-hover-color:link{
+	color: #000;
+}
+a.change-hover-color:visited{
+	color: #000;
+}
+a.change-hover-color:hover{
+	color: #000;
+}
+.login_y{
+	height:21px;
+	display: inline-block;
+}
+.login_y img{
+	height:100%;
+}
+.login-suceess-center{
+    text-align: center;
+}
+.login-success-bottom{
+    margin-bottom: 5px;
+}
+.login-suceess-cursor{
+    cursor:pointer;
+}

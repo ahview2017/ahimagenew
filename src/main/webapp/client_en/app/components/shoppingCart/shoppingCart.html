@@ -1,0 +1,167 @@
+<div class="shoppingCart container">
+    <div class="shoppingCart-tit oH clearfloat">
+        <div class="fll flls">
+            <h4 class="fwb mt5" style='display:inline-block;'>购物车</h4>
+        </div>
+        <div class="shoppingCart-price flr oH">
+        	<button class='fll_r'ng-click="shoppingCart.settleCounts()">结算</button>
+            <!--未超限制-->
+            <p class="fwb fll fll_r">
+                已选<span class="fz22">{{shoppingCart.selPicInfo.selPicLen}}</span>张：
+                ￥<span class="fz22">{{shoppingCart.selPicInfo.selPicPrice}}</span>
+            </p>
+            <!--超出限制-->
+            <!--<p ng-show="" class="fwb fll color_red">
+                已选<span class="fz22">1</span>张，
+                下载总数已超出总限制数（27），
+                您还能下载<span class="fz22">1</span>张
+            </p>-->            
+        </div>
+    </div>
+    <div class="shoppingCart-cont">
+        <table>
+            <tr>
+                <th width="5%">
+                    <label for="allCheckShopBtn">
+                        <input type="checkbox" ng-click="shoppingCart.selectAll()" id="allCheckShopBtn"
+                           ng-model="shoppingCart.SelectedAll"/>
+                        <span class="cursor">全选</span>
+                    </label>
+                </th>
+                <th class="color_red" width="30%">
+                    <span class="curp" ng-click="shoppingCart.multiDelete()">删除</span>
+                </th>
+                <th width="45%">图片信息</th>
+                <th class="tac" width="5%">类型</th>
+                <th class="tac" width="10%">价格</th>
+                <th class="tac" width="5%">操作</th>
+            </tr>
+            <tr class="shoppingCart-cont-item" ng-repeat="item in shoppingCart.listData">
+                <td class="tac">
+                    <input type="checkbox" ng-model="item.Checked"
+                           ng-change="shoppingCart.selectItem()"
+                           ng-click="shoppingCart.selectedNum()"/>
+                </td>
+                <td>
+                    <img src="{{item.allPath}}" width="320" height="180"/>
+                </td>
+                <td class="shoppingCart-cont-desc">
+                    <div class="fwb">图[{{$index + 1}}] {{item.picTitle}}</div>
+                    <div>图&emsp;片ID：{{item.picId}}</div>
+                    <div>图片作者：{{item.pictureCreter}}</div>
+                    <div>尺&emsp;&emsp;寸：{{item.width}}*{{item.height}}像素</div>
+                    <div>TIFF大小：</div>
+                    <div>JPG 大小：{{item.pictureLengh / 1024 | number : 2}}K</div>
+                    <div>点&ensp;击&ensp;数：</div>
+                </td>
+                <td class="tac">{{item.picType | picTypeFilter}}</td>
+                <td class="tac">￥{{item.price}}</td>
+                <td class="tac">
+                    <img class="curp" src="client_en/assets/images/delete.png" title="删除"
+                         ng-click="shoppingCart.showDelModel(item.picId)"/>
+                </td>
+            </tr>
+        </table>
+        <div class="oH clearfloat">
+            <div class="shoppingCart-cont-foot1 oH fll flls">
+                <div class="fwb fll flls">
+                    <label for="allCheckShopBtn2">
+                        <input type="checkbox" ng-click="shoppingCart.selectAll()" id="allCheckShopBtn2"
+                               ng-model="shoppingCart.SelectedAll"/>
+                        <span class="cursor">全选</span>
+                    </label>
+                    <span class="color_red ml20 curp" ng-click="shoppingCart.multiDelete()">删除</span>
+                </div>
+                <div class="shoppingCart-price flr oH fll_r">
+                    <!--未超限制-->
+                    <p class="fwb fll">
+                        已选<span class="fz22">{{shoppingCart.selPicInfo.selPicLen}}</span>张：
+                        ￥<span class="fz22">{{shoppingCart.selPicInfo.selPicPrice}}</span>
+                    </p>
+                    <!--超出限制-->
+                    <!--<p ng-show="" class="fwb fll color_red">
+                        已选<span class="fz22">1</span>张，
+                        下载总数已超出总限制数（27），
+                        您还能下载<span class="fz22">1</span>张
+                    </p>-->
+                </div>
+            </div>
+            <div class="shoppingCart-cont-foot2 flr flls">
+                <button ng-click="shoppingCart.settleCounts()">结算</button>
+            </div>
+        </div>
+        <!--分页-->
+        <div class="flr pr15">
+            <ul class="pagination" id="sendpaginationId"></ul>
+        </div>
+
+        <!--购物车删除弹框-->
+        <div class="common-modal-style" id="cart-del-modal" style="display:none">
+            <div class="role-add-con">
+                <div id="del-modal-tit" class="role-add-tit">
+                    删除提醒
+                </div>
+                <div class="role-modal-con">
+                    您确定要删除该图片吗？
+                </div>
+                <div class="tac mt10">
+                    <span class="dib curp user-add-btn" ng-click="shoppingCart.delPic()">确定</span>
+                    <span class="dib curp user-add-btn role-del-btn "
+                          ng-click="shoppingCart.cartModalHide('cart-del-modal')">取消</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 结算生成的订单信息模态框 -->
+        <div class="modal fade" id="down-pic-order-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="w100p">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">
+                            订单信息
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-bordered uInfo-table">
+                            <thead>
+                            <tr>
+                                <th class="uinfo-hd-th bdbn tac">订单ID</th>
+                                <th class="uinfo-hd-th bdbn tac">订单号</th>
+                                <th class="uinfo-hd-th bdbn tac">用户名</th>
+                                <th class="uinfo-hd-th bdbn tac">下单时间</th>
+                                <th class="uinfo-hd-th bdbn tac">状态</th>
+                                <th class="uinfo-hd-th bdbn tac">总价格</th>
+                                <th class="uinfo-hd-th bdbn tac">图片张数</th>
+                                <th class="uinfo-hd-th bdbn tac">用户结算方式</th>
+                                <th class="uinfo-hd-th bdbn tac">下载方式</th>
+                            </tr>
+                            </thead>
+                            <tbody class="tac">
+                            <tr ng-repeat="item in shoppingCart.orderList">
+                                <td>{{item.id}}</td>
+                                <td>{{item.orderNo}}</td>
+                                <td>{{item.userName}}</td>
+                                <td>{{item.createTime}}</td>
+                                <td>{{item.orderStatus | orderStatusFilter}}</td>
+                                <td>{{item.totalPrice}}</td>
+                                <td>{{item.picCount}}</td>
+                                <td>{{item.payType | payWayFilter}}</td>
+                                <td>
+                                   <!-- <a class="cursor" ng-click="shoppingCart.sureDownPic(item.id, 0)">图片下载</a>-->
+                                    <a class="cursor ml10" ng-click="shoppingCart.sureDownPic(item.id, 1)">图文下载</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

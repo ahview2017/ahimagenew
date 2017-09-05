@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deepai.photo.mapper.CpLanmuMapper" >
+  <resultMap id="BaseResultMap" type="com.deepai.photo.bean.CpLanmu" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="TOPIC_ID" property="topicId" jdbcType="INTEGER" />
+    <result column="LANMU_NO" property="lanmuNo" jdbcType="INTEGER" />
+    <result column="TYPE_ID" property="typeId" jdbcType="INTEGER" />
+    <result column="ZHANSHU_COUNT" property="zhanshuCount" jdbcType="INTEGER" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="PID" property="pid" jdbcType="INTEGER" />
+    <result column="SUB_ADDS" property="subAdds" jdbcType="VARCHAR" />
+    <result column="SHOW_WAY" property="showWay" jdbcType="INTEGER" />
+    <result column="PIC" property="pic" jdbcType="VARCHAR" />
+    <result column="URL" property="url" jdbcType="VARCHAR" />
+    <result column="KEYWORDS" property="keyWords" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.deepai.photo.bean.CpLanmu" extends="BaseResultMap" >
+    <result column="WORDS" property="words" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, TOPIC_ID, LANMU_NO, TYPE_ID, ZHANSHU_COUNT, NAME, PID, SUB_ADDS,SHOW_WAY,URL,KEYWORDS,PIC
+  </sql>
+  <sql id="Blob_Column_List" >
+    WORDS
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.deepai.photo.bean.CpLanmuExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from cp_lanmu
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+      order by LANMU_NO is null,LANMU_NO asc
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.deepai.photo.bean.CpLanmuExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cp_lanmu
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+      order by LANMU_NO is null ,LANMU_NO asc
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from cp_lanmu
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from cp_lanmu
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.deepai.photo.bean.CpLanmuExample" >
+    delete from cp_lanmu
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.deepai.photo.bean.CpLanmu" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >  
+     SELECT @@IDENTITY  
+    </selectKey>  
+    insert into cp_lanmu (TOPIC_ID, LANMU_NO, TYPE_ID, 
+      ZHANSHU_COUNT, NAME, PID, 
+      SUB_ADDS, WORDS,SHOW_WAY,URL,KEYWORDS,PIC)
+    values (#{topicId,jdbcType=INTEGER}, #{lanmuNo,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, 
+      #{zhanshuCount,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{pid,jdbcType=INTEGER}, 
+      #{subAdds,jdbcType=VARCHAR}, #{words,jdbcType=LONGVARCHAR}, #{showWay,jdbcType=INTEGER},
+       #{url,jdbcType=VARCHAR}, #{keyWords,jdbcType=VARCHAR}, #{pic,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.deepai.photo.bean.CpLanmu" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cp_lanmu
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="topicId != null" >
+        TOPIC_ID,
+      </if>
+      <if test="lanmuNo != null" >
+        LANMU_NO,
+      </if>
+      <if test="typeId != null" >
+        TYPE_ID,
+      </if>
+      <if test="zhanshuCount != null" >
+        ZHANSHU_COUNT,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="pid != null" >
+        PID,
+      </if>
+      <if test="subAdds != null" >
+        SUB_ADDS,
+      </if>
+      <if test="words != null" >
+        WORDS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="topicId != null" >
+        #{topicId,jdbcType=INTEGER},
+      </if>
+      <if test="lanmuNo != null" >
+        #{lanmuNo,jdbcType=INTEGER},
+      </if>
+      <if test="typeId != null" >
+        #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="zhanshuCount != null" >
+        #{zhanshuCount,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pid != null" >
+        #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="subAdds != null" >
+        #{subAdds,jdbcType=VARCHAR},
+      </if>
+      <if test="words != null" >
+        #{words,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.deepai.photo.bean.CpLanmuExample" resultType="java.lang.Integer" >
+    select count(*) from cp_lanmu
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update cp_lanmu
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.topicId != null" >
+        TOPIC_ID = #{record.topicId,jdbcType=INTEGER},
+      </if>
+      <if test="record.lanmuNo != null" >
+        LANMU_NO = #{record.lanmuNo,jdbcType=INTEGER},
+      </if>
+      <if test="record.typeId != null" >
+        TYPE_ID = #{record.typeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.zhanshuCount != null" >
+        ZHANSHU_COUNT = #{record.zhanshuCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        NAME = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pid != null" >
+        PID = #{record.pid,jdbcType=INTEGER},
+      </if>
+      <if test="record.subAdds != null" >
+        SUB_ADDS = #{record.subAdds,jdbcType=VARCHAR},
+      </if>
+      <if test="record.words != null" >
+        WORDS = #{record.words,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update cp_lanmu
+    set ID = #{record.id,jdbcType=INTEGER},
+      TOPIC_ID = #{record.topicId,jdbcType=INTEGER},
+      LANMU_NO = #{record.lanmuNo,jdbcType=INTEGER},
+      TYPE_ID = #{record.typeId,jdbcType=INTEGER},
+      ZHANSHU_COUNT = #{record.zhanshuCount,jdbcType=INTEGER},
+      NAME = #{record.name,jdbcType=VARCHAR},
+      PID = #{record.pid,jdbcType=INTEGER},
+      SUB_ADDS = #{record.subAdds,jdbcType=VARCHAR},
+      WORDS = #{record.words,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update cp_lanmu
+    set ID = #{record.id,jdbcType=INTEGER},
+      TOPIC_ID = #{record.topicId,jdbcType=INTEGER},
+      LANMU_NO = #{record.lanmuNo,jdbcType=INTEGER},
+      TYPE_ID = #{record.typeId,jdbcType=INTEGER},
+      ZHANSHU_COUNT = #{record.zhanshuCount,jdbcType=INTEGER},
+      NAME = #{record.name,jdbcType=VARCHAR},
+      PID = #{record.pid,jdbcType=INTEGER},
+      SUB_ADDS = #{record.subAdds,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.deepai.photo.bean.CpLanmu" >
+    update cp_lanmu
+    <set >
+      <if test="topicId != null" >
+        TOPIC_ID = #{topicId,jdbcType=INTEGER},
+      </if>
+      <if test="lanmuNo != null" >
+        LANMU_NO = #{lanmuNo,jdbcType=INTEGER},
+      </if>
+      <if test="typeId != null" >
+        TYPE_ID = #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="zhanshuCount != null" >
+        ZHANSHU_COUNT = #{zhanshuCount,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pid != null" >
+        PID = #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="subAdds != null" >
+        SUB_ADDS = #{subAdds,jdbcType=VARCHAR},
+      </if>
+      <if test="words != null" >
+        WORDS = #{words,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.deepai.photo.bean.CpLanmu" >
+    update cp_lanmu
+    set TOPIC_ID = #{topicId,jdbcType=INTEGER},
+      LANMU_NO = #{lanmuNo,jdbcType=INTEGER},
+      TYPE_ID = #{typeId,jdbcType=INTEGER},
+      ZHANSHU_COUNT = #{zhanshuCount,jdbcType=INTEGER},
+      NAME = #{name,jdbcType=VARCHAR},
+      PID = #{pid,jdbcType=INTEGER},
+      SUB_ADDS = #{subAdds,jdbcType=VARCHAR},
+      WORDS = #{words,jdbcType=LONGVARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.deepai.photo.bean.CpLanmu" >
+    update cp_lanmu
+    set TOPIC_ID = #{topicId,jdbcType=INTEGER},
+      LANMU_NO = #{lanmuNo,jdbcType=INTEGER},
+      TYPE_ID = #{typeId,jdbcType=INTEGER},
+      ZHANSHU_COUNT = #{zhanshuCount,jdbcType=INTEGER},
+      NAME = #{name,jdbcType=VARCHAR},
+      PID = #{pid,jdbcType=INTEGER},
+      SUB_ADDS = #{subAdds,jdbcType=VARCHAR},
+      WORDS = #{words,jdbcType=LONGVARCHAR},
+      KEYWORDS=#{keyWords,jdbcType=VARCHAR},
+      URL= #{url,jdbcType=VARCHAR},
+      PIC=#{pic,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+   
+ <select id="findTopicNameByTopicId" resultType="string" parameterType="int">
+  select b.NAME from cp_topic b where  b.ID=#{id}
+  </select>
+  <update id="changSomePostion" parameterType="com.deepai.photo.bean.CpLanmu">
+	update cp_lanmu c set  c.LANMU_NO=c.LANMU_NO+1 where c.LANMU_NO  &gt;=#{lanmuNo} and c.TOPIC_ID=#{topicId}
+	</update>
+	<update id="postionToBig" parameterType="map">
+		update cp_lanmu c set c.LANMU_NO=#{YlanmuNo} where c.TOPIC_ID=#{topicId}
+		and c.LANMU_NO=#{lanmuNo}
+	</update>
+	<update id="postionToSmall" parameterType="map">
+		update cp_lanmu c set c.LANMU_NO=c.LANMU_NO+1 WHERE c.ID in 
+     (SELECT id  from (select ID from cp_lanmu WHERE LANMU_NO BETWEEN #{lanmuNo} and #{YlanmuNo} and TOPIC_ID=#{topicId} )d)  
+</update>
+<select id="getMaxId" resultType="java.lang.Integer">
+	select max(id) from cp_lanmu
+</select>
+</mapper>

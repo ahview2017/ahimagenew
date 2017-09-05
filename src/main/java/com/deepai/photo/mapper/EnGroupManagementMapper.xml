@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deepai.photo.mapper.EnGroupManagementMapper">
+<resultMap id="BaseResultMap" type="com.deepai.photo.bean.EnGroupManagement">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="group_name" property="groupName" jdbcType="VARCHAR" />
+		<result column="memo" property="memo" jdbcType="VARCHAR" />
+		<result column="userId" property="userId" jdbcType="INTEGER" />
+		<result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+		<result column="EMAIL_BIND" property="email" jdbcType="VARCHAR" />
+	</resultMap>
+	<select id="getGroupManagement" resultMap="BaseResultMap">
+		select id,group_name,memo from cp_group_management
+		<where>
+			<if test="groupName != null">
+			group_name like CONCAT('%',#{groupName},'%')
+			</if>
+		</where>
+	</select>
+	<select id="getGroupManagementUser"  resultType="map">
+	   select * from cp_user 
+	   <where>
+	      ID in (select user_id from cp_group_management_user where group_id=#{groupId})
+	      <if test="userName != null">
+	       and USER_NAME like CONCAT('%',#{userName},'%')
+	      </if>
+	   </where>
+	   
+	</select>
+	<select id="selectById" resultMap="BaseResultMap">
+		select id,group_name from cp_group_management where id=#{id}
+	</select>
+	<select id="getUserCount" resultType="java.lang.Integer">
+	select count(user_id) from  cp_group_management_user where group_id=#{id}
+	</select>
+	<insert id="addGroupManagement">
+		insert into cp_group_management(group_name,memo) values(#{name}, #{memo})
+	</insert>
+	<insert id="addGroupManagementUser">
+		insert into cp_group_management_user(user_id,group_id) values(#{userId},#{groupId})
+	</insert>
+	<update id="editGroupManagement">
+		update cp_group_management set group_name=#{name}, memo=#{memo} where id=#{groupId}		
+	</update>
+	<delete id="deleteGroupManagementUser">
+		delete from cp_group_management_user where user_id=#{userId} and group_id=#{groupId}
+	</delete>
+	<delete id="deleteGroupManagement">
+		delete from cp_group_management where id=#{groupId};
+	</delete>
+	<delete id="deleteGroupManagementUserByGroupId">
+		delete from cp_group_management_user where group_id=#{groupId}
+	</delete>
+	
+</mapper>

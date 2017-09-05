@@ -1,0 +1,297 @@
+<div class="user-manager-container">
+    <div class="c-common-titbox">
+        <role-common-tit value="专题管理"></role-common-tit>
+   </div>
+   <div class="c-user-table">
+        <div class="t-search-hd clear">
+            <div class="user-hd-left fll">
+                <label for="checkAllProject">
+                    <input type="checkbox" class="" ng-model="projectManage.isHadAllCheck"
+                           id="checkAllProject"
+                           ng-click="projectManage.onCheckAllClick()"/>
+                    <span class="user-check-txt">全选</span>
+                </label>
+                <span class="dib cursor user-add-btn" ng-click="projectManage.specialAddModal()">添加</span>
+                <span class="dib cursor user-add-btn role-modify-btn" ng-click="projectManage.updateSpecial()">修改</span>
+                <span class="dib cursor user-add-btn role-del-btn" ng-click="projectManage.onShowDeleteModelClick()">删除</span>
+            </div>
+            <div class="user-hd-right flr">
+                <input class="user-search-input" placeholder="可查询专题名称"
+                       ng-model="projectManage.specialSearchName"
+                       ng-keydown="projectManage.onEnterSearchClick($event)"/>
+                <img src="admin/assets/img/role/zxs_search.png" ng-click="projectManage.searchSpecial();"
+                     class="user-serach-pic"/>
+                <span class="dib cursor user-search-btn" ng-click="projectManage.ModalShow('user-search-modal')">高级检索</span>
+            </div>
+        </div>
+        <div class="t-uinfo-bd">
+            <div class="table-responsive">
+                <table  class="table table-bordered uInfo-table" style="table-layout: fixed;">
+                    <thead>
+                    <tr>
+                        <th class="uinfo-hd-th">
+                            <!--<input type="checkbox"/>-->
+                        </th>
+                        <th class="uinfo-hd-th">ID</th>
+                        <th class="uinfo-hd-th">缩略图</th>
+                        <th class="uinfo-hd-th">名称</th>
+                        <th class="uinfo-hd-th">创建人</th>
+                        <th class="uinfo-hd-th">创建时间</th>
+                        <th class="uinfo-hd-th">网站是否显示</th>
+                        <th class="uinfo-hd-th">签发是否显示</th>
+                        <th class="uinfo-hd-th">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr dir-paginate="item in projectManage.SpecialArray | itemsPerPage: projectManage.selPageRows"
+                        total-items="projectManage.specialList_total"
+                        current-page="projectManage.pagination.current">
+                    <tr ng-repeat="item in projectManage.SpecialArray"
+                    ng-init="projectManage.checkBoxArray[$index] = false">
+                        <td>
+                            <input type="checkbox" ng-model="projectManage.checkBoxArray[$index]" ng-true-value="{{item.id}}" ng-false-value="false"/>
+                        </td>
+                        <td>{{item.id}}</td>
+                        <td class="cursor" ng-click="projectManage.advanceView(item.type,item.url,item.clentIp,item.id)">
+                            <img ng-src="{{item.emage}}" class="thumbnail-img" alt="{{item.name}}" title="{{item.name}}">
+                        </td>
+                        <td class="show-view" ng-click="projectManage.advanceView(item.type,item.url,item.clentIp,item.id)">{{item.name}}</td>
+                        <td>{{item.createUser}}</td>
+                        <td>{{item.createTime | date : 'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td>{{item.display | specialSite}}</td>
+                        <td>{{item.qianfa | signIssue}}</td>
+                        <td>
+                            <img ng-if="item.type == 0" src="admin/assets/img/role/icon_link.png" ui-sref="role.manager.projectManageNewDetail({id:item.id,name:item.name})" title="栏目设定" class="cursor" width="20" height="20"/>
+                            <img ng-if="item.type == 0" src="admin/assets/img/role/icon_link.png" ui-sref="role.manager.projectManageDetail({id:item.id,name:item.name})" title="栏目设定" class="cursor" width="20" height="20"/>
+                            <img src="admin/assets/img/role/look_user_info.png" ng-click="projectManage.specialUpdateModal(item.id);" title="编辑专题" class="cursor u-pwd-reset" width="20" height="20" />
+                            <img src="admin/assets/img/role/red_del.png" title="删除专题" ng-click="projectManage.delSpecial(item.id);" class="cursor" width="20" height="20"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- 分页 -->
+            <div class="paging-con-box mt10 clear">
+                <div class="photo-record-page fll">
+                    <select ng-model="projectManage.selPageRows" class="mr10">
+                        <option value="50">50</option>
+                        <option value="40">40</option>
+                        <option value="30">30</option>
+                        <option value="20">20</option>
+                        <option value="10">10</option>
+                    </select>
+                    <span>共找到</span>
+                    <span class="color_red">{{projectManage.specialList_total}}</span>
+                    <span>条记录</span>
+                </div>
+                <div class="photo-now-page fll">
+                    <span>第 </span>
+                    <span>{{projectManage.pagination.current}}</span>
+                    <span>/</span>
+                    <span>{{projectManage.totalPages}}</span>
+                    <span>页</span>
+                </div>
+                <div class="photo-jump-page flr">
+                    <dir-pagination-controls on-page-change="projectManage.pageChanged(newPageNumber)"
+                                             template-url="admin/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+                    </dir-pagination-controls>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--专题添加弹框-->
+    <div class="modal fade" id="specialAddModal" tabindex="-1" role="dialog">
+        <div id="specialAddModal-cont" class="modal-dialog" role="document" style="width: 800px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close close-btn" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">新建专题</h4>
+                </div>
+                <form enctype="multipart/form-data" method="post">
+                    <div class="modal-body">
+                        <div class="role-add-main">
+                            <div class="role-add-form-info advertise-add-form-info clear" style="border:none;">
+                                <div class="role-form-info-bottom clear">
+                                    <div class="price-remark-txt fll">操作类型<span class="color_red">*</span></div>
+                                    <select class="adverse-remark-input fll long-text" ng-model="projectManage.handleType"
+                                            ng-options="value.id as value.name for value in projectManage.handleTypeObj">
+                                    </select>
+                                </div>
+                                <div class="role-form-info-bottom clear">
+                                    <div class="price-remark-txt fll">专题名称<span class="color_red">*</span></div>
+                                    <input type="text" class="adverse-remark-input fll long-text" ng-model="projectManage.specialName"/>
+                                </div>
+                                <div class="role-form-info-bottom clear" ng-if="projectManage.handleType == 1">
+                                    <div class="price-remark-txt fll">专题链接<span class="color_red">*</span></div>
+                                    <input type="text" class="adverse-remark-input fll long-text"
+                                           ng-model="projectManage.specialLink"/>
+                                </div>
+                                <div class="c-proj-external-link" ng-if="projectManage.handleType == 1">
+                                    <span class="color_red">注：链接需以http://或者https://开头</span>
+                                </div>
+                                <div class="role-form-info-bottom clear">
+                                    <div class="price-remark-txt fll">签发是否显示<span class="color_red">*</span></div>
+                                    <select class="adverse-remark-input fll long-text" ng-model="projectManage.signShow"
+                                            ng-options="value.id as value.name for value in projectManage.signShowObj">
+                                    </select>
+                                </div>
+                                <div class="role-form-info-bottom clear">
+                                    <div class="price-remark-txt fll">网站是否显示<span class="color_red">*</span></div>
+                                    <select class="adverse-remark-input fll long-text" ng-model="projectManage.siteShow"
+                                            ng-options="value.id as value.name for value in projectManage.siteShowObj">
+                                    </select>
+                                </div>
+                                <div class="role-form-info-bottom clear">
+                                    <div class="price-remark-txt fll">专题说明</div>
+                                    <script id="addWebEdit" type="text/plain"
+                                            style="width:500px;height:350px;margin-left:173px;"></script>
+                                </div>
+                                <div class="role-form-info-bottom clear">
+                                    <div class="price-remark-txt fll">专题banner<span class="color_red">*</span></div>
+                                    <img class="special-img" ngf-src="projectManage.file"  style="max-height:60px;max-width: 240px" alt="" />
+                                    <div class="button img upload-img" filepreview="filepreview" fileinput="file" ngf-select ng-model="projectManage.file" name="file" ngf-pattern="'image/*'"
+                                         ngf-accept="'image/*'" ngf-max-size="20MB">上传图片
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="text-align: center;margin-top:150px;">
+                        <button type="button" class="user-add-btn" ng-click="projectManage.addSpecial()">保存</button>
+                        <button type="button" class="user-add-btn role-del-btn" data-dismiss="modal">取消</button>
+                    </div>
+                </form>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <!--专题修改弹框-->
+    <div class="modal fade" id="specialUpdateModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document" style="width: 800px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close close-btn" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">修改专题</h4>
+                </div>
+                <form enctype="multipart/form-data" method="post">
+                    <div class="modal-body">
+                        <div class="role-add-main">
+                            <div class="role-add-form-info advertise-add-form-info clear" style="border:none;">
+                                <div class="role-form-info-bottom clear">
+                                    <div class="price-remark-txt fll">操作类型<span class="color_red">*</span></div>
+                                    <select class="adverse-remark-input fll long-text" ng-model="projectManage.handleType1"
+                                            ng-options="value.id as value.name for value in projectManage.handleTypeObj">
+                                    </select>
+                                </div>
+                                <div class="role-form-info-bottom clear">
+                                    <div class="price-remark-txt fll">专题名称<span class="color_red">*</span></div>
+                                    <input type="text" class="adverse-remark-input fll long-text" ng-model="projectManage.specialName1"/>
+                                </div>
+                                <div class="role-form-info-bottom clear" ng-if="projectManage.handleType1 == 1">
+                                    <div class="price-remark-txt fll">专题链接<span class="color_red">*</span></div>
+                                    <input type="text" class="adverse-remark-input fll long-text" ng-model="projectManage.specialLink1"/>
+                                </div>
+                                <div class="role-form-info-bottom clear">
+                                    <div class="price-remark-txt fll">签发是否显示<span class="color_red">*</span></div>
+                                    <select class="adverse-remark-input fll long-text" ng-model="projectManage.signShow1"
+                                            ng-options="value.id as value.name for value in projectManage.signShowObj">
+                                    </select>
+                                </div>
+                                <div class="role-form-info-bottom clear">
+                                    <div class="price-remark-txt fll">网站是否显示<span class="color_red">*</span></div>
+                                    <select class="adverse-remark-input fll long-text" ng-model="projectManage.siteShow1"
+                                            ng-options="value.id as value.name for value in projectManage.siteShowObj">
+                                    </select>
+                                </div>
+                                <div class="role-form-info-bottom clear">
+                                    <div class="price-remark-txt fll">专题说明</div>
+                                    <script id="updateWebEdit" type="text/plain"
+                                            style="width:500px;height:350px;margin-left:173px;"></script>
+                                </div>
+                                <div class="role-form-info-bottom clear">
+                                    <div class="price-remark-txt fll">专题banner<span class="color_red">*</span></div>
+                                    <img class="special-img" ng-if="projectManage.file2" ngf-src="projectManage.file2"  style="max-height:60px;max-width: 240px" alt="" />
+                                    <img class="special-img" ng-if="!projectManage.file2" ngf-src="projectManage.file2"  style="max-height:60px;max-width: 240px" alt="" />
+                                    <div class="button img upload-img" ngf-select ng-model="projectManage.file2" name="file2" ngf-pattern="'image/*'"
+                                         ngf-accept="'image/*'" ngf-max-size="20MB">上传图片
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="text-align: center; margin-top:150px;">
+                        <button type="button" class="user-add-btn" ng-click="projectManage.updateSpecialSave()">保存</button>
+                        <button type="button" class="user-add-btn role-del-btn" data-dismiss="modal">取消</button>
+                    </div>
+                </form>
+            </div><!-- /.modal-content -->
+        </div>
+    </div><!-- /.modal -->
+</div>
+
+<!--高级检索模态框-->
+<div class="common-modal-style absolute_left" id="user-search-modal" style="display:none">
+    <div class="user-add-con">
+        <div id="search-modal-tit" class="role-add-tit oH">
+            <span class="fll">高级检索</span>
+                    <span class="flr curp tit-close"
+                          ng-click="projectManage.ModalHide('user-search-modal')">×</span>
+        </div>
+        <div class="role-add-main">
+            <div class="user-form-info clear">
+                <div class="user-form-info-top clear">
+                    <div class="fll user-form-part clear">
+                        <div class="user-search-left  fll">专题名称</div>
+                        <div class="user-search-right fll">
+                            <input type="text" class="user-add-input" ng-model="projectManage.search.topicName"/>
+                        </div>
+                    </div>
+
+                    <div class="fll user-form-part clear">
+                        <div class="fll user-search-left">网站显示</div>
+                        <div class="fll user-search-right">
+                            <select class="user-add-input" ng-model="projectManage.search.siteShow">
+                                <option value="">请选择</option>
+                                <option value="1">是</option>
+                                <option value="0">否</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="fll user-form-part clear">
+                        <div class="fll user-search-left">签发显示</div>
+                        <div class="fll user-search-right">
+                            <select class="user-add-input" ng-model="projectManage.search.signShow">
+                                <option value="">请选择</option>
+                                <option value="1">是</option>
+                                <option value="0">否</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+
+                    <div class="order-form-info-top clear">
+                        <div class="fll log-form-partTime clear">
+                            <div class="order-search-leftTime  fll">创建时间</div>
+                            <div class="order-search-rightTime fll">
+                                <input type="text" class="Wdate order-date-input" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" class="Wdate" ng-model="projectManage.search.beginTime" datepicker/>
+                                <span>-</span>
+                                <input type="text" class="Wdate order-date-input" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" class="Wdate" ng-model="projectManage.search.endTime" datepicker/>
+                            </div>
+                        </div>
+                        <div class="fll user-form-part clear">
+                            <div class="user-search-left  fll">创建人</div>
+                            <div class="user-search-right fll">
+                                <input type="text" class="user-add-input" ng-model="projectManage.search.createUser"/>
+                            </div>
+                        </div>
+                </div>
+
+
+                <div class="tar mt10">
+                            <span class="dib cursor user-high-search-btn"
+                                  ng-click="projectManage.advancedSearch()">检索</span>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>

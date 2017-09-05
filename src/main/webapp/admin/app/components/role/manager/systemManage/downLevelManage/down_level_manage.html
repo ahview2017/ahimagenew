@@ -1,0 +1,261 @@
+<div class="user-manager-container">
+    <div class="c-common-titbox">
+        <role-common-tit value="下载级别管理"></role-common-tit>
+    </div>
+    <div class="c-user-table">
+        <div class="t-search-hd clear">
+            <div class="user-hd-left fll">
+                <label for="checkAllDownLevel">
+                    <input type="checkbox" ng-model="downLevelManage.isHadAllCheck" id="checkAllDownLevel"
+                           ng-click="downLevelManage.onCheckAllClick()"/>
+                    <span class="user-check-txt">全选</span>
+                </label>
+                <span class="dib cursor user-add-btn"
+                      ng-click="downLevelManage.downLevelAddModalShow('down-level-add-modal')">添加</span>
+                <span class="dib cursor user-add-btn role-modify-btn"
+                      ng-click="downLevelManage.onShowEditModelClick(0,null,null)">修改</span>
+                <span class="dib cursor user-add-btn role-del-btn"
+                      ng-click="downLevelManage.onShowDeleteModelClick(0,null)">删除</span>
+            </div>
+            <div class="user-hd-right flr">
+                <input class="user-search-input" ng-model="downLevelManage.downSearchModel"
+                       placeholder="可查询下载级别"
+                       ng-keydown="downLevelManage.onEnterSearchClick($event)"/>
+                <img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic"
+                     ng-click="downLevelManage.onSearchDataClick()"/>
+                <!--<span class="dib cursor user-search-btn">高级检索</span>-->
+            </div>
+        </div>
+        <div class="t-uinfo-bd">
+            <div class="table-responsive">
+                <table class="table table-bordered uInfo-table">
+                    <thead>
+                    <tr>
+                        <th class="uinfo-hd-th" style="width:5%;"></th>
+                        <th class="uinfo-hd-th" style="width:18%;">下载级别</th>
+                        <th class="uinfo-hd-th" style="width:10%;">是否有水印</th>
+                        <th class="uinfo-hd-th" style="width:10%;">水印位置</th>
+                        <th class="uinfo-hd-th" style="width:10%;">水印ID</th>
+                        <th class="uinfo-hd-th" style="width:13%;">图片最长边</th>
+                        <th class="uinfo-hd-th" style="width:10%;">创建人</th>
+                        <th class="uinfo-hd-th" style="width:13%;">创建时间</th>
+                        <th class="uinfo-hd-th" style="width:11%;">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr dir-paginate="item in downLevelManage.downloadLevelList | itemsPerPage: downLevelManage.selPageRows"
+                        total-items="downLevelManage.downLevelList_total"
+                        current-page="downLevelManage.pagination.current"
+                        ng-init="downLevelManage.checkBoxArray[$index] = false">
+                        <td  style="width:5%;" class="wbba">
+                            <input type="checkbox" ng-model="downLevelManage.checkBoxArray[$index]"
+                                   ng-true-value="{{item.ID}}" ng-false-value="false"/>
+                        </td>
+                        <td  style="width:18%;"  class="wbba">{{item.LEVEL_NAME}}</td>
+                        <td  style="width:10%;"  class="wbba">{{item.IS_WATERMARK | IfHasWaterMarkFilter}}</td>
+                        <td  style="width:10%;"  class="wbba">{{item.WATERMARK_LOCATION}}</td>
+                        <td  style="width:10%;"  class="wbba">{{item.WATERMARK_PIC_ID}}</td>
+                        <td  style="width:13%;"  class="wbba">{{item.LIMIT_PX_H}}</td>
+                        <td  style="width:10%;"  class="wbba">{{item.CREATE_USER}}</td>
+                        <td  style="width:13%;"  class="wbba">
+                            <p>{{item.CREATE_TIME | date:'yyyy-MM-dd'}}</p>
+                            <p>{{item.CREATE_TIME | date:'HH:mm:ss'}}</p>
+                        </td>
+                        <td  style="width:11%;"  class="wbba">
+                            <img src="admin/assets/img/role/look_user_info.png" class="cursor" width="20" height="20"
+                                 title="修改" ng-click="downLevelManage.onShowEditModelClick(-1,item.ID,$index)"/>
+                            <img src="admin/assets/img/role/red_del.png" class="cursor u-pwd-reset" width="20"
+                                 title="删除" height="20" ng-click="downLevelManage.onShowDeleteModelClick(-1,item.ID)"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- 分页 -->
+            <div class="paging-con-box mt10 clear">
+                <div class="photo-record-page fll">
+                    <select ng-model="downLevelManage.selPageRows" class="mr10">
+                        <option value="50">50</option>
+                        <option value="40">40</option>
+                        <option value="30">30</option>
+                        <option value="20">20</option>
+                        <option value="10">10</option>
+                    </select>
+                    <span>共找到</span>
+                    <span class="color_red">{{downLevelManage.downLevelList_total}}</span>
+                    <span>条记录</span>
+                </div>
+                <div class="photo-now-page fll">
+                    <span>第 </span>
+                    <span>{{downLevelManage.pagination.current}}</span>
+                    <span>/</span>
+                    <span>{{downLevelManage.totalPages}}</span>
+                    <span>页</span>
+                </div>
+                <div class="photo-jump-page flr">
+                    <dir-pagination-controls on-page-change="downLevelManage.pageChanged(newPageNumber)"
+                                             template-url="admin/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+                    </dir-pagination-controls>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--下载级别管理添加弹框-->
+    <div class="common-modal-style" id="down-level-add-modal"
+         ng-mousemove="downLevelManage.moveModal('add-modal-tit','down-level-add-modal')"
+         style="display:none">
+        <div class="role-add-con">
+            <div id="add-modal-tit" class="role-add-tit oH">
+                <span class="fll">下载级别添加</span>
+                <span class="flr curp tit-close"
+                      ng-click="downLevelManage.downLevelModalHide('down-level-add-modal')">×</span>
+            </div>
+            <div class="role-add-main">
+                <div class="role-add-form-info advertise-add-form-info clear">
+                    <div class="role-form-info-bottom clear">
+                        <div class="down-remark-txt fll">级别名称</div>
+                        <input type="text" class="adverse-remark-input fll" ng-model="downLevelManage.add.levelName"/>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="down-remark-txt fll">限制最长边</div>
+                        <div class="down-remark-input fll tal">
+                            <div class="fll">
+                                <input type="text" class="down-thumbnail-input"
+                                       ng-model="downLevelManage.add.limitPxH"/>
+                                <!--<span class="dverse-thumbnail-txt">h</span>-->
+                                <!--<input type="text" class="down-thumbnail-input"-->
+                                       <!--ng-model="downLevelManage.add.limitPxW"/>-->
+                                <!--<span class="dverse-thumbnail-txt">w</span>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="down-remark-txt fll">水印限制</div>
+                        <div class="down-remark-input fll tal">
+                            <label>
+                                <input type="radio" name="isWatermark" ng-model="downLevelManage.add.isWatermark"
+                                       value="0"/>
+                            </label>
+                            <span class="adverse-txt-yes">添加</span>
+                            <label>
+                                <input type="radio" name="isWatermark" ng-model="downLevelManage.add.isWatermark"
+                                       value="1"/>
+                            </label>
+                            <span class="adverse-txt-yes">去除</span>
+                        </div>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="down-remark-txt fll">水印位置</div>
+                        <select class="adverse-remark-input fll" ng-model="downLevelManage.add.watermarkLocation">
+                            <option value="">请选择</option>
+                            <option value="1">(1,1)</option>
+                            <option value="2">(1,2)</option>
+                            <option value="3">(1,3)</option>
+                            <option value="4">(2,1)</option>
+                            <option value="5">(2,2)</option>
+                            <option value="6">(2,3)</option>
+                            <option value="7">(3,1)</option>
+                            <option value="8">(3,2)</option>
+                            <option value="9">(3,3)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="tac">
+                <span class="dib cursor user-add-btn"
+                      ng-click="downLevelManage.addDownloadLevel('down-level-add-modal')">新增</span>
+                <span class="dib cursor user-add-btn role-del-btn"
+                      ng-click="downLevelManage.downLevelModalHide('down-level-add-modal')">取消</span>
+            </div>
+        </div>
+    </div>
+    <!--下载级别管理修改弹框-->
+    <div class="common-modal-style" id="down-level-modify-modal"
+         ng-mousemove="downLevelManage.moveModal('modify-modal-tit','down-level-modify-modal')"
+         style="display:none">
+        <div class="role-add-con">
+            <div id="modify-modal-tit" class="role-add-tit oH">
+                <span class="fll">下载级别修改</span>
+                <span class="flr curp tit-close"
+                      ng-click="downLevelManage.downLevelModalHide('down-level-modify-modal')">×</span>
+            </div>
+            <div class="role-add-main">
+                <div class="role-add-form-info advertise-add-form-info clear">
+                    <div class="role-form-info-bottom clear">
+                        <div class="down-remark-txt fll">级别名称</div>
+                        <input type="text" class="adverse-remark-input fll"
+                               ng-model="downLevelManage.modify.levelName"/>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="down-remark-txt fll">限制最长边</div>
+                        <div class="down-remark-input fll tal">
+                            <div class="fll">
+                                <input type="text" class="down-thumbnail-input"
+                                       ng-model="downLevelManage.modify.limitPxH"/>
+                                <!--<span class="dverse-thumbnail-txt">h</span>-->
+                                <!--<input type="text" class="down-thumbnail-input"-->
+                                       <!--ng-model="downLevelManage.modify.limitPxW"/>-->
+                                <!--<span class="dverse-thumbnail-txt">w</span>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="down-remark-txt fll">水印限制</div>
+                        <div class="down-remark-input fll tal">
+                            <label>
+                                <input type="radio" name="isWatermark" ng-model="downLevelManage.modify.isWatermark"
+                                       value="0"/>
+                            </label>
+                            <span class="adverse-txt-yes">添加</span>
+                            <label>
+                                <input type="radio" name="isWatermark" ng-model="downLevelManage.modify.isWatermark"
+                                       value="1"/>
+                            </label>
+                            <span class="adverse-txt-yes">去除</span>
+                        </div>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="down-remark-txt fll">水印位置</div>
+                        <select class="adverse-remark-input fll" ng-model="downLevelManage.modify.watermarkLocation">
+                            <option value="">请选择</option>
+                            <option value="1">(1,1)</option>
+                            <option value="2">(1,2)</option>
+                            <option value="3">(1,3)</option>
+                            <option value="4">(2,1)</option>
+                            <option value="5">(2,2)</option>
+                            <option value="6">(2,3)</option>
+                            <option value="7">(3,1)</option>
+                            <option value="8">(3,2)</option>
+                            <option value="9">(3,3)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="tac">
+                <span class="dib cursor user-add-btn"
+                      ng-click="downLevelManage.onEditDownClick()">修改</span>
+                <span class="dib cursor user-add-btn role-del-btn"
+                      ng-click="downLevelManage.downLevelModalHide('down-level-modify-modal')">取消</span>
+            </div>
+        </div>
+    </div>
+    <!--下载级别管理删除弹框-->
+    <div class="common-modal-style" id="down-level-del-modal"
+         ng-mousemove="downLevelManage.moveModal('del-modal-tit','down-level-del-modal')"
+         style="display:none">
+        <div class="role-add-con">
+            <div id="del-modal-tit" class="role-add-tit">
+                删除提醒
+            </div>
+            <div class="role-modal-con">
+                你确定要删除该下载级别吗？
+            </div>
+            <div class="tac mt10">
+                <span class="dib cursor user-add-btn"
+                      ng-click="downLevelManage.onDeleteDownTableData()">确定</span>
+                <span class="dib cursor user-add-btn"
+                      ng-click="downLevelManage.downLevelModalHide('down-level-del-modal')">取消</span>
+            </div>
+        </div>
+    </div>
+</div>

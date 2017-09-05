@@ -1,0 +1,89 @@
+<div class="need_channel container">
+    <div class="needChannel-cont">
+        <!--<div class="cont-release oH">
+            <a class="flr color-0000ff cursor">[查看所有已下载图片]</a>
+        </div>-->
+        <div>
+            <table>
+                <tr>
+                    <th width="15%">Order number</th>
+                    <th width="10%">user</th>
+                    <th width="15%">Order time</th>
+                    <th width="15%">Settlement time</th>
+                    <th width="5%">number</th>
+                    <th width="8%">status</th>
+                    <th width="32%"></th>
+                </tr>
+                <!--<tr dir-paginate="item in myOrder.myOrderList | itemsPerPage: myOrder.itemsPerPage"
+                	total-items="myOrder.myOrder_total"
+                	current-page="myOrder.pagination.current">-->
+              
+                <tr ng-repeat="item in myOrder.myOrderList">
+                    <td>{{item.orderNo}}</td>
+                    <td>{{item.userName}}</td>
+                    <td>{{item.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                    <td>
+                        <span ng-if="item.payTime">{{item.payTime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                        <span ng-if="!item.payTime">------</span>
+                    </td>
+                    <td>{{item.picCount}}</td>
+                    <td>{{item.orderStatus | orderStatusFilter}}</td>
+                    <td>
+                        <a class="cursor color_myOrder" ui-sref="root.lookPics({orderId: item.id})">[查看图片]</a>
+                        <a  class="cursor ml10 mr10 color-0000ff" ng-click="myOrder.settleCounts(item.id)">[去结算]</a>
+                        <a  class="cursor color-0000ff" ng-click="myOrder.delOrder(item.orderNo)">[删除]</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!--photolist paging-->
+        <div class="hd-photo-paging mt10 clear">
+            <div class="photo-record-page fll">
+                <span>A total of </span>
+                <span class="color_red">{{myOrder.myOrder_total}}</span>
+                <span>records were found</span>
+            </div>
+            <div class="photo-now-page fll">
+                <span>the </span>
+                <span>{{myOrder.pageNum | pageHandle}}</span>
+                <span>/</span>
+                <span>{{myOrder.myOrderPages}}</span>
+                <span>page</span>
+            </div>
+            <!--分页-->
+            <div class="photo-jump-page flr">
+                <!--<dir-pagination-controls on-page-change="myOrder.pageChanged(newPageNumber)"
+                                         template-url="client_en/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+                </dir-pagination-controls>-->
+                <div id="jq-page"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 结算模态框 -->
+<div class="modal fade" id="settle-counts-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog w100p">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    提示
+                </h4>
+            </div>
+            <div class="modal-body">
+                <p class="choose-down-way">
+                    请选择下载方式进行结算：
+                </p>
+                <p class="tac">
+                    <a class="cursor" ng-click="myOrder.sureDownPic(item.id,0)">图片下载结算</a>
+                    <a class="cursor ml15" ng-click="myOrder.sureDownPic(item.id,1)">图文下载结算</a>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>

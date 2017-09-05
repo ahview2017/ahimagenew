@@ -1,0 +1,151 @@
+<div class="user-manager-container">
+    <div class="oH smt-tit">
+        <role-common-tit value="草稿箱" class="fll"></role-common-tit>
+        <div class="smt-detail fll">稿件详情</div>
+    </div>
+    <div class="send-lock-box" ng-if="draftDetail.manuscriptDetail.isLocked == 1">
+        <span>稿件被[</span>
+        <span class="color_red">{{draftDetail.manuscriptDetail.lockerName}}</span>
+        <span>]锁定</span>
+        <a class="cursor ml10"  ng-click="draftDetail.unlockManuscript()">强行解锁</a>
+    </div>
+    <div>
+        <div class="smt-detail-operate smt-detail-spec-operate">
+            <span ui-sref="role.manager.draftbox">返回</span>
+            <span ng-hide="draftDetail.manuscriptDetail.isLocked == 1" ng-click="draftDetail.editSendManuscript()">编辑</span>
+            <span  ng-if="(draftDetail.manuscriptDetail.isLocked != 1) && (draftDetail.manuscriptDetail.groupStatus == 0)"  ng-click="draftDetail.commitModalShow('commit-confirm-modal')">提交</span>
+            <span ng-if="(draftDetail.manuscriptDetail.isLocked != 1) && (draftDetail.manuscriptDetail.groupStatus == 0)" ng-click="draftDetail.delModalShow('detail-draft-del-modal')">删除</span>
+            <div class="smt-manage-box">
+                <p class="smt-manage-operate-detail smt-spec-manage-operate" ng-click="draftDetail.toggleMangeOperateCon()">管理</p>
+                <div class="smt-manage-con" ng-if="draftDetail.mangeOperateFlag">
+                    <p class="smt-manage-operate-detail" ui-sref="role.manager.historyVersion({groupId: draftDetail.groupId})">历史版本</p>
+                    <p class="smt-manage-operate-detail" ui-sref="role.manager.operateRecord({groupId: draftDetail.groupId})">操作记录</p>
+                </div>
+            </div>
+        </div>
+        <div class="smt-detail-main mt82">
+            <div class="smt-detail-tit oH">
+                <h3 class="fll fwb">{{draftDetail.manuscriptDetail.title}}</h3>
+                <span class="fll">{{draftDetail.manuscriptDetail.pictureCount}}张</span>
+            </div>
+            <div class="smt-detail-cont">
+                <div class="oH">
+                    <p class="w20p">
+                        <span class="smt-detail-term">拍摄时间</span>
+                        <span class="ml10">{{draftDetail.manuscriptDetail.fileTime | date : 'yyyy-MM-dd'}}</span>
+                    </p>
+                    <p class="w20p">
+                        <span class="smt-detail-term">作者</span>
+                        <span class="ml10">{{draftDetail.manuscriptDetail.author}}</span>
+                    </p>
+                    <p class="w20p">
+                        <span class="smt-detail-term">关键词</span>
+                        <span class="ml10">{{draftDetail.manuscriptDetail.keywords}}</span>
+                    </p>
+                    <p class="w20p">
+                        <span class="smt-detail-term">人物</span>
+                        <span class="ml10">{{draftDetail.manuscriptDetail.people}}</span>
+                    </p>
+                </div>
+                <div class="oH">
+                    <p class="w20p">
+                        <span class="smt-detail-term">地点</span>
+                        <span class="ml10">{{draftDetail.manuscriptDetail.place}}</span>
+                    </p>
+                    <p class="w20p">
+                        <span class="smt-detail-term">稿件属性</span>
+                        <span class="ml10">{{draftDetail.manuscriptDetail.properties | manuscriptFilter}}</span>
+                    </p>
+                    <div class="oH">
+                        <p class="w100p">
+                            <span class="smt-detail-term">稿件说明</span>
+                            <span class="w75p ml10" ng-bind-html="draftDetail.manuscriptDetail.memo | trustHtml"></span>
+                        </p>
+                    </div>
+                    <div class="oH">
+                        <p class="w100p">
+                            <span class="smt-detail-term">备注</span>
+                            <span class="w75p ml10" ng-bind-html="draftDetail.manuscriptDetail.remark | trustHtml"></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="smt-detail-pic">
+                <div class="smt-detail-picItem oH" ng-repeat="item in draftDetail.manuscriptDetail.pics">
+                    <div class="fll w30p">
+                        <span>{{item.isCover | isCoverFilter}}</span><br/>
+                        <img ng-src="{{item.smallPath}}" width="275" height="200"/>
+                    </div>
+                    <div class="picItem-detail fll w30p">
+                        <p>
+                            <span class="smt-detail-term">文件名</span>
+                            <span class="ml10">{{item.filename}}</span>
+                        </p>
+                        <p>
+                            <span class="smt-detail-term">原文件名</span>
+                            <span class="ml10">{{item.sourcePictureName}}</span>
+                        </p>
+                        <p>
+                            <span class="smt-detail-term">原始尺寸</span>
+                            <span class="ml10">{{item.pictureWidth}}*{{item.pictureHeight}}像素</span>
+                        </p>
+                        <p>
+                            <span class="smt-detail-term">文件大小</span>
+                            <span class="ml10">{{item.pictureLength / 1024 | number : 2}}K</span>
+                        </p>
+                        <p>
+                            <span class="smt-detail-term">拍摄时间</span>
+                            <span class="ml10">{{item.filmTime | date : 'yyyy-MM-dd'}}</span>
+                        </p>
+                        <p>
+                            <span class="smt-detail-term">作者</span>
+                            <span class="ml10">{{item.authorName}}</span>
+                        </p>
+                        <p>
+                            <span class="smt-detail-term">人物</span>
+                            <span class="ml10">{{item.people}}</span>
+                        </p>
+                        <p>
+                            <span class="smt-detail-term">关键字</span>
+                            <span class="ml10">{{item.keywords}}</span>
+                        </p>
+                    </div>
+                    <div class="picItem-illustrate fll w30p">
+                        <p class="picItem-illustrate-tit">图片说明</p>
+                        <p class="mt15">{{item.memo}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--提交弹框-->
+    <div class="common-modal-style" id="commit-confirm-modal" style="display:none">
+        <div class="role-add-con">
+            <div class="role-add-tit">
+                确认框
+            </div>
+            <div class="role-modal-con">
+                是否确认提交？
+            </div>
+            <div class="tac mt10">
+                <span class="dib cursor user-add-btn"  ng-click="draftDetail.confirmCommit('commit-confirm-modal')">确定</span>
+                <span class="dib cursor user-add-btn role-del-btn"  ng-click="draftDetail.manuscriptDetailModalHide('commit-confirm-modal')">取消</span>
+            </div>
+        </div>
+    </div>
+    <!--草稿箱删除弹框-->
+    <div class="common-modal-style" id="detail-draft-del-modal" style="display:none">
+        <div class="role-add-con">
+            <div class="role-add-tit">
+                删除提醒
+            </div>
+            <div class="role-modal-con">
+                你确定要删除改草稿箱吗？
+            </div>
+            <div class="tac mt10">
+                <span class="dib cursor user-add-btn"  ng-click="draftDetail.confirmDelDraftMs('detail-draft-del-modal')">确定</span>
+                <span class="dib cursor user-add-btn role-del-btn"  ng-click="draftDetail.manuscriptDetailModalHide('commit-confirm-modal')">取消</span>
+            </div>
+        </div>
+    </div>
+</div>

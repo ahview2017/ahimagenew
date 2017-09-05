@@ -1,0 +1,407 @@
+<div id='addcolumn'>
+    <div class='addcolumn_box_c'>
+        <div ng-include="'recursion'"></div>
+    </div>
+</div>
+<div class="tac mt20">
+    <span class='addcolumn_btn addcolumn_btnstyle addcolumn_addco' ng-click="add()">添加栏目</span>
+    <span class='addcolumn_btn addcolumn_btnstyle addcolumn_addco' ng-click="saveColumnSetting()">保存</span>
+</div>
+<script id="recursion" type="text/ng-template">
+    <div class='addcolumn_box clearfloat' ng-repeat="item in items">
+        <ul class='addcolumn_ul clearfloat'>
+            <li class='addcolumn_li'>
+                <div><span>栏目名称:</span><input type='text' ng-model="item.name" class='addcolumn_input_140'></span>
+            </li>
+            <li class='addcolumn_li'>
+                <div><span>排序:</span><input type='number' ng-model="item.lanmuNo" class='addcolumn_order'></span>
+            </li>
+            <li class='addcolumn_li'>
+                <div>
+                    <span>显示方式:</span>
+                    <select ng-model='item.showWay' class='addcolumn_showtype' ng-change='change()'>
+                        <option value='0'>无</option>
+                        <option value='1'>人工签发</option>
+                        <option value='2'>条件检索</option>
+                        <option value='3'>外部链接</option>
+                    </select>
+                </div>
+            </li>
+            <li class='addcolumn_li' ng-if='item.showWay==1'>
+                <div>
+                    <span>栏目模板:</span>
+                    <select ng-model='item.typeId' ng-change="selColTemplate(item)">
+                        <option value=''>无</option>
+                        <option value='0'>轮播图+公告</option>
+                        <option value='1'>大轮播图</option>
+                        <option value='2'>轮播图+说明</option>
+                        <option value='3'>4展</option>
+                        <option value='4'>5展</option>
+                        <option value='5'>6展</option>
+                        <option value='6'>8展</option>
+                        <option value='7'>10展</option>
+                    </select>
+                </div>
+            </li>
+            <!-- 默认显示栏目名称，排序，显示方式，封面图 -->
+            <!-- 显示方式为人工签发时，不显示封面图，关键字，外部链接，添加子栏目 -->
+            <!-- 显示方式为条件检索时时，不显示栏目模板，外部链接，添加子栏目 -->
+            <!-- 显示方式为外部链接时，不显示关键字，不显示栏目模板，显示封面图 -->
+            <li class='addcolumn_li' ng-if='!item.showWay'>
+                <div>
+                    <span>banner图:</span>
+                    <img ng-src="{{item.pic}}" width="50" height="50" ng-if="item.pic"/>
+                    <input type='file' class='addcolumn_input_140 banner-spec-file-input' ngf-select="uploadBannerFile($file,item)"  ng-model="item.pic">
+                </div>
+            </li>
+            <li class='addcolumn_li' ng-if='item.showWay==2 || item.showWay==3'>
+                <div>
+                    <span>封面图:</span>
+                    <input type='file' class='addcolumn_input_140 banner-spec-file-input'>
+                </div>
+            </li>
+            <li class='addcolumn_li' ng-if='item.showWay==2'>
+                <div>
+                    <span>检索关键字:</span>
+                    <input type='text' ng-model="item.keyWords">
+                </div>
+            </li>
+            <li class='addcolumn_li' ng-if='item.showWay==3'>
+                <div>
+                    <span>外部链接:</span>
+                    <input type='text' ng-model="item.url" class='addcolumn_input_140'>
+                </div>
+            </li>
+            <li class='addcolumn_li'>
+                <div>
+                    <span class='addcolumn_btnstyle' ng-click='delecolumn(item,$index)'>删除</span>
+                    <span class='addcolumn_btnstyle addcolumn_add' ng-if='item.showWay==3' ng-click='addChild(item)'>添加子栏目</span>
+                </div>
+            </li>
+        </ul>
+        <div>
+            <!-- 轮播图+公告 -->
+            <div  ng-if="item.typeId == 0 && item.typeId != ''">
+                <!--轮播图部分-->
+                <div>
+                     <!--轮播图说明部分-->
+                    <div class="l-e-tab mt20 clear">
+                        <div class="fll text-center">
+                            <span class="l-e-tab-1">元素1</span><span class="l-e-tab-2">稿件</span>
+                        </div>
+                    </div>
+                    <p class="l-e-title-16">轮播切换显示稿件:</p>
+                    <!--轮播图选择-->
+                    <ul class='template_ul clearfloat'>
+                        <li class='addcolumn_li template_li_five' ng-repeat='lanmuTemplate in item.cpLanmuPictures'>
+                            <div>
+                                <span class='template_title'>稿件{{$index + 1}}</span>
+                                <img src='admin/assets/img/role/empty1.png' ng-if="!lanmuTemplate.url"/>
+                                <img ng-src="{{lanmuTemplate.url}}"  ng-if="template.url"/>
+                                <p ng-if="!lanmuTemplate.title">这里是标题</p>
+                                <p ng-if="lanmuTemplate.title">{{template.title}}</p>
+                                <span class='addcolumn_btnstyle template_btn'  ng-click="selectMs(lanmuTemplate)">选择稿件</span>
+                            </div>
+                        </li>
+                    </ul>
+                    <!--更多稿件说明开始-->
+                    <div class="gj-more-list mt20">
+                        <div class="clear">
+                            <div class="fll l-e-title-16">更多稿件:</div>
+                        </div>
+                    </div>
+                    <!--更多稿件说明结束-->
+                    <!--更多稿件table开始-->
+                    <div class="gj-more-table mt15 clear">
+                        <div class="c-user-table">
+                            <div class="t-search-hd clear">
+                                <div class="user-hd-left fll">
+                                    <label for="checkAllProEdit2">
+                                        <input type="checkbox" class="" ng-model="projectManageEdit2.isHadAllCheck"
+                                               id="checkAllProEdit2"
+                                               ng-click="projectManageEdit2.onCheckAllClick()"/>
+                                        <span class="user-check-txt cursor">全选</span>
+                                    </label>
+                                    <span class="dib cursor user-add-btn" ng-click="addMoreMs(item)">添加稿件</span>
+                                    <span class="dib cursor user-add-btn role-del-btn" ng-click="projectManageEdit2.onShowDeleteModelClick()">批量删除</span>
+                                    <span class="dib cursor user-add-btn role-modify-btn" ng-click="projectManageEdit2.tableShow1 = false;">返回</span>
+                                </div>
+                                <div class="user-hd-right flr">
+                                    <input class="user-search-input" />
+                                    <img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic"/>
+                                </div>
+                            </div>
+                            <div class="t-uinfo-bd">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered uInfo-table">
+                                        <thead>
+                                        <tr>
+                                            <th class="uinfo-hd-th"></th>
+                                            <th class="uinfo-hd-th">ID</th>
+                                            <th class="uinfo-hd-th">缩略图</th>
+                                            <th class="uinfo-hd-th">标题</th>
+                                            <th class="uinfo-hd-th">编辑时间</th>
+                                            <th class="uinfo-hd-th">操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr  ng-repeat='template in item.moreLanmuPictures'>
+                                            <td>
+                                                <input type="checkbox" />
+                                            </td>
+                                            <td></td>
+                                            <td>
+                                                <img ng-if="template.url" class="thumbnail-img" ng-src="{{template.url}}" alt="">
+                                                <img ng-if="!template.url" class="thumbnail-img" src="admin/assets/img/role/empty1.png" alt="">
+                                            </td>
+                                            <td>{{template.title}}</td>
+                                            <td></td>
+                                            <td>
+                                                <img src="admin/assets/img/role/look_user_info.png" ng-click="projectManageEdit2.selectManuscript(projectManageEdit2.columnId, 100, item.id);" title="替换稿件" class="cursor u-pwd-reset" width="20" height="20" />
+                                                <img src="admin/assets/img/role/red_del.png" title="删除稿件" ng-click="projectManageEdit2.delMoreManuscript(item.id);" class="cursor" width="20" height="20"/>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- 分页 -->
+                                <div class="flr pr15">
+                                    <ul class="pagination" id="paginationImgId"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--更多稿件table结束-->
+                </div>   
+                <!--  公告部分   -->
+                <div>
+                        <!--公告说明部分-->
+                        <div class="l-e-tab clear mt15">
+                            <div class="fll text-center">
+                                <span class="l-e-tab-1">元素2</span><span class="l-e-tab-2">公告</span>
+                            </div>
+                        </div>  
+                        <p class="l-e-title-16">注:前8条为轮播首页显示公告</p> 
+                        <!--更多公告table开始-->
+                        <div class="gj-more-table mt15">
+                            <div class="c-user-table">
+                                <div class="t-search-hd clear">
+                                    <div class="user-hd-left fll">
+                                        <label for="checkAllMoreProEdit2">
+                                            <input type="checkbox"/>
+                                            <span class="user-check-txt cursor">全选</span>
+                                        </label>
+                                        <span class="dib cursor user-add-btn" ng-click="addAnnocement(item)">添加公告</span>
+                                        <span class="dib cursor user-add-btn role-del-btn">批量删除</span>
+                                    </div>
+                                </div>
+                                <div class="t-uinfo-bd">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered uInfo-table" style="table-layout: fixed;">
+                                            <thead>
+                                            <tr>
+                                                <th class="uinfo-hd-th"></th>
+                                                <th class="uinfo-hd-th">ID</th>
+                                                <th class="uinfo-hd-th">标题</th>
+                                                <th class="uinfo-hd-th">内容</th>
+                                                <th class="uinfo-hd-th">发布人</th>
+                                                <th class="uinfo-hd-th">发布时间</th>
+                                                <th class="uinfo-hd-th">排序</th>
+                                                <th class="uinfo-hd-th">操作</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr ng-repeat="noticeItem in item.cpNoticesList">
+                                                <td>
+                                                    <input type="checkbox"/>
+                                                </td>
+                                                <td></td>
+                                                <td>{{noticeItem.noticeTitle}}</td>
+                                                <td class="td-over-hide">
+                                                    <span ng-bind-html="noticeItem.noticeContent | trustHtml"></span>
+                                                </td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>{{noticeItem.position}}</td>
+                                                <td>
+                                                    <img src="admin/assets/img/role/look_user_info.png" title="编辑公告" class="cursor u-pwd-reset" width="20" height="20" />
+                                                    <img src="admin/assets/img/role/red_del.png" title="删除公告" class="cursor" width="20" height="20"/>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- 分页 -->
+                                    <div class="flr pr15">
+                                        <ul class="pagination" id="paginationImgId1"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--更多公告table结束-->        
+                </div>                       
+            </div>
+            <!-- 大轮播图 -->
+            <ul class='template_ul clearfloat' ng-if='item.typeId == 1'>
+                <li class='addcolumn_li template_li_five'  ng-repeat='template in item.cpLanmuPictures'>
+                   <div>
+                                <span class='template_title'>稿件{{$index + 1}}</span>
+                                <img src='admin/assets/img/role/empty1.png' ng-if="!template.url"/>
+                                <img ng-src="{{template.url}}"  ng-if="template.url"/>
+                                <p ng-if="!template.title">这里是标题</p>
+                                <p ng-if="template.title">{{template.title}}</p>
+                                <span class='addcolumn_btnstyle template_btn'  ng-click="selectMs(template)">选择稿件</span>
+                    </div>
+                </li>
+            </ul>
+            <!-- 轮播图+说明 -->
+            <div  ng-if='item.typeId == 2'>
+                <!--轮播图部分-->
+                <div>
+                     <!--轮播图说明部分-->
+                    <div class="l-e-tab mt20 clear">
+                        <div class="fll text-center">
+                            <span class="l-e-tab-1">元素1</span><span class="l-e-tab-2">稿件</span>
+                        </div>
+                    </div>
+                    <p class="l-e-title-16">轮播切换显示稿件:</p>
+                    <!--轮播图选择-->
+                    <ul class='template_ul clearfloat'>
+                        <li class='addcolumn_li template_li_five' ng-repeat='template in item.cpLanmuPictures'>
+                            <div>
+                                <span class='template_title'>稿件{{$index + 1}}</span>
+                                <img src='admin/assets/img/role/empty1.png' ng-if="!template.url"/>
+                                <img ng-src="{{template.url}}"  ng-if="template.url"/>
+                                <p ng-if="!template.title">这里是标题</p>
+                                <p ng-if="template.title">{{template.title}}</p>
+                                <span class='addcolumn_btnstyle template_btn'  ng-click="selectMs(template)">选择稿件</span>
+                            </div>
+                        </li>
+                    </ul>        
+                </div>   
+                <!--  说明部分   -->
+                <div>
+                        <!--说明部分-->
+                        <div class="l-e-tab clear mt15">
+                            <div class="fll text-center">
+                                <span class="l-e-tab-1">元素2</span><span class="l-e-tab-2">说明</span>
+                            </div>
+                        </div>  
+                        <div>
+                            <p>请填写说明部分：</p>
+                            <div>
+                                <textarea ng-model="item.words"/>
+                                <!--<script id="bannerDescEditor" type="text/javascript" style="width:500px;height:350px;"></script>-->
+                            </div>        
+                        </div>      
+                </div> 
+            </div>
+            <!-- 四展 -->
+            <ul class='template_ul clearfloat' ng-if='item.typeId == 3'>
+                <li class='addcolumn_li template_li' ng-repeat='template in item.cpLanmuPictures'>
+                    <div>
+                        <span class='template_title'>稿件{{$index + 1}}</span>
+                        <img src='admin/assets/img/role/empty1.png' ng-if="!template.url"/>
+                        <img ng-src="{{template.url}}"  ng-if="template.url"/>
+                        <p ng-if="!template.title">这里是标题</p>
+                        <p ng-if="template.title">{{template.title}}</p>
+                        <span class='addcolumn_btnstyle template_btn'  ng-click="selectMs(template)">选择稿件</span>
+                    </div>
+                </li>
+            </ul>
+            <!-- 五展 -->
+            <ul class='template_ul clearfloat' ng-if='item.typeId == 4'>
+                <li class='addcolumn_li template_li_five'  ng-repeat='template in item.cpLanmuPictures'>
+                    <div>
+                        <span class='template_title'>稿件{{$index + 1}}</span>
+                        <img src='admin/assets/img/role/empty1.png' ng-if="!template.url"/>
+                        <img ng-src="{{template.url}}"  ng-if="template.url"/>
+                        <p ng-if="!template.title">这里是标题</p>
+                        <p ng-if="template.title">{{template.title}}</p>
+                        <span class='addcolumn_btnstyle template_btn'  ng-click="selectMs(template)">选择稿件</span>
+                    </div>
+                </li>
+            </ul>
+            <!-- 六展 -->
+            <ul class='template_ul clearfloat' ng-if='item.typeId == 5'>
+                <li class='addcolumn_li template_li_six' ng-repeat='template in item.cpLanmuPictures'>
+                    <div>
+                        <span class='template_title'>稿件{{$index + 1}}</span>
+                        <img src='admin/assets/img/role/empty1.png' ng-if="!template.url"/>
+                        <img ng-src="{{template.url}}"  ng-if="template.url"/>
+                        <p ng-if="!template.title">这里是标题</p>
+                        <p ng-if="template.title">{{template.title}}</p>
+                        <span class='addcolumn_btnstyle template_btn'  ng-click="selectMs(template)">选择稿件</span>
+                    </div>
+                </li>
+            </ul>
+            <!-- 8展 -->
+            <ul class='template_ul clearfloat' ng-if='item.typeId == 6'>
+                <li class='addcolumn_li template_li' ng-repeat='template in item.cpLanmuPictures'>
+                    <div>
+                        <span class='template_title'>稿件{{$index + 1}}</span>
+                        <img src='admin/assets/img/role/empty1.png' ng-if="!template.url"/>
+                        <img ng-src="{{template.url}}"  ng-if="template.url"/>
+                        <p ng-if="!template.title">这里是标题</p>
+                        <p ng-if="template.title">{{template.title}}</p>
+                        <span class='addcolumn_btnstyle template_btn'  ng-click="selectMs(template)">选择稿件</span>
+                    </div>
+                </li>
+            </ul>
+            <!-- 10展 -->
+            <ul class='template_ul clearfloat' ng-if='item.typeId == 7'>
+                <li class='addcolumn_li template_li_five' ng-repeat='template in item.cpLanmuPictures'>
+                   <div>
+                        <span class='template_title'>稿件{{$index + 1}}</span>
+                        <img src='admin/assets/img/role/empty1.png' ng-if="!template.url"/>
+                        <img ng-src="{{template.url}}"  ng-if="template.url"/>
+                        <p ng-if="!template.title">这里是标题</p>
+                        <p ng-if="template.title">{{template.title}}</p>
+                        <span class='addcolumn_btnstyle template_btn'  ng-click="selectMs(template)">选择稿件</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div ng-if="item.cpLanmuList.length" ng-include="'recursion'" ng-init="items=item.cpLanmuList">
+        </div>
+</script>
+<!--添加公告模态框-->
+<div class="modal fade" id="addAnnocementModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" style="width: 800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close close-btn" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">添加公告</h4>
+            </div>
+            <form enctype="multipart/form-data" method="post">
+                <div class="modal-body">
+                    <div class="role-add-main">
+                        <div class="role-add-form-info advertise-add-form-info clear" style="border:none;">
+                            <div class="role-form-info-bottom clear">
+                                <div class="price-remark-txt fll">公告标题<span class="color_red">*</span></div>
+                                <input type="text" class="adverse-remark-input fll long-text" ng-model="projectManageDetail.annocementTitle"/>
+                            </div>
+                            <div class="role-form-info-bottom clear">
+                                <div class="price-remark-txt fll">公告内容<span class="color_red">*</span></div>
+                                <script id="addAnnocementEditor" type="text/javascript" style="width:500px;height:350px;margin-left:173px;"></script>
+                            </div>
+                            <div class="role-form-info-bottom clear">
+                                <div class="price-remark-txt fll">排序<span class="color_red">*</span></div>
+                                <input type="num" class="adverse-remark-input fll long-text" ng-model="projectManageDetail.annocementOrderNum"/><span class="color_red"></span>
+                            </div>
+                            <div class="role-form-info-bottom clear">
+                                <div class="price-remark-txt fll" style="height:1px;"></div>
+                                <p class="color_red fll" style="display: inline-block;width: 67%;">注：排序前8条为栏目首页展示公告</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="text-align: center">
+                    <button type="button" class="user-add-btn" ng-click="saveAnnocement()">保存</button>
+                    <button type="button" class="user-add-btn role-del-btn" data-dismiss="modal">取消</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>  
+

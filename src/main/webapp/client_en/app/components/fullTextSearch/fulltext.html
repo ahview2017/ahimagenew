@@ -1,0 +1,57 @@
+<div class="photolist-container container">
+    <!--photolist search-->
+    <!--<div class="hd-photo-operate">
+        <span> 时间范围：</span>
+        <select>
+            <option value="">7天</option>
+            <option>一个月</option>
+            <option>不限</option>
+        </select>
+        <span class="ml5 mr5">
+             <span>指定关键字：</span>
+             <input type="text"/>
+        </span>
+        <span>按 </span>
+        <select>
+            <option value="">作者</option>
+            <option>文件名</option>
+            <option>标题</option>
+        </select>
+        <button type="button" class="cursor photo-serach-btn login_btn">检索</button>
+    </div>-->
+    <!--photolist con-->
+    <div class="bd-photo-list">
+        <div class="photo-list-item">
+            <div class="photoList-rec-item clearfloat">
+                <a  ui-sref="root.newSingleDetail({pictureId:item.id})" target="_blank"
+                     class="photo-item-li cursor color-black"ng-repeat="item in fullText.photoList">
+                    <div style="height:160px;">
+                        <img ng-src="{{item.coverPic}}" class="photo-img">
+                    </div>
+                    <p class="change-hover-color photo-spec-intro">{{item.gtitle}}</p>
+                    <p>{{item.authorName}} 摄</p>
+                    <p class="photo-file-name">文件名：{{item.fileName}}</p>
+                    <p>发布于：{{item.date | date: 'yyyy-MM-hh'}}</p>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!--photolist paging-->
+    <div class="hd-photo-paging mt10 clearfloat">
+        <div class="photo-record-page fll flls">
+            <span>共找到</span>
+            <span class="color_red">{{fullText.totalNum}}</span>
+            <span>条记录</span>
+        </div>
+        <div class="photo-now-page fll flls">
+            <span>第 </span>
+            <span>{{fullText.pageNum | pageHandle}} </span>
+            <span>/</span>
+            <span>{{fullText.totalPage}} </span>
+            <span>页</span>
+        </div>
+        <div class="photo-jump-page flr fll_r">
+            <div id="jq-page"></div>
+        </div>
+    </div>
+</div>

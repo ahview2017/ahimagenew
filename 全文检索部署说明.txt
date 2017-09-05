@@ -1,0 +1,10 @@
+部署时将lib下的trsbean.jar放到%JAVA_HOME%/jre/lib/ext
+windows操作系统trsbean.dll放到%JAVA_HOME%/jre/bin
+linux下将 libtrsbean.so放在$JAVA_HOME中libjava.*(libjava.so/libjava.a/libjava.sl)
+否则会抛出找不到trs类异常
+修改TrsSearchConf中的
+private static String ip="localhost";//全文检索数据库ip
+private static String prot="8888";//端口
+private static String user="system";//用户名
+private static String password="manager";//密码
+private static String tableName="cnsphoto";//检索的表

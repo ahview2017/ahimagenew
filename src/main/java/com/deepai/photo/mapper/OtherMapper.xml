@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deepai.photo.mapper.OtherMapper" >
+<!-- 校审配置  -->
+ <resultMap id="BaseCpPfdMap" type="com.deepai.photo.bean.CpProofread" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="BEGIN_TIME" property="beginTime" jdbcType="DATE" />
+    <result column="END_TIME" property="endTime" jdbcType="DATE" />
+    <result column="ISENABLE" property="isenable" jdbcType="TINYINT" />
+    <result column="SITE_ID" property="siteId" jdbcType="INTEGER" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="DELETE_FLAG" property="deleteFlag" jdbcType="TINYINT" />
+  </resultMap>
+
+  <!-- 查询稿件历史版本 -->
+  <select id="selectAllSstvWord" resultType="string">
+ 	select DISTINCT t.WORD_CONTENT from cp_sensitive_word t where t.WORD_STATUS=0
+  </select>
+  <!-- 查询最后一个自动分配的人 -->
+  <select id="selectAssignUser" resultType="string">
+ 	select a.USER_NAME from cp_pic_group_assign a where a.TYPE=1 ORDER BY ID desc limit 1
+  </select>
+  
+  <!-- 将稿件图片置为不删除 -->
+  <update id="updateGroupPicNotDel" parameterType="int">
+  	UPDATE cp_picture SET DELETE_FLAG =0  WHERE GROUP_ID=#{groupId}
+  </update>
+  
+  <!-- 图片合并到主稿 -->
+  <update id="updatePicGroupId" parameterType="int">
+  	<foreach collection="pics" item="pic" separator=";" >
+  		UPDATE cp_picture SET  GROUP_ID =#{pic.groupId} ,IS_COVER=0,SORT_ID=#{pic.sortId} WHERE id=#{pic.id}
+  	</foreach>
+  </update>
+  
+  <!-- 查询摄影师 -->
+  <select id="selectPhotoUser" parameterType="map" resultType="map">
+  SELECT u.ID,u.USER_NAME,u.TURE_NAME,u.AUTHOR_NAME from cp_user u 
+	LEFT JOIN cp_user_role ur on u.ID=ur.USER_ID 
+	where ur.ROLE_ID=3 
+	<if test="uName !=null">
+	and (u.USER_NAME like CONCAT('%',#{uName},'%')
+		or u.TURE_NAME like CONCAT('%',#{uName},'%')
+		or u.AUTHOR_NAME like CONCAT('%',#{uName},'%'))
+	</if>
+  </select>
+ 
+  <!-- 稿件综合高级查询 -->
+  <select id="selectGroupComplex" parameterType="map" resultType="map">
+	 SELECT DISTINCT
+		g.ID ,g.TITLE,g.FILE_TIME,g.SGIN_TIME,g.AUTHOR,
+	p.FILENAME,p.EX_DATETIME,p.EX_FNUMBER,p.EX_ISO,p.EX_MODEL,g.PICTURE_COUNT,g.UPDATE_USER
+	FROM
+		cp_pic_group g
+	<if test=" langType !=null and langType==1">
+		LEFT join  cp_pic_group_column pgc ON g.ID=pgc.group_id
+	</if>	
+	LEFT JOIN cp_picture p on g.COVER_PICTURE_ID=p.ID
+	LEFT JOIN cp_pic_group_category gc on gc.GROUP_ID=g.ID  
+	LEFT JOIN cp_category c on gc.CATEGORY_ID=c.ID	
+		WHERE
+			g.SOURCE_ID = 0
+		AND g.DELETE_FLAG = 0
+		AND g.SITE_ID = #{siteId}
+		<if test="status != null">
+		AND g.GROUP_STATUS = #{status}
+		</if>		
+		<if test="groupId !=null">
+			AND g.ID LIKE CONCAT('%',#{groupId},'%')
+		</if>
+		<if test="remark !=null">
+			AND g.REMARK LIKE CONCAT('%',#{remark},'%')
+		</if>
+		<if test="properties !=null">
+			AND g.PROPERTIES = properties 
+		</if>
+		<if test="beginSginTime !=null and endSginTime !=null">
+			AND g.SGIN_TIME  BETWEEN  #{beginSginTime} and #{endSginTime}
+		</if>
+		<if test="author !=null">
+			AND g.AUTHOR LIKE CONCAT('%',#{author},'%')
+		</if>
+		<if test="title !=null">
+			AND g.TITLE LIKE CONCAT('%',#{title},'%')
+		</if>
+		<if test="people !=null">
+			AND g.PEOPLE LIKE CONCAT('%',#{people},'%')
+		</if>
+		<if test="place !=null">
+			AND g.PLACE LIKE CONCAT('%',#{place},'%')
+		</if>
+		<if test="memo !=null">
+			AND p.MEMO LIKE CONCAT('%',#{memo},'%')
+		</if>
+		<if test="pAuthor !=null">
+			AND p.AUTHOR_ID LIKE CONCAT('%',#{pAuthor},'%')
+		</if>
+		<if test="kewords !=null">
+			AND g.KEYWORDS LIKE CONCAT('%',#{kewords},'%')
+		</if>
+		<if test="editor !=null">
+			AND g.UPDATE_USER LIKE CONCAT('%',#{editor},'%')
+		</if>
+		<if test="cateId !=null and sginId !=null and langType==0">
+		AND gc.CATEGORY_ID IN (select id FROM cp_category
+			where PARENT_ID=#{cateId} or id=#{cateId})  or gc.CATEGORY_ID = #{sginId}  and gc.TYPE IN(0,1)
+		</if>
+		<if test="cateId !=null and sginId==null">
+			AND gc.CATEGORY_ID IN (select id FROM cp_category
+			where PARENT_ID=#{cateId} or id=#{cateId})   and gc.TYPE=0
+		</if>
+		<if test="sginId !=null and cateId==null and langType==0">
+			AND gc.CATEGORY_ID = #{sginId} and gc.TYPE=1
+		</if>
+		<if test="sginId !=null and langType==1">
+			AND pgc.column_id = #{sginId} 
+		</if>
+		<if test="goodsType !=null">
+			AND g.GOODS_TYPE = #{goodsType} 
+		</if>
+		<if test="priceType !=null">
+			AND g.PRICE_TYPE = #{priceType} 
+		</if>
+		<if test="langType !=null">
+			AND g.LANG_TYPE = #{langType} 
+		</if>
+		<if test="samllPrice !=null">
+			AND g.PRICE &gt;= #{samllPrice} 
+		</if>
+		<if test="bigPrice !=null">
+			AND g.PRICE &lt;= #{bigPrice} 
+		</if>
+		<if test="fileName !=null">
+			AND p.FILENAME LIKE CONCAT('%',#{fileName},'%')
+		</if>
+		<if test="isPics !=null and isPics ==0">
+			AND g.PICTURE_COUNT = 1
+		</if>
+		<if test="isPics !=null and isPics ==1">
+			AND g.PICTURE_COUNT &gt; 1
+		</if>
+		
+		GROUP BY g.SGIN_TIME desc
+  </select>
+  
+  <!-- 查询商品默认价格 -->
+  <select id="selectGoodsPrice" parameterType="map" resultType="int">
+  	select p.PAY_PRICE from cp_picture_price p where p.PICTURE_TYPE=#{0}
+  </select>
+  
+  <!-- 查询身份证号是否重复 -->
+  <select id="checkIdCard" parameterType="map" resultType="int">
+  	select count(*) from cp_user u where u.ID_CARD =#{idCard} and u.ID !=#{id}
+  </select>
+  <!-- 查询系列号 -->
+  <select id="selectOrderNum" resultType="int" parameterType="map">
+  	select nextval(#{sequence})
+  </select>
+  <!-- 重置序列从1开始 -->
+  <select id="resetSequence">
+    UPDATE sequence set current_val=1 where name='seq_order';
+	UPDATE sequence set current_val=1 where name='seq_article'
+  </select>
+  
+  <!-- 校验添加的校审时间是否重复 -->
+  <select id="checkPfdDate" parameterType="map" resultMap="BaseCpPfdMap">
+  select * from cp_proofread p
+	 where p.DELETE_FLAG=0 and LANG_TYPE=#{langType} and
+	 ((p.BEGIN_TIME &lt;=#{beginDate} and p.END_TIME &gt;=#{endDate})
+	or (p.BEGIN_TIME &gt;=#{beginDate} and p.END_TIME &lt;=#{endDate})
+	or (p.BEGIN_TIME &gt;=#{beginDate} and p.BEGIN_TIME &lt;=#{endDate})
+	or (p.END_TIME &gt;=#{beginDate} and p.END_TIME &lt;=#{endDate}) )
+	 limit 1
+  </select>
+</mapper>

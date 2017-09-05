@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deepai.photo.mapper.CpOrderDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.deepai.photo.bean.CpOrderDetail" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="ORDER_ID" property="orderId" jdbcType="INTEGER" />
+    <result column="ORDER_NO" property="orderNo" jdbcType="VARCHAR" />
+    <result column="FILENAME" property="filename" jdbcType="VARCHAR" />
+    <result column="PIC_ID" property="picId" jdbcType="INTEGER" />
+    <result column="GROUP_ID" property="groupId" jdbcType="INTEGER" />
+    <result column="PRICE" property="price" jdbcType="DECIMAL" />
+    <result column="DEAL_PRICE" property="dealPrice" jdbcType="DECIMAL" />
+    <result column="USER_ID" property="userId" jdbcType="INTEGER" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="PHOTO_USER_ID" property="photoUserId" jdbcType="INTEGER" />
+    <result column="PHOTO_USER_NAME" property="photoUserName" jdbcType="VARCHAR" />
+    <result column="PHOTO_USER_DIVIDE" property="photoUserDivide" jdbcType="INTEGER" />
+    <result column="DIVIDE_PRICE" property="dividePrice" jdbcType="DECIMAL" />
+    <result column="DIVIDE_STATUS" property="divideStatus" jdbcType="INTEGER" />
+    <result column="DIVIDE_USER_ID" property="divideUserId" jdbcType="INTEGER" />
+    <result column="DIVIDE_USER_NAME" property="divideUserName" jdbcType="VARCHAR" />
+    <result column="DIVIDE_TIME" property="divideTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, ORDER_ID, ORDER_NO, FILENAME, PIC_ID, GROUP_ID, PRICE, DEAL_PRICE, USER_ID, USER_NAME, 
+    CREATETIME, PHOTO_USER_ID, PHOTO_USER_NAME, PHOTO_USER_DIVIDE, DIVIDE_PRICE, DIVIDE_STATUS, 
+    DIVIDE_USER_ID, DIVIDE_USER_NAME, DIVIDE_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.deepai.photo.bean.CpOrderDetailExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cp_order_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from cp_order_detail
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from cp_order_detail
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.deepai.photo.bean.CpOrderDetailExample" >
+    delete from cp_order_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.deepai.photo.bean.CpOrderDetail" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cp_order_detail (ORDER_ID, ORDER_NO, FILENAME, 
+      PIC_ID, GROUP_ID, PRICE, 
+      DEAL_PRICE, USER_ID, USER_NAME, 
+      CREATETIME, PHOTO_USER_ID, PHOTO_USER_NAME, 
+      PHOTO_USER_DIVIDE, DIVIDE_PRICE, DIVIDE_STATUS, 
+      DIVIDE_USER_ID, DIVIDE_USER_NAME, DIVIDE_TIME
+      )
+    values (#{orderId,jdbcType=INTEGER}, #{orderNo,jdbcType=VARCHAR}, #{filename,jdbcType=VARCHAR}, 
+      #{picId,jdbcType=INTEGER}, #{groupId,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, 
+      #{dealPrice,jdbcType=DECIMAL}, #{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{photoUserId,jdbcType=INTEGER}, #{photoUserName,jdbcType=VARCHAR}, 
+      #{photoUserDivide,jdbcType=INTEGER}, #{dividePrice,jdbcType=DECIMAL}, #{divideStatus,jdbcType=INTEGER}, 
+      #{divideUserId,jdbcType=INTEGER}, #{divideUserName,jdbcType=VARCHAR}, #{divideTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.deepai.photo.bean.CpOrderDetail" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cp_order_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="orderNo != null" >
+        ORDER_NO,
+      </if>
+      <if test="filename != null" >
+        FILENAME,
+      </if>
+      <if test="picId != null" >
+        PIC_ID,
+      </if>
+      <if test="groupId != null" >
+        GROUP_ID,
+      </if>
+      <if test="price != null" >
+        PRICE,
+      </if>
+      <if test="dealPrice != null" >
+        DEAL_PRICE,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="userName != null" >
+        USER_NAME,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="photoUserId != null" >
+        PHOTO_USER_ID,
+      </if>
+      <if test="photoUserName != null" >
+        PHOTO_USER_NAME,
+      </if>
+      <if test="photoUserDivide != null" >
+        PHOTO_USER_DIVIDE,
+      </if>
+      <if test="dividePrice != null" >
+        DIVIDE_PRICE,
+      </if>
+      <if test="divideStatus != null" >
+        DIVIDE_STATUS,
+      </if>
+      <if test="divideUserId != null" >
+        DIVIDE_USER_ID,
+      </if>
+      <if test="divideUserName != null" >
+        DIVIDE_USER_NAME,
+      </if>
+      <if test="divideTime != null" >
+        DIVIDE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="filename != null" >
+        #{filename,jdbcType=VARCHAR},
+      </if>
+      <if test="picId != null" >
+        #{picId,jdbcType=INTEGER},
+      </if>
+      <if test="groupId != null" >
+        #{groupId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="dealPrice != null" >
+        #{dealPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="photoUserId != null" >
+        #{photoUserId,jdbcType=INTEGER},
+      </if>
+      <if test="photoUserName != null" >
+        #{photoUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="photoUserDivide != null" >
+        #{photoUserDivide,jdbcType=INTEGER},
+      </if>
+      <if test="dividePrice != null" >
+        #{dividePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="divideStatus != null" >
+        #{divideStatus,jdbcType=INTEGER},
+      </if>
+      <if test="divideUserId != null" >
+        #{divideUserId,jdbcType=INTEGER},
+      </if>
+      <if test="divideUserName != null" >
+        #{divideUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="divideTime != null" >
+        #{divideTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.deepai.photo.bean.CpOrderDetailExample" resultType="java.lang.Integer" >
+    select count(*) from cp_order_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update cp_order_detail
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderId != null" >
+        ORDER_ID = #{record.orderId,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderNo != null" >
+        ORDER_NO = #{record.orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.filename != null" >
+        FILENAME = #{record.filename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.picId != null" >
+        PIC_ID = #{record.picId,jdbcType=INTEGER},
+      </if>
+      <if test="record.groupId != null" >
+        GROUP_ID = #{record.groupId,jdbcType=INTEGER},
+      </if>
+      <if test="record.price != null" >
+        PRICE = #{record.price,jdbcType=DECIMAL},
+      </if>
+      <if test="record.dealPrice != null" >
+        DEAL_PRICE = #{record.dealPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.userId != null" >
+        USER_ID = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userName != null" >
+        USER_NAME = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null" >
+        CREATETIME = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.photoUserId != null" >
+        PHOTO_USER_ID = #{record.photoUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.photoUserName != null" >
+        PHOTO_USER_NAME = #{record.photoUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.photoUserDivide != null" >
+        PHOTO_USER_DIVIDE = #{record.photoUserDivide,jdbcType=INTEGER},
+      </if>
+      <if test="record.dividePrice != null" >
+        DIVIDE_PRICE = #{record.dividePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.divideStatus != null" >
+        DIVIDE_STATUS = #{record.divideStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.divideUserId != null" >
+        DIVIDE_USER_ID = #{record.divideUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.divideUserName != null" >
+        DIVIDE_USER_NAME = #{record.divideUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.divideTime != null" >
+        DIVIDE_TIME = #{record.divideTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update cp_order_detail
+    set ID = #{record.id,jdbcType=INTEGER},
+      ORDER_ID = #{record.orderId,jdbcType=INTEGER},
+      ORDER_NO = #{record.orderNo,jdbcType=VARCHAR},
+      FILENAME = #{record.filename,jdbcType=VARCHAR},
+      PIC_ID = #{record.picId,jdbcType=INTEGER},
+      GROUP_ID = #{record.groupId,jdbcType=INTEGER},
+      PRICE = #{record.price,jdbcType=DECIMAL},
+      DEAL_PRICE = #{record.dealPrice,jdbcType=DECIMAL},
+      USER_ID = #{record.userId,jdbcType=INTEGER},
+      USER_NAME = #{record.userName,jdbcType=VARCHAR},
+      CREATETIME = #{record.createtime,jdbcType=TIMESTAMP},
+      PHOTO_USER_ID = #{record.photoUserId,jdbcType=INTEGER},
+      PHOTO_USER_NAME = #{record.photoUserName,jdbcType=VARCHAR},
+      PHOTO_USER_DIVIDE = #{record.photoUserDivide,jdbcType=INTEGER},
+      DIVIDE_PRICE = #{record.dividePrice,jdbcType=DECIMAL},
+      DIVIDE_STATUS = #{record.divideStatus,jdbcType=INTEGER},
+      DIVIDE_USER_ID = #{record.divideUserId,jdbcType=INTEGER},
+      DIVIDE_USER_NAME = #{record.divideUserName,jdbcType=VARCHAR},
+      DIVIDE_TIME = #{record.divideTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.deepai.photo.bean.CpOrderDetail" >
+    update cp_order_detail
+    <set >
+      <if test="orderId != null" >
+        ORDER_ID = #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNo != null" >
+        ORDER_NO = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="filename != null" >
+        FILENAME = #{filename,jdbcType=VARCHAR},
+      </if>
+      <if test="picId != null" >
+        PIC_ID = #{picId,jdbcType=INTEGER},
+      </if>
+      <if test="groupId != null" >
+        GROUP_ID = #{groupId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        PRICE = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="dealPrice != null" >
+        DEAL_PRICE = #{dealPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        USER_NAME = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="photoUserId != null" >
+        PHOTO_USER_ID = #{photoUserId,jdbcType=INTEGER},
+      </if>
+      <if test="photoUserName != null" >
+        PHOTO_USER_NAME = #{photoUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="photoUserDivide != null" >
+        PHOTO_USER_DIVIDE = #{photoUserDivide,jdbcType=INTEGER},
+      </if>
+      <if test="dividePrice != null" >
+        DIVIDE_PRICE = #{dividePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="divideStatus != null" >
+        DIVIDE_STATUS = #{divideStatus,jdbcType=INTEGER},
+      </if>
+      <if test="divideUserId != null" >
+        DIVIDE_USER_ID = #{divideUserId,jdbcType=INTEGER},
+      </if>
+      <if test="divideUserName != null" >
+        DIVIDE_USER_NAME = #{divideUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="divideTime != null" >
+        DIVIDE_TIME = #{divideTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.deepai.photo.bean.CpOrderDetail" >
+    update cp_order_detail
+    set ORDER_ID = #{orderId,jdbcType=INTEGER},
+      ORDER_NO = #{orderNo,jdbcType=VARCHAR},
+      FILENAME = #{filename,jdbcType=VARCHAR},
+      PIC_ID = #{picId,jdbcType=INTEGER},
+      GROUP_ID = #{groupId,jdbcType=INTEGER},
+      PRICE = #{price,jdbcType=DECIMAL},
+      DEAL_PRICE = #{dealPrice,jdbcType=DECIMAL},
+      USER_ID = #{userId,jdbcType=INTEGER},
+      USER_NAME = #{userName,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      PHOTO_USER_ID = #{photoUserId,jdbcType=INTEGER},
+      PHOTO_USER_NAME = #{photoUserName,jdbcType=VARCHAR},
+      PHOTO_USER_DIVIDE = #{photoUserDivide,jdbcType=INTEGER},
+      DIVIDE_PRICE = #{dividePrice,jdbcType=DECIMAL},
+      DIVIDE_STATUS = #{divideStatus,jdbcType=INTEGER},
+      DIVIDE_USER_ID = #{divideUserId,jdbcType=INTEGER},
+      DIVIDE_USER_NAME = #{divideUserName,jdbcType=VARCHAR},
+      DIVIDE_TIME = #{divideTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="getDownListByOrderId" resultType="map">
+  	SELECT t1.pic_id AS pid ,order_id AS oid, UNIX_TIMESTAMP(pay_time) AS payTime FROM
+		(SELECT pic_id FROM cp_order_detail WHERE order_id = #{orderId}) t1
+		LEFT JOIN (
+			SELECT PIC_ID ,ORDER_ID,PAY_TIME,id FROM
+			(
+				SELECT od.PIC_ID,od.ORDER_ID,of.PAY_TIME, od.id FROM
+					cp_order_form of
+				LEFT JOIN cp_order_detail od ON od.ORDER_ID = of.ID
+				WHERE of.PAY_TIME >= NOW() - INTERVAL 72 HOUR
+				AND of.USER_ID = #{userId}
+				ORDER BY id DESC
+			) tmp GROUP BY tmp.PIC_ID
+		) t2 ON t1.pic_id = t2.pic_id ORDER BY pay_time;
+  </select>
+  
+  <select id="getPicIdsByDetailId" resultType="int" >
+  	SELECT od.PIC_ID FROM cp_order_form of 
+		LEFT JOIN cp_order_detail od ON od.ORDER_ID = of.ID 
+		where of.USER_ID=#{userId} AND of.PAY_TIME >= NOW() - INTERVAL 72 HOUR AND od.ID in 
+		<foreach collection="detailIds" item="item" open="(" close=")" separator="," >
+          #{item}
+        </foreach>
+  </select>
+</mapper>

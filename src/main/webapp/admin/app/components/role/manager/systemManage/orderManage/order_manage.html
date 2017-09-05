@@ -1,0 +1,188 @@
+<div class="user-manager-container">
+    <div class="c-common-titbox">
+        <role-common-tit value="订单管理"></role-common-tit>
+    </div>
+    <div class="c-user-table">
+        <div class="t-search-hd clear">
+            <div class="user-hd-right flr">
+                <input class="user-search-input" ng-model="orderManage.searchOrderModel"
+                       placeholder="可查询订单号"
+                       ng-keydown="orderManage.onEnterSearchClick($event)"/>
+                <img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic"
+                     ng-click="orderManage.onSearchOrderClick()"/>
+                <!--<span class="dib cursor user-search-btn">高级检索</span>-->
+                <span class="dib cursor user-search-btn" ng-click="orderManage.advanceSearchModalShow('orderManage-manuscript-search-modal')">高级检索</span>
+            </div>
+        </div>
+        <div class="t-uinfo-bd">
+            <div class="table-responsive">
+                <table class="table table-bordered uInfo-table">
+                    <thead>
+                    <tr>
+                        <th class="uinfo-hd-th" style="width:15%;">订单号</th>
+                        <th class="uinfo-hd-th" style="width:10%;">用户名</th>
+                        <th class="uinfo-hd-th" style="width:20%;">订购时间</th>
+                        <th class="uinfo-hd-th" style="width:20%;">结算时间</th>
+                        <th class="uinfo-hd-th" style="width:9%;">图片数</th>
+                        <th class="uinfo-hd-th" style="width:8%;">金额</th>
+                        <th class="uinfo-hd-th" style="width:8%;">状态</th>
+                        <th class="uinfo-hd-th" style="width:10%;">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr dir-paginate="orderItem in orderManage.orderTableArray | itemsPerPage: orderManage.selPageRows"
+                        total-items="orderManage.orderList_total"
+                        current-page="orderManage.pagination.current">
+                        <td  style="width:15%;"  class="wbba">{{orderItem.orderNo}}</td>
+                        <td  style="width:10%;"  class="wbba">{{orderItem.userName}}</td>
+                        <td  style="width:20%;"  class="wbba">{{orderItem.createTime|date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td  style="width:20%;"  class="wbba">{{orderItem.lastSubmitTime|date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td  style="width:9%;"  class="wbba">{{orderItem.picCount}}张</td>
+                        <td  style="width:8%;"  class="wbba">{{orderItem.totalPrice}}</td>
+                        <td  style="width:8%;"  class="wbba">{{orderItem.orderStatus|omPriceStateFilter}}</td>
+                        <td style="width:10%;"  class="wbba">
+                            <img src="admin/assets/img/role/look_info.png"
+                                 title="查看图片" class="cursor" width="20" height="20" ng-click="orderManage.lookPic(orderItem.id)"/>
+                            <img src="admin/assets/img/role/down.png"
+                                 title="下载图片" class="cursor u-pwd-reset" width="20" height="20"
+                                 ng-click="orderManage.downOrderPic(orderItem.id)"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- 分页 -->
+            <div class="paging-con-box mt10 clear">
+                <div class="photo-record-page fll">
+                    <select ng-model="orderManage.selPageRows" class="mr10">
+                        <option value="50">50</option>
+                        <option value="40">40</option>
+                        <option value="30">30</option>
+                        <option value="20">20</option>
+                        <option value="10">10</option>
+                    </select>
+                    <span>共找到</span>
+                    <span class="color_red">{{orderManage.orderList_total}}</span>
+                    <span>条记录</span>
+                </div>
+                <div class="photo-now-page fll">
+                    <span>第 </span>
+                    <span>{{orderManage.pagination.current}}</span>
+                    <span>/</span>
+                    <span>{{orderManage.totalPages}}</span>
+                    <span>页</span>
+                </div>
+                <div class="photo-jump-page flr">
+                    <dir-pagination-controls on-page-change="orderManage.pageChanged(newPageNumber)"
+                                             template-url="admin/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+                    </dir-pagination-controls>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--高级检索弹框-->
+    <div class="common-modal-style common-modal-style-wi" id="orderManage-manuscript-search-modal"
+         ng-mousemove="orderManage.moveModal('search-modal-tit','orderManage-manuscript-search-modal')"
+         style="display:none">
+        <div class="user-add-con">
+            <div id="search-modal-tit" class="role-add-tit oH">
+                <span class="fll">高级检索</span>
+                <span class="flr curp tit-close"
+                      ng-click="orderManage.orderSearchModalHide('orderManage-manuscript-search-modal')">×</span>
+            </div>
+            <div class="role-add-main">
+                <div class="order-form-info clear">
+                    <div class="order-form-info-top clear">
+                        <div class="fll order-form-part clear">
+                            <div class="order-search-left  fll">订单号</div>
+                            <div class="order-search-right fll">
+                                <input type="text" class="order-add-input" ng-model="orderManage.search.orderno"/>
+                            </div>
+                        </div>
+                        <div class="fll order-form-part clear">
+                            <div class="order-search-left fll">用户名</div>
+                            <div class="order-search-right fll">
+                                <input type="text" class="order-add-input" ng-model="orderManage.search.userName"/>
+                            </div>
+                        </div>
+                        <div class="fll order-form-part clear">
+                            <div class="fll order-search-left">订单状态</div>
+                            <div class="fll order-search-right">
+                                <select class="order-add-input-other" ng-model="orderManage.search.orderStatus">
+                                    <option value="">请选择</option>
+                                    <option value="0">待付款</option>
+                                    <option value="1">取消付款</option>
+                                    <option value="2">已付款</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="order-form-info-top clear">
+                        <div class="fll order-form-partTime clear">
+                            <div class="order-search-leftTime  fll">付款时间</div>
+                            <div class="order-search-rightTime fll">
+                                <input type="text" class="Wdate order-date-input" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" class="Wdate" ng-model="orderManage.search.payStartTime" datepicker/>
+                                <span>-</span>
+                                <input type="text" class="Wdate order-date-input" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" class="Wdate" ng-model="orderManage.search.payEndTime" datepicker/>
+                            </div>
+                        </div>
+                        <div class="fll order-form-partTime clear">
+                            <div class="order-search-leftPrice  fll">图片价格</div>
+                            <div class="order-search-centerPrice fll">
+                                <select class="order-add-input-other" ng-model="orderManage.search.orderMoney" ng-click="orderManage.getOrderStateChange()">
+                                    <option value="">请选择</option>
+                                    <option value="0">小于50元</option>
+                                    <option value="1">大于50元</option>
+                                    <option value="2">自填写</option>
+                                </select>
+                            </div>
+                            <div class="order-search-rightPrice fll" ng-hide="orderManage.orderMoneyFlag">
+                                <input type="text" class="data-price-input" ng-model="orderManage.search.staMoney"/>
+                                <span>-</span>
+                                <input type="text" class="data-price-input" ng-model="orderManage.search.endMoney"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="order-form-info-top clear">
+                        <div class="fll order-form-partTime clear">
+                            <div class="order-search-leftTime  fll">创建时间</div>
+                            <div class="order-search-rightTime fll">
+                                <input type="text" class="Wdate order-date-input" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});"
+                                       class="Wdate" ng-model="orderManage.search.createStartTime" datepicker/>
+                                <span>-</span>
+                                <input type="text" class="Wdate order-date-input" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});"
+                                       class="Wdate" ng-model="orderManage.search.createEndTime" datepicker/>
+                            </div>
+                        </div>
+                        <div class="fll order-form-partTime clear">
+                            <div class="order-search-leftPrice  fll">图片数量</div>
+                            <div class="order-search-centerPrice fll">
+                                <select class="order-add-input-other" ng-model="orderManage.search.orderNum" ng-click="orderManage.getOrderStateChange()">
+                                    <option value="">请选择</option>
+                                    <option value="0">小于5张</option>
+                                    <option value="1">大于5张</option>
+                                    <option value="2">自填写</option>
+                                </select>
+                            </div>
+                            <div class="order-search-rightPrice fll" ng-hide="orderManage.orderNumFlag">
+                                <input type="text" class="data-price-input" ng-model="orderManage.search.staNum"/>
+                                <span>-</span>
+                                <input type="text" class="data-price-input" ng-model="orderManage.search.endNum"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tar mt10">
+                        <span class="dib cursor user-high-search-btn"
+                          ng-click="orderManage.orderAdvanceSearch('order-search-modal')">检索</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

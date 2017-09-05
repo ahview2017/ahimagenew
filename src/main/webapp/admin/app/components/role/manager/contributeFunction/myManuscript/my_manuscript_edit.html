@@ -1,0 +1,241 @@
+<div class="user-manager-container">
+    <div class="oH smt-tit">
+        <role-common-tit value="我的稿件" class="fll"></role-common-tit>
+        <div class="smt-detail fll">编辑稿件</div>
+    </div>
+    <div class="contribute-tit clear">
+        <div class="active-slide-item active-slide-nav fll"  ng-if="edit.manuscriptProperties == 0">新闻图片</div>
+        <div class="active-slide-item active-slide-nav fll"
+             ng-if="edit.manuscriptProperties == 1">专题图片</div>
+    </div>
+    <div>
+        <div class="smt-detail-operate">
+            <!--<span ui-sref="role.manager.sendManuscriptDetail({id: edit.groupId})">返回</span>-->
+            <span ng-click="edit.returnSendManuscript()">返回</span>
+            <span ng-click="edit.saveEditManuscript()">保存</span>
+        </div>
+        <div class="c-new-manuscript-con clear">
+            <div class="n-manuscript-container-top clear">
+                <div class="n-manuscript-left fll">
+                    <div class="n-manuscript-top clear">
+                        <div class="fll manuscript-txt-import">
+                            <textarea class="n-manuscript-explain ms-headline-texarea" placeholder="请在这里输入标题（必填，需少于30个汉字）" ng-model="edit.editManuscript.title"></textarea>
+                            <div>
+                                <input  class="draft-true-name-input draft-sign-input" ng-model="edit.photoUserName"
+                                        ng-keyup="edit.getPhotoUser($event)"/>
+                                <select ng-model="edit.photoUNameWay" ng-change="edit.choseUnameShowWay()">
+                                    <option value="0">作者名</option>
+                                    <option value="1">真实名</option>
+                                    <option value="2">匿名</option>
+                                </select>
+                                <a class="cursor ml10 foreign-author-txt" ng-click="edit.addAuthorNameModalShow('edit-foreign-author-modal')">添加作者</a>
+                            </div>
+                        </div>
+                        <div class="fll manuscript-add-pic">
+                            <form action="/cnsphoto/groupPicCtro/upPic.do"  id="uploadDraftForm" method="post" enctype="multipart/form-data">
+                                <input type="file" name="picFiles" multiple  id="picFile"
+                                       onchange="angular.element(this).scope().uploadEditManuscript(this)"
+                                       style="opacity:0;" class="dib cursor newManuscript-add-btn"/>
+                                <label for="picFile" class="dib cursor newManuscript-add-btn">
+                                    <i class="icon-plus"></i>
+                                    <span>添加图片</span>
+                                </label>
+                            </form>
+                            <!--<img ng-repeat="image in images" ng-src="{{ image }}" width="100" height="100"/>-->
+                            <!--<img ng-src="{{filepreview}}" width="100" height="100" class="img-responsive" ng-show="filepreview"/>-->
+                        </div>
+                    </div>
+                    <div class="n-manuscript-middle">
+                    <textarea class="n-manuscript-explain" placeholder="请输入稿件说明（必填，少于600汉字的简单说明）"
+                              ng-model="edit.editManuscript.memo"></textarea>
+                    </div>
+                    <div class="n-manuscript-bottom">
+                    <textarea class="n-manuscript-explain ms-alternative-texarea" placeholder="备注（选填）"
+                              ng-model="edit.editManuscript.remark"></textarea>
+                    </div>
+                </div>
+                <div class="n-manuscript-right fll">
+                    <div class="ms-help-hint cursor">
+                        <i class=" icon-question-sign"></i>
+                        <span>帮助提示</span>
+                    </div>
+                    <div class="draft-signed-con">
+                        <div class="draft-signed-hd">
+                            <img src="admin/assets/img/role/draft_signed.png" width="38" height="38">
+                            <span class="draft-signed-txt">稿签</span>
+                        </div>
+                        <div class="draft-signed-bd">
+                            <div class="draft-signed-hd-item clear">
+                                <div class="fll draft-signed-hd-left">
+                                    <span class="draft-sign-txt">人物</span>
+                                </div>
+                                <div class="fll draft-signed-hd-right">
+                                    <input placeholder="选填" class="draft-sign-input" ng-model="edit.editManuscript.people"/>
+                                </div>
+                            </div>
+                            <div class="draft-signed-hd-item clear">
+                                <div class="fll draft-signed-hd-left">
+                                    <span class="draft-sign-txt">关键字</span>
+                                </div>
+                                <div class="fll draft-signed-hd-right">
+                                    <input placeholder="选填" class="draft-sign-input" ng-model="edit.editManuscript.keywords"/>
+                                </div>
+                            </div>
+                            <div class="draft-signed-hd-item clear">
+                                <div class="fll draft-signed-hd-left">
+                                    <span class="draft-sign-txt">时间</span>
+                                </div>
+                                <div class="fll draft-signed-hd-right">
+                                    <input type="text" class="Wdate proof-date-input" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" class="Wdate" ng-model="edit.editManuscript.fTime" datepicker/>
+                                </div>
+                            </div>
+                            <div class="tac">
+                                <span class="dib cursor draft-home-abroad-btn" ng-class="{'selDraftBtnBg':edit.locationType == 0}" ng-click="edit.homeAbroadToggle(0)">境内</span>
+                                <span class="dib cursor draft-home-abroad-btn" ng-class="{'selDraftBtnBg':edit.locationType == 1}" ng-click="edit.homeAbroadToggle(1)">境外</span>
+                            </div>
+                            <div class="draft-home-abroad-box clear" ng-if="edit.locationType == 0">
+                                <select class="draft-procity-select" ng-change="edit.changeProv(edit.editManuscript.selProv)"
+                                        ng-model="edit.editManuscript.selProv" ng-options="prov.p as prov.p for prov in edit.msCityList">
+                                    <option value="">请选择</option>
+                                </select>
+                                <select class="draft-procity-select"
+                                        ng-model="edit.editManuscript.selCity" ng-options="city.n as city.n for city in edit.cities">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                            <div class="draft-aborad-item clear" ng-if="edit.locationType == 1">
+                                <input placeholder="请输入境外地区" class="draft-sign-input" ng-model="edit.editManuscript.abroadPlace"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ms-edit-btn">
+                <input type="checkbox"/>全选
+                <span class="ms-edit-sort">排序</span>
+                <!--<span class="ms-edit-del">批量删除图片说明</span>-->
+            </div>
+            <div class="n-manuscript-container-bottom clear">
+                <!--上传信息盒子-->
+                <div class="ms-upinfo-box"></div>
+                <!--上传图片-->
+                <div  ui-sortable ng-model="edit.upMenuscriptPicArr" class="cursor">
+                    <div class="ms-pic-item clear cursor"  ng-repeat="item in edit.upMenuscriptPicArr">
+                        <div>
+                            <div class="clear">
+                                <a class="newscript-pic-del cursor" ng-click="edit.removePicItem($index)">x</a>
+                            </div>
+                            <div class="ms-editDet-checkbox fll">
+                                <input type="checkbox"/>
+                            </div>
+                            <div class="ms-details-pic fll">
+                                <div>
+                                    <select  class="ms-pic-pictype" ng-model="item.isCover"  ng-change="newManuscript.changePicIsCover(item.isCover,$index)">
+                                        <option value="1">主图</option>
+                                        <option value="0">辅图</option>
+                                    </select>
+                                </div>
+                                <div  class="tac">
+                                    <!--<img ng-src="{{filepreview}}" width="190" height="118"-->
+                                    <!--class="ms-detail-picture">-->
+                                    <img ng-src="{{item.img}}"
+                                         class="ms-detail-picture">
+                                </div>
+                            </div>
+                            <div class="ms-details-desc fll">
+                                <div class="ms-addpic-item clear">
+                                    <div class="ms-addpic-left fll">
+                                        <span>拍摄时间</span>
+                                    </div>
+                                    <div class="ms-addpic-right fll">
+                                        <input type="text" class="Wdate proof-date-input" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" class="Wdate" ng-model="item.filmTime" datepicker/>
+                                    </div>
+                                </div>
+                                <div class="ms-addpic-item clear">
+                                    <div class="ms-addpic-left fll">
+                                        <span>人物</span>
+                                    </div>
+                                    <div class="ms-addpic-right fll">
+                                        <input placeholder="选填" class="draft-sign-input" ng-model="item.people"/>
+                                    </div>
+                                </div>
+                                <div class="ms-addpic-item clear">
+                                    <div class="ms-addpic-left fll">
+                                        <span>关键词</span>
+                                    </div>
+                                    <div class="ms-addpic-right fll">
+                                        <input placeholder="选填" class="draft-sign-input" ng-model="item.keywords"/>
+                                    </div>
+                                </div>
+                                <div class="ms-addpic-item clear">
+                                    <div class="ms-addpic-left fll">
+                                        <span>作者</span>
+                                    </div>
+                                    <div class="ms-addpic-right fll">
+                                        <input placeholder="选填" class="draft-sign-input" ng-model="item.authorName"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ms-editDet-state fll">
+                                <h5 class="ms-pic-txt">图片说明</h5>
+                                <textarea class="ms-pic-textarea" placeholder="请输入图片说明" ng-model="item.memo"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--社外作者添加弹框-->
+    <div class="common-modal-style" id="edit-foreign-author-modal" style="display:none">
+        <div class="role-add-con">
+            <div class="role-add-tit">
+                添加社外作者
+            </div>
+            <div class="role-add-main">
+                <div class="role-add-form-info clear">
+                    <div class="role-form-info-top clear">
+                        <div class="fll new-manus-add-left">
+                            <span>登录名</span>
+                            <span class="color_red">*</span>
+                        </div>
+                        <input type="text" class="new-manus-add-input" ng-model="edit.authorInfo.loginName"/>
+                    </div>
+                    <div class="role-form-info-top clear mt15">
+                        <div class="fll new-manus-add-left">
+                            <span>作者名</span>
+                            <span class="color_red">*</span>
+                        </div>
+                        <input type="text" class="new-manus-add-input" ng-model="edit.authorInfo.authorName"/>
+                    </div>
+                    <div class="role-form-info-top clear mt15">
+                        <div class="fll new-manus-add-left">
+                            <span>真实姓名</span>
+                            <span class="color_red">*</span>
+                        </div>
+                        <input type="text" class="new-manus-add-input" ng-model="edit.authorInfo.trueName"/>
+                    </div>
+                    <div class="role-form-info-top clear mt15">
+                        <div class="fll new-manus-add-left">
+                            <span>密码</span>
+                            <span class="color_red">*</span>
+                        </div>
+                        <input type="text" class="new-manus-add-input" ng-model="edit.authorInfo.pwd"/>
+                    </div>
+                    <div class="role-form-info-top clear mt15">
+                        <div class="fll new-manus-add-left">邮箱</div>
+                        <input type="text" class="new-manus-add-input" ng-model="edit.authorInfo.mail"/>
+                    </div>
+                    <div class="role-form-info-top clear mt15">
+                        <div class="fll new-manus-add-left">电话</div>
+                        <input type="text" class="new-manus-add-input" ng-model="edit.authorInfo.phone"/>
+                    </div>
+                </div>
+            </div>
+            <div class="tac">
+                <span class="dib cursor user-add-btn" ng-click="edit.addForeignAuthor('edit-foreign-author-modal')">添加</span>
+                <span class="dib cursor user-add-btn role-del-btn" ng-click="edit.editMenuscriptModalHide('edit-foreign-author-modal')">取消</span>
+            </div>
+        </div>
+    </div>
+</div>

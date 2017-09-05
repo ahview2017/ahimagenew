@@ -1,0 +1,260 @@
+<div class="user-manager-container">
+    <div class="c-common-titbox">
+        <role-common-tit  value="专题位管理"></role-common-tit>
+    </div>
+    <div class="c-user-table">
+        <div class="t-search-hd clear">
+            <div class="user-hd-left fll">
+                <input type="checkbox" class=""/>
+                <span class="user-check-txt">全选</span>
+                <span class="dib cursor user-add-btn" ng-click="projectPosManage.projectPosModalShow('project-position-add-modal')">添加</span>
+                <span class="dib cursor user-add-btn role-modify-btn" ng-click="projectPosManage.projectPosModalShow('project-position-modify-modal')">修改</span>
+                <span class="dib cursor user-add-btn role-del-btn" ng-click="projectPosManage.projectPosModalShow('project-position-del-modal')">删除</span>
+            </div>
+            <div class="user-hd-right flr">
+                <input class="user-search-input"/>
+                <img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic"/>
+                <!--<span class="dib cursor user-search-btn">高级检索</span>-->
+            </div>
+        </div>
+        <div class="t-uinfo-bd">
+            <div class="table-responsive">
+                <table  class="table table-bordered uInfo-table">
+                    <thead>
+                    <tr>
+                        <th class="uinfo-hd-th">
+                            <input type="checkbox"/>
+                        </th>
+                        <th class="uinfo-hd-th">ID</th>
+                        <th class="uinfo-hd-th">缩略图</th>
+                        <th class="uinfo-hd-th">位置</th>
+                        <th class="uinfo-hd-th">宽*高</th>
+                        <th class="uinfo-hd-th">类型</th>
+                        <th class="uinfo-hd-th">链接</th>
+                        <th class="uinfo-hd-th">备注</th>
+                        <th class="uinfo-hd-th">状态</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <input type="checkbox"/>
+                        </td>
+                        <td>123</td>
+                        <td>111</td>
+                        <td>拓尔思</td>
+                        <td>拓尔思</td>
+                        <td>离线</td>
+                        <td>拓尔思</td>
+                        <td>离线</td>
+                        <td>
+                            <img src="admin/assets/img/role/look_user_info.png" class="cursor" width="20" height="20"/>
+                            <img src="admin/assets/img/role/u_pwd_reset.png" class="cursor u-pwd-reset" width="20" height="20"/>
+                            <img src="admin/assets/img/role/unlock_user.png" class="cursor" width="20" height="20"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox"/>
+                        </td>
+                        <td>123</td>
+                        <td>111</td>
+                        <td>拓尔思</td>
+                        <td>拓尔思</td>
+                        <td>离线</td>
+                        <td>离线</td>
+                        <td>拓尔思</td>
+                        <td>
+                            <img src="admin/assets/img/role/look_user_info.png" class="cursor" width="20" height="20"/>
+                            <img src="admin/assets/img/role/u_pwd_reset.png" class="cursor u-pwd-reset" width="20" height="20"/>
+                            <img src="admin/assets/img/role/unlock_user.png" class="cursor" width="20" height="20"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox"/>
+                        </td>
+                        <td>123</td>
+                        <td>111</td>
+                        <td>拓尔思</td>
+                        <td>离线</td>
+                        <td>111</td>
+                        <td>拓尔思</td>
+                        <td>离线</td>
+                        <td>
+                            <img src="admin/assets/img/role/look_user_info.png" class="cursor" width="20" height="20"/>
+                            <img src="admin/assets/img/role/u_pwd_reset.png" class="cursor u-pwd-reset" width="20" height="20"/>
+                            <img src="admin/assets/img/role/unlock_user.png" class="cursor" width="20" height="20"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox"/>
+                        </td>
+                        <td>123</td>
+                        <td>111</td>
+                        <td>拓尔思</td>
+                        <td>离线</td>
+                        <td>离线</td>
+                        <td>拓尔思</td>
+                        <td>离线</td>
+                        <td>
+                            <img src="admin/assets/img/role/look_user_info.png" class="cursor" width="20" height="20"/>
+                            <img src="admin/assets/img/role/u_pwd_reset.png" class="cursor u-pwd-reset" width="20" height="20"/>
+                            <img src="admin/assets/img/role/unlock_user.png" class="cursor" width="20" height="20"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!--专题位添加弹框-->
+    <div class="common-modal-style" id="project-position-add-modal" style="display:none">
+        <div class="role-add-con">
+            <div class="role-add-tit">
+               专题位添加
+            </div>
+            <div class="role-add-main">
+                <div class="role-add-form-info advertise-add-form-info clear">
+                    <div class="role-form-info-bottom clear">
+                        <div class="role-remark-txt fll">名称</div>
+                        <input type="text" class="adverse-remark-input fll"/>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="role-remark-txt fll">分类</div>
+                        <select class="adverse-remark-input fll"></select>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="role-remark-txt fll">位置</div>
+                        <select class="adverse-remark-input fll"></select>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="role-remark-txt fll">专题页</div>
+                        <select class="adverse-remark-input fll"></select>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="role-remark-txt fll">链接</div>
+                        <input type="text" class="role-remark-input fll"/>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="role-remark-txt fll">缩略图</div>
+                        <div class="role-remark-input fll tal">
+                            <div class="adverse-upload-desc fll">
+                                <input type="text" class="adverse-thumbnail-input"/>
+                                <span class="dverse-thumbnail-txt">W</span>
+                                <input type="text" class="adverse-thumbnail-input"/>
+                                <span class="dverse-thumbnail-txt">H</span>
+                            </div>
+                            <div class="adverse-upload-con fll">
+                                <div class="adverse-upload-btn cursor">上传文件</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="role-remark-txt fll">备注</div>
+                        <input type="text" class="role-remark-input fll"/>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="role-remark-txt fll">显示</div>
+                        <div class="role-remark-input fll tal">
+                            <input type="radio"/>
+                            <span class="adverse-txt-yes">YES</span>
+                            <input type="radio"/>
+                            <span class="adverse-txt-yes">NO</span>
+                        </div>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="role-remark-txt fll">排序号</div>
+                        <input type="text" class="adverse-remark-input fll"/>
+                    </div>
+                </div>
+            </div>
+            <div class="tac">
+                <span class="dib cursor user-add-btn">保存</span>
+                <span class="dib cursor user-add-btn role-del-btn" ng-click="projectPosManage.projectPosModalHide('project-position-add-modal')">取消</span>
+            </div>
+        </div>
+    </div>
+    <!--专题位修改弹框-->
+    <div class="common-modal-style" id="project-position-modify-modal" style="display:none">
+        <div class="role-add-con">
+            <div class="role-add-tit">
+                专题位修改
+            </div>
+            <div class="role-add-main">
+                <div class="role-add-form-info advertise-add-form-info clear">
+                    <div class="role-form-info-bottom clear">
+                        <div class="role-remark-txt fll">名称</div>
+                        <input type="text" class="adverse-remark-input fll"/>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="role-remark-txt fll">分类</div>
+                        <select class="adverse-remark-input fll"></select>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="role-remark-txt fll">位置</div>
+                        <select class="adverse-remark-input fll"></select>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="role-remark-txt fll">专题页</div>
+                        <select class="adverse-remark-input fll"></select>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="role-remark-txt fll">链接</div>
+                        <input type="text" class="role-remark-input fll"/>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="role-remark-txt fll">缩略图</div>
+                        <div class="role-remark-input fll tal">
+                            <div class="adverse-upload-desc fll">
+                                <input type="text" class="adverse-thumbnail-input"/>
+                                <span class="dverse-thumbnail-txt">W</span>
+                                <input type="text" class="adverse-thumbnail-input"/>
+                                <span class="dverse-thumbnail-txt">H</span>
+                            </div>
+                            <div class="adverse-upload-con fll">
+                                <div class="adverse-upload-btn cursor">上传文件</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="role-remark-txt fll">备注</div>
+                        <input type="text" class="role-remark-input fll"/>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="role-remark-txt fll">显示</div>
+                        <div class="role-remark-input fll tal">
+                            <input type="radio"/>
+                            <span class="adverse-txt-yes">YES</span>
+                            <input type="radio"/>
+                            <span class="adverse-txt-yes">NO</span>
+                        </div>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="role-remark-txt fll">排序号</div>
+                        <input type="text" class="adverse-remark-input fll"/>
+                    </div>
+                </div>
+            </div>
+            <div class="tac">
+                <span class="dib cursor user-add-btn">修改</span>
+                <span class="dib cursor user-add-btn role-del-btn" ng-click="projectPosManage.projectPosModalHide('project-position-modify-modal')">取消</span>
+            </div>
+        </div>
+    </div>
+    <!--专题位删除弹框-->
+    <div class="common-modal-style" id="project-position-del-modal" style="display:none">
+        <div class="role-add-con">
+            <div class="role-add-tit">
+                删除提醒
+            </div>
+            <div class="role-modal-con">
+                你确定要删除该专题位吗？
+            </div>
+            <div class="tac mt10">
+                <span class="dib cursor user-add-btn"   ng-click="projectPosManage.projectPosModalHide('project-position-del-modal')">确定</span>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deepai.photo.mapper.CpMsgMapper">
+	<insert id="sendMsg" parameterType="com.deepai.photo.bean.CpMsg">
+		insert into cp_msg
+		values(null,null,1,#{AC_ID},#{SEND_ID},#{contextId})
+	</insert>
+	<insert id="sendMsgtontext" parameterType="com.deepai.photo.bean.CpMsg"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into cp_msgcontext
+		values(null,#{msgTitle},#{MSG_CONTENT},null)
+	</insert>
+	<update id="changeStatu" parameterType="String">
+		update cp_msg set Statu=0
+		where ID=#{id}
+	</update>
+	<delete id="delete" parameterType="com.deepai.photo.bean.CpMsg">
+		delete from cp_msg WHERE
+		id=#{id} and ac_id=#{AC_ID}
+	</delete>
+	<select id="showMsg" parameterType="int" resultType="com.deepai.photo.bean.CpMsg">
+		SELECT d.* ,c.Create_Time,c.MSG_CONTENT ,c.MSG_TITLE as MSG_TITLE from
+		cp_msg d,(
+		SELECT a.ID as Id ,b.Create_Time,b.MSG_CONTENT ,b.MSG_TITLE from cp_msg
+		a,cp_msgcontext b
+		where a.CONTENT_ID=b.ID
+		and a.AC_ID=#{AC_ID}) c
+		where
+		d.ID=c.ID
+	</select>
+	<select id="serachStationMSG" parameterType="com.deepai.photo.bean.CpMsg"
+		resultType="com.deepai.photo.bean.CpMsg">
+		SELECT a.* ,b.Create_Time,b.MSG_CONTENT ,b.MSG_TITLE as msgTitle from
+		cp_msg
+		a,cp_msgcontext b ,cp_user e
+		where a.CONTENT_ID=b.ID and
+		a.SEND_ID=e.ID
+		and a.AC_ID=#{AC_ID}
+		<if test="send_name!=null">
+			and e.USER_NAME LIKE CONCAT('%',#{send_name},'%')
+		</if>
+		ORDER BY b.Create_Time DESC
+	</select>
+	<select id="getStationMessageByQuery" parameterType="map" resultType="com.deepai.photo.bean.CpMsg">
+		SELECT a.* ,b.Create_Time,b.MSG_CONTENT ,b.MSG_TITLE as msgTitle from
+		cp_msg
+		a,cp_msgcontext b ,cp_user e
+		where a.CONTENT_ID=b.ID and
+		a.SEND_ID=e.ID
+		and a.AC_ID=#{AC_ID}
+		<if test="sendName!=null">
+			and e.USER_NAME LIKE CONCAT('%',#{sendName},'%')
+		</if>
+		<if test="msgTitle!=null">
+			and b.MSG_TITLE LIKE CONCAT('%',#{msgTitle},'%')
+		</if>
+		<if test="msgStatus!=null">
+			and a.Statu=#{msgStatus}
+		</if>
+		<if test="startTime!=null">
+			and b.Create_Time &gt;=#{startTime}
+		</if>
+		<if test="endTime!=null">
+			and b.Create_Time &lt;= #{endTime}
+		</if>
+		ORDER BY b.Create_Time DESC
+	</select>
+	
+	<select id="detail" parameterType="com.deepai.photo.bean.CpMsg"
+		resultType="com.deepai.photo.bean.CpMsg">
+		SELECT a.*,b.Create_Time,b.MSG_CONTENT from cp_msg
+		a,cp_msgcontext b
+		where a.CONTENT_ID=b.ID and
+		a.AC_ID=#{AC_ID} and
+		a.SEND_ID=#{SEND_ID}
+		ORDER BY b.Create_Time
+	</select>
+	<select id="findId" resultType="int">
+		select max(id) from cp_msgcontext
+	</select>
+	<select id="findSendID" resultType="com.deepai.photo.bean.CpMsg"
+		parameterType="int">
+		select * from cp_msg c where c.id=#{id}
+	</select>
+	<select id="showToAdminHome" resultType="com.deepai.photo.bean.CpMsg"
+		parameterType="map">
+		SELECT a.* ,b.Create_Time,b.MSG_CONTENT ,b.MSG_TITLE as msgTitle from
+		cp_msg
+		a left join cp_msgcontext b on a.CONTENT_ID=b.ID
+		<where>
+			<if test="id != null">
+				a.AC_ID=#{id} 
+				or a.SEND_ID=#{id} 
+			</if>
+		</where>		
+		ORDER
+		BY b.Create_Time DESC
+		<if test="limit!=null and limit!=''">
+			limit #{limit}
+		</if>
+	</select>
+	<select id="findUnRead" resultType="Integer" parameterType="map">
+		SELECT COUNT(*) from cp_msg c
+		LEFT JOIN cp_msgcontext d ON c.CONTENT_ID=d.ID
+		LEFT JOIN cp_user u on u.ID=c.AC_ID
+		WHERE c.Statu=1 and c.AC_ID=#{id} and d.Create_Time BETWEEN u.CREATE_TIME
+		and NOW()
+	</select>
+</mapper>

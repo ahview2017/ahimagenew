@@ -1,0 +1,175 @@
+<div class="user-manager-container">
+    <div>
+        <role-common-tit value="投稿统计"></role-common-tit>
+    </div>
+    <div class="contribute-tit">
+        <span ng-class="{ 'contribute-tit-active' : contributeStatistics.tab == 1 || contributeStatistics.tab == 3 || contributeStatistics.tab == 4 }"
+              ng-click="contributeStatistics.statisticsTypeClick(1)">图表统计</span>
+        <span ng-class="{ 'contribute-tit-active' : contributeStatistics.tab == 2 }"
+              ng-click="contributeStatistics.statisticsTypeClick(2)">列表统计</span>
+    </div>
+    <div>
+        <!--图表统计-->
+        <div ng-show="contributeStatistics.tab == 1" class="contribute-cont">
+            <div class="contribute-pic">
+                <div class="oH">
+                    <p class="contribute-pic-tit fll">投稿统计-地域</p>
+
+                    <p class="contribute-pic-detailBtn flr" ng-click="contributeStatistics.statisticsTypeClick(3)">
+                        查看详情</p>
+                </div>
+                <div class="contribute-pic-cont">
+                    <div style=" width: 1000px;height: 290px;" id="divConAreaBarId"></div>
+                </div>
+            </div>
+            <div class="contribute-pic">
+                <div class="oH">
+                    <p class="contribute-pic-tit fll">投稿统计-类别</p>
+
+                    <p class="contribute-pic-detailBtn flr" ng-click="contributeStatistics.statisticsTypeClick(4)">
+                        查看详情</p>
+                </div>
+                <div class="contribute-pic-cont">
+                    <div style=" width: 1000px;height: 290px;" id="divConTypeBarId"></div>
+                </div>
+            </div>
+        </div>
+        <!--列表统计-->
+        <div ng-show="contributeStatistics.tab == 2">
+            <div class="c-user-table">
+                <div class="t-search-hd clear">
+                    <div class="user-hd-right flr">
+                        <input class="user-search-input" placeholder="可查询作者"
+                               ng-model="contributeStatistics.contributorSearchModel"
+                               ng-keydown="contributeStatistics.enterQuery($event)"/>
+                        <img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic"
+                             ng-click="contributeStatistics.onSearchContributorClick()"/>
+                        <!--<span class="dib cursor user-search-btn">高级检索</span>-->
+                    </div>
+                </div>
+                <div class="t-uinfo-bd">
+                    <div class="table-responsive">
+                        <table class="table table-bordered uInfo-table">
+                            <thead>
+                            <tr>
+                                <th class="uinfo-hd-th">作者</th>
+                                <th class="uinfo-hd-th">投稿篇数</th>
+                                <th class="uinfo-hd-th">投稿图片数</th>
+                                <th class="uinfo-hd-th">被签发稿件数</th>
+                                <th class="uinfo-hd-th">被签发图片数</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="contributorItem in contributeStatistics.contributorTableArray">
+                                <td>{{contributorItem.author}}</td>
+                                <td>{{contributorItem.sendCount}}</td>
+                                <td>{{contributorItem.pictureCount}}</td>
+                                <td>{{contributorItem.throughCount}}</td>
+                                <td>{{contributorItem.throughPictureCount}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- 分页 -->
+                    <div class="flr pr15">
+                        <ul class="pagination" id="paginationCbId"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--投稿统计-地域详情-->
+        <div ng-show="contributeStatistics.tab == 3">
+            <div class="contribute-detail oH">
+                <p class="contributeDetail-tit fll">地域-统计详情</p>
+
+                <p class="contributeDetail-returnBtn flr" ng-click="contributeStatistics.statisticsTypeClick(1)"><
+                    返回</p>
+            </div>
+            <div class="c-user-table">
+                <div class="t-search-hd clear">
+                    <div class="user-hd-right flr">
+                        <input class="user-search-input" placeholder="可查询地域"
+                               ng-model="contributeStatistics.conAreaSearchModel"/>
+                        <img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic"
+                             ng-click="contributeStatistics.onSearchConAreaClick()"/>
+                    </div>
+                </div>
+                <div class="t-uinfo-bd">
+                    <div class="table-responsive">
+                        <table class="table table-bordered uInfo-table">
+                            <thead>
+                            <tr>
+                                <th class="uinfo-hd-th">地域</th>
+                                <th class="uinfo-hd-th">投稿篇数</th>
+                                <th class="uinfo-hd-th">投稿总图片数</th>
+                                <th class="uinfo-hd-th">被签发稿件数</th>
+                                <th class="uinfo-hd-th">被签发图片数</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="areaItem in contributeStatistics.conAreaTableArray">
+                                <td>{{areaItem.place}}</td>
+                                <td>{{areaItem.sendCount}}</td>
+                                <td>{{areaItem.pictureCount}}</td>
+                                <td>{{areaItem.throughCount}}</td>
+                                <td>{{areaItem.throughPictureCount}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- 分页 -->
+                    <div class="flr pr15">
+                        <ul class="pagination" id="paginationCbAreaId"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--投稿统计-类别详情-->
+        <div ng-show="contributeStatistics.tab == 4">
+            <div class="contribute-detail oH">
+                <p class="contributeDetail-tit fll">类别-统计详情</p>
+
+                <p class="contributeDetail-returnBtn flr" ng-click="contributeStatistics.statisticsTypeClick(1)"><
+                    返回</p>
+            </div>
+            <div class="c-user-table">
+                <div class="t-search-hd clear">
+                    <div class="user-hd-right flr">
+                        <input class="user-search-input" placeholder="可查询类别"
+                               ng-model="contributeStatistics.conTypeSearchModel"/>
+                        <img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic"
+                             ng-click="contributeStatistics.onSearchConTypeClick()"/>
+                    </div>
+                </div>
+                <div class="t-uinfo-bd">
+                    <div class="table-responsive">
+                        <table class="table table-bordered uInfo-table">
+                            <thead>
+                            <tr>
+                                <th class="uinfo-hd-th">类别</th>
+                                <th class="uinfo-hd-th">投稿篇数</th>
+                                <th class="uinfo-hd-th">投稿总图片数</th>
+                                <th class="uinfo-hd-th">被签发稿件数</th>
+                                <th class="uinfo-hd-th">被签发图片数</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="typeItem in contributeStatistics.conTypeTableArray">
+                                <td>{{typeItem.categaryName}}</td>
+                                <td>{{typeItem.sendCount}}</td>
+                                <td>{{typeItem.pictureCount}}</td>
+                                <td>{{typeItem.throughCount}}</td>
+                                <td>{{typeItem.throughPictureCount}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- 分页 -->
+                    <div class="flr pr15">
+                        <ul class="pagination" id="paginationCbTypeId"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

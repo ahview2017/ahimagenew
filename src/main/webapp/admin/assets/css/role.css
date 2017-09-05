@@ -1,0 +1,212 @@
+/*header*/
+.header-container{
+    width:100%;
+}
+.l-header-content{
+    width:90%;
+    margin:0 auto;
+    padding: 10px 0;
+}
+.l-header-logo{
+    float:left;
+    margin-right: 20px;
+}
+.l-repository{
+    width: 128px;
+    height: 28px;
+    cursor: pointer;
+    float:left;
+}
+.l-cns-txt{
+    float:left;
+    width: 104px;
+    height: 28px;
+    line-height: 28px;
+    background: #3399cc;
+    text-align: center;
+    color:#FFF;
+}
+.l-cns-ziku{
+    float: left;
+    width: 22px;
+    height: 28px;
+    line-height:28px;
+    text-align: center;
+    color:#3399cc;
+    font-size:24px;
+    border: 1px solid #3399cc;
+}
+.l-role-box{
+    /*width: 268px;*/
+    height: 28px;
+    float:left;
+    margin-right: 34px;
+    position: relative;
+}
+.l-role-desc{
+    padding-left:10px;
+    padding-right:10px;
+    width: 78px;
+    height: 30px;
+    line-height: 30px;
+    color: #3399cc;
+    text-align: center;
+    float: left;
+    border: 1px solid #3399cc;
+    border-right: none;
+}
+.l-role-des{
+    padding-left:10px;
+    padding-right:10px;
+    width: auto;
+    height: 30px;
+    line-height: 30px;
+    color: #3399cc;
+    text-align: center;
+    float: left;
+    border: 1px solid #3399cc;
+    border-right: none;
+}
+.l-role-name{
+    width: 200px;
+    /*background: #3399cc;*/
+    border:1px solid #3399cc;
+    /*padding: 0 8px;*/
+    /*color: #fff;*/
+    float: left;
+    cursor: pointer;
+    text-align:center;
+    z-index: 900;
+}
+.role-detail-name{
+    height:28px;
+    line-height: 28px;
+    border-bottom: 1px solid #3399cc;
+    background: #FFF;
+    padding: 0 10px;
+}
+.duty-edit{
+    border: none;
+}
+.l-role-left{
+    float: left;
+}
+.l-role-right{
+    float: right;
+}
+.l-user-box{
+    float:right;
+}
+.l-user-tx{
+    border-radius: 19px;
+}
+.l-vip-grade,.l-vip-name{
+    text-align: center;
+    max-width: 60px;
+    color: #fff;
+    background: #3399cc;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.l-vip-name{
+    background-color: #FFF;
+    color:#333;
+    padding: 0 5px;
+}
+.u-exit{
+    color:#000;
+}
+.u-exit:target{
+    color:#000;
+}
+.u-exit:hover{
+    color:#000;
+}
+.l-user-info{
+    margin: 0 10px;
+}
+.m-market-manage{
+    font-size: 16px;
+    color: #818080;
+    margin-left: 6px;
+}
+.role-envelope-icon{
+    font-size: 20px;
+    float: left;
+    margin-top: 8px;
+    margin-right: -7px;
+}
+.wait-ms-icon{
+    font-size: 20px;
+    float: left;
+    margin-top: 8px;
+    margin-right: -7px;
+}
+.l-role-nameBox{
+    border: 2px solid #3399CC;
+    background: white;
+    padding: 5px 3px;
+    position: absolute;
+    top: 28px;
+    right: 3px;
+    z-index: 100;
+    text-align: center;
+    /*display: none;*/
+}
+.l-role-nameBox p{
+    border-bottom: 1px solid #3399CC;
+    padding: 2px 0;
+    cursor: pointer;
+}
+.bdn{
+    border:none;
+}
+.dn{
+    display:none;
+}
+.mess-dot{
+    background: red;
+}
+.no-read-msg{
+    margin-top: 8px;
+    margin-right: 7px;
+}
+.toggle{	
+	float:left;
+	color: #fff;
+	overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    border:1px solid #3399cc;
+    height:28px;
+    text-align:center;
+    line-height:28px;
+    background:#3399CC;
+}
+.toggle_l{
+	border:none;
+}
+.exit{
+	float:right;
+	margin-left:5px;
+	height:28px;
+	line-height:28px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

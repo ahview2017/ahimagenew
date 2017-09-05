@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deepai.photo.mapper.CpColumnMapper">
+	<resultMap id="BaseResultMap" type="com.deepai.photo.bean.CpColumn">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="recommend_id" property="recommendId" jdbcType="INTEGER" />
+		<result column="order_id" property="orderId" jdbcType="INTEGER" />
+		<result column="pid" property="pid" jdbcType="INTEGER" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+		<result column="max_configurable_sign_position" property="signPosition" jdbcType="INTEGER" />
+        <collection property="children" column="id" ofType="com.deepai.photo.bean.CpColumn" javaType="java.util.ArrayList" select="selectChildrenListById" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List" >
+    	id, name,  pid, recommend_id, order_id, position,  state
+    </sql>
+	<select id="selectByExample" resultType="com.deepai.photo.bean.CpColumn">
+	    select
+	    id, name,  pid, recommend_id recommendId, order_id orderId, position,  state, max_configurable_sign_position signPosition
+	    from cp_column
+	    
+	    <where> 
+		 	<if test="state != null">
+		         state = #{state}
+		    </if> 
+		    <if test="pid != null">
+		        AND pid = #{pid}
+		    </if>
+		    <if test="position != null">
+		        AND position =  #{position}
+		    </if>
+		</where>
+		AND langType=#{langType}
+    	order by order_id
+  </select>
+  <select id="selectBykey" resultType="com.deepai.photo.bean.CpColumn">
+	    select
+	    id, name,  pid, recommend_id recommendId, order_id orderId, position,  state, max_configurable_sign_position signPosition
+	    from cp_column where id=#{columnId}    
+    	order by order_id
+  </select>
+  <select id="selectUpColumnAll" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+	    select
+	    id, name,  pid, type, recommend_id recommendId, order_id orderId, position,  state, max_configurable_sign_position signPosition
+	    from cp_column     where  pid=0 and langType = #{langType}  
+    	order by order_id
+  </select>
+  <select id="selectNextColumn" resultType="com.deepai.photo.bean.CpColumn">
+	    select
+	    id, name,  pid, recommend_id recommendId, order_id orderId, position,  state
+	    from cp_column     where pid=#{pid}
+    	order by order_id
+  </select>
+  <select id="selectChildrenListById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+	   select id, name,  pid, type, recommend_id recommendId, order_id orderId, position,  state, max_configurable_sign_position signPosition
+	    from cp_column 
+	   		where pid=#{id,jdbcType=INTEGER} or id in (select id from cp_column where id in 
+	   			(select recommend_id from cp_column where id = #{id,jdbcType=INTEGER}))
+  </select>
+  <select id="selectChildrenListByRecommendId" resultType="com.deepai.photo.bean.CpColumn" parameterType="java.lang.Integer">
+   select
+	    id, name,  pid, recommend_id recommendId, order_id orderId, position,  state
+	    from cp_column     where id=#{recommendId}
+    	order by order_id
+  </select>
+  <select id="selectByRecommendId" resultType="com.deepai.photo.bean.CpColumn" parameterType="java.lang.Integer">
+   select
+	    id, name,  pid, recommend_id recommendId, order_id orderId, position,  state
+	    from cp_column     where id=#{recommendId}
+    	order by order_id
+  </select>
+ <select id="selectByGroupId" resultType="com.deepai.photo.bean.CpColumn" parameterType="java.lang.Integer">
+ 	select c.id, c.name,c.type, g.sgin_show as signPosition from cp_column c ,cp_pic_group_column g 
+ 	where c.id=g.column_id and g.group_id =#{groupId} and g.langType = #{langType} and g.status = 0
+    	order by c.order_id
+ </select>
+  <insert id="signColumn">
+  	insert into cp_pic_group_column(group_id,column_id,sgin_show,langType) values(#{groupId}, #{columnId}, #{signShow}, #{langType}) 
+  </insert>
+</mapper>

@@ -1,0 +1,36 @@
+.hot-play-back-container{
+    border:1px solid #ccc;
+}
+.hot-play-back-tit{
+    background:#ccc;
+}
+.spec-topic-tit{
+    padding:10px 0;
+    text-align: center;
+    color: #000;
+    font-size: 16px;
+}
+.hot-play-back-topic{
+    float:left;
+    width: 62px;
+}
+.hot-play-back-con{
+    margin: 30px 30px 30px 92px;
+}
+.hot-play-detail-con{
+    background:#ccc;
+    padding: 16px;
+    margin-top: 10px;
+    display: table;
+    border-spacing: 6px;
+}
+.hot-play-pic-item{
+    width: 50%;
+    display:table-cell;
+}
+.hot-play-pic{
+    width: 100%;
+}
+.hot-play-every-item{
+    display:table-row;
+}

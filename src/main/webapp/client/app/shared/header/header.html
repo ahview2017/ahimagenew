@@ -1,0 +1,129 @@
+<div class="client-header-container clear">
+    <!--header-->
+    <div class="hd-container-box">
+        <div class="hd-operate-box clear">
+            <div class="fll" ng-if="(!client_uName)">
+                <a class="cursor change-hover-color client-login-btn" ui-sref="root.login">[登录]</a>
+                <a class="cursor change-hover-color client-register-btn" ui-sref="root.register">[注册]</a>
+            </div>
+            <div class="fll" ng-if="(client_uName)">
+                <span>您好：</span>
+                <span class="color-spec-red mr10">{{client_uName}}</span>
+                <span class="mr10">[在线：{{header.onlineList_total}}]</span>
+                <a class="cursor change-hover-color client-register-btn mr10" ng-click="header.logOut()">[离开]</a>
+                <a class="cursor change-hover-color client-register-btn mr10" ui-sref="root.shoppingCart">[购物车]</a>
+                <a class="cursor change-hover-color client-register-btn mr10" ui-sref="root.myInfo">[我的信息]</a>
+                <a class="cursor change-hover-color client-register-btn mr10" ui-sref="root.myOrder">[我的订单]</a>
+                <a class="cursor change-hover-color client-register-btn mr10" ui-sref="root.needChannel">[需求通道]</a>
+                <a class="cursor change-hover-color client-register-btn" ui-sref="root.favorite">[收藏夹]</a>
+            </div>
+            <div class="flr">
+                <span class="full-serch-txt client-login-btn">全文检索：</span>
+                <input type="text" ng-model="header.searchAllName" class="full-text-search-input"/>
+                <button type="button" ng-click="header.searchAll()" class="hd-go-btn">Go</button>
+                <a class="cursor change-hover-color client-register-btn hd-help-btn" ui-sref="root.help">[帮助]</a>
+                <a class="cursor change-hover-color client-login-btn" ui-sref="root.advSearch">高级检索</a>
+            </div>
+        </div>
+        <div class="hd-logo-box">
+            <div class="hd-logo-left">
+                <a class="cursor">
+                    <img src="client/assets/img/logo.gif" class="img-responsive" alt="Responsive image">
+                </a>
+            </div>
+           <!-- <div class="hd-logo-right">
+                          <a class="cursor" ng-repeat="slide in slides">
+                             <img width="667" height="80" style="height: 80px;"
+                             ng-click="header.onToHeadShowAdTopicClick(header.adFirstImageObj)"
+                              ng-src="{{slide.image}}" class="img-responsive">
+                         </a>
+            </div>-->
+          <!-- 第一广告位的轮播-->
+            <div class="slideBox hd-logo-right">
+                <div class="bd">
+                    <ul>
+                        <li ng-repeat='slide in slides' on-finish-renders-filters>
+                            <a class="cursor" >
+                                <img width="667" height="80" style="height: 80px;"
+                                     ng-click="header.onToHeadShowAdTopicClick(header.adFirstImageObj)"
+                                     ng-src="{{slide.image}}" class="img-responsive">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        </div>
+
+
+
+        <div class="clear">
+            <div class="hd-nav-box">
+                <div class="hd-nav-detail">
+                    <a class="hd-nav-link" ui-sref="root.index">首页</a>
+                    <span class="hd-part-line">|</span>
+                    <a class="hd-nav-link" ui-sref="root.photolist({type:0})">新闻图片</a>
+                    <span class="hd-part-line">|</span>
+                    <a class="hd-nav-link" ui-sref="root.photolist({type:1})">专题图片</a>
+                    <span class="hd-part-line">|</span>
+                    <a class="hd-nav-link" ui-sref="root.chartList">图表漫画</a>
+                    <span class="hd-part-line">|</span>
+                    <a class="hd-nav-link" ui-sref="root.fashionPic">娱乐风尚</a>
+                    <span class="hd-part-line">|</span>
+                    <a class="hd-nav-link" ui-sref="root.financePic">财经频道</a>
+                    <span class="hd-part-line">|</span>
+                    <a class="hd-nav-link" ui-sref="root.oldPic">老照片</a>
+                    <span class="hd-part-line">|</span>
+                    <a class="hd-nav-link" ui-sref="root.acadePic">院士图库</a>
+                    <span class="hd-part-line">|</span>
+                    <a class="hd-nav-link" ui-sref="root.personPic">人物图库</a>
+                    <span class="hd-part-line">|</span>
+                    <a class="hd-nav-link">上市公司图库 </a>
+                    <span class="hd-part-line">|</span>
+                    <a class="hd-nav-link">地市报频道 </a>
+                    <span class="hd-part-line">|</span>
+                    <a class="hd-nav-link">中华影像 </a>
+                </div>
+            </div>
+            <div class="hd-sub-nav hd-sub-class">
+                <div class="hd-nav-detail">
+                    <span ng-repeat="item in header.categories">
+                        <a class="change-hover-color cursor" ui-sref="root.moreSortList({cateId:item.id})">{{item.categoryName}}</a>
+                         <span class="" ng-hide="$last">|</span>
+                    </span>
+
+                    <!--<a class="change-hover-color cursor" ui-sref="root.moreSortList({cateId:15})">经济</a>-->
+                    <!--<span class="hd-part-line">|</span>-->
+                    <!--<a class="change-hover-color cursor" ui-sref="root.moreSortList({cateId:25})">科教</a>-->
+                    <!--<span class="hd-part-line">|</span>-->
+                    <!--<a class="change-hover-color cursor" ui-sref="root.moreSortList({cateId:24})">文化艺术</a>-->
+                    <!--<span class="hd-part-line">|</span>-->
+                    <!--<a class="change-hover-color cursor" ui-sref="root.moreSortList({cateId:15})">体育</a>-->
+                    <!--<span class="hd-part-line">|</span>-->
+                    <!--<a class="change-hover-color cursor" ui-sref="root.moreSortList({cateId:24})">社会</a>-->
+                    <!--<span class="hd-part-line">|</span>-->
+                    <!--<a class="change-hover-color cursor" ui-sref="root.moreSortList({cateId:25})">民族与宗教</a>-->
+                    <!--<span class="hd-part-line">|</span>-->
+                    <!--<a class="change-hover-color cursor" ui-sref="root.moreSortList({cateId:15})">法制与军事</a>-->
+                    <!--<span class="hd-part-line">|</span>-->
+                    <!--<a class="change-hover-color cursor" ui-sref="root.moreSortList({cateId:24})">自然环境</a>-->
+                    <!--<span class="hd-part-line">|</span>-->
+                    <!--<a class="change-hover-color cursor" ui-sref="root.moreSortList({cateId:25})">世界风采 </a>-->
+                    <!--<span class="hd-part-line">|</span>-->
+                    <!--<a class="change-hover-color cursor" ui-sref="root.moreSortList({cateId:24})">中国新闻社 </a>-->
+                    <!--<span class="hd-part-line">|</span>-->
+                    <!--<a class="change-hover-color cursor" ui-sref="root.moreSortList({cateId:15})">历史资料 </a>-->
+                    <!--<span class="hd-part-line">|</span>-->
+                    <!--<a class="change-hover-color cursor" ui-sref="root.moreSortList({cateId:24})">人物图库 </a>-->
+                    <!--<span class="hd-part-line">|</span>-->
+                    <!--<a class="change-hover-color cursor" ui-sref="root.moreSortList({cateId:25})">台港澳 </a>-->
+                    <!--<span class="hd-part-line">|</span>-->
+                    <!--<a class="change-hover-color cursor" ui-sref="root.moreSortList({cateId:15})">漫画图表 </a>-->
+                    <!--<span class="hd-part-line">|</span>-->
+                    <!--<a class="change-hover-color cursor" ui-sref="root.moreSortList({cateId:25})">创意图片 </a>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

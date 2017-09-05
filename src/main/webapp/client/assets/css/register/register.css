@@ -1,0 +1,67 @@
+.client-user-reg{
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 16px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 16px;
+}
+.client-view-attend{
+    color:#c00000;
+    text-align: center;
+    margin-bottom: 6px;
+}
+.client-reg-operate{
+    text-align: center;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+}
+.client-accept-option{
+    padding-bottom: 10px;
+}
+.client-accept-option label{
+    font-weight: 400;
+}
+.user-agreement-con{
+    color:#000;
+}
+.user-agreement-con p{
+    margin-top: 16px;
+    text-indent:2em;
+}
+.spec-register-conp{
+    text-indent:4em!important;
+}
+.client-user-fill-rule{
+    color:#c00000;
+}
+.c-register-tit{
+    width: 110px;
+    display:inline-block;
+    font-weight: bold;
+}
+.c-register-two-tit{
+    width: 150px;
+    display:inline-block;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.telegraphic-transfer-tit{
+    width: 236px;
+}
+.c-register-input{
+    width: 360px;
+}
+.color-spec-red{
+    color:#c00000;
+}
+.u-reg-fill-info-con{
+    margin-left: 102px;
+}
+.c-register-info-item label{
+    font-weight:400;
+}
+.draft-way-details{
+    border:1px solid #6C6C6C;
+    padding: 18px 15px;
+}

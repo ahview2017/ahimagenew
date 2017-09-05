@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="cnsphoto_en.module">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="icon" href="admin/assets/img/ico.gif" type="image/x-icon"/>
+	<title>中新社_图片库_英文版</title>
+    <link href="client_en/assets/css/Home.css" rel="stylesheet" type="text/css" />
+    <link href='client_en/assets/css/news.css' rel='stylesheet'>
+    <link href='client_en/assets/css/photos.css' rel='stylesheet'>
+    <link href='client_en/assets/css/login.css' rel='stylesheet'>
+    <link href='client_en/assets/css/register.css' rel='stylesheet'>
+    <link href='client_en/assets/css/forgetPwd.css' rel='stylesheet'>
+    <link href='client_en/assets/css/shoppingCart.css' rel='stylesheet'>
+    <link href='client_en/assets/css/fulltext.css' rel="stylesheet">
+    <link href='client_en/assets/css/advSearch.css' rel="stylesheet">
+    <link href='client_en/assets/libs/css/layer/layer.css' rel="stylesheet">
+    <link href="client_en/assets/libs/css/jquery/pagination.css" rel="stylesheet" >
+    <link href="client_en/assets/libs/bootstrap/bootstrap.min.css" rel="stylesheet" >
+    <link href="client_en/assets/libs/angular-bootstrap-datetimepicker/datetimepicker.css" rel="stylesheet">
+    <link href='client_en/assets/css/common.css' rel="stylesheet">
+    <link href='client_en/assets/css/need_channel.css' rel="stylesheet">
+    <link href='client_en/assets/css/pagination.css' rel="stylesheet">
+    <link href='client_en/assets/css/error.css' rel="stylesheet">
+    <link href='client_en/assets/css/topic_play_back.css' rel="stylesheet">
+    <script src="client_en/assets/libs/angular/angular1.5.min.js"></script>
+    <!--angular的路由,angular实现页面切换时用了route.-->
+    <script src="client_en/assets/libs/angular/angular-ui-router.js"></script>
+    <script src="client_en/assets/libs/angular/angular-md5.js"></script>
+    <script src="client_en/assets/libs/angular/angular-sanitize.js"></script>
+    <script src="client_en/assets/libs/angular-cookies/angular-cookies.min.js"></script>
+    
+    <script src="client_en/assets/libs/jquery/jquery-1.8.3.min.js"></script>
+    <script src="client_en/assets/libs/jquery/jquery.select.js"></script>
+    <script src="client_en/assets/libs/jquery/jquery.SuperSlide.2.1.1.js"></script>
+    <script src="client_en/assets/libs/jquery/layer.js"></script>
+    <script src="client_en/assets/libs/My97DatePicker/WdatePicker.js"></script>
+    <script src="client_en/assets/libs/jquery/jquery.pagination.min.js"></script>
+    <script src="client_en/assets/libs/jquery/jqPaginator.js"></script>
+    <script src="client_en/assets/libs/bootstrap/bootstrap.min.js"></script>
+    <script src="client_en/assets/libs/angular-dirPagination/dirPagination.js"></script>
+    <script src="client_en/assets/libs/angular-pagination/dirPagination.js"></script>
+    
+
+    <script src="client_en/app/cnsphoto_en.services.js"></script>
+    <script src="client_en/app/cnsphoto_en.module.js"></script>
+    <script src="client_en/app/cnsphoto_en.directive.js"></script>
+    <script src="client_en/app/cnsphoto_en.value.js"></script>
+    <script src="client_en/app/cnsphoto_en.filter.js"></script>
+
+    <script src="client_en/app/shared/footer/footerCtrl.js"></script>
+    <script src="client_en/app/shared/pbody/mainPageCtrl.js"></script>
+    <script src="client_en/app/shared/header/headerCtrl.js"></script>
+
+    <script src="client_en/app/components/feature/featureCtrl.js"></script>
+    <script src="client_en/app/components/history/historyCtrl.js"></script>
+    <script src="client_en/app/components/illustration/illustrationCtrl.js"></script>
+    <script src="client_en/app/components/news/newsCtrl.js"></script>
+    <script src="client_en/app/components/portrait/portraitCtrl.js"></script>
+    <script src="client_en/app/components/login/loginCtrl.js"></script>
+    <script src="client_en/app/components/register/registerStepOneCtrl.js"></script>
+    <script src="client_en/app/components/register/registerStepTwoCtrl.js"></script>
+    <script src="client_en/app/components/register/registerCtrl.js"></script>
+    <script src="client_en/app/components/register/registerSuccessCtrl.js"></script>
+    <script src="client_en/app/components/forgetPwd/forgetPwdCtrl.js"></script>
+    <script src="client_en/app/components/forgetPwd/forgetPasswordCtrl.js"></script>
+    <script src="client_en/app/components/forgetPwd/forgetPasswordStepOneCtrl.js"></script>
+    <script src="client_en/app/components/forgetPwd/forgetPasswordStepTwoCtrl.js"></script>
+    <script src="client_en/app/components/forgetPwd/forgetPasswordSuccessCtrl.js"></script>
+    <script src="client_en/app/components/shoppingCart/shoppingCartCtrl.js"></script>
+    <script src="client_en/app/components/fullTextSearch/fullTextCtrl.js"></script>
+    <script src="client_en/app/components/advSearch/advSearchCtrl.js"></script>
+    <script src="client_en/app/components/myOrder/lookPicsCtrl.js"></script>
+    <script src="client_en/app/components/myOrder/myOrderCtrl.js"></script>
+    <script src="client_en/app/components/webInfoView/webInfoAllViewCtrl.js"></script>
+    <script src="client_en/app/components/webInfoView/webInfoViewCtrl.js"></script>
+    <script src='client_en/app/components/topicPlayBack/topicPlayBackCtrl.js'></script>
+    
+    <script src="client_en/app/components/feature/feature_photosCtrl.js"></script>
+    <script src="client_en/app/components/history/history_photosCtrl.js"></script>
+    <script src="client_en/app/components/illustration/illustration_photosCtrl.js"></script>
+    <script src="client_en/app/components/portrait/portrait_photosCtrl.js"></script>
+    <script src="client_en/app/components/news/news_photosCtrl.js"></script>
+
+
+</head>
+<body>
+	<div ui-view="header"></div>
+    <div ui-view="main"></div>
+    <div ui-view="footer"></div>
+
+</body>
+</html>

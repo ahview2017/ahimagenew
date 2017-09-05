@@ -1,0 +1,161 @@
+<div class="user-manager-container">
+	<div class="c-common-titbox">
+		<role-common-tit value="检索词管理"></role-common-tit>
+	</div>
+	<div class="c-user-table">
+		<div class="t-search-hd clear">
+			<div class="user-hd-left fll">
+				<label for="checkAllTerm">
+                    <input type="checkbox" id="inputAllCheckId" ng-model="termManage.isHadAllCheck"
+                           id="checkAllTerm"
+                           ng-click="termManage.onCheckAllClick()"/>
+                    <span class="user-check-txt  cursor">全选</span>
+                </label>
+				<span class="dib cursor user-add-btn role-del-btn"
+				 	  ng-click="termManage.onShowDeleteModelClick(0,null)">删除</span>
+			</div>
+			<div class="user-hd-right flr">
+				  
+				<input class="user-search-input" ng-model="termManage.termSearchModel"
+				       placeholder="可查询ID、检索词、检索次数"
+					   ng-keydown="termManage.onEnterSearchClick($event)" />
+				<img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic" 
+				     ng-click="termManage.onSearchDataClick()" />
+				<span class="dib cursor user-search-btn" ng-click="termManage.termModalShow('term-sele-modal')">高级检索</span>
+			</div>
+		</div>
+		<div class="t-uinfo-bd">
+			<div class="table-responsive">
+				<table class="table table-bordered uInfo-table">
+					<thead>
+						<tr>
+                        <th class="uinfo-hd-th" style="width:4%;"></th>
+                        <th class="uinfo-hd-th" style="width:6%;">ID</th>
+                        <th class="uinfo-hd-th" style="width:28%;">检索词</th>
+                        <th class="uinfo-hd-th" style="width:15%;">检索次数</th>
+                        <th class="uinfo-hd-th" style="width:23%;">创建时间</th>
+                        <th class="uinfo-hd-th" style="width:15%;">创建人</th>
+                        <th class="uinfo-hd-th" style="width:9%;">操作</th>
+
+						</tr>
+					</thead>
+					<tbody>
+						<tr dir-paginate="termItem in termManage.termSearchArray | itemsPerPage: termManage.selPageRows" 
+							total-items="termManage.termList_total" 
+							current-page="termManage.pagination.current"
+							ng-init="termManage.checkBoxArray[$index] = false">
+                            <td  style="width:4%;" class="wbba">
+								<input type="checkbox" ng-model="termManage.checkBoxArray[$index]"
+									   ng-true-value="{{termItem.ID}}" ng-false-value="false" />
+							</td>
+	                        <td  style="width:6%;" class="wbba">{{termItem.ID}}</td>
+	                        <td  style="width:28%;" class="wbba">{{termItem.WORD_CONTENT}}</td>
+	                        <td  style="width:15%;" class="wbba">{{termItem.WORD_COUNT}}</td>
+	                        <td  style="width:23%;" class="wbba">{{termItem.CREATE_TIME|date:'yyyy-MM-dd HH:mm:ss'}}</td>
+	                        <td  style="width:15%;" class="wbba">{{termItem.CREATE_USER}}</td>
+	                        <td  style="width:9%;" class="wbba">
+								<img src="admin/assets/img/role/red_del.png" class="cursor u-pwd-reset" width="20" 
+									title="删除" height="20" ng-click="termManage.onShowDeleteModelClick(-1,termItem.ID)" />
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!-- 分页 -->
+			<div class="paging-con-box mt10 clear">
+				<div class="photo-record-page fll">
+					<select ng-model="termManage.selPageRows" class="mr10">
+						<option value="50">50</option>
+						<option value="40">40</option>
+						<option value="30">30</option>
+						<option value="20">20</option>
+						<option value="10">10</option>
+					</select>
+					<span>共找到</span>
+					<span class="color_red">{{termManage.termList_total}}</span>
+					<span>条记录</span>
+				</div>
+				<div class="photo-now-page fll">
+					<span>第 </span>
+					<span>{{termManage.pagination.current}}</span>
+					<span>/</span>
+					<span>{{termManage.totalPages}}</span>
+					<span>页</span>
+				</div>
+				<div class="photo-jump-page flr">
+					<dir-pagination-controls on-page-change="termManage.pageChanged(newPageNumber)"
+											 template-url="admin/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+					</dir-pagination-controls>
+				</div>
+			</div>
+		</div>
+		<!--高级检索弹出框-->
+		<div class="common-modal-style" id="term-sele-modal" style="display:none;" ng-mousemove="termManage.moveModal('search-modal-tit','term-sele-modal')">
+			<div class="user-add-con">
+				<div id="search-modal-tit" class="role-add-tit oH">
+					<span class="fll">高级检索</span>
+					<span class="flr curp tit-close" ng-click="termManage.termModalHide('term-sele-modal')">×</span>
+				</div>
+				<div class="role-add-main">
+					<div class="user-form-info clear">
+						<div class="user-form-info-top clear">
+							<div class="fll user-form-part clear">
+								<div class="user-search-left_o  fll">检索词内容</div>
+								<div class="user-search-right fll">
+									<input type="text" class="user-add-input" ng-model="termManage.scWord" />
+								</div>
+							</div>
+							<div class="fll user-form-part clear">
+								<div class="user-search-left_o fll">检索词ID</div>
+								<div class="user-search-right fll">
+									<input type="text" class="user-add-input" ng-model="termManage.scWordId" />
+								</div>
+							</div>
+							<div class="fll user-form-part clear">
+								<div class="user-search-left_o fll">检索次数</div>
+								<div class="user-search-right fll">
+									<input type="text" class="user-add-input" ng-model="termManage.count" />
+								</div>
+							</div>							
+						</div>
+						<div class="user-form-info-top clear">
+							<div class="fll user-form-part clear">
+								<div class="user-search-left_o  fll">发布时间</div>
+								<div class="user-search-right fll">
+									<input type="text" class="Wdate user-add-input_o" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" class="Wdate" ng-model="termManage.beginTime" datepicker/>
+								</div>
+							</div>
+							<div class="fll user-form-part clear">
+								<div class="user-search-left_o  fll">结束时间</div>
+								<div class="user-search-right fll">
+									<input type="text" class="Wdate user-add-input_o" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" class="Wdate" ng-model="termManage.endTime " datepicker/>
+								</div>
+							</div>
+						</div>
+						<div class="tar mt10">
+							<span class="dib cursor user-high-search-btn" ng-click="termManage.termAdvanceSearch()">检索</span>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<!--检索词删除弹框-->
+		<div class="common-modal-style" id="term-del-modal" ng-mousemove="termManage.moveModal('del-modal-tit','term-del-modal')" style="display:none">
+			<div class="role-add-con">
+				<div id="del-modal-tit" class="role-add-tit">
+					删除提醒
+				</div>
+				<div class="role-modal-con">
+					你确定要删除该检索词吗？
+				</div>
+				<div class="tac mt10">
+					<span class="dib cursor user-add-btn" 
+						  ng-click="termManage.onDeleteTermTableData()">确定</span>
+					<span class="dib cursor user-add-btn" 
+					      ng-click="termManage.termModalHide('term-del-modal')">取消</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

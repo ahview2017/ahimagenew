@@ -1,0 +1,317 @@
+<div class="user-manager-container">
+    <div class="c-common-titbox">
+        <role-common-tit value="角色管理"></role-common-tit>        
+    </div>
+    <div class="c-user-table">
+        <div class="t-search-hd clear">
+            <div class="user-hd-left fll">
+                <label for="checkAllRole">
+                    <input type="checkbox" ng-model="roleManage.selectedAll" id="checkAllRole"
+                           ng-click="roleManage.checkAll()"/>
+                    <span class="user-check-txt cursor">全选</span>
+                </label>
+                <span class="dib cursor user-add-btn" ng-click="roleManage.AddRoleModalShow('role-add-modal')">添加</span>
+                <span class="dib cursor user-add-btn role-modify-btn"
+                      ng-click="roleManage.updateRoleModalShow('role-modify-modal')">修改</span>
+                <span class="dib cursor user-add-btn role-del-btn"
+                      ng-click="roleManage.delRoleModalShow('role-del-modal')">删除</span>
+            </div>
+            <div class="user-hd-right flr">
+                <input class="user-search-input" id="role-manage-search-input" ng-model="roleManage.searchRoleTxt"
+                       ng-keydown="roleManage.enterSearch()" type="text" placeholder="匹配用户角色和备注"/>
+                <img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic"
+                     ng-click="roleManage.onSearchDataClick()"/>
+                <!--<span class="dib cursor user-search-btn">高级检索</span>-->
+            </div>
+        </div>
+        <div class="t-uinfo-bd">
+            <div class="table-responsive">
+                <table class="table table-bordered uInfo-table">
+                    <thead>
+                    <tr>
+                        <th class="uinfo-hd-th" style="width:7%;"></th>
+                        <th class="uinfo-hd-th" style="width:7%;">排序号</th>
+                        <th class="uinfo-hd-th" style="width:7%;">ID</th>
+                        <th class="uinfo-hd-th" style="width:15%;">名称</th>
+                        <th class="uinfo-hd-th" style="width:15%;">类别</th>
+                        <th class="uinfo-hd-th" style="width:10%;">语种</th>
+                        <th class="uinfo-hd-th" style="width:27%;">备注</th>
+                        <th class="uinfo-hd-th" style="width:12%;">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr dir-paginate="item in roleManage.roleList | itemsPerPage: roleManage.selPageRows"
+                        total-items="roleManage.roleList_total"
+                        current-page="roleManage.pagination.current" role-cn-en-change>
+                        <td  style="width:7%;" class="wbba">
+                            <input type="checkbox" ng-model="roleManage.selRoleIds[item.ID]"/>
+                        </td>
+                        <td style="width:7%;" class="wbba">{{item.NUM_ORDER}}</td>
+                        <td style="width:7%;" class="wbba">{{item.ID}}</td>
+                        <td style="width:15%;" class="wbba">{{item.ROLE_NAME}}</td>
+                        <td style="width:15%;" class="wbba">{{item.ROLE_NAME}}</td>
+                        <td style="width:10%;" class="wbba langType_tog" value='{{item.LANG_TYPE}}'></td>
+                        <td style="width:27%;" class="wbba">{{item.MEMO}}</td>
+                        <td style="width:12%;" class="wbba">
+                            <img src="admin/assets/img/role/look_user_info.png" class="cursor" width="20" height="20"
+                                 title="修改"
+                                 ng-click="roleManage.updateItemRoleModalShow('role-modify-modal',item)"/>
+                            <img src="admin/assets/img/role/gray_del.png" class="cursor u-pwd-reset" width="20"
+                                 ng-if="(item.ID == 1) || (item.ID == 2)|| (item.ID == 3)|| (item.ID == 4)|| (item.ID == 5)|| (item.ID == 63)|| (item.ID == 26)"
+                                 height="20" title="删除"/>
+                            <img src="admin/assets/img/role/red_del.png" class="cursor u-pwd-reset" width="20"
+                                 ng-if="(item.ID != 1) && (item.ID != 2) && (item.ID != 3) && (item.ID != 4) && (item.ID != 5) &&  (item.ID != 63) &&  (item.ID != 26)"
+                                 height="20" title="删除"
+                                 ng-click="roleManage.delItemRoleModalShow('role-del-modal',item.ID)"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 分页 -->
+            <div class="paging-con-box mt10 clear">
+                <div class="photo-record-page fll">
+                    <select ng-model="roleManage.selPageRows" class="mr10">
+                        <option value="50">50</option>
+                        <option value="40">40</option>
+                        <option value="30">30</option>
+                        <option value="20">20</option>
+                        <option value="10">10</option>
+                    </select>
+                    <span>共找到</span>
+                    <span class="color_red">{{roleManage.roleList_total}}</span>
+                    <span>条记录</span>
+                </div>
+                <div class="photo-now-page fll">
+                    <span>第 </span>
+                    <span>{{roleManage.pagination.current}}</span>
+                    <span>/</span>
+                    <span>{{roleManage.totalPages}}</span>
+                    <span>页</span>
+                </div>
+                <div class="photo-jump-page flr">
+                    <dir-pagination-controls on-page-change="roleManage.pageChanged(newPageNumber)"
+                                             template-url="admin/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+                    </dir-pagination-controls>
+                </div>
+            </div>
+
+            <!--角色添加弹框-->
+            <div class="common-modal-style" id="role-add-modal"
+                 ng-mousemove="roleManage.moveModal('add-modal-tit','role-add-modal')"
+                 style="display:none">
+                <div class="role-add-con">
+                    <div id="add-modal-tit" class="role-add-tit oH">
+                        <span class="fll">角色添加</span>
+                        <span class="flr curp tit-close"
+                              ng-click="roleManage.roleModalHide('role-add-modal')">×</span>
+                    </div>
+                    <div class="role-add-main">
+                        <div class="role-add-form-info clear">
+                            <div class="role-form-info-top clear">
+                                <div class="fll role-form-part">
+                                    <span>名称</span>
+                                    <input type="text" class="role-add-input" ng-model="roleManage.add.roleName"/>
+                                </div>
+                                <!--<div class="fll role-form-part">
+                                    <span>类别</span>
+                                    <input type="text" class="role-add-input" ng-model="roleManage.add.roleCategory"/>
+                                </div>-->
+                                <div class="fll role-form-part">
+                                    <span>排序号</span>
+                                    <input type="text" class="role-add-input" readonly
+                                           ng-model="roleManage.add.roleOrderNum"/>
+                                </div>
+                                
+                                <div class="fll role-form-part" >
+                                    <span>语种</span>
+                                    <select class="role-add-input" ng-model="roleManage.add.langType">
+                                       <option value=0>中文</option>
+                                       <option value=1>英文</option>
+                                    </select>                                   
+                                </div>
+                                
+                            </div>
+                            <div class="role-form-info-bottom clear">
+                                <!--<div class="role-remark-txt fll">备注</div>-->
+                                <span>备注</span>
+                                <input type="text" class="role-remark-input" style="width: 90%;"
+                                       ng-model="roleManage.add.remark"/>
+                            </div>
+                        </div>
+                        <div class="role-add-form-info clear" style="text-align: left;">
+                            <!--管理功能-->
+                            <div class="clear">
+                                <div>
+                                    <span class="fwb">{{roleManage.rightSort.manageFn.sortName}}:</span>
+                                </div>
+                                <div ng-repeat="item in roleManage.rightSort.manageFn.sortArr">
+                                    <div class="fll role-option-part role-over-ellipsis">
+                                        <input type="checkbox" ng-model="roleManage.selRightIds[item.ID]">
+                                        <a title="{{item.RIGHT_NAME}}" class="color-black">
+                                            {{item.RIGHT_NAME}}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--稿件编辑-->
+                            <div class="clear">
+                                <div>
+                                    <span class="fwb">{{roleManage.rightSort.manuscriptEdit.sortName}}:</span>
+                                </div>
+                                <div ng-repeat="item in roleManage.rightSort.manuscriptEdit.sortArr">
+
+                                    <div class="fll role-option-part role-over-ellipsis">
+                                        <input type="checkbox" ng-model="roleManage.selRightIds[item.ID]">
+                                        <a title="{{item.RIGHT_NAME}}" class="color-black">
+                                            {{item.RIGHT_NAME}}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--数据统计-->
+                            <div class="clear">
+                                <div>
+                                    <span class="fwb">{{roleManage.rightSort.dataStatistics.sortName}}:</span>
+                                </div>
+                                <div ng-repeat="item in roleManage.rightSort.dataStatistics.sortArr">
+                                    <div class="fll role-option-part role-over-ellipsis">
+                                        <input type="checkbox" ng-model="roleManage.selRightIds[item.ID]">
+                                        <a title="{{item.RIGHT_NAME}}" class="color-black">
+                                            {{item.RIGHT_NAME}}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tac mt10">
+                        <span class="dib cursor user-add-btn"
+                              ng-click="roleManage.saveAddedRole('role-add-modal')">保存</span>
+                        <span class="dib cursor user-add-btn role-del-btn"
+                              ng-click="roleManage.roleModalHide('role-add-modal')">取消</span>
+                    </div>
+                </div>
+            </div>
+            <!--角色修改弹框-->
+            <div class="common-modal-style" id="role-modify-modal"
+                 ng-mousemove="roleManage.moveModal('modify-modal-tit','role-modify-modal')"
+                 style="display:none">
+                <div class="role-add-con">
+                    <div id="modify-modal-tit" class="role-add-tit oH">
+                        <span class="fll">角色修改</span>
+                        <span class="flr curp tit-close"
+                              ng-click="roleManage.roleModalHide('role-modify-modal')">×</span>
+                    </div>
+                    <div class="role-add-main">
+                        <div class="role-add-form-info clear">
+                            <div class="role-form-info-top clear">
+                                <div class="fll role-form-part">
+                                    <span>名称</span>
+                                    <input type="text" class="role-add-input" ng-model="roleManage.modify.roleName"/>
+                                </div>
+                                <!--<div class="fll role-form-part">
+                                    <span>类别</span>
+                                    <input type="text" class="role-add-input"
+                                           ng-model="roleManage.modify.roleCategory"/>
+                                </div>-->
+                                <div class="fll role-form-part">
+                                    <span>排序号</span>
+                                    <input type="text" class="role-add-input"
+                                           ng-model="roleManage.modify.roleOrderNum"/>
+                                </div>
+                                <div class="fll role-form-part">
+                                    <span>语种</span>
+                                    <select class="role-add-input" ng-model="roleManage.modify.langType">
+                                       <option value='0'>中文</option>
+                                       <option value='1'>英文</option>
+                                    </select>                                   
+                                </div>
+                            </div>
+                            <div class="role-form-info-bottom clear">
+                                <div class="role-remark-txt fll">备注</div>
+                                <input type="text" class="role-remark-input fll" ng-model="roleManage.modify.remark"/>
+                            </div>
+                        </div>
+                        <div class="role-add-form-info clear" style="text-align: left;">
+                            <!--<div ng-repeat="item in roleManage.rightList">-->
+                                <!--<div class="fll role-option-part">-->
+                                    <!--<input type="checkbox" ng-model="roleManage.selRightIds[item.ID]">-->
+                                    <!--<span>{{item.RIGHT_NAME}}</span>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--管理功能-->
+                            <div class="clear">
+                                <div>
+                                    <span class="fwb">{{roleManage.rightSort.manageFn.sortName}}:</span>
+                                </div>
+                                <div ng-repeat="item in roleManage.rightSort.manageFn.sortArr">
+                                    <div class="fll role-option-part role-over-ellipsis">
+                                        <input type="checkbox" ng-model="roleManage.selRightIds[item.ID]">
+                                        <a title="{{item.RIGHT_NAME}}" class="color-black">
+                                            {{item.RIGHT_NAME}}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--稿件编辑-->
+                            <div class="clear">
+                                <div>
+                                    <span class="fwb">{{roleManage.rightSort.manuscriptEdit.sortName}}:</span>
+                                </div>
+                                <div ng-repeat="item in roleManage.rightSort.manuscriptEdit.sortArr">
+                                    <div class="fll role-option-part role-over-ellipsis">
+                                        <input type="checkbox" ng-model="roleManage.selRightIds[item.ID]">
+                                        <a title="{{item.RIGHT_NAME}}" class="color-black">
+                                            {{item.RIGHT_NAME}}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--数据统计-->
+                            <div class="clear">
+                                <div>
+                                    <span class="fwb">{{roleManage.rightSort.dataStatistics.sortName}}:</span>
+                                </div>
+                                <div ng-repeat="item in roleManage.rightSort.dataStatistics.sortArr">
+                                    <div class="fll role-option-part role-over-ellipsis">
+                                        <input type="checkbox" ng-model="roleManage.selRightIds[item.ID]">
+                                        <a title="{{item.RIGHT_NAME}}" class="color-black">
+                                            {{item.RIGHT_NAME}}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tac mt10">
+                        <span class="dib cursor user-add-btn"
+                              ng-click="roleManage.modifyRole('role-modify-modal')">修改</span>
+                        <span class="dib cursor user-add-btn role-del-btn"
+                              ng-click="roleManage.roleModalHide('role-modify-modal')">取消</span>
+                    </div>
+                </div>
+            </div>
+            <!--角色删除弹框-->
+            <div class="common-modal-style" id="role-del-modal"
+                 ng-mousemove="roleManage.moveModal('del-modal-tit','role-del-modal')"
+                 style="display:none">
+                <div class="role-add-con">
+                    <div id="del-modal-tit" class="role-add-tit">
+                        删除提醒
+                    </div>
+                    <div class="role-modal-con">
+                        你确定要删除该角色吗？
+                    </div>
+                    <div class="tac mt10">
+                        <span class="dib cursor user-add-btn"
+                              ng-click="roleManage.confirmDelRole('role-del-modal')">确定</span>
+                        <span class="dib cursor user-add-btn role-del-btn"
+                              ng-click="roleManage.roleModalHide('role-del-modal')">取消</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

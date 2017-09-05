@@ -1,0 +1,41 @@
+.photolist-container{
+	margin-top:30px;
+	text-align: center;
+	font-family: "微软雅黑",arial;
+}
+.photo-item-li{
+	width:25%;
+	height:300px;
+	display: inline-block;
+	float: left;
+}
+.bd-photo-list{
+	margin-top:30px;
+}
+.photo-record-page{
+	width:120px;
+}
+.photo-now-page{
+	width:100px;
+	text-align: center;
+	margin-left:304px;
+}
+/*.photo-jump-page{
+	width:272px;
+}*/
+#jq-page{
+	color:#000000;
+}
+#jq-page input{
+	width:25px;
+	text-align: center;
+}
+#jq-page a:link{
+	color:#000;
+}
+#jq-page a:hover{
+	color:#6C6C6C;
+}
+#jq-page a:visited{
+	color:#000;
+}

@@ -1,0 +1,2237 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deepai.photo.mapper.CpUserMapper" >
+  <resultMap id="BaseResultMap" type="com.deepai.photo.bean.CpUser" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+    <result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+    <result column="TURE_NAME" property="tureName" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="ZIPCODE" property="zipcode" jdbcType="VARCHAR" />
+    <result column="EMAIL_BIND" property="emailBind" jdbcType="VARCHAR" />
+    <result column="EMAIL_CONTACT" property="emailContact" jdbcType="VARCHAR" />
+    <result column="TEL_BIND" property="telBind" jdbcType="VARCHAR" />
+    <result column="TEL_CONTACT" property="telContact" jdbcType="VARCHAR" />
+    <result column="UPLOAD_COUNT" property="uploadCount" jdbcType="INTEGER" />
+    <result column="PUB_COUNT" property="pubCount" jdbcType="INTEGER" />
+    <result column="KEEP_COUNT" property="keepCount" jdbcType="INTEGER" />
+    <result column="APPLY_DATE" property="applyDate" jdbcType="TIMESTAMP" />
+    <result column="REG_DATE" property="regDate" jdbcType="TIMESTAMP" />
+    <result column="DOWNLOAD_LEVEL" property="downloadLevel" jdbcType="INTEGER" />
+    <result column="IS_DOWNLOAD" property="isDownload" jdbcType="TINYINT" />
+    <result column="DOWNLOAD_TYPE" property="downloadType" jdbcType="INTEGER" />
+    <result column="CONTRACT_PERPRICE" property="contractPerprice" jdbcType="INTEGER" />
+    <result column="CONTRACT_BASE_PERPRICE" property="contractBasePerprice" jdbcType="INTEGER" />
+    <result column="CONTRACT_START_TIME" property="contractStartTime" jdbcType="TIMESTAMP" />
+    <result column="CONTRACT_END_TIME" property="contractEndTime" jdbcType="TIMESTAMP" />
+    <result column="CONTRACT_LIMIT_TYPE" property="contractLimitType" jdbcType="INTEGER" />
+    <result column="CONTRACT_LIMIT_NUM" property="contractLimitNum" jdbcType="INTEGER" />
+    <result column="CONTRACT_LIMIT_DL_NUM" property="contractLimitDlNum" jdbcType="INTEGER" />
+    <result column="CONTRACT_BUY_NUM" property="contractBuyNum" jdbcType="INTEGER" />
+    <result column="CONTRACT_NUM" property="contractNum" jdbcType="INTEGER" />
+    <result column="CONTRACT_ALL_NUM" property="contractAllNum" jdbcType="INTEGER" />
+    <result column="ACCOUNT" property="account" jdbcType="DECIMAL" />
+    <result column="BALANCE_PERPRICE" property="balancePerprice" jdbcType="INTEGER" />
+    <result column="BALANCE_BASE_PERPRICE" property="balanceBasePerprice" jdbcType="INTEGER" />
+    <result column="BALANCE_SALE" property="balanceSale" jdbcType="INTEGER" />
+    <result column="BALANCE_REVENUE" property="balanceRevenue" jdbcType="INTEGER" />
+    <result column="BALANCE_LIMIT_TYPE" property="balanceLimitType" jdbcType="INTEGER" />
+    <result column="BALANCE_LIMIT_NUM" property="balanceLimitNum" jdbcType="INTEGER" />
+    <result column="BALANCE_LIMIT_DL_NUM" property="balanceLimitDlNum" jdbcType="INTEGER" />
+    <result column="BALANCE_ALL_NUM" property="balanceAllNum" jdbcType="INTEGER" />
+    <result column="THREE_LIMIT_TYPE" property="threeLimitType" jdbcType="INTEGER" />
+    <result column="THREE_LIMIT_NUM" property="threeLimitNum" jdbcType="INTEGER" />
+    <result column="THREE_LIMIT_DL_NUM" property="threeLimitDlNum" jdbcType="INTEGER" />
+    <result column="DOWN_LINE_NUM" property="downLineNum" jdbcType="INTEGER" />
+    <result column="ON_LINE_NUM" property="onLineNum" jdbcType="INTEGER" />
+    <result column="ALL_DOWNLOAD_NUM" property="allDownloadNum" jdbcType="INTEGER" />
+    <result column="UNIT_NAME" property="unitName" jdbcType="VARCHAR" />
+    <result column="UNIT_ADDRESS" property="unitAddress" jdbcType="VARCHAR" />
+    <result column="UNIT_TEL" property="unitTel" jdbcType="VARCHAR" />
+    <result column="UNIT_FAX" property="unitFax" jdbcType="VARCHAR" />
+    <result column="MEMO" property="memo" jdbcType="VARCHAR" />
+    <result column="AUTHOR_NAME" property="authorName" jdbcType="VARCHAR" />
+    <result column="SUBSCRIBER_TYPE" property="subscriberType" jdbcType="TINYINT" />
+    <result column="IS_PUBLISH" property="isPublish" jdbcType="TINYINT" />
+    <result column="FEE_TYPE" property="feeType" jdbcType="TINYINT" />
+    <result column="BANK_ACCOUNT" property="bankAccount" jdbcType="VARCHAR" />
+    <result column="BANK_USERNAME" property="bankUsername" jdbcType="VARCHAR" />
+    <result column="BANK_NAME" property="bankName" jdbcType="VARCHAR" />
+    <result column="BANK_ID_CARD" property="bankIdCard" jdbcType="VARCHAR" />
+    <result column="MAIL_ADDRESS" property="mailAddress" jdbcType="VARCHAR" />
+    <result column="MAIL_USERNAME" property="mailUsername" jdbcType="VARCHAR" />
+    <result column="MAIL_ID_CARD" property="mailIdCard" jdbcType="VARCHAR" />
+    <result column="MAIL_ZIP_CODE" property="mailZipCode" jdbcType="VARCHAR" />
+    <result column="DISCOUNT" property="discount" jdbcType="INTEGER" />
+    <result column="PHOTOGRAPHY_DIRECTION" property="photographyDirection" jdbcType="VARCHAR" />
+    <result column="ZONE" property="zone" jdbcType="VARCHAR" />
+    <result column="SUBSCRIPTION_TYPE" property="subscriptionType" jdbcType="TINYINT" />
+    <result column="PROVINCE" property="province" jdbcType="VARCHAR" />
+    <result column="CITY" property="city" jdbcType="VARCHAR" />
+    <result column="ID_CARD" property="idCard" jdbcType="VARCHAR" />
+    <result column="PHOTOGRAPHER_LEVEL" property="photographerLevel" jdbcType="TINYINT" />
+    <result column="LOGINCOUNT" property="logincount" jdbcType="INTEGER" />
+    <result column="LOGIN_TIME" property="loginTime" jdbcType="TIMESTAMP" />
+    <result column="LAST_LOGIN_TIME" property="lastLoginTime" jdbcType="TIMESTAMP" />
+    <result column="USER_ORDER" property="userOrder" jdbcType="INTEGER" />
+    <result column="ROCK_TIME" property="rockTime" jdbcType="TIMESTAMP" />
+    <result column="LOGIN_NO" property="loginNo" jdbcType="INTEGER" />
+    <result column="USER_STATUS" property="userStatus" jdbcType="INTEGER" />
+    <result column="QUESTION" property="question" jdbcType="VARCHAR" />
+    <result column="ANSWER" property="answer" jdbcType="VARCHAR" />
+    <result column="IS_UNIT" property="isUnit" jdbcType="TINYINT" />
+    <result column="PAY_TYPE" property="payType" jdbcType="TINYINT" />
+    <result column="SMSDUTY" property="smsduty" jdbcType="TINYINT" />
+    <result column="PLAIN_PASSWORD" property="plainPassword" jdbcType="VARCHAR" />
+    <result column="SITE_ID" property="siteId" jdbcType="INTEGER" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="ROLENAMES" property="rolenames" jdbcType="VARCHAR" />
+    <result column="USER_TYPE" property="userType" jdbcType="INTEGER" />
+    <result column="USER_DIVIDE" property="userDivide" jdbcType="INTEGER" />
+    <result column="STANDBY1" property="standby1" jdbcType="VARCHAR" />
+    <result column="STANDBY2" property="standby2" jdbcType="VARCHAR" />
+    <result column="STANDBY3" property="standby3" jdbcType="VARCHAR" />
+    <result column="STANDBY4" property="standby4" jdbcType="VARCHAR" />
+    <result column="STANDBY5" property="standby5" jdbcType="VARCHAR" />
+    <result column="LANG_TYPE" property="langType" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, USER_NAME, PASSWORD, TURE_NAME, ADDRESS, ZIPCODE, EMAIL_BIND, EMAIL_CONTACT, 
+    TEL_BIND, TEL_CONTACT, UPLOAD_COUNT, PUB_COUNT, KEEP_COUNT, APPLY_DATE, REG_DATE, 
+    DOWNLOAD_LEVEL, IS_DOWNLOAD, DOWNLOAD_TYPE, CONTRACT_PERPRICE, CONTRACT_BASE_PERPRICE, 
+    CONTRACT_START_TIME, CONTRACT_END_TIME, CONTRACT_LIMIT_TYPE, CONTRACT_LIMIT_NUM, 
+    CONTRACT_LIMIT_DL_NUM, CONTRACT_BUY_NUM, CONTRACT_NUM, CONTRACT_ALL_NUM, ACCOUNT, 
+    BALANCE_PERPRICE, BALANCE_BASE_PERPRICE, BALANCE_SALE, BALANCE_REVENUE, BALANCE_LIMIT_TYPE, 
+    BALANCE_LIMIT_NUM, BALANCE_LIMIT_DL_NUM, BALANCE_ALL_NUM, THREE_LIMIT_TYPE, THREE_LIMIT_NUM, 
+    THREE_LIMIT_DL_NUM, DOWN_LINE_NUM, ON_LINE_NUM, ALL_DOWNLOAD_NUM, UNIT_NAME, UNIT_ADDRESS, 
+    UNIT_TEL, UNIT_FAX, MEMO, AUTHOR_NAME, SUBSCRIBER_TYPE, IS_PUBLISH, FEE_TYPE, BANK_ACCOUNT, 
+    BANK_USERNAME, BANK_NAME, BANK_ID_CARD, MAIL_ADDRESS, MAIL_USERNAME, MAIL_ID_CARD, 
+    MAIL_ZIP_CODE, DISCOUNT, PHOTOGRAPHY_DIRECTION, ZONE, SUBSCRIPTION_TYPE, PROVINCE, 
+    CITY, ID_CARD, PHOTOGRAPHER_LEVEL, LOGINCOUNT, LOGIN_TIME, LAST_LOGIN_TIME, USER_ORDER, 
+    ROCK_TIME, LOGIN_NO, USER_STATUS, QUESTION, ANSWER, IS_UNIT, PAY_TYPE, SMSDUTY, PLAIN_PASSWORD, 
+    SITE_ID, CREATE_USER, CREATE_TIME, UPDATE_USER, UPDATE_TIME, ROLENAMES, USER_TYPE, 
+    USER_DIVIDE, STANDBY1, STANDBY2, STANDBY3, STANDBY4, STANDBY5
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.deepai.photo.bean.CpUserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cp_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from cp_user
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from cp_user
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.deepai.photo.bean.CpUserExample" >
+    delete from cp_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.deepai.photo.bean.CpUser" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cp_user (USER_NAME, PASSWORD, TURE_NAME, 
+      ADDRESS, ZIPCODE, EMAIL_BIND, 
+      EMAIL_CONTACT, TEL_BIND, TEL_CONTACT, 
+      UPLOAD_COUNT, PUB_COUNT, KEEP_COUNT, 
+      APPLY_DATE, REG_DATE, DOWNLOAD_LEVEL, 
+      IS_DOWNLOAD, DOWNLOAD_TYPE, CONTRACT_PERPRICE, 
+      CONTRACT_BASE_PERPRICE, CONTRACT_START_TIME, 
+      CONTRACT_END_TIME, CONTRACT_LIMIT_TYPE, CONTRACT_LIMIT_NUM, 
+      CONTRACT_LIMIT_DL_NUM, CONTRACT_BUY_NUM, CONTRACT_NUM, 
+      CONTRACT_ALL_NUM, ACCOUNT, BALANCE_PERPRICE, 
+      BALANCE_BASE_PERPRICE, BALANCE_SALE, BALANCE_REVENUE, 
+      BALANCE_LIMIT_TYPE, BALANCE_LIMIT_NUM, BALANCE_LIMIT_DL_NUM, 
+      BALANCE_ALL_NUM, THREE_LIMIT_TYPE, THREE_LIMIT_NUM, 
+      THREE_LIMIT_DL_NUM, DOWN_LINE_NUM, ON_LINE_NUM, 
+      ALL_DOWNLOAD_NUM, UNIT_NAME, UNIT_ADDRESS, 
+      UNIT_TEL, UNIT_FAX, MEMO, 
+      AUTHOR_NAME, SUBSCRIBER_TYPE, IS_PUBLISH, 
+      FEE_TYPE, BANK_ACCOUNT, BANK_USERNAME, 
+      BANK_NAME, BANK_ID_CARD, MAIL_ADDRESS, 
+      MAIL_USERNAME, MAIL_ID_CARD, MAIL_ZIP_CODE, 
+      DISCOUNT, PHOTOGRAPHY_DIRECTION, ZONE, 
+      SUBSCRIPTION_TYPE, PROVINCE, CITY, 
+      ID_CARD, PHOTOGRAPHER_LEVEL, LOGINCOUNT, 
+      LOGIN_TIME, LAST_LOGIN_TIME, USER_ORDER, 
+      ROCK_TIME, LOGIN_NO, USER_STATUS, 
+      QUESTION, ANSWER, IS_UNIT, 
+      PAY_TYPE, SMSDUTY, PLAIN_PASSWORD, 
+      SITE_ID, CREATE_USER, CREATE_TIME, 
+      UPDATE_USER, UPDATE_TIME, ROLENAMES, 
+      USER_TYPE, USER_DIVIDE, STANDBY1, 
+      STANDBY2, STANDBY3, STANDBY4, 
+      STANDBY5)
+    values (#{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{tureName,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{zipcode,jdbcType=VARCHAR}, #{emailBind,jdbcType=VARCHAR}, 
+      #{emailContact,jdbcType=VARCHAR}, #{telBind,jdbcType=VARCHAR}, #{telContact,jdbcType=VARCHAR}, 
+      #{uploadCount,jdbcType=INTEGER}, #{pubCount,jdbcType=INTEGER}, #{keepCount,jdbcType=INTEGER}, 
+      #{applyDate,jdbcType=TIMESTAMP}, #{regDate,jdbcType=TIMESTAMP}, #{downloadLevel,jdbcType=INTEGER}, 
+      #{isDownload,jdbcType=TINYINT}, #{downloadType,jdbcType=INTEGER}, #{contractPerprice,jdbcType=INTEGER}, 
+      #{contractBasePerprice,jdbcType=INTEGER}, #{contractStartTime,jdbcType=TIMESTAMP}, 
+      #{contractEndTime,jdbcType=TIMESTAMP}, #{contractLimitType,jdbcType=INTEGER}, #{contractLimitNum,jdbcType=INTEGER}, 
+      #{contractLimitDlNum,jdbcType=INTEGER}, #{contractBuyNum,jdbcType=INTEGER}, #{contractNum,jdbcType=INTEGER}, 
+      #{contractAllNum,jdbcType=INTEGER}, #{account,jdbcType=DECIMAL}, #{balancePerprice,jdbcType=INTEGER}, 
+      #{balanceBasePerprice,jdbcType=INTEGER}, #{balanceSale,jdbcType=INTEGER}, #{balanceRevenue,jdbcType=INTEGER}, 
+      #{balanceLimitType,jdbcType=INTEGER}, #{balanceLimitNum,jdbcType=INTEGER}, #{balanceLimitDlNum,jdbcType=INTEGER}, 
+      #{balanceAllNum,jdbcType=INTEGER}, #{threeLimitType,jdbcType=INTEGER}, #{threeLimitNum,jdbcType=INTEGER}, 
+      #{threeLimitDlNum,jdbcType=INTEGER}, #{downLineNum,jdbcType=INTEGER}, #{onLineNum,jdbcType=INTEGER}, 
+      #{allDownloadNum,jdbcType=INTEGER}, #{unitName,jdbcType=VARCHAR}, #{unitAddress,jdbcType=VARCHAR}, 
+      #{unitTel,jdbcType=VARCHAR}, #{unitFax,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR}, 
+      #{authorName,jdbcType=VARCHAR}, #{subscriberType,jdbcType=TINYINT}, #{isPublish,jdbcType=TINYINT}, 
+      #{feeType,jdbcType=TINYINT}, #{bankAccount,jdbcType=VARCHAR}, #{bankUsername,jdbcType=VARCHAR}, 
+      #{bankName,jdbcType=VARCHAR}, #{bankIdCard,jdbcType=VARCHAR}, #{mailAddress,jdbcType=VARCHAR}, 
+      #{mailUsername,jdbcType=VARCHAR}, #{mailIdCard,jdbcType=VARCHAR}, #{mailZipCode,jdbcType=VARCHAR}, 
+      #{discount,jdbcType=INTEGER}, #{photographyDirection,jdbcType=VARCHAR}, #{zone,jdbcType=VARCHAR}, 
+      #{subscriptionType,jdbcType=TINYINT}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
+      #{idCard,jdbcType=VARCHAR}, #{photographerLevel,jdbcType=TINYINT}, #{logincount,jdbcType=INTEGER}, 
+      #{loginTime,jdbcType=TIMESTAMP}, #{lastLoginTime,jdbcType=TIMESTAMP}, #{userOrder,jdbcType=INTEGER}, 
+      #{rockTime,jdbcType=TIMESTAMP}, #{loginNo,jdbcType=INTEGER}, #{userStatus,jdbcType=INTEGER}, 
+      #{question,jdbcType=VARCHAR}, #{answer,jdbcType=VARCHAR}, #{isUnit,jdbcType=TINYINT}, 
+      #{payType,jdbcType=TINYINT}, #{smsduty,jdbcType=TINYINT}, #{plainPassword,jdbcType=VARCHAR}, 
+      #{siteId,jdbcType=INTEGER}, #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{rolenames,jdbcType=VARCHAR}, 
+      #{userType,jdbcType=INTEGER}, #{userDivide,jdbcType=INTEGER}, #{standby1,jdbcType=VARCHAR}, 
+      #{standby2,jdbcType=VARCHAR}, #{standby3,jdbcType=VARCHAR}, #{standby4,jdbcType=VARCHAR}, 
+      #{standby5,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.deepai.photo.bean.CpUser" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cp_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userName != null" >
+        USER_NAME,
+      </if>
+      <if test="password != null" >
+        PASSWORD,
+      </if>
+      <if test="tureName != null" >
+        TURE_NAME,
+      </if>
+      <if test="address != null" >
+        ADDRESS,
+      </if>
+      <if test="zipcode != null" >
+        ZIPCODE,
+      </if>
+      <if test="emailBind != null" >
+        EMAIL_BIND,
+      </if>
+      <if test="emailContact != null" >
+        EMAIL_CONTACT,
+      </if>
+      <if test="telBind != null" >
+        TEL_BIND,
+      </if>
+      <if test="telContact != null" >
+        TEL_CONTACT,
+      </if>
+      <if test="uploadCount != null" >
+        UPLOAD_COUNT,
+      </if>
+      <if test="pubCount != null" >
+        PUB_COUNT,
+      </if>
+      <if test="keepCount != null" >
+        KEEP_COUNT,
+      </if>
+      <if test="applyDate != null" >
+        APPLY_DATE,
+      </if>
+      <if test="regDate != null" >
+        REG_DATE,
+      </if>
+      <if test="downloadLevel != null" >
+        DOWNLOAD_LEVEL,
+      </if>
+      <if test="isDownload != null" >
+        IS_DOWNLOAD,
+      </if>
+      <if test="downloadType != null" >
+        DOWNLOAD_TYPE,
+      </if>
+      <if test="contractPerprice != null" >
+        CONTRACT_PERPRICE,
+      </if>
+      <if test="contractBasePerprice != null" >
+        CONTRACT_BASE_PERPRICE,
+      </if>
+      <if test="contractStartTime != null" >
+        CONTRACT_START_TIME,
+      </if>
+      <if test="contractEndTime != null" >
+        CONTRACT_END_TIME,
+      </if>
+      <if test="contractLimitType != null" >
+        CONTRACT_LIMIT_TYPE,
+      </if>
+      <if test="contractLimitNum != null" >
+        CONTRACT_LIMIT_NUM,
+      </if>
+      <if test="contractLimitDlNum != null" >
+        CONTRACT_LIMIT_DL_NUM,
+      </if>
+      <if test="contractBuyNum != null" >
+        CONTRACT_BUY_NUM,
+      </if>
+      <if test="contractNum != null" >
+        CONTRACT_NUM,
+      </if>
+      <if test="contractAllNum != null" >
+        CONTRACT_ALL_NUM,
+      </if>
+      <if test="account != null" >
+        ACCOUNT,
+      </if>
+      <if test="balancePerprice != null" >
+        BALANCE_PERPRICE,
+      </if>
+      <if test="balanceBasePerprice != null" >
+        BALANCE_BASE_PERPRICE,
+      </if>
+      <if test="balanceSale != null" >
+        BALANCE_SALE,
+      </if>
+      <if test="balanceRevenue != null" >
+        BALANCE_REVENUE,
+      </if>
+      <if test="balanceLimitType != null" >
+        BALANCE_LIMIT_TYPE,
+      </if>
+      <if test="balanceLimitNum != null" >
+        BALANCE_LIMIT_NUM,
+      </if>
+      <if test="balanceLimitDlNum != null" >
+        BALANCE_LIMIT_DL_NUM,
+      </if>
+      <if test="balanceAllNum != null" >
+        BALANCE_ALL_NUM,
+      </if>
+      <if test="threeLimitType != null" >
+        THREE_LIMIT_TYPE,
+      </if>
+      <if test="threeLimitNum != null" >
+        THREE_LIMIT_NUM,
+      </if>
+      <if test="threeLimitDlNum != null" >
+        THREE_LIMIT_DL_NUM,
+      </if>
+      <if test="downLineNum != null" >
+        DOWN_LINE_NUM,
+      </if>
+      <if test="onLineNum != null" >
+        ON_LINE_NUM,
+      </if>
+      <if test="allDownloadNum != null" >
+        ALL_DOWNLOAD_NUM,
+      </if>
+      <if test="unitName != null" >
+        UNIT_NAME,
+      </if>
+      <if test="unitAddress != null" >
+        UNIT_ADDRESS,
+      </if>
+      <if test="unitTel != null" >
+        UNIT_TEL,
+      </if>
+      <if test="unitFax != null" >
+        UNIT_FAX,
+      </if>
+      <if test="memo != null" >
+        MEMO,
+      </if>
+      <if test="authorName != null" >
+        AUTHOR_NAME,
+      </if>
+      <if test="subscriberType != null" >
+        SUBSCRIBER_TYPE,
+      </if>
+      <if test="isPublish != null" >
+        IS_PUBLISH,
+      </if>
+      <if test="feeType != null" >
+        FEE_TYPE,
+      </if>
+      <if test="bankAccount != null" >
+        BANK_ACCOUNT,
+      </if>
+      <if test="bankUsername != null" >
+        BANK_USERNAME,
+      </if>
+      <if test="bankName != null" >
+        BANK_NAME,
+      </if>
+      <if test="bankIdCard != null" >
+        BANK_ID_CARD,
+      </if>
+      <if test="mailAddress != null" >
+        MAIL_ADDRESS,
+      </if>
+      <if test="mailUsername != null" >
+        MAIL_USERNAME,
+      </if>
+      <if test="mailIdCard != null" >
+        MAIL_ID_CARD,
+      </if>
+      <if test="mailZipCode != null" >
+        MAIL_ZIP_CODE,
+      </if>
+      <if test="discount != null" >
+        DISCOUNT,
+      </if>
+      <if test="photographyDirection != null" >
+        PHOTOGRAPHY_DIRECTION,
+      </if>
+      <if test="zone != null" >
+        ZONE,
+      </if>
+      <if test="subscriptionType != null" >
+        SUBSCRIPTION_TYPE,
+      </if>
+      <if test="province != null" >
+        PROVINCE,
+      </if>
+      <if test="city != null" >
+        CITY,
+      </if>
+      <if test="idCard != null" >
+        ID_CARD,
+      </if>
+      <if test="photographerLevel != null" >
+        PHOTOGRAPHER_LEVEL,
+      </if>
+      <if test="logincount != null" >
+        LOGINCOUNT,
+      </if>
+      <if test="loginTime != null" >
+        LOGIN_TIME,
+      </if>
+      <if test="lastLoginTime != null" >
+        LAST_LOGIN_TIME,
+      </if>
+      <if test="userOrder != null" >
+        USER_ORDER,
+      </if>
+      <if test="rockTime != null" >
+        ROCK_TIME,
+      </if>
+      <if test="loginNo != null" >
+        LOGIN_NO,
+      </if>
+      <if test="userStatus != null" >
+        USER_STATUS,
+      </if>
+      <if test="question != null" >
+        QUESTION,
+      </if>
+      <if test="answer != null" >
+        ANSWER,
+      </if>
+      <if test="isUnit != null" >
+        IS_UNIT,
+      </if>
+      <if test="payType != null" >
+        PAY_TYPE,
+      </if>
+      <if test="smsduty != null" >
+        SMSDUTY,
+      </if>
+      <if test="plainPassword != null" >
+        PLAIN_PASSWORD,
+      </if>
+      <if test="siteId != null" >
+        SITE_ID,
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateUser != null" >
+        UPDATE_USER,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="rolenames != null" >
+        ROLENAMES,
+      </if>
+      <if test="userType != null" >
+        USER_TYPE,
+      </if>
+      <if test="userDivide != null" >
+        USER_DIVIDE,
+      </if>
+      <if test="standby1 != null" >
+        STANDBY1,
+      </if>
+      <if test="standby2 != null" >
+        STANDBY2,
+      </if>
+      <if test="standby3 != null" >
+        STANDBY3,
+      </if>
+      <if test="standby4 != null" >
+        STANDBY4,
+      </if>
+      <if test="standby5 != null" >
+        STANDBY5,
+      </if>
+      <if test="langType != null" >
+        LANG_TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="tureName != null" >
+        #{tureName,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="zipcode != null" >
+        #{zipcode,jdbcType=VARCHAR},
+      </if>
+      <if test="emailBind != null" >
+        #{emailBind,jdbcType=VARCHAR},
+      </if>
+      <if test="emailContact != null" >
+        #{emailContact,jdbcType=VARCHAR},
+      </if>
+      <if test="telBind != null" >
+        #{telBind,jdbcType=VARCHAR},
+      </if>
+      <if test="telContact != null" >
+        #{telContact,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadCount != null" >
+        #{uploadCount,jdbcType=INTEGER},
+      </if>
+      <if test="pubCount != null" >
+        #{pubCount,jdbcType=INTEGER},
+      </if>
+      <if test="keepCount != null" >
+        #{keepCount,jdbcType=INTEGER},
+      </if>
+      <if test="applyDate != null" >
+        #{applyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="regDate != null" >
+        #{regDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="downloadLevel != null" >
+        #{downloadLevel,jdbcType=INTEGER},
+      </if>
+      <if test="isDownload != null" >
+        #{isDownload,jdbcType=TINYINT},
+      </if>
+      <if test="downloadType != null" >
+        #{downloadType,jdbcType=INTEGER},
+      </if>
+      <if test="contractPerprice != null" >
+        #{contractPerprice,jdbcType=INTEGER},
+      </if>
+      <if test="contractBasePerprice != null" >
+        #{contractBasePerprice,jdbcType=INTEGER},
+      </if>
+      <if test="contractStartTime != null" >
+        #{contractStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="contractEndTime != null" >
+        #{contractEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="contractLimitType != null" >
+        #{contractLimitType,jdbcType=INTEGER},
+      </if>
+      <if test="contractLimitNum != null" >
+        #{contractLimitNum,jdbcType=INTEGER},
+      </if>
+      <if test="contractLimitDlNum != null" >
+        #{contractLimitDlNum,jdbcType=INTEGER},
+      </if>
+      <if test="contractBuyNum != null" >
+        #{contractBuyNum,jdbcType=INTEGER},
+      </if>
+      <if test="contractNum != null" >
+        #{contractNum,jdbcType=INTEGER},
+      </if>
+      <if test="contractAllNum != null" >
+        #{contractAllNum,jdbcType=INTEGER},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=DECIMAL},
+      </if>
+      <if test="balancePerprice != null" >
+        #{balancePerprice,jdbcType=INTEGER},
+      </if>
+      <if test="balanceBasePerprice != null" >
+        #{balanceBasePerprice,jdbcType=INTEGER},
+      </if>
+      <if test="balanceSale != null" >
+        #{balanceSale,jdbcType=INTEGER},
+      </if>
+      <if test="balanceRevenue != null" >
+        #{balanceRevenue,jdbcType=INTEGER},
+      </if>
+      <if test="balanceLimitType != null" >
+        #{balanceLimitType,jdbcType=INTEGER},
+      </if>
+      <if test="balanceLimitNum != null" >
+        #{balanceLimitNum,jdbcType=INTEGER},
+      </if>
+      <if test="balanceLimitDlNum != null" >
+        #{balanceLimitDlNum,jdbcType=INTEGER},
+      </if>
+      <if test="balanceAllNum != null" >
+        #{balanceAllNum,jdbcType=INTEGER},
+      </if>
+      <if test="threeLimitType != null" >
+        #{threeLimitType,jdbcType=INTEGER},
+      </if>
+      <if test="threeLimitNum != null" >
+        #{threeLimitNum,jdbcType=INTEGER},
+      </if>
+      <if test="threeLimitDlNum != null" >
+        #{threeLimitDlNum,jdbcType=INTEGER},
+      </if>
+      <if test="downLineNum != null" >
+        #{downLineNum,jdbcType=INTEGER},
+      </if>
+      <if test="onLineNum != null" >
+        #{onLineNum,jdbcType=INTEGER},
+      </if>
+      <if test="allDownloadNum != null" >
+        #{allDownloadNum,jdbcType=INTEGER},
+      </if>
+      <if test="unitName != null" >
+        #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="unitAddress != null" >
+        #{unitAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="unitTel != null" >
+        #{unitTel,jdbcType=VARCHAR},
+      </if>
+      <if test="unitFax != null" >
+        #{unitFax,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="authorName != null" >
+        #{authorName,jdbcType=VARCHAR},
+      </if>
+      <if test="subscriberType != null" >
+        #{subscriberType,jdbcType=TINYINT},
+      </if>
+      <if test="isPublish != null" >
+        #{isPublish,jdbcType=TINYINT},
+      </if>
+      <if test="feeType != null" >
+        #{feeType,jdbcType=TINYINT},
+      </if>
+      <if test="bankAccount != null" >
+        #{bankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="bankUsername != null" >
+        #{bankUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankIdCard != null" >
+        #{bankIdCard,jdbcType=VARCHAR},
+      </if>
+      <if test="mailAddress != null" >
+        #{mailAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="mailUsername != null" >
+        #{mailUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="mailIdCard != null" >
+        #{mailIdCard,jdbcType=VARCHAR},
+      </if>
+      <if test="mailZipCode != null" >
+        #{mailZipCode,jdbcType=VARCHAR},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=INTEGER},
+      </if>
+      <if test="photographyDirection != null" >
+        #{photographyDirection,jdbcType=VARCHAR},
+      </if>
+      <if test="zone != null" >
+        #{zone,jdbcType=VARCHAR},
+      </if>
+      <if test="subscriptionType != null" >
+        #{subscriptionType,jdbcType=TINYINT},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null" >
+        #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="photographerLevel != null" >
+        #{photographerLevel,jdbcType=TINYINT},
+      </if>
+      <if test="logincount != null" >
+        #{logincount,jdbcType=INTEGER},
+      </if>
+      <if test="loginTime != null" >
+        #{loginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLoginTime != null" >
+        #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userOrder != null" >
+        #{userOrder,jdbcType=INTEGER},
+      </if>
+      <if test="rockTime != null" >
+        #{rockTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loginNo != null" >
+        #{loginNo,jdbcType=INTEGER},
+      </if>
+      <if test="userStatus != null" >
+        #{userStatus,jdbcType=INTEGER},
+      </if>
+      <if test="question != null" >
+        #{question,jdbcType=VARCHAR},
+      </if>
+      <if test="answer != null" >
+        #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="isUnit != null" >
+        #{isUnit,jdbcType=TINYINT},
+      </if>
+      <if test="payType != null" >
+        #{payType,jdbcType=TINYINT},
+      </if>
+      <if test="smsduty != null" >
+        #{smsduty,jdbcType=TINYINT},
+      </if>
+      <if test="plainPassword != null" >
+        #{plainPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="siteId != null" >
+        #{siteId,jdbcType=INTEGER},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rolenames != null" >
+        #{rolenames,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        #{userType,jdbcType=INTEGER},
+      </if>
+      <if test="userDivide != null" >
+        #{userDivide,jdbcType=INTEGER},
+      </if>
+      <if test="standby1 != null" >
+        #{standby1,jdbcType=VARCHAR},
+      </if>
+      <if test="standby2 != null" >
+        #{standby2,jdbcType=VARCHAR},
+      </if>
+      <if test="standby3 != null" >
+        #{standby3,jdbcType=VARCHAR},
+      </if>
+      <if test="standby4 != null" >
+        #{standby4,jdbcType=VARCHAR},
+      </if>
+      <if test="standby5 != null" >
+        #{standby5,jdbcType=VARCHAR},
+      </if>
+      <if test="langType != null" >
+        #{langType,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.deepai.photo.bean.CpUserExample" resultType="java.lang.Integer" >
+    select count(*) from cp_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update cp_user
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userName != null" >
+        USER_NAME = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null" >
+        PASSWORD = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tureName != null" >
+        TURE_NAME = #{record.tureName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null" >
+        ADDRESS = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zipcode != null" >
+        ZIPCODE = #{record.zipcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.emailBind != null" >
+        EMAIL_BIND = #{record.emailBind,jdbcType=VARCHAR},
+      </if>
+      <if test="record.emailContact != null" >
+        EMAIL_CONTACT = #{record.emailContact,jdbcType=VARCHAR},
+      </if>
+      <if test="record.telBind != null" >
+        TEL_BIND = #{record.telBind,jdbcType=VARCHAR},
+      </if>
+      <if test="record.telContact != null" >
+        TEL_CONTACT = #{record.telContact,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uploadCount != null" >
+        UPLOAD_COUNT = #{record.uploadCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.pubCount != null" >
+        PUB_COUNT = #{record.pubCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.keepCount != null" >
+        KEEP_COUNT = #{record.keepCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.applyDate != null" >
+        APPLY_DATE = #{record.applyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.regDate != null" >
+        REG_DATE = #{record.regDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.downloadLevel != null" >
+        DOWNLOAD_LEVEL = #{record.downloadLevel,jdbcType=INTEGER},
+      </if>
+      <if test="record.isDownload != null" >
+        IS_DOWNLOAD = #{record.isDownload,jdbcType=TINYINT},
+      </if>
+      <if test="record.downloadType != null" >
+        DOWNLOAD_TYPE = #{record.downloadType,jdbcType=INTEGER},
+      </if>
+      <if test="record.contractPerprice != null" >
+        CONTRACT_PERPRICE = #{record.contractPerprice,jdbcType=INTEGER},
+      </if>
+      <if test="record.contractBasePerprice != null" >
+        CONTRACT_BASE_PERPRICE = #{record.contractBasePerprice,jdbcType=INTEGER},
+      </if>
+      <if test="record.contractStartTime != null" >
+        CONTRACT_START_TIME = #{record.contractStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.contractEndTime != null" >
+        CONTRACT_END_TIME = #{record.contractEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.contractLimitType != null" >
+        CONTRACT_LIMIT_TYPE = #{record.contractLimitType,jdbcType=INTEGER},
+      </if>
+      <if test="record.contractLimitNum != null" >
+        CONTRACT_LIMIT_NUM = #{record.contractLimitNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.contractLimitDlNum != null" >
+        CONTRACT_LIMIT_DL_NUM = #{record.contractLimitDlNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.contractBuyNum != null" >
+        CONTRACT_BUY_NUM = #{record.contractBuyNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.contractNum != null" >
+        CONTRACT_NUM = #{record.contractNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.contractAllNum != null" >
+        CONTRACT_ALL_NUM = #{record.contractAllNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.account != null" >
+        ACCOUNT = #{record.account,jdbcType=DECIMAL},
+      </if>
+      <if test="record.balancePerprice != null" >
+        BALANCE_PERPRICE = #{record.balancePerprice,jdbcType=INTEGER},
+      </if>
+      <if test="record.balanceBasePerprice != null" >
+        BALANCE_BASE_PERPRICE = #{record.balanceBasePerprice,jdbcType=INTEGER},
+      </if>
+      <if test="record.balanceSale != null" >
+        BALANCE_SALE = #{record.balanceSale,jdbcType=INTEGER},
+      </if>
+      <if test="record.balanceRevenue != null" >
+        BALANCE_REVENUE = #{record.balanceRevenue,jdbcType=INTEGER},
+      </if>
+      <if test="record.balanceLimitType != null" >
+        BALANCE_LIMIT_TYPE = #{record.balanceLimitType,jdbcType=INTEGER},
+      </if>
+      <if test="record.balanceLimitNum != null" >
+        BALANCE_LIMIT_NUM = #{record.balanceLimitNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.balanceLimitDlNum != null" >
+        BALANCE_LIMIT_DL_NUM = #{record.balanceLimitDlNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.balanceAllNum != null" >
+        BALANCE_ALL_NUM = #{record.balanceAllNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.threeLimitType != null" >
+        THREE_LIMIT_TYPE = #{record.threeLimitType,jdbcType=INTEGER},
+      </if>
+      <if test="record.threeLimitNum != null" >
+        THREE_LIMIT_NUM = #{record.threeLimitNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.threeLimitDlNum != null" >
+        THREE_LIMIT_DL_NUM = #{record.threeLimitDlNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.downLineNum != null" >
+        DOWN_LINE_NUM = #{record.downLineNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.onLineNum != null" >
+        ON_LINE_NUM = #{record.onLineNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.allDownloadNum != null" >
+        ALL_DOWNLOAD_NUM = #{record.allDownloadNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.unitName != null" >
+        UNIT_NAME = #{record.unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unitAddress != null" >
+        UNIT_ADDRESS = #{record.unitAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unitTel != null" >
+        UNIT_TEL = #{record.unitTel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unitFax != null" >
+        UNIT_FAX = #{record.unitFax,jdbcType=VARCHAR},
+      </if>
+      <if test="record.memo != null" >
+        MEMO = #{record.memo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.authorName != null" >
+        AUTHOR_NAME = #{record.authorName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.subscriberType != null" >
+        SUBSCRIBER_TYPE = #{record.subscriberType,jdbcType=TINYINT},
+      </if>
+      <if test="record.isPublish != null" >
+        IS_PUBLISH = #{record.isPublish,jdbcType=TINYINT},
+      </if>
+      <if test="record.feeType != null" >
+        FEE_TYPE = #{record.feeType,jdbcType=TINYINT},
+      </if>
+      <if test="record.bankAccount != null" >
+        BANK_ACCOUNT = #{record.bankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankUsername != null" >
+        BANK_USERNAME = #{record.bankUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankName != null" >
+        BANK_NAME = #{record.bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankIdCard != null" >
+        BANK_ID_CARD = #{record.bankIdCard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mailAddress != null" >
+        MAIL_ADDRESS = #{record.mailAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mailUsername != null" >
+        MAIL_USERNAME = #{record.mailUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mailIdCard != null" >
+        MAIL_ID_CARD = #{record.mailIdCard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mailZipCode != null" >
+        MAIL_ZIP_CODE = #{record.mailZipCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.discount != null" >
+        DISCOUNT = #{record.discount,jdbcType=INTEGER},
+      </if>
+      <if test="record.photographyDirection != null" >
+        PHOTOGRAPHY_DIRECTION = #{record.photographyDirection,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zone != null" >
+        ZONE = #{record.zone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.subscriptionType != null" >
+        SUBSCRIPTION_TYPE = #{record.subscriptionType,jdbcType=TINYINT},
+      </if>
+      <if test="record.province != null" >
+        PROVINCE = #{record.province,jdbcType=VARCHAR},
+      </if>
+      <if test="record.city != null" >
+        CITY = #{record.city,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idCard != null" >
+        ID_CARD = #{record.idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.photographerLevel != null" >
+        PHOTOGRAPHER_LEVEL = #{record.photographerLevel,jdbcType=TINYINT},
+      </if>
+      <if test="record.logincount != null" >
+        LOGINCOUNT = #{record.logincount,jdbcType=INTEGER},
+      </if>
+      <if test="record.loginTime != null" >
+        LOGIN_TIME = #{record.loginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lastLoginTime != null" >
+        LAST_LOGIN_TIME = #{record.lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.userOrder != null" >
+        USER_ORDER = #{record.userOrder,jdbcType=INTEGER},
+      </if>
+      <if test="record.rockTime != null" >
+        ROCK_TIME = #{record.rockTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.loginNo != null" >
+        LOGIN_NO = #{record.loginNo,jdbcType=INTEGER},
+      </if>
+      <if test="record.userStatus != null" >
+        USER_STATUS = #{record.userStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.question != null" >
+        QUESTION = #{record.question,jdbcType=VARCHAR},
+      </if>
+      <if test="record.answer != null" >
+        ANSWER = #{record.answer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isUnit != null" >
+        IS_UNIT = #{record.isUnit,jdbcType=TINYINT},
+      </if>
+      <if test="record.payType != null" >
+        PAY_TYPE = #{record.payType,jdbcType=TINYINT},
+      </if>
+      <if test="record.smsduty != null" >
+        SMSDUTY = #{record.smsduty,jdbcType=TINYINT},
+      </if>
+      <if test="record.plainPassword != null" >
+        PLAIN_PASSWORD = #{record.plainPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.siteId != null" >
+        SITE_ID = #{record.siteId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createUser != null" >
+        CREATE_USER = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUser != null" >
+        UPDATE_USER = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null" >
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.rolenames != null" >
+        ROLENAMES = #{record.rolenames,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userType != null" >
+        USER_TYPE = #{record.userType,jdbcType=INTEGER},
+      </if>
+      <if test="record.userDivide != null" >
+        USER_DIVIDE = #{record.userDivide,jdbcType=INTEGER},
+      </if>
+      <if test="record.standby1 != null" >
+        STANDBY1 = #{record.standby1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.standby2 != null" >
+        STANDBY2 = #{record.standby2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.standby3 != null" >
+        STANDBY3 = #{record.standby3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.standby4 != null" >
+        STANDBY4 = #{record.standby4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.standby5 != null" >
+        STANDBY5 = #{record.standby5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update cp_user
+    set ID = #{record.id,jdbcType=INTEGER},
+      USER_NAME = #{record.userName,jdbcType=VARCHAR},
+      PASSWORD = #{record.password,jdbcType=VARCHAR},
+      TURE_NAME = #{record.tureName,jdbcType=VARCHAR},
+      ADDRESS = #{record.address,jdbcType=VARCHAR},
+      ZIPCODE = #{record.zipcode,jdbcType=VARCHAR},
+      EMAIL_BIND = #{record.emailBind,jdbcType=VARCHAR},
+      EMAIL_CONTACT = #{record.emailContact,jdbcType=VARCHAR},
+      TEL_BIND = #{record.telBind,jdbcType=VARCHAR},
+      TEL_CONTACT = #{record.telContact,jdbcType=VARCHAR},
+      UPLOAD_COUNT = #{record.uploadCount,jdbcType=INTEGER},
+      PUB_COUNT = #{record.pubCount,jdbcType=INTEGER},
+      KEEP_COUNT = #{record.keepCount,jdbcType=INTEGER},
+      APPLY_DATE = #{record.applyDate,jdbcType=TIMESTAMP},
+      REG_DATE = #{record.regDate,jdbcType=TIMESTAMP},
+      DOWNLOAD_LEVEL = #{record.downloadLevel,jdbcType=INTEGER},
+      IS_DOWNLOAD = #{record.isDownload,jdbcType=TINYINT},
+      DOWNLOAD_TYPE = #{record.downloadType,jdbcType=INTEGER},
+      CONTRACT_PERPRICE = #{record.contractPerprice,jdbcType=INTEGER},
+      CONTRACT_BASE_PERPRICE = #{record.contractBasePerprice,jdbcType=INTEGER},
+      CONTRACT_START_TIME = #{record.contractStartTime,jdbcType=TIMESTAMP},
+      CONTRACT_END_TIME = #{record.contractEndTime,jdbcType=TIMESTAMP},
+      CONTRACT_LIMIT_TYPE = #{record.contractLimitType,jdbcType=INTEGER},
+      CONTRACT_LIMIT_NUM = #{record.contractLimitNum,jdbcType=INTEGER},
+      CONTRACT_LIMIT_DL_NUM = #{record.contractLimitDlNum,jdbcType=INTEGER},
+      CONTRACT_BUY_NUM = #{record.contractBuyNum,jdbcType=INTEGER},
+      CONTRACT_NUM = #{record.contractNum,jdbcType=INTEGER},
+      CONTRACT_ALL_NUM = #{record.contractAllNum,jdbcType=INTEGER},
+      ACCOUNT = #{record.account,jdbcType=DECIMAL},
+      BALANCE_PERPRICE = #{record.balancePerprice,jdbcType=INTEGER},
+      BALANCE_BASE_PERPRICE = #{record.balanceBasePerprice,jdbcType=INTEGER},
+      BALANCE_SALE = #{record.balanceSale,jdbcType=INTEGER},
+      BALANCE_REVENUE = #{record.balanceRevenue,jdbcType=INTEGER},
+      BALANCE_LIMIT_TYPE = #{record.balanceLimitType,jdbcType=INTEGER},
+      BALANCE_LIMIT_NUM = #{record.balanceLimitNum,jdbcType=INTEGER},
+      BALANCE_LIMIT_DL_NUM = #{record.balanceLimitDlNum,jdbcType=INTEGER},
+      BALANCE_ALL_NUM = #{record.balanceAllNum,jdbcType=INTEGER},
+      THREE_LIMIT_TYPE = #{record.threeLimitType,jdbcType=INTEGER},
+      THREE_LIMIT_NUM = #{record.threeLimitNum,jdbcType=INTEGER},
+      THREE_LIMIT_DL_NUM = #{record.threeLimitDlNum,jdbcType=INTEGER},
+      DOWN_LINE_NUM = #{record.downLineNum,jdbcType=INTEGER},
+      ON_LINE_NUM = #{record.onLineNum,jdbcType=INTEGER},
+      ALL_DOWNLOAD_NUM = #{record.allDownloadNum,jdbcType=INTEGER},
+      UNIT_NAME = #{record.unitName,jdbcType=VARCHAR},
+      UNIT_ADDRESS = #{record.unitAddress,jdbcType=VARCHAR},
+      UNIT_TEL = #{record.unitTel,jdbcType=VARCHAR},
+      UNIT_FAX = #{record.unitFax,jdbcType=VARCHAR},
+      MEMO = #{record.memo,jdbcType=VARCHAR},
+      AUTHOR_NAME = #{record.authorName,jdbcType=VARCHAR},
+      SUBSCRIBER_TYPE = #{record.subscriberType,jdbcType=TINYINT},
+      IS_PUBLISH = #{record.isPublish,jdbcType=TINYINT},
+      FEE_TYPE = #{record.feeType,jdbcType=TINYINT},
+      BANK_ACCOUNT = #{record.bankAccount,jdbcType=VARCHAR},
+      BANK_USERNAME = #{record.bankUsername,jdbcType=VARCHAR},
+      BANK_NAME = #{record.bankName,jdbcType=VARCHAR},
+      BANK_ID_CARD = #{record.bankIdCard,jdbcType=VARCHAR},
+      MAIL_ADDRESS = #{record.mailAddress,jdbcType=VARCHAR},
+      MAIL_USERNAME = #{record.mailUsername,jdbcType=VARCHAR},
+      MAIL_ID_CARD = #{record.mailIdCard,jdbcType=VARCHAR},
+      MAIL_ZIP_CODE = #{record.mailZipCode,jdbcType=VARCHAR},
+      DISCOUNT = #{record.discount,jdbcType=INTEGER},
+      PHOTOGRAPHY_DIRECTION = #{record.photographyDirection,jdbcType=VARCHAR},
+      ZONE = #{record.zone,jdbcType=VARCHAR},
+      SUBSCRIPTION_TYPE = #{record.subscriptionType,jdbcType=TINYINT},
+      PROVINCE = #{record.province,jdbcType=VARCHAR},
+      CITY = #{record.city,jdbcType=VARCHAR},
+      ID_CARD = #{record.idCard,jdbcType=VARCHAR},
+      PHOTOGRAPHER_LEVEL = #{record.photographerLevel,jdbcType=TINYINT},
+      LOGINCOUNT = #{record.logincount,jdbcType=INTEGER},
+      LOGIN_TIME = #{record.loginTime,jdbcType=TIMESTAMP},
+      LAST_LOGIN_TIME = #{record.lastLoginTime,jdbcType=TIMESTAMP},
+      USER_ORDER = #{record.userOrder,jdbcType=INTEGER},
+      ROCK_TIME = #{record.rockTime,jdbcType=TIMESTAMP},
+      LOGIN_NO = #{record.loginNo,jdbcType=INTEGER},
+      USER_STATUS = #{record.userStatus,jdbcType=INTEGER},
+      QUESTION = #{record.question,jdbcType=VARCHAR},
+      ANSWER = #{record.answer,jdbcType=VARCHAR},
+      IS_UNIT = #{record.isUnit,jdbcType=TINYINT},
+      PAY_TYPE = #{record.payType,jdbcType=TINYINT},
+      SMSDUTY = #{record.smsduty,jdbcType=TINYINT},
+      PLAIN_PASSWORD = #{record.plainPassword,jdbcType=VARCHAR},
+      SITE_ID = #{record.siteId,jdbcType=INTEGER},
+      CREATE_USER = #{record.createUser,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      UPDATE_USER = #{record.updateUser,jdbcType=VARCHAR},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      ROLENAMES = #{record.rolenames,jdbcType=VARCHAR},
+      USER_TYPE = #{record.userType,jdbcType=INTEGER},
+      USER_DIVIDE = #{record.userDivide,jdbcType=INTEGER},
+      STANDBY1 = #{record.standby1,jdbcType=VARCHAR},
+      STANDBY2 = #{record.standby2,jdbcType=VARCHAR},
+      STANDBY3 = #{record.standby3,jdbcType=VARCHAR},
+      STANDBY4 = #{record.standby4,jdbcType=VARCHAR},
+      STANDBY5 = #{record.standby5,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.deepai.photo.bean.CpUser" >
+    update cp_user
+    <set >
+      <if test="userName != null" >
+        USER_NAME = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        PASSWORD = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="tureName != null" >
+        TURE_NAME = #{tureName,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="zipcode != null" >
+        ZIPCODE = #{zipcode,jdbcType=VARCHAR},
+      </if>
+      <if test="emailBind != null" >
+        EMAIL_BIND = #{emailBind,jdbcType=VARCHAR},
+      </if>
+      <if test="emailContact != null" >
+        EMAIL_CONTACT = #{emailContact,jdbcType=VARCHAR},
+      </if>
+      <if test="telBind != null" >
+        TEL_BIND = #{telBind,jdbcType=VARCHAR},
+      </if>
+      <if test="telContact != null" >
+        TEL_CONTACT = #{telContact,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadCount != null" >
+        UPLOAD_COUNT = #{uploadCount,jdbcType=INTEGER},
+      </if>
+      <if test="pubCount != null" >
+        PUB_COUNT = #{pubCount,jdbcType=INTEGER},
+      </if>
+      <if test="keepCount != null" >
+        KEEP_COUNT = #{keepCount,jdbcType=INTEGER},
+      </if>
+      <if test="applyDate != null" >
+        APPLY_DATE = #{applyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="regDate != null" >
+        REG_DATE = #{regDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="downloadLevel != null" >
+        DOWNLOAD_LEVEL = #{downloadLevel,jdbcType=INTEGER},
+      </if>
+      <if test="isDownload != null" >
+        IS_DOWNLOAD = #{isDownload,jdbcType=TINYINT},
+      </if>
+      <if test="downloadType != null" >
+        DOWNLOAD_TYPE = #{downloadType,jdbcType=INTEGER},
+      </if>
+      <if test="contractPerprice != null" >
+        CONTRACT_PERPRICE = #{contractPerprice,jdbcType=INTEGER},
+      </if>
+      <if test="contractBasePerprice != null" >
+        CONTRACT_BASE_PERPRICE = #{contractBasePerprice,jdbcType=INTEGER},
+      </if>
+      <if test="contractStartTime != null" >
+        CONTRACT_START_TIME = #{contractStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="contractEndTime != null" >
+        CONTRACT_END_TIME = #{contractEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="contractLimitType != null" >
+        CONTRACT_LIMIT_TYPE = #{contractLimitType,jdbcType=INTEGER},
+      </if>
+      <if test="contractLimitNum != null" >
+        CONTRACT_LIMIT_NUM = #{contractLimitNum,jdbcType=INTEGER},
+      </if>
+      <if test="contractLimitDlNum != null" >
+        CONTRACT_LIMIT_DL_NUM = #{contractLimitDlNum,jdbcType=INTEGER},
+      </if>
+      <if test="contractBuyNum != null" >
+        CONTRACT_BUY_NUM = #{contractBuyNum,jdbcType=INTEGER},
+      </if>
+      <if test="contractNum != null" >
+        CONTRACT_NUM = #{contractNum,jdbcType=INTEGER},
+      </if>
+      <if test="contractAllNum != null" >
+        CONTRACT_ALL_NUM = #{contractAllNum,jdbcType=INTEGER},
+      </if>
+      <if test="account != null" >
+        ACCOUNT = #{account,jdbcType=DECIMAL},
+      </if>
+      <if test="balancePerprice != null" >
+        BALANCE_PERPRICE = #{balancePerprice,jdbcType=INTEGER},
+      </if>
+      <if test="balanceBasePerprice != null" >
+        BALANCE_BASE_PERPRICE = #{balanceBasePerprice,jdbcType=INTEGER},
+      </if>
+      <if test="balanceSale != null" >
+        BALANCE_SALE = #{balanceSale,jdbcType=INTEGER},
+      </if>
+      <if test="balanceRevenue != null" >
+        BALANCE_REVENUE = #{balanceRevenue,jdbcType=INTEGER},
+      </if>
+      <if test="balanceLimitType != null" >
+        BALANCE_LIMIT_TYPE = #{balanceLimitType,jdbcType=INTEGER},
+      </if>
+      <if test="balanceLimitNum != null" >
+        BALANCE_LIMIT_NUM = #{balanceLimitNum,jdbcType=INTEGER},
+      </if>
+      <if test="balanceLimitDlNum != null" >
+        BALANCE_LIMIT_DL_NUM = #{balanceLimitDlNum,jdbcType=INTEGER},
+      </if>
+      <if test="balanceAllNum != null" >
+        BALANCE_ALL_NUM = #{balanceAllNum,jdbcType=INTEGER},
+      </if>
+      <if test="threeLimitType != null" >
+        THREE_LIMIT_TYPE = #{threeLimitType,jdbcType=INTEGER},
+      </if>
+      <if test="threeLimitNum != null" >
+        THREE_LIMIT_NUM = #{threeLimitNum,jdbcType=INTEGER},
+      </if>
+      <if test="threeLimitDlNum != null" >
+        THREE_LIMIT_DL_NUM = #{threeLimitDlNum,jdbcType=INTEGER},
+      </if>
+      <if test="downLineNum != null" >
+        DOWN_LINE_NUM = #{downLineNum,jdbcType=INTEGER},
+      </if>
+      <if test="onLineNum != null" >
+        ON_LINE_NUM = #{onLineNum,jdbcType=INTEGER},
+      </if>
+      <if test="allDownloadNum != null" >
+        ALL_DOWNLOAD_NUM = #{allDownloadNum,jdbcType=INTEGER},
+      </if>
+      <if test="unitName != null" >
+        UNIT_NAME = #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="unitAddress != null" >
+        UNIT_ADDRESS = #{unitAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="unitTel != null" >
+        UNIT_TEL = #{unitTel,jdbcType=VARCHAR},
+      </if>
+      <if test="unitFax != null" >
+        UNIT_FAX = #{unitFax,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        MEMO = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="authorName != null" >
+        AUTHOR_NAME = #{authorName,jdbcType=VARCHAR},
+      </if>
+      <if test="subscriberType != null" >
+        SUBSCRIBER_TYPE = #{subscriberType,jdbcType=TINYINT},
+      </if>
+      <if test="isPublish != null" >
+        IS_PUBLISH = #{isPublish,jdbcType=TINYINT},
+      </if>
+      <if test="feeType != null" >
+        FEE_TYPE = #{feeType,jdbcType=TINYINT},
+      </if>
+      <if test="bankAccount != null" >
+        BANK_ACCOUNT = #{bankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="bankUsername != null" >
+        BANK_USERNAME = #{bankUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        BANK_NAME = #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankIdCard != null" >
+        BANK_ID_CARD = #{bankIdCard,jdbcType=VARCHAR},
+      </if>
+      <if test="mailAddress != null" >
+        MAIL_ADDRESS = #{mailAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="mailUsername != null" >
+        MAIL_USERNAME = #{mailUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="mailIdCard != null" >
+        MAIL_ID_CARD = #{mailIdCard,jdbcType=VARCHAR},
+      </if>
+      <if test="mailZipCode != null" >
+        MAIL_ZIP_CODE = #{mailZipCode,jdbcType=VARCHAR},
+      </if>
+      <if test="discount != null" >
+        DISCOUNT = #{discount,jdbcType=INTEGER},
+      </if>
+      <if test="photographyDirection != null" >
+        PHOTOGRAPHY_DIRECTION = #{photographyDirection,jdbcType=VARCHAR},
+      </if>
+      <if test="zone != null" >
+        ZONE = #{zone,jdbcType=VARCHAR},
+      </if>
+      <if test="subscriptionType != null" >
+        SUBSCRIPTION_TYPE = #{subscriptionType,jdbcType=TINYINT},
+      </if>
+      <if test="province != null" >
+        PROVINCE = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        CITY = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null" >
+        ID_CARD = #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="photographerLevel != null" >
+        PHOTOGRAPHER_LEVEL = #{photographerLevel,jdbcType=TINYINT},
+      </if>
+      <if test="logincount != null" >
+        LOGINCOUNT = #{logincount,jdbcType=INTEGER},
+      </if>
+      <if test="loginTime != null" >
+        LOGIN_TIME = #{loginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLoginTime != null" >
+        LAST_LOGIN_TIME = #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userOrder != null" >
+        USER_ORDER = #{userOrder,jdbcType=INTEGER},
+      </if>
+      <if test="userStatus != null" >
+        USER_STATUS = #{userStatus,jdbcType=INTEGER},
+      </if>
+      <if test="question != null" >
+        QUESTION = #{question,jdbcType=VARCHAR},
+      </if>
+      <if test="answer != null" >
+        ANSWER = #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="isUnit != null" >
+        IS_UNIT = #{isUnit,jdbcType=TINYINT},
+      </if>
+      <if test="payType != null" >
+        PAY_TYPE = #{payType,jdbcType=TINYINT},
+      </if>
+      <if test="smsduty != null" >
+        SMSDUTY = #{smsduty,jdbcType=TINYINT},
+      </if>
+      <if test="plainPassword != null" >
+        PLAIN_PASSWORD = #{plainPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="siteId != null" >
+        SITE_ID = #{siteId,jdbcType=INTEGER},
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rolenames != null" >
+        ROLENAMES = #{rolenames,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        USER_TYPE = #{userType,jdbcType=INTEGER},
+      </if>
+      <if test="userDivide != null" >
+        USER_DIVIDE = #{userDivide,jdbcType=INTEGER},
+      </if>
+      <if test="standby1 != null" >
+        STANDBY1 = #{standby1,jdbcType=VARCHAR},
+      </if>
+      <if test="standby2 != null" >
+        STANDBY2 = #{standby2,jdbcType=VARCHAR},
+      </if>
+      <if test="standby3 != null" >
+        STANDBY3 = #{standby3,jdbcType=VARCHAR},
+      </if>
+      <if test="standby4 != null" >
+        STANDBY4 = #{standby4,jdbcType=VARCHAR},
+      </if>
+      <if test="standby5 != null" >
+        STANDBY5 = #{standby5,jdbcType=VARCHAR},
+      </if>
+      <if test="langType != null" >
+        LANG_TYPE = #{langType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.deepai.photo.bean.CpUser" >
+    update cp_user
+    set USER_NAME = #{userName,jdbcType=VARCHAR},
+      PASSWORD = #{password,jdbcType=VARCHAR},
+      TURE_NAME = #{tureName,jdbcType=VARCHAR},
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      ZIPCODE = #{zipcode,jdbcType=VARCHAR},
+      EMAIL_BIND = #{emailBind,jdbcType=VARCHAR},
+      EMAIL_CONTACT = #{emailContact,jdbcType=VARCHAR},
+      TEL_BIND = #{telBind,jdbcType=VARCHAR},
+      TEL_CONTACT = #{telContact,jdbcType=VARCHAR},
+      UPLOAD_COUNT = #{uploadCount,jdbcType=INTEGER},
+      PUB_COUNT = #{pubCount,jdbcType=INTEGER},
+      KEEP_COUNT = #{keepCount,jdbcType=INTEGER},
+      APPLY_DATE = #{applyDate,jdbcType=TIMESTAMP},
+      REG_DATE = #{regDate,jdbcType=TIMESTAMP},
+      DOWNLOAD_LEVEL = #{downloadLevel,jdbcType=INTEGER},
+      IS_DOWNLOAD = #{isDownload,jdbcType=TINYINT},
+      DOWNLOAD_TYPE = #{downloadType,jdbcType=INTEGER},
+      CONTRACT_PERPRICE = #{contractPerprice,jdbcType=INTEGER},
+      CONTRACT_BASE_PERPRICE = #{contractBasePerprice,jdbcType=INTEGER},
+      CONTRACT_START_TIME = #{contractStartTime,jdbcType=TIMESTAMP},
+      CONTRACT_END_TIME = #{contractEndTime,jdbcType=TIMESTAMP},
+      CONTRACT_LIMIT_TYPE = #{contractLimitType,jdbcType=INTEGER},
+      CONTRACT_LIMIT_NUM = #{contractLimitNum,jdbcType=INTEGER},
+      CONTRACT_LIMIT_DL_NUM = #{contractLimitDlNum,jdbcType=INTEGER},
+      CONTRACT_BUY_NUM = #{contractBuyNum,jdbcType=INTEGER},
+      CONTRACT_NUM = #{contractNum,jdbcType=INTEGER},
+      CONTRACT_ALL_NUM = #{contractAllNum,jdbcType=INTEGER},
+      ACCOUNT = #{account,jdbcType=DECIMAL},
+      BALANCE_PERPRICE = #{balancePerprice,jdbcType=INTEGER},
+      BALANCE_BASE_PERPRICE = #{balanceBasePerprice,jdbcType=INTEGER},
+      BALANCE_SALE = #{balanceSale,jdbcType=INTEGER},
+      BALANCE_REVENUE = #{balanceRevenue,jdbcType=INTEGER},
+      BALANCE_LIMIT_TYPE = #{balanceLimitType,jdbcType=INTEGER},
+      BALANCE_LIMIT_NUM = #{balanceLimitNum,jdbcType=INTEGER},
+      BALANCE_LIMIT_DL_NUM = #{balanceLimitDlNum,jdbcType=INTEGER},
+      BALANCE_ALL_NUM = #{balanceAllNum,jdbcType=INTEGER},
+      THREE_LIMIT_TYPE = #{threeLimitType,jdbcType=INTEGER},
+      THREE_LIMIT_NUM = #{threeLimitNum,jdbcType=INTEGER},
+      THREE_LIMIT_DL_NUM = #{threeLimitDlNum,jdbcType=INTEGER},
+      DOWN_LINE_NUM = #{downLineNum,jdbcType=INTEGER},
+      ON_LINE_NUM = #{onLineNum,jdbcType=INTEGER},
+      ALL_DOWNLOAD_NUM = #{allDownloadNum,jdbcType=INTEGER},
+      UNIT_NAME = #{unitName,jdbcType=VARCHAR},
+      UNIT_ADDRESS = #{unitAddress,jdbcType=VARCHAR},
+      UNIT_TEL = #{unitTel,jdbcType=VARCHAR},
+      UNIT_FAX = #{unitFax,jdbcType=VARCHAR},
+      MEMO = #{memo,jdbcType=VARCHAR},
+      AUTHOR_NAME = #{authorName,jdbcType=VARCHAR},
+      SUBSCRIBER_TYPE = #{subscriberType,jdbcType=TINYINT},
+      IS_PUBLISH = #{isPublish,jdbcType=TINYINT},
+      FEE_TYPE = #{feeType,jdbcType=TINYINT},
+      BANK_ACCOUNT = #{bankAccount,jdbcType=VARCHAR},
+      BANK_USERNAME = #{bankUsername,jdbcType=VARCHAR},
+      BANK_NAME = #{bankName,jdbcType=VARCHAR},
+      BANK_ID_CARD = #{bankIdCard,jdbcType=VARCHAR},
+      MAIL_ADDRESS = #{mailAddress,jdbcType=VARCHAR},
+      MAIL_USERNAME = #{mailUsername,jdbcType=VARCHAR},
+      MAIL_ID_CARD = #{mailIdCard,jdbcType=VARCHAR},
+      MAIL_ZIP_CODE = #{mailZipCode,jdbcType=VARCHAR},
+      DISCOUNT = #{discount,jdbcType=INTEGER},
+      PHOTOGRAPHY_DIRECTION = #{photographyDirection,jdbcType=VARCHAR},
+      ZONE = #{zone,jdbcType=VARCHAR},
+      SUBSCRIPTION_TYPE = #{subscriptionType,jdbcType=TINYINT},
+      PROVINCE = #{province,jdbcType=VARCHAR},
+      CITY = #{city,jdbcType=VARCHAR},
+      ID_CARD = #{idCard,jdbcType=VARCHAR},
+      PHOTOGRAPHER_LEVEL = #{photographerLevel,jdbcType=TINYINT},
+      LOGINCOUNT = #{logincount,jdbcType=INTEGER},
+      LOGIN_TIME = #{loginTime,jdbcType=TIMESTAMP},
+      LAST_LOGIN_TIME = #{lastLoginTime,jdbcType=TIMESTAMP},
+      USER_ORDER = #{userOrder,jdbcType=INTEGER},
+      ROCK_TIME = #{rockTime,jdbcType=TIMESTAMP},
+      LOGIN_NO = #{loginNo,jdbcType=INTEGER},
+      USER_STATUS = #{userStatus,jdbcType=INTEGER},
+      QUESTION = #{question,jdbcType=VARCHAR},
+      ANSWER = #{answer,jdbcType=VARCHAR},
+      IS_UNIT = #{isUnit,jdbcType=TINYINT},
+      PAY_TYPE = #{payType,jdbcType=TINYINT},
+      SMSDUTY = #{smsduty,jdbcType=TINYINT},
+      PLAIN_PASSWORD = #{plainPassword,jdbcType=VARCHAR},
+      SITE_ID = #{siteId,jdbcType=INTEGER},
+      CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      ROLENAMES = #{rolenames,jdbcType=VARCHAR},
+      USER_TYPE = #{userType,jdbcType=INTEGER},
+      USER_DIVIDE = #{userDivide,jdbcType=INTEGER},
+      STANDBY1 = #{standby1,jdbcType=VARCHAR},
+      STANDBY2 = #{standby2,jdbcType=VARCHAR},
+      STANDBY3 = #{standby3,jdbcType=VARCHAR},
+      STANDBY4 = #{standby4,jdbcType=VARCHAR},
+      STANDBY5 = #{standby5,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+  <!-- 自写sql -->
+  <update id="updateByUserNameSelective" parameterType="com.deepai.photo.bean.CpUser" >
+    update cp_user
+    <set >
+      <if test="userName != null" >
+        USER_NAME = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        PASSWORD = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="tureName != null" >
+        TURE_NAME = #{tureName,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="zipcode != null" >
+        ZIPCODE = #{zipcode,jdbcType=VARCHAR},
+      </if>
+      <if test="emailBind != null" >
+        EMAIL_BIND = #{emailBind,jdbcType=VARCHAR},
+      </if>
+      <if test="emailContact != null" >
+        EMAIL_CONTACT = #{emailContact,jdbcType=VARCHAR},
+      </if>
+      <if test="telBind != null" >
+        TEL_BIND = #{telBind,jdbcType=VARCHAR},
+      </if>
+      <if test="telContact != null" >
+        TEL_CONTACT = #{telContact,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadCount != null" >
+        UPLOAD_COUNT = #{uploadCount,jdbcType=INTEGER},
+      </if>
+      <if test="pubCount != null" >
+        PUB_COUNT = #{pubCount,jdbcType=INTEGER},
+      </if>
+      <if test="keepCount != null" >
+        KEEP_COUNT = #{keepCount,jdbcType=INTEGER},
+      </if>
+      <if test="applyDate != null" >
+        APPLY_DATE = #{applyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="regDate != null" >
+        REG_DATE = #{regDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="downloadLevel != null" >
+        DOWNLOAD_LEVEL = #{downloadLevel,jdbcType=INTEGER},
+      </if>
+      <if test="isDownload != null" >
+        IS_DOWNLOAD = #{isDownload,jdbcType=TINYINT},
+      </if>
+      <if test="downloadType != null" >
+        DOWNLOAD_TYPE = #{downloadType,jdbcType=INTEGER},
+      </if>
+      <if test="contractPerprice != null" >
+        CONTRACT_PERPRICE = #{contractPerprice,jdbcType=INTEGER},
+      </if>
+      <if test="contractBasePerprice != null" >
+        CONTRACT_BASE_PERPRICE = #{contractBasePerprice,jdbcType=INTEGER},
+      </if>
+      <if test="contractStartTime != null" >
+        CONTRACT_START_TIME = #{contractStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="contractEndTime != null" >
+        CONTRACT_END_TIME = #{contractEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="contractStartTime == null" >
+        CONTRACT_START_TIME =null,
+      </if>
+      <if test="contractEndTime == null" >
+        CONTRACT_END_TIME = null,
+      </if>
+      <if test="contractLimitType != null" >
+        CONTRACT_LIMIT_TYPE = #{contractLimitType,jdbcType=INTEGER},
+      </if>
+      <if test="contractLimitNum != null" >
+        CONTRACT_LIMIT_NUM = #{contractLimitNum,jdbcType=INTEGER},
+      </if>
+      <if test="contractLimitDlNum != null" >
+        CONTRACT_LIMIT_DL_NUM = #{contractLimitDlNum,jdbcType=INTEGER},
+      </if>
+      <if test="contractBuyNum != null" >
+        CONTRACT_BUY_NUM = #{contractBuyNum,jdbcType=INTEGER},
+      </if>
+      <if test="contractNum != null" >
+        CONTRACT_NUM = #{contractNum,jdbcType=INTEGER},
+      </if>
+      <if test="contractAllNum != null" >
+        CONTRACT_ALL_NUM = #{contractAllNum,jdbcType=INTEGER},
+      </if>
+      <if test="account != null" >
+        ACCOUNT = #{account,jdbcType=DECIMAL},
+      </if>
+      <if test="balancePerprice != null" >
+        BALANCE_PERPRICE = #{balancePerprice,jdbcType=INTEGER},
+      </if>
+      <if test="balanceBasePerprice != null" >
+        BALANCE_BASE_PERPRICE = #{balanceBasePerprice,jdbcType=INTEGER},
+      </if>
+      <if test="balanceSale != null" >
+        BALANCE_SALE = #{balanceSale,jdbcType=INTEGER},
+      </if>
+      <if test="balanceRevenue != null" >
+        BALANCE_REVENUE = #{balanceRevenue,jdbcType=INTEGER},
+      </if>
+      <if test="balanceLimitType != null" >
+        BALANCE_LIMIT_TYPE = #{balanceLimitType,jdbcType=INTEGER},
+      </if>
+      <if test="balanceLimitNum != null" >
+        BALANCE_LIMIT_NUM = #{balanceLimitNum,jdbcType=INTEGER},
+      </if>
+      <if test="balanceLimitDlNum != null" >
+        BALANCE_LIMIT_DL_NUM = #{balanceLimitDlNum,jdbcType=INTEGER},
+      </if>
+      <if test="balanceAllNum != null" >
+        BALANCE_ALL_NUM = #{balanceAllNum,jdbcType=INTEGER},
+      </if>
+      <if test="threeLimitType != null" >
+        THREE_LIMIT_TYPE = #{threeLimitType,jdbcType=INTEGER},
+      </if>
+      <if test="threeLimitNum != null" >
+        THREE_LIMIT_NUM = #{threeLimitNum,jdbcType=INTEGER},
+      </if>
+      <if test="threeLimitDlNum != null" >
+        THREE_LIMIT_DL_NUM = #{threeLimitDlNum,jdbcType=INTEGER},
+      </if>
+      <if test="downLineNum != null" >
+        DOWN_LINE_NUM = #{downLineNum,jdbcType=INTEGER},
+      </if>
+      <if test="onLineNum != null" >
+        ON_LINE_NUM = #{onLineNum,jdbcType=INTEGER},
+      </if>
+      <if test="allDownloadNum != null" >
+        ALL_DOWNLOAD_NUM = #{allDownloadNum,jdbcType=INTEGER},
+      </if>
+      <if test="unitName != null" >
+        UNIT_NAME = #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="unitAddress != null" >
+        UNIT_ADDRESS = #{unitAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="unitTel != null" >
+        UNIT_TEL = #{unitTel,jdbcType=VARCHAR},
+      </if>
+      <if test="unitFax != null" >
+        UNIT_FAX = #{unitFax,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        MEMO = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="authorName != null" >
+        AUTHOR_NAME = #{authorName,jdbcType=VARCHAR},
+      </if>
+      <if test="subscriberType != null" >
+        SUBSCRIBER_TYPE = #{subscriberType,jdbcType=TINYINT},
+      </if>
+      <if test="isPublish != null" >
+        IS_PUBLISH = #{isPublish,jdbcType=TINYINT},
+      </if>
+      <if test="feeType != null" >
+        FEE_TYPE = #{feeType,jdbcType=TINYINT},
+      </if>
+      <if test="bankAccount != null" >
+        BANK_ACCOUNT = #{bankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="bankUsername != null" >
+        BANK_USERNAME = #{bankUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        BANK_NAME = #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankIdCard != null" >
+        BANK_ID_CARD = #{bankIdCard,jdbcType=VARCHAR},
+      </if>
+      <if test="mailAddress != null" >
+        MAIL_ADDRESS = #{mailAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="mailUsername != null" >
+        MAIL_USERNAME = #{mailUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="mailIdCard != null" >
+        MAIL_ID_CARD = #{mailIdCard,jdbcType=VARCHAR},
+      </if>
+      <if test="mailZipCode != null" >
+        MAIL_ZIP_CODE = #{mailZipCode,jdbcType=VARCHAR},
+      </if>
+      <if test="discount != null" >
+        DISCOUNT = #{discount,jdbcType=INTEGER},
+      </if>
+      <if test="photographyDirection != null" >
+        PHOTOGRAPHY_DIRECTION = #{photographyDirection,jdbcType=VARCHAR},
+      </if>
+      <if test="zone != null" >
+        ZONE = #{zone,jdbcType=VARCHAR},
+      </if>
+      <if test="subscriptionType != null" >
+        SUBSCRIPTION_TYPE = #{subscriptionType,jdbcType=TINYINT},
+      </if>
+      <if test="province != null" >
+        PROVINCE = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        CITY = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null" >
+        ID_CARD = #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="photographerLevel != null" >
+        PHOTOGRAPHER_LEVEL = #{photographerLevel,jdbcType=TINYINT},
+      </if>
+      <if test="logincount != null" >
+        LOGINCOUNT = #{logincount,jdbcType=INTEGER},
+      </if>
+      <if test="loginTime != null" >
+        LOGIN_TIME = #{loginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLoginTime != null" >
+        LAST_LOGIN_TIME = #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userOrder != null" >
+        USER_ORDER = #{userOrder,jdbcType=INTEGER},
+      </if>
+      <if test="userStatus != null" >
+        USER_STATUS = #{userStatus,jdbcType=INTEGER},
+      </if>
+      <if test="question != null" >
+        QUESTION = #{question,jdbcType=VARCHAR},
+      </if>
+      <if test="answer != null" >
+        ANSWER = #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="isUnit != null" >
+        IS_UNIT = #{isUnit,jdbcType=TINYINT},
+      </if>
+      <if test="payType != null" >
+        PAY_TYPE = #{payType,jdbcType=TINYINT},
+      </if>
+      <if test="smsduty != null" >
+        SMSDUTY = #{smsduty,jdbcType=TINYINT},
+      </if>
+      <if test="plainPassword != null" >
+        PLAIN_PASSWORD = #{plainPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="siteId != null" >
+        SITE_ID = #{siteId,jdbcType=INTEGER},
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rolenames != null" >
+        ROLENAMES = #{rolenames,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        USER_TYPE = #{userType,jdbcType=INTEGER},
+      </if>
+      <if test="userDivide != null" >
+        USER_DIVIDE = #{userDivide,jdbcType=INTEGER},
+      </if>
+      <if test="standby1 != null" >
+        STANDBY1 = #{standby1,jdbcType=VARCHAR},
+      </if>
+      <if test="standby2 != null" >
+        STANDBY2 = #{standby2,jdbcType=VARCHAR},
+      </if>
+      <if test="standby3 != null" >
+        STANDBY3 = #{standby3,jdbcType=VARCHAR},
+      </if>
+      <if test="standby4 != null" >
+        STANDBY4 = #{standby4,jdbcType=VARCHAR},
+      </if>
+      <if test="standby5 != null" >
+        STANDBY5 = #{standby5,jdbcType=VARCHAR},
+      </if>
+      <if test="langType != null" >
+        LANG_TYPE = #{langType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where USER_NAME = #{userName,jdbcType=VARCHAR}
+  </update>
+  <!--  -->
+   <update id="updateByPrimaryKeySelectiveSelf" parameterType="com.deepai.photo.bean.CpUser" >
+    update cp_user
+    <set >
+      <if test="userName != null" >
+        USER_NAME = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        PASSWORD = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="tureName != null" >
+        TURE_NAME = #{tureName,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="zipcode != null" >
+        ZIPCODE = #{zipcode,jdbcType=VARCHAR},
+      </if>
+      <if test="emailBind != null" >
+        EMAIL_BIND = #{emailBind,jdbcType=VARCHAR},
+      </if>
+      <if test="emailContact != null" >
+        EMAIL_CONTACT = #{emailContact,jdbcType=VARCHAR},
+      </if>
+      <if test="telBind != null" >
+        TEL_BIND = #{telBind,jdbcType=VARCHAR},
+      </if>
+      <if test="telContact != null" >
+        TEL_CONTACT = #{telContact,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadCount != null" >
+        UPLOAD_COUNT = #{uploadCount,jdbcType=INTEGER},
+      </if>
+      <if test="pubCount != null" >
+        PUB_COUNT = #{pubCount,jdbcType=INTEGER},
+      </if>
+      <if test="keepCount != null" >
+        KEEP_COUNT = #{keepCount,jdbcType=INTEGER},
+      </if>
+      <if test="applyDate != null" >
+        APPLY_DATE = #{applyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="regDate != null" >
+        REG_DATE = #{regDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="downloadLevel != null" >
+        DOWNLOAD_LEVEL = #{downloadLevel,jdbcType=INTEGER},
+      </if>
+      <if test="isDownload != null" >
+        IS_DOWNLOAD = #{isDownload,jdbcType=TINYINT},
+      </if>
+      <if test="downloadType != null" >
+        DOWNLOAD_TYPE = #{downloadType,jdbcType=INTEGER},
+      </if>
+      <if test="contractPerprice != null" >
+        CONTRACT_PERPRICE = #{contractPerprice,jdbcType=INTEGER},
+      </if>
+      <if test="contractBasePerprice != null" >
+        CONTRACT_BASE_PERPRICE = #{contractBasePerprice,jdbcType=INTEGER},
+      </if>
+      <if test="contractStartTime != null" >
+        CONTRACT_START_TIME = #{contractStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="contractEndTime != null" >
+        CONTRACT_END_TIME = #{contractEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="contractStartTime == null" >
+        CONTRACT_START_TIME =null,
+      </if>
+      <if test="contractEndTime == null" >
+        CONTRACT_END_TIME = null,
+      </if>
+      <if test="contractLimitType != null" >
+        CONTRACT_LIMIT_TYPE = #{contractLimitType,jdbcType=INTEGER},
+      </if>
+      <if test="contractLimitNum != null" >
+        CONTRACT_LIMIT_NUM = #{contractLimitNum,jdbcType=INTEGER},
+      </if>
+      <if test="contractLimitDlNum != null" >
+        CONTRACT_LIMIT_DL_NUM = #{contractLimitDlNum,jdbcType=INTEGER},
+      </if>
+      <if test="contractBuyNum != null" >
+        CONTRACT_BUY_NUM = #{contractBuyNum,jdbcType=INTEGER},
+      </if>
+      <if test="contractNum != null" >
+        CONTRACT_NUM = #{contractNum,jdbcType=INTEGER},
+      </if>
+      <if test="contractAllNum != null" >
+        CONTRACT_ALL_NUM = #{contractAllNum,jdbcType=INTEGER},
+      </if>
+      <if test="account != null" >
+        ACCOUNT = #{account,jdbcType=DECIMAL},
+      </if>
+      <if test="balancePerprice != null" >
+        BALANCE_PERPRICE = #{balancePerprice,jdbcType=INTEGER},
+      </if>
+      <if test="balanceBasePerprice != null" >
+        BALANCE_BASE_PERPRICE = #{balanceBasePerprice,jdbcType=INTEGER},
+      </if>
+      <if test="balanceSale != null" >
+        BALANCE_SALE = #{balanceSale,jdbcType=INTEGER},
+      </if>
+      <if test="balanceRevenue != null" >
+        BALANCE_REVENUE = #{balanceRevenue,jdbcType=INTEGER},
+      </if>
+      <if test="balanceLimitType != null" >
+        BALANCE_LIMIT_TYPE = #{balanceLimitType,jdbcType=INTEGER},
+      </if>
+      <if test="balanceLimitNum != null" >
+        BALANCE_LIMIT_NUM = #{balanceLimitNum,jdbcType=INTEGER},
+      </if>
+      <if test="balanceLimitDlNum != null" >
+        BALANCE_LIMIT_DL_NUM = #{balanceLimitDlNum,jdbcType=INTEGER},
+      </if>
+      <if test="balanceAllNum != null" >
+        BALANCE_ALL_NUM = #{balanceAllNum,jdbcType=INTEGER},
+      </if>
+      <if test="threeLimitType != null" >
+        THREE_LIMIT_TYPE = #{threeLimitType,jdbcType=INTEGER},
+      </if>
+      <if test="threeLimitNum != null" >
+        THREE_LIMIT_NUM = #{threeLimitNum,jdbcType=INTEGER},
+      </if>
+      <if test="threeLimitDlNum != null" >
+        THREE_LIMIT_DL_NUM = #{threeLimitDlNum,jdbcType=INTEGER},
+      </if>
+      <if test="downLineNum != null" >
+        DOWN_LINE_NUM = #{downLineNum,jdbcType=INTEGER},
+      </if>
+      <if test="onLineNum != null" >
+        ON_LINE_NUM = #{onLineNum,jdbcType=INTEGER},
+      </if>
+      <if test="allDownloadNum != null" >
+        ALL_DOWNLOAD_NUM = #{allDownloadNum,jdbcType=INTEGER},
+      </if>
+      <if test="unitName != null" >
+        UNIT_NAME = #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="unitAddress != null" >
+        UNIT_ADDRESS = #{unitAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="unitTel != null" >
+        UNIT_TEL = #{unitTel,jdbcType=VARCHAR},
+      </if>
+      <if test="unitFax != null" >
+        UNIT_FAX = #{unitFax,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        MEMO = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="authorName != null" >
+        AUTHOR_NAME = #{authorName,jdbcType=VARCHAR},
+      </if>
+      <if test="subscriberType != null" >
+        SUBSCRIBER_TYPE = #{subscriberType,jdbcType=TINYINT},
+      </if>
+      <if test="isPublish != null" >
+        IS_PUBLISH = #{isPublish,jdbcType=TINYINT},
+      </if>
+      <if test="feeType != null" >
+        FEE_TYPE = #{feeType,jdbcType=TINYINT},
+      </if>
+      <if test="bankAccount != null" >
+        BANK_ACCOUNT = #{bankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="bankUsername != null" >
+        BANK_USERNAME = #{bankUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        BANK_NAME = #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankIdCard != null" >
+        BANK_ID_CARD = #{bankIdCard,jdbcType=VARCHAR},
+      </if>
+      <if test="mailAddress != null" >
+        MAIL_ADDRESS = #{mailAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="mailUsername != null" >
+        MAIL_USERNAME = #{mailUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="mailIdCard != null" >
+        MAIL_ID_CARD = #{mailIdCard,jdbcType=VARCHAR},
+      </if>
+      <if test="mailZipCode != null" >
+        MAIL_ZIP_CODE = #{mailZipCode,jdbcType=VARCHAR},
+      </if>
+      <if test="discount != null" >
+        DISCOUNT = #{discount,jdbcType=INTEGER},
+      </if>
+      <if test="photographyDirection != null" >
+        PHOTOGRAPHY_DIRECTION = #{photographyDirection,jdbcType=VARCHAR},
+      </if>
+      <if test="zone != null" >
+        ZONE = #{zone,jdbcType=VARCHAR},
+      </if>
+      <if test="subscriptionType != null" >
+        SUBSCRIPTION_TYPE = #{subscriptionType,jdbcType=TINYINT},
+      </if>
+      <if test="province != null" >
+        PROVINCE = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        CITY = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null" >
+        ID_CARD = #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="photographerLevel != null" >
+        PHOTOGRAPHER_LEVEL = #{photographerLevel,jdbcType=TINYINT},
+      </if>
+      <if test="logincount != null" >
+        LOGINCOUNT = #{logincount,jdbcType=INTEGER},
+      </if>
+      <if test="loginTime != null" >
+        LOGIN_TIME = #{loginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLoginTime != null" >
+        LAST_LOGIN_TIME = #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userOrder != null" >
+        USER_ORDER = #{userOrder,jdbcType=INTEGER},
+      </if>
+      <if test="userStatus != null" >
+        USER_STATUS = #{userStatus,jdbcType=INTEGER},
+      </if>
+      <if test="question != null" >
+        QUESTION = #{question,jdbcType=VARCHAR},
+      </if>
+      <if test="answer != null" >
+        ANSWER = #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="isUnit != null" >
+        IS_UNIT = #{isUnit,jdbcType=TINYINT},
+      </if>
+      <if test="payType != null" >
+        PAY_TYPE = #{payType,jdbcType=TINYINT},
+      </if>
+      <if test="smsduty != null" >
+        SMSDUTY = #{smsduty,jdbcType=TINYINT},
+      </if>
+      <if test="plainPassword != null" >
+        PLAIN_PASSWORD = #{plainPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="siteId != null" >
+        SITE_ID = #{siteId,jdbcType=INTEGER},
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rolenames != null" >
+        ROLENAMES = #{rolenames,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        USER_TYPE = #{userType,jdbcType=INTEGER},
+      </if>
+      <if test="userDivide != null" >
+        USER_DIVIDE = #{userDivide,jdbcType=INTEGER},
+      </if>
+      <if test="standby1 != null" >
+        STANDBY1 = #{standby1,jdbcType=VARCHAR},
+      </if>
+      <if test="standby2 != null" >
+        STANDBY2 = #{standby2,jdbcType=VARCHAR},
+      </if>
+      <if test="standby3 != null" >
+        STANDBY3 = #{standby3,jdbcType=VARCHAR},
+      </if>
+      <if test="standby4 != null" >
+        STANDBY4 = #{standby4,jdbcType=VARCHAR},
+      </if>
+      <if test="standby5 != null" >
+        STANDBY5 = #{standby5,jdbcType=VARCHAR},
+      </if>
+      <if test="langType != null" >
+        LANG_TYPE = #{langType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+   <select id="findUidByUname" parameterType="string" resultType="int">
+  select c.id from cp_user c WHERE c.USER_NAME=#{uname}
+  </select>
+ <select id="findUserNameByUid" parameterType="int" resultType="string">
+  select  c.USER_NAME  from cp_user c WHERE  c.id=#{id}
+  </select>
+ <select id="findmailByUid" parameterType="int" resultType="string">
+  select  c.EMAIL_BIND  from cp_user c WHERE  c.id=#{id} and LENGTH(c.EMAIL_BIND)>2
+  </select>
+ <select id="findPhoneByUid" parameterType="int" resultType="string">
+  select  c.TEL_BIND   from cp_user c WHERE  c.id=#{id}
+  </select>
+  <select id="findNameByUid" parameterType="int" resultType="string">
+   select USER_NAME from cp_user where id=#{id}
+  </select>
+  <select id="findTeamName" parameterType="int" resultType="string">
+  SELECT b.ROLE_NAME from cp_user_role a,cp_role b where a.ROLE_ID=b.ID and a.ROLE_ID=#{id}
+  </select>
+  <select id="findUserByUserName"  resultMap="BaseResultMap" parameterType="string">
+   select * from cp_user c where c.USER_NAME=#{userName}
+  </select>
+  <select id="findUserByBindEmail"  resultMap="BaseResultMap" parameterType="string">
+   select * from cp_user c where c.EMAIL_BIND=#{emailBind}
+  </select>
+  <select id="findUserByBindTel"  resultMap="BaseResultMap" parameterType="string">
+   select * from cp_user c where c.TEL_BIND=#{telBind}
+  </select>
+  <select id="findUidByTeamId" resultType="int" parameterType="string">
+  SELECT c.ID from cp_user c ,cp_user_role d where  c.ID =d.USER_ID and d.ROLE_ID=#{id}
+  </select>
+  <select id="findUserByQAndA" resultMap="BaseResultMap" parameterType="map">
+  SELECT * from cp_user c where 1=1  and c.QUESTION=#{question}
+  </select>
+</mapper>

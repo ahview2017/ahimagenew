@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deepai.photo.mapper.CpFavoriteFolderPicMapper" >
+  <resultMap id="BaseResultMap" type="com.deepai.photo.bean.CpFavoriteFolderPic" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="PICTURE_ID" property="pictureId" jdbcType="INTEGER" />
+    <result column="PICTURE_FILENAME" property="pictureFilename" jdbcType="VARCHAR" />
+    <result column="FOLDER_ID" property="folderId" jdbcType="INTEGER" />
+    <result column="PICTURE_LENGTH" property="pictureLength" jdbcType="INTEGER" />
+    <result column="PICTURE_WIDTH" property="pictureWidth" jdbcType="INTEGER" />
+    <result column="PICTURE_HEIGHT" property="pictureHeight" jdbcType="INTEGER" />
+    <result column="GROUP_ID" property="groupId" jdbcType="INTEGER" />
+    <result column="GROUP_TITLE" property="groupTitle" jdbcType="VARCHAR" />
+    <result column="PUBLIC_TIME" property="publicTime" jdbcType="TIMESTAMP" />
+    <result column="CREATER" property="creater" jdbcType="VARCHAR" />
+    <result column="ALL_PATH" property="allPath" jdbcType="VARCHAR" />
+    <result column="USER_ID" property="userId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, PICTURE_ID, PICTURE_FILENAME, FOLDER_ID, PICTURE_LENGTH, PICTURE_WIDTH, PICTURE_HEIGHT, 
+    GROUP_ID, GROUP_TITLE, PUBLIC_TIME, CREATER, ALL_PATH, USER_ID
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.deepai.photo.bean.CpFavoriteFolderPicExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cp_favorite_folder_pic
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+      order by PUBLIC_TIME
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from cp_favorite_folder_pic
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from cp_favorite_folder_pic
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.deepai.photo.bean.CpFavoriteFolderPicExample" >
+    delete from cp_favorite_folder_pic
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.deepai.photo.bean.CpFavoriteFolderPic" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cp_favorite_folder_pic (PICTURE_ID, PICTURE_FILENAME, FOLDER_ID, 
+      PICTURE_LENGTH, PICTURE_WIDTH, PICTURE_HEIGHT, 
+      GROUP_ID, GROUP_TITLE, PUBLIC_TIME, 
+      CREATER, ALL_PATH, USER_ID
+      )
+    values (#{pictureId,jdbcType=INTEGER}, #{pictureFilename,jdbcType=VARCHAR}, #{folderId,jdbcType=INTEGER}, 
+      #{pictureLength,jdbcType=INTEGER}, #{pictureWidth,jdbcType=INTEGER}, #{pictureHeight,jdbcType=INTEGER}, 
+      #{groupId,jdbcType=INTEGER}, #{groupTitle,jdbcType=VARCHAR}, #{publicTime,jdbcType=TIMESTAMP}, 
+      #{creater,jdbcType=VARCHAR}, #{allPath,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.deepai.photo.bean.CpFavoriteFolderPic" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cp_favorite_folder_pic
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pictureId != null" >
+        PICTURE_ID,
+      </if>
+      <if test="pictureFilename != null" >
+        PICTURE_FILENAME,
+      </if>
+      <if test="folderId != null" >
+        FOLDER_ID,
+      </if>
+      <if test="pictureLength != null" >
+        PICTURE_LENGTH,
+      </if>
+      <if test="pictureWidth != null" >
+        PICTURE_WIDTH,
+      </if>
+      <if test="pictureHeight != null" >
+        PICTURE_HEIGHT,
+      </if>
+      <if test="groupId != null" >
+        GROUP_ID,
+      </if>
+      <if test="groupTitle != null" >
+        GROUP_TITLE,
+      </if>
+      <if test="publicTime != null" >
+        PUBLIC_TIME,
+      </if>
+      <if test="creater != null" >
+        CREATER,
+      </if>
+      <if test="allPath != null" >
+        ALL_PATH,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pictureId != null" >
+        #{pictureId,jdbcType=INTEGER},
+      </if>
+      <if test="pictureFilename != null" >
+        #{pictureFilename,jdbcType=VARCHAR},
+      </if>
+      <if test="folderId != null" >
+        #{folderId,jdbcType=INTEGER},
+      </if>
+      <if test="pictureLength != null" >
+        #{pictureLength,jdbcType=INTEGER},
+      </if>
+      <if test="pictureWidth != null" >
+        #{pictureWidth,jdbcType=INTEGER},
+      </if>
+      <if test="pictureHeight != null" >
+        #{pictureHeight,jdbcType=INTEGER},
+      </if>
+      <if test="groupId != null" >
+        #{groupId,jdbcType=INTEGER},
+      </if>
+      <if test="groupTitle != null" >
+        #{groupTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="publicTime != null" >
+        #{publicTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creater != null" >
+        #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="allPath != null" >
+        #{allPath,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.deepai.photo.bean.CpFavoriteFolderPicExample" resultType="java.lang.Integer" >
+    select count(*) from cp_favorite_folder_pic
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update cp_favorite_folder_pic
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.pictureId != null" >
+        PICTURE_ID = #{record.pictureId,jdbcType=INTEGER},
+      </if>
+      <if test="record.pictureFilename != null" >
+        PICTURE_FILENAME = #{record.pictureFilename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.folderId != null" >
+        FOLDER_ID = #{record.folderId,jdbcType=INTEGER},
+      </if>
+      <if test="record.pictureLength != null" >
+        PICTURE_LENGTH = #{record.pictureLength,jdbcType=INTEGER},
+      </if>
+      <if test="record.pictureWidth != null" >
+        PICTURE_WIDTH = #{record.pictureWidth,jdbcType=INTEGER},
+      </if>
+      <if test="record.pictureHeight != null" >
+        PICTURE_HEIGHT = #{record.pictureHeight,jdbcType=INTEGER},
+      </if>
+      <if test="record.groupId != null" >
+        GROUP_ID = #{record.groupId,jdbcType=INTEGER},
+      </if>
+      <if test="record.groupTitle != null" >
+        GROUP_TITLE = #{record.groupTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.publicTime != null" >
+        PUBLIC_TIME = #{record.publicTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.creater != null" >
+        CREATER = #{record.creater,jdbcType=VARCHAR},
+      </if>
+      <if test="record.allPath != null" >
+        ALL_PATH = #{record.allPath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null" >
+        USER_ID = #{record.userId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update cp_favorite_folder_pic
+    set ID = #{record.id,jdbcType=INTEGER},
+      PICTURE_ID = #{record.pictureId,jdbcType=INTEGER},
+      PICTURE_FILENAME = #{record.pictureFilename,jdbcType=VARCHAR},
+      FOLDER_ID = #{record.folderId,jdbcType=INTEGER},
+      PICTURE_LENGTH = #{record.pictureLength,jdbcType=INTEGER},
+      PICTURE_WIDTH = #{record.pictureWidth,jdbcType=INTEGER},
+      PICTURE_HEIGHT = #{record.pictureHeight,jdbcType=INTEGER},
+      GROUP_ID = #{record.groupId,jdbcType=INTEGER},
+      GROUP_TITLE = #{record.groupTitle,jdbcType=VARCHAR},
+      PUBLIC_TIME = #{record.publicTime,jdbcType=TIMESTAMP},
+      CREATER = #{record.creater,jdbcType=VARCHAR},
+      ALL_PATH = #{record.allPath,jdbcType=VARCHAR},
+      USER_ID = #{record.userId,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.deepai.photo.bean.CpFavoriteFolderPic" >
+    update cp_favorite_folder_pic
+    <set >
+      <if test="pictureId != null" >
+        PICTURE_ID = #{pictureId,jdbcType=INTEGER},
+      </if>
+      <if test="pictureFilename != null" >
+        PICTURE_FILENAME = #{pictureFilename,jdbcType=VARCHAR},
+      </if>
+      <if test="folderId != null" >
+        FOLDER_ID = #{folderId,jdbcType=INTEGER},
+      </if>
+      <if test="pictureLength != null" >
+        PICTURE_LENGTH = #{pictureLength,jdbcType=INTEGER},
+      </if>
+      <if test="pictureWidth != null" >
+        PICTURE_WIDTH = #{pictureWidth,jdbcType=INTEGER},
+      </if>
+      <if test="pictureHeight != null" >
+        PICTURE_HEIGHT = #{pictureHeight,jdbcType=INTEGER},
+      </if>
+      <if test="groupId != null" >
+        GROUP_ID = #{groupId,jdbcType=INTEGER},
+      </if>
+      <if test="groupTitle != null" >
+        GROUP_TITLE = #{groupTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="publicTime != null" >
+        PUBLIC_TIME = #{publicTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creater != null" >
+        CREATER = #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="allPath != null" >
+        ALL_PATH = #{allPath,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.deepai.photo.bean.CpFavoriteFolderPic" >
+    update cp_favorite_folder_pic
+    set PICTURE_ID = #{pictureId,jdbcType=INTEGER},
+      PICTURE_FILENAME = #{pictureFilename,jdbcType=VARCHAR},
+      FOLDER_ID = #{folderId,jdbcType=INTEGER},
+      PICTURE_LENGTH = #{pictureLength,jdbcType=INTEGER},
+      PICTURE_WIDTH = #{pictureWidth,jdbcType=INTEGER},
+      PICTURE_HEIGHT = #{pictureHeight,jdbcType=INTEGER},
+      GROUP_ID = #{groupId,jdbcType=INTEGER},
+      GROUP_TITLE = #{groupTitle,jdbcType=VARCHAR},
+      PUBLIC_TIME = #{publicTime,jdbcType=TIMESTAMP},
+      CREATER = #{creater,jdbcType=VARCHAR},
+      ALL_PATH = #{allPath,jdbcType=VARCHAR},
+      USER_ID = #{userId,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <!-- 自写sql~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <select id="showAllFavoriteFolder" parameterType="com.deepai.photo.bean.CpFavoriteFolder" resultMap="BaseResultMap">
+  SELECT * from cp_favorite_folder_pic c where c.FOLDER_ID=#{id} and c.USER_ID=#{uid}  ORDER BY c.PUBLIC_TIME LIMIT 4 
+  </select>
+</mapper>

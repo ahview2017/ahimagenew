@@ -1,0 +1,61 @@
+<div class="client-login-container">
+    <div class="client-login-con">
+        <div class="client-hd-login-tit">
+            <h4 class="cuser-login-tit">用户登录</h4>
+        </div>
+        <div class="client-bd-login-con">
+            <div class="client-bd-login-detail">
+                <div class="c-login-item clear">
+                    <div class="c-login-item-txt fll">
+                        用户名：
+                    </div>
+                    <div class="c-login-item-input fll">
+                        <input type="text" class="c-login-info-input username" ng-model="login.user.name"
+                               ng-keydown="login.enterLogin($event)"/>`
+                    </div>
+                </div>
+                <div class="c-login-item pwd-spec-item clear">
+                    <div class="c-login-item-txt fll">
+                        密&nbsp;&nbsp;&nbsp;码：
+                    </div>
+                    <div class="c-login-item-input fll">
+                        <input type="password" class="c-login-info-input password" ng-model="login.user.pwd"
+                               ng-keydown="login.enterLogin($event)"/>
+                    </div>
+                </div>
+                <div class="c-login-item clear">
+                    <div class="c-login-item-txt fll">
+                        验证码：
+                    </div>
+                    <div class="c-login-item-input fll">
+
+                        <input type="text" style="width: 85px" class="c-login-info-input yanzhengma"
+                               ng-model="login.inputImgVCodeModel"  ng-keydown="login.enterLogin($event)"/>
+
+                        <div style="display:inline-block;">
+                            <img src="/cnsphoto/yanzheng.do"
+                                 onclick="javascript:this.src='/cnsphoto/yanzheng.do?tm='+Math.random()"
+                                 id="vCodeId"/>
+                            <a class="cursor change-hover-color" href="javascript:void(0);"
+                               onclick="document.getElementById('vCodeId').src='/cnsphoto/yanzheng.do?tm='+Math.random()">
+                                换一张</a>
+                        </div>
+                    </div>
+                    <button type="submit" class="client-login-go-btn flr" ng-click="login.loginIn()">登录</button>
+                </div>
+                <div class="forget-register-box">
+                   <span>
+                        <span>[</span>
+                        <a class="change-hover-color" ui-sref="root.forgetPassword">&nbsp;忘记密码&nbsp;</a>
+                        <span>]</span>
+                   </span>
+                   <span class="ml5">
+                        <span>[</span>
+                        <a class="change-hover-color" ui-sref="root.register">&nbsp;注册&nbsp;</a>
+                        <span>]</span>
+                   </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

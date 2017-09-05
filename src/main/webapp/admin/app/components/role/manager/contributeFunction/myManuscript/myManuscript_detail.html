@@ -1,0 +1,239 @@
+<div class="user-manager-container">
+    <div class="oH smt-tit">
+        <role-common-tit value="我的稿件" class="fll"></role-common-tit>
+        <div class="smt-detail fll">稿件详情</div>
+    </div>
+    <div class="send-lock-box" ng-if="(detail.manuscriptDetail.isLocked == 1) && (detail.gType == 3)">
+        <span>稿件被[</span>
+        <span class="color_red">{{detail.manuscriptDetail.lockerName}}</span>
+        <span>]锁定</span>
+        <a class="cursor ml10"  ng-click="detail.unlockManuscript()">强行解锁</a>
+    </div>
+
+    <div class="mt20">
+        <span class="color_red" ng-if="(detail.gType == 3) && (detail.manuscriptDetail.groupStatus == 7)">
+            退稿原因：{{detail.manuscriptDetail.backRemark}}
+        </span>
+    </div>
+    <div>
+        <div class="smt-detail-operate smt-detail-spec-operate">
+            <span ui-sref="role.manager.myManuscript">返回</span>
+            <span ng-if="((detail.manuscriptDetail.isLocked != 1) && (detail.gType == 3))" ng-click="detail.editSendManuscript()">编辑</span>
+            <span ng-if="((detail.manuscriptDetail.isLocked != 1) && (detail.gType == 3))" ng-click="detail.delModalShow('commit-del-modal')">删除</span>
+            <span  ng-if="(detail.manuscriptDetail.isLocked != 1) && (detail.gType == 3)"  ng-click="detail.commitModalShow('commit-confirm-modal')">提交</span>
+            <div class="smt-manage-box">
+                <p class="smt-manage-operate-detail smt-spec-manage-operate" ng-click="detail.toggleMangeOperateCon()">管理</p>
+                <div class="smt-manage-con" ng-if="detail.mangeOperateFlag">
+                    <p class="smt-manage-operate-detail" ui-sref="role.manager.myHistoryVersion({groupId: detail.groupId,gType: detail.gType})">历史版本</p>
+                    <p class="smt-manage-operate-detail" ui-sref="role.manager.myOperateRecord({groupId: detail.groupId,gType: detail.gType})">操作记录</p>
+                </div>
+            </div>
+        </div>
+        <div class="smt-detail-main mt82">
+
+            <div class="smt-detail-tit oH">
+                <h3 class="fll fwb">{{detail.manuscriptDetail.title}}</h3>
+                <span class="fll">{{detail.manuscriptDetail.pictureCount}}张</span>
+            </div>
+            <div class="smt-detail-cont">
+                <div class="oH">
+                    <p class="w20p">
+                        <span class="smt-detail-term">拍摄时间</span>
+                        <span class="ml10">{{detail.manuscriptDetail.fileTime | date : 'yyyy-MM-dd'}}</span>
+                    </p>
+                    <p class="w20p">
+                        <span class="smt-detail-term">作者</span>
+                        <span class="ml10">{{detail.manuscriptDetail.author}}</span>
+                    </p>
+                    <p class="w20p">
+                        <span class="smt-detail-term">编辑人员</span>
+                        <span class="ml10">{{detail.manuscriptDetail.updateUser}}</span>
+                    </p>
+                    <p class="w20p">
+                        <span class="smt-detail-term">稿件类别</span>
+                        <span class="ml10" ng-repeat="item in detail.manuscriptCates">{{item.categoryName}}</span>
+                    </p>
+                </div>
+                <div class="oH">
+                    <p class="w20p">
+                        <span class="smt-detail-term">发布时间</span>
+                        <span class="ml10">{{detail.manuscriptDetail.sginTime | date:'yyyy-MM-hh HH:mm:ss'}}</span>
+                    </p>
+                    <p class="w20p">
+                        <span class="smt-detail-term">人物</span>
+                        <span class="ml10">{{detail.manuscriptDetail.people}}</span>
+                    </p>
+                    <p class="w20p">
+                        <span class="smt-detail-term">地点</span>
+                        <span class="ml10">{{detail.manuscriptDetail.place}}</span>
+                    </p>
+                    <p class="w20p">
+                        <span class="smt-detail-term">稿件属性</span>
+                        <span class="ml10">{{detail.manuscriptDetail.properties | manuscriptFilter}}</span>
+                    </p>
+                </div>
+                <div class="oH">
+                    <p class="w20p">
+                        <span class="smt-detail-term">上传时间</span>
+                        <span class="ml10">{{detail.manuscriptDetail.applyTime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                    </p>
+                    <p class="w20p">
+                        <span class="smt-detail-term">是否限价</span>
+                        <span class="ml10">{{detail.manuscriptDetail.priceType | priceTypeFilter}}</span>
+                    </p>
+                    <p class="w75p">
+                        <span class="smt-detail-term">关键词</span>
+                        <span class="w75p ml10">{{detail.manuscriptDetail.keywords}}</span>
+                    </p>
+                </div>
+                <div class="oH">
+                    <p class="w100p">
+                        <span class="smt-detail-term">稿件说明</span>
+                        <span class="w75p ml10" ng-bind-html="detail.manuscriptDetail.memo | trustHtml"></span>
+                    </p>
+                </div>
+                <div class="oH">
+                    <p class="w100p">
+                        <span class="smt-detail-term">备注</span>
+                        <span class="w75p ml10" ng-bind-html="detail.manuscriptDetail.remark | trustHtml"></span>
+                    </p>
+                </div>
+            </div>
+            <div class="smt-detail-pic">
+                <div class="smt-detail-picItem clearfloat" ng-repeat="item in detail.manuscriptDetail.pics"detail-show-middle-pic>
+                    <div class="fll w30p smt-vm-parent">
+                        <span>{{item.isCover | isCoverFilter}}</span><br/>
+                        <img ng-src="{{item.smallPath}}" class='parent_pic'/>
+                        <div class='smt-wm-box'>
+                        	<img ng-src="{{item.wmPath}}">
+                        	<div class='showMiddlepics'>                                    		                                          		
+                                <table border='1' width='100%' cellpadding="10">
+                                    	        <caption >EXIF信息</caption>
+                                    	        <tr>
+                                    	           	<td>光圈数</td>
+                                    	           	<td>{{item.exFnumber}}</td>
+                                    	        </tr>
+                                    	        <tr>
+                                    	           	<td>感光度</td>
+                                    	           	<td>{{item.exIso}}</td>
+                                    	        </tr>
+                                    	        <tr>
+                                    	           	<td>拍摄相机</td>
+                                    	           	<td>{{item.exModel}}</td>
+                                    	        </tr>
+                                    	        <tr>
+                                    	           	<td>拍摄时间</td>
+                                    	           	<td>{{item.exDatetime |date : 'yyyy-MM-dd HH:mm:ss'}}</td>
+                                    	        </tr>
+                                </table>
+							</div>
+                        </div>
+                    </div>
+                    <div class="picItem-detail fll w30p">
+                        <p>
+                            <span class="smt-detail-term">文件名</span>
+                            <span class="ml10">{{item.filename}}</span>
+                        </p>
+                        <p>
+                            <span class="smt-detail-term">原文件名</span>
+                            <span class="ml10">{{item.sourcePictureName}}</span>
+                        </p>
+                        <p>
+                            <span class="smt-detail-term">原始尺寸</span>
+                            <span class="ml10">{{item.pictureWidth}}*{{item.pictureHeight}}像素</span>
+                        </p>
+                        <p>
+                            <span class="smt-detail-term">文件大小</span>
+                            <span class="ml10">{{item.pictureLength / 1024 | number : 2}}K</span>
+                        </p>
+                        <p>
+                            <span class="smt-detail-term">拍摄时间</span>
+                            <span class="ml10">{{item.filmTime | date : 'yyyy-MM-dd'}}</span>
+                        </p>
+                        <p>
+                            <span class="smt-detail-term">作者</span>
+                            <span class="ml10">{{item.authorName}}</span>
+                        </p>
+                        <p>
+                            <span class="smt-detail-term">人物</span>
+                            <span class="ml10">{{item.people}}</span>
+                        </p>
+                        <p>
+                            <span class="smt-detail-term">关键字</span>
+                            <span class="ml10">{{item.keywords}}</span>
+                        </p>
+                    </div>
+                    <div class="picItem-illustrate fll w30p">
+                        <p class="picItem-illustrate-tit">图片说明</p>
+                        <p class="mt15">{{item.memo}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--提交弹框-->
+    <div class="common-modal-style" id="commit-confirm-modal" style="display:none">
+        <div class="role-add-con">
+            <div class="role-add-tit">
+                确认框
+            </div>
+            <div class="role-modal-con">
+                是否确认提交？
+            </div>
+            <div class="tac mt10">
+                <span class="dib cursor user-add-btn"  ng-click="detail.confirmCommit('commit-confirm-modal')">确定</span>
+                <span class="dib cursor user-add-btn role-del-btn"  ng-click="detail.manuscriptDetailModalHide('commit-confirm-modal')">取消</span>
+            </div>
+        </div>
+    </div>
+    <!--删除弹框-->
+    <div class="common-modal-style" id="commit-del-modal" style="display:none">
+        <div class="role-add-con">
+            <div class="role-add-tit">
+                删除评语
+            </div>
+            <div class="role-modal-con">
+                <span class="back-draft-comments-tit">删除评语：</span>
+                <textarea class="back-draft-comments" placehoder="请输入删除评语" ng-model="detail.delManuscriptReson">
+                </textarea>
+            </div>
+            <div class="tac mt10">
+                <span class="dib cursor user-add-btn"   ng-click="detail.confirmDelManuscript('commit-del-modal')">确定</span>
+                <span class="dib cursor user-add-btn cancel-btn-color role-del-btn"   ng-click="detail.manuscriptDetailModalHide('commit-del-modal')">取消</span>
+            </div>
+        </div>
+    </div>
+    <!--退稿弹框-->
+    <div class="common-modal-style" id="back-manuscript-modal" style="display:none">
+        <div class="role-add-con">
+            <div class="role-add-tit">
+                退稿评语
+            </div>
+            <div class="role-modal-con">
+               <span class="back-draft-comments-tit">退稿评语：</span>
+                <textarea class="back-draft-comments" placehoder="请输入退稿评语" ng-model="detail.backManuscriptReson">
+                </textarea>
+            </div>
+            <div class="tac mt10">
+                <span class="dib cursor user-add-btn"   ng-click="detail.confirmBackManuscript('back-manuscript-modal')">确定</span>
+                <span class="dib cursor user-add-btn cancel-btn-color"   ng-click="detail.manuscriptDetailModalHide('back-manuscript-modal')">取消</span>
+            </div>
+        </div>
+    </div>
+    <!--签发弹框-->
+    <div class="common-modal-style" id="sign-manuscript-modal" style="display:none">
+        <div class="role-add-con">
+            <div class="role-add-tit">
+               签发稿件
+            </div>
+            <div class="role-modal-con">
+              <!--签发-->
+                <ul id="treeDemo" class="ztree"></ul>
+            </div>
+            <div class="tac mt10">
+                <span class="dib cursor user-add-btn"   ng-click="detail.signManuscript('sign-manuscript-modal')">签发</span>
+                <span class="dib cursor user-add-btn cancel-btn-color"   ng-click="detail.manuscriptDetailModalHide('sign-manuscript-modal')">取消</span>
+            </div>
+        </div>
+    </div>
+</div>

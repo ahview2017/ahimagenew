@@ -1,0 +1,77 @@
+<!--轮播-->
+<div class="slider">
+    <div class="bd">
+        <ul>
+            <li ng-repeat="cpLanmuPic in cpLanmuPictures" on-finish-render-filters>
+                <a target='_blank'href="javascript:void(0)" ui-sref="root.news_photos({id:cpLanmuPic.ID})" ng-if='cpLanmuPic.wmPath'>
+				    <img ng-src="{{cpLanmuPic.wmPath}}">
+                    <div class='z1'>{{cpLanmuPic.TITLE}}</div>
+                </a>
+                <a target='_blank' href="javascript:void(0)" ng-if='!cpLanmuPic.wmPath'>
+				    <img ng-src="{{cpLanmuPic.wmPath}}">
+                    <div class='z1'>{{cpLanmuPic.TITLE}}</div>
+                </a>
+            </li>
+        </ul> 
+    </div>
+
+    <div class="hd">       
+        <div class="z2"><ul id='ul_width'></ul></div><!-- 自动分页 -->
+    </div>
+
+    <div class="pnBtn prev">
+        <span class="blackBg"></span>
+        <a class="arrow" href="javascript:void(0)"></a>
+    </div>
+
+    <div class="pnBtn next">
+        <span class="blackBg"></span>
+        <a class="arrow" href="javascript:void(0)"></a>
+    </div>
+
+</div>
+<!--content-->
+<div class='container'>
+    <div class='show_fourimg'>
+        <a target='_blank' href="{{advLanmuPictures[0].url}}"><img ng-src={{advLanmuPictures[0].file}}></a>
+        <a target='_blank' href="{{advLanmuPictures[1].url}}"><img ng-src={{advLanmuPictures[1].file}}></a>
+        <a target='_blank' href="{{advLanmuPictures[2].url}}"><img ng-src={{advLanmuPictures[2].file}}></a>
+        <a target='_blank' href="{{advLanmuPictures[3].url}}"><img ng-src={{advLanmuPictures[3].file}}></a>
+    </div>
+
+    <div class='show_words'>
+        <h1>BULLTIN BOARD<span class='show_words_more' ui-sref='root.webInfoAllView'>more>></span></h1>
+        <a target='_blank'ng-repeat="cpNotice in cpNoticeList" ui-sref="root.webInfoView({id:cpNotice.id,name:cpNotice.noticeTitle,type:1})"><P>{{cpNotice.noticeTitle}}<span class='show_words_time'>{{cpNotice.createTime|date:'yyyy-MM-dd HH:mm:ss'}}</span></P></a>
+    </div>
+
+    <div class='editor_choice'>
+        <h1 class='h1'>EDITOR'S CHOICE</h1>
+        <div class='editor_choice_cont clearfloat'>
+            <div class='editor_choice_cont_l'>
+                <a target='_blank'ui-sref="root.news_photos({id:choiceLanmuPictures[0].ID})"><img ng-src='{{choiceLanmuPictures[0].pics[1].pSmallPath}}'></a>
+                <div class='editor_choice_w'>
+                    <h3>{{choiceLanmuPictures[0].TITLE}}</h3>
+                    <p class="editor_choice_w_p">{{choiceLanmuPictures[0].MEMO}}</p>
+                </div>
+            </div>
+            <div class='editor_choice_cont_m'>
+                <a target='_blank' ui-sref="root.news_photos({id:choiceLanmuPictures[0].ID})"><img ng-src='{{choiceLanmuPictures[0].wmPath}}'></a>
+            </div>
+
+            <div class='editor_choice_cont_r'>
+                <a target='_blank'ui-sref="root.news_photos({id:choiceLanmuPictures[0].ID})"><img ng-src='{{choiceLanmuPictures[0].pics[2].pSmallPath}}' ></a>
+                <a target='_blank'ui-sref="root.news_photos({id:choiceLanmuPictures[0].ID})"> <img ng-src='{{choiceLanmuPictures[0].pics[3].pSmallPath}}'></a>
+            </div>
+        </div>
+    </div>
+    <!--politics -->
+    <div class='politics clearfloat' ng-repeat="zeroLanmuPicture in columnGroupPictures">
+        <h1 class='h1' ui-sref="root.news({id:zeroLanmuPicture.columnId})">{{zeroLanmuPicture.columnName}}</h1>
+        <div class='politics_cont' ng-repeat="columnGroup in zeroLanmuPicture.groupList">
+            <a href='javascript:void(0)' target="_blank"  ui-sref="root.news_photos({id:columnGroup.ID})" ng-if='columnGroup.smallPath'><img ng-src='{{columnGroup.smallPath}}'></a>
+            <a href='javascript:void(0)' target="_blank"  ng-if='!columnGroup.smallPath'><img ng-src='{{columnGroup.cpLanmuGroupPic.allpath}}' alt="{{columnGroup.TITLE}}"></a>
+            <p class="politics_cont_words">{{columnGroup.TITLE}}</p>
+        </div>
+    </div>
+</div>
+

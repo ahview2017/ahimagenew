@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="admin.module">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
+    <!--<meta name="viewport" content="width=device-width,initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />-->
+    <!--<meta name="apple-mobile-web-app-capable" content="yes" />-->
+    <!--<meta name="full-screen" content="true" />-->
+    <!--<meta name="screen-orientation" content="portrait" />-->
+    <!--<meta name="x5-fullscreen" content="true" />-->
+    <!--<meta name="360-fullscreen" content="true" />-->
+    <!--<meta content="telephone=no" name="format-detection" />-->
+    <link rel="icon" href="admin/assets/img/ico.gif" type="image/x-icon"/>
+    <title>中新社管理端</title>
+    <!--css libs-->
+    <link rel="stylesheet" href="admin/assets/libs/font-awesome/font-awesome.min.css">
+    <link rel="stylesheet" href="admin/assets/libs/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="admin/assets/libs/angular-bootstrap-datetimepicker/datetimepicker.css">
+    <link rel="stylesheet" href="admin/assets/libs/zTree/css/zTreeStyle.css">
+    <link rel="stylesheet" href="admin/assets/libs/bootstrap-select/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="admin/assets/libs/swipe/swiper-3.4.1.min.css">
+    <link rel="stylesheet" href="admin/assets/libs/css/jquery/pagination.css">
+    <!------------------manager css------------------->
+    <link rel="stylesheet" href="admin/assets/css/base.css">
+    <link rel="stylesheet" href="admin/assets/css/common.css">
+    <link rel="stylesheet" href="admin/assets/css/role.css">
+    <link rel="stylesheet" href="admin/assets/css/login/login.css">
+    <link rel="stylesheet" href="admin/assets/css/error.css">	
+    <!--manager   systemManage css-->
+    <link rel="stylesheet" href="admin/assets/css/manager/systemManage/manager.css">
+    <link rel="stylesheet" href="admin/assets/css/manager/systemManage/system_manage.css">
+    <link rel='stylesheet' href='admin/assets/css/manager/systemManage/groupMange.css'>
+    <!--manager   dataStatistics css-->
+    <link rel="stylesheet" href="admin/assets/css/manager/dataStatistics/dataStatistics.css"/>
+    <!--manager   contributeFunction css-->
+    <link rel="stylesheet" href="admin/assets/css/manager/contributeFunction/contribute_function.css"/>
+    <!--saler   salesManage css-->
+    <link rel="stylesheet" href="admin/assets/css/saler/saleManage/sale_manage.css"/>
+    <!--editor   editorIndex css-->
+    <link rel="stylesheet" href="admin/assets/css/editor/editorIndex/editor_index.css"/>
+    <!--editor   editorTopBtn css-->
+    <link rel="stylesheet" href="admin/assets/css/editor/editorTopBtn/editorTopBtn.css"/>
+    <!--camerist   cameristIndex css-->
+    <link rel="stylesheet" href="admin/assets/css/camerist/cameristIndex/camerist_index.css"/>
+    <!--camerist   cameristTopBtn css-->
+    <link rel="stylesheet" href="admin/assets/css/camerist/cameristTopBtn/cameristTopBtn.css"/>
+</head>
+<body>
+<div id="view_container">
+    <div ui-view="header"></div>
+    <div ui-view="login"></div>
+    <div ui-view="manager"></div>
+</div>
+<!--JS libs-->
+<script src="admin/assets/libs/jquery/jquery-1.11.3.min.js"></script>
+<script src="admin/assets/libs/angular/angular.min.js"></script>
+<script src="admin/assets/libs/angular/angularjs-dropdown-multiselect.js"></script>
+<script src="admin/assets/libs/angular/angular-translate.min.js"></script>
+<script src="admin/assets/libs/angular/angular-translate-loader-static-files.min.js"></script>
+<script src="admin/assets/libs/moment/moment-with-locales.min.js"></script>
+<script src="admin/assets/libs/angular-bootstrap-datetimepicker/datetimepicker.js"></script>
+<script src="admin/assets/libs/angular-bootstrap-datetimepicker/datetimepicker.templates.js"></script>
+<script src="admin/assets/libs/My97DatePicker/WdatePicker.js"></script>
+<script src="admin/assets/libs/angular/angular-ui-router.js"></script>
+<script src="admin/assets/libs/angular/angular-md5.js"></script>
+<script src="admin/assets/libs/angular-cookies/angular-cookies.min.js"></script>
+<script src="admin/assets/libs/angular-local-storage/angular-local-storage.js"></script>
+<script src="admin/assets/libs/ng-file-upload/ng-file-upload-all.min.js"></script>
+<script src="admin/assets/libs/jquery/jquery.qrcode.min.js"></script>
+<script src="admin/assets/libs/ui-sortable/sortable.js"></script>
+<script src="admin/assets/libs/jquery/pingpp-pc.js"></script>
+<script src="admin/assets/libs/jquery/layer.js"></script>
+<script src="admin/assets/libs/jquery/jquery.form.js"></script>
+<script src="admin/assets/libs/jquery/jqPaginator.js"></script>
+<script src="admin/assets/libs/bootstrap/bootstrap.min.js"></script>
+<script src="admin/assets/libs/angular-bootstrap-datetimepicker/bootstrap-datepicker.js"></script>
+<script src="admin/assets/libs/zTree/js/jquery.ztree.all.js"></script>
+<script src="admin/assets/libs/zTree/js/jquery.ztree.core.js"></script>
+<script src="admin/assets/libs/zTree/js/jquery.ztree.excheck.min.js"></script>
+<script src="admin/assets/libs/zTree/js/jquery.ztree.exedit.js"></script>
+<script src="admin/assets/libs/bootstrap-select/js/bootstrap-select.min.js"></script>
+<!--<script src="admin/assets/libs/ui-sortable/sortable.js"></script>-->
+<script src="admin/assets/libs/swipe/swiper-3.4.1.jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.js"></script>
+<!-- 富文本 -->
+<script src="admin/assets/libs/ueditor/ueditor.config.js"></script>
+<script src="admin/assets/libs/ueditor/editor_api.js"></script>
+<script src="admin/assets/libs/ueditor/lang/zh-cn/zh-cn.js"></script>
+<!-- ECharts -->
+<script src="admin/assets/libs/echarts.common.min.js"></script>
+<!--分页 -->
+<script src="client_en/assets/libs/angular-dirPagination/dirPagination.js"></script>
+<script src="admin/assets/libs/angular-dirPagination/dirPagination.js"></script>
+
+<!--<script src="//cdn.bootcss.com/angular.js/1.5.3/angular.min.js"></script>-->
+<!----------------------------- Javascript ---------------------------------->
+<script src="admin/app/admin.services.js"></script>
+<!--<script src="admin/app/admin.value.js"></script>-->
+<script src="admin/app/admin.filter.js"></script>
+<script src="admin/app/admin.directive.js"></script>
+<script src="admin/app/admin.module.js"></script>
+<script src="admin/app/admin.value.js"></script>
+<script src="admin/app/shared/header/headCtrl.js"></script>
+<script src="admin/app/shared/header/headCtrl.js"></script>
+<!--manager   systemManager JS-->
+<script src="admin/app/components/login/login/loginCtrl.js"></script>
+<script src="admin/app/components/role/manager/managerCtrl.js"></script>
+<script src="admin/app/components/role/manager/managerIndexCtrl.js"></script>
+<script src="admin/app/components/role/manager/systemManage/userManage/userManageCtrl.js"></script>
+<script src="admin/app/components/role/manager/systemManage/onelineUser/onlineUserCtrl.js"></script>
+<script src="admin/app/components/role/manager/systemManage/sortManage/sortManageCtrl.js"></script>
+<script src="admin/app/components/role/manager/systemManage/roleManage/roleManageCtrl.js"></script>
+<script src="admin/app/components/role/manager/systemManage/termManage/termManageCtrl.js"></script>
+<script src="admin/app/components/role/manager/systemManage/sensitiveWordManage/sensitiveWordManageCtrl.js"></script>
+<script src="admin/app/components/role/manager/systemManage/authorityManage/authorityManageCtrl.js"></script>
+<script src="admin/app/components/role/manager/systemManage/advertisingManage/advertisingManageCtrl.js"></script>
+<script src="admin/app/components/role/manager/systemManage/projectPosManage/projectPosManageCtrl.js"></script>
+<script src="admin/app/components/role/manager/systemManage/demandManage/demandManageCtrl.js"></script>
+<script src="admin/app/components/role/manager/systemManage/picDemandManage/picDemandManageCtrl.js"></script>
+<script src="admin/app/components/role/manager/systemManage/sysManage/sysManageCtrl.js"></script>
+<script src="admin/app/components/role/manager/systemManage/downLevelManage/downLevelManageCtrl.js"></script>
+<script src="admin/app/components/role/manager/systemManage/waterMarkManage/waterMarkManageCtrl.js"></script>
+<script src="admin/app/components/role/manager/systemManage/logManage/logManageCtrl.js"></script>
+<script src="admin/app/components/role/manager/systemManage/msgManage/msgManageCtrl.js"></script>
+<script src="admin/app/components/role/manager/systemManage/webInfoManage/webInfoManageCtrl.js"></script>
+<script src="admin/app/components/role/manager/systemManage/orderManage/orderManageCtrl.js"></script>
+<script src="admin/app/components/role/manager/systemManage/priceManage/priceManageCtrl.js"></script>
+<script src="admin/app/components/role/manager/systemManage/projectManage/projectManageCtrl.js"></script>
+<script src="admin/app/components/role/manager/systemManage/columnManage/columnManageCtrl.js"></script>
+<script src="admin/app/components/role/manager/systemManage/projectManage/projectManageDetailCtrl.js"></script>
+<script src="admin/app/components/role/manager/systemManage/projectManage/projectManageNewDetailCtrl.js"></script>
+<script src="admin/app/components/role/manager/systemManage/projectManage/projectManageEditCtrl0.js"></script>
+<script src="admin/app/components/role/manager/systemManage/projectManage/projectManageEditCtrl1.js"></script>
+<script src="admin/app/components/role/manager/systemManage/projectManage/projectManageEditCtrl2.js"></script>
+<script src="admin/app/components/role/manager/systemManage/projectManage/projectManageEditCtrl3.js"></script>
+<script src="admin/app/components/role/manager/systemManage/projectManage/projectManageEditCtrl4.js"></script>
+<script src="admin/app/components/role/manager/systemManage/projectManage/projectManageEditCtrl5.js"></script>
+<script src="admin/app/components/role/manager/systemManage/projectManage/projectManageEditCtrl6.js"></script>
+<script src="admin/app/components/role/manager/systemManage/projectManage/projectManageEditCtrl8.js"></script>
+<script src="admin/app/components/role/manager/systemManage/projectManage/projectManageEditCtrl10.js"></script>
+<script src="admin/app/components/role/manager/systemManage/projectManage/projectManageViewCtrl.js"></script>
+<script src="admin/app/components/role/manager/systemManage/templateManage/templateManageCtrl.js"></script>
+<script src="admin/app/components/role/manager/systemManage/subpoolManage/subpoolManageCtrl.js"></script>
+<script src="admin/app/components/role/manager/systemManage/proofreadManage/proofreadManageCtrl.js"></script>
+<script src="admin/app/components/role/manager/systemManage/groupManage/groupManageCtrl.js"></script>
+<script src="admin/app/components/role/manager/systemManage/groupManage/groupManageDetailCtrl.js"></script>
+<script src="admin/app/components/role/manager/systemManage/friendsLinkManage/friendsLinkManageCtrl.js"></script>
+<!--manager   dataStatistics JS-->
+<script src="admin/app/components/role/manager/dataStatistics/contributeStatistics/contributeStatisticsCtrl.js"></script>
+<script src="admin/app/components/role/manager/dataStatistics/downloadStatistics/downloadStatisticsCtrl.js"></script>
+<script src="admin/app/components/role/manager/dataStatistics/signDraftStatistics/signDraftStatisticsCtrl.js"></script>
+<script src="admin/app/components/role/manager/dataStatistics/remunerationStatistics/remunerationStatisticsCtrl.js"></script>
+<script src="admin/app/components/role/manager/dataStatistics/userinfoStatistics/userinfoStatisticsCtrl.js"></script>
+<script src="admin/app/components/role/manager/dataStatistics/downloaddataStatistics/downloaddataStatisticsCtrl.js"></script>
+<!--manager   contributeFunction JS-->
+<script src="admin/app/components/role/manager/contributeFunction/draftBox/draftboxCtrl.js"></script>
+<script src="admin/app/components/role/manager/contributeFunction/draftBox/draftDetailCtrl.js"></script>
+<script src="admin/app/components/role/manager/contributeFunction/draftBox/draftEditCtrl.js"></script>
+<script src="admin/app/components/role/manager/contributeFunction/payStatistics/payStatisticsCtrl.js"></script>
+<script src="admin/app/components/role/manager/contributeFunction/useGuide/useGuideCtrl.js"></script>
+<script src="admin/app/components/role/manager/contributeFunction/newManuscript/newManuscriptCtrl.js"></script>
+<script src="admin/app/components/role/manager/contributeFunction/myManuscript/myManuscriptCtrl.js"></script>
+<script src="admin/app/components/role/manager/contributeFunction/myManuscript/myManuscriptDetailCtrl.js"></script>
+<script src="admin/app/components/role/manager/contributeFunction/myManuscript/myManuscriptEditCtrl.js"></script>
+
+<script src="admin/app/components/role/manager/editorTopBtn/sendManuscript/sendManuscriptCtrl.js"></script>
+<script src="admin/app/components/role/manager/editorTopBtn/sendManuscript/sendManuscriptDetailCtrl.js"></script>
+<script src="admin/app/components/role/manager/editorTopBtn/sendManuscript/sendManuscriptEditCtrl.js"></script>
+<script src="admin/app/components/role/manager/editorTopBtn/sendManuscript/historyVersionCtrl.js"></script>
+<script src="admin/app/components/role/manager/editorTopBtn/sendManuscript/historyVersionDetail.js"></script>
+<script src="admin/app/components/role/manager/contributeFunction/myManuscript/historyVersionDetail.js"></script>
+<script src="admin/app/components/role/manager/contributeFunction/myManuscript/historyVersionCtrl.js"></script>
+<script src="admin/app/components/role/manager/editorTopBtn/sendManuscript/operateRecordCtrl.js"></script>
+<script src="admin/app/components/role/manager/contributeFunction/myManuscript/operateRecordCtrl.js"></script>
+<script src="admin/app/components/role/manager/editorTopBtn/internalRetention/internalRetentionCtrl.js"></script>
+<script src="admin/app/components/role/manager/editorTopBtn/internalRetention/internalRetentionDetailCtrl.js"></script>
+<script src="admin/app/components/role/manager/editorTopBtn/database/databaseCtrl.js"></script>
+<script src="admin/app/components/role/manager/editorTopBtn/database/databaseDetailCtrl.js"></script>
+<script src="admin/app/components/role/manager/editorTopBtn/database/databaseEditCtrl.js"></script>
+<script src="admin/app/components/role/manager/editorTopBtn/basicInfo/basicInfoCtrl.js"></script>
+<script src="admin/app/components/role/manager/editorTopBtn/oldPhoto/oldPhotoCtrl.js"></script>
+<script src="admin/app/components/role/manager/editorTopBtn/oldPhoto/toPublishPicCtrl.js"></script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deepai.photo.mapper.CpFlowMapper" >
+
+	<!-- ProofreadDutyMap -->
+ <resultMap id="ProofreadDutyMap" type="com.deepai.photo.bean.CpProofread" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="BEGIN_TIME" property="beginTime" jdbcType="DATE" />
+    <result column="END_TIME" property="endTime" jdbcType="DATE" />
+    <result column="ISENABLE" property="isenable" jdbcType="TINYINT" />
+    <result column="SITE_ID" property="siteId" jdbcType="INTEGER" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="DELETE_FLAG" property="deleteFlag" jdbcType="TINYINT" />
+    <result column="LANG_TYPE" property="langType" jdbcType="INTEGER" />
+    <collection property="dutys" ofType="com.deepai.photo.bean.CpDutyUser">
+	   <id column="did" property="id" jdbcType="INTEGER" />
+	    <result column="TYPE" property="type" jdbcType="INTEGER" />
+	    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+	    <result column="PROOFREAD_ID" property="proofreadId" jdbcType="INTEGER" />
+    </collection>
+  </resultMap>
+
+  <!-- 根据条件查询校审配置 --> 
+  <select id="selectProofreadByQuery" parameterType="map" resultMap="ProofreadDutyMap">
+	SELECT p.*,d.ID did,d.PROOFREAD_ID,d.TYPE,d.USER_NAME FROM cp_proofread p 
+		LEFT JOIN cp_duty_user d on d.PROOFREAD_ID=p.ID
+		WHERE p.DELETE_FLAG=0
+		<if test="userName!=null">
+			and p.FIRST_GRADE like CONCAT('%',#{userName},'%') or p.SECOND_GRADE like CONCAT('%',#{userName},'%') or p.THIRD_GRADE like CONCAT('%',#{userName},'%')
+		</if>
+		<if test="beginTime!=null">
+			and p.BEGIN_TIME &gt;=#{beginTime}
+		</if>
+		<if test="endTime!=null">
+			and p.END_TIME &lt;= #{endTime}
+		</if>
+		<if test="langType!=null">
+			and p.LANG_TYPE = #{langType}
+		</if>
+		
+		ORDER BY p.END_TIME desc
+  </select>
+   <!-- 高级查询校审配置 --> 
+  <select id="proofreadSearch" parameterType="map" resultMap="ProofreadDutyMap">
+	SELECT p.*,d.ID did,d.PROOFREAD_ID,d.TYPE,d.USER_NAME FROM cp_proofread p 
+		LEFT JOIN cp_duty_user d on d.PROOFREAD_ID=p.ID
+		WHERE p.DELETE_FLAG=0
+		<if test="proofreadingOne!=null">
+			and d.USER_NAME like CONCAT('%',#{proofreadingOne},'%')
+		</if>
+		<if test="proofreadingTwo!=null">
+			and  d.USER_NAME like CONCAT('%',#{proofreadingTwo},'%')
+		</if>
+		<if test="proofreadingThree!=null">
+			and  d.USER_NAME like CONCAT('%',#{proofreadingThree},'%')
+		</if>
+		<if test="beginTime!=null">
+			and p.BEGIN_TIME &gt;=#{beginTime}
+		</if>
+		<if test="endTime!=null">
+			and p.END_TIME &lt;= #{endTime}
+		</if>
+		<if test="isenable!=null">
+			and p.ISENABLE = #{isenable}
+		</if>
+		<if test="langType!=null">
+			and p.LANG_TYPE = #{langType}
+		</if>
+		
+		ORDER BY p.END_TIME desc
+  </select>
+<!--   <select id="selectProofreadByQuery1" parameterType="map" resultMap="ProofreadDutyMap">
+	SELECT  p.*,d.TYPE,d.USER_NAME FROM cp_proofread p 
+		LEFT JOIN cp_duty_user d on d.PROOFREAD_ID=p.ID
+		WHERE p.id in (${ids})
+  </select> -->
+ 
+  <!-- 根据ID批量校审配置 -->
+  <update id="delProofreadByIds" parameterType="map">
+  	UPDATE cp_proofread SET UPDATE_USER=#{username} ,UPDATE_TIME=#{updatetime} ,DELETE_FLAG=1 where id in 
+  		<foreach collection="ids" item="id" open="(" close=")" separator=",">
+  			#{id}
+  		</foreach>
+  </update>
+  
+  <!-- 查询最大的时间 -->
+  <select id="selectMaxDate" resultType="date">
+  	select MAX(t.END_TIME) from cp_proofread t WHERE t.DELETE_FLAG =0
+  </select>
+  
+  <!-- 批量插入值班人员 -->
+  <insert id="insertDutyUserBatch" parameterType="map">
+ 	 insert into cp_duty_user(TYPE,USER_NAME,PROOFREAD_ID) VALUES 
+ 	 <foreach collection="names" item="name" separator="," index="index">
+ 		(#{type},#{name},#{proofreadId})
+ 	 </foreach> 
+  </insert>
+  
+  <!-- 将过期校审配置设置为不启用 -->
+  <update id="changeUnEnabled">
+ 	 UPDATE cp_proofread  set ISENABLE=0 where  ISENABLE=1 and  END_TIME &lt; DATE(NOW())
+  </update>
+  
+  <!-- 获取当前启用的校审配置 -->
+  <select id="selectNowProofread" parameterType="map" resultMap="ProofreadDutyMap">
+  select p.*,d.TYPE,d.USER_NAME from cp_proofread p 
+	LEFT JOIN cp_duty_user d on d.PROOFREAD_ID=p.ID
+	where DATE(NOW()) &gt;=p.BEGIN_TIME and DATE(NOW()) &lt;= p.END_TIME and p.ISENABLE=1 and p.DELETE_FLAG=0
+	<if test="siteId!=null">
+		and p.SITE_ID=#{siteId}
+	</if>
+  </select>
+  <!-- 批量添加稿件日志 -->
+  <insert id="insertFlowLogBatch" parameterType="com.deepai.photo.bean.CpPicGroupProcess" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cp_pic_group_process(FLOW_TYPE, PICGROUP_ID,OPERATE_USER_ID, OPERATE_USERNAME, OPERATE_TIME) values
+    <foreach collection="logs" item="log" separator=",">
+    	(#{log.flowType},#{log.picgroupId},#{log.operateUserId},#{log.operateUsername},#{log.operateTime})
+    </foreach>
+  </insert>
+  
+  <!-- 删除稿件已有分类 -->
+  <delete id="delGroupCategory">
+  	DELETE FROM cp_pic_group_category where GROUP_ID=#{0} and type=0
+  </delete>
+  
+  <!-- 为稿件添加稿件分类 -->
+  <insert id="insertGroupCategroy" parameterType="map">
+  	INSERT into cp_pic_group_category(GROUP_ID,CATEGORY_ID,TYPE) VALUES
+	<foreach collection="cateIds"   item="cateId" separator=",">
+		(#{groupId},#{cateId},0)
+	</foreach>
+  </insert>
+  <!-- 为稿件添加签发分类 -->
+  <insert id="insertGroupCategroy1" parameterType="map">
+  	INSERT into cp_pic_group_category(GROUP_ID,CATEGORY_ID,TYPE,POSITION) VALUES
+	<foreach collection="cates" item="cates" separator=",">
+		<if test="cates.type == 0">
+			(#{groupId},#{cates.signId},1,
+			<if test="cates.position !=null">#{cates.position}</if>
+			<if test="cates.position ==null">null</if>
+			)
+		</if>		
+	</foreach>
+  </insert>
+ 
+  <!-- 为稿件添加专题 -->
+  <insert id="insertGroupTopic" parameterType="map">
+  	insert into cp_lanmu_picture(LANMU_ID,GROUP_ID) values
+	<foreach collection="cates" item="cates" separator=",">
+		<if test="cates.type == 1">
+			((select l.id from cp_lanmu l where l.TOPIC_ID=#{cates.topicId} ORDER BY l.LNAMU_NO LIMIT 1),#{groupId})
+		</if>		
+	</foreach>
+  </insert>
+ 
+  <!-- 批量添加稿件日志-->
+  <insert id="groupProcessMapper" parameterType="map">
+  	INSERT into cp_pic_group_process(FLOW_TYPE,PICGROUP_ID,OPERATE_USER_ID,OPERATE_USERNAME,OPERATE_TIME) VALUES
+	<foreach collection="logs" item="log" separator=",">
+		(#{log.flowType},#{log.picgroupId},#{log.operateUserId},#{log.operateUsername},#{log.operateTime})
+	</foreach>
+  </insert>
+  
+  <!-- 修改签发类型位置为空 -->
+  <update id="updateCateBleak" parameterType="map">
+  	update cp_pic_group_category c set POSITION=null where c.TYPE=1 and c.POSITION=#{position} and c.CATEGORY_ID=#{signId}
+  </update>
+</mapper>

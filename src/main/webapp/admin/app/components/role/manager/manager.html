@@ -1,0 +1,283 @@
+<!--不是摄影师的时候-->
+<div class="manager-container clear"  ng-if="(admin_roleId == 1) || (admin_roleId == 2) || (admin_roleId == 4) || (admin_roleId == 63) || (admin_roleId == 26)">
+    <div class="editor-top-box w100p" ng-if="(admin_roleId == 2) || (admin_roleId == 3) || (admin_roleId == 63)">
+        <ul class="oH">
+            <li ng-repeat="item in accessObj.editorM | orderBy: 'sortId'" ng-if="(admin_roleId == 2 || admin_roleId == 63) && (accessObj.editorM.length != 0)">
+                <a ng-click="manager.toggleTreeMenu(item.ID)">
+                    <img ng-src="{{manager.rightIconUrl | rightIconUrlFilter: item.ID}}" class="tMenu-img"
+                            ng-click="manager.toggleMenuBg(currentStateName,manager.rightIconUrl)"/>
+                    <span class="tMenu-name">
+                        {{item.RIGHT_NAME}}
+                    </span>
+                </a>
+                <!--<img ng-src="{{topTtem.bgPic}}" class="tMenu-img" ng-if="currentStateName != topTtem.currentState"-->
+                     <!--ng-click="editor.jumpTopBtnView(topTtem.id,$index)"/>-->
+                <!--<img ng-src="{{topTtem.bgPicAct}}" class="tMenu-img" ng-if="currentStateName == topTtem.currentState"-->
+                     <!--ng-click="editor.jumpTopBtnView(topTtem.id,$index)"/>-->
+                <!--<span class="tMenu-name" ng-click="editor.jumpTopBtnView(topTtem.id)" ng-if="currentStateName != topTtem.currentState">{{topTtem.name}}</span>-->
+                <!--<span class="tMenu-name color-white" ng-click="editor.jumpTopBtnView(topTtem.id)" ng-if="currentStateName == topTtem.currentState">{{topTtem.name}}</span>-->
+            </li>
+            <li ng-repeat="item in accessObj.photographerM | orderBy: 'sortId'" ng-if="(admin_roleId == 3) && (accessObj.photographerM.length != 0)">
+                <a ng-click="manager.toggleTreeMenu(item.ID)">
+                    <img ng-src="{{manager.rightIconUrl | rightIconUrlFilter: item.ID}}" class="tMenu-img"/>
+                    <span class="tMenu-name">
+                        {{item.RIGHT_NAME}}
+                    </span>
+                </a>
+                <!--<img ng-src="{{topTtem.bgPic}}" class="tMenu-img" ng-if="currentStateName != topTtem.currentState"-->
+                <!--ng-click="editor.jumpTopBtnView(topTtem.id,$index)"/>-->
+                <!--<img ng-src="{{topTtem.bgPicAct}}" class="tMenu-img" ng-if="currentStateName == topTtem.currentState"-->
+                <!--ng-click="editor.jumpTopBtnView(topTtem.id,$index)"/>-->
+                <!--<span class="tMenu-name" ng-click="editor.jumpTopBtnView(topTtem.id)" ng-if="currentStateName != topTtem.currentState">{{topTtem.name}}</span>-->
+                <!--<span class="tMenu-name color-white" ng-click="editor.jumpTopBtnView(topTtem.id)" ng-if="currentStateName == topTtem.currentState">{{topTtem.name}}</span>-->
+            </li>
+            <li ng-if="(admin_roleId != 2) && (admin_roleId != 63)">
+                <a  ui-sref="role.manager.useGuide">
+                    <img src="admin/assets/img/role/zxs_ld_but_pica_13.png" class="tMenu-img"/>
+                    <span class="tMenu-name">
+                       投稿指南
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a  ui-sref="role.manager.oldPhoto">
+                    <img src="admin/assets/img/role/zxs_ld_but_pica_07.png" class="tMenu-img"/>
+                    <span class="tMenu-name">
+                       老照片
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="dtb  w100p">
+        <div class="manager-left-box dbtc">
+            <div class="m-admin-menu">
+                <div class="m-return-home">
+                    <i class="icon-home curp" ui-sref="role.manager.managerIndex"></i>
+                    <span class="m-home-tap curp" ui-sref="role.manager.managerIndex" translate>100007</span>
+                </div>
+                <div class="m-r-menu">
+                    <!--系统管理-->
+                    <div class="m-item-parent" ng-if="(accessObj.sysM.length != 0) && (admin_roleId == 1 || admin_roleId == 26)">
+                        <div class="m-sale-manage cursor" ng-click="manager.shrinkTreeNav('系统管理')">
+                            <img src="admin/assets/img/role/zxs_wheell.png"/>
+                            <span class="m-market-manage" translate>100004</span>
+                        </div>
+                        <div ng-if="(manager.toggleTreeName == '系统管理') && (manager.toggleSysMenuFlag) && (accessObj.sysM.length != 0)">
+                            <p menu-active-change-style class="m-item-option man_onclick" ng-click="manager.toggleTreeMenu(item.ID)"
+                               ng-repeat="item in accessObj.sysM | orderBy: 'sortId'">
+                                <a class="m-item-name">
+                                    <span>{{item.RIGHT_NAME}}</span>
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                    <!--管理功能-->
+                    <div class="m-item-parent" ng-if="(admin_roleId == 2 || admin_roleId == 63)  && (accessObj.manageFn.length != 0)">
+                        <div class="m-sale-manage cursor"ng-click="manager.shrinkTreeNav('管理功能')">
+                            <img src="admin/assets/img/role/zxs_wheell.png"/>
+                            <span class="m-market-manage" translate>100082</span>
+                        </div>
+                        <div class='man_onclick' menu-active-change-style  ng-repeat="item in accessObj.manageFn | orderBy: 'sortId'"  ng-if="(manager.toggleTreeName == '管理功能') && (manager.toggleManageMenuFlag)">
+                            <p class="m-item-option" ng-click="manager.toggleTreeMenu(item.ID)">
+                                <a class="m-item-name">
+                                    {{item.RIGHT_NAME}}
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                    <!--销售管理-->
+                    <div class="m-item-parent" ng-if="(admin_roleId == 4) && (accessObj.saleM.length != 0)">
+                        <div class="m-sale-manage cursor" ng-click="manager.shrinkTreeNav('销售管理')">
+                            <img src="admin/assets/img/role/zxs_wheell.png"/>
+                            <span class="m-market-manage" translate>100079</span>
+                        </div>
+                        <div>
+                            <p menu-active-change-style class="m-item-option man_onclick" ng-repeat="item in accessObj.saleM | orderBy: 'sortId'" ng-if="(manager.toggleTreeName == '销售管理') && (manager.toggleSaleMenuFlag)"
+                               ng-click="manager.toggleTreeMenu(item.ID)">
+                                <a class="m-item-name">
+                                    {{item.RIGHT_NAME}}
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                    <!--投稿功能-->
+                    <div class="m-item-parent" ng-if="accessObj.contributeFun.length != 0">
+                        <div class="m-sale-manage cursor" ng-click="manager.shrinkTreeNav('投稿功能')">
+                            <img src="admin/assets/img/role/zxs_draft.png"/>
+                            <span class="m-market-manage" translate>100005</span>
+                        </div>
+                        <div class='man_onclick' menu-active-change-style ng-repeat="item in accessObj.contributeFun | orderBy: 'sortId'" ng-if="(manager.toggleTreeName == '投稿功能') && (manager.toggleMsMenuFlag)">
+                            <p class="m-item-option" ng-click="manager.toggleTreeMenu(item.ID)">
+                                <a class="m-item-name">
+                                    {{item.RIGHT_NAME}}
+                                </a>
+                            </p>
+                        </div>
+                        <p class="m-item-option" ng-if="manager.contributeFunToggle" ui-sref="role.manager.useGuide">
+                            <a class="m-item-name">
+                                <span>投稿指南</span>
+                            </a>
+                        </p>
+                    </div>
+                    <!--数据统计-->
+                    <div class="m-item-parent" ng-if="accessObj.dataStatistics.length != 0">
+                        <div class="m-sale-manage cursor" ng-click="manager.shrinkTreeNav('数据统计')">
+                            <img src="admin/assets/img/role/data_statistics.png"/>
+                            <span class="m-market-manage" translate>100006</span>
+                        </div>
+                        <div>
+                            <p  class='man_onclick m-item-option' menu-active-change-style class="m-item-option" ng-repeat="item in accessObj.dataStatistics" ng-if="(manager.toggleTreeName == '数据统计') && (manager.toggleDataMenuFlag)"
+                                ng-click="manager.toggleTreeMenu(item.ID)">
+                                <a class="m-item-name">
+                                    {{item.RIGHT_NAME}}
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="manager-right-box dbtc">
+            <div ui-view></div>
+        </div>
+    </div>
+
+</div>
+<!--是摄影师的时候-->
+<div class="manager-container clear"  ng-if="admin_roleId == 3">
+    <div class="editor-top-box fll w100p">
+        <ul class="oH">
+            <li ng-repeat="item in accessObj.photographerM | orderBy: 'sortId'" ng-if="(admin_roleId == 3) && (accessObj.photographerM.length != 0)">
+                <a ng-click="manager.toggleTreeMenu(item.ID)">
+                    <img  ng-src="{{manager.rightIconUrl | rightIconUrlFilter: item.ID}}" class="tMenu-img"/>
+                    <span class="tMenu-name">
+                        {{item.RIGHT_NAME}}
+                    </span>
+                </a>
+                <!--<img ng-src="{{topTtem.bgPic}}" class="tMenu-img" ng-if="currentStateName != topTtem.currentState"-->
+                <!--ng-click="editor.jumpTopBtnView(topTtem.id,$index)"/>-->
+                <!--<img ng-src="{{topTtem.bgPicAct}}" class="tMenu-img" ng-if="currentStateName == topTtem.currentState"-->
+                <!--ng-click="editor.jumpTopBtnView(topTtem.id,$index)"/>-->
+                <!--<span class="tMenu-name" ng-click="editor.jumpTopBtnView(topTtem.id)" ng-if="currentStateName != topTtem.currentState">{{topTtem.name}}</span>-->
+                <!--<span class="tMenu-name color-white" ng-click="editor.jumpTopBtnView(topTtem.id)" ng-if="currentStateName == topTtem.currentState">{{topTtem.name}}</span>-->
+            </li>
+            <li>
+                <a  ui-sref="role.manager.useGuide">
+                    <img src="admin/assets/img/role/zxs_ld_but_pica_13.png" class="tMenu-img"/>
+                    <span class="tMenu-name">
+                       投稿指南
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="photoer-manager-right-box fll">
+        <div ui-view></div>
+    </div>
+</div>
+<!--不是管理员、销售、值班编辑、摄影师的时候，也就是其他角色的时候-->
+<div class="manager-container clear"  ng-if="(admin_roleId != 1) && (admin_roleId != 2) && (admin_roleId != 3) && (admin_roleId != 4) && (admin_roleId != 63) && (admin_roleId != 26)">
+    <div class="manager-left-box fll">
+        <div class="m-admin-menu">
+            <div class="m-return-home">
+                <i class="icon-home curp" ui-sref="role.manager.managerIndex"></i>
+                <span class="m-home-tap curp" ui-sref="role.manager.managerIndex">返回首页</span>
+            </div>
+            <div class="m-r-menu">
+                <!--系统管理-->
+                <div class="m-item-parent" ng-if="accessObj.sysM.length != 0">
+                    <div class="m-sale-manage cursor" ng-click="manager.sysToggle = !manager.sysToggle;">
+                        <img src="admin/assets/img/role/zxs_wheell.png"/>
+                        <span class="m-market-manage" translate>100004</span>
+                    </div>
+                    <div>
+                        <p menu-active-change-style class="m-item-option" ng-click="manager.toggleTreeMenu(item.ID)" ng-repeat="item in accessObj.sysM | orderBy: 'sortId'" ng-if="manager.sysToggle">
+                            <a class="m-item-name">
+                                <span>{{item.RIGHT_NAME}}</span>
+                            </a>
+                        </p>
+                    </div>
+                </div>
+                <!--管理功能-->
+                <div class="m-item-parent" ng-if="accessObj.manageFn.length != 0">
+                    <div class="m-sale-manage cursor" ng-click="manager.manageToggle = !manager.manageToggle;">
+                        <img src="admin/assets/img/role/zxs_wheell.png"/>
+                        <span class="m-market-manage" translate>100080</span>
+                    </div>
+                    <div ng-repeat="item in accessObj.manageFn | orderBy: 'sortId'" ng-if="manager.manageToggle">
+                        <p class="m-item-option" ng-click="manager.toggleTreeMenu(item.ID)">
+                            <a class="m-item-name">
+                                {{item.RIGHT_NAME}}
+                            </a>
+                        </p>
+                    </div>
+                </div>
+                <!--销售管理-->
+                <div class="m-item-parent" ng-if="accessObj.saleM.length != 0">
+                    <div class="m-sale-manage cursor" ng-click="manager.saleMToggle = !manager.saleMToggle;">
+                        <img src="admin/assets/img/role/zxs_wheell.png"/>
+                        <span class="m-market-manage" translate>100079</span>
+                    </div>
+                    <div>
+                        <p class="m-item-option" ng-repeat="item in accessObj.saleM | orderBy: 'sortId'" ng-if="manager.saleMToggle" ng-click="manager.toggleTreeMenu(item.ID)">
+                            <a class="m-item-name">
+                                {{item.RIGHT_NAME}}
+                            </a>
+                        </p>
+                    </div>
+                </div>
+                <!--值班编辑-->
+                <div class="m-item-parent" ng-if="accessObj.editorM.length != 0">
+                    <div class="m-sale-manage cursor" ng-click="manager.editorToggle = !manager.editorToggle;">
+                        <img src="admin/assets/img/role/zxs_wheell.png"/>
+                        <span class="m-market-manage">值班权限</span>
+                    </div>
+                    <div>
+                        <p class="m-item-option" ng-click="manager.toggleTreeMenu(item.ID)" ng-repeat="item in accessObj.editorM |orderBy:'sortId'" ng-if="manager.editorToggle">
+                            <a class="m-item-name">
+                                {{item.RIGHT_NAME}}
+                            </a>
+                        </p>
+                    </div>
+                </div>
+                <!--摄影师-->
+                <div class="m-item-parent" ng-if="accessObj.photographerM.length != 0">
+                    <div class="m-sale-manage cursor" ng-click="manager.photoerToggle = !manager.photoerToggle;">
+                        <img src="admin/assets/img/role/zxs_wheell.png"/>
+                        <span class="m-market-manage">摄影功能</span>
+                    </div>
+                    <div>
+                        <p class="m-item-option" ng-click="manager.toggleTreeMenu(item.ID)" ng-repeat="item in accessObj.photographerM" ng-if="manager.photoerToggle">
+                            <a class="m-item-name">
+                                {{item.RIGHT_NAME}}
+                            </a>
+                        </p>
+                    </div>
+                </div>
+                <!--投稿功能-->
+                <div class="m-item-parent" ng-if="accessObj.contributeFun.length != 0">
+                    <div class="m-sale-manage cursor" ng-click="manager.contributeFunToggle = !manager.contributeFunToggle;">
+                        <img src="admin/assets/img/role/zxs_draft.png"/>
+                        <span class="m-market-manage">投稿功能</span>
+                    </div>
+                    <div ng-repeat="item in accessObj.contributeFun | orderBy: 'sortId'" ng-if="manager.contributeFunToggle">
+                        <p class="m-item-option" ng-click="manager.toggleTreeMenu(item.ID)">
+                            <a class="m-item-name">
+                                {{item.RIGHT_NAME}}
+                            </a>
+                        </p>
+                    </div>
+                    <p class="m-item-option" ng-if="manager.contributeFunToggle" ui-sref="role.manager.useGuide">
+                        <a class="m-item-name">
+                            <span>投稿指南</span>
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="manager-right-box fll">
+        <div ui-view></div>
+    </div>
+</div>

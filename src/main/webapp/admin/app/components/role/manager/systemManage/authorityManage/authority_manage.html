@@ -1,0 +1,165 @@
+<div class="user-manager-container">
+    <div class="c-common-titbox">
+        <role-common-tit  value="权限管理"></role-common-tit>
+   </div>
+   <div class="c-user-table">
+        <div class="t-search-hd clear">
+            <div class="user-hd-left fll">
+                <label for="checkAllAuth">
+                    <input type="checkbox" ng-model="authorityManage.selectedAll" id="checkAllAuth"
+                           ng-click="authorityManage.checkAll()"/>
+                    <span class="user-check-txt cursor">全选</span>
+                </label>
+                <!--<span class="dib cursor user-add-btn" ng-click="authorityManage.authorityModalShow('authority-add-modal')">添加</span>-->
+                <span class="dib cursor user-add-btn role-modify-btn" ng-click="authorityManage.updateAuthority('authority-modify-modal')">修改</span>
+                <!--<span class="dib cursor user-add-btn role-del-btn" ng-click="authorityManage.authorityModalShow('authority-del-modal')">删除</span>-->
+            </div>
+            <div class="user-hd-right flr">
+                <input id="user-search-input" class="user-search-input" ng-model="search"  ng-keydown="authorityManage.enterSearch($event   )" placeholder="匹配ID、权限名称和备注"/>
+                <img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic cursor" ng-click="authorityManage.SearchAuthoritylist()"/>
+                <!--<span class="dib cursor user-search-btn">高级检索</span>-->
+            </div>
+        </div>
+        <div class="t-uinfo-bd">
+            <div class="table-responsive">
+                <table  class="table table-bordered uInfo-table">
+                    <thead>
+                        <tr>
+                            <th class="uinfo-hd-th"  style="width:7%;"></th>
+                            <!--<th class="uinfo-hd-th">ID</th>-->
+                            <th class="uinfo-hd-th"  style="width:10%;">权限ID</th>
+                            <th class="uinfo-hd-th"  style="width:25%;">名称</th>
+                            <th class="uinfo-hd-th"  style="width:43%;">备注</th>
+                            <th class="uinfo-hd-th"  style="width:10%;">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <tr dir-paginate="item in authorityManage.rightList | itemsPerPage: authorityManage.selPageRows"
+                        total-items="authorityManage.authorityList_total"
+                        current-page="authorityManage.pagination.current">
+                            <td   style="width:7%;" class="wbba">
+                                <input type="checkbox" ng-model="authorityManage.selRightIds[item.ID]"/>
+                            </td>
+                            <!--<td>{{item.ID}}</td>-->
+                            <td    style="width:10%;"  class="wbba">{{item.ID}}</td>
+                            <td    style="width:25%;"  class="wbba">{{item.RIGHT_NAME}}</td>
+                            <td    style="width:43%;"  class="wbba">{{item.MEMO}}</td>
+                            <td    style="width:10%;"  class="wbba">
+                                <img src="admin/assets/img/role/look_user_info.png" class="cursor" width="20" height="20"
+                                     ng-click="authorityManage.updateItemAuthority('authority-modify-modal',item)" title="修改权限"/>
+                                <!--<img src="admin/assets/img/role/red_del.png" class="cursor u-pwd-reset" width="20" height="20" title="删除权限"/>-->
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- 分页 -->
+            <div class="paging-con-box mt10 clear">
+                <div class="photo-record-page fll">
+                    <select ng-model="authorityManage.selPageRows" class="mr10">
+                        <option value="50">50</option>
+                        <option value="40">40</option>
+                        <option value="30">30</option>
+                        <option value="20">20</option>
+                        <option value="10">10</option>
+                    </select>
+                    <span>共找到</span>
+                    <span class="color_red">{{authorityManage.authorityList_total}}</span>
+                    <span>条记录</span>
+                </div>
+                <div class="photo-now-page fll">
+                    <span>第 </span>
+                    <span>{{authorityManage.pagination.current}}</span>
+                    <span>/</span>
+                    <span>{{authorityManage.totalPages}}</span>
+                    <span>页</span>
+                </div>
+                <div class="photo-jump-page flr">
+                    <dir-pagination-controls on-page-change="authorityManage.pageChanged(newPageNumber)"
+                                             template-url="admin/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+                    </dir-pagination-controls>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--权限管理添加弹框-->
+    <div class="common-modal-style" id="authority-add-modal" style="display:none">
+        <div class="role-add-con">
+            <div class="role-add-tit oH">
+                <span class="fll">权限添加</span>
+                <span class="flr curp tit-close"
+                      ng-click="authorityManage.authorityModalHide('authority-add-modal')">×</span>
+            </div>
+            <div class="role-add-main">
+                <div class="role-add-form-info clear">
+                    <div class="role-form-info-top clear">
+                        <div class="fll authority-form-part clear">
+                            <div class="fll sensitive-add-left">名称</div>
+                            <input type="text" class="sensitive-add-input"/>
+                        </div>
+                       <!-- <div class="fll authority-form-part clear">
+                            <div class="fll sensitive-add-left">排序号</div>
+                            <input type="text" class="sensitive-add-input"/>
+                        </div>-->
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="authority-remark-txt fll">备注</div>
+                        <input type="text" class="authority-remark-input fll"/>
+                    </div>
+                </div>
+            </div>
+            <div class="tac">
+                <span class="dib cursor user-add-btn">添加</span>
+                <span class="dib cursor user-add-btn role-del-btn" ng-click="authorityManage.authorityModalHide('authority-add-modal')">取消</span>
+            </div>
+        </div>
+    </div>
+    <!--权限管理修改弹框-->
+    <div class="common-modal-style" id="authority-modify-modal"
+         ng-mousemove="authorityManage.moveModal('modify-modal-tit','authority-modify-modal')"
+         style="display:none">
+        <div class="role-add-con">
+            <div id="modify-modal-tit" class="role-add-tit oH">
+                <span class="fll">权限修改</span>
+                <span class="flr curp tit-close"
+                      ng-click="authorityManage.authorityModalHide('authority-modify-modal')">×</span>
+            </div>
+            <div class="role-add-main role-add-main-height ">
+                <div class="role-add-form-info clear">
+                    <div class="role-form-info-top clear">
+                        <div class="fll authority-form-part clear">
+                            <div class="fll sensitive-add-left">名称</div>
+                            <input type="text" class="sensitive-add-input" ng-model="authorityManage.right.rightName"/>
+                        </div>
+                       <!-- <div class="fll authority-form-part clear">
+                            <div class="fll sensitive-add-left">排序号</div>
+                            <input type="text" class="sensitive-add-input" ng-model="authorityManage.right.orderNum"/>
+                        </div>-->
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="authority-remark-txt fll">备注</div>
+                        <input type="text" class="authority-remark-input fll" ng-model="authorityManage.right.memo"/>
+                    </div>
+                </div>
+            </div>
+            <div class="tac">
+                <span class="dib cursor user-add-btn" ng-click="authorityManage.sureUpdateAuthority('authority-modify-modal')">修改</span>
+                <span class="dib cursor user-add-btn role-del-btn" ng-click="authorityManage.authorityModalHide('authority-modify-modal')">取消</span>
+            </div>
+        </div>
+    </div>
+    <!--权限管理删除弹框-->
+    <div class="common-modal-style" id="authority-del-modal" style="display:none">
+        <div class="role-add-con">
+            <div class="role-add-tit">
+                删除提醒
+            </div>
+            <div class="role-modal-con">
+                你确定要删除该权限吗？
+            </div>
+            <div class="tac mt10">
+                <span class="dib cursor user-add-btn"   ng-click="authorityManage.authorityModalHide('authority-del-modal')">确定</span>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,24 @@
+@charset "UTF-8";
+
+.page-btn{
+    display: inline-block;
+    width: 35px;
+    cursor: pointer;
+    color: #000;
+}
+.page-btn-long{
+    width: 50px;
+}
+.page-btn:hover {
+    color: #FF9900;
+}
+.page-jump-input{
+
+}
+.toPageBtn{
+
+}
+.toPageNum{
+    width: 45px;
+    margin-left: 10px;
+}

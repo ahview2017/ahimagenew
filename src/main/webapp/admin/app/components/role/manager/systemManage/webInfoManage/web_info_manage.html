@@ -1,0 +1,183 @@
+<div class="user-manager-container">
+    <div class="c-common-titbox">
+        <role-common-tit value="网站信息管理"></role-common-tit>
+    </div>
+    <div class="c-user-table">
+        <div class="t-search-hd clear">
+            <div class="user-hd-left fll">
+                <label for="checkAllWebInfo">
+                    <input type="checkbox" id="inputAllCheckId" ng-model="webInfoManage.isHadAllCheck"
+                           id="checkAllWebInfo"
+                           ng-click="webInfoManage.onCheckAllClick()"/>
+                    <span class="user-check-txt">全选</span>
+                </label>
+                <span class="dib cursor user-add-btn"
+                      ng-click="webInfoManage.webInfoModalShow('webinfo-add-modal')">添加</span>
+                <span class="dib cursor user-add-btn role-modify-btn"
+                      ng-click="webInfoManage.onShowEditModelClick(0,null,null)">修改</span>
+                <span class="dib cursor user-add-btn role-del-btn"
+                      ng-click="webInfoManage.onShowDeleteModelClick(0,null)">删除</span>
+            </div>
+            <div class="user-hd-right flr">
+                <input class="user-search-input" ng-model="webInfoManage.webSearchModel"
+                       placeholder="可查询标题"
+                       ng-keydown="webInfoManage.onEnterSearchClick($event)"/>
+                <img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic"
+                     ng-click="webInfoManage.onSearchDataClick()"/>
+                <!--<span class="dib cursor user-search-btn">高级检索</span>-->
+            </div>
+        </div>
+        <div class="t-uinfo-bd">
+            <div class="table-responsive">
+                <table class="table table-bordered uInfo-table">
+                    <thead>
+                    <tr>
+                        <th class="uinfo-hd-th" style="width:8%;"></th>
+                        <th class="uinfo-hd-th" style="width:12%;">ID</th>
+                        <th class="uinfo-hd-th" style="width:30%;">标题</th>
+                        <th class="uinfo-hd-th" style="width:20%;">最近修改时间</th>
+                        <th class="uinfo-hd-th" style="width:15%;">修改人</th>
+                        <th class="uinfo-hd-th" style="width:15%;">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr dir-paginate="webItem in webInfoManage.webInformArray | itemsPerPage: webInfoManage.selPageRows"
+                            total-items="webInfoManage.webInfoList_total"
+                            current-page="webInfoManage.pagination.current"
+                            ng-init="webInfoManage.checkBoxArray[$index] = false">
+                            <td  style="width:8%;" class="wbba">
+                                <input type="checkbox" ng-model="webInfoManage.checkBoxArray[$index]"
+                                       ng-true-value="{{webItem.id}}" ng-false-value="false"/>
+                            </td>
+                            <td  style="width:12%;"  class="wbba">{{webItem.id}}</td>
+                            <td  style="width:30%;"  class="wbba">{{webItem.title}}</td>
+                            <td  style="width:20%;"  class="wbba">{{webItem.datetime|date:'yyyy-MM-dd'}}</td>
+                            <td  style="width:15%;"  class="wbba">{{webItem.lastUpdateUser}}</td>
+                            <td  style="width:15%;"  class="wbba">
+                                <img src="admin/assets/img/role/look_user_info.png" class="cursor" width="20" height="20"
+                                     title="修改" ng-click="webInfoManage.onShowEditModelClick(-1,webItem.id,$index)"/>
+                                <img src="admin/assets/img/role/red_del.png" class="cursor u-pwd-reset" width="20"
+                                     title="删除" height="20" ng-click="webInfoManage.onShowDeleteModelClick(-1,webItem.id)"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- 分页 -->
+            <div class="paging-con-box mt10 clear">
+                <div class="photo-record-page fll">
+                    <select ng-model="webInfoManage.selPageRows" class="mr10">
+                        <option value="50">50</option>
+                        <option value="40">40</option>
+                        <option value="30">30</option>
+                        <option value="20">20</option>
+                        <option value="10">10</option>
+                    </select>
+                    <span>共找到</span>
+                    <span class="color_red">{{webInfoManage.webInfoList_total}}</span>
+                    <span>条记录</span>
+                </div>
+                <div class="photo-now-page fll">
+                    <span>第 </span>
+                    <span>{{webInfoManage.pagination.current}}</span>
+                    <span>/</span>
+                    <span>{{webInfoManage.totalPages}}</span>
+                    <span>页</span>
+                </div>
+                <div class="photo-jump-page flr">
+                    <dir-pagination-controls on-page-change="webInfoManage.pageChanged(newPageNumber)"
+                                             template-url="admin/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+                    </dir-pagination-controls>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--网站信息添加弹框-->
+    <div class="common-modal-style" id="webinfo-add-modal"
+         ng-mousemove="webInfoManage.moveModal('add-modal-tit','webinfo-add-modal')"
+         style="display:none">
+        <div class="role-add-con">
+            <div id="add-modal-tit" class="role-add-tit oH">
+                <span class="fll">网站信息添加</span>
+                <span class="flr curp tit-close"
+                      ng-click="webInfoManage.onCancelWebInformModalClick(true)">×</span>
+            </div>
+            <div class="role-add-main">
+                <div class="role-add-form-info advertise-add-form-info clear">
+                    <div class="role-form-info-bottom clear">
+                        <div class="role-remark-txt fll">标题</div>
+                        <input type="text" class="adverse-remark-input fll"
+                               ng-model="webInfoManage.webTitleModel"/>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="role-remark-txt fll">内容</div>
+                        <!--<textarea class="web-info-area fll"-->
+                        <!--ng-model="webInfoManage.webContainerModel"></textarea>-->
+                        <script id="editWebAddId" type="text/plain"
+                                style="width:840px;height:320px;margin-left: 93px;"></script>
+                    </div>
+                </div>
+            </div>
+            <div class="tac">
+                <span class="dib cursor user-add-btn"
+                      ng-click="webInfoManage.onAddWebInformClick()">添加</span>
+                <span class="dib cursor user-add-btn role-del-btn"
+                      ng-click="webInfoManage.onCancelWebInformModalClick(true)">取消</span>
+            </div>
+        </div>
+    </div>
+    <!--网站信息修改弹框-->
+    <div class="common-modal-style" id="webinfo-modify-modal"
+         ng-mousemove="webInfoManage.moveModal('modify-modal-tit','webinfo-modify-modal')"
+         style="display:none">
+        <div class="role-add-con">
+            <div id="modify-modal-tit" class="role-add-tit oH">
+                <span class="fll">网站信息修改</span>
+                <span class="flr curp tit-close"
+                      ng-click="webInfoManage.onCancelWebInformModalClick(false)">×</span>
+            </div>
+            <div class="role-add-main">
+                <div class="role-add-form-info advertise-add-form-info clear">
+                    <div class="role-form-info-bottom clear">
+                        <div class="role-remark-txt fll">标题</div>
+                        <input type="text" class="adverse-remark-input fll"
+                               ng-model="webInfoManage.webEditTitleModel"/>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="role-remark-txt fll">内容</div>
+                        <!--<textarea class="web-info-area fll"-->
+                        <!--ng-model="webInfoManage.webEditContainerModel"></textarea>-->
+                        <script id="editWebEditId" type="text/plain"
+                                style="width:840px;height:320px;margin-left: 93px;"></script>
+                    </div>
+                </div>
+            </div>
+            <div class="tac">
+                <span class="dib cursor user-add-btn"
+                      ng-click="webInfoManage.onEditWebInformClick()">修改</span>
+                <span class="dib cursor user-add-btn role-del-btn"
+                      ng-click="webInfoManage.onCancelWebInformModalClick(false)">取消</span>
+            </div>
+        </div>
+    </div>
+    <!--网站信息删除弹框-->
+    <div class="common-modal-style" id="webinfo-del-modal"
+         ng-mousemove="webInfoManage.moveModal('del-modal-tit','webinfo-del-modal')"
+         style="display:none">
+        <div class="role-add-con">
+            <div id="del-modal-tit" class="role-add-tit">
+                删除提醒
+            </div>
+            <div class="role-modal-con">
+                你确定要删除该网站信息吗？
+            </div>
+            <div class="tac mt10">
+                <span class="dib cursor user-add-btn"
+                      ng-click="webInfoManage.onDeleteWebTableData()">确定</span>
+                 <span class="dib cursor user-add-btn role-del-btn"
+                       ng-click="webInfoManage.webInfoModalHide('webinfo-del-modal')">取消</span>
+            </div>
+        </div>
+    </div>
+</div>

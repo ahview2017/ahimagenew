@@ -1,0 +1,296 @@
+<div class="webinfo-view-container container">
+    <h5 class="client-user-reg">用户注册</h5>
+    <div class="ml20">
+        <div class="tac">
+            <span class="color-spec-red">欢迎您注册登记成为会员! </span>
+            <span>请输入您的个人资料（各带*号选项必须填写，填写必须真实）</span>
+        </div>
+        <form name="register_form" novalidate>
+            <div  class="u-reg-fill-info-con" >
+                <div class="mt15">
+                    <div class="c-register-info-item">
+                        <span class="c-register-two-tit">登录名：</span>
+                        <input type="text" class="c-register-input" name="loginName"
+                               ng-model="registerStepTwo.loginName"  ng-blur="registerStepTwo.req_checkHoverUserExist()">
+                        <span class="color_standard" ng-show="registerStepTwo.state == 2">
+                            用户名可用
+                        </span>
+                        <span class="color_red" ng-show="registerStepTwo.state == 0">
+                            用户名已存在
+                        </span>
+                        <span class="color_red" ng-show="registerStepTwo.state == 1">
+                            用户名格式不正确
+                        </span>
+                    </div>
+                    <div class="c-register-info-item">
+                        <span class="c-register-two-tit">申请类别：</span>
+                        <span>{{registerStepTwo.applyCategoryName}}</span>
+                    </div>
+                    <!--<div class="c-register-info-item">-->
+                        <!--<span class="c-register-two-tit">用户名:</span>-->
+                        <!--<input type="text" class="c-register-input" ng-model="registerStepTwo.registerInfo.userName">`-->
+                    <!--</div>-->
+                    <div class="c-register-info-item mt10">
+                        <span class="c-register-two-tit">订户类型：</span>
+                        <select class="c-register-input" ng-model="registerStepTwo.registerInfo.userCategory">
+                            <option value="0">个人</option>
+                            <option value="1">企业</option>
+                        </select>
+                    </div>
+                    <!--订户才有-->
+                    <div class="c-register-info-item mt10" ng-show="registerStepTwo.applyCategory == '5'">
+                        <span class="c-register-two-tit">订阅类型：</span>
+                        <select class="c-register-input" ng-model="registerStepTwo.registerInfo.subscriptionType">
+                            <option value="" selected="">--请选择--</option>
+                            <option value="1">图书</option>
+                            <option value="2">杂志</option>
+                            <option value="3">报纸</option>
+                            <option value="4">网络</option>
+                            <option value="5">影视</option>
+                            <option value="6">广告</option>
+                            <option value="7">其它</option>
+                        </select>
+                    </div>
+                    <!--摄影师才有-->
+                    <div class="c-register-info-item mt10" ng-show="registerStepTwo.applyCategory == '3'">
+                        <span class="c-register-two-tit">所属地域：</span>
+                        <select class="c-register-input" ng-model="registerStepTwo.registerInfo.locationArea" name="locationArea" required>
+                            <option value="">--请选择--</option>
+                            <option value="1">中国大陆</option>
+                            <option value="2">香港</option>
+                            <option value="3">澳门</option>
+                            <option value="4">台湾</option>
+                            <option value="5">其他</option>
+                        </select>
+                        <span>（*）</span>
+                    </div>
+                    <!--摄影师才有-->
+                    <div class="c-register-info-item" ng-show="registerStepTwo.applyCategory == '3'">
+                        <span class="c-register-two-tit">摄影方向：</span>
+                        <label>
+                            <input type="checkbox" ng-model="checkboxModel.politics">
+                            <span class="mr10">时政</span>
+                        </label>
+                        <label>
+                            <input type="checkbox" ng-model="checkboxModel.finance">
+                            <span class="mr10">财经</span>
+                        </label>
+                        <label>
+                            <input type="checkbox" ng-model="checkboxModel.amuse">
+                            <span class="mr10">娱乐</span>
+                        </label>
+                        <label>
+                            <input type="checkbox" ng-model="checkboxModel.social">
+                            <span class="mr10">社会</span>
+                        </label>
+                        <label>
+                            <input type="checkbox" ng-model="checkboxModel.scenery">
+                            <span class="mr10">风光</span>
+                        </label>
+                        <label>
+                            <input type="checkbox" ng-model="checkboxModel.chartComic">
+                            <span class="mr10">图表漫画</span>
+                        </label>
+                        <label>
+                            <input type="checkbox" ng-model="checkboxModel.otherDir">
+                            <span>其他</span>
+                        </label>
+                    </div>
+                    <div class="c-register-info-item">
+                        <span class="c-register-two-tit">请输入密码:</span>
+                        <input type="password" class="c-register-input" name="enterPwd"
+                               ng-model="registerStepTwo.registerInfo.enterPwd">
+                        <span>（8-16个字符）（*）</span>
+                    </div>
+                    <div class="c-register-info-item">
+                        <span class="c-register-two-tit">确认密码:</span>
+                        <input type="password" class="c-register-input"  name="confirmPwd"
+                               ng-model="registerStepTwo.registerInfo.confirmPwd">
+                        <span>（8-16个字符）（*）</span>
+                    </div>
+                    <div class="c-register-info-item">
+                        <span class="c-register-two-tit">密码提示问题：</span>
+                        <input type="text" class="c-register-input" name="pwdHintQuestion"
+                               ng-model="registerStepTwo.registerInfo.pwdQuestion" required ng-pattern="registerStepTwo.registerRegex.pwdHintQue">
+                        <span>（不多于20个字符）（*）</span>
+                    </div>
+                    <div class="c-register-info-item">
+                        <span class="c-register-two-tit">密码提示答案：</span>
+                        <input type="text" class="c-register-input" name="pwdHintAnswer"
+                               ng-model="registerStepTwo.registerInfo.pwdAnswer" required ng-pattern="registerStepTwo.registerRegex.charLen">
+                        <span>（8-16个字符）（*）</span>
+                    </div>
+                    <div class="c-register-info-item">
+                        <span class="c-register-two-tit">所属省市：</span>
+                        <select  ng-model="registerStepTwo.registerInfo.selProv"  name="locationProv" required
+                                 ng-change="registerStepTwo.changeProv(registerStepTwo.registerInfo.selProv)"
+                                 ng-options="prov.p as prov.p for prov in registerStepTwo.cityList">
+                            <option value="">---请选择---</option>
+                        </select>
+                        <select ng-model="registerStepTwo.registerInfo.selCity" name="locationCity" required
+                                ng-options="city.n as city.n  for city in registerStepTwo.registerInfo.cities">
+                            <option value="">--请选择--</option>
+                        </select>
+                        <span>（*）</span>
+                    </div>
+                    <div class="c-register-info-item">
+                        <span class="c-register-two-tit">真实姓名：</span>
+                        <input type="text" class="c-register-input"  name="realName" ng-model="registerStepTwo.registerInfo.realName" required>
+                        <span>（*）</span>
+                    </div>
+                    <div class="c-register-info-item">
+                    <div class="c-register-info-item">
+                        <span class="c-register-two-tit">身份证号：</span>
+                        <input type="text" class="c-register-input"  name="IdNumber" ng-model="registerStepTwo.registerInfo.IdNumber">
+                        <span>（如果用户类型是企业，可以不填）</span>
+                    </div>
+                    <!--订户才有-->
+                    <div class="c-register-info-item" ng-show="registerStepTwo.applyCategory == '5'">
+                        <span class="c-register-two-tit">联系人：</span>
+                        <input type="text" class="c-register-input" name="contactPerson"
+                               ng-model="registerStepTwo.registerInfo.contactPerson" required>
+                        <span>（*）</span>
+                    </div>
+                    <!--摄影师才有-->
+                    <div class="c-register-info-item" ng-show="registerStepTwo.applyCategory == '3'">
+                        <span class="c-register-two-tit">作者名：</span>
+                        <input type="text" class="c-register-input" name="authorName"
+                               ng-model="registerStepTwo.registerInfo.authorName" required>
+                        <span>（*）</span>
+                        <span class="color-spec-red">作者名一旦注册成功将无法更改，请慎重填写</span>
+                    </div>
+                    <div class="c-register-info-item">
+                        <span class="c-register-two-tit">通讯地址：</span>
+                        <input type="text" class="c-register-input" ng-model="registerStepTwo.registerInfo.contactAddress">
+                    </div>
+                    <div class="c-register-info-item">
+                        <span class="c-register-two-tit">单位名称：</span>
+                        <input type="text" class="c-register-input" name="unitName"
+                               ng-model="registerStepTwo.registerInfo.unitName" required>
+                        <span>（*）</span>
+                    </div>
+                    <div class="c-register-info-item">
+                        <span class="c-register-two-tit">邮政编码：</span>
+                        <input type="text" class="c-register-input" name="postcode" ng-pattern="registerStepTwo.regex.post"
+                               ng-model="registerStepTwo.registerInfo.postcode" required>
+                        <span>（*）</span>
+                    </div>
+                    <div class="c-register-info-item">
+                        <span class="c-register-two-tit">联系电话：</span>
+                        <input type="text" class="c-register-input" name="contactPhone"
+                               ng-model="registerStepTwo.registerInfo.contactPhone" >
+                    </div>
+                    <div class="c-register-info-item">
+                        <span class="c-register-two-tit">移动电话：</span>
+                        <input type="text" class="c-register-input" name="mobilePhone"  ng-pattern="registerStepTwo.regex.tel"
+                               ng-model="registerStepTwo.registerInfo.mobilePhone" required>
+                        <span>（*）</span>
+                    </div>
+                    <div class="c-register-info-item">
+                        <span class="c-register-two-tit">联系邮箱：	</span>
+                        <input type="text" class="c-register-input" name="mail" ng-pattern="registerStepTwo.regex.mail"
+                               ng-model="registerStepTwo.registerInfo.mail" required>
+                        <span>（*）</span>
+                    </div>
+                    <div class="c-register-info-item">
+                        <span class="c-register-two-tit">QQ号：	</span>
+                        <input type="text" class="c-register-input" name="standby1"
+                               ng-model="registerStepTwo.registerInfo.standby1">
+                    </div>
+                    <div class="c-register-info-item">
+                        <span class="c-register-two-tit">微信号：</span>
+                        <input type="text" class="c-register-input" name="standby2"
+                               ng-model="registerStepTwo.registerInfo.standby2">
+                    </div>
+                    <div class="c-register-info-item">
+                        <span class="c-register-two-tit">是否公布个人信息：</span>
+                        <label>
+                            <input type="radio" name="publishInfo" ng-model="registerStepTwo.registerInfo.ifPublic" value="公开"/>
+                            <span class="mr10">公开</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="publishInfo" ng-model="registerStepTwo.registerInfo.ifPublic" value="不公开"/>
+                            <span>不公开</span>
+                        </label>
+                    </div>
+                    <!--摄影师才有-->
+                    <div class="c-register-info-item clear" ng-if="registerStepTwo.applyCategory == '3'">
+                        <div class="fll">
+                            <span class="c-register-two-tit">接收稿费方式：</span>
+                        </div>
+                        <div class="fll">
+
+                            <label>
+                                <input type="radio" name="draftWay" ng-model="registerStepTwo.registerInfo.draftWay" value="0"/>
+                                <span class="mr10">邮寄</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="draftWay" ng-model="registerStepTwo.registerInfo.draftWay" value="1"/>
+                                <span>电汇</span>
+                            </label>
+                            <!--邮寄-->
+                            <div class="draft-way-details" ng-if="registerStepTwo.registerInfo.draftWay == '0'">
+                                <div class="c-register-info-item">
+                                    <span class="c-register-two-tit">通讯地址：</span>
+                                    <input type="text" class="c-register-input" name="mailContactAddress"
+                                           ng-model="registerStepTwo.registerInfo.mailContactAddress" required>
+                                    <span>（*）</span>
+                                </div>
+                                <div class="c-register-info-item">
+                                    <span class="c-register-two-tit">收稿费人姓名：</span>
+                                    <input type="text" class="c-register-input" name="mailDraftName"
+                                           ng-model="registerStepTwo.registerInfo.mailDraftName" required>
+                                    <span>（*）</span>
+                                </div>
+                                <div class="c-register-info-item">
+                                    <span class="c-register-two-tit">身份证号：</span>
+                                    <input type="text" class="c-register-input" name="mailIdNum" ng-pattern="registerStepTwo.regex.id"
+                                           ng-model="registerStepTwo.registerInfo.mailIdNum" required>
+                                    <span>（*）</span>
+                                </div>
+                                <div class="c-register-info-item">
+                                    <span class="c-register-two-tit">邮政编码：</span>
+                                    <input type="text" class="c-register-input" name="mailPostCode"  ng-pattern="registerStepTwo.regex.post"
+                                           ng-model="registerStepTwo.registerInfo.mailPostCode" required>
+                                    <span>（*）</span>
+                                </div>
+                            </div>
+                            <!--电汇-->
+                            <div class="draft-way-details" ng-if="registerStepTwo.registerInfo.draftWay == '1'">
+                                <div class="c-register-info-item">
+                                    <span class="c-register-two-tit telegraphic-transfer-tit">邮政储蓄存折帐号或邮政储蓄卡号：</span>
+                                    <input type="text" class="c-register-input" name="bankAccount"
+                                           ng-model="registerStepTwo.registerInfo.bankAccount" required>
+                                    <span>（*）</span>
+                                </div>
+                                <div class="c-register-info-item">
+                                    <span class="c-register-two-tit telegraphic-transfer-tit">上述卡的户名：</span>
+                                    <input type="text" class="c-register-input" name="bankUsername"
+                                           ng-model="registerStepTwo.registerInfo.bankUsername" required>
+                                    <span>（*）</span>
+                                </div>
+                                <div class="c-register-info-item">
+                                    <span class="c-register-two-tit telegraphic-transfer-tit">上述卡户名的身份证号：</span>
+                                    <input type="text" class="c-register-input" name="bankIdCard"   ng-pattern="registerStepTwo.regex.id"
+                                           ng-model="registerStepTwo.registerInfo.bankIdCard" required>
+                                    <span>（*）</span>
+                                </div>
+                                <div class="c-register-info-item">
+                                    <span class="c-register-two-tit telegraphic-transfer-tit">开户行</span>
+                                    <input type="text" class="c-register-input" name="bankName"
+                                           ng-model="registerStepTwo.registerInfo.bankName" required>
+                                    <span>（*）</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt20 tac">
+                <button type="submit" class="mr10 client-login-go-btn login_btn" ng-click="registerStepTwo.confirmRegister(register_form)">确定</button>
+                <button type="button" class="client-login-go-btn ml20 login_btn" ui-sref='root.mainPage'>取消</button>
+            </div>
+         </div>
+        </form>
+    </div>
+</div>

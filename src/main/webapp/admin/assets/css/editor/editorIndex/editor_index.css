@@ -1,0 +1,77 @@
+.edt-cont-num{
+    margin-top: 20px;
+}
+.edt-login{
+    font-size: 16px;
+    color: #009DD9;
+    border-left: 5px solid #009DD9;
+    padding: 10px;
+}
+.edt-weather{
+    margin-top: 20px;
+}
+.edt-login-time{
+    font-size: 24px;
+    color: #009DD9;
+    text-align: center;
+    margin-left: 10px;
+}
+.edt-num{
+    text-align: center;
+}
+.edt-num .edt-num-term{
+    font-size: 20px;
+    color: #FFF;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    background: #009DD9;
+    padding: 20px 60px;
+    margin-right: 50px;
+}
+.br2{
+    border-right: 3px solid #FFF;
+    
+}
+
+
+
+.editor-top-box{
+    background: #FFF;
+    padding: 10px;
+    margin-bottom: 5px;
+}
+.editor-top-box ul li{
+    width: 12.5%;
+    /*border: 1px solid #D9D9D9;*/
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    float: left;
+    text-align: center;
+    /*margin: 4px;*/
+    /*cursor: pointer;*/
+    position: relative;
+}
+.editor-top-box ul li .tMenu-img{
+    max-width: 115px;
+    width: 100%;
+    cursor: pointer;
+}
+.editor-top-box ul li .tMenu-name{
+    position: absolute;
+    z-index: 10;
+    bottom: 8%;
+    /*left: 37%;*/
+    left: 23%;
+    right: 23%;
+    margin: 0 auto;
+    cursor: pointer;
+    color:#000;
+}
+.bgPicActww{
+    border:1px solid red;
+}
+.color-white{
+    color:#FFF;
+}

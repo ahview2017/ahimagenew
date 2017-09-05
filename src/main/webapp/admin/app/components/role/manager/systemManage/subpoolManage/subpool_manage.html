@@ -1,0 +1,129 @@
+<div class="user-manager-container">
+    <div class="c-common-titbox">
+        <role-common-tit value="子库管理"></role-common-tit>
+   </div>
+   <div class="c-user-table">
+        <div class="t-search-hd clear">
+            <div class="user-hd-left fll">
+                <label for="checkAllSubPool">
+                    <input type="checkbox" ng-click="subpoolManage.selectAll()" id="checkAllSubPool"
+                           ng-model="subpoolManage.SelectedAll"/>
+                    <span class="user-check-txt">全选</span>
+                </label>
+                <span class="dib cursor user-add-btn" ng-click="subpoolManage.addResetSubpool()">添加</span>
+                <span class="dib cursor user-add-btn role-modify-btn" ng-click="subpoolManage.oneUpdate()">修改</span>
+                <span class="dib cursor user-add-btn role-del-btn" ng-click="subpoolManage.multiDelete()">删除</span>
+            </div>
+            <div class="user-hd-right flr">
+                <input class="user-search-input" id="sub-pool-search-input"
+                       ng-keydown="subpoolManage.onSearchDataClick()" type="text" placeholder="匹配ID和子库名称"/>
+                <img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic" ng-click="subpoolManage.onSearchDataClick()"/>
+                <!--<span class="dib cursor user-search-btn">高级检索</span>-->
+            </div>
+        </div>
+        <div class="t-uinfo-bd">
+            <div class="table-responsive">
+                <table  class="table table-bordered uInfo-table">
+                    <thead>
+                    <tr>
+                        <th class="uinfo-hd-th"></th>
+                        <th class="uinfo-hd-th">ID</th>
+                        <th class="uinfo-hd-th">子库名称</th>
+                        <th class="uinfo-hd-th">站点简介</th>
+                        <th class="uinfo-hd-th">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in subpoolManage.listData">
+                        <td>
+                            <input type="checkbox" ng-model="item.Checked" ng-change="subpoolManage.selectItem()"/>
+                        </td>
+                        <td>{{item.ID}}</td>
+                        <td>{{item.SITE_NAME}}</td>
+                        <td width="460px">{{item.SITE_SUMMARY}}</td>
+                        <td>
+                            <img src="admin/assets/img/role/look_user_info.png" title="修改" class="cursor" width="20" height="20"
+                                 ng-click="subpoolManage.showUpdateModel(item)"/>
+                            <img src="admin/assets/img/role/red_del.png" title="删除" class="cursor" width="20" height="20"
+                                 ng-click="subpoolManage.showDelModel(item.ID)"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 分页 -->
+            <div class="flr pr15">
+                <ul class="pagination" id="paginationAdId"></ul>
+            </div>
+        </div>
+    </div>
+
+    <!--子库添加弹框-->
+    <div class="common-modal-style" id="subpool-add-modal" style="display:none">
+        <div class="role-add-con">
+            <div class="role-add-tit">
+                新建子库
+            </div>
+            <div class="role-add-main">
+                <div class="role-add-form-info advertise-add-form-info clear">
+                    <div class="role-form-info-bottom clear">
+                        <div class="subpool-remark-txt fll">子库名称</div>
+                        <input type="text" class="adverse-remark-input fll" ng-model="subpoolManage.tempSubpoolData.siteName"/>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="subpool-remark-txt fll">站点简介</div>
+                        <textarea class="web-info-area fll" ng-model="subpoolManage.tempSubpoolData.memo"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="tac">
+                <span class="dib cursor user-add-btn" ng-click="subpoolManage.addSubpool()">保存</span>
+                <span class="dib cursor user-add-btn role-del-btn" ng-click="subpoolManage.subpoolModalHide('subpool-add-modal')">取消</span>
+            </div>
+        </div>
+    </div>
+    <!--子库修改弹框-->
+    <div class="common-modal-style" id="subpool-modify-modal" style="display:none">
+        <div class="role-add-con">
+            <div class="role-add-tit">
+                修改子库
+            </div>
+            <div class="role-add-main">
+                <div class="role-add-form-info advertise-add-form-info clear">
+                    <div class="role-form-info-bottom clear">
+                        <div class="subpool-remark-txt fll">ID</div>
+                        <div class="adverse-remark-input fll tal">{{subpoolManage.updateId}}</div>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="subpool-remark-txt fll">子库名称</div>
+                        <input type="text" class="adverse-remark-input fll" ng-model="subpoolManage.tempSubpoolData.siteName"/>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="subpool-remark-txt fll">站点简介</div>
+                        <textarea class="web-info-area fll" ng-model="subpoolManage.tempSubpoolData.memo"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="tac">
+                <span class="dib cursor user-add-btn" ng-click="subpoolManage.updateSubpool()">保存</span>
+                <span class="dib cursor user-add-btn role-del-btn" ng-click="subpoolManage.subpoolModalHide('subpool-modify-modal')">取消</span>
+            </div>
+        </div>
+    </div>
+    <!--子库删除弹框-->
+    <div class="common-modal-style" id="subpool-del-modal" style="display:none">
+        <div class="role-add-con">
+            <div class="role-add-tit">
+                删除提醒
+            </div>
+            <div class="role-modal-con">
+                你确定要删除该子库吗？
+            </div>
+            <div class="tac mt10">
+                <span class="dib cursor user-add-btn" ng-click="subpoolManage.delWord()">确定</span>
+                <span class="dib cursor user-add-btn role-del-btn" ng-click="subpoolManage.subpoolModalHide('subpool-del-modal')">取消</span>
+            </div>
+        </div>
+    </div>
+</div>

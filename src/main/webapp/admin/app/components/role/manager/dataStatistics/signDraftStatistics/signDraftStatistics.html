@@ -1,0 +1,70 @@
+<div class="user-manager-container">
+    <div>
+        <role-common-tit value="签稿统计"></role-common-tit>
+    </div>
+    <div class="contribute-tit">
+        <span ng-class="{ 'contribute-tit-active' : signDraftStatistics.tab == 1 }" ng-click="signDraftStatistics.statisticsTypeClick(1)">图表统计</span>
+        <span ng-class="{ 'contribute-tit-active' : signDraftStatistics.tab == 2 }" ng-click="signDraftStatistics.statisticsTypeClick(2)">列表统计</span>
+    </div>
+    <div>
+        <!--图表统计-->
+        <div ng-if="signDraftStatistics.tab == 1" class="contribute-cont">
+            <div class="contribute-pic">
+                <div class="oH">
+                    <p class="contribute-pic-tit fll">签稿量统计</p>
+                    <!--<p class="contribute-pic-detailBtn flr" ng-click="contributeStatistics.statisticsTypeClick(3)">查看详情</p>-->
+                </div>
+                <div class="signDraft-duration">
+                    <span ng-class="{ 'signDraft-duration-active' : signDraftStatistics.durationType == 1 }" ng-click="signDraftStatistics.signDraftDurationClick(1)">本周</span>
+                    <span ng-class="{ 'signDraft-duration-active' : signDraftStatistics.durationType == 2 }" ng-click="signDraftStatistics.signDraftDurationClick(2)">本月</span>
+                    <span ng-class="{ 'signDraft-duration-active' : signDraftStatistics.durationType == 3 }" ng-click="signDraftStatistics.signDraftDurationClick(3)">本年</span>
+                </div>
+                <div class="contribute-pic-cont">
+                    <div ng-if="signDraftStatistics.durationType == 1">
+                        本周无数据
+                    </div>
+                    <div ng-if="signDraftStatistics.durationType == 2">
+                        本月无数据
+                    </div>
+                    <div ng-if="signDraftStatistics.durationType == 3">
+                        本年无数据
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--列表统计-->
+        <div ng-if="signDraftStatistics.tab == 2">
+            <div class="c-user-table">
+                <div class="t-search-hd clear">
+                    <div class="user-hd-right flr">
+                        <input class="user-search-input"/>
+                        <img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic"/>
+                        <span class="dib cursor user-search-btn">高级检索</span>
+                    </div>
+                </div>
+                <div class="t-uinfo-bd">
+                    <div class="table-responsive">
+                        <table  class="table table-bordered uInfo-table">
+                            <thead>
+                            <tr>
+                                <th class="uinfo-hd-th">序号</th>
+                                <th class="uinfo-hd-th">编辑姓名</th>
+                                <th class="uinfo-hd-th">编辑稿件数</th>
+                                <th class="uinfo-hd-th">签发稿件数</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>123</td>
+                                <td>111</td>
+                                <td>拓尔思</td>
+                                <td>拓尔思</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deepai.photo.mapper.CpFlActInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.deepai.photo.bean.CpFlActInfo" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="ACT_NAME" property="actName" jdbcType="VARCHAR" />
+    <result column="ACT_LINK" property="actLink" jdbcType="VARCHAR" />
+    <result column="ACT_STATUS" property="actStatus" jdbcType="INTEGER" />
+    <result column="ACT_SORT" property="actSort" jdbcType="INTEGER" />
+    <result column="ACT_MEMO" property="actMemo" jdbcType="VARCHAR" />
+    <result column="OACT_ID" property="oactId" jdbcType="INTEGER" />
+    <result column="LANG_TYPE" property="langType" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, ACT_NAME, ACT_LINK, ACT_STATUS, ACT_SORT, ACT_MEMO, OACT_ID, LANG_TYPE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.deepai.photo.bean.CpFlActInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cp_fl_act_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from cp_fl_act_info
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from cp_fl_act_info
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.deepai.photo.bean.CpFlActInfoExample" >
+    delete from cp_fl_act_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.deepai.photo.bean.CpFlActInfo" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cp_fl_act_info (ACT_NAME, ACT_LINK, ACT_STATUS, 
+      ACT_SORT, ACT_MEMO, OACT_ID, 
+      LANG_TYPE)
+    values (#{actName,jdbcType=VARCHAR}, #{actLink,jdbcType=VARCHAR}, #{actStatus,jdbcType=INTEGER}, 
+      #{actSort,jdbcType=INTEGER}, #{actMemo,jdbcType=VARCHAR}, #{oactId,jdbcType=INTEGER}, 
+      #{langType,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.deepai.photo.bean.CpFlActInfo" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cp_fl_act_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="actName != null" >
+        ACT_NAME,
+      </if>
+      <if test="actLink != null" >
+        ACT_LINK,
+      </if>
+      <if test="actStatus != null" >
+        ACT_STATUS,
+      </if>
+      <if test="actSort != null" >
+        ACT_SORT,
+      </if>
+      <if test="actMemo != null" >
+        ACT_MEMO,
+      </if>
+      <if test="oactId != null" >
+        OACT_ID,
+      </if>
+      <if test="langType != null" >
+        LANG_TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="actName != null" >
+        #{actName,jdbcType=VARCHAR},
+      </if>
+      <if test="actLink != null" >
+        #{actLink,jdbcType=VARCHAR},
+      </if>
+      <if test="actStatus != null" >
+        #{actStatus,jdbcType=INTEGER},
+      </if>
+      <if test="actSort != null" >
+        #{actSort,jdbcType=INTEGER},
+      </if>
+      <if test="actMemo != null" >
+        #{actMemo,jdbcType=VARCHAR},
+      </if>
+      <if test="oactId != null" >
+        #{oactId,jdbcType=INTEGER},
+      </if>
+      <if test="langType != null" >
+        #{langType,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.deepai.photo.bean.CpFlActInfoExample" resultType="java.lang.Integer" >
+    select count(*) from cp_fl_act_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update cp_fl_act_info
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.actName != null" >
+        ACT_NAME = #{record.actName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.actLink != null" >
+        ACT_LINK = #{record.actLink,jdbcType=VARCHAR},
+      </if>
+      <if test="record.actStatus != null" >
+        ACT_STATUS = #{record.actStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.actSort != null" >
+        ACT_SORT = #{record.actSort,jdbcType=INTEGER},
+      </if>
+      <if test="record.actMemo != null" >
+        ACT_MEMO = #{record.actMemo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.oactId != null" >
+        OACT_ID = #{record.oactId,jdbcType=INTEGER},
+      </if>
+      <if test="record.langType != null" >
+        LANG_TYPE = #{record.langType,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update cp_fl_act_info
+    set ID = #{record.id,jdbcType=INTEGER},
+      ACT_NAME = #{record.actName,jdbcType=VARCHAR},
+      ACT_LINK = #{record.actLink,jdbcType=VARCHAR},
+      ACT_STATUS = #{record.actStatus,jdbcType=INTEGER},
+      ACT_SORT = #{record.actSort,jdbcType=INTEGER},
+      ACT_MEMO = #{record.actMemo,jdbcType=VARCHAR},
+      OACT_ID = #{record.oactId,jdbcType=INTEGER},
+      LANG_TYPE = #{record.langType,jdbcType=TINYINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.deepai.photo.bean.CpFlActInfo" >
+    update cp_fl_act_info
+    <set >
+      <if test="actName != null" >
+        ACT_NAME = #{actName,jdbcType=VARCHAR},
+      </if>
+      <if test="actLink != null" >
+        ACT_LINK = #{actLink,jdbcType=VARCHAR},
+      </if>
+      <if test="actStatus != null" >
+        ACT_STATUS = #{actStatus,jdbcType=INTEGER},
+      </if>
+      <if test="actSort != null" >
+        ACT_SORT = #{actSort,jdbcType=INTEGER},
+      </if>
+      <if test="actMemo != null" >
+        ACT_MEMO = #{actMemo,jdbcType=VARCHAR},
+      </if>
+      <if test="oactId != null" >
+        OACT_ID = #{oactId,jdbcType=INTEGER},
+      </if>
+      <if test="langType != null" >
+        LANG_TYPE = #{langType,jdbcType=TINYINT},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.deepai.photo.bean.CpFlActInfo" >
+    update cp_fl_act_info
+    set ACT_NAME = #{actName,jdbcType=VARCHAR},
+      ACT_LINK = #{actLink,jdbcType=VARCHAR},
+      ACT_STATUS = #{actStatus,jdbcType=INTEGER},
+      ACT_SORT = #{actSort,jdbcType=INTEGER},
+      ACT_MEMO = #{actMemo,jdbcType=VARCHAR},
+      OACT_ID = #{oactId,jdbcType=INTEGER},
+      LANG_TYPE = #{langType,jdbcType=TINYINT}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

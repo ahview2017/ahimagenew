@@ -1,0 +1,323 @@
+<div class="user-manager-container">
+	<div class="clear">
+		<div class="fll" translate>
+			100008
+			<!-- <role-common-tit  value="新建稿件"></role-common-tit> -->
+		</div>
+		<!--<div class="new-manuscript-lang fll clear">
+            <div class="ms-lang-txt fll" translate>
+                100009
+            </div>
+            <div class="ms-lang-detail fll">
+                <div class="cursor ms-choice-lang" ng-class="{'selLang': true}">
+                    <div ng-if="newManuscript.selManuscript == 1" ng-click="newManuscript.chooseManuscriptLang(1)" translate>100010</div>
+                    <div ng-if="newManuscript.selManuscript == 2" ng-click="newManuscript.chooseManuscriptLang(2)" translate>100011</div>
+                </div>
+                <div class="cursor ms-choice-lang" ng-if="newManuscript.selManuscriptShow"
+                   ng-class="{'selLang': false}">
+                    <duiv ng-if="newManuscript.selManuscript == 1" ng-click="newManuscript.chooseManuscriptLang(2)"translate>100011</duiv>
+                    <div ng-if="newManuscript.selManuscript == 2" ng-click="newManuscript.chooseManuscriptLang(1)"translate>100010</div>
+                </div>
+            </div>
+        </div>-->
+	</div>
+	<div class="mt15">
+		<span class="dib cursor user-add-btn user-add-btn-add " ng-click="newManuscript.saveManuscript()" translate>100080</span>
+		<span class="dib cursor user-add-btn role-modify-btn user-add-btn-add" ng-click="newManuscript.commitManuscript()" translate>100081</span>
+		<span class="dib cursor user-add-btn user-add-btn-add user-add-btn-add-red" ng-click="newManuscript.helpshow()">稿件上传说明</span>
+	</div>
+	<div class="contribute-tit clear">
+		<div class="active-slide-item fll" ng-class="{ 'active-slide-nav' : newManuscript.acitiveSlideTit == 0}" ng-click="newManuscript.chooseManuscriptType(0)" translate>100014</div>
+		<div class="active-slide-item fll" ng-class="{ 'active-slide-nav' : newManuscript.acitiveSlideTit == 1}" ng-click="newManuscript.chooseManuscriptType(1)" translate>100015</div>
+	</div>
+	<div class="c-new-manuscript-con clear">
+		<div class="n-manuscript-container-top clear">
+			<div class="n-manuscript-left fll">
+				<div class="n-manuscript-top clear">
+					<div class="fll manuscript-txt-import">
+						<p class='new_infor'>请在下面输入标题（必填，需少于100个汉字）</p>
+						<textarea class="n-manuscript-explain ms-headline-texarea" placeholder="" ng-model="newManuscript.newManuscriptManuscript.title"></textarea>
+						<div>
+							<input class="draft-true-name-input draft-sign-input" ng-model="newManuscript.photoUserName"
+									 ng-keyup="newManuscript.getPhotoUser($event)" />
+							<select ng-model="newManuscript.photoUNameWay" ng-change="newManuscript.choseUnameShowWay()">
+								<option value="0" translate>100016</option>
+								<option value="1" translate>100017</option>
+								<option value="2" translate>100018</option>
+							</select>
+							<a class="cursor ml10 foreign-author-txt" ng-click="newManuscript.addAuthorNameModalShow('add-foreign-author-modal')" translate>100019</a>
+						</div>
+						<div class="draft-photo-user-box" ng-if="(newManuscript.photoUserName) && (newManuscript.showNameFlag)  && (newManuscript.photoUser.length != 0)">
+							<p class="draft-photo-user-list cursor" ng-repeat="item in newManuscript.photoUser"
+								 ng-click="newManuscript.choosePhotoUser(item)">
+								<span class="cursor">{{item.AUTHOR_NAME}}</span>
+								<span class="cursor">({{item.TURE_NAME}}</span>
+								<span class="cursor">{{item.USER_NAME}})</span>
+								<span class="cursor">[ID:{{item.ID}}]</span>
+							</p>
+						</div>
+						<div ng-if="(newManuscript.photoUserName) && (newManuscript.showNameFlag) && (newManuscript.photoUser.length == 0)">
+							<p class="draft-photo-user-list cursor" translate>
+								100020
+							</p>
+						</div>
+					</div>
+					
+					<div class="fll manuscript-add-pic">
+						<!--<form action="/cnsphoto/groupPicCtro/upPic.do"  id="uploadDraftForm" method="post" enctype="multipart/form-data">-->
+						<form id="uploadDraftForm" method="post">
+							<input type="file" name="picFiles" multiple id="picFile"
+							       accept="image/jpg, image/jpeg" 
+							       onchange="angular.element(this).scope().uploadManuscript(this)" 
+								   style="opacity:0;" class="dib cursor newManuscript-add-btn" />
+							<label for="picFile" class="dib cursor newManuscript-add-btn">
+                                <i class="icon-plus"></i>
+                                <span translate>100021</span>
+                            </label>
+						</form>
+						<!--<img ng-repeat="image in images" ng-src="{{ image }}" width="100" height="100"/>-->
+						<!--<img ng-src="{{filepreview}}" width="100" height="100" class="img-responsive" ng-show="filepreview"/>-->
+					</div>
+					
+					<div class="fll manuscript-add-video">
+						<input id="selmasvideo" class="draft-sign-input clear" ng-model="newManuscript.newManuscriptManuscript.videoid" type="hidden" name="videoFile"  />
+						<label for="videoFile" class="dib cursor newManuscript-add-video" ng-click="newManuscript.selectMasVideo()"  >
+                         	<i class="icon-plus"></i>
+                        	<span  translate >100083</span>
+                        </label>
+					</div>
+					
+				</div>
+				<div class="n-manuscript-middle">
+					<p class='new_infor'>请输入稿件说明（必填，少于4000汉字的简单说明）</p>
+					<!--<textarea class="n-manuscript-explain" placeholder="请输入稿件说明（必填，少于600汉字的简单说明）"
+                              ng-model="newManuscript.newManuscriptManuscript.memo"></textarea>-->
+                    <div class="n-manuscript-explain"  id="new_ms_memo" ng-bind-html="newManuscript.newManuscriptManuscript.memo | trustHtml"
+                         contenteditable = "true" style='-webkit-user-select:text'
+                         ng-model="newManuscript.newManuscriptManuscript.memo"
+                         placeholder=""></div>
+				</div>
+				<div class="n-manuscript-bottom">
+					<p class='new_infor'>备注（选填，少于2000汉字的备注）</p>
+					<!--  <textarea class="n-manuscript-explain ms-alternative-texarea" placeholder="备注（选填，少于255汉字的备注）"
+                              ng-model="newManuscript.newManuscriptManuscript.remark"></textarea>-->
+                    <div class="n-manuscript-explain"  id="new_ms_remark" ng-bind-html="newManuscript.newManuscriptManuscript.remark | trustHtml"
+                         contenteditable = "true" style='-webkit-user-select:text'
+                         ng-model="newManuscript.newManuscriptManuscript.remark"
+                         placeholder=""></div>
+
+				</div>
+			</div>
+			<div class="n-manuscript-right fll">
+				<div class="ms-help-hint cursor">
+					<i class=" icon-question-sign"></i>
+					<span translate>100022</span>
+				</div>
+				<div class="draft-signed-con">
+					<div class="draft-signed-hd">
+						<img src="admin/assets/img/role/draft_signed.png" width="38" height="38">
+						<span class="draft-signed-txt" translate>100023</span>
+					</div>
+					<div class="draft-signed-bd">
+						<div class="draft-signed-hd-item clear">
+							<div class="fll draft-signed-hd-left">
+								<span class="draft-sign-txt" translate>100024</span>
+							</div>
+							<div class="fll draft-signed-hd-right">
+								<input placeholder="选填，少于200字" class="draft-sign-input" ng-model="newManuscript.newManuscriptManuscript.people" />
+							</div>
+						</div>
+						<div class="draft-signed-hd-item clear">
+							<div class="fll draft-signed-hd-left">
+								<span class="draft-sign-txt" translate>100025</span>
+							</div>
+							<div class="fll draft-signed-hd-right">
+								<input placeholder="必填，少于200字" class="draft-sign-input" ng-model="newManuscript.newManuscriptManuscript.keywords" />
+							</div>
+						</div>
+						<div class="draft-signed-hd-item clear">
+							<div class="fll draft-signed-hd-left">
+								<span class="draft-sign-txt" translate>100026</span>
+							</div>
+							<div class="fll draft-signed-hd-right">
+								<input type="text" class="Wdate proof-date-input" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" class="Wdate" ng-model="newManuscript.nowfTime" datepicker/>
+							</div>
+						</div>
+						<div class="tac">
+							<span class="dib cursor draft-home-abroad-btn" ng-class="{'selDraftBtnBg':newManuscript.locationType == 0}" ng-click="newManuscript.homeAbroadToggle(0)" translate>100027</span>
+							<span class="dib cursor draft-home-abroad-btn" ng-class="{'selDraftBtnBg':newManuscript.locationType == 1}" ng-click="newManuscript.homeAbroadToggle(1)" translate>100028</span>
+						</div>
+						<div class="draft-home-abroad-box clear" ng-if="newManuscript.locationType == 0">
+							<select class="draft-procity-select" ng-change="newManuscript.changeProv(newManuscript.newManuscriptManuscript.selProv)"
+							 		ng-model="newManuscript.newManuscriptManuscript.selProv" ng-options="prov.p as prov.p for prov in newManuscript.msCityList">
+								<option value="" translate>100029</option>
+							</select>
+							<select class="draft-procity-select" 
+									ng-model="newManuscript.newManuscriptManuscript.selCity" ng-options="city.n as city.n for city in newManuscript.cities">
+								<option value="" translate>100029</option>
+							</select>
+						</div>
+						<div class="draft-aborad-item clear" ng-if="newManuscript.locationType == 1">
+							<input placeholder="请输入境外地区" class="draft-sign-input" ng-model="newManuscript.newManuscriptManuscript.abroadPlace" />
+						</div>
+						
+					</div>
+				</div>
+				
+				
+				<!-- 视频上传start -->
+				<div class="mas-video-con">
+					<span id="mas-video-box" >
+					<!-- 
+						<img id="mas-video-img" _value="415307" src="http://video.hefei.gov.cn/mas/openapi/pages.do?method=exThumb&amp;appKey=TRSWCM11143&amp;id=415307" width="100%" height="200px">
+					 -->
+					</span>
+				</div>
+				<!-- 视频上传end -->
+				
+				
+				
+			</div>
+		</div>
+		<div class="n-manuscript-container-bottom clear">
+			<!--上传信息盒子-->
+			<div class="ms-upinfo-box"></div>
+			<!--上传图片-->
+			<div ui-sortable ng-model="newManuscript.upMenuscriptPicArr">
+				<div class="ms-pic-item clear" ng-repeat="item in newManuscript.upMenuscriptPicArr">
+					<div>
+						<div class="clear">
+							<a class="newscript-pic-del cursor" ng-click="newManuscript.removePicItem($index)">x</a>
+						</div>
+						<div class="ms-details-pic fll">
+							<div>
+								<select class="ms-pic-pictype" ng-model="item.isCover" ng-change="newManuscript.changePicIsCover(item.isCover,$index)">
+									<option value="1" translate>100030</option>
+									<option value="0" translate>100031</option>
+								</select>
+							</div>
+							<div class="tac">
+								<!-- <img ng-src="{{item.img}}" width="190" height="118"
+                                     class="ms-detail-picture">-->
+								<img ng-src="{{item.img}}"
+								     class="ms-detail-picture">
+							</div>
+						</div>
+						<div class="ms-details-desc fll">
+							<div class="ms-addpic-item clear">
+								<div class="ms-addpic-left fll">
+									<span translate>100032</span>
+								</div>
+								<div class="ms-addpic-right fll">
+									<input type="text" class="Wdate proof-date-input" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" class="Wdate" ng-model="item.filmTime" datepicker/>
+								</div>
+							</div>
+							<div class="ms-addpic-item clear">
+								<div class="ms-addpic-left fll">
+									<span translate>100024</span>
+								</div>
+								<div class="ms-addpic-right fll">
+									<input placeholder="选填" class="draft-sign-input" ng-model="item.people" />
+								</div>
+							</div>
+							<div class="ms-addpic-item clear">
+								<div class="ms-addpic-left fll">
+									<span translate>100025</span>
+								</div>
+								<div class="ms-addpic-right fll">
+									<input placeholder="必填" class="draft-sign-input" ng-model="item.keywords" />
+								</div>
+							</div>
+							<div class="ms-addpic-item clear">
+								<div class="ms-addpic-left fll">
+									<span translate>100016</span>
+								</div>
+								<div class="ms-addpic-right fll">
+									<input placeholder="选填" class="draft-sign-input" ng-model="item.authorName" />
+								</div>
+							</div>
+						</div>
+						<div class="ms-editDet-state fll">
+							<h5 class="ms-pic-txt" translate>100033</h5>
+							<textarea class="ms-pic-textarea" placeholder="请输入图片说明" ng-model="item.memo"></textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--稿件上传说明弹框-->
+	<div class="common-modal-style" id="user-help-modal" ng-mousemove="newManuscript.modalMove('add-help-tit','user-help-modal')" style="display:none">
+			<div class="role-add-con">
+				<div id="add-help-tit" class="user-add-tit clear">
+					<span class="fll">稿件上传说明</span>
+					<span class="flr curp tit-close" ng-click="newManuscript.helpHide()">×</span>
+				</div>
+			</div>
+			<div class='help-main'>
+				<p class='help-tittle'>1.标题说明</p>
+				<p class='help-content'>标题为必填项，并且需少于100个汉字</p>
+				<p class='help-tittle'>2.稿件说明</p>
+				<p class='help-content'>标稿件说明为必填项，并且需少于4000个汉字</p>
+				<p class='help-tittle'>3.备注</p>
+				<p class='help-content'>备注（选填，少于2000汉字的备注）</p>
+			</div>
+	</div>
+	<!--社外作者添加弹框-->
+	<div class="common-modal-style" id="add-foreign-author-modal" 
+		 ng-mousemove="newManuscript.modalMove('add-author-tit','add-foreign-author-modal')" 
+		 style="display:none">
+		<div class="role-add-con">
+			<div id="add-author-tit" class="role-add-tit" translate>
+				100034
+			</div>
+			<div class="role-add-main">
+				<div class="role-add-form-info clear">
+					<div class="role-form-info-top clear">
+						<div class="fll new-manus-add-left">
+							<span translate>100035</span>
+							<span class="color_red">*</span>
+						</div>
+						<input type="text" class="new-manus-add-input" ng-model="newManuscript.authorInfo.loginName" />
+					</div>
+					<div class="role-form-info-top clear mt15">
+						<div class="fll new-manus-add-left">
+							<span translate>100016</span>
+							<span class="color_red">*</span>
+						</div>
+						<input type="text" class="new-manus-add-input" ng-model="newManuscript.authorInfo.authorName" />
+					</div>
+					<div class="role-form-info-top clear mt15">
+						<div class="fll new-manus-add-left">
+							<span translate>100017</span>
+							<span class="color_red">*</span>
+						</div>
+						<input type="text" class="new-manus-add-input" ng-model="newManuscript.authorInfo.trueName" />
+					</div>
+					<div class="role-form-info-top clear mt15">
+						<div class="fll new-manus-add-left">
+							<span translate>100040</span>
+							<span class="color_red">*</span>
+						</div>
+						<input type="password" class="new-manus-add-input" ng-model="newManuscript.authorInfo.pwd" />
+					</div>
+					<div class="role-form-info-top clear mt15">
+						<div class="fll new-manus-add-left" translate>100036</div>
+						<input type="text" class="new-manus-add-input" ng-model="newManuscript.authorInfo.mail" />
+					</div>
+					<div class="role-form-info-top clear mt15">
+						<div class="fll new-manus-add-left" translate>100037</div>
+						<input type="text" class="new-manus-add-input" ng-model="newManuscript.authorInfo.phone" />
+					</div>
+				</div>
+			</div>
+			<div class="tac">
+				<span class="dib cursor user-add-btn" ng-click="newManuscript.addForeignAuthor('add-foreign-author-modal')" translate>100038</span>
+				<span class="dib cursor user-add-btn role-del-btn" ng-click="newManuscript.newMenuscriptModalHide('add-foreign-author-modal')" translate>100039</span>
+			</div>
+		</div>
+	</div>
+	<div class="layui-progress" id="layuiProgress">
+		<div class="layui-progress-bar" lay-percent="10%"></div>
+	</div>
+</div>

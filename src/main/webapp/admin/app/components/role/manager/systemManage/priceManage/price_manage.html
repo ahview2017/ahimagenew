@@ -1,0 +1,202 @@
+<div class="user-manager-container">
+    <div class="c-common-titbox">
+        <role-common-tit value="价格管理"></role-common-tit>
+    </div>
+    <div class="c-user-table">
+        <div class="t-search-hd clear">
+            <div class="user-hd-left fll">
+                <label for="checkAllPriceMsg">
+                    <input type="checkbox" id="inputAllCheckId" ng-model="priceManage.isHadAllCheck"
+                           id="checkAllPriceMsg"
+                           ng-click="priceManage.onCheckAllClick()"/>
+                    <span class="user-check-txt">全选</span>
+                </label>
+                <span class="dib cursor user-add-btn" ng-click="priceManage.onAddPriceModelClick()">添加</span>
+                <span class="dib cursor user-add-btn role-modify-btn"
+                      ng-click="priceManage.onShowEditModelClick(0,null,null)">修改</span>
+                <span class="dib cursor user-add-btn role-del-btn"
+                      ng-click="priceManage.onShowDeleteModelClick(0,null)">删除</span>
+            </div>
+           <!-- <div class="user-hd-right flr">
+                <input class="user-search-input"/>
+                <img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic"/>
+                &lt;!&ndash;<span class="dib cursor user-search-btn">高级检索</span>&ndash;&gt;
+            </div>-->
+        </div>
+        <div class="t-uinfo-bd">
+            <div class="table-responsive">
+                <table class="table table-bordered uInfo-table">
+                    <thead>
+                    <tr>
+                        <th class="uinfo-hd-th"></th>
+                        <th class="uinfo-hd-th">排序号</th>
+                        <th class="uinfo-hd-th">图片类型名</th>
+                        <th class="uinfo-hd-th">成交价格</th>
+                        <th class="uinfo-hd-th">支付价格</th>
+                        <th class="uinfo-hd-th">最后修改时间</th>
+                        <th class="uinfo-hd-th">修改人</th>
+                        <th class="uinfo-hd-th">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr dir-paginate="imgItem in priceManage.imgPriceArray | itemsPerPage: priceManage.selPageRows"
+                        total-items="priceManage.priceList_total"
+                        current-page="priceManage.pagination.current"
+                        ng-init="priceManage.checkBoxArray[$index] = false">
+                        <td>
+                            <input type="checkbox" ng-model="priceManage.checkBoxArray[$index]"
+                                   ng-true-value="{{imgItem.id}}" ng-false-value="false"/>
+                        </td>
+                        <td>{{imgItem.id}}</td>
+                        <td>{{imgItem.pictureType|imgManageImgTypeFilter}}</td>
+                        <td>{{imgItem.setPrice}}</td>
+                        <td>{{imgItem.payPrice}}</td>
+                        <td>{{imgItem.datetime|date:'yyyy-MM-dd'}}</td>
+                        <td>{{imgItem.editName}}</td>
+                        <td>
+                            <img src="admin/assets/img/role/look_user_info.png" class="cursor" width="20" height="20"
+                                 title="修改" ng-click="priceManage.onShowEditModelClick(-1,imgItem.id,$index)"/>
+                            <img src="admin/assets/img/role/red_del.png" class="cursor u-pwd-reset" width="20"
+                                 title="删除" height="20" ng-click="priceManage.onShowDeleteModelClick(-1,imgItem.id)"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- 分页 -->
+            <div class="paging-con-box mt10 clear">
+                <div class="photo-record-page fll">
+                    <select ng-model="priceManage.selPageRows" class="mr10">
+                        <option value="50">50</option>
+                        <option value="40">40</option>
+                        <option value="30">30</option>
+                        <option value="20">20</option>
+                        <option value="10">10</option>
+                    </select>
+                    <span>共找到</span>
+                    <span class="color_red">{{priceManage.priceList_total}}</span>
+                    <span>条记录</span>
+                </div>
+                <div class="photo-now-page fll">
+                    <span>第 </span>
+                    <span>{{priceManage.pagination.current}}</span>
+                    <span>/</span>
+                    <span>{{priceManage.totalPages}}</span>
+                    <span>页</span>
+                </div>
+                <div class="photo-jump-page flr">
+                    <dir-pagination-controls on-page-change="priceManage.pageChanged(newPageNumber)"
+                                             template-url="admin/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+                    </dir-pagination-controls>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--价格管理添加弹框-->
+    <div class="common-modal-style" id="price-add-modal"
+         ng-mousemove="priceManage.moveModal('add-modal-tit','price-add-modal')"
+         style="display:none">
+        <div class="role-add-con">
+            <div id="add-modal-tit" class="role-add-tit oH">
+                <span class="fll">图片价格添加</span>
+                <span class="flr curp tit-close"
+                      ng-click="priceManage.priceModalHide('price-add-modal')">×</span>
+            </div>
+            <div class="role-add-main">
+                <div class="role-add-form-info advertise-add-form-info clear">
+                    <div class="role-form-info-bottom clear">
+                        <div class="price-remark-txt fll">图片类型</div>
+                        <select class="adverse-remark-input fll" ng-model="priceManage.imgTypeModel">
+                            <option value="">请选择图片类型</option>
+                            <option value="0">普通图</option>
+                            <option value="1">活动图</option>
+                            <option value="2">老照片</option>
+                            <option value="3">ta图</option>
+                            <option value="4">fa图</option>
+                        </select>
+                    </div>
+                    <!--<div class="role-form-info-bottom clear">-->
+                    <!--<div class="price-remark-txt fll">类型标识</div>-->
+                    <!--<input type="text" class="adverse-remark-input fll" ng-model="priceManage.imgTypeTipModel"/>-->
+                    <!--</div>-->
+                    <div class="role-form-info-bottom clear">
+                        <div class="price-remark-txt fll">成交价格</div>
+                        <input type="text" class="adverse-remark-input fll" ng-model="priceManage.imgFinishPriceModel"/>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="price-remark-txt fll">支付价格</div>
+                        <input type="text" class="adverse-remark-input fll" ng-model="priceManage.imgPayPriceModel"/>
+                    </div>
+                </div>
+            </div>
+            <div class="tac">
+                <span class="dib cursor user-add-btn" ng-click="priceManage.onAddImagePrice()">添加</span>
+                <span class="dib cursor user-add-btn role-del-btn"
+                      ng-click="priceManage.priceModalHide('price-add-modal')">取消</span>
+            </div>
+        </div>
+    </div>
+    <!--价格管理修改弹框-->
+    <div class="common-modal-style" id="price-modify-modal"
+         ng-mousemove="priceManage.moveModal('modify-modal-tit','price-modify-modal')"
+         style="display:none">
+        <div class="role-add-con">
+            <div id="modify-modal-tit" class="role-add-tit oH">
+                <span class="fll">图片价格修改</span>
+                <span class="flr curp tit-close"
+                      ng-click="priceManage.priceModalHide('price-modify-modal')">×</span>
+            </div>
+            <div class="role-add-main">
+                <div class="role-add-form-info advertise-add-form-info clear">
+                    <div class="role-form-info-bottom clear">
+                        <div class="price-remark-txt fll">图片类型</div>
+                        <select class="adverse-remark-input fll" ng-model="priceManage.imgEditTypeModel">
+                            <option value="0">普通图</option>
+                            <option value="1">活动图</option>
+                            <option value="2">老照片</option>
+                            <option value="3">ta图</option>
+                            <option value="4">fa图</option>
+                        </select>
+                    </div>
+                    <!--<div class="role-form-info-bottom clear">-->
+                    <!--<div class="price-remark-txt fll">类型标识</div>-->
+                    <!--<input type="text" class="adverse-remark-input fll" ng-model="priceManage.imgEditTypeTipModel"/>-->
+                    <!--</div>-->
+                    <div class="role-form-info-bottom clear">
+                        <div class="price-remark-txt fll">成交价格</div>
+                        <input type="text" class="adverse-remark-input fll"
+                               ng-model="priceManage.imgEditFinishPriceModel"/>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="price-remark-txt fll">支付价格</div>
+                        <input type="text" class="adverse-remark-input fll"
+                               ng-model="priceManage.imgEditPayPriceModel"/>
+                    </div>
+                </div>
+            </div>
+            <div class="tac">
+                <span class="dib cursor user-add-btn" ng-click="priceManage.onEditImagePrice()">修改</span>
+                <span class="dib cursor user-add-btn role-del-btn"
+                      ng-click="priceManage.priceModalHide('price-modify-modal')">取消</span>
+            </div>
+        </div>
+    </div>
+    <!--价格管理删除弹框-->
+    <div class="common-modal-style" id="price-del-modal"
+         ng-mousemove="priceManage.moveModal('del-modal-tit','price-del-modal')"
+         style="display:none">
+        <div class="role-add-con">
+            <div id="del-modal-tit" class="role-add-tit">
+                删除提醒
+            </div>
+            <div class="role-modal-con">
+                你确定要删除该图片价格吗？
+            </div>
+            <div class="tac mt10">
+                <span class="dib cursor user-add-btn" ng-click="priceManage.onDeleteImgTableData()">确定</span>
+                <span class="dib cursor user-add-btn" ng-click="priceManage.priceModalHide('price-del-modal')">取消</span>
+            </div>
+        </div>
+    </div>
+</div>

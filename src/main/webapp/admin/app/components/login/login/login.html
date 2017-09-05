@@ -1,0 +1,55 @@
+<div id="login-container" class="login-container">
+    <div class="login-header">
+        <div class="login-txt">
+            <span class="l-first-part">CNS</span>
+            <span class="l-later-part">PHOTO</span>
+        </div>
+    </div>
+    <div id="login-main">
+        <div class="login-main">
+            <div class="m-login-layer">
+                <div class="m-lr-con">
+                    <h1 class="m-l-txt">登录</h1>
+
+                    <div class="m-l-msg">
+                        <div class="clear">
+                            <span class="icon-user  fll"></span>
+                            <input type="text" class="m-u-import" placeholder="请输入用户名" ng-model="login.user.name"
+                                   ng-keydown="login.enterLogin($event)"/>
+                        </div>
+                        <div class="m-msg-middle clear">
+                            <span class="icon-lock fll"></span>
+                            <input type="password" class="m-u-import" placeholder="请输入密码" ng-model="login.user.pwd"
+                                   ng-keydown="login.enterLogin($event)"/>
+                        </div>
+                        <div class="m-msg-middle clear">
+                            <span class="icon-lock fll"></span>
+                            <input type="text" class="m-u-import spec-valid-input" placeholder="请输入验证码" ng-model="login.vCodeModel"
+                                   ng-keydown="login.enterLogin($event)"
+                                   style="width: 8.4rem"/>
+                            <div style="display: inline-block;float: right">
+                                <img ng-src="{{login.validCodeImg}}"
+                                     ng-click="login.changeValidCodeImg()"
+                                     id="vCodeId"/>
+                                <a class="cursor change-hover-color" href="javascript:void(0);"
+                                    ng-click="login.changeValidCodeImg()">
+                                    换一张</a>
+                            </div>
+                        </div>
+                        <div class="m-f-pwd cursor" ng-click="login.goFindPwd()">找回密码</div>
+                        <div class="m-dz-btn clear">
+                            <button class="m-btn-dz btn-login" type="submit" ng-click="login.loginIn()">登录</button>
+                            <!--<button class="m-btn-dz btn-register">注册</button>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="login-footer" class="login-footer">
+        <p>地址:北京西城区百万庄南街12号 中国新闻社图片网络中心 本网站所刊图文版权为中国新闻社所有</p>
+
+        <p>稿件邮箱:photocns@chinanews.com.cn</p>
+    </div>
+</div>

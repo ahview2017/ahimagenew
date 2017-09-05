@@ -1,0 +1,100 @@
+<div class="user-manager-container">
+    <div>
+        <role-common-tit value="稿酬统计"></role-common-tit>
+    </div>
+    <div class="contribute-tit">
+        <span ng-class="{ 'contribute-tit-active' : remunerationStatistics.tab == 1 || remunerationStatistics.tab == 3 }" ng-click="remunerationStatistics.statisticsTypeClick(1)">图表统计</span>
+        <span ng-class="{ 'contribute-tit-active' : remunerationStatistics.tab == 2 }" ng-click="remunerationStatistics.statisticsTypeClick(2)">列表统计</span>
+    </div>
+    <div>
+        <!--图表统计-->
+        <div ng-if="remunerationStatistics.tab == 1" class="contribute-cont">
+            <div class="contribute-pic">
+                <div class="oH">
+                    <p class="contribute-pic-tit fll">部门稿酬统计</p>
+                    <p class="contribute-pic-detailBtn flr" ng-click="remunerationStatistics.statisticsTypeClick(3)">查看详情</p>
+                </div>
+                <div class="contribute-pic-cont">
+                    无数据
+                </div>
+            </div>
+        </div>
+
+        <!--列表统计-->
+        <div ng-if="remunerationStatistics.tab == 2">
+            <div class="c-user-table">
+                <div class="t-search-hd clear">
+                    <div class="user-hd-right flr">
+                        <input class="user-search-input"/>
+                        <img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic"/>
+                        <span class="dib cursor user-search-btn">高级检索</span>
+                    </div>
+                </div>
+                <div class="t-uinfo-bd">
+                    <div class="table-responsive">
+                        <table  class="table table-bordered uInfo-table">
+                            <thead>
+                            <tr>
+                                <th class="uinfo-hd-th">序号</th>
+                                <th class="uinfo-hd-th">作者</th>
+                                <th class="uinfo-hd-th">被签发图片数</th>
+                                <th class="uinfo-hd-th">图片销量</th>
+                                <th class="uinfo-hd-th">稿酬</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>1001</td>
+                                <td>托尔斯</td>
+                                <td>2000</td>
+                                <td>3000</td>
+                                <td>1000</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--部门稿酬统计 详情-->
+        <div ng-if="remunerationStatistics.tab == 3">
+            <div class="contribute-detail oH">
+                <p class="contributeDetail-tit fll">部门稿酬统计</p>
+                <p class="contributeDetail-returnBtn flr" ng-click="remunerationStatistics.statisticsTypeClick(1)">< 返回</p>
+            </div>
+            <div class="c-user-table">
+                <div class="t-search-hd clear">
+                    <div class="user-hd-right flr">
+                        <input class="user-search-input"/>
+                        <img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic"/>
+                    </div>
+                </div>
+                <div class="t-uinfo-bd">
+                    <div class="table-responsive">
+                        <table  class="table table-bordered uInfo-table">
+                            <thead>
+                            <tr>
+                                <th class="uinfo-hd-th">序号</th>
+                                <th class="uinfo-hd-th">部门</th>
+                                <th class="uinfo-hd-th">被签发图片数</th>
+                                <th class="uinfo-hd-th">图片销量</th>
+                                <th class="uinfo-hd-th">稿酬</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>123</td>
+                                <td>111</td>
+                                <td>拓尔思</td>
+                                <td>拓尔思</td>
+                                <td>离线</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deepai.photo.mapper.CpWebsiteInfoMapper">
+	<resultMap id="BaseResultMap" type="com.deepai.photo.bean.CpWebsiteInfo">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="TITLE" property="title" jdbcType="VARCHAR" />
+		<result column="INFO_NAME" property="infoName" jdbcType="VARCHAR" />
+		<result column="LAST_UPDATE_TIME" property="lastUpdateTime"
+			jdbcType="TIMESTAMP" />
+		<result column="LAST_UPDATE_USER" property="lastUpdateUser"
+			jdbcType="VARCHAR" />
+		<result column="SITE_ID" property="siteId" jdbcType="INTEGER" />
+		<result column="LANG_TYPE" property="langType" jdbcType="INTEGER" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="com.deepai.photo.bean.CpWebsiteInfo"
+		extends="BaseResultMap">
+		<result column="DETAIL" property="detail" jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		ID, TITLE, INFO_NAME, LAST_UPDATE_TIME, LAST_UPDATE_USER, SITE_ID,
+		LANG_TYPE
+	</sql>
+	<sql id="Blob_Column_List">
+		DETAIL
+	</sql>
+	<select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs"
+		parameterType="com.deepai.photo.bean.CpWebsiteInfoExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from cp_website_info
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.deepai.photo.bean.CpWebsiteInfoExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from cp_website_info
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from cp_website_info
+		where ID = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from cp_website_info
+		where ID = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.deepai.photo.bean.CpWebsiteInfoExample">
+		delete from cp_website_info
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.deepai.photo.bean.CpWebsiteInfo">
+		<selectKey resultType="java.lang.Integer" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into cp_website_info (TITLE, INFO_NAME, LAST_UPDATE_TIME,
+		LAST_UPDATE_USER, SITE_ID, LANG_TYPE,
+		DETAIL)
+		values (#{title,jdbcType=VARCHAR}, #{infoName,jdbcType=VARCHAR},
+		#{lastUpdateTime,jdbcType=TIMESTAMP},
+		#{lastUpdateUser,jdbcType=VARCHAR}, #{siteId,jdbcType=INTEGER},
+		#{langType,jdbcType=INTEGER},
+		#{detail,jdbcType=LONGVARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.deepai.photo.bean.CpWebsiteInfo">
+		<selectKey resultType="java.lang.Integer" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into cp_website_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="title != null">
+				TITLE,
+			</if>
+			<if test="infoName != null">
+				INFO_NAME,
+			</if>
+			<if test="lastUpdateTime != null">
+				LAST_UPDATE_TIME,
+			</if>
+			<if test="lastUpdateUser != null">
+				LAST_UPDATE_USER,
+			</if>
+			<if test="siteId != null">
+				SITE_ID,
+			</if>
+			<if test="langType != null">
+				LANG_TYPE,
+			</if>
+			<if test="detail != null">
+				DETAIL,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="infoName != null">
+				#{infoName,jdbcType=VARCHAR},
+			</if>
+			<if test="lastUpdateTime != null">
+				#{lastUpdateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="lastUpdateUser != null">
+				#{lastUpdateUser,jdbcType=VARCHAR},
+			</if>
+			<if test="siteId != null">
+				#{siteId,jdbcType=INTEGER},
+			</if>
+			<if test="langType != null">
+				#{langType,jdbcType=INTEGER},
+			</if>
+			<if test="detail != null">
+				#{detail,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.deepai.photo.bean.CpWebsiteInfoExample"
+		resultType="java.lang.Integer">
+		select count(*) from cp_website_info
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update cp_website_info
+		<set>
+			<if test="record.id != null">
+				ID = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.title != null">
+				TITLE = #{record.title,jdbcType=VARCHAR},
+			</if>
+			<if test="record.infoName != null">
+				INFO_NAME = #{record.infoName,jdbcType=VARCHAR},
+			</if>
+			<if test="record.lastUpdateTime != null">
+				LAST_UPDATE_TIME = #{record.lastUpdateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.lastUpdateUser != null">
+				LAST_UPDATE_USER = #{record.lastUpdateUser,jdbcType=VARCHAR},
+			</if>
+			<if test="record.siteId != null">
+				SITE_ID = #{record.siteId,jdbcType=INTEGER},
+			</if>
+			<if test="record.langType != null">
+				LANG_TYPE = #{record.langType,jdbcType=INTEGER},
+			</if>
+			<if test="record.detail != null">
+				DETAIL = #{record.detail,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExampleWithBLOBs" parameterType="map">
+		update cp_website_info
+		set ID = #{record.id,jdbcType=INTEGER},
+		TITLE = #{record.title,jdbcType=VARCHAR},
+		INFO_NAME = #{record.infoName,jdbcType=VARCHAR},
+		LAST_UPDATE_TIME = #{record.lastUpdateTime,jdbcType=TIMESTAMP},
+		LAST_UPDATE_USER = #{record.lastUpdateUser,jdbcType=VARCHAR},
+		SITE_ID = #{record.siteId,jdbcType=INTEGER},
+		LANG_TYPE = #{record.langType,jdbcType=INTEGER},
+		DETAIL = #{record.detail,jdbcType=LONGVARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update cp_website_info
+		set ID = #{record.id,jdbcType=INTEGER},
+		TITLE = #{record.title,jdbcType=VARCHAR},
+		INFO_NAME = #{record.infoName,jdbcType=VARCHAR},
+		LAST_UPDATE_TIME = #{record.lastUpdateTime,jdbcType=TIMESTAMP},
+		LAST_UPDATE_USER = #{record.lastUpdateUser,jdbcType=VARCHAR},
+		SITE_ID = #{record.siteId,jdbcType=INTEGER},
+		LANG_TYPE = #{record.langType,jdbcType=INTEGER}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.deepai.photo.bean.CpWebsiteInfo">
+		update cp_website_info
+		<set>
+			<if test="title != null">
+				TITLE = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="infoName != null">
+				INFO_NAME = #{infoName,jdbcType=VARCHAR},
+			</if>
+			<if test="lastUpdateTime != null">
+				LAST_UPDATE_TIME = #{lastUpdateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="lastUpdateUser != null">
+				LAST_UPDATE_USER = #{lastUpdateUser,jdbcType=VARCHAR},
+			</if>
+			<if test="siteId != null">
+				SITE_ID = #{siteId,jdbcType=INTEGER},
+			</if>
+			<if test="langType != null">
+				LANG_TYPE = #{langType,jdbcType=INTEGER},
+			</if>
+			<if test="detail != null">
+				DETAIL = #{detail,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.deepai.photo.bean.CpWebsiteInfo">
+		update cp_website_info
+		set TITLE = #{title,jdbcType=VARCHAR},
+		INFO_NAME = #{infoName,jdbcType=VARCHAR},
+		LAST_UPDATE_TIME = #{lastUpdateTime,jdbcType=TIMESTAMP},
+		LAST_UPDATE_USER = #{lastUpdateUser,jdbcType=VARCHAR},
+		SITE_ID = #{siteId,jdbcType=INTEGER},
+		LANG_TYPE = #{langType,jdbcType=INTEGER},
+		DETAIL = #{detail,jdbcType=LONGVARCHAR}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.deepai.photo.bean.CpWebsiteInfo">
+		update cp_website_info
+		set TITLE = #{title,jdbcType=VARCHAR},
+		INFO_NAME = #{infoName,jdbcType=VARCHAR},
+		LAST_UPDATE_TIME = #{lastUpdateTime,jdbcType=TIMESTAMP},
+		LAST_UPDATE_USER = #{lastUpdateUser,jdbcType=VARCHAR},
+		SITE_ID = #{siteId,jdbcType=INTEGER},
+		LANG_TYPE = #{langType,jdbcType=INTEGER}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+
+	<!-- 自写sql -->
+	<select id="show" resultMap="BaseResultMap" parameterType="string">
+		select * from cp_website_info where 1=1
+		<if test="langType!=null">
+			and LANG_TYPE=#{langType}
+		</if>
+		<if test="strWhere!=null">
+		and LAST_UPDATE_USER like CONCAT('%',#{strWhere},'%') or title like
+		CONCAT('%',#{strWhere},'%')
+		</if>
+	</select>
+	<select id="showtoedit" resultMap="BaseResultMap" parameterType="int">
+		select * from cp_website_info where id=#{id}
+	</select>
+	<select id="search" resultMap="BaseResultMap" parameterType="map">
+		select * from cp_website_info where 1=1
+		<if test="search!=null">
+			and Title like CONCAT('%',#{search},'%')
+		</if>
+		<if test="langType!=null">
+			and LANG_TYPE=#{langType}
+		</if>
+	</select>
+</mapper>

@@ -1,0 +1,191 @@
+<div class="user-manager-container">
+    <div class="c-common-titbox clear">
+        <div class="fll proj-detail-left">
+            <role-common-tit  value="专题管理-->栏目管理"></role-common-tit>
+        </div>
+        <span class="edit-column">栏目预览</span>
+        <div class="flr clear">
+            <div class="user-hd-left fll">
+                <span ng-click="projectManageView.backEdit();" class="dib cursor user-add-btn role-modify-btn">编辑</span>
+            </div>
+        </div>
+    </div>
+    <div class="c-user-table padding-10-15">
+        <!--内容-->
+
+        <!--有子栏目-->
+        <div ng-if="projectManageView.columnTemplate == 0">
+            <div class="row view-color h-35">
+                <h4 class="h-35">{{projectManageView.colName}}</h4>
+            </div>
+        </div>
+        <!--有子栏目结束-->
+
+
+        <!--轮播一-->
+        <div ng-if="projectManageView.columnTemplate == 2">
+            <div class="row view-color h-35">
+                <h4 class="h-35">{{projectManageView.colName}}</h4>
+            </div>
+            <div class="row h-300 gg-view">
+                <div class="col-sm-6" style="height:100%">
+                    <div class="swiper-container lb-view" style="height:100%">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide" ng-repeat="item in projectManageView.picList" on-finish-render-filters>
+                                <img class="img-responsive" ng-src="{{item.cpLanmuGroupPic.allpath}}" alt="">
+                            </div>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+                <div class="col-sm-6 gg-list">
+                    <p><b>公告：</b></p>
+                    <ul>
+                        <li ng-repeat="item in projectManageView.ggList">
+                            <i class="icon-circle mr5"></i>
+                            <span>{{item.noticeTitle}}</span>
+                        </li>
+                    </ul>
+                    <div class="clear">
+                        <span class="flr cursor gg-more-btn">more></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--轮播一结束-->
+
+
+        <!--轮播二-->
+        <div ng-if="projectManageView.columnTemplate == 3">
+            <div class="row view-color h-35">
+                <h4 class="h-35">{{projectManageView.colName}}</h4>
+            </div>
+            <div class="row gg-view pad-20-15" style="height:450px;">
+                <div class="" style="width: 62%;height:100%;margin:0 auto;">
+                    <div class="swiper-container lb-view" style="height:100%">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide" ng-repeat="item in projectManageView.colPic" on-finish-render-filters>
+                                <div class="lb-box">
+                                    <img  class="img-responsive" ng-src="{{item.cpLanmuGroupPic.allpath}}" alt="">
+                                    <p class="lb-title">{{item.cpLanmuGroupPic.title}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--轮播二结束-->
+
+
+        <!--四展-->
+        <div ng-if="projectManageView.columnTemplate == 4">
+            <div class="row view-color h-35">
+                <h4 class="h-35">{{projectManageView.colName}}</h4>
+            </div>
+            <div class="row">
+                <div ng-repeat="item in projectManageView.colPic track by $index" class="v-gj-box col-sm-3">
+                    <div class="img-box pos-r">
+                        <img ng-if="item" class="div-center" ng-src="{{item.cpLanmuGroupPic.allpath}}" alt="">
+                        <img ng-if="!item" class="div-center" src="admin/assets/img/role/empty1.png" alt="">
+                    </div>
+                    <p ng-if="item" class="gj-title">{{item.cpLanmuGroupPic.title}}</p>
+                    <p ng-if="!item" class="gj-title">标题</p>
+                </div>
+            </div>
+            <div class="clear">
+                <span class="flr cursor">more></span>
+            </div>
+        </div>
+        <!--四展结束-->
+
+
+        <!--五展-->
+        <div ng-if="projectManageView.columnTemplate == 5">
+            <div class="row view-color h-35">
+                <h4 class="h-35">{{projectManageView.colName}}</h4>
+            </div>
+            <div class="row">
+                <div ng-repeat="item in projectManageView.colPic track by $index" class="v-gj-box wid-f-20">
+                    <div class="img-box pos-r">
+                        <img ng-if="item" class="div-center" ng-src="{{item.cpLanmuGroupPic.allpath}}" alt="">
+                        <img ng-if="!item" class="div-center" src="admin/assets/img/role/empty1.png" alt="">
+                    </div>
+                    <p ng-if="item" class="gj-title">{{item.cpLanmuGroupPic.title}}</p>
+                    <p ng-if="!item" class="gj-title">标题</p>
+                </div>
+            </div>
+            <div class="clear">
+                <span class="flr cursor">more></span>
+            </div>
+        </div>
+        <!--五展结束-->
+
+
+        <!--六展-->
+        <div ng-if="projectManageView.columnTemplate == 6">
+            <div class="row view-color h-35">
+                <h4 class="h-35">{{projectManageView.colName}}</h4>
+            </div>
+            <div class="row">
+                <div ng-repeat="item in projectManageView.colPic track by $index" class="v-gj-box col-sm-4">
+                    <div class="img-box pos-r">
+                        <img ng-if="item" class="div-center" ng-src="{{item.cpLanmuGroupPic.allpath}}" alt="">
+                        <img ng-if="!item" class="div-center" src="admin/assets/img/role/empty1.png" alt="">
+                    </div>
+                    <p ng-if="item" class="gj-title">{{item.cpLanmuGroupPic.title}}</p>
+                    <p ng-if="!item" class="gj-title">标题</p>
+                </div>
+            </div>
+            <div class="clear">
+                <span class="flr cursor">more></span>
+            </div>
+        </div>
+        <!--六展结束-->
+
+
+        <!--八展-->
+        <div ng-if="projectManageView.columnTemplate == 8">
+            <div class="row view-color h-35">
+                <h4 class="h-35">{{projectManageView.colName}}</h4>
+            </div>
+            <div class="row">
+                <div ng-repeat="item in projectManageView.colPic track by $index" class="v-gj-box col-sm-3">
+                    <div class="img-box pos-r">
+                        <img ng-if="item" class="div-center" ng-src="{{item.cpLanmuGroupPic.allpath}}" alt="">
+                        <img ng-if="!item" class="div-center" src="admin/assets/img/role/empty1.png" alt="">
+                    </div>
+                    <p ng-if="item" class="gj-title">{{item.cpLanmuGroupPic.title}}</p>
+                    <p ng-if="!item" class="gj-title">标题</p>
+                </div>
+            </div>
+            <div class="clear">
+                <span class="flr cursor">more></span>
+            </div>
+        </div>
+        <!--八展结束-->
+
+
+        <!--十展-->
+        <div ng-if="projectManageView.columnTemplate == 10">
+            <div class="row view-color h-35">
+                <h4 class="h-35">{{projectManageView.colName}}</h4>
+            </div>
+            <div class="row">
+                <div ng-repeat="item in projectManageView.colPic track by $index" class="v-gj-box wid-f-20">
+                    <div class="img-box pos-r">
+                        <img ng-if="item" class="div-center" ng-src="{{item.cpLanmuGroupPic.allpath}}" alt="">
+                        <img ng-if="!item" class="div-center" src="admin/assets/img/role/empty1.png" alt="">
+                    </div>
+                    <p ng-if="item" class="gj-title">{{item.cpLanmuGroupPic.title}}</p>
+                    <p ng-if="!item" class="gj-title">标题</p>
+                </div>
+            </div>
+            <div class="clear">
+                <span class="flr cursor">more></span>
+            </div>
+        </div>
+        <!--十展结束-->
+    </div>
+
+</div>

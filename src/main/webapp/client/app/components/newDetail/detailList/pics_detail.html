@@ -1,0 +1,227 @@
+<div>
+    <div class="oH">
+        <div class="newDetail-head oH">
+            <div class="newDetail-headL fll">
+                <p class="newDetail-title">{{picsDetail.clientPictureDetail.title}}</p>
+                <p class="newDetail-date">
+                    <span>发布时间: {{picsDetail.clientPictureDetail.sginTime | date:'yyyy-MM-hh HH:mm:ss'}}</span>
+                    <span class="ml10">张数:{{picsDetail.clientPictureDetail.pictureCount}}</span>
+                </p>
+            </div>
+            <div class="newDetail-headR mt15 flr">
+                <span class="dib">
+                    <!--<input type="checkbox" ng-model="picsDetail.isHadAllCheck"-->
+                           <!--ng-click="picsDetail.onCheckAllClick()"/>全选-->
+                    <label for="allCheckPicsBtn">
+                        <input type="checkbox"  ng-model="picsDetail.selectedAll" id="allCheckPicsBtn"
+                               ng-click="picsDetail.checkAll()"/>
+                        <span class="cursor">全选</span>
+                    </label>
+                </span>
+                <span class="shopping-trolley curp dib ml15" ng-click="picsDetail.addCart()">加入购物车</span>
+                <span class="download-pic curp dib ml15" ng-click="picsDetail.downPic()">下载图片</span>
+            </div>
+        </div>
+        <div class="newDetail-list">
+            <div class="newDetail-list-item newDetail-more-pics-list"
+                 ng-repeat="item in picsDetail.clientPictureDetail.pics">
+                <div>
+                    <a target="_blank"  ui-sref="root.newSingleDetail({groupId: picsDetail.groupId, pictureId: item.id,keywords: picsDetail.groupKeyWords})">
+                        <img ng-src="{{item.smallPath}}"  class="img-responsive curp"/>
+                    </a>
+                </div>
+                <p class="fwb">
+                    <input type="checkbox"
+                           ng-model="picsDetail.selPicIds[item.id]"/>
+                    <span>[图]{{$index + 1}}</span>
+                    <span>{{item.memo}}</span>
+                </p>
+                <p>
+                    <span>图&emsp;片ID：</span>
+                    <span>{{item.id}}</span>
+                </p>
+                <p>
+                    <span>图片作者：</span>
+                    <span>{{item.authorName}}</span>
+                </p>
+                <p>
+                    <span>尺&emsp;&emsp;寸：</span>
+                    <span>{{item.pictureWidth}}*{{item.pictureHeight}}</span>
+                </p>
+                <!--<p>
+                    <span>TIFF大小：</span>
+                    <span></span>
+                </p>-->
+                <p>
+                    <span>JPG 大小：</span>
+                    <span>{{item.pictureLength / 1024 | number : 2}}K</span>
+                </p>
+                <!--<p>
+                    <span>点&ensp;击&ensp;数：</span>
+                    <span>277</span>
+                </p>-->
+            </div>
+        </div>
+    </div>
+    <div class="oH">
+        <div class="newDetail-ad-left fll">
+            <div>
+                <div class="ad-title">
+                    <span>系统公告</span>
+                    <span class="ad-title-more"
+                          ui-sref="root.webInfoAllView">更多</span>
+                </div>
+                <div class="ad-cont">
+                    <p class="oH pd5 cHand" ng-repeat="wpItem in picsDetail.webPublishArray"
+                         ui-sref="root.webInfoView({id:wpItem.id,name:wpItem.noticeTitle,type:1})">
+                        <span>>></span>
+                        <span class='ad-cont-left'>{{wpItem.noticeTitle}}</span>
+                        <span class="flr ad-cont-right">{{wpItem.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                    </p>
+                </div>
+            </div>
+            <div>
+                <div class="ad-title">
+                    <span>一周最佳采用</span>
+                </div>
+                <div>
+                    <div class="mt5" ng-repeat='item in picsDetail.bestUse track by $index' ng-if='$index<3'>
+                    	<a  target="_blank" ui-sref="root.newDetailList({groupId: item.ID})">
+                    		<img ng-src="{{item.samllPath}}" width="100%"/>
+                    	</a>                       
+                    </div>
+                    <div class="checkAll">
+                        <a ui-sref="root.moreSortList({sginId: 25})" target="_blank">查看全部</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="newDetail-ad-right flr">
+            <div>
+                <div class="ad-title">
+                    <span>稿件说明</span>
+                </div>
+                <div class="pic-illustrate">
+                    <div>
+                       <div  ng-bind-html="picsDetail.clientPictureDetail.memo | trustHtml"></div>
+                    </div>
+                    <p class="mt10">
+                        中新社发 {{picsDetail.clientPictureDetail.author}} 摄   {{picsDetail.clientPictureDetail.fileTime | date:'yyyy-MM-hh'}}
+                    </p>
+                    <p class="mt20">
+                        关键字：{{picsDetail.clientPictureDetail.keywords}}
+                    </p>
+                    <!--<p class="mt20">
+                        分享页面
+                    </p>-->
+                </div>
+            </div>
+            <div>
+                <div class="ad-title">
+                    <span>相似稿件</span>
+                </div>
+                <div class="newDetail-list col-lg-12 col-md-12 col-sm-12 newDetail-simlilar-box" ng-if="picsDetail.similarMs">
+                   
+                        <!--<div class="newDetail-list-item col-lg-3 col-md-3 col-sm-6 swiper-slide"  ng-repeat="item in picsDetail.similarMs">
+                            <img ng-src="{{item.coverPic}}"   class="img-responsive curp"/>
+                            &lt;!&ndash;<p class="tac">{{item.gtitle}}</p>&ndash;&gt;
+                        </div>-->
+                        <img src="client/assets/img/left_arrow.svg"
+                        class="new-similar-arrow new-similar-left-arrow"
+                        ng-click="changePic(false)"/>
+                        <div class="newDetail-list-item col-lg-3 col-md-3 col-sm-6"
+                             ng-repeat="item in picsDetail.similarMs">
+                            <img ng-src="{{item.coverPic}}"   class="img-responsive curp pic-details-img"/>
+                            <!--<p class="tac">{{item.gtitle}}</p>-->
+                        </div>
+                         <img src="client/assets/img/right_arrow.svg" class="new-similar-arrow new-similar-right-arrow"
+                         ng-click="changePic(true)"/>
+
+                </div>
+                <div class="tac" ng-if="picsDetail.similarMs">
+                            <span>{{page}} / {{similarTotalPage}}页</span>
+                </div>
+                <div class="newDetail-list col-lg-12 col-md-12 col-sm-12 tac mt10" ng-if="!picsDetail.similarMs">
+                    <span class="fz16">无</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 下载图片生成的订单信息模态框 -->
+<div class="modal fade" id="down-pic-order-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog w100p">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    订单信息
+                </h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered uInfo-table"  ng-if="picsDetail.orderList.length != 0">
+                    <thead>
+                        <tr>
+                            <th class="uinfo-hd-th bdbn tac">订单ID</th>
+                            <th class="uinfo-hd-th bdbn tac">订单号</th>
+                            <th class="uinfo-hd-th bdbn tac">用户名</th>
+                            <th class="uinfo-hd-th bdbn tac">下单时间</th>
+                            <th class="uinfo-hd-th bdbn tac">状态</th>
+                            <th class="uinfo-hd-th bdbn tac">总价格</th>
+                            <th class="uinfo-hd-th bdbn tac">图片张数</th>
+                            <th class="uinfo-hd-th bdbn tac">用户结算方式</th>
+                            <th class="uinfo-hd-th bdbn tac">下载方式</th>
+                        </tr>
+                    </thead>
+                    <tbody class="tac">
+                        <tr ng-repeat="item in picsDetail.orderList">
+                            <td>{{item.id}}</td>
+                            <td>{{item.orderNo}}</td>
+                            <td>{{item.userName}}</td>
+                            <td>{{item.createTime}}</td>
+                            <td>{{item.orderStatus | orderStatusFilter}}</td>
+                            <td>{{item.totalPrice}}</td>
+                            <td>{{item.picCount}}</td>
+                            <td>{{item.payType | payWayFilter}}</td>
+                            <td>
+                                <!--<a class="cursor" ng-click="picsDetail.sureDownPic(item.id,0)">图片下载</a>-->
+                                <a class="cursor ml10" ng-click="picsDetail.sureDownPic(item.id,1)">图文下载</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h5 class="modal-title text-danger" id="myRemark"  ng-if="picsDetail.pics.length != 0">
+                    <strong>以下图片已经结算过，本次下载不计入订单内</strong>
+                </h5>
+                <table class="table table-bordered uInfo-table" ng-if="picsDetail.pics.length != 0">
+                    <thead>
+                    <tr>
+                        <th class="uinfo-hd-th bdbn tac">作者ID</th>
+                        <th class="uinfo-hd-th bdbn tac">图片名</th>
+                        <th class="uinfo-hd-th bdbn tac">稿件ID</th>
+                        <th class="uinfo-hd-th bdbn tac">图片ID</th>
+                        <th class="uinfo-hd-th bdbn tac">下载</th>
+                    </tr>
+                    </thead>
+                    <tbody class="tac">
+                    <tr ng-repeat="item in picsDetail.pics">
+                        <td>{{item.AUTHOR_ID}}</td>
+                        <td>{{item.FILENAME}}</td>
+                        <td>{{item.GID}}</td>
+                        <td>{{item.PID}}</td>
+                        <td rowspan="singleDetail.pics.length">
+                            <a class="cursor ml10" ng-click="detail.sureDownPicByOrderDetail(picsDetail.orderDetailId,1)">图文下载</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>

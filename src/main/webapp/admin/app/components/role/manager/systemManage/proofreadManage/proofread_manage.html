@@ -1,0 +1,295 @@
+<div class="user-manager-container">
+    <div class="c-common-titbox">
+        <role-common-tit value="校审配置"></role-common-tit>
+    </div>
+    <div class="c-user-table">
+        <div class="t-search-hd clear">
+            <div class="user-hd-left fll">
+                <input type="checkbox" class=""/>
+                <span class="user-check-txt">全选</span>
+                <span class="dib cursor user-add-btn" ng-click="proofreadManage.proofreadAddModalShow('proofread-add-modal')">添加</span>
+                <span class="dib cursor user-add-btn role-modify-btn" ng-click="proofreadManage.proofreadUpdateModalShow('proofread-modify-modal')">修改</span>
+                <span class="dib cursor user-add-btn role-del-btn" ng-click="proofreadManage.proofreadDelModalShow('proofread-del-modal')">删除</span></div>
+          <!--  <div class="user-hd-right flr">
+                <input class="user-search-input"   ng-model="proofreadManage.specialSearchName"/>
+                <img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic" ng-click="proofreadManage.searchSpecial();"/>
+                <span class="dib cursor user-search-btn" ng-click="proofreadManage.ModalShow('user-search-modal')">高级检索</span>
+            </div>-->
+        </div>
+        <div class="t-uinfo-bd">
+            <div class="table-responsive">
+                <table class="table table-bordered uInfo-table">
+                    <thead>
+                    <tr>
+                        <th class="uinfo-hd-th" style="width:3%;"></th>
+                        <th class="uinfo-hd-th" style="width:22%;">时间段</th>
+                        <th class="uinfo-hd-th" style="width:20%;">1级校审</th>
+                        <th class="uinfo-hd-th" style="width:20%;">2级校审</th>
+                        <th class="uinfo-hd-th" style="width:20%;">3级校审</th>
+                        <th class="uinfo-hd-th" style="width:5%;">是否启用</th>
+                        <th class="uinfo-hd-th" style="width:9%;">操作</th></tr>
+                    </thead>
+                    <tbody>
+                    <tr dir-paginate="item in proofreadManage.proofreadList | itemsPerPage: proofreadManage.selPageRows"
+                        total-items="proofreadManage.proofList_total"
+                        current-page="proofreadManage.pagination.current">
+                        <td>
+                            <input type="checkbox" ng-model="proofreadManage.selProofIds[item.id]"/></td>
+                        <td>{{item.beginTime | date:'yyyy-MM-dd'}} ~ {{item.endTime | date:'yyyy-MM-dd'}}</td>
+                        <td>
+                            <span ng-repeat="i in item.dutys |  filter: {type: 1}">
+                                {{i.userName}}
+                                <span ng-show="!$last">、</span>
+                            </span>
+                        </td>
+                        <td>
+                            <span ng-repeat="i in item.dutys |  filter: {type: 2}">
+                                {{i.userName}}
+                                <span ng-show="!$last">、</span>
+                            </span>
+                        </td>
+                        <td>
+                            <span ng-repeat="i in item.dutys  | filter: {type: 3}">
+                                {{i.userName}}
+                                <span ng-show="!$last">、</span>
+                            </span>
+                        </td>
+                        <td>
+                           {{item.isenable | proofIfableFiter}}
+                        </td>
+                        <td>
+                            <img src="admin/assets/img/role/look_user_info.png" title="修改" class="cursor" width="20" height="20" ng-click="proofreadManage.proofUpdateItemModalShow('proofread-modify-modal',item)"/>
+                            <img src="admin/assets/img/role/red_del.png" title="删除" class="cursor u-pwd-reset" width="20" height="20" ng-click="proofreadManage.proofDelItemModalShow('proofread-del-modal',item)"/></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!-- 分页 -->
+                <div class="paging-con-box mt10 clear">
+                    <div class="photo-record-page fll">
+                        <select ng-model="proofreadManage.selPageRows" class="mr10">
+                            <option value="50">50</option>
+                            <option value="40">40</option>
+                            <option value="30">30</option>
+                            <option value="20">20</option>
+                            <option value="10">10</option>
+                        </select>
+                        <span>共找到</span>
+                        <span class="color_red">{{proofreadManage.proofList_total}}</span>
+                        <span>条记录</span>
+                    </div>
+                    <div class="photo-now-page fll">
+                        <span>第 </span>
+                        <span>{{proofreadManage.pagination.current}}</span>
+                        <span>/</span>
+                        <span>{{proofreadManage.totalPages}}</span>
+                        <span>页</span>
+                    </div>
+                    <div class="photo-jump-page flr">
+                        <dir-pagination-controls on-page-change="proofreadManage.pageChanged(newPageNumber)"
+                                                 template-url="admin/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+                        </dir-pagination-controls>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--校审配置添加弹框-->
+    <div class="common-modal-style" id="proofread-add-modal"
+         ng-mousemove="proofreadManage.moveModal('add-modal-tit','proofread-add-modal')"
+         style="display:none">
+        <div class="role-add-con">
+            <div id="add-modal-tit" class="role-add-tit oH">
+                <span class="fll">新建校审</span>
+                <span class="flr curp tit-close"
+                      ng-click="proofreadManage.proofreadModalHide('proofread-add-modal')">×</span>
+            </div>
+            <div class="role-add-main">
+                <div class="role-add-form-info advertise-add-form-info clear">
+                    <div class="role-form-info-bottom clear">
+                        <div class="proof-remark-txt fll">修改日期</div>
+                        <div class="fll">
+                            <input type="text" class="Wdate proof-date-input" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" class="Wdate" ng-model="proofreadManage.add.starttime" datepicker/>
+                        </div>
+                        <div class="fll proof-reach-txt">到</div>
+                        <div class="fll">
+                            <input type="text" class="Wdate proof-date-input" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" class="Wdate" ng-model="proofreadManage.add.endtime" datepicker/>
+                        </div>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="proof-remark-txt fll">一级校审</div>
+                        <div type="text" class="proof-add-remark-input fll">{{proofreadManage.pagefirstGrade}}</div>
+                        <span class="dib cursor proof-sel-editor-btn" ng-click="proofreadManage.proofEditorModalShow('proofread-sel-editor-modal',1)">选择值班编辑</span></div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="proof-remark-txt fll">二级校审</div>
+                        <div type="text" class="proof-add-remark-input fll">{{proofreadManage.pagesecondGrade}}</div>
+                        <span class="dib cursor proof-sel-editor-btn" ng-click="proofreadManage.proofEditorModalShow('proofread-sel-editor-modal',2)">选择值班编辑</span></div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="proof-remark-txt fll">三级校审</div>
+                        <div type="text" class="proof-add-remark-input fll">{{proofreadManage.pagethreeGrade}}</div>
+                        <span class="dib cursor proof-sel-editor-btn" ng-click="proofreadManage.proofEditorModalShow('proofread-sel-editor-modal',3)">选择值班编辑</span></div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="proof-remark-txt fll">是否启用</div>
+                        <select class="proof-add-remark-input fll" ng-model="proofreadManage.add.ifProofEnable">
+                            <option value="1">是</option>
+                            <option value="0">否</option></select>
+                    </div>
+                </div>
+            </div>
+            <div class="tac">
+                <span class="dib cursor user-add-btn" ng-click="proofreadManage.addproofreadConfig('proofread-add-modal')">保存</span>
+                <span class="dib cursor user-add-btn role-del-btn" ng-click="proofreadManage.addProofreadModalHide('proofread-add-modal')">取消</span></div>
+        </div>
+    </div>
+    <!--校审配置修改弹框-->
+    <div class="common-modal-style" id="proofread-modify-modal"
+         ng-mousemove="proofreadManage.moveModal('modify-modal-tit','proofread-modify-modal')"
+         style="display:none">
+        <div class="role-add-con">
+            <div id="modify-modal-tit" class="role-add-tit oH">
+                <span class="fll">修改校审</span>
+                <span class="flr curp tit-close"
+                      ng-click="proofreadManage.proofreadModalHide('proofread-modify-modal')">×</span>
+            </div>
+            <div class="role-add-main">
+                <div class="role-add-form-info advertise-add-form-info clear">
+                    <div class="role-form-info-bottom clear">
+                        <div class="proof-remark-txt fll">修改日期</div>
+                        <div class="fll">
+                            <div  class="proof-date-input">{{proofreadManage.modify.starttime | date : 'yyyy-MM-dd'}}</div>
+                        </div>
+                        <div class="fll proof-reach-txt">到</div>
+                        <div class="fll">
+                            <div  class="proof-date-input">{{proofreadManage.modify.endtime | date : 'yyyy-MM-dd'}}</div>
+                        </div>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="proof-remark-txt fll">一级校审</div>
+                        <div type="text" class="proof-remark-input fll">{{proofreadManage.pagefirstGrade}}</div>
+                        <span class="dib cursor proof-sel-editor-btn" ng-click="proofreadManage.proofEditorModalShow('proofread-sel-editor-modal',1)">选择值班编辑</span>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="proof-remark-txt fll">二级校审</div>
+                        <div type="text" class="proof-remark-input fll">{{proofreadManage.pagesecondGrade}}</div>
+                        <span class="dib cursor proof-sel-editor-btn" ng-click="proofreadManage.proofEditorModalShow('proofread-sel-editor-modal',2)">选择值班编辑</span>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="proof-remark-txt fll">三级校审</div>
+                        <div type="text" class="proof-remark-input fll">{{proofreadManage.pagethreeGrade}}</div>
+                        <span class="dib cursor proof-sel-editor-btn" ng-click="proofreadManage.proofEditorModalShow('proofread-sel-editor-modal',3)">选择值班编辑</span>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="proof-remark-txt fll">是否启用</div>
+                        <select class="proof-remark-input fll" ng-model="proofreadManage.add.ifProofEnable">
+                            <option value="1">是</option>
+                            <option value="0">否</option></select>
+                    </div>
+                </div>
+            </div>
+            <div class="tac">
+                <span class="dib cursor user-add-btn" ng-click="proofreadManage.updateproofreadConfig('proofread-modify-modal')">修改</span>
+                <span class="dib cursor user-add-btn role-del-btn" ng-click="proofreadManage.proofreadModalHide('proofread-modify-modal')">取消</span></div>
+        </div>
+    </div>
+    <!--配置删除弹框-->
+    <div class="common-modal-style" id="proofread-del-modal"
+         ng-mousemove="proofreadManage.moveModal('del-modal-tit','proofread-del-modal')"
+         style="display:none">
+        <div class="role-add-con">
+            <div id="del-modal-tit" class="role-add-tit">删除提醒</div>
+            <div class="role-modal-con">您确定要删除该配置吗？</div>
+            <div class="tac mt10">
+                <span class="dib cursor user-add-btn" ng-click="proofreadManage.delProofreadConfig('proofread-del-modal')">确定</span>
+                <span class="dib cursor user-add-btn role-del-btn" ng-click="proofreadManage.proofreadModalHide('proofread-del-modal')">取消</span></div>
+        </div>
+    </div>
+    <!--选择值班编辑弹框-->
+    <div class="common-modal-style common-modal-style-se" id="proofread-sel-editor-modal"
+         ng-mousemove="proofreadManage.moveModal('sel-modal-tit','proofread-sel-editor-modal')"
+         style="display: none;">
+    <div class="role-add-con">
+        <div id="sel-modal-tit" class="role-add-tit oH">
+            <span class="fll">选择值班编辑</span>
+            <span class="flr curp tit-close"
+                  ng-click="proofreadManage.proofreadModalHide('proofread-sel-editor-modal')">×</span>
+        </div>
+        <div class="ova" style="height: 210px;">
+            <div class="role-add-main">
+                <div class="role-add-form-info clear">
+                    <div ng-repeat="item in proofreadManage.dutyEditorList">
+                        <div class="fll role-option-part tal">
+                            <input type="checkbox" ng-model="proofreadManage.selProofUnames[item.USER_NAME]">
+                            <span>{{item.USER_NAME}}</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="tac mt10">
+                <span class="dib cursor user-add-btn" ng-click="proofreadManage.saveSelDutyEditor('proofread-sel-editor-modal')">保存</span>
+                <span class="dib cursor user-add-btn role-del-btn" ng-click="proofreadManage.proofreadModalHide('proofread-sel-editor-modal')">取消</span>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+<!--高级检索模态框-->
+<div class="common-modal-style absolute_left" id="user-search-modal" style="display:none">
+    <div class="user-add-con">
+        <div id="search-modal-tit" class="role-add-tit oH">
+            <span class="fll">高级检索</span>
+                    <span class="flr curp tit-close"
+                          ng-click="proofreadManage.ModalHide('user-search-modal')">×</span>
+        </div>
+        <div class="role-add-main">
+            <div class="user-form-info clear">
+                <div class="user-form-info-top clear">
+                    <div class="fll user-form-part clear">
+                        <div class="user-search-left  fll">1级校审</div>
+                        <div class="user-search-right fll">
+                            <input type="text" class="user-add-input" ng-model="proofreadManage.search.proofreadingOne"/>
+                        </div>
+                    </div>
+
+                    <div class="fll user-form-part clear">
+                        <div class="user-search-left  fll">2级校审</div>
+                        <div class="user-search-right fll">
+                            <input type="text" class="user-add-input" ng-model="proofreadManage.search.proofreadingTwo"/>
+                        </div>
+                    </div>
+
+                    <div class="fll user-form-part clear">
+                        <div class="user-search-left  fll">3级校审</div>
+                        <div class="user-search-right fll">
+                            <input type="text" class="user-add-input" ng-model="proofreadManage.search.proofreadingThree"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="order-form-info-top clear">
+                    <div class="fll log-form-partTime clear">
+                        <div class="order-search-leftTime  fll">创建时间</div>
+                        <div class="order-search-rightTime fll">
+                            <input type="text" class="Wdate order-date-input" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" class="Wdate" ng-model="proofreadManage.search.beginTime" datepicker/>
+                            <span>-</span>
+                            <input type="text" class="Wdate order-date-input" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" class="Wdate" ng-model="proofreadManage.search.endTime" datepicker/>
+                        </div>
+                    </div>
+                    <div class="fll user-form-part clear">
+                        <div class="fll user-search-left">是否启用</div>
+                        <div class="fll user-search-right">
+                            <select class="user-add-input" ng-model="proofreadManage.search.isenable">
+                                <option value="">请选择</option>
+                                <option value="0">是</option>
+                                <option value="1">否</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="tar mt10">
+                            <span class="dib cursor user-high-search-btn"
+                                  ng-click="proofreadManage.advancedSearch()">检索</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

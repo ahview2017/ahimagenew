@@ -1,0 +1,123 @@
+<div class="user-manager-container">
+    <div class="oH smt-tit">
+        <role-common-tit value="历史版本" class="fll"></role-common-tit>
+        <div class="smt-detail fll">稿件详情</div>
+    </div>
+    <div>
+        <div class="smt-detail-operate smt-detail-spec-operate">
+            <span ui-sref="role.manager.myHistoryVersion({groupId: historyDetail.groupId,gType: historyDetail.gType})">返回</span>
+        </div>
+        <div class="smt-detail-main mt95">
+            <div class="smt-detail-tit oH">
+                <h3 class="fll fwb">{{historyDetail.manuscriptDetail.title}}</h3>
+                <span class="fll">{{historyDetail.manuscriptDetail.pictureCount}}张</span>
+            </div>
+            <div class="smt-detail-cont">
+                <div class="oH">
+                    <p class="w20p">
+                        <span class="smt-detail-term">拍摄时间</span>
+                        <span class="ml10">{{historyDetail.manuscriptDetail.fileTime | date : 'yyyy-MM-dd'}}</span>
+                    </p>
+                    <p class="w20p">
+                        <span class="smt-detail-term">作者</span>
+                        <span class="ml10">{{historyDetail.manuscriptDetail.author}}</span>
+                    </p>
+                    <p class="w20p">
+                        <span class="smt-detail-term">编辑人员</span>
+                        <span class="ml10">{{historyDetail.manuscriptDetail.updateUser}}</span>
+                    </p>
+                    <p class="w20p">
+                        <span class="smt-detail-term">稿件类别</span>
+                        <span class="ml10" ng-repeat="item in historyDetail.manuscriptCates">{{item.categoryName}}</span>
+                    </p>
+                </div>
+                <div class="oH">
+                    <p class="w20p">
+                        <span class="smt-detail-term">发布时间</span>
+                        <span class="ml10">{{historyDetail.manuscriptDetail.sginTime | date:'yyyy-MM-hh HH:mm:ss'}}</span>
+                    </p>
+                    <p class="w20p">
+                        <span class="smt-detail-term">人物</span>
+                        <span class="ml10">{{historyDetail.manuscriptDetail.people}}</span>
+                    </p>
+                    <p class="w20p">
+                        <span class="smt-detail-term">地点</span>
+                        <span class="ml10">{{historyDetail.manuscriptDetail.place}}</span>
+                    </p>
+                    <p class="w20p">
+                        <span class="smt-detail-term">稿件属性</span>
+                        <span class="ml10">{{historyDetail.manuscriptDetail.properties | manuscriptFilter}}</span>
+                    </p>
+                </div>
+                <div class="oH">
+                    <p class="w20p">
+                        <span class="smt-detail-term">是否限价</span>
+                        <span class="ml10">{{detail.manuscriptDetail.priceType | priceTypeFilter}} </span>
+                    </p>
+                    <p class="w75p">
+                        <span class="smt-detail-term">关键词</span>
+                        <span class="w75p ml10">{{historyDetail.manuscriptDetail.keywords}}</span>
+                    </p>
+                </div>
+                <div class="oH">
+                    <p class="w100p">
+                        <span class="smt-detail-term">稿件说明</span>
+                        <span class="w75p ml10" ng-bind-html="historyDetail.manuscriptDetail.memo | trustHtml"></span>
+                    </p>
+                </div>
+                <div class="oH">
+                    <p class="w100p">
+                        <span class="smt-detail-term">备注</span>
+                        <span class="w75p ml10" ng-bind-html="historyDetail.manuscriptDetail.remark | trustHtml"></span>
+                    </p>
+                </div>
+            </div>
+            <div class="smt-detail-pic">
+                <div class="smt-detail-picItem oH" ng-repeat="item in historyDetail.manuscriptDetail.pics">
+                    <div class="fll w30p">
+                        <span>{{item.isCover | isCoverFilter}}</span><br/>
+                        <img ng-src="{{item.smallPath}}" width="275" height="200"/>
+                    </div>
+                    <div class="picItem-detail fll w30p">
+                        <p>
+                            <span class="smt-detail-term">文件名</span>
+                            <span class="ml10">{{item.filename}}</span>
+                        </p>
+                        <p>
+                            <span class="smt-detail-term">原文件名</span>
+                            <span class="ml10">{{item.sourcePictureName}}</span>
+                        </p>
+                        <p>
+                            <span class="smt-detail-term">原始尺寸</span>
+                            <span class="ml10">{{item.pictureWidth}}*{{item.pictureHeight}}像素</span>
+                        </p>
+                        <p>
+                            <span class="smt-detail-term">文件大小</span>
+                            <span class="ml10">{{item.pictureLength / 1024 | number : 2}}K</span>
+                        </p>
+                        <p>
+                            <span class="smt-detail-term">拍摄时间</span>
+                            <span class="ml10">{{item.filmTime | date : 'yyyy-MM-dd'}}</span>
+                        </p>
+                        <p>
+                            <span class="smt-detail-term">作者</span>
+                            <span class="ml10">{{item.authorName}}</span>
+                        </p>
+                        <p>
+                            <span class="smt-detail-term">人物</span>
+                            <span class="ml10">{{item.people}}</span>
+                        </p>
+                        <p>
+                            <span class="smt-detail-term">关键字</span>
+                            <span class="ml10">{{item.keywords}}</span>
+                        </p>
+                    </div>
+                    <div class="picItem-illustrate fll w30p">
+                        <p class="picItem-illustrate-tit">图片说明</p>
+                        <p class="mt15">{{item.memo}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

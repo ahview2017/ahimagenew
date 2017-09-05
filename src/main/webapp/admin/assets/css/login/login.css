@@ -1,0 +1,267 @@
+/*login*/
+.login-container{
+    width:96%;
+    margin:0 auto;
+}
+.login-header{
+    border-top:10px solid #3399CC;
+    width:100%;
+    background-color: #FFF;
+}
+.login-txt{
+    margin-top:10px;
+    /*font-size:0;*/
+}
+.l-first-part{
+    color: #3399CC;
+    font-weight:bold;
+    font-size:22px;
+}
+.l-later-part{
+    color:#FFF;
+    font-size:22px;
+    background:#3399CC;
+    display:inline-block;
+}
+.login-main{
+    margin-top:20px;
+    height:400px;
+    background:url('../../img/login/login_bg.png') no-repeat;
+    background-size:100% 100%;
+}
+.m-login-layer{
+    width: 24rem;
+    height: 24rem;
+    background: #FFF;
+    float: right;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 4%;
+    border-radius: 13px;
+    padding: 20px 0;
+}
+.m-user-icon{
+    width:20px;
+    font-size:18px;
+}
+.m-lock-icon{
+    width:20px;
+    font-size:21px;
+}
+.m-l-msg{
+    padding: 26px 0;
+}
+.m-f-pwd{
+    text-align:right;
+    color:#999;
+}
+.m-l-txt{
+    color: #3399CC;
+    font-weight:bold;
+    font-size:22px;
+}
+.m-lr-con{
+    width:80%;
+    margin:0 auto;
+}
+.m-u-import{
+    width: 17.2rem;
+    height: 2.3rem;
+    line-height: 2.3rem;
+    padding-left: 5px;
+    float: left;
+    margin-left: 12px;
+}
+.spec-valid-input{
+    float:left!important;
+}
+.m-dz-btn{
+    text-align:center;
+    margin-top:20px;
+}
+.m-btn-dz{
+    width: 110px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    border: 1px solid #3399CC;
+    border-radius: 3px;
+}
+.btn-login{
+    background:#3399CC;
+    color:#FFF;
+    /*float:left;*/
+}
+.btn-register{
+    background:#FFF;
+    color:#3399CC;
+    float:right;
+}
+.m-msg-middle{
+    margin: 14px 0;
+}
+.login-footer{
+    background:#D7D7D7;
+    color:#FFFFFF;
+    padding:4rem 0;
+    text-align:center;
+    position: absolute;
+    bottom: 0;
+    width: 96%;
+}
+.login-footer p{
+    margin:0.5rem 0;
+}
+/*register*/
+.l-register-bg{
+   background:#009DD9;
+   height:320px;
+}
+.l-register-layer{
+    width:582px;
+    /*height:522px;*/
+    border:1px solid #009DD9;
+    margin: -192px auto 0;
+    background:#FFF;
+}
+.register-header-tit{
+    padding: 52px 0 0 92px;
+}
+.register-cns{
+    color:#FFF;
+}
+.l-register-left{
+    width:60%;
+    float:left;
+    text-align:center;
+}
+.l-register-right{
+    width:40%;
+    float:left;
+}
+.l-left-inside{
+    width: 80%;
+    margin: 0 auto;
+}
+.register-pic{
+    color: #3399CC;
+    background: #FFF;
+}
+.l-phone-reg{
+    border-bottom:1px solid #3399CC;
+    padding:18px 0;
+}
+.l-inside-input{
+    background: #F8F8F8;
+    color: #BCBCBC;
+    width: 270px;
+    height: 38px;
+    line-height: 38px;
+    margin: 14px 0;
+    padding-left: 6px;
+    border: none;
+}
+.l-valid-code{
+    width:160px;
+    float:left;
+}
+.l-code-bg{
+    background:#FFF!important;
+}
+.l-code-btn{
+    width: 110px;
+    height: 38px;
+    line-height:38px;
+    border: none;
+    background: #3399CC;
+    color: #333;
+    padding: 0;
+    float:left;
+    margin-top: 14px;
+    color:#FFF;
+}
+.m-btn-register{
+    width: 122px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border: 1px solid #3399CC;
+    color:#3399CC;
+}
+.btn-r-dh{
+    float:left;
+}
+.btn-r-sys{
+    float:right;
+}
+.l-read-protol{
+    font-size:10px;
+    margin: 20px 0;
+}
+.btn-dh{
+    background:#3399CC;
+    color:#FFF;
+}
+.r-left-line{
+    width:2%;
+    float:left;
+}
+.r-right-msg{
+    width:98%;
+    float:left;
+    text-align:center;
+}
+.r-login-way{
+    width:58px;
+    height:52px;
+    background:url('../../img/login/l_share.png');
+    display:inline-block;
+}
+.r-login-sina{
+    background-position: 0 0;
+}
+.r-login-qq{
+    background-position: 110px 0;
+}
+.r-login-wx{
+    background-position: 52px 0;
+}
+.l-scan-wx{
+    font-size:10px;
+    margin-top:12px;
+}
+.r-direct-con{
+    padding: 20px 0;
+}
+.l-scan-box{
+    margin-top: 40px;
+}
+.r-has-account{
+    margin-bottom: 10px;
+}
+.l-green-protocal{
+    position: relative;
+    top: 2px;
+}
+
+/*
+html, body {
+    height: 100%;
+}
+#view_container{
+    height: 100%;
+}
+#login-container{
+    position: relative;
+    min-height: 100%;
+}
+#login-main {
+    padding-bottom: 154px;
+}
+#login-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 154px;
+}*/

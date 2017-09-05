@@ -1,0 +1,249 @@
+<div class="user-manager-container">
+    <div class="c-common-titbox">
+        <role-common-tit value="{{groupManageDetail.reMyRoleName}}"></role-common-tit>
+    </div>
+    <div class="c-user-table">
+        <!--修改管理群组成员弹框-->
+        <div class="common-modal-style common-modal-style-width group_con group_upd fenye">
+            <div class="role-add-con">
+                <div id="add-modal-tit" class="user-add-tit clear">
+                    <span class="fll">新添群组成员</span>
+                    <span class="dib cursor user-add-btn" ng-click="groupManageDetail.userModalShow('user-export-modal-l')">导出</span>
+                    <span class="flr curp tit-close" ui-sref='role.manager.groupManage'>×</span>
+                </div>
+                <div class='clearfloat'>
+                	<!--群组现有成员-->
+                    <div class='group_box margin_r'>
+                    	<h3 class='clearfloat'>组内成员</h3>
+                    	<div class="user-hd-right flr">
+                              <input ng-model='groupManageDetail.selectGroupName' placeholder="可查询群组内成员"/>
+                              <img src="admin/assets/img/role/zxs_search.png"ng-click='groupManageDetail.getUserAll()'/>                
+                        </div>
+                    	<ul class='group_box_ul clearfloat role-add-con-height'>
+                    		<li ng-repeat='groupallUser in groupManageDetail.getGroupManagementUser'>
+                    			<span class='group_username'>{{groupallUser.USER_NAME}}</span>
+                    			<span title='从该组移除此用户' class='group_delete'ng-click='groupManageDetail.deleteGroupmeber(groupallUser.userId)'>X</span>
+                    		</li>                 		
+                    	</ul>
+                    	<!--群组成员的分页-->
+                    	<!--<div class="mt10 clear">
+                            <div class="fll group_fenye_l">
+                                 <select ng-model="groupManageDetail.selPageRows_l" class="mr10">
+                                     <option value="50">50</option>
+                                     <option value="40">40</option>
+                                     <option value="30">30</option>
+                                     <option value="20">20</option>
+                                     <option value="10">10</option>
+                                 </select>
+                                 <span>共找到</span>
+                                 <span class="color_red">{{groupManageDetail.userList_total_l}}</span>
+                                 <span>条记录</span>
+                            </div>
+                            <div class="flr">
+                                 <span>第 </span>
+                                 <span>1</span>
+                                 <span>/</span>
+                                 <span>{{groupManageDetail.totalPages_l}}</span>
+                                  <span>页</span>
+                            </div><br>
+                            <div class="mt15 flr group_fenye_r clearfloat">
+                               <dir-pagination-controls on-page-change="groupManageDetail.pageChanged_l(newPageNumber)"
+                                             template-url="admin/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+                               </dir-pagination-controls>
+                            </div>
+                         </div>-->
+                    </div>
+                    <!--所有成员-->
+                    <div class='group_box'>
+                    	<h3 class='clearfloat'>所有用户</h3>
+                    	<div class="user-hd-right flr">
+                              <input ng-model='groupManageDetail.selectAllName' placeholder="可查询所有用户"/>
+                              <img src="admin/assets/img/role/zxs_search.png" ng-click='groupManageDetail.getUserAll()'/>                
+                        </div>
+                    	<ul class='group_box_ul clearfloat role-add-con-height'>   <!--ng-repeat='allUser in groupManageDetail.groupUser' -->                		
+                    		<li dir-paginate="allUser in groupManageDetail.groupUser | itemsPerPage: groupManageDetail.selPageRows"
+                            total-items="groupManageDetail.userList_total"
+                            current-page="groupManageDetail.pagination.current">
+                    			<span class='group_username'>{{allUser.USER_NAME}}</span>
+                    			<span title='添加到此组' class='group_adduser' ng-click='groupManageDetail.addGroupUser(allUser.ID)'>+</span>
+                    		</li>                    		
+                    	</ul>
+                    	<div class="mt10 clear">
+                            <div class="fll group_fenye_l">
+                                 <select ng-model="groupManageDetail.selPageRows" class="mr10">
+                                     <option value="50">50</option>
+                                     <option value="40">40</option>
+                                     <option value="30">30</option>
+                                     <option value="20">20</option>
+                                     <option value="10">10</option>
+                                 </select>
+                                 <span>共找到</span>
+                                 <span class="color_red">{{groupManageDetail.userList_total}}</span>
+                                 <span>条记录</span>
+                            </div>
+                            <div class="flr">
+                                 <span>第 </span>
+                                 <span>{{groupManageDetail.pagination.current}}</span>
+                                 <span>/</span>
+                                 <span>{{groupManageDetail.totalPages}}</span>
+                                  <span>页</span>
+                            </div><br>
+                            <div class="mt15 flr group_fenye_r clearfloat">
+                               <dir-pagination-controls on-page-change="groupManageDetail.pageChanged(newPageNumber)"
+                                             template-url="admin/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+                               </dir-pagination-controls>
+                            </div>
+                         </div>
+                    </div>
+                </div>
+                <div class="tac mt10">
+                        <span class="dib cursor user-add-btn" ng-click='groupManageDetail.save()'>保存</span>
+                    <span class="dib cursor user-add-btn role-del-btn btn_cancel"ui-sref='role.manager.groupManage' ui-sref-opts="{reload:true}">取消</span>
+                </div>
+            </div>
+        </div>        
+    </div>
+</div>
+<!--用户数据导出模态框-->
+<div class="common-modal-style common-modal-style-widt user-export-modal-ll " id="user-export-modal-l" ng-mousemove="groupManageDetail.modalMove('export-modal-tit','user-export-modal-l')" style="display:none">
+    <div class="user-add-con">
+        <div id="export-modal-tit" class="role-add-tit oH">
+            <span class="fll">导出用户信息</span>
+            <span class="flr curp tit-close" ng-click="groupManageDetail.databaseModalHide('user-export-modal-l')">×</span>
+        </div>
+        <div class='user-export-spanall-box'><input class='user_selectall'type='checkbox'><span class='user-export-spanall'>全选</span></div>
+        <div class="role-add-main">
+            <div class="user-form-info clear">
+                <div>
+                    <div class="user-form-info-top clear">
+                        <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='userName' checked><span class='user-export-span'>用户名</span></div>
+                        <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='tureName' checked><span class='user-export-span'>真实姓名</span></div>
+                        <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='address' checked><span class='user-export-span'>用户详细地址</span></div>
+                        <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='zipcode' checked><span class='user-export-span'>用户邮编</span></div>
+                    </div>
+                    <div class="user-form-info-top clear">
+                        <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='emailBind' checked><span class='user-export-span'>绑定邮箱</span></div>
+                        <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='emailContact' checked><span class='user-export-span'>联系邮箱</span></div>
+                        <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='telBind' checked><span class='user-export-span'>绑定电话</span></div>
+                        <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='telContact' checked><span class='user-export-span'>联系电话</span></div>
+                    </div>
+                    <div class="user-form-info-top clear">
+                        <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='QQ' checked><span class='user-export-span'>QQ</span></div>
+                        <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='WeChat' checked><span class='user-export-span'>微信</span></div>
+                    </div>
+                    <div class="tac user-more-btn-box">
+                        <span class="dib cursor unfold-detail-info user-more-btn" ng-click="groupManageDetail.showmoreexport()">更多信息</span>
+                    </div>
+                    <div class='user-more  user-more-export ' ng-if="groupManageDetail.showmoreexportInfo">
+                        <div class="user-form-info-top clear">
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='uploadCount'><span class='user-export-span'>上传图片数</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='pubCount'><span class='user-export-span'>发布图片数</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='keepCount'><span class='user-export-span'>留资图片数</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='applyDate'><span class='user-export-span'>申请时间</span></div>
+                        </div>
+                        <div class="user-form-info-top clear">
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='regDate'><span class='user-export-span'>注册时间</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='downloadLevel'><span class='user-export-span'>下载级别</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='isDownload'><span class='user-export-span'>是否允许下载</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='contractPerrice'><span class='user-export-span'>用户合同协议价格</span></div>
+                        </div>
+                        <div class="user-form-info-top clear">
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='contractStartTime'><span class='user-export-span'>下载起始时间</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='downloadType'><span class='user-export-span'>用户下载方式</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='contractLimitNum'><span class='user-export-span'>下载限制数量</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='contractBuyNum'><span class='user-export-span'>当前合同期购买数量</span></div>
+                        </div>
+
+                        <div class="user-form-info-top clear">
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='contractBasePerrice'><span class='user-export-span'>合同-分成基价</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='contractEndTime'><span class='user-export-span'>下载结束时间</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='contractLimitType'><span class='user-export-span'>合同下载限制类型</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='contractLimitDlNum'><span class='user-export-span'>下载限制类型内已下载数量</span></div>
+                        </div>
+                        <div class="user-form-info-top clear">
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='contractNum'><span class='user-export-span'>当前合同期内已下载数量</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='contractAllNum'><span class='user-export-span'>合同下载总数量</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='account'><span class='user-export-span'>当前账户余额</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='balancePerrice'><span class='user-export-span'>余额-协议价格</span></div>
+                        </div>
+                        <div class="user-form-info-top clear">
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='balanceBasePerrice'><span class='user-export-span'>余额-普通图-分成基价</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='balanceSale'><span class='user-export-span'>余额-特殊图打折系数</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='balacnceRevenue'><span class='user-export-span'>余额-税收系数</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='balanceLimitType'><span class='user-export-span'>余额下载限制类型</span></div>
+                        </div>
+                        <div class="user-form-info-top clear">
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='balanceLimitNum'><span class='user-export-span'>余额内限制数量</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='balanceLimitDlNum'><span class='user-export-span'>下载限制类型内已下载数量</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='balanceAllNum'><span class='user-export-span'>余额下载总数量</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='threelimitType'><span class='user-export-span'>合同和余额下载限制类型</span></div>
+                        </div>
+                        <div class="user-form-info-top clear">
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='threelimitNum'><span class='user-export-span'>合同和余额下载限制数量</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='threeLimitDlNum'><span class='user-export-span'>下载限制类型内已下载数量</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='downlineNum'><span class='user-export-span'>线下下载总数量</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='onLineNum'><span class='user-export-span'>线上(在线支付)交易下载数量</span></div>
+                        </div>
+                        <div class="user-form-info-top clear">
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='allDownloadNum'><span class='user-export-span'>用户总下载图片数=线下</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='unitname'><span class='user-export-span'>单位名称</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='unitAddress'><span class='user-export-span'>单位地址</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='unitTel'><span class='user-export-span'>单位电话</span></div>
+                        </div>
+                        <div class="user-form-info-top clear">
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='unitFax'><span class='user-export-span'>单位传真</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='authorName'><span class='user-export-span'>笔名/联系人</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='sunscriberType'><span class='user-export-span'>订户类型</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='isPubllish'><span class='user-export-span'>是否公布个人信息</span></div>
+                        </div>
+                        <div class="user-form-info-top clear">
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='feeType'><span class='user-export-span'>接收稿费方式</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='bankAccount'><span class='user-export-span'>电汇-邮政储蓄存折帐号或卡号</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='bankuserName'><span class='user-export-span'>电汇-上述存折或卡的户名</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='bankName'><span class='user-export-span'>电汇-上述邮局名称，开户行</span></div>
+                        </div>
+                        <div class="user-form-info-top clear">
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='bankIdCard'><span class='user-export-span'>银行或邮局账号身份证</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='mallAddress'><span class='user-export-span'>邮寄-通信地址</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='mallUsername'><span class='user-export-span'>邮寄-收稿费人姓名</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='mallIdCard'><span class='user-export-span'>邮寄-身份证号</span></div>
+                        </div>
+                        <div class="user-form-info-top clear">
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='mallZipCode'><span class='user-export-span'>邮寄-邮政编码</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='disCount'><span class='user-export-span'>无折扣-免费</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='photographyDirection'><span class='user-export-span'>摄影方向</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='zone'><span class='user-export-span'>所属地域</span></div>
+                        </div>
+                        <div class="user-form-info-top clear">
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='subscriptionType'><span class='user-export-span'>订阅类型</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='province'><span class='user-export-span'>所属省</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='city'><span class='user-export-span'>所属市</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='idCard'><span class='user-export-span'>身份证号</span></div>
+                        </div>
+                        <div class="user-form-info-top clear">
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='photographerLevel'><span class='user-export-span'>摄影师等级</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='userStarts'><span class='user-export-span'>用户状态</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='isUnit'><span class='user-export-span'>是否是企业用户</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='payType'><span class='user-export-span'>支付方式</span></div>
+                        </div>
+                        <div class="user-form-info-top clear">
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='siteId'><span class='user-export-span'>子库ID</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='updatteUser'><span class='user-export-span'>最后更新人</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='usertype'><span class='user-export-span'>用户类型</span></div>
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='userDivide'><span class='user-export-span'>摄影师分成系数</span></div>
+                        </div>
+                        <div class="user-form-info-top clear">
+                            <div class='user-export-select-box clear'><input class='user_select'type='checkbox' value='memo'><span class='user-export-span'>备注</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tac mt10">
+                    <span class="dib cursor user-add-btn" ng-click="groupManageDetail.userexport()">导出</span>
+                    <span class="dib cursor user-add-btn role-del-btn" ng-click="groupManageDetail.databaseModalHide('user-export-modal-l')">取消</span>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

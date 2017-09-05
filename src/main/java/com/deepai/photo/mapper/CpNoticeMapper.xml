@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deepai.photo.mapper.CpNoticeMapper" >
+  <resultMap id="BaseResultMap" type="com.deepai.photo.bean.CpNotice" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="NOTICE_TITLE" property="noticeTitle" jdbcType="VARCHAR" />
+    <result column="SITE_ID" property="siteId" jdbcType="INTEGER" />
+    <result column="STATUS" property="status" jdbcType="INTEGER" />
+    <result column="TIP_ID" property="tipId" jdbcType="INTEGER" />
+    <result column="CREATER" property="creater" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="TOPIC_ID" property="topicId" jdbcType="INTEGER" />
+    <result column="TOPIC_NAME" property="topicName" jdbcType="VARCHAR" />
+    <result column="POSITION" property="position" jdbcType="INTEGER" />
+    <result column="LANG_TYPE" property="langType" jdbcType="INTEGER" />
+    <result column="NOTICE_CONTENT" property="noticeContent" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.deepai.photo.bean.CpNotice" extends="BaseResultMap" >
+    <result column="NOTICE_CONTENT" property="noticeContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, NOTICE_TITLE, SITE_ID, STATUS, CREATER, CREATE_TIME, TOPIC_ID, TOPIC_NAME, POSITION, 
+    LANG_TYPE,TIP_ID
+  </sql>
+  <sql id="Blob_Column_List" >
+    NOTICE_CONTENT
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.deepai.photo.bean.CpNoticeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from cp_notice
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.deepai.photo.bean.CpNoticeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cp_notice
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from cp_notice
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from cp_notice
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.deepai.photo.bean.CpNoticeExample" >
+    delete from cp_notice
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.deepai.photo.bean.CpNotice" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cp_notice (NOTICE_TITLE, SITE_ID, STATUS, 
+      CREATER, CREATE_TIME, TOPIC_ID, 
+      TOPIC_NAME, POSITION, LANG_TYPE, TIP_ID,
+      NOTICE_CONTENT)
+    values (#{noticeTitle,jdbcType=VARCHAR}, #{siteId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{creater,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{topicId,jdbcType=INTEGER}, 
+      #{topicName,jdbcType=VARCHAR}, #{position,jdbcType=INTEGER}, #{langType,jdbcType=INTEGER}, #{tipId,jdbcType=INTEGER}, 
+      #{noticeContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.deepai.photo.bean.CpNotice" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cp_notice
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="noticeTitle != null" >
+        NOTICE_TITLE,
+      </if>
+      <if test="siteId != null" >
+        SITE_ID,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="tipId != null" >
+        TIP_ID,
+      </if>
+      <if test="creater != null" >
+        CREATER,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="topicId != null" >
+        TOPIC_ID,
+      </if>
+      <if test="topicName != null" >
+        TOPIC_NAME,
+      </if>
+      <if test="position != null" >
+        POSITION,
+      </if>
+      <if test="langType != null" >
+        LANG_TYPE,
+      </if>
+      <if test="noticeContent != null" >
+        NOTICE_CONTENT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="noticeTitle != null" >
+        #{noticeTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="siteId != null" >
+        #{siteId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="tipId != null" >
+        #{tipId,jdbcType=INTEGER},
+      </if>
+      <if test="creater != null" >
+        #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="topicId != null" >
+        #{topicId,jdbcType=INTEGER},
+      </if>
+      <if test="topicName != null" >
+        #{topicName,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=INTEGER},
+      </if>
+      <if test="langType != null" >
+        #{langType,jdbcType=INTEGER},
+      </if>
+      <if test="noticeContent != null" >
+        #{noticeContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.deepai.photo.bean.CpNoticeExample" resultType="java.lang.Integer" >
+    select count(*) from cp_notice
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update cp_notice
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.noticeTitle != null" >
+        NOTICE_TITLE = #{record.noticeTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.siteId != null" >
+        SITE_ID = #{record.siteId,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=INTEGER},
+      </if>
+       <if test="record.tipId != null" >
+        TIP_ID = #{record.tipId,jdbcType=INTEGER},
+      </if>
+      <if test="record.creater != null" >
+        CREATER = #{record.creater,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.topicId != null" >
+        TOPIC_ID = #{record.topicId,jdbcType=INTEGER},
+      </if>
+      <if test="record.topicName != null" >
+        TOPIC_NAME = #{record.topicName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.position != null" >
+        POSITION = #{record.position,jdbcType=INTEGER},
+      </if>
+      <if test="record.langType != null" >
+        LANG_TYPE = #{record.langType,jdbcType=INTEGER},
+      </if>
+      <if test="record.noticeContent != null" >
+        NOTICE_CONTENT = #{record.noticeContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update cp_notice
+    set ID = #{record.id,jdbcType=INTEGER},
+      NOTICE_TITLE = #{record.noticeTitle,jdbcType=VARCHAR},
+      SITE_ID = #{record.siteId,jdbcType=INTEGER},
+      STATUS = #{record.status,jdbcType=INTEGER},
+      TIP_ID = #{record.tipId,jdbcType=INTEGER},
+      CREATER = #{record.creater,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      TOPIC_ID = #{record.topicId,jdbcType=INTEGER},
+      TOPIC_NAME = #{record.topicName,jdbcType=VARCHAR},
+      POSITION = #{record.position,jdbcType=INTEGER},
+      LANG_TYPE = #{record.langType,jdbcType=INTEGER},
+      NOTICE_CONTENT = #{record.noticeContent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update cp_notice
+    set ID = #{record.id,jdbcType=INTEGER},
+      NOTICE_TITLE = #{record.noticeTitle,jdbcType=VARCHAR},
+      SITE_ID = #{record.siteId,jdbcType=INTEGER},
+      STATUS = #{record.status,jdbcType=INTEGER},
+      TIP_ID = #{record.tipId,jdbcType=INTEGER},
+      CREATER = #{record.creater,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      TOPIC_ID = #{record.topicId,jdbcType=INTEGER},
+      TOPIC_NAME = #{record.topicName,jdbcType=VARCHAR},
+      POSITION = #{record.position,jdbcType=INTEGER},
+      LANG_TYPE = #{record.langType,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.deepai.photo.bean.CpNotice" >
+    update cp_notice
+    <set >
+      <if test="noticeTitle != null" >
+        NOTICE_TITLE = #{noticeTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="siteId != null" >
+        SITE_ID = #{siteId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="tipId != null" >
+        TIP_ID = #{tipId,jdbcType=INTEGER},
+      </if>
+      <if test="creater != null" >
+        CREATER = #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="topicId != null" >
+        TOPIC_ID = #{topicId,jdbcType=INTEGER},
+      </if>
+      <if test="topicName != null" >
+        TOPIC_NAME = #{topicName,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        POSITION = #{position,jdbcType=INTEGER},
+      </if>
+      <if test="langType != null" >
+        LANG_TYPE = #{langType,jdbcType=INTEGER},
+      </if>
+      <if test="noticeContent != null" >
+        NOTICE_CONTENT = #{noticeContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.deepai.photo.bean.CpNotice" >
+    update cp_notice
+    set NOTICE_TITLE = #{noticeTitle,jdbcType=VARCHAR},
+      SITE_ID = #{siteId,jdbcType=INTEGER},
+      STATUS = #{status,jdbcType=INTEGER},
+      TIP_ID = #{tipId,jdbcType=INTEGER},
+      CREATER = #{creater,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      TOPIC_ID = #{topicId,jdbcType=INTEGER},
+      TOPIC_NAME = #{topicName,jdbcType=VARCHAR},
+      POSITION = #{position,jdbcType=INTEGER},
+      LANG_TYPE = #{langType,jdbcType=INTEGER},
+      NOTICE_CONTENT = #{noticeContent,jdbcType=LONGVARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.deepai.photo.bean.CpNotice" >
+    update cp_notice
+    set NOTICE_TITLE = #{noticeTitle,jdbcType=VARCHAR},
+      SITE_ID = #{siteId,jdbcType=INTEGER},
+      STATUS = #{status,jdbcType=INTEGER},
+      TIP_ID = #{tipId,jdbcType=INTEGER},
+      CREATER = #{creater,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      TOPIC_ID = #{topicId,jdbcType=INTEGER},
+      TOPIC_NAME = #{topicName,jdbcType=VARCHAR},
+      POSITION = #{position,jdbcType=INTEGER},
+      LANG_TYPE = #{langType,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <!-- 自写sql -->
+  <select id="findNoticeByTopicId" resultMap="BaseResultMap"
+		parameterType="int">
+		SELECT * from cp_notice c where c.TOPIC_ID=#{topic} ORDER BY c.POSITION
+	</select>
+	<select id="showMoreLanmuWithAdv" resultMap="BaseResultMap"
+		parameterType="int">
+		SELECT * from cp_notice c where    c.TOPIC_ID=#{topic} ORDER BY c.POSITION
+	</select>
+<!-- 	
+	<update id="postionToBig" parameterType="com.deepai.photo.bean.CpNotice">
+		update cp_notice c set c.POSITION=#{Yposition} where c.TOPIC_ID=#{topicId}
+		and c.POSITION=#{position}
+	</update>	
+ -->	
+  	<update id="postionToBig" parameterType="com.deepai.photo.bean.CpNotice">
+		UPDATE cp_notice c SET c.position= c.position-1 WHERE  c.topic_id = #{topicId} AND  c.position &gt; #{Yposition}  AND c.position &lt;=#{position}; 
+	</update>
+<!--	
+	<update id="postionToSmall" parameterType="com.deepai.photo.bean.CpNotice">
+		update cp_notice c set c.POSITION=c.POSITION-1 WHERE c.ID in 
+	(SELECT id  from (select ID from cp_notice WHERE POSITION BETWEEN 1 and #{position} and TOPIC_ID=#{topicId} )d) 
+	or c.ID in (SELECT ID from (SELECT COUNT(*)  as idcount  from cp_notice where TOPIC_ID=#{topicId})d
+	where POSITION BETWEEN (#{Yposition}+1) and d.idcount AND TOPIC_ID=#{topicId} )
+		</update>
+-->
+	<update id="postionToSmall" parameterType="com.deepai.photo.bean.CpNotice">
+		UPDATE cp_notice c SET c.position= c.position+1 WHERE c.topic_id = #{topicId} AND c.position &lt; #{Yposition} AND #{position} &lt;=c.position ;
+	</update>
+	<update id="chang0" parameterType="com.deepai.photo.bean.CpNotice">
+	UPDATE cp_notice c set c.POSITION=(SELECT d.zPOSITION  from (SELECT COUNT(*) as zPOSITION from cp_notice where TOPIC_ID=#{topicId})d) 
+	WHERE c.POSITION=0 and TOPIC_ID=#{topicId}
+	</update>
+	<select id="findPreview" resultMap="BaseResultMap" parameterType="int">
+	SELECT * from cp_notice c where c.TOPIC_ID=#{topic} ORDER BY c.POSITION
+		limit 8
+	</select>
+	<update id="changSomePostion" parameterType="com.deepai.photo.bean.CpNotice">
+	update cp_notice c set  c.POSITION=c.POSITION+1 where c.POSITION &gt;=#{position} and c.TOPIC_ID=#{topicId}
+	</update>
+	<select id="showToAdmin" resultMap="BaseResultMap" parameterType="map">
+	SELECT * from cp_notice c where c.TOPIC_ID is NULL  
+	 <if test="langType!=null">
+	  and c.LANG_TYPE=#{langType}
+	  </if>
+	  order by TIP_ID DESC,CREATE_TIME desc 
+	</select>
+	<select id="showToHomePage" resultMap="BaseResultMap">
+	SELECT * from cp_notice c where c.TOPIC_ID is NULL and c.STATUS=1 
+	<if test="site!=null">
+	and c.SITE_ID=#{site}
+	</if>
+	<if test="langType!=null">
+	  and c.LANG_TYPE=#{langType}
+	</if>
+	ORDER BY TIP_ID DESC,ID DESC
+	<if test="limit!=null and limit!='' ">
+	limit #{limit}
+	</if> 
+	</select>
+	<select id="search" resultMap="BaseResultMap" parameterType="map" >
+	  SELECT * from cp_notice c where 1=1 
+	  <if test="map.searchName!=null">
+	  and  c.NOTICE_TITLE like CONCAT('%',#{map.searchName},'%')
+	  </if>
+	  <if test="map.timeFrom!=null">
+	  <![CDATA[ and DATE_FORMAT(c.CREATE_TIME, '%Y-%m-%d') >=  DATE_FORMAT(#{map.timeFrom}, '%Y-%m-%d')]]>
+	  </if>
+	  <if test="map.timeTo!=null">
+	  <![CDATA[ and DATE_FORMAT(c.CREATE_TIME, '%Y-%m-%d') <=  DATE_FORMAT(#{map.timeTo}, '%Y-%m-%d')]]>
+	  </if> 
+	  <if test="map.langType!=null">
+	  and c.LANG_TYPE=#{map.langType}
+	  </if>
+	  <if test="map.status!=null">
+	  and c.STATUS=#{map.status}
+	  </if>
+	  <if test="map.tipId!=null">
+	  and c.TIP_ID=#{map.tipId}
+	  </if>
+	  <if test="map.creater!=null">
+	  and c.CREATER like CONCAT('%',#{map.creater},'%')
+	  </if>
+	 and c.SITE_ID=#{map.siteId}
+	 and c.TOPIC_ID is NULL ORDER BY c.TIP_ID DESC,c.CREATE_TIME DESC
+	</select>
+</mapper>

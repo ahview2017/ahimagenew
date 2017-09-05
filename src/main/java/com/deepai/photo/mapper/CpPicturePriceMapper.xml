@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deepai.photo.mapper.CpPicturePriceMapper" >
+  <resultMap id="BaseResultMap" type="com.deepai.photo.bean.CpPicturePrice" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="PICTURE_TYPE" property="pictureType" jdbcType="INTEGER" />
+    <result column="PICTURE_LITTLE_TYPE" property="pictureLittleType" jdbcType="VARCHAR" />
+    <result column="SET_PRICE" property="setPrice" jdbcType="DOUBLE" />
+    <result column="PAY_PRICE" property="payPrice" jdbcType="DOUBLE" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="EDIT_NAME" property="editName" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.deepai.photo.bean.CpPicturePrice" extends="BaseResultMap" >
+    <result column="CONTAINER" property="container" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, PICTURE_TYPE, PICTURE_LITTLE_TYPE, SET_PRICE, PAY_PRICE, UPDATE_TIME, EDIT_NAME
+  </sql>
+  <sql id="Blob_Column_List" >
+    CONTAINER
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.deepai.photo.bean.CpPicturePriceExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from cp_picture_price
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.deepai.photo.bean.CpPicturePriceExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cp_picture_price
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from cp_picture_price
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByIds" parameterType="java.util.List"  resultType="java.util.Map">
+  	select id,picture_type from cp_picture_price
+  	where id in 
+  		<foreach collection="ids" item="item" separator="," open="(" close=")">
+  			#{item}
+  		</foreach>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from cp_picture_price
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.deepai.photo.bean.CpPicturePriceExample" >
+    delete from cp_picture_price
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.deepai.photo.bean.CpPicturePrice" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cp_picture_price (PICTURE_TYPE, PICTURE_LITTLE_TYPE, SET_PRICE, 
+      PAY_PRICE, UPDATE_TIME, EDIT_NAME, 
+      CONTAINER)
+    values (#{pictureType,jdbcType=INTEGER}, #{pictureLittleType,jdbcType=VARCHAR}, #{setPrice,jdbcType=DOUBLE}, 
+      #{payPrice,jdbcType=DOUBLE}, #{updateTime,jdbcType=TIMESTAMP}, #{editName,jdbcType=VARCHAR}, 
+      #{container,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.deepai.photo.bean.CpPicturePrice" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cp_picture_price
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pictureType != null" >
+        PICTURE_TYPE,
+      </if>
+      <if test="pictureLittleType != null" >
+        PICTURE_LITTLE_TYPE,
+      </if>
+      <if test="setPrice != null" >
+        SET_PRICE,
+      </if>
+      <if test="payPrice != null" >
+        PAY_PRICE,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="editName != null" >
+        EDIT_NAME,
+      </if>
+      <if test="container != null" >
+        CONTAINER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pictureType != null" >
+        #{pictureType,jdbcType=INTEGER},
+      </if>
+      <if test="pictureLittleType != null" >
+        #{pictureLittleType,jdbcType=VARCHAR},
+      </if>
+      <if test="setPrice != null" >
+        #{setPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="payPrice != null" >
+        #{payPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="editName != null" >
+        #{editName,jdbcType=VARCHAR},
+      </if>
+      <if test="container != null" >
+        #{container,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.deepai.photo.bean.CpPicturePriceExample" resultType="java.lang.Integer" >
+    select count(*) from cp_picture_price
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update cp_picture_price
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.pictureType != null" >
+        PICTURE_TYPE = #{record.pictureType,jdbcType=INTEGER},
+      </if>
+      <if test="record.pictureLittleType != null" >
+        PICTURE_LITTLE_TYPE = #{record.pictureLittleType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.setPrice != null" >
+        SET_PRICE = #{record.setPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.payPrice != null" >
+        PAY_PRICE = #{record.payPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.updateTime != null" >
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.editName != null" >
+        EDIT_NAME = #{record.editName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.container != null" >
+        CONTAINER = #{record.container,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update cp_picture_price
+    set ID = #{record.id,jdbcType=INTEGER},
+      PICTURE_TYPE = #{record.pictureType,jdbcType=INTEGER},
+      PICTURE_LITTLE_TYPE = #{record.pictureLittleType,jdbcType=VARCHAR},
+      SET_PRICE = #{record.setPrice,jdbcType=DOUBLE},
+      PAY_PRICE = #{record.payPrice,jdbcType=DOUBLE},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      EDIT_NAME = #{record.editName,jdbcType=VARCHAR},
+      CONTAINER = #{record.container,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update cp_picture_price
+    set ID = #{record.id,jdbcType=INTEGER},
+      PICTURE_TYPE = #{record.pictureType,jdbcType=INTEGER},
+      PICTURE_LITTLE_TYPE = #{record.pictureLittleType,jdbcType=VARCHAR},
+      SET_PRICE = #{record.setPrice,jdbcType=DOUBLE},
+      PAY_PRICE = #{record.payPrice,jdbcType=DOUBLE},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      EDIT_NAME = #{record.editName,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.deepai.photo.bean.CpPicturePrice" >
+    update cp_picture_price
+    <set >
+      <if test="pictureType != null" >
+        PICTURE_TYPE = #{pictureType,jdbcType=INTEGER},
+      </if>
+      <if test="pictureLittleType != null" >
+        PICTURE_LITTLE_TYPE = #{pictureLittleType,jdbcType=VARCHAR},
+      </if>
+      <if test="setPrice != null" >
+        SET_PRICE = #{setPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="payPrice != null" >
+        PAY_PRICE = #{payPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="editName != null" >
+        EDIT_NAME = #{editName,jdbcType=VARCHAR},
+      </if>
+      <if test="container != null" >
+        CONTAINER = #{container,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.deepai.photo.bean.CpPicturePrice" >
+    update cp_picture_price
+    set PICTURE_TYPE = #{pictureType,jdbcType=INTEGER},
+      PICTURE_LITTLE_TYPE = #{pictureLittleType,jdbcType=VARCHAR},
+      SET_PRICE = #{setPrice,jdbcType=DOUBLE},
+      PAY_PRICE = #{payPrice,jdbcType=DOUBLE},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      EDIT_NAME = #{editName,jdbcType=VARCHAR},
+      CONTAINER = #{container,jdbcType=LONGVARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.deepai.photo.bean.CpPicturePrice" >
+    update cp_picture_price
+    set PICTURE_TYPE = #{pictureType,jdbcType=INTEGER},
+      PICTURE_LITTLE_TYPE = #{pictureLittleType,jdbcType=VARCHAR},
+      SET_PRICE = #{setPrice,jdbcType=DOUBLE},
+      PAY_PRICE = #{payPrice,jdbcType=DOUBLE},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      EDIT_NAME = #{editName,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,227 @@
+<div class="user-manager-container">
+    <div class="c-common-titbox">
+        <role-common-tit value="敏感词管理"></role-common-tit>
+    </div>
+    <div class="c-user-table">
+        <div class="t-search-hd clear">
+            <div class="user-hd-left fll">
+                <label for="checkAllSenstiveWord">
+                    <input type="checkbox" ng-click="sensitiveWordManage.selectAll()"
+                           id="checkAllSenstiveWord"
+                           ng-model="sensitiveWordManage.SelectedAll"/>
+                    <span class="user-check-txt">全选</span>
+                </label>
+                <span class="dib cursor user-add-btn"
+                      ng-click="sensitiveWordManage.sensitiveModalShow('sensitive-add-modal')">添加</span>
+                <span class="dib cursor user-add-btn role-modify-btn"
+                      ng-click="sensitiveWordManage.oneUpdate()">修改</span>
+                <span class="dib cursor user-add-btn role-del-btn"
+                      ng-click="sensitiveWordManage.multiDelete()">删除</span>
+                <span class="dib cursor user-add-btn" onclick="angular.element(this).scope().fileSensitiveDown()">全部下载</span>
+                <form action="cnsphoto/enSensitiveWordManage/upFile.do"  id="uploadSensitiveForm" method="post" enctype="multipart/form-data">
+                            <input type="file" name="cgFile" multiple  id="picFile"
+                                   onchange="angular.element(this).scope().onSensitiveClick(this)"
+                                   style="opacity:0;" class="dib cursor newManuscript-add-btn"/>
+                            <label for="picFile" class="dib cursor newManuscript-add-btn">
+                                <i class="icon-plus"></i>
+                                <span>批量添加</span>
+                            </label>
+                </form>                
+                <!--<span class="dib cursor user-add-btn role-addlot-btn"
+                      ng-click="sensitiveWordManage.sensitiveModalShow('sensitive-addlot-modal')">批量添加
+                      <input type='file' class='role-addlot-btn-absolute'>
+                </span>-->
+            </div>
+            <div class="user-hd-right flr">
+                <input class="user-search-input" ng-model="sensitiveWordManage.searchSensitiveModel"
+                       placeholder="可查询敏感词内容、备注"
+                       ng-keydown="sensitiveWordManage.onEnterSearchClick($event)"/>
+                <img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic"
+                     ng-click="sensitiveWordManage.onSearchSensitiveClick()"/>
+                <!--<span class="dib cursor user-search-btn">高级检索</span>-->
+            </div>
+        </div>
+        <div class="t-uinfo-bd">
+            <div class="table-responsive">
+                <table class="table table-bordered uInfo-table">
+                    <thead>
+                    <tr>
+                        <th class="uinfo-hd-th"></th>
+                        <!--<th class="uinfo-hd-th">排序号</th>-->
+                        <th class="uinfo-hd-th">ID</th>
+                        <th class="uinfo-hd-th">敏感词</th>
+                        <th class="uinfo-hd-th">备注</th>
+                        <th class="uinfo-hd-th">是否启用</th>
+                        <th class="uinfo-hd-th">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr dir-paginate="word in sensitiveWordManage.listData | itemsPerPage: sensitiveWordManage.selPageRows"
+                        total-items="sensitiveWordManage.sensitiveList_total"
+                        current-page="sensitiveWordManage.pagination.current">
+                        <td>
+                            <input type="checkbox" ng-model="word.Checked"
+                                   ng-change="sensitiveWordManage.selectItem()"/>
+                        </td>
+                        <!--<td>{{word.UNM_ORDER}}</td>-->
+                        <td>{{word.ID}}</td>
+                        <td>{{word.WORD_CONTENT}}</td>
+                        <td>{{word.MEMO}}</td>
+                        <td>{{word.WORD_STATUS | sensitiveFilter}}</td>
+                        <td>
+                            <img src="admin/assets/img/role/look_user_info.png" class="cursor" width="20" height="20"
+                                 title="修改" ng-click="sensitiveWordManage.showUpdateModel(word)"/>
+                            <!--<img src="admin/assets/img/role/u_pwd_reset.png" class="cursor u-pwd-reset" width="20" height="20"/>-->
+                            <img src="admin/assets/img/role/red_del.png" class="cursor ml10" width="20" height="20"
+                                 title="删除" ng-click="sensitiveWordManage.showDelModel(word.ID)"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- 分页 -->
+        <div class="paging-con-box mt10 clear">
+            <div class="photo-record-page fll">
+                <select ng-model="sensitiveWordManage.selPageRows" class="mr10">
+                    <option value="50">50</option>
+                    <option value="40">40</option>
+                    <option value="30">30</option>
+                    <option value="20">20</option>
+                    <option value="10">10</option>
+                </select>
+                <span>共找到</span>
+                <span class="color_red">{{sensitiveWordManage.sensitiveList_total}}</span>
+                <span>条记录</span>
+            </div>
+            <div class="photo-now-page fll">
+                <span>第 </span>
+                <span>{{sensitiveWordManage.pagination.current}}</span>
+                <span>/</span>
+                <span>{{sensitiveWordManage.totalPages}}</span>
+                <span>页</span>
+            </div>
+            <div class="photo-jump-page flr">
+                <dir-pagination-controls on-page-change="sensitiveWordManage.pageChanged(newPageNumber)"
+                                         template-url="admin/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+                </dir-pagination-controls>
+            </div>
+        </div>
+        <!--敏感词添加弹框-->
+        <div class="common-modal-style" id="sensitive-add-modal"
+             ng-mousemove="sensitiveWordManage.moveModal('add-modal-tit','sensitive-add-modal')"
+             style="display:none">
+            <div class="role-add-con">
+                <div id="add-modal-tit" class="role-add-tit oH">
+                    <span class="fll">敏感词添加</span>
+                    <span class="flr curp tit-close"
+                          ng-click="sensitiveWordManage.onCancelAddWordClick()">×</span>
+                </div>
+                <div class="role-add-main">
+                    <div class="role-add-form-info clear">
+                        <div class="role-form-info-top clear">
+                            <div class="fll role-form-part clear">
+                                <div class="fll sensitive-add-left">敏感词</div>
+                                <input type="text" class="sensitive-add-input"
+                                       ng-model="sensitiveWordManage.addSensitiveWordModel"/>
+                            </div>
+                            <!--<div class="fll role-form-part clear">
+                                <div class="fll sensitive-add-left">分类</div>
+                                <select class="sensitive-add-input"></select>
+                            </div>
+                            <div class="fll role-form-part clear">
+                                <div class="fll sensitive-add-left">排序号</div>
+                                <input type="text" class="sensitive-add-input"/>
+                            </div>-->
+                        </div>
+                        <div class="role-form-info-bottom clear">
+                            <div class="role-remark-txt fll">备注</div>
+                            <input type="text" class="role-remark-input fll"
+                                   ng-model="sensitiveWordManage.addWordRecordModel"/>
+                        </div>
+                        <div class="role-form-info-bottom clear">
+                            <div class="role-remark-txt fll">状态</div>
+                            <div class="role-remark-input fll tal">
+                                <input type="radio" ng-model="sensitiveWordManage.addWordNoModel"
+                                       name="sensitiveWordStatus" value="1"/>禁用
+                                <input type="radio" ng-model="sensitiveWordManage.addWordNoModel"
+                                       name="sensitiveWordStatus" value="0"/>启用
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tac">
+                    <span class="dib cursor user-add-btn" ng-click="sensitiveWordManage.addWord()">添加</span>
+                    <span class="dib cursor user-add-btn role-del-btn"
+                          ng-click="sensitiveWordManage.onCancelAddWordClick()">取消</span>
+                </div>
+            </div>
+        </div>
+        <!--敏感词修改弹框-->
+        <div class="common-modal-style" id="sensitive-modify-modal"
+             ng-mousemove="sensitiveWordManage.moveModal('modify-modal-tit','sensitive-modify-modal')"
+             style="display:none">
+            <div class="role-add-con">
+                <div id="modify-modal-tit" class="role-add-tit oH">
+                    <span>敏感词修改</span>
+                    <span class="flr curp tit-close"
+                          ng-click="sensitiveWordManage.sensitiveModalHide('sensitive-modify-modal')">×</span>
+                </div>
+                <div class="role-add-main">
+                    <div class="role-add-form-info clear">
+                        <div class="role-form-info-top clear">
+                            <div class="fll role-form-part clear">
+                                <div class="fll sensitive-add-left">敏感词</div>
+                                <input type="text" class="sensitive-add-input" ng-model="sensitiveWordManage.tempWordData.sstvWord"/>
+                            </div>
+                            <!--<div class="fll role-form-part clear">
+                                <div class="fll sensitive-add-left">分类</div>
+                                <select class="sensitive-add-input"></select>
+                            </div>
+                            <div class="fll role-form-part clear">
+                                <div class="fll sensitive-add-left">排序号</div>
+                                <input type="text" class="sensitive-add-input"/>
+                            </div>-->
+                        </div>
+                        <div class="role-form-info-bottom clear">
+                            <div class="role-remark-txt fll">备注</div>
+                            <input type="text" class="role-remark-input fll" ng-model="sensitiveWordManage.tempWordData.memo"/>
+                        </div>
+                        <div class="role-form-info-bottom clear">
+                            <div class="role-remark-txt fll">状态</div>
+                            <div class="role-remark-input fll tal">
+                                <input type="radio" ng-model="sensitiveWordManage.tempWordData.status"
+                                       name="sensitiveWordStatus" value="1"/>禁用
+                                <input type="radio" ng-model="sensitiveWordManage.tempWordData.status"
+                                       name="sensitiveWordStatus" value="0"/>启用
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tac">
+                    <span class="dib cursor user-add-btn" ng-click="sensitiveWordManage.updateWord()">修改</span>
+                    <span class="dib cursor user-add-btn role-del-btn"
+                          ng-click="sensitiveWordManage.sensitiveModalHide('sensitive-modify-modal')">取消</span>
+                </div>
+            </div>
+        </div>
+        <!--敏感词删除弹框-->
+        <div class="common-modal-style" id="sensitive-del-modal"
+             ng-mousemove="sensitiveWordManage.moveModal('del-modal-tit','sensitive-del-modal')"
+             style="display:none">
+            <div class="role-add-con">
+                <div id="del-modal-tit" class="role-add-tit">
+                    删除提醒
+                </div>
+                <div class="role-modal-con">
+                    你确定要删除该敏感词吗？
+                </div>
+                <div class="tac mt10">
+                    <span class="dib curp user-add-btn" ng-click="sensitiveWordManage.delWord()">确定</span>
+                    <span class="dib curp user-add-btn role-del-btn "
+                          ng-click="sensitiveWordManage.sensitiveModalHide('sensitive-del-modal')">取消</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

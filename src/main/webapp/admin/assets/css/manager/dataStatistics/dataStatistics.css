@@ -1,0 +1,178 @@
+.contribute-tit{
+    border-bottom: 1px solid #D9D9D9;
+    margin-top: 15px;
+}
+.contribute-tit span{
+    border-bottom: 3px solid transparent;
+    padding-bottom: 5px;
+    margin: 0 10px;
+    display: inline-block;
+    cursor: pointer;
+}
+.contribute-tit .contribute-tit-active{
+    border-bottom-color: #3399CC;
+}
+.contribute-cont{
+    border: 1px solid #E7E8EB;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    padding: 20px;
+    margin-top: 20px;
+}
+.contribute-cont .contribute-pic-tit,.contribute-detail .contributeDetail-tit{
+    font-size: 18px;
+    border-left: 5px solid #3399CC;
+    padding-left: 10px;
+}
+.contribute-pic .contribute-pic-detailBtn{
+    color: #FFF;
+    background: #3399CC;
+    padding: 2px 5px;
+    cursor: pointer;
+}
+.contribute-pic .contribute-pic-cont{
+    height: 300px;  /*��ʱ*/
+    margin-top: 20px;
+    text-align: center;
+}
+.contribute-detail{
+    border-bottom: 1px solid #E7E8EB;
+    padding: 20px 20px 10px 20px;
+}
+.contributeDetail-tit{
+
+}
+.contributeDetail-returnBtn{
+    font-size: 18px;
+    color: #3399CC;
+    cursor: pointer;
+}
+
+/*����ͳ��*/
+.download-tit{
+    font-size: 20px;
+    color: #3399CC;
+    overflow: hidden;
+}
+.download-tit span{
+    border: 1px solid #3399CC;
+    padding: 2px 7px;
+    float: left;
+    cursor: pointer;
+}
+.download-tit-active{
+    color: #FFF;
+    background: #3399CC;
+}
+
+/*ǩ��ͳ��*/
+.signDraft-duration{
+    width: 120px;
+    color: #3399CC;
+    margin: 20px auto;
+    overflow: hidden;
+}
+.signDraft-duration span{
+    border: 1px solid #3399CC;
+    padding: 0 5px;
+    float: left;
+    cursor: pointer;
+}
+.signDraft-duration-active{
+    color: #FFF;
+    background: #3399CC;
+}
+
+/*�û���Ϣͳ��*/
+.userinfo-type p{
+    font-size: 18px;
+    display: inline-block;
+}
+.userinfo-type span{
+    color: #3399CC;
+    border: 1px solid #3399CC;
+    padding: 2px 15px;
+    cursor: pointer;
+}
+.userinfo-type .userinfo-type-active{
+    color: #FFF;
+    background: #3399CC;
+}
+.userinfo-prompt{
+    border: 1px solid #E4E4E4;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    border-radius: 30px;
+    padding: 10px 20px;
+    margin: 5%;
+    float: left;
+}
+.userinfo-prompt .userinfo-promptTit{
+    font-size: 22px;
+    color: #3399CC;
+    border-left: 5px solid #3399CC;
+    padding-left: 10px;
+    margin-right: 20px;
+}
+
+/*数据下载统计样式*/
+.downloaddata_search{
+	float:left;
+	width:20%;
+	margin-top:10px;
+}
+.downloaddata_search input{
+	width:60%;
+}
+.downloaddata_search select{
+	width:60%;
+}
+
+.downloaddata_search_time{
+	margin-top:10px;
+	width:45%;	
+	float:left;
+}
+.downloaddata_search_time input{
+	width:35%;
+	height:24px;
+}
+.downloaddata_search_time_left{
+	width:20%;
+}
+.downloaddata_search_left{
+	display:inline-block;
+	width:36%;
+	text-align:right;
+}
+.downloaddata_ri_right{
+	width:13%;
+	display:inline-block;
+	text-align:right;
+	background:#3399CC;
+	border-radius:5px;
+	color:#fff;
+	text-align:center;
+	height:24px;
+	line-height:24px;
+	cursor:pointer;
+}
+.downloaddata_search{
+	height:24px;
+}
+.downloaddata_search_btn{
+	width:55px;
+	margin-top:10px;
+	float:right;	
+}
+.downloaddata_btn{
+    display: inline-block;
+    padding:5px;
+    float:left;
+    background: #3399CC;
+    color:#fff;
+    margin-right:15px;
+    border-radius:5px;
+    cursor:pointer;
+}

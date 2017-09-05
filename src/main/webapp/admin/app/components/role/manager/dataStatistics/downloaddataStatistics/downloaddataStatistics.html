@@ -1,0 +1,150 @@
+<div class="user-manager-container">
+    <div class='c-common-titbox'>
+        <role-common-tit value="{{downloaddataStatistics.title}}"></role-common-tit>
+    </div>
+    <div class="c-user-table">
+        <div class="t-search-hd clear">
+            <div class='downloaddata_search'>
+            	<span class='downloaddata_search_left'>作者：</span>
+            	<input type='text' ng-model='downloaddataStatistics.pictureAuthor'>
+            </div>           
+            <div class='downloaddata_search'>
+            	<span class='downloaddata_search_left'>作者ID：</span>
+            	<input type='text' ng-model='downloaddataStatistics.authorId'>
+            </div>
+            <div class='downloaddata_search'>
+            	<span class='downloaddata_search_left'>登录名：</span>
+            	<input type='text' ng-model='downloaddataStatistics.authorLoginName'>
+            </div>
+            <div class='downloaddata_search'>
+            	<span class='downloaddata_search_left'>标题：</span>
+            	<input type='text' ng-model='downloaddataStatistics.pictureTitle'>
+            </div> 
+            <div class='downloaddata_search'>
+            	<span class='downloaddata_search_left'>编辑：</span>
+            	<input type='text' ng-model='downloaddataStatistics.editUser'>
+            </div>
+            <div class='downloaddata_search'>
+            	<span class='downloaddata_search_left'>文件名：</span>
+            	<input type='text' ng-model='downloaddataStatistics.pictureFileName'>
+            </div>
+            <div class='downloaddata_search'>
+            	<span class='downloaddata_search_left'>排序字段：</span>
+            	<select ng-model='downloaddataStatistics.orderByCase'>
+            		<option value=''>---请选择---</option>
+            		<option value='1'>下载时间</option>
+            		<option value='2'>作者</option>
+            		<option value='3'>文件名</option>
+            		<option value='4'>下载用户</option>
+            	</select>
+            </div>
+            <div class='downloaddata_search'>
+            	<span class='downloaddata_search_left'>显示方式：</span>
+            	<select ng-model='downloaddataStatistics.showtype'>
+            		<option value=''>---请选择---</option>
+            		<option value='1'>文字</option>
+            		<option value='2'>缩略图</option>
+            	</select>
+            </div> 
+            <div class='downloaddata_search'>
+            	<span class='downloaddata_search_left'>稿件类别：</span>
+				<select ng-model='downloaddataStatistics.pictureGroup'>
+					<option value=''>---请选择---</option>
+					<option ng-repeat='selCpCategorie in  downloaddataStatistics.selCpCategories' value='{{selCpCategorie.id}}'>{{selCpCategorie.categoryName}}</option>					
+				</select>
+            </div>
+            <div class='downloaddata_search_time'>
+            	<span class='downloaddata_search_time_left'>下载时间：</span>
+            	<input type="text" class="Wdate" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" datepicker ng-model='downloaddataStatistics.downStartTime'/>
+                <span>至</span>
+                <input type="text" class="Wdate" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" datepicker ng-model='downloaddataStatistics.downEndTime'/>
+            </div>
+            <div class='downloaddata_search_time'>
+            	<span class='downloaddata_search_time_left'>签发时间：</span>
+            	<input type="text" class="Wdate" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" datepicker ng-model='downloaddataStatistics.signStartTime'/>
+                <span>至</span>
+                <input type="text" class="Wdate" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" datepicker ng-model='downloaddataStatistics.signEndTime'/>
+            </div>
+            <span class='downloaddata_ri_right  downloaddata_search_btn' ng-click='downloaddataStatistics.search()'>检索</span>
+        </div>
+        <div class="t-search-hd clear">
+        	<span class='downloaddata_btn' ng-click='downloaddataStatistics.deleteDownLoadStatistics()'>删除</span>
+        	<span class='downloaddata_btn' ng-click='downloaddataStatistics.exportExcel()'>导出带图Excel</span>
+        </div>
+        <div class="t-uinfo-bd">
+            <div class="table-responsive">
+                <table  class="table table-bordered uInfo-table">
+                    <thead>
+                        <tr>
+                        	<th class='uinfo-hd-th'></th>
+                        	<th class='uinfo-hd-th'>
+                        		<input type='checkbox' class='deletedateall' ng-click='downloaddataStatistics.deletedateall()'>
+                        	</th>
+                        	<th class='uinfo-hd-th'>标题</th>
+                        	<th class='uinfo-hd-th'>作者</th>
+                        	<th class='uinfo-hd-th'>编辑</th>
+                        	<th class='uinfo-hd-th' ng-if='downloaddataStatistics.showtypetext'>文件名</th>
+                        	<th class='uinfo-hd-th' ng-if='!downloaddataStatistics.showtypetext'>缩略图</th>
+                        	<th class='uinfo-hd-th'>签发时间</th>
+                        	<th class='uinfo-hd-th'>下载时间</th>
+                            <th class='uinfo-hd-th'>下载用户</th>
+                            <th class='uinfo-hd-th'>订户类型</th>
+                            <th class='uinfo-hd-th'>IP</th>
+                            <th class='uinfo-hd-th'>下载价格</th>
+                            <th class='uinfo-hd-th'>税前收入</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr dir-paginate="downloaddatalist in downloaddataStatistics.downloaddatalist | itemsPerPage: downloaddataStatistics.selPageRows" 
+							total-items="downloaddataStatistics.downloaddatalist_total" 
+							current-page="downloaddataStatistics.pagination.current" subscriber-type>
+                            <td>{{$index+1}}</td>
+                            <td><input type='checkbox' value='{{downloaddatalist.id}}'class='deleteDownLoaddata'></td>
+                            <td>{{downloaddatalist.pictureTitle}}</td>
+                            <td>{{downloaddatalist.authorLoginName}}</td>
+                            <td>{{downloaddatalist.editUser}}</td>
+                            <td ng-if='downloaddataStatistics.showtypetext'>{{downloaddatalist.pictureFileName}}</td>
+                            <td ng-if='!downloaddataStatistics.showtypetext'>
+                            	<img src='{{downloaddatalist.pictureFilePath}}'>                            	
+                            </td>
+                            <td>{{downloaddatalist.pictureSignTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                            <td>{{downloaddatalist.downloadTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                            <td>{{downloaddatalist.userName}}</td>
+                            <td class='subscriberType'value='{{downloaddatalist.subscriberType}}'>{{downloaddataStatistics.subscriberTypetext}}</td>
+                            <td>{{downloaddatalist.userIP}}</td>
+                            <td>{{downloaddatalist.picturePrice}}</td>
+                            <td>{{downloaddatalist.incomeBefore}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- 分页 -->
+            <div class="paging-con-box mt10 clear">
+                <div class="photo-record-page fll">
+                    <select ng-model="downloaddataStatistics.selPageRows" class="mr10">
+                        <option value="50">50</option>
+                        <option value="40">40</option>
+                        <option value="30">30</option>
+                        <option value="20">20</option>
+                        <option value="10">10</option>
+                    </select>
+                    <span>共找到</span>
+                    <span class="color_red">{{downloaddataStatistics.downloaddatalist_total}}</span>
+                    <span>条记录</span>
+                </div>
+                <div class="photo-now-page fll">
+                    <span>第 </span>
+                    <span>{{downloaddataStatistics.pagination.current}}</span>
+                    <span>/</span>
+                    <span>{{downloaddataStatistics.totalPages}}</span>
+                    <span>页</span>
+                </div>
+                <div class="photo-jump-page flr">
+                    <dir-pagination-controls on-page-change="downloaddataStatistics.pageChanged(newPageNumber)"
+                                             template-url="admin/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+                    </dir-pagination-controls>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

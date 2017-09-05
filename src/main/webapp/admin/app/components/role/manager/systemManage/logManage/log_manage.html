@@ -1,0 +1,172 @@
+<div class="user-manager-container">
+    <div class="c-common-titbox">
+        <role-common-tit value="日志管理"></role-common-tit>
+    </div>
+    <div class="c-user-table">
+        <div class="t-search-hd clear">
+            <span  class="dib cursor user-add-btn" ng-click="logManage.exportLog()">导出</span>
+            <div class="user-hd-right flr">
+                <input class="user-search-input" ng-model="logManage.searchLogMsgModel"
+                       placeholder="可查询IP、用户名、操作内容、操作结果"
+                       ng-keydown="logManage.onEnterSearchClick($event)"/>
+                <img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic"
+                     ng-click="logManage.onSearchLogMsgClick()"/>
+                <!--<span class="dib cursor user-search-btn" -->
+                <!--ng-click="logManage.logModalShow('log-search-modal')">高级检索</span>-->
+                <span class="dib cursor user-search-btn" ng-click="logManage.logModalShow('logs-search-modal')">高级检索</span>
+            </div>
+        </div>
+        <div class="t-uinfo-bd">
+            <div class="table-responsive">
+                <table class="table table-bordered uInfo-table">
+                    <thead>
+                    <tr>
+                        <th class="uinfo-hd-th"  style="width:12%;">日志类型</th>
+                        <th class="uinfo-hd-th"  style="width:12%;">用户IP</th>
+                        <th class="uinfo-hd-th"  style="width:10%;">操作用户名</th>
+                        <th class="uinfo-hd-th"  style="width:13%;">操作时间</th>
+                        <th class="uinfo-hd-th"  style="width:13%;">操作内容</th>
+                        <th class="uinfo-hd-th"  style="width:20%;">操作对象ID</th>
+                        <th class="uinfo-hd-th"  style="width:10%;">操作类型</th>
+                        <th class="uinfo-hd-th"  style="width:10%;">操作结果</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr dir-paginate="item in logManage.listData | itemsPerPage: logManage.selPageRows"
+                        total-items="logManage.logList_total"
+                        current-page="logManage.pagination.current">
+                        <td   style="width:12%;" class="wbba">
+                            <span ng-if="item.LOGTYPE_NAME">{{item.LOGTYPE_NAME}}</span>
+                            <span ng-if="!item.LOGTYPE_NAME">--------</span>
+                        </td>
+                        <td   style="width:12%;"  class="wbba">{{item.OPE_IP}}</td>
+                        <td   style="width:10%;"  class="wbba">{{item.OPE_USER}}</td>
+                        <td   style="width:13%;"  class="wbba">
+                            <p>{{item.OPE_TIME | date:'yyyy-MM-dd'}}</p>
+                            <p>{{item.OPE_TIME | date:'HH:mm:ss'}}</p>
+                        </td>
+                        <td   style="width:13%;"  class="wbba">{{item.OPE_CONTENT}}</td>
+                        <td   style="width:20%;"  class="wbba">{{item.OPE_IDS}}</td>
+                        <td   style="width:10%;"  class="wbba">{{item.OPE_TYPE | logOperateTypeFilter}}</td>
+                        <td   style="width:10%;"  class="wbba">{{item.OPE_RESULT}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- 分页 -->
+            <div class="paging-con-box mt10 clear">
+                <div class="photo-record-page fll">
+                    <select ng-model="logManage.selPageRows" class="mr10">
+                        <option value="50">50</option>
+                        <option value="40">40</option>
+                        <option value="30">30</option>
+                        <option value="20">20</option>
+                        <option value="10">10</option>
+                    </select>
+                    <span>共找到</span>
+                    <span class="color_red">{{logManage.logList_total}}</span>
+                    <span>条记录</span>
+                </div>
+                <div class="photo-now-page fll">
+                    <span>第 </span>
+                    <span>{{logManage.pagination.current}}</span>
+                    <span>/</span>
+                    <span>{{logManage.totalPages}}</span>
+                    <span>页</span>
+                </div>
+                <div class="photo-jump-page flr">
+                    <dir-pagination-controls on-page-change="logManage.pageChanged(newPageNumber)"
+                                             template-url="admin/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+                    </dir-pagination-controls>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--高级检索模态框-->
+    <div class="common-modal-style common-modal-style-wi" id="logs-search-modal"
+         ng-mousemove="logManage.moveModal('search-modal-tit','wait-manuscript-search-modal')"
+         style="display:none">
+        <div class="user-add-con">
+            <div id="search-modal-tit" class="role-add-tit oH">
+                <span class="fll">高级检索</span>
+                <span class="flr curp tit-close"
+                      ng-click="logManage.logModalHide('logs-search-modal')">×</span>
+            </div>
+            <div class="role-add-main">
+                <div class="user-form-info clear">
+                    <div class="user-form-info-top clear">
+                        <div class="fll user-form-part clear">
+                            <div class="user-search-left  fll">操作人员</div>
+                            <div class="user-search-right fll">
+                                <input type="text" class="user-add-input"/>
+                            </div>
+                        </div>
+                        <div class="fll user-form-part clear">
+                            <div class="user-search-left fll">操作时间</div>
+                            <div class="user-search-right fll">
+                                <!--<div class="dropdown">-->
+                                <!--<a class="dropdown-toggle" id="log-operate-time" role="button" data-toggle="dropdown" data-target="#">-->
+                                <!--<input type="text" class="user-add-input"  value="{{data.date || '选择日期' | date:'yyyy-MM-dd'}}"/>-->
+                                <!--</a>-->
+                                <!--<ul class="dropdown-menu log-operate-ul" role="menu" aria-labelledby="dLabel"  style="width:100%;">-->
+                                <!--<datetimepicker data-ng-model="data.date" class="log-operate-datepicker"-->
+                                <!--data-datetimepicker-config="{ dropdownSelector: '#log-operate-time', minView: 'day'}"></datetimepicker>-->
+                                <!--</ul>-->
+                                <!--</div>-->
+
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" id="dropdown2" role="button" data-toggle="dropdown"
+                                       data-target="#"
+                                            >
+                                        <div class="input-group">
+                                            <input type="text" class="form-control"
+                                                   data-ng-model="data.dateDropDownInput"
+                                                   data-date-time-input="YYYY-MM-DD">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                        </div>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        <datetimepicker data-ng-model="data.dateDropDownInput"
+                                                        data-datetimepicker-config="{ dropdownSelector: '#dropdown2', minView: 'day'}"></datetimepicker>
+                                    </ul>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="user-form-info-top clear">
+                        <div class="fll user-form-part clear">
+                            <div class="user-search-left  fll">目标名称</div>
+                            <div class="user-search-right fll">
+                                <input type="text" class="user-add-input"/>
+                            </div>
+                        </div>
+                        <div class="fll user-form-part clear">
+                            <div class="user-search-left fll">操作名称</div>
+                            <div class="user-search-right fll">
+                                <select class="user-add-input"></select>
+                            </div>
+                        </div>
+                        <div class="fll log-form-part-bottom clear">
+                            <div class="fll order-search-left">操作类型</div>
+                            <div class="fll order-search-right">
+                                <select class="order-add-input-other" ng-model="logManage.search.opeType">
+                                    <option value="">请选择</option>
+                                    <option value="0">增</option>
+                                    <option value="1">删</option>
+                                    <option value="2">改</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tar mt10">
+                        <span class="dib cursor user-high-search-btn"
+                              ng-click="logManage.logModalHide('log-search-modal')">检索</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

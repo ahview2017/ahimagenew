@@ -1,0 +1,69 @@
+.famous-lecture-container{
+    width: 100%;
+    background-image:url('../../img/famous-lecture-all-bg.jpg');
+}
+.famous-lecture-outside-con{
+    width: 65%;
+    margin:0 auto;
+    background-image:url('../../img/famous-lecture-con-bg.jpg');
+}
+.famous-lecture-con{
+    width: 98%;
+    margin:0 auto;
+    background-image:url('../../img/famous-lecture-inner-bg.jpg');
+    padding: 15px;
+}
+.famous-lecture-tit{
+    background: url(../../img/famous-lecture-tit-bg.jpg) no-repeat;
+    height: 150px;
+    background-size: 100% 100%;
+}
+.famous-lecture-hd-txt{
+    font-weight: bold;
+    font-size: 14px;
+    margin: 17px 0;
+    text-indent: 2em;
+}
+.famous-each-item{
+    display:table-cell;
+    width: 18%;
+    vertical-align: middle;
+}
+.famous-txt-item{
+    display:table-cell;
+    width: 82%;
+    font-size: 16px;
+}
+.famous-person-img{
+    width: 100%;
+    vertical-align:middle;
+}
+.fperson-name-brief{
+    font-size: 16px;
+}
+.spec-red{
+    color:#c00000;
+}
+.spec-red:hover{
+    color:#c00000;
+}
+.famous-first-item{
+    border-spacing:17px;
+}
+.fperson-brief-desc{
+    text-indent:2em;
+    margin:10px 0 0 0;
+}
+.famous-person-item{
+
+}
+.famous-person-hd-bg{
+    background:url('../../img/famous-person-hd-bg.jpg');
+    height:22px;
+}
+.famous-person-img-show{
+    border:1px solid #ccc;
+}
+.famous-item-pic{
+    width: 100%;
+}

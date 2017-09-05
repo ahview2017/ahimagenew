@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deepai.photo.mapper.EnPicDownMapper" >
+	<select id="selectByPrimaryKey" resultType="com.deepai.photo.bean.CpPicture">
+		select p.FILENAME fileName,p.AUTHOR_NAME authorName,p.GROUP_ID groupId,p.CATEGORY_INFO gategoryInfo,p.CREATE_TIME createTime,p.EDITOR editor,p.EX_DATETIME exDatetime,p.FILM_TIME filmTime,p.MEMO memo,p.PEOPLE people,p.PLACE place,p.TITLE title,p.UPLOADER uploader,p.KEYWORDS keywords,a.ALL_PATH oriAllPath from cp_picture p 
+		left join cp_pic_allpath a on p.ID=a.TRAGET_ID
+		where p.id in (${picIds}) and a.PIC_TYPE=3
+	</select>
+	<select id="selectPicByGroupId" resultType="com.deepai.photo.bean.CpPicture">
+		select p.FILENAME fileName,p.AUTHOR_NAME authorName,p.CATEGORY_INFO gategoryInfo,p.CREATE_TIME createTime,p.EDITOR editor,p.EX_DATETIME exDatetime,p.FILM_TIME filmTime,p.MEMO memo,p.PEOPLE people,p.PLACE place,p.TITLE title,p.UPLOADER uploader,p.KEYWORDS keywords,a.ALL_PATH oriAllPath from cp_picture p 
+		left join cp_pic_allpath a on p.ID=a.TRAGET_ID
+		where p.GROUP_ID = #{groupId} and a.PIC_TYPE=3
+	</select>
+</mapper>

@@ -1,0 +1,189 @@
+<div class="user-manager-container">
+    <div class="c-common-titbox">
+        <role-common-tit value="系统配置"></role-common-tit>
+    </div>
+    <div class="c-user-table">
+        <div class="t-search-hd clear">
+            <div class="user-hd-left fll">
+                <label for="checkAllSys">
+                    <input type="checkbox" ng-model="sysManage.isHadAllCheck" id="checkAllSys"
+                           ng-click="sysManage.onCheckAllClick()"/>
+                    <span class="user-check-txt">全选</span>
+                </label>
+                <span class="dib cursor user-add-btn" ng-click="sysManage.sysAddModalShow('sys-add-modal')">添加</span>
+                <span class="dib cursor user-add-btn role-modify-btn"
+                      ng-click="sysManage.sysUpdateModalShow('sys-modify-modal')">修改</span>
+                <span class="dib cursor user-add-btn role-del-btn"
+                      ng-click="sysManage.sysDelModalShow('sys-del-modal')">删除</span>
+            </div>
+            <div class="user-hd-right flr">
+                <input class="user-search-input" placeholder="可查询配置名"
+                       ng-model="sysManage.searchSysManageModel"
+                       ng-keydown="sysManage.onEnterSearchClick($event)"/>
+                <img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic"
+                     ng-click="sysManage.onSearchSysManageClick()"/>
+                <!--<span class="dib cursor user-search-btn">高级检索</span>-->
+            </div>
+        </div>
+        <div class="t-uinfo-bd">
+            <div class="table-responsive">
+                <table class="table table-bordered uInfo-table">
+                    <thead>
+                    <tr>
+                        <th class="uinfo-hd-th" style="width:5%;">
+                        </th>
+                        <th class="uinfo-hd-th" style="width:5%;">ID</th>
+                        <th class="uinfo-hd-th" style="width:20%;">配置名</th>
+                        <th class="uinfo-hd-th" style="width:20%;">配置值</th>
+                        <th class="uinfo-hd-th" style="width:20%;">名称</th>
+                        <th class="uinfo-hd-th" style="width:20%;">备注</th>
+                        <th class="uinfo-hd-th" style="width:10%;">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr dir-paginate="item in sysManage.sysConfigList | itemsPerPage: sysManage.selPageRows"
+                        total-items="sysManage.sysConfigList_total"
+                        current-page="sysManage.pagination.current"
+                        ng-init="sysManage.checkBoxArray[$index] = false">
+                        <td style="width:5%;" class="wbba">
+                            <input type="checkbox" ng-model="sysManage.checkBoxArray[$index]"
+                                   ng-true-value="{{item.id}}" ng-false-value="false"/>
+                        </td>
+                        <td style="width:5%;"  class="wbba">{{item.id}}</td>
+                        <td style="width:20%;"  class="wbba">{{item.configCode}}</td>
+                        <td style="width:20%;"  class="wbba">{{item.configValue}}</td>
+                        <td style="width:20%;"  class="wbba">{{item.configName}}</td>
+                        <td style="width:20%;"  class="wbba">{{item.configMemo}}</td>
+                        <td style="width:10%;"  class="wbba">
+                            <img src="admin/assets/img/role/look_user_info.png" class="cursor" width="20" height="20"
+                                 title="修改" ng-click="sysManage.sysUpdateItemModalShow('sys-modify-modal',item)"/>
+                            <img src="admin/assets/img/role/red_del.png" class="cursor u-pwd-reset" width="20"
+                                 height="20"
+                                 title="删除" ng-click="sysManage.sysDelItemModalShow('sys-del-modal',item)"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- 分页 -->
+            <div class="paging-con-box mt10 clear">
+                <div class="photo-record-page fll">
+                    <select ng-model="sysManage.selPageRows" class="mr10">
+                        <option value="50">50</option>
+                        <option value="40">40</option>
+                        <option value="30">30</option>
+                        <option value="20">20</option>
+                        <option value="10">10</option>
+                    </select>
+                    <span>共找到</span>
+                    <span class="color_red">{{sysManage.sysConfigList_total}}</span>
+                    <span>条记录</span>
+                </div>
+                <div class="photo-now-page fll">
+                    <span>第 </span>
+                    <span>{{sysManage.pagination.current}}</span>
+                    <span>/</span>
+                    <span>{{sysManage.totalPages}}</span>
+                    <span>页</span>
+                </div>
+                <div class="photo-jump-page flr">
+                    <dir-pagination-controls on-page-change="sysManage.pageChanged(newPageNumber)"
+                                             template-url="admin/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+                    </dir-pagination-controls>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--系统配置添加弹框-->
+    <div class="common-modal-style" id="sys-add-modal"
+         ng-mousemove="sysManage.moveModal('add-modal-tit','sys-add-modal')"
+         style="display:none">
+        <div class="role-add-con">
+            <div id="add-modal-tit" class="role-add-tit oH">
+                <span class="fll">系统配置添加</span>
+                <span class="flr curp tit-close"
+                      ng-click="sysManage.sysModalHide('sys-add-modal')">×</span>
+            </div>
+            <div class="role-add-main">
+                <div class="role-add-form-info advertise-add-form-info clear">
+                    <div class="role-form-info-bottom clear">
+                        <div class="role-remark-txt fll">名称</div>
+                        <input type="text" class="adverse-remark-input fll" ng-model="sysManage.add.configName"/>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="role-remark-txt fll">配置名</div>
+                        <input type="text" class="adverse-remark-input fll" ng-model="sysManage.add.configCode"/>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="role-remark-txt fll">配置值</div>
+                        <input type="text" class="adverse-remark-input fll" ng-model="sysManage.add.configValue"/>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="role-remark-txt fll">备注</div>
+                        <input type="text" class="role-remark-input fll" ng-model="sysManage.add.configMemo"/>
+                    </div>
+                </div>
+            </div>
+            <div class="tac">
+                <span class="dib cursor user-add-btn" ng-click="sysManage.addSysConfig('sys-add-modal')">添加</span>
+                <span class="dib cursor user-add-btn role-del-btn"
+                      ng-click="sysManage.sysModalHide('sys-add-modal')">取消</span>
+            </div>
+        </div>
+    </div>
+    <!--系统配置修改弹框-->
+    <div class="common-modal-style" id="sys-modify-modal"
+         ng-mousemove="sysManage.moveModal('modify-modal-tit','sys-modify-modal')"
+         style="display:none">
+        <div class="role-add-con">
+            <div id="modify-modal-tit" class="role-add-tit oH">
+                <span class="fll">系统配置修改</span>
+                <span class="flr curp tit-close"
+                      ng-click="sysManage.sysModalHide('sys-modify-modal')">×</span>
+            </div>
+            <div class="role-add-main">
+                <div class="role-add-form-info advertise-add-form-info clear">
+                    <div class="role-form-info-bottom clear">
+                        <div class="role-remark-txt fll">名称</div>
+                        <input type="text" class="adverse-remark-input fll" ng-model="sysManage.modify.configName"/>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="role-remark-txt fll">配置名</div>
+                        <input type="text" class="adverse-remark-input fll" ng-model="sysManage.modify.configCode"/>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="role-remark-txt fll">配置值</div>
+                        <input type="text" class="adverse-remark-input fll" ng-model="sysManage.modify.configValue"/>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="role-remark-txt fll">备注</div>
+                        <input type="text" class="role-remark-input fll" ng-model="sysManage.modify.configMemo"/>
+                    </div>
+                </div>
+            </div>
+            <div class="tac">
+                <span class="dib cursor user-add-btn" ng-click="sysManage.updateSysConfig('sys-modify-modal')">修改</span>
+                <span class="dib cursor user-add-btn role-del-btn"
+                      ng-click="sysManage.sysModalHide('sys-modify-modal')">取消</span>
+            </div>
+        </div>
+    </div>
+    <!--系统配置删除弹框-->
+    <div class="common-modal-style" id="sys-del-modal"
+         ng-mousemove="sysManage.moveModal('del-modal-tit','sys-del-modal')"
+         style="display:none">
+        <div class="role-add-con">
+            <div id="del-modal-tit" class="role-add-tit">
+                删除提醒
+            </div>
+            <div class="role-modal-con">
+                你确定要删除该系统配置吗？
+            </div>
+            <div class="tac mt10">
+                <span class="dib cursor user-add-btn" ng-click="sysManage.delSysConfig('sys-del-modal')">确定</span>
+                <span class="dib cursor user-add-btn role-del-btn"
+                      ng-click="sysManage.sysModalHide('sys-del-modal')">取消</span>
+            </div>
+        </div>
+    </div>
+</div>

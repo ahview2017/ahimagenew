@@ -1,0 +1,251 @@
+<div class="user-manager-container">
+    <div class="c-common-titbox">
+        <role-common-tit value="分类管理"></role-common-tit>
+    </div>
+    <div class="user-sort-con clear">
+        <div class="user-sort-left fll">
+            <div class="user-classify-tit">
+                <i ng-class="{true: 'icon-caret-down', false: 'icon-caret-right'}[sortManage.classifyIfShowFlag]"
+                   class="cursor" ng-click="sortManage.userClassifyShowToggle()"></i>
+                <span>分类列表</span>
+            </div>
+            <div class="class=user-classify-details" ng-show="sortManage.classifyIfShowFlag">
+                <ul id="tree" class="ztree"></ul>
+            </div>
+        </div>
+        <div class="user-sort-right fll">
+            <div class="u-sort-info-hd">
+                <h4 class="c-common-title">分类信息</h4>
+            </div>
+            <div class="u-sort-info-bd">
+                <div class="u-classify-info" id="showEditSortInformId">
+                    <!--<iframe name="editSortFrame" id="editSortFrameId" style="display: none"></iframe>-->
+                    <form action="/cnsphoto/classification/upCategory.do" id="editSortFormId"
+                          name="editSortForm" method="post" enctype="multipart/form-data"
+                          autocomplete="off" target="editSortFrame">
+                          <input type="hidden" name="langType" value="{{currentLang}}"/>
+                        <input type="hidden" name="categoryGrade" value="{{sortManage.addSortGrade}}"/>
+                        <input type="hidden" class="u-sort-input" name="parentId"
+                               value="{{sortManage.addSortParentId}}"/>
+
+                        <div class="u-sort-item clear">
+                            <div class="u-sort-tit fll">
+                                <span class="sort-star-color">*</span>
+                                <span>ID</span>
+                            </div>
+                            <div class="u-sort-input-box fll">
+                                <input type="text" id="editSortIdId" class="u-sort-input" name="id"
+                                       style="border: none;"
+                                       readonly="readonly"/>
+                            </div>
+                        </div>
+                        <div class="u-sort-item clear">
+                            <div class="u-sort-tit fll">
+                                <span class="sort-star-color">*</span>
+                                <span>编号</span>
+                            </div>
+                            <div class="u-sort-input-box fll">
+                                <input type="text" id="editSortNumId" class="u-sort-input" name="categoryNumber"
+                                       ng-model="sortManage.caNumberEditModel"/>
+                            </div>
+                        </div>
+                        <div class="u-sort-item clear">
+                            <div class="u-sort-tit fll">
+                                <span class="sort-star-color">*</span>
+                                <span>名称</span>
+                            </div>
+                            <div class="u-sort-input-box fll">
+                                <input type="text" id="editSortNameId" class="u-sort-input" name="categoryName"
+                                       ng-model="sortManage.caNameEditModel"/>
+                            </div>
+                        </div>
+                        <div class="u-sort-item clear">
+                            <div class="u-sort-tit fll">
+                                <span class="sort-star-color">*</span>
+                                <span>排序号</span>
+                            </div>
+                            <div class="u-sort-input-box fll">
+                                <input type="text" id="editSortOrderId" class="u-sort-input" name="categoryOrder"
+                                       ng-model="sortManage.caOrderEditModel"/>
+                            </div>
+                        </div>
+                        <div class="u-sort-item clear">
+                            <div class="u-sort-tit fll">
+                                <span style="padding-left: 12px">图片</span>
+                            </div>
+                            <div class="u-sort-input-box fll">
+                                <input type="file" name="cgFile" id="editSortImage" fileinput="file"
+                                       filepreview="filepreview" style="opacity:0; width: 0; display: none"
+                                       class="fll tal"/>
+                                <span style="display:none;" id="noUpImgsDesc">未上传图片</span>
+                                <img ng-src="{{filepreview}}"
+                                     id="editSortImageId" width="150px" height="50px"/>
+                                <label for="editSortImage" class="add_pic_label" style="display: inline-block">
+                                    <span>上传图片</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="u-sort-item clear">
+                            <div class="u-sort-tit fll">
+                                <span class="sort-star-color">*</span>
+                                <span>首页显示方式</span>
+                            </div>
+                            <div class="u-sort-input-box fll">
+                                <select class="u-sort-input" name="showType"
+                                        id="editSortTypeId">
+                                    <!--<option value="">请选择-&#45;&#45;</option>-->
+                                    <option value="1">文字</option>
+                                    <option value="2">图片</option>
+                                    <option value="3">图文</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="u-sort-item clear">
+                            <div class="u-sort-tit fll">
+                                <!--<span class="sort-star-color">*</span>-->
+                                <span style="padding-left: 12px;">备注</span>
+                            </div>
+                            <div class="u-sort-input-box fll">
+                                <input type="text" id="editSortRecordId" class="u-sort-input" name="memo"/>
+                            </div>
+                        </div>
+                        <div class="u-sort-btns tac clear">
+                            <span class="cursor sort-btn sort-save-btn"
+                                  ng-click="sortManage.onEditSortClick()">保存</span>
+                        <span class="cursor sort-btn sort-addnode-btn"
+                              style="margin:0 10px"
+                              ng-click="sortManage.onAddNodeModalClick(0)">新增同级</span>
+                        <span class="cursor sort-btn sort-addnode-btn"
+                              style="margin-left:0;margin-right: 10px"
+                              ng-click="sortManage.onAddNodeModalClick(1)">添加子节点</span>
+                        <span class="cursor sort-btn sort-delnode-btn"
+                              ng-click="sortManage.sortModalShow('sort-del-modal')">删除该节点</span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--添加子节点模态框-->
+    <div class="common-modal-style" id="sort-add-chidnode-modal"
+         ng-mousemove="sortManage.modalMove('add-modal-tit','sort-add-chidnode-modal')"
+         style="display: none;">
+        <div class="role-add-con">
+            <div id="add-modal-tit" class="role-add-tit oH">
+                <span class="fll">{{sortManage.addNodeTitleTip}}</span>
+                <span class="flr curp tit-close"
+                      ng-click="sortManage.sortModalHide('sort-add-chidnode-modal')">×</span>
+            </div>
+            <div style="border-top:1px solid #ccc;margin-bottom: 20px"></div>
+            <div class="u-sort-info-bd">
+                <div class="u-classify-info" style="width: 90%">
+                    <!--<iframe name="addSortFrame" id="addSortFrameId" style="display: none"></iframe>-->
+                    <form action="/cnsphoto/classification/inCpCategory.do" id="addSortFormId"
+                          name="addSortForm" method="post" enctype="multipart/form-data"
+                          autocomplete="off" target="addSortFrame">
+                        <input type="hidden" name="langType" value="{{currentLang}}"/>
+                        <input type="hidden" name="categoryGrade" value="{{sortManage.addSortGrade}}"/>
+
+                        <input type="hidden" class="u-sort-input" name="parentId"
+                               value="{{sortManage.addSortParentId}}"/>
+
+                        <div class="u-sort-item clear">
+                            <div class="u-sort-tit fll">
+                                <span class="sort-star-color">*</span>
+                                <span>编号</span>
+                            </div>
+                            <div class="u-sort-input-box fll">
+                                <input type="text" id="addSortNumId" class="u-sort-input" name="categoryNumber"
+                                       ng-model="sortManage.caNumberAddModel"/>
+                            </div>
+                        </div>
+                        <div class="u-sort-item clear">
+                            <div class="u-sort-tit fll">
+                                <span class="sort-star-color">*</span>
+                                <span>名称</span>
+                            </div>
+                            <div class="u-sort-input-box fll">
+                                <input type="text" id="addSortNameId" class="u-sort-input" name="categoryName"
+                                       ng-model="sortManage.caNameAddModel"/>
+                            </div>
+                        </div>
+                        <div class="u-sort-item clear">
+                            <div class="u-sort-tit fll">
+                                <span class="sort-star-color">*</span>
+                                <span>排序号</span>
+                            </div>
+                            <div class="u-sort-input-box fll">
+                                <input type="text" id="addSortOrderId" class="u-sort-input" name="categoryOrder"
+                                       ng-model="sortManage.caOrderAddModel"/>
+                            </div>
+                        </div>
+                        <div class="u-sort-item clear">
+                            <div class="u-sort-tit fll">
+                                <span style="padding-left: 12px">图片</span>
+                            </div>
+                            <div class="u-sort-input-box fll">
+                                <input type="file" name="cgFile" id="addSortImage" fileinput="file"
+                                       filepreview="filepreview" style="opacity:0; width: 0; display: none"
+                                       class="fll tal"/>
+                                <img ng-src="{{filepreview}}" style="display:none;"
+                                     id="addSortImageId" width="150px" height="50px"/>
+                                <label for="addSortImage" class="add_pic_label" style="display: inline-block">
+                                    <span>上传图片</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="u-sort-item clear">
+                            <div class="u-sort-tit fll">
+                                <span class="sort-star-color">*</span>
+                                <span>首页显示方式</span>
+                            </div>
+                            <div class="u-sort-input-box fll">
+                                <select class="u-sort-input" name="showType"
+                                        id="addSortTypeId">
+                                    <!--<option value="">请选择-&#45;&#45;</option>-->
+                                    <option value="1">文字</option>
+                                    <option value="2">图片</option>
+                                    <option value="3">图文</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="u-sort-item clear">
+                            <div class="u-sort-tit fll">
+                                <!--<span class="sort-star-color">*</span>-->
+                                <span style="padding-left: 12px;">备注</span>
+                            </div>
+                            <div class="u-sort-input-box fll">
+                                <input type="text" id="addSortRecordId" class="u-sort-input" name="memo"
+                                       ng-model="sortManage.caRecordAddModel"/>
+                            </div>
+                        </div>
+                        <div class="tac clear">
+                            <span class="dib cursor  user-add-btn"
+                                  ng-click="sortManage.onAddSortClick()">保存</span>
+                            <span class="dib cursor  user-add-btn role-del-btn"
+                                  ng-click="sortManage.sortModalHide('sort-add-chidnode-modal')">取消</span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--删除分类弹框-->
+    <div class="common-modal-style" id="sort-del-modal"
+         ng-mousemove="sortManage.modalMove('del-modal-tit','sort-del-modal')"
+         style="display:none">
+        <div class="role-add-con">
+            <div id="del-modal-tit" class="role-add-tit">
+                删除提醒
+            </div>
+            <div class="role-modal-con">
+                你确定要删除该分类吗？
+            </div>
+            <div class="tac mt10">
+                <span class="dib cursor user-add-btn" ng-click="sortManage.onDeleteSortClick()">确定</span>
+                <span class="dib cursor  user-add-btn role-del-btn"
+                      ng-click="sortManage.sortModalHide('sort-del-modal')">取消</span>
+            </div>
+        </div>
+    </div>
+</div>

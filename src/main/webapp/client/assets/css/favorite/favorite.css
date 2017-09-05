@@ -1,0 +1,171 @@
+/*收藏夹列表页*/
+.favorite-title {
+    font-size: 16px;
+    font-weight: bold;
+    border-bottom: 1px solid #E2E2E2;
+    padding: 10px 0;
+}
+
+.favorite-list {
+    padding: 20px 10px;
+}
+
+.favorite-list-item {
+    width: 24%;
+    height: 242px;
+    border: 1px solid #D2D2D2;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    padding-left: 0;
+    padding-right: 0;
+    margin: 0.5%;
+}
+
+.input-favorite-edit {
+    width: 120px;
+    height: 25px;
+}
+
+.favorite-list-item-imgs {
+    padding: 2%;
+    cursor: pointer;
+}
+
+.favorite-list-item-img {
+    width: 46%;
+    margin: 2%;
+}
+
+.favorite-list-item-tit {
+    margin-left: 5%;
+}
+
+.favorite-list-item-modify {
+    margin-right: 5%;
+}
+
+.favorite-list-item-btn {
+    width: 100%;
+    background: #EAEAEA;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    padding: 5px 0;
+}
+
+.favorite-list-item-btn-modify, .favorite-list-item-btn-del {
+    width: 50%;
+    text-align: center;
+}
+
+.favorite-list-item-btn-del {
+    border-left: 1px solid #D6D6D6;
+}
+
+.add-favorite-list-item {
+    /*display: table-cell;*/
+    text-align: center;
+    margin-top: 35%;
+}
+
+.add-favorite-list-item span {
+    font-size: 18px;
+}
+
+/*收藏夹详情页*/
+.favoriteDetail-head {
+    font-size: 18px;
+    font-weight: bold;
+    border-bottom: 1px solid #DCDCDC;
+    padding: 10px;
+}
+
+.favoriteDetail-btn {
+    border-top: 1px solid #DCDCDC;
+    padding: 15px;
+}
+
+.favoriteDetail-btn .favoriteDetail-btn-del {
+    color: red;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.favoriteDetail-btn .favoriteDetail-btn-add, .favoriteDetail-btn .favoriteDetail-btn-download {
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.favoriteDetail-btn .favoriteDetail-btn-add {
+    color: #189AC7;
+    border: 1px solid #189AC7;
+    background: #DEF7FF;
+}
+
+.favoriteDetail-btn .favoriteDetail-btn-download {
+    color: #FFF;
+    background: #189AC7;
+}
+
+#favoriteAddModal,
+#favoriteDeleteModal,
+#picDeleteModal,
+#hadSelectPayModal {
+    width: 420px;
+    height: 260px;
+    border-radius: 16px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: -98px;
+}
+
+.commonModalStyle {
+    position: absolute;
+    z-index: 999;
+    margin: auto;
+    border: 1px solid #3399cc;
+    background-color: #FFF;
+}
+
+.favoriteAddCon {
+    padding: 20px;
+}
+
+.favoriteAddTit {
+    padding-bottom: 15px;
+    font-size: 18px;
+    color: #3399CC;
+}
+
+.favoriteAddModal {
+    font-size: 18px;
+    border-top: 1px solid #ccc;
+    padding: 14px 0;
+    text-align: center;
+}
+
+.favoriteConBtn {
+    width: 68px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    color: #44B549;
+    border-radius: 16px;
+    border: 1px solid #44B549;
+}
+
+.favoriteCanBtn {
+    width: 68px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    color: #E26569;
+    border-radius: 16px;
+    margin-left: 60px;
+    border: 1px solid #E26569;
+}

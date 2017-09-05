@@ -1,0 +1,487 @@
+<div id="chart_list">
+    <!--漫画-->
+    <div>
+        <div>
+            <a  target="_blank" ui-sref="root.moreSortList({sginId: [134,213,214,215,216]})">
+                <img src="client/assets/img/chartTit-1.gif" width="100%" alt="漫画"/>
+            </a>
+        </div>
+        <div class="oH">
+            <div class="hot-recomd fll">
+                <!--热点推荐-->
+                <div>
+                    <img src="client/assets/img/hot1-top.gif" width="100%" alt=""/>
+                </div>
+                <div class="hot1-middle">
+                    <div class="hot1-middle-cont">
+                        <div class="mb10">
+                            <img src="client/assets/img/HandlerCAIHIY0Z.jpg" class="curp" width="100%" alt=""/>
+                            <p>食品安全</p>
+                        </div>
+                        <div class="mb10">
+                            <img src="client/assets/img/HandlerCAV1SPS9.jpg" class="curp" width="100%" alt=""/>
+                            <p>物价</p>
+                        </div>
+                        <div class="mb10">
+                            <img src="client/assets/img/091204036a.jpg" class="curp" width="100%" alt=""/>
+                            <p>80后</p>
+                        </div>
+                        <div>
+                            <img src="client/assets/img/090706159zc.jpg" class="curp" width="100%" alt=""/>
+                            <p>股市观澜</p>
+                        </div>
+                    </div>
+                </div>
+                <!--专题推荐-->
+                <div>
+                    <img src="client/assets/img/sTopic1-top.gif" width="100%"/>
+                </div>
+                <div class="hot1-middle">
+                    <div class="hot1-middle-cont">
+                        <div class="mb10">
+                            <img src="client/assets/img/chart-banner-1.gif" class="curp" width="100%"/>
+                        </div>
+                        <div class="mb10">
+                            <img src="client/assets/img/chart-banner-2.gif" class="curp" width="100%"/>
+                        </div>
+                        <div class="mb10">
+                            <img src="client/assets/img/chart-banner-8.gif" class="curp" width="100%"/>
+                        </div>
+                        <div>
+                            <img src="client/assets/img/chart-banner-6.gif" class="curp" width="100%"/>
+                        </div>
+                    </div>
+                </div>
+                <!--作者推荐-->
+                <div>
+                    <img src="client/assets/img/author-top.gif" width="100%"/>
+                </div>
+                <div class="author-middle">
+                    <div class="author-middle-cont">
+                        <p class="author-middle-cont-row bdb oH">
+                            <span>
+                                <img src="client/assets/img/orange-arrow.gif"/>
+                                <a href="###">司海英</a>
+                            </span>
+                            <span>
+                                <img src="client/assets/img/orange-arrow.gif"/>
+                                <a href="###">漫画中国</a>
+                            </span>
+                        </p>
+                        <p class="author-middle-cont-row bdb oH">
+                            <span>
+                                <img src="client/assets/img/orange-arrow.gif"/>
+                                <a href="###">翟海军</a>
+                            </span>
+                            <span>
+                                <img src="client/assets/img/orange-arrow.gif"/>
+                                <a href="###">徐建军</a>
+                            </span>
+                        </p>
+                        <p class="author-middle-cont-row bdb oH">
+                            <span>
+                                <img src="client/assets/img/orange-arrow.gif"/>
+                                <a href="###">唐志顺</a>
+                            </span>
+                            <span>
+                                <img src="client/assets/img/orange-arrow.gif"/>
+                                <a href="###">吉亮</a>
+                            </span>
+                        </p>
+                        <p class="author-middle-cont-row bdb oH">
+                            <span>
+                                <img src="client/assets/img/orange-arrow.gif"/>
+                                <a href="###">五河</a>
+                            </span>
+                            <span>
+                                <img src="client/assets/img/orange-arrow.gif"/>
+                                <a href="###">刘晓东</a>
+                            </span>
+                        </p>
+                        <p class="author-middle-cont-row oH">
+                            <span>
+                                <img src="client/assets/img/orange-arrow.gif"/>
+                                <a href="###">罗琪</a>
+                            </span>
+                            <span>
+                                <img src="client/assets/img/orange-arrow.gif"/>
+                                <a href="###">金艳</a>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+                <div class="oH">
+                    <img src="client/assets/img/author-bottom.gif" class="fll" width="100%"/>
+                </div>
+            </div>
+            <div class="chart-cont flr">
+                <!--最新漫画-->
+                <div>
+                    <div class="chart-title oH">
+                        <p class="fll">
+                            <span class="chartTit-bd mr10"></span>
+                            <span class="c5BA7BF">NEW</span>
+                            <span class="c19">COMICS</span>
+                            <span class="c4F">最新漫画</span>
+                        </p>
+                        <p class="flr curp mt15 mr10">
+                            <a target="_blank"    ui-sref="root.moreSortList({sginId: 134})">
+                                <img src="client/assets/img/chartList-17.gif" alt="更多"
+                                  />
+                            </a>
+                        </p>
+                    </div>
+                    <div class="chart-pic" ng-init="chartList.getClientChartGroups(134)">
+                        <div class="chart-pic-item" ng-repeat="item in chartList.latestComicGroups track by $index">
+                            <a class="item-pic" ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="curp img-responsive chart-item-pic" height="120"/>
+                            </a>
+                            <a class="item-pic" ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="curp img-responsive chart-item-pic" height="120"/>
+                            </a>
+                            <div class="item-tit">
+                                {{item.TITLE}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--分类漫画-->
+                <div>
+                    <div class="chart-title oH">
+                        <p class="fll">
+                            <span class="chartTit-bd mr10"></span>
+                            <span class="c5BA7BF">CATEGORIES</span>
+                            <span class="c19">COMICS</span>
+                            <span class="c4F">分类漫画</span>
+                        </p>
+                        <ul class="chart-title-menu">
+                            <li>
+                                <a target="_blank"   ui-sref="root.moreSortList({sginId: 213})">新闻漫画</a>&ensp;|&ensp;
+                            </li>
+                            <li>
+                                <a target="_blank"   ui-sref="root.moreSortList({sginId: 214})">经济漫画</a>&ensp;|&ensp;
+                            </li>
+                            <li>
+                                <a target="_blank"   ui-sref="root.moreSortList({sginId: 215})">法制漫画</a>&ensp;|&ensp;
+                            </li>
+                            <li>
+                                <a target="_blank"   ui-sref="root.moreSortList({sginId: 216})">社会漫画</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="chart-pic">
+                        <!--新闻漫画-->
+                        <div>
+                            <div class="chart-pic-title oH">
+                                <img src="client/assets/img/chartList-13.gif"/>
+                                <a target="_blank"   ui-sref="root.moreSortList({sginId: 391})">
+                                    <img class="flr curp" src="client/assets/img/chartList-17.gif" alt="更多"
+                                      /> >
+                                </a>
+                            </div>
+                            <div ng-init="chartList.getClientChartGroups(213)">
+                                <div class="chart-pic-item" ng-repeat="item in chartList.newsCartoonGroups track by $index">
+                                    <a class="item-pic" ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
+                                        <img ng-src="{{item.samllPath}}" class="curp img-responsive chart-item-pic" height="120"/>
+                                    </a>
+                                    <a class="item-pic" ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})" target="_blank">
+                                        <img ng-src="{{item.samllPath}}" class="curp img-responsive chart-item-pic" height="120"/>
+                                    </a>
+                                    <div class="item-tit">
+                                        {{item.TITLE}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--经济漫画-->
+                        <div>
+                            <div class="chart-pic-title oH">
+                                <img src="client/assets/img/chartList-14.gif"/>
+                                <a target="_blank"  ui-sref="root.moreSortList({sginId: 392})">
+                                    <img class="flr curp" src="client/assets/img/chartList-17.gif" alt="更多"
+                                        />
+                                </a>
+                            </div>
+                            <div ng-init="chartList.getClientChartGroups(214)">
+                                <div class="chart-pic-item" ng-repeat="item in chartList.economicComicGroups track by $index">
+                                    <a class="item-pic" ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
+                                        <img ng-src="{{item.samllPath}}" class="curp img-responsive chart-item-pic" height="120"/>
+                                    </a>
+                                    <a class="item-pic" ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})" target="_blank">
+                                        <img ng-src="{{item.samllPath}}" class="curp img-responsive chart-item-pic" height="120"/>
+                                    </a>
+                                    <div class="item-tit">
+                                        {{item.TITLE}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--法制漫画-->
+                        <div>
+                            <div class="chart-pic-title oH">
+                                <img src="client/assets/img/chartList-15.gif"/>
+                                <a target="_blank"    ui-sref="root.moreSortList({sginId: 215})">
+                                    <img class="flr curp" src="client/assets/img/chartList-17.gif" alt="更多"
+                                      />
+                                </a>
+                            </div>
+                            <div ng-init="chartList.getClientChartGroups(215)">
+                                <div class="chart-pic-item" ng-repeat="item in chartList.LegalComicGroups track by $index">
+                                    <a class="item-pic" ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
+                                        <img ng-src="{{item.samllPath}}" class="curp img-responsive chart-item-pic" height="120"/>
+                                    </a>
+                                    <a class="item-pic" ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})" target="_blank">
+                                        <img ng-src="{{item.samllPath}}" class="curp img-responsive chart-item-pic" height="120"/>
+                                    </a>
+                                    <div class="item-tit">
+                                        {{item.TITLE}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--社会漫画-->
+                        <div>
+                            <div class="chart-pic-title oH">
+                                <img src="client/assets/img/chartList-16.gif"/>
+                                <a target="_blank"   ui-sref="root.moreSortList({sginId: 216})">
+                                    <img class="flr curp" src="client/assets/img/chartList-17.gif" alt="更多"
+                                       />
+                                </a>
+                            </div>
+                            <div ng-init="chartList.getClientChartGroups(216)">
+                                <div class="chart-pic-item" ng-repeat="item in chartList.socialComicGroups track by $index">
+                                    <a class="item-pic" ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
+                                        <img ng-src="{{item.samllPath}}" class="curp img-responsive chart-item-pic" height="120"/>
+                                    </a>
+                                    <a class="item-pic" ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})" target="_blank">
+                                        <img ng-src="{{item.samllPath}}" class="curp img-responsive chart-item-pic" height="120"/>
+                                    </a>
+                                    <div class="item-tit">
+                                        {{item.TITLE}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--图表-->
+    <div class="list_charts">
+        <div>
+            <a  target="_blank" ui-sref="root.moreSortList({sginId: [217,218,219,220]})">
+                <img src="client/assets/img/chartTit-2.gif" width="100%" alt="图表"/>
+            </a>
+        </div>
+        <div class="oH">
+            <div class="hot-recomd fll">
+                <!--热点推荐-->
+                <div>
+                    <img src="client/assets/img/hot2-top.gif" width="100%"/>
+                </div>
+                <div class="hot1-middle">
+                    <div class="hot1-middle-cont">
+                        <div class="mb10">
+                            <img src="client/assets/img/100419079za.jpg" class="curp" width="100%"/>
+                            <p>突发事件</p>
+                        </div>
+                        <div class="mb10">
+                            <img src="client/assets/img/090901105za.jpg" class="curp" width="100%"/>
+                            <p>经济数据</p>
+                        </div>
+                        <div class="mb10">
+                            <img src="client/assets/img/090610114a.jpg" class="curp" width="100%"/>
+                            <p>国际动态</p>
+                        </div>
+                        <div>
+                            <img src="client/assets/img/090409137a.jpg" class="curp" width="100%"/>
+                            <p>医疗卫生</p>
+                        </div>
+                    </div>
+                </div>
+                <!--专题推荐-->
+                <div>
+                    <img src="client/assets/img/sTopic2-top.gif" width="100%"/>
+                </div>
+                <div class="hot1-middle">
+                    <div class="hot1-middle-cont">
+                        <div class="mb10">
+                            <img src="client/assets/img/chart-banner-5.gif" class="curp" width="100%"/>
+                        </div>
+                        <div class="mb10">
+                            <img src="client/assets/img/chart-banner-4.gif" class="curp" width="100%"/>
+                        </div>
+                        <div class="mb10">
+                            <img src="client/assets/img/chart-banner-3.gif" class="curp" width="100%"/>
+                        </div>
+                        <div>
+                            <img src="client/assets/img/chart-banner-7.gif" class="curp" width="100%"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="oH">
+                    <img src="client/assets/img/sTopic2-bottom.gif" class="fll" width="100%"/>
+                </div>
+            </div>
+            <div class="chart-cont flr">
+                <!--最新图表-->
+                <div>
+                    <div class="chart-title oH">
+                        <p class="fll">
+                            <span class="chartTit-bd mr10"></span>
+                            <span class="cE29046">NEW</span>
+                            <span class="c19">CHARTS</span>
+                            <span class="c4F">最新图表</span>
+                        </p>
+                        <p class="flr curp mt15 mr10">
+                            <a target="_blank"   ui-sref="root.moreSortList({sginId: 217})">
+                                <img src="client/assets/img/chartList-17.gif" alt="更多"
+                                   />
+                            </a>
+                        </p>
+                    </div>
+                    <div class="chart-pic" ng-init="chartList.getClientChartGroups(217)">
+                        <div class="chart-pic-item" ng-repeat="item in chartList.latestChartGroups track by $index">
+                            <a class="item-pic" ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="curp img-responsive chart-item-pic" height="120"/>
+                            </a>
+                            <a class="item-pic" ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})" target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="curp img-responsive chart-item-pic" height="120"/>
+                            </a>
+                            <div class="item-tit">
+                                {{item.TITLE}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--分类图表-->
+                <div>
+                    <div class="chart-title oH">
+                        <p class="fll">
+                            <span class="chartTit-bd mr10"></span>
+                            <span class="cE29046">CATEGORIES</span>
+                            <span class="c19">COMICS</span>
+                            <span class="c4F">分类图表</span>
+                        </p>
+                        <ul class="chart-title-menu">
+                            <li>
+                                <a  target="_blank"   ui-sref="root.moreSortList({sginId: 218})">新闻图表</a>&ensp;|&ensp;
+                            </li>
+                            <li>
+                                <a  target="_blank"   ui-sref="root.moreSortList({sginId: 219})">经济图表</a>&ensp;|&ensp;
+                            </li>
+                            <li>
+                                <a  target="_blank"   ui-sref="root.moreSortList({sginId: 220})">文体图表</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="chart-pic">
+                        <!--新闻图表-->
+                        <div>
+                            <div class="chart-pic-title oH">
+                                <img src="client/assets/img/chartList-25.gif"/>
+                                <a  target="_blank"  ui-sref="root.moreSortList({sginId: 218})">
+                                    <img class="flr curp" src="client/assets/img/chartList-17.gif" alt="更多"
+                                        />
+                                </a>
+                            </div>
+                            <div ng-init="chartList.getClientChartGroups(218)">
+                                <div class="chart-pic-item" ng-repeat="item in chartList.newsChartsGroups track by $index">
+                                    <a class="item-pic" ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
+                                        <img ng-src="{{item.samllPath}}" class="curp img-responsive chart-item-pic" height="120"/>
+                                    </a>
+                                    <a class="item-pic" ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})" target="_blank">
+                                        <img ng-src="{{item.samllPath}}" class="curp img-responsive chart-item-pic" height="120"/>
+                                    </a>
+                                    <div class="item-tit">
+                                        {{item.TITLE}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--经济图表-->
+                        <div>
+                            <div class="chart-pic-title oH">
+                                <img src="client/assets/img/chartList-26.gif"/>
+                                <a  target="_blank"   ui-sref="root.moreSortList({sginId: 219})">
+                                    <img class="flr curp" src="client/assets/img/chartList-17.gif" alt="更多"
+                                       />
+                                </a>
+                            </div>
+                            <div ng-init="chartList.getClientChartGroups(219)">
+                                <div class="chart-pic-item" ng-repeat="item in chartList.economicChartGroups track by $index">
+                                    <a class="item-pic" ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
+                                        <img ng-src="{{item.samllPath}}" class="curp img-responsive chart-item-pic" height="120"/>
+                                    </a>
+                                    <a class="item-pic" ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})" target="_blank">
+                                        <img ng-src="{{item.samllPath}}" class="curp img-responsive chart-item-pic" height="120"/>
+                                    </a>
+                                    <div class="item-tit">
+                                        {{item.TITLE}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--文体图表-->
+                        <div>
+                            <div class="chart-pic-title oH">
+                                <img src="client/assets/img/chartList-27.gif"/>
+                                <a target="_blank"   ui-sref="root.moreSortList({sginId: 220})">
+                                    <img class="flr curp" src="client/assets/img/chartList-17.gif" alt="更多"/>
+                                </a>
+                            </div>
+                            <div ng-init="chartList.getClientChartGroups(220)">
+                                <div class="chart-pic-item" ng-repeat="item in chartList.styleChartGroups track by $index">
+                                    <a class="item-pic" ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
+                                        <img ng-src="{{item.samllPath}}" class="curp img-responsive chart-item-pic" height="120"/>
+                                    </a>
+                                    <a class="item-pic" ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})" target="_blank">
+                                        <img ng-src="{{item.samllPath}}" class="curp img-responsive chart-item-pic" height="120"/>
+                                    </a>
+                                    <div class="item-tit">
+                                        {{item.TITLE}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--插图-->
+    <div class="list_illustration">
+        <div class="cursor">
+            <a   ui-sref="root.moreSortList({sginId: 221})" target="_blank" class="cursor">
+                <img src="client/assets/img/chartTit-3.gif" width="100%" alt="插图"/>
+            </a>
+        </div>
+        <div class="illustration_cont oH" ng-init="chartList.getClientChartGroups(221)">
+            <div class="illustration_pic">
+                <div class="w100p clear">
+                    <div class="illustration_item" ng-if="$index != 6" ng-repeat="item in chartList.illustrationGroups track by $index">
+                        <a ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})" target="_blank">
+                            <img ng-src="{{item.samllPath}}" class="curp" width="100%"/>
+                            <p>{{item.TITLE}}</p>
+                        </a>
+                        <a  ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})"  target="_blank">
+                            <img ng-src="{{item.samllPath}}" class="curp" width="100%"/>
+                            <p>{{item.TITLE}}</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="illustration_bPic"  ng-if="$index == 6" ng-repeat="item in chartList.illustrationGroups track by $index">
+                <a  class="cursor finance-bg-container-link"  target="_blank"  ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})">
+                    <img ng-src="{{item.samllPath}}" class="curp" width="100%"/>
+                    <p>{{item.TITLE}}</p>
+                </a>
+                <a class="cursor finance-bg-container-link"  target="_blank" ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})">
+                    <img ng-src="{{item.samllPath}}" class="curp" width="100%"/>
+                    <p>{{item.TITLE}}</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

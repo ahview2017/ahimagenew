@@ -1,0 +1,249 @@
+<div class="user-manager-container">
+    <div class="c-common-titbox clear">
+        <div class="fll proj-detail-left">
+            <role-common-tit  value="专题管理-->{{projectManageDetail.projectName}}-->栏目管理"></role-common-tit>
+        </div>
+   </div>
+    <div class="c-user-table">
+        <div class="t-search-hd clear">
+            <div class="user-hd-left fll">
+                <label for="checkAllProjectDetail">
+                    <input type="checkbox" class="" ng-model="projectManageDetail.isHadAllCheck"
+                           id="checkAllProjectDetail"
+                           ng-click="projectManageDetail.onCheckAllClick()"/>
+                    <span class="user-check-txt cursor">全选</span>
+                </label>
+                <span class="dib cursor user-add-btn" ng-click="projectManageDetail.columnAddModal()">添加</span>
+                <span class="dib cursor user-add-btn role-modify-btn" ng-click="projectManageDetail.updateColumn()">修改</span>
+                <span class="dib cursor user-add-btn role-del-btn" ng-click="projectManageDetail.onShowDeleteModelClick()">删除</span>
+                <span class="dib cursor user-add-btn" ui-sref="role.manager.projectManage">返回</span>
+            </div>
+            <div class="user-hd-right flr">
+                <input class="user-search-input" placeholder="可查询栏目名称" ng-model="projectManageDetail.columnSearchName"/>
+                <img src="admin/assets/img/role/zxs_search.png" ng-click="projectManageDetail.searchColumn();" class="user-serach-pic"/>
+            </div>
+        </div>
+        <div class="t-uinfo-bd">
+            <div class="table-responsive">
+                <table  class="table table-bordered uInfo-table">
+                    <thead>
+                    <tr>
+                        <th class="uinfo-hd-th"></th>
+                        <th class="uinfo-hd-th">栏目名称</th>
+                        <th class="uinfo-hd-th">栏目模板</th>
+                        <th class="uinfo-hd-th">ID</th>
+                        <th class="uinfo-hd-th">是否有子栏目</th>
+                        <th class="uinfo-hd-th">排序</th>
+                        <th class="uinfo-hd-th">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody dir-paginate="item in projectManageDetail.columnArray | itemsPerPage: projectManageDetail.selPageRows"
+                        total-items="projectManageDetail.columnList_total"
+                        current-page="projectManageDetail.pagination.current"
+                           ng-init="projectManageDetail.checkBoxArray[$index] = false">
+                        <tr>
+                            <td rowspan="3">
+                                <input type="checkbox" ng-model="projectManageDetail.checkBoxArray[$index]" ng-true-value="{{item.id}}" ng-false-value="false"/>
+                            </td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.typeId | columnStyle}}</td>
+                            <td>{{item.id}}</td>
+                            <td>{{item.typeId | sonColumnStyle}}</td>
+                            <td>{{item.lanmuNo}}</td>
+                            <td>
+                                <img ui-sref="role.manager.projectManageEdit{{item.typeId}}({id:item.id,specialId:item.topicId})" src="admin/assets/img/role/icon_link.png" title="编辑数据源" class="cursor" width="20" height="20"/>
+                                <img src="admin/assets/img/role/look_user_info.png" ng-click="projectManageDetail.columnlUpdateModal(item.id);" title="编辑栏目" class="cursor u-pwd-reset" width="20" height="20" />
+                                <img src="admin/assets/img/role/red_del.png" title="删除栏目" ng-click="projectManageDetail.delColumn(item.id);" class="cursor" width="20" height="20"/>
+                            </td>
+                        </tr>
+                        <tr ng-if="item.cpLanmu1 != null">
+                            <td>{{item.cpLanmu1.name}}</td>
+                            <td>{{item.cpLanmu1.typeId | columnStyle}}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td rowspan="2">
+                                <img ui-sref="role.manager.projectManageEdit{{item.typeId}}({id:item.id,specialId:item.topicId})" src="admin/assets/img/role/icon_link.png" title="编辑数据源" class="cursor" width="20" height="20"/>
+                                <!--todo 暂时注释-->
+                                <!--<img src="admin/assets/img/role/red_del.png" title="删除子栏目" ng-click="projectManageDetail.delSonColumn(item.id);" class="cursor" width="20" height="20"/>-->
+                            </td>
+                        </tr>
+                        <tr ng-if="item.cpLanmu2 != null">
+                            <td>{{item.cpLanmu2.name}}</td>
+                            <td>{{item.cpLanmu2.typeId | columnStyle}}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- 分页 -->
+            <div class="paging-con-box mt10 clear">
+                <div class="photo-record-page fll">
+                    <select ng-model="projectManageDetail.selPageRows" class="mr10">
+                        <option value="50">50</option>
+                        <option value="40">40</option>
+                        <option value="30">30</option>
+                        <option value="20">20</option>
+                        <option value="10">10</option>
+                        <option value="6">6</option>
+                    </select>
+                    <span>共找到</span>
+                    <span class="color_red">{{projectManageDetail.columnList_total}}</span>
+                    <span>条记录</span>
+                </div>
+                <div class="photo-now-page fll">
+                    <span>第 </span>
+                    <span>{{projectManageDetail.pagination.current}}</span>
+                    <span>/</span>
+                    <span>{{projectManageDetail.totalPages}}</span>
+                    <span>页</span>
+                </div>
+                <div class="photo-jump-page flr">
+                    <dir-pagination-controls on-page-change="projectManageDetail.pageChanged(newPageNumber)"
+                                             template-url="admin/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+                    </dir-pagination-controls>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--栏目添加弹框-->
+    <div class="modal fade" id="columnAddModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close close-btn" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">新建栏目</h4>
+                </div>
+                <form enctype="multipart/form-data" method="post">
+                    <div class="modal-body">
+                        <div class="role-add-main">
+                            <div class="role-add-form-info advertise-add-form-info clear" style="border:none;">
+                                <div class="role-form-info-bottom clear">
+                                    <div class="price-remark-txt fll">栏目名称<span class="color_red">*</span></div>
+                                    <input type="text" class="adverse-remark-input fll " ng-model="projectManageDetail.columnName"/>
+                                </div>
+                                <div class="role-form-info-bottom clear">
+                                    <div class="price-remark-txt fll">栏目模板<span class="color_red">*</span></div>
+                                    <select ng-change="projectManageDetail.haveSonColumn()"
+                                            ng-options="value.id as value.name for value in projectManageDetail.columnTemplateObj" class="adverse-remark-input fll"
+                                            ng-model="projectManageDetail.columnTemplate">
+                                    </select>
+                                </div>
+                                <div ng-if="projectManageDetail.sonColumn">
+                                    <div class="role-form-info-bottom clear">
+                                        <div class="price-remark-txt fll">子栏目1名称<span class="color_red">*</span></div>
+                                        <input type="text" class="adverse-remark-input fll " ng-model="projectManageDetail.sonColumnName1"/>
+                                    </div>
+                                    <div class="role-form-info-bottom clear">
+                                        <div class="price-remark-txt fll">子栏目1模板<span class="color_red">*</span></div>
+                                        <select ng-options="value.id as value.name for value in projectManageDetail.sonColumnTemplateObj" class="adverse-remark-input fll"
+                                                ng-model="projectManageDetail.sonColumnTemplate1">
+                                        </select>
+                                    </div>
+                                    <!--<div class="role-form-info-bottom clear">-->
+                                        <!--<div class="price-remark-txt fll">图片</div>-->
+                                        <!--<img src="" alt="">-->
+                                    <!--</div>-->
+                                    <div class="role-form-info-bottom clear">
+                                        <div class="price-remark-txt fll">子栏目2名称<span class="color_red">*</span></div>
+                                        <input type="text" class="adverse-remark-input fll " ng-model="projectManageDetail.sonColumnName2"/>
+                                    </div>
+                                    <div class="role-form-info-bottom clear">
+                                        <div class="price-remark-txt fll">子栏目2模板<span class="color_red">*</span></div>
+                                        <select ng-options="value.id as value.name for value in projectManageDetail.sonColumnTemplateObj" class="adverse-remark-input fll"
+                                                ng-model="projectManageDetail.sonColumnTemplate2">
+                                        </select>
+                                    </div>
+                                    <!--<div class="role-form-info-bottom clear">-->
+                                        <!--<div class="price-remark-txt fll">图片</div>-->
+                                        <!--<img src="" alt="">-->
+                                    <!--</div>-->
+                                </div>
+                                <div class="role-form-info-bottom clear">
+                                    <div class="price-remark-txt fll">栏目排序<span class="color_red">*</span></div>
+                                    <input type="num" class="adverse-remark-input fll " ng-model="projectManageDetail.columnNum"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="text-align: center">
+                        <button type="button" class="user-add-btn" ng-click="projectManageDetail.addColumn()">保存</button>
+                        <button type="button" class="user-add-btn role-del-btn" data-dismiss="modal">取消</button>
+                    </div>
+                </form>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!--栏目修改弹框-->
+    <div class="modal fade" id="columnUpdateModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close close-btn" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">修改栏目</h4>
+                </div>
+                <form enctype="multipart/form-data" method="post">
+                    <div class="modal-body">
+                        <div class="role-add-main">
+                            <div class="role-add-form-info advertise-add-form-info clear" style="border:none;">
+                                <div class="role-form-info-bottom clear">
+                                    <div class="price-remark-txt fll">栏目名称<span class="color_red">*</span></div>
+                                    <input type="text" class="adverse-remark-input fll " ng-model="projectManageDetail.updateColumnName"/>
+                                </div>
+                                <div class="role-form-info-bottom clear">
+                                    <div class="price-remark-txt fll">栏目模板<span class="color_red">*</span></div>
+                                    <select ng-options="value.id as value.name for value in projectManageDetail.columnTemplateObj" class="adverse-remark-input fll"
+                                            ng-model="projectManageDetail.updateColumnTemplate">
+                                    </select>
+                                </div>
+                                <div ng-if="projectManageDetail.sonColumn1">
+                                    <div class="role-form-info-bottom clear">
+                                        <div class="price-remark-txt fll">子栏目1名称<span class="color_red">*</span></div>
+                                        <input type="text" class="adverse-remark-input fll " ng-model="projectManageDetail.updateSonColumnName1"/>
+                                    </div>
+                                    <div class="role-form-info-bottom clear">
+                                        <div class="price-remark-txt fll">子栏目1模板<span class="color_red">*</span></div>
+                                        <select ng-options="value.id as value.name for value in projectManageDetail.sonColumnTemplateObj" class="adverse-remark-input fll"
+                                                ng-model="projectManageDetail.updateSonColumnTemplate1">
+                                        </select>
+                                    </div>
+                                    <!--<div class="role-form-info-bottom clear">-->
+                                    <!--<div class="price-remark-txt fll">图片</div>-->
+                                    <!--<img src="" alt="">-->
+                                    <!--</div>-->
+                                    <div class="role-form-info-bottom clear">
+                                        <div class="price-remark-txt fll">子栏目2名称<span class="color_red">*</span></div>
+                                        <input type="text" class="adverse-remark-input fll " ng-model="projectManageDetail.updateSonColumnName2"/>
+                                    </div>
+                                    <div class="role-form-info-bottom clear">
+                                        <div class="price-remark-txt fll">子栏目2模板<span class="color_red">*</span></div>
+                                        <select ng-options="value.id as value.name for value in projectManageDetail.sonColumnTemplateObj" class="adverse-remark-input fll"
+                                                ng-model="projectManageDetail.updateSonColumnTemplate2">
+                                        </select>
+                                    </div>
+                                    <!--<div class="role-form-info-bottom clear">-->
+                                    <!--<div class="price-remark-txt fll">图片</div>-->
+                                    <!--<img src="" alt="">-->
+                                    <!--</div>-->
+                                </div>
+                                <div class="role-form-info-bottom clear">
+                                    <div class="price-remark-txt fll">栏目排序<span class="color_red">*</span></div>
+                                    <input type="num" class="adverse-remark-input fll " ng-model="projectManageDetail.updateColumnNum"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="text-align: center">
+                        <button type="button" class="user-add-btn" ng-click="projectManageDetail.saveUpdateColumn()">保存</button>
+                        <button type="button" class="user-add-btn role-del-btn" data-dismiss="modal">取消</button>
+                    </div>
+                </form>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>

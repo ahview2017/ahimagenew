@@ -1,0 +1,451 @@
+<div class="user-manager-container">
+    <div class="edt-dbTit oH">
+        <role-common-tit value="资料库" class="fll"></role-common-tit>
+        <!--<span class="flr curp" ui-sref="role.manager.database">< 返回</span>-->
+    </div>
+    <div class="send-lock-box" ng-if="detail.dataBankObj.isLocked == 1">
+        <span>稿件被[</span>
+        <span class="color_red">{{detail.dataBankObj.lockerName}}</span>
+        <span>]锁定</span>
+        <a class="cursor ml10" ng-click="detail.unlockManuscript()">强行解锁</a>
+    </div>
+    <div class="mt20">
+        <span class="color_red" ng-if="detail.msSensitiveWord">此稿件存在敏感词：{{detail.msSensitiveWord}}</span>
+    </div>
+    <div>
+        <div style="padding-top: 12px" class="oH">
+            <div>
+                <span class="spanDatabaseBtn"
+                      ui-sref="role.manager.database({columnId: detail.columnId,columnTemplate: detail.columnTemplate,num: detail.num,oldId: detail.oldId,topicId: detail.topicId,lanmuId: detail.lanmuId})">返回</span>
+                <span ng-show="detail.showIsHadOut==0">
+                    <span class="spanDatabaseBtn" ng-show="detail.langType==0" ng-click="detail.projectModalShow('hadSignModalId')">已签栏目</span>
+                     <span class="spanDatabaseBtn" ng-show="detail.langType==1" ng-click="detail.projectModalShow('hadSignModalIdEn')">已签栏目</span>
+                    <span class="spanDatabaseBtn ml10 mr10" ng-click="detail.onFillSignShowModalClick()">补签</span>
+                   <!-- <span class="spanDatabaseBtn" ng-click="detail.projectModalShow('retractionModalId')">撤稿</span>-->
+                    <span class="spanDatabaseBtn" ng-click="detail.editSendManuscript()">在线修改</span>
+                </span>
+                <span ng-show="detail.showIsHadOut==1">
+                    <span class="spanDatabaseBtn" ng-click="detail.onWorkUpClick()">上架</span>
+                    <span class="spanDatabaseBtn ml10" ng-click="detail.authorinfor(detail.dataBankObj.authorId);detail.projectModalShow('workPullModalId')">推送</span>
+                   <!-- <span class="spanDatabaseBtn ml10" ng-click="detail.onWorkPullClick()">推送</span>-->
+
+                </span>
+                <span class="spanDatabaseBtn ml10 mr10"
+                      ui-sref="role.manager.historyVersion({groupId: detail.dataBankId})">历史版本</span>
+                <span class="spanDatabaseBtn"
+                      ui-sref="role.manager.operateRecord({groupId: detail.dataBankId})">操作记录</span>
+                <span class="spanDatabaseBtn">全选 <input type="checkbox" class="all" name="all"></span>
+                 <span class="spanDatabaseBtn" ng-click="detail.ModalShow('detail-type-modal')">下载</span>
+            </div>
+        </div>
+        <div class="db-detail-tit ml10 oH">
+            <div>
+                <h3>
+                    <span>{{detail.dataBankObj.title}}</span>
+                    <span class="pic-num-blue-color">{{detail.dataBankObj.pictureCount}}张</span>
+                </h3>
+
+                <p class="mt5">
+                    <span>中新社发 {{detail.dataBankObj.author}} 摄</span>
+                    <span>{{detail.dataBankObj.fileTime|date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                </p>
+            </div>
+            <div class="mt20">
+                <p>
+                    <span class="spanDatabaseBtn">稿件类别</span>
+                     <span>{{detail.dataBankType}}</span>
+                </p>
+
+                <p>
+                    <span class="spanDatabaseBtn">关键词</span>
+                    <span>{{detail.dataBankObj.keywords}}</span>
+                </p>
+
+                <p>
+                    <span class="spanDatabaseBtn">编辑人员</span>
+                    <span>{{detail.prosNames}}</span>
+                </p>
+            </div>
+        </div>
+        <!--<div class="mt5 clear">
+            <div class="ms-addpic-left fll" style="display: inline-block">
+                <span>编辑人员</span>
+            </div>
+            <div class="ms-addpic-right fll" style="display: inline-block">
+                <span>{{detail.prosNames}}</span>
+            </div>
+        </div>-->
+        <div class="db-detail-cont">
+            <div class="oH">
+                <div class="db-detail-cont-item w20p mt20 ml3p fll"
+                     ng-repeat="picItem in detail.dataBankObj.pics">
+                    <div>
+                        <input type="checkbox" name="check" class="check" value="{{picItem.id}}">
+                        <img class="ms-detail-picture" ng-src="{{picItem.smallPath}}"
+                             width="225" height="255"/>
+                    </div>
+                    <div>
+                        <div class="mt10 clear">
+                            <div class="ms-addpic-left fll">
+                                <span>文件名</span>
+                            </div>
+                            <div class="ms-addpic-right fll">
+                                <a class="aTextHideShow" style="overflow: hidden;display: block"
+                                   href="javascript:void(0)" title="{{picItem.filename}}">
+                                    {{picItem.filename}}</a>
+                            </div>
+                        </div>
+                        <div class="mt5 clear">
+                            <div class="ms-addpic-left fll">
+                                <span>作者</span>
+                            </div>
+                            <div class="ms-addpic-right fll">
+                                <a class="aTextHideShow" style="overflow: hidden;display: block"
+                                   href="javascript:void(0)" title="{{picItem.authorName}}">
+                                    {{picItem.authorName}}</a>
+                            </div>
+                        </div>
+                        <div class="mt5 clear">
+                            <div class="ms-addpic-left fll">
+                                <span>拍摄时间</span>
+                            </div>
+                            <div class="ms-addpic-right fll">
+                                <a class="aTextHideShow" style="overflow: hidden;display: block"
+                                   href="javascript:void(0)" title="{{picItem.filmTime|date:'yyyy-MM-dd HH:mm:ss'}}">
+                                    {{picItem.filmTime|date:'yyyy-MM-dd HH:mm:ss'}}</a>
+                            </div>
+                        </div>
+                        <div class="mt5 clear">
+                            <div class="ms-addpic-left fll">
+                                <span>图片说明</span>
+                            </div>
+                            <div class="ms-addpic-right fll">
+                                <a class="aTextHideShow" style="overflow: hidden;display: block"
+                                   href="javascript:void(0)" title="{{picItem.memo}}">
+                                    {{picItem.memo}}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="db-detail-cont-txt" style="padding-left: 0">
+                <p class="db-txt-tit">稿件正文</p>
+
+                <p class="db-txt-cont">{{detail.dataBankObj.memo}}</p>
+            </div>
+        </div>
+    </div>
+    <!--　查看已签栏目弹框 -->
+    <div class="common-modal-style" id="hadSignModalId"
+         ng-mousemove="detail.moveModal('hadSignModalId-tit','hadSignModalId')"
+         style="display:none">
+        <div class="role-add-con">
+            <div id="hadSignModalId-tit" class="user-info-slide-tit oH">
+                <h4 class="fll">查看已签栏目</h4>
+                <span class="flr curp tit-close"
+                      ng-click="detail.projectModalHide('hadSignModalId')">×</span>
+            </div>
+            <!-- 内容 -->
+            <div class="user-info-item">
+                <div class="role-modal-con user-recharge-manage">
+                    <div class="table-responsive user-login-log-box overflow_y">
+                        <table class="table table-bordered uInfo-table">
+                            <thead>
+                            <tr>
+                                <th class="uinfo-hd-th">ID</th>
+                                <th class="uinfo-hd-th">栏目类型</th>
+                                <th class="uinfo-hd-th">类型</th>
+                                <th class="uinfo-hd-th">位置</th>
+                                <th class="uinfo-hd-th">撤稿</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="signItem in detail.hadSignArray">
+                                <td>{{signItem.id}}</td>
+                             <!--   <td>{{signItem.categoryId==473?'资料图片':
+                                    (signItem.categoryId==22?'最新发布':
+                                    (signItem.categoryId==23?'今日头条':
+                                    (signItem.categoryId==24?'每日推荐':
+                                    (signItem.categoryId==25?'一周最佳采用':
+                                    (signItem.categoryId==112?'娱乐风尚':
+                                    (signItem.categoryId==113?'财富经济':
+                                    (signItem.categoryId==114?'台湾视角':
+                                    (signItem.categoryId==115?'国际风采':
+                                    (signItem.categoryId==116?'限价图片':
+                                    (signItem.categoryId==118?'漫画图表':
+                                    (signItem.categoryId==12?'两会':'')))))))))))
+                                    }}
+                                </td>-->
+                                <td ng-if="signItem.categoryId==sortDetails.id" ng-repeat="sortDetails in detail.column">{{sortDetails.name}}</td>
+                                <td>{{signItem.type==1?'签发分类（栏目）':'稿件分类（cp_categroy）'}}</td>
+                                <td>{{signItem.position==0 ? '':signItem.position}}</td>
+                                <td>
+                                    <img src="admin/assets/img/role/logout_user.png" class="cursor" width="20" height="20" title="撤回"
+                                         ng-click="detail.projectModalShow('retractionModalId',signItem.categoryId)"/>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="tac">
+                    <span class="dib cursor user-cancel-btn"
+                          ng-click="detail.projectModalHide('hadSignModalId')">取消</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--　推送弹框 -->
+    <div class="common-modal-style common-modal-style-width" id="workPullModalId"
+         ng-mousemove="detail.moveModal('workPullModalId-tit','workPullModalId')"
+         style="display:none">
+        <div class="role-add-con">
+            <div id="workPullModalId-tit" class="role-add-tit oH">
+                <span class="fll">推送</span>
+                <span class="flr curp tit-close"
+                      ng-click="detail.projectModalHide('workPullModalId')">×</span>
+            </div>
+            <div class="role-add-main">
+                <div class="role-add-form-info">
+                    <div class="role-form-info-bottom clear">
+                        <div class="fll">您确定要将稿件推送给{{detail.dataBankObj.author}}吗？</div>
+                    </div>
+                    <div class="w15p fll">推送原因</div>
+                    <textarea class="w70p fll" style="height: 120px"
+                              ng-model="detail.workPullContent"></textarea>
+                </div>
+            </div>
+            <div class='clearfloat bottom_size2'>
+                <div class='authorinformation_box'>
+                    <span class='authorinformation_left'>用户ID:</span><span class='authorinformation_right' title='{{detail.author.id}}'>{{detail.author.id}}</span>
+                </div>
+                <div class='authorinformation_box'>
+                    <span class='authorinformation_left'>用户名:</span><span class='authorinformation_right' title='{{detail.author.userName}}'>{{detail.author.userName}}</span>
+                </div>
+                <div class='authorinformation_box'>
+                    <span class='authorinformation_left'>真实姓名:</span><span class='authorinformation_right' title='{{detail.author.tureName}}'>{{detail.author.tureName}}</span>
+                </div>
+                <div class='authorinformation_box'>
+                    <span class='authorinformation_left'>作者名:</span><span class='authorinformation_right' title='{{detail.author.authorName}}'>{{detail.author.authorName}}</span>
+                </div>
+                <div class='authorinformation_box'>
+                    <span class='authorinformation_left'>联系邮箱:</span><span class='authorinformation_right' title='{{detail.author.emailBind}}'>{{detail.author.emailBind}}</span>
+                </div>
+                <div class='authorinformation_box'>
+                    <span class='authorinformation_left'>联系手机:</span><span class='authorinformation_right' title='{{detail.author.telBind}}'>{{detail.author.telBind}}</span>
+                </div>
+            </div>
+
+            <div class="tac">
+                <span class="dib cursor user-add-btn" ng-click="detail.onWorkPullClick()">确认</span>
+                <span class="dib cursor user-add-btn cancel-btn-color"
+                      ng-click="detail.projectModalHide('workPullModalId')">取消</span>
+            </div>
+        </div>
+    </div>
+    <!--　查看已签栏目弹框EN -->
+    <div class="common-modal-style" id="hadSignModalIdEn"
+         ng-mousemove="detail.moveModal('hadSignModalIdEn-tit','hadSignModalIdEn')"
+         style="display:none">
+        <div class="role-add-con">
+            <div id="hadSignModalIdEn-tit" class="user-info-slide-tit oH">
+                <h4 class="fll">查看已签栏目en</h4>
+                <span class="flr curp tit-close"
+                      ng-click="detail.projectModalHide('hadSignModalIdEn')">×</span>
+            </div>
+            <!-- 内容 -->
+            <div class="user-info-item">
+                <div class="role-modal-con user-recharge-manage">
+                    <div class="table-responsive user-login-log-box overflow_y">
+                        <table class="table table-bordered uInfo-table">
+                            <thead>
+                            <tr>
+                                <th class="uinfo-hd-th">ID</th>
+                                <th class="uinfo-hd-th">栏目类型</th>
+                                <th class="uinfo-hd-th">类型</th>
+                                <th class="uinfo-hd-th">位置</th>
+                                <th class="uinfo-hd-th">撤稿</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="signItem in detail.hadSignArray">
+                                <td>{{signItem.id}}</td>
+                                <td>{{signItem.name}}
+                                </td>
+                                <td>{{signItem.type==0?'签发分类（栏目）':'稿件分类（cp_categroy）'}}</td>
+                                <td>{{signItem.signPosition==0 ? '':signItem.signPosition}}</td>
+                                <td>
+                                    <img src="admin/assets/img/role/logout_user.png" class="cursor" width="20" height="20" title="撤回"
+                                         ng-click="detail.projectModalShow('retractionModalId',signItem.id)"/>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="tac">
+                    <span class="dib cursor user-cancel-btn"
+                          ng-click="detail.projectModalHide('hadSignModalIdEn')">取消</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--补签弹框-->
+    <div class="common-modal-style" id="fillSignModalId"
+         ng-mousemove="detail.moveModal('fillSignModalId-tit','fillSignModalId')"
+         style="display:none">
+        <div class="role-add-con">
+            <div id="fillSignModalId-tit" class="role-add-tit oH">
+                <span class="fll">补签稿件</span>
+                <span class="flr curp tit-close"
+                      ng-click="detail.projectModalHide('fillSignModalId')">×</span>
+            </div>
+            <div class="role-modal-con">
+                <!--已签数据-->
+                <h3>首页专题栏目</h3>
+                <ul id="tree" class="ztree"></ul>
+                <hr/>
+                <!--签发到专题-->
+                <h3>自定义专题栏目</h3>
+                <ul id="treeDemo" class="ztree"></ul>
+
+            </div>
+            <div class="tac mt10">
+                <span class="dib cursor user-add-btn"
+                      ng-click="detail.onFillSignClick()">补签</span>
+                <span class="dib cursor user-add-btn cancel-btn-color"
+                      ng-click="detail.projectModalHide('fillSignModalId')">取消</span>
+            </div>
+        </div>
+    </div>
+
+    <!--撤稿弹框-->
+    <div class="common-modal-style" id="retractionModalId"
+         ng-mousemove="detail.moveModal('retractionModalId-tit','retractionModalId')"
+         style="display:none">
+        <div class="role-add-con">
+            <div id="retractionModalId-tit" class="role-add-tit oH">
+                <span class="fll">撤稿
+                    <span class="error_col">&nbsp;&nbsp;请先使用新的稿件替换签发位上的该稿件，再撤稿，否则页面上的签发位将显示为空白</span>
+                </span>
+
+                <span class="flr curp tit-close"
+                      ng-click="detail.projectModalHide('retractionModalId')">×</span>
+            </div>
+            <div class="role-add-main">
+                <div class="role-add-form-info">
+                    <div class="role-form-info-bottom clear">
+                        <div class="w15p fll">撤稿原因</div>
+                        <textarea class="w70p fll" style="height: 120px"
+                                  ng-model="detail.retractionContent"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="tac">
+                <span class="dib cursor user-add-btn" ng-click="detail.onRetractionClick()">撤稿</span>
+                <span class="dib cursor user-add-btn cancel-btn-color"
+                      ng-click="detail.projectModalHide('retractionModalId')">取消</span>
+            </div>
+        </div>
+    </div>
+</div>
+<!--下载类别弹框-->
+<div class="common-modal-style" id="detail-type-modal"  style="display:none">
+    <div class="role-add-con">
+        <div id="del-modal-tit" class="role-add-tit">
+            下载类别 <span class="flr curp tit-close"
+                       ng-click="detail.ModalHide('detail-type-modal')">×</span>
+        </div>
+        <div class="role-modal-con">
+            请选择下载类别？<input type='hidden' ng-model='detail.deleFriendLinkId'>
+
+        </div>
+        <div class="tac mt10">
+            <span class="dib cursor user-add-btn" ng-click="detail.downLoadPic(0)">图片</span>
+            <span class="dib cursor user-add-btn " ng-click="detail.downLoadPic(1)">图文</span>
+        </div>
+    </div>
+</div>
+<!--签发浏览位置弹框-->
+<div class="common-modal-style" id="look-sign-pos-modal"
+     ng-mousemove="detail.moveModal('merge-modal-tit','look-sign-pos-modal')"
+     style="display:none">
+    <div class="role-add-con">
+        <div id="merge-modal-tit" class="role-add-tit oH">
+            <span class="fll">查看已签稿件位置</span>
+                <span class="flr curp tit-close"
+                      ng-click="detail.projectModalHide('look-sign-pos-modal')">×</span>
+        </div>
+        <div class="ova" style="height: 465px;">
+            <div class="role-modal-con">
+                <div>
+                    <div class="table-responsive">
+                        <table  class="table table-bordered uInfo-table fz16">
+                            <thead>
+                            <tr>
+                                <th class="uinfo-hd-th">序号</th>
+                                <th class="uinfo-hd-th">标题</th>
+                                <th class="uinfo-hd-th">签发位</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-if="detail.signedGroupList" ng-repeat="item in detail.signedGroupList">
+                                <td>{{$index + 1}}</td>
+                                <td>{{item.TITLE}}</td>
+                                <td>{{item.POSITION}}</td>
+                            </tr>
+                            <tr ng-if="detail.signedGroupList.length == 0">
+                                <td colspan="3">
+                                    尚未签发
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!--签发浏览位置弹框-->
+<div class="common-modal-style" id="look-sign-pos-modals"
+     ng-mousemove="detail.moveModal('merge-modals-tit','look-sign-pos-modals')"
+     style="display:none">
+    <div class="role-add-con">
+        <div id="merge-modals-tit" class="role-add-tit oH">
+            <span class="fll">查看已签稿件位置</span>
+                <span class="flr curp tit-close"
+                      ng-click="detail.projectModalHide('look-sign-pos-modals')">×</span>
+        </div>
+        <div class="ova" style="height: 465px;">
+            <div class="role-modal-con">
+                <div>
+                    <div class="table-responsive">
+                        <table  class="table table-bordered uInfo-table fz16">
+                            <thead>
+                            <tr>
+                                <th class="uinfo-hd-th">标题</th>
+                                <th class="uinfo-hd-th">序号</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-if="detail.lanmu_group" ng-repeat="item in detail.lanmu_group">
+                                <td ng-if='item.cpLanmuGroupPic'>{{item.cpLanmuGroupPic.title}}</td>
+                                <td ng-if='item.cpLanmuGroupPic'>{{$index + 1}}</td>
+                            </tr>
+                            <tr ng-if="detail.lanmu_group.length == 0">
+                                <td colspan="2">
+                                    尚未签发
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>

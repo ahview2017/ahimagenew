@@ -1,0 +1,250 @@
+<div class="user-manager-container">
+    <div class="c-common-titbox">
+        <role-common-tit value="水印管理"></role-common-tit>
+    </div>
+    <div class="c-user-table">
+        <div class="t-search-hd clear">
+            <div class="user-hd-left fll">
+                <label for="inputAllCheckId">
+                    <input type="checkbox" id="inputAllCheckId" ng-model="waterMarkManage.isHadAllCheck"
+                           ng-click="waterMarkManage.onCheckAllClick()"/>
+                    <span class="user-check-txt cursor">全选</span>
+                </label>
+                <span class="dib cursor user-add-btn"
+                      ng-click="waterMarkManage.waterMarkAddModalShow('water-mark-add-modal')">添加</span>
+                <span class="dib cursor user-add-btn role-modify-btn"
+                      ng-click="waterMarkManage.waterMarkModifyModalShow('water-mark-modify-modal', null)">修改</span>
+                <span class="dib cursor user-add-btn role-del-btn"
+                      ng-click="waterMarkManage.waterMarkDelModalShow('water-mark-del-modal', null)">删除</span>
+            </div>
+            <div class="user-hd-right flr">
+                <input class="user-search-input" id="water-mark-search-input"
+                       ng-keydown="waterMarkManage.enterSearch()" type="text" placeholder="水印标题"/>
+                <img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic"
+                     ng-click="waterMarkManage.onSearchDataClick()"/>
+                <!--<span class="dib cursor user-search-btn">高级检索</span>-->
+            </div>
+        </div>
+        <div class="t-uinfo-bd">
+            <div class="table-responsive">
+                <table class="table table-bordered uInfo-table">
+                    <thead>
+                    <tr>
+                        <th class="uinfo-hd-th" style="width:6%;">
+                        </th>
+                        <th class="uinfo-hd-th" style="width:7%;">ID</th>
+                        <th class="uinfo-hd-th" style="width:20%;">标题</th>
+                        <th class="uinfo-hd-th" style="width:20%;">说明</th>
+                        <!--<th class="uinfo-hd-th">序号</th>-->
+                        <th class="uinfo-hd-th" style="width:20%;">水印图片</th>
+                        <th class="uinfo-hd-th" style="width:10%;">默认水印</th>
+                        <th class="uinfo-hd-th" style="width:15%;">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr dir-paginate="item in waterMarkManage.waterMarkList | itemsPerPage: waterMarkManage.selPageRows"
+                        total-items="waterMarkManage.waterMarkList_total"
+                        current-page="waterMarkManage.pagination.current"
+                        ng-init="waterMarkManage.checkBoxArray[$index] = false">
+                        <td  style="width:6%;" class="wbba">
+                            <input type="checkbox" ng-model="waterMarkManage.checkBoxArray[$index]"
+                                   ng-true-value="{{item.id}}" ng-false-value="false"/>
+                        </td>
+                        <td style="width:7%;"   class="wbba">{{item.id}}</td>
+                        <td style="width:20%;"  class="wbba">{{item.title}}</td>
+                        <td style="width:20%;"  class="wbba" >{{item.description}}</td>
+                        <!--<td>{{item.siteId}}</td>-->
+                        <td style="width:20%;"  class="wbba"><img src="{{item.wmPath}}" style="width: 150px; height: 50px;"></td>
+                        <td style="width:10%;"  class="wbba">{{item.isDefaultWmpic == 0?'否':'是'}}</td>
+                        <td style="width:15%;"  class="wbba">
+                            <img src="admin/assets/img/role/look_user_info.png" class="cursor" width="20" height="20"
+                                 title="修改水印"
+                                 ng-click="waterMarkManage.waterMarkModifyModalShow('water-mark-modify-modal', item.id)"/>
+                            <img src="admin/assets/img/role/red_del.png" class="cursor u-pwd-reset" width="20"
+                                 height="20"
+                                 title="删除水印"
+                                 ng-click="waterMarkManage.waterMarkDelModalShow('water-mark-del-modal', item.id)"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 分页 -->
+            <div class="paging-con-box mt10 clear">
+                <div class="photo-record-page fll">
+                    <select ng-model="waterMarkManage.selPageRows" class="mr10">
+                        <option value="50">50</option>
+                        <option value="40">40</option>
+                        <option value="30">30</option>
+                        <option value="20">20</option>
+                        <option value="10">10</option>
+                    </select>
+                    <span>共找到</span>
+                    <span class="color_red">{{waterMarkManage.waterMarkList_total}}</span>
+                    <span>条记录</span>
+                </div>
+                <div class="photo-now-page fll">
+                    <span>第 </span>
+                    <span>{{waterMarkManage.pagination.current}}</span>
+                    <span>/</span>
+                    <span>{{waterMarkManage.totalPages}}</span>
+                    <span>页</span>
+                </div>
+                <div class="photo-jump-page flr">
+                    <dir-pagination-controls on-page-change="waterMarkManage.pageChanged(newPageNumber)"
+                                             template-url="admin/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+                    </dir-pagination-controls>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--水印管理添加弹框-->
+    <div class="common-modal-style common-modal-style-w" id="water-mark-add-modal"
+         ng-mousemove="waterMarkManage.moveModal('add-modal-tit','water-mark-add-modal')"
+         style="display:none;">
+        <!--<iframe id="add_wmFile_success" name="add_wmFile_success" style=" display: none"></iframe>-->
+        <!--action="/cnsphoto/waterMarkCtro/addWaterMark.do"-->
+        <form action="/cnsphoto/waterMarkCtro/addWaterMark.do" id="addWaterMarkForm" method="post"
+              enctype="multipart/form-data" target="add_wmFile_success">
+
+            <div class="role-add-con">
+                <div id="add-modal-tit" class="role-add-tit oH">
+                    <span class="fll">添加/编辑水印</span>
+                    <span class="flr curp tit-close"
+                          ng-click="waterMarkManage.waterMarkModalHide('water-mark-add-modal')">×</span>
+                </div>
+                <div class="role-add-main">
+                    <div class="role-add-form-info advertise-add-form-info clear">
+                        <div class="role-form-info-bottom clear">
+                            <div class="water_mark-txt fll">标题：</div>
+                            <input type="text" name="title" class="water-mark-title-input fll"
+                                   ng-model="waterMarkManage.add.waterMarkTitle"/>
+                        </div>
+                        <div class="role-form-info-bottom clear">
+                            <div class="water_mark-txt fll">说明：</div>
+                            <div class="down-remark-input fll tal">
+                                <div class="fll">
+                                    <textarea type="text" cols="17" rows="3" name="description" class="water_mark-des-input"
+                                           ng-model="waterMarkManage.add.waterMarkDes"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="role-form-info-bottom clear">
+                            <div class="water_mark-txt fll">图片（150x50）：</div>
+                            <!--onchange="angular.element(this).scope().uploadManuscript(this.files)"-->
+                            <input type="file" name="wmFile" multiple id="add_File" fileinput="file"
+                                   filepreview="filepreview"
+                                   style="opacity:0; width: 0; display: none" class="down-remark-input fll tal"/>
+                            <img ng-src="{{filepreview}}" style="width: 150px; height: 50px;" ng-show="filepreview"/>
+                            <label for="add_File" class="add_pic_label" style="display: inline-block">
+                                <span>添加图片</span>
+                            </label>
+                        </div>
+                        <div class="role-form-info-bottom clear">
+                            <div class="water_mark-txt fll">设为默认水印图片：</div>
+                            <select class="adverse-remark-input fll" name="isDefaultWmpic"
+                                    ng-model="waterMarkManage.add.watermarkLocation">
+                                <option value="0">否</option>
+                                <option value="1">是</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="tac">
+                    <span class="dib cursor user-add-btn"
+                          ng-click="waterMarkManage.addWaterMark('water-mark-add-modal')">保存</span>
+                    <span class="dib cursor user-add-btn role-del-btn"
+                          ng-click="waterMarkManage.waterMarkModalHide('water-mark-add-modal')">取消</span>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!--水印管理管理修改弹框-->
+    <div class="common-modal-style common-modal-style-w" id="water-mark-modify-modal"
+         ng-mousemove="waterMarkManage.moveModal('modify-modal-tit','water-mark-modify-modal')"
+         style="display:none;">
+        <!--<iframe id="modify_wmFile_success" name="modify_wmFile_success" style=" display: none"></iframe>-->
+        <!--action="/cnsphoto/waterMarkCtro/updateWaterMark.do"-->
+        <form action="/cnsphoto/waterMarkCtro/updateWaterMark.do" id="modifyWaterMarkForm" method="post"
+              enctype="multipart/form-data" target="modify_wmFile_success">
+
+            <div class="role-add-con">
+                <div id="modify-modal-tit" class="role-add-tit oH">
+                    <span class="fll">添加/编辑水印</span>
+                    <span class="flr curp tit-close"
+                          ng-click="waterMarkManage.waterMarkModalHide('water-mark-modify-modal')">×</span>
+                </div>
+                <div class="role-add-main">
+                    <input type="hidden" class="water-mark-input fll" name="id"
+                           value="{{waterMarkManage.checkedID}}"/>
+
+                    <div class="role-add-form-info advertise-add-form-info clear">
+                        <div class="role-form-info-bottom clear">
+                            <div class="water_mark-txt fll">标题：</div>
+                            <input type="text" name="title" class="water-mark-title-input fll"
+                                   ng-model="waterMarkManage.modify.waterMarkTitle"/>
+                        </div>
+                        <div class="role-form-info-bottom clear">
+                            <div class="water_mark-txt fll">说明：</div>
+                            <div class="down-remark-input fll tal">
+                                <div class="fll">
+                                    <textarea type="text" cols="17" rows="3" name="description" class="water_mark-des-input"
+                                           ng-model="waterMarkManage.modify.waterMarkDes"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="role-form-info-bottom clear">
+                            <div class="water_mark-txt fll">图片（150x50）：</div>
+                            <!--onchange="angular.element(this).scope().uploadManuscript(this.files)"-->
+                            <input type="file" name="wmFile" multiple id="modify_wmFile" fileinput="file"
+                                   filepreview="filepreview"
+                                   style="opacity:0; width: 0; display: none" class="down-remark-input fll tal"/>
+
+                            <img ng-src="{{filepreview}}" id="modifyWaterMarkImageId"
+                                 style="width: 150px; height: 50px;"/>
+                            <label for="modify_wmFile" class="add_pic_label" style="display: inline-block">
+                                <span>添加图片</span>
+                            </label>
+                        </div>
+                        <div class="role-form-info-bottom clear">
+                            <div class="water_mark-txt fll">设为默认水印图片：</div>
+                            <select class="adverse-remark-input fll" name="isDefaultWmpic" id="isDefaultWmpicSelect"
+                                    ng-model="waterMarkManage.modify.watermarkLocation">
+                                <option value="">请选择</option>
+                                <option value="0">否</option>
+                                <option value="1">是</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="tac">
+                    <span class="dib cursor user-add-btn"
+                          ng-click="waterMarkManage.updateWaterMark('water-mark-modify-modal')">保存</span>
+                    <span class="dib cursor user-add-btn role-del-btn"
+                          ng-click="waterMarkManage.waterMarkModalHide('water-mark-modify-modal')">取消</span>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!--水印管理删除弹框-->
+    <div class="common-modal-style" id="water-mark-del-modal"
+         ng-mousemove="waterMarkManage.moveModal('del-modal-tit','water-mark-del-modal')"
+         style="display:none">
+        <div class="role-add-con">
+            <div id="del-modal-tit" class="role-add-tit">
+                删除提醒
+            </div>
+            <div class="role-modal-con">
+                你确定要删除该水印吗？
+            </div>
+            <div class="tac mt10">
+                <span class="dib cursor water-mark-btn"
+                      ng-click="waterMarkManage.delWaterMark('water-mark-del-modal')">确定</span>
+
+                <span class="dib cursor water-mark-del-cle-btn"
+                      ng-click="waterMarkManage.waterMarkModalHide('water-mark-del-modal')">取消</span>
+            </div>
+        </div>
+    </div>
+</div>

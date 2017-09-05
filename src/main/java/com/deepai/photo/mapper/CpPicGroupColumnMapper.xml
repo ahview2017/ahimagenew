@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deepai.photo.mapper.CpPicGroupColumnMapper">
+	<resultMap id="BaseResultMap" type="com.deepai.photo.bean.CpPicGroupColumn">
+	
+		<id column="C_ID" property="id" jdbcType="INTEGER" />
+		
+		<id column="GROUP_ID" property="groupId" jdbcType="INTEGER" />
+		<id column="COLUMN_ID" property="columnId" jdbcType="INTEGER" />
+		<id column="SGIN_SHOW" property="sginShow" jdbcType="INTEGER" />
+		
+		<association property="cpPicGroup" javaType="com.deepai.photo.bean.CpPicGroup">
+			<id column="ID" property="id" jdbcType="INTEGER" />
+			
+			<result column="AUTHOR" property="author" jdbcType="VARCHAR" />
+			<result column="AUTHOR_ID" property="authorId" jdbcType="INTEGER" />
+			<result column="CATEGORY_INFO" property="categoryInfo"
+				jdbcType="VARCHAR" />
+			<result column="COVER_PICTURE_ID" property="coverPictureId"
+				jdbcType="INTEGER" />
+			<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+			<result column="APPLY_TIME" property="applyTime" jdbcType="TIMESTAMP" />
+			<result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+			<result column="CREATOR_ID" property="creatorId" jdbcType="INTEGER" />
+			<result column="DELETE_FLAG" property="deleteFlag" jdbcType="TINYINT" />
+			<result column="KEYWORDS" property="keywords" jdbcType="VARCHAR" />
+			<result column="MEMO" property="memo" jdbcType="VARCHAR" />
+			<result column="PICTURE_COUNT" property="pictureCount"
+				jdbcType="INTEGER" />
+			<result column="PICTURE_DELETED_COUNT" property="pictureDeletedCount"
+				jdbcType="INTEGER" />
+			<result column="PLACE" property="place" jdbcType="VARCHAR" />
+			<result column="PEOPLE" property="people" jdbcType="VARCHAR" />
+			<result column="FILE_TIME" property="fileTime" jdbcType="TIMESTAMP" />
+			<result column="PROPERTIES" property="properties" jdbcType="TINYINT" />
+			<result column="SITE_ID" property="siteId" jdbcType="INTEGER" />
+			<result column="GROUP_STATUS" property="groupStatus" jdbcType="INTEGER" />
+			<result column="TITLE" property="title" jdbcType="VARCHAR" />
+			<result column="TYPE" property="type" jdbcType="TINYINT" />
+			<result column="IS_LOCKED" property="isLocked" jdbcType="INTEGER" />
+			<result column="LOCKER_NAME" property="lockerName" jdbcType="VARCHAR" />
+			<result column="UNLOCK_NAME" property="unlockName" jdbcType="VARCHAR" />
+			<result column="TRUCK_AUTHOR_TRUE_NAME" property="truckAuthorTrueName"
+				jdbcType="VARCHAR" />
+			<result column="TRUCKS_AUTHOR_TRUE_NAME" property="trucksAuthorTrueName"
+				jdbcType="VARCHAR" />
+			<result column="SECURITY_TYPE" property="securityType"
+				jdbcType="TINYINT" />
+			<result column="REMARK" property="remark" jdbcType="VARCHAR" />
+			<result column="CAL_GROUP_PRICE" property="calGroupPrice"
+				jdbcType="VARCHAR" />
+			<result column="DISCOUNT_PRICE" property="discountPrice"
+				jdbcType="DECIMAL" />
+			<result column="DISCOUNT_RATE" property="discountRate"
+				jdbcType="DECIMAL" />
+			<result column="FORUMS_INFO" property="forumsInfo" jdbcType="VARCHAR" />
+			<result column="FORUMS_TIME" property="forumsTime" jdbcType="TIMESTAMP" />
+			<result column="GOODS_TYPE" property="goodsType" jdbcType="INTEGER" />
+			<result column="PRICE_TYPE" property="priceType" jdbcType="INTEGER" />
+			<result column="PRICE" property="price" jdbcType="INTEGER" />
+			<result column="REDUCE_PRICE" property="reducePrice" jdbcType="DECIMAL" />
+			<result column="EMERGENCY" property="emergency" jdbcType="INTEGER" />
+			<result column="LANG_TYPE" property="langType" jdbcType="INTEGER" />
+			<result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
+			<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+			<result column="FRIST_PFD_USER" property="fristPfdUser"
+				jdbcType="VARCHAR" />
+			<result column="SOURCE_ID" property="sourceId" jdbcType="INTEGER" />
+			<result column="SGIN_TIME" property="sginTime" jdbcType="TIMESTAMP" />
+			<result column="LOCATION_TYPE" property="locationType"
+				jdbcType="INTEGER" />
+		</association>
+	</resultMap>
+	<resultMap id="BaseColumnResultMap" type="com.deepai.photo.bean.CpPicGroupColumn">
+	
+		<id column="C_ID" property="id" jdbcType="INTEGER" />
+		
+		<id column="GROUP_ID" property="groupId" jdbcType="INTEGER" />
+		<id column="COLUMN_ID" property="columnId" jdbcType="INTEGER" />
+		<id column="SGIN_SHOW" property="sginShow" jdbcType="INTEGER" />
+		
+		<collection property="cpgList" javaType="com.deepai.photo.bean.CpPicGroup">
+			<id column="ID" property="id" jdbcType="INTEGER" />
+			
+			<result column="AUTHOR" property="author" jdbcType="VARCHAR" />
+			<result column="AUTHOR_ID" property="authorId" jdbcType="INTEGER" />
+			<result column="CATEGORY_INFO" property="categoryInfo"
+				jdbcType="VARCHAR" />
+			<result column="COVER_PICTURE_ID" property="coverPictureId"
+				jdbcType="INTEGER" />
+			<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+			<result column="APPLY_TIME" property="applyTime" jdbcType="TIMESTAMP" />
+			<result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+			<result column="CREATOR_ID" property="creatorId" jdbcType="INTEGER" />
+			<result column="DELETE_FLAG" property="deleteFlag" jdbcType="TINYINT" />
+			<result column="KEYWORDS" property="keywords" jdbcType="VARCHAR" />
+			<result column="MEMO" property="memo" jdbcType="VARCHAR" />
+			<result column="PICTURE_COUNT" property="pictureCount"
+				jdbcType="INTEGER" />
+			<result column="PICTURE_DELETED_COUNT" property="pictureDeletedCount"
+				jdbcType="INTEGER" />
+			<result column="PLACE" property="place" jdbcType="VARCHAR" />
+			<result column="PEOPLE" property="people" jdbcType="VARCHAR" />
+			<result column="FILE_TIME" property="fileTime" jdbcType="TIMESTAMP" />
+			<result column="PROPERTIES" property="properties" jdbcType="TINYINT" />
+			<result column="SITE_ID" property="siteId" jdbcType="INTEGER" />
+			<result column="GROUP_STATUS" property="groupStatus" jdbcType="INTEGER" />
+			<result column="TITLE" property="title" jdbcType="VARCHAR" />
+			<result column="TYPE" property="type" jdbcType="TINYINT" />
+			<result column="IS_LOCKED" property="isLocked" jdbcType="INTEGER" />
+			<result column="LOCKER_NAME" property="lockerName" jdbcType="VARCHAR" />
+			<result column="UNLOCK_NAME" property="unlockName" jdbcType="VARCHAR" />
+			<result column="TRUCK_AUTHOR_TRUE_NAME" property="truckAuthorTrueName"
+				jdbcType="VARCHAR" />
+			<result column="TRUCKS_AUTHOR_TRUE_NAME" property="trucksAuthorTrueName"
+				jdbcType="VARCHAR" />
+			<result column="SECURITY_TYPE" property="securityType"
+				jdbcType="TINYINT" />
+			<result column="REMARK" property="remark" jdbcType="VARCHAR" />
+			<result column="CAL_GROUP_PRICE" property="calGroupPrice"
+				jdbcType="VARCHAR" />
+			<result column="DISCOUNT_PRICE" property="discountPrice"
+				jdbcType="DECIMAL" />
+			<result column="DISCOUNT_RATE" property="discountRate"
+				jdbcType="DECIMAL" />
+			<result column="FORUMS_INFO" property="forumsInfo" jdbcType="VARCHAR" />
+			<result column="FORUMS_TIME" property="forumsTime" jdbcType="TIMESTAMP" />
+			<result column="GOODS_TYPE" property="goodsType" jdbcType="INTEGER" />
+			<result column="PRICE_TYPE" property="priceType" jdbcType="INTEGER" />
+			<result column="PRICE" property="price" jdbcType="INTEGER" />
+			<result column="REDUCE_PRICE" property="reducePrice" jdbcType="DECIMAL" />
+			<result column="EMERGENCY" property="emergency" jdbcType="INTEGER" />
+			<result column="LANG_TYPE" property="langType" jdbcType="INTEGER" />
+			<result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
+			<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+			<result column="FRIST_PFD_USER" property="fristPfdUser"
+				jdbcType="VARCHAR" />
+			<result column="SOURCE_ID" property="sourceId" jdbcType="INTEGER" />
+			<result column="SGIN_TIME" property="sginTime" jdbcType="TIMESTAMP" />
+			<result column="LOCATION_TYPE" property="locationType"
+				jdbcType="INTEGER" />
+		</collection>
+	</resultMap>
+	<sql id="Base_Column_List">
+		SELECT cp.c_id,cp.ID, cp.column_id, cp.group_id, cp.sgin_show, cp.status, cp.AUTHOR, 
+			cp.AUTHOR_ID, cp.CATEGORY_INFO, cp.COVER_PICTURE_ID, cp.CREATE_TIME,
+			cp.APPLY_TIME, cp.CREATOR, cp.CREATOR_ID, cp.DELETE_FLAG, cp.KEYWORDS, 
+			cp.MEMO, cp.PICTURE_COUNT, cp.PICTURE_DELETED_COUNT, cp.PLACE, cp.PEOPLE, 
+			cp.FILE_TIME, cp.PROPERTIES, cp.SITE_ID, cp.GROUP_STATUS, cp.TITLE, cp.TYPE,
+			cp.IS_LOCKED, cp.LOCKER_NAME, cp.UNLOCK_NAME, cp.TRUCK_AUTHOR_TRUE_NAME, 
+			cp.TRUCKS_AUTHOR_TRUE_NAME, cp.SECURITY_TYPE,cp.REMARK, cp.CAL_GROUP_PRICE, 
+			cp.DISCOUNT_PRICE, cp.DISCOUNT_RATE, cp.FORUMS_INFO, cp.FORUMS_TIME,
+			cp.GOODS_TYPE, cp.PRICE_TYPE, cp.PRICE, cp.REDUCE_PRICE, cp.EMERGENCY, 
+			cp.LANG_TYPE, cp.UPDATE_USER, cp.UPDATE_TIME,cp.FRIST_PFD_USER, 
+			cp.SOURCE_ID, cp.SGIN_TIME, cp.LOCATION_TYPE FROM 
+			(SELECT g.*,c.`id` AS c_id, c.column_id, c.group_id, c.sgin_show, c.status
+		FROM cp_pic_group_column c LEFT JOIN cp_pic_group  g
+		ON g.ID=c.group_id) AS cp
+	</sql>
+	<sql id="Base_Group_Picture_Sgin_list">
+		 cg.ID,cg.TITLE,cg.MEMO,cg.AUTHOR,cg.SGIN_TIME,cg.COVER_PICTURE_ID,cg.sgin_show,p.ID AS picId,p.FILENAME  
+ 		 FROM cp_picture p,(SELECT g.ID,g.TITLE,g.MEMO,g.AUTHOR,g.SGIN_TIME,g.COVER_PICTURE_ID,c.sgin_show 
+ 		 FROM cp_pic_group g,(SELECT group_id,sgin_show FROM  cp_pic_group_column cpgc WHERE cpgc.column_id=#{columnId} AND cpgc.status=0) AS c 
+ 		 WHERE g.ID=c.group_id) AS cg WHERE cg.COVER_PICTURE_ID = p.ID
+	</sql>
+	
+	<sql id="Base_Group_Picture_Time_list">
+		 cg.ID,cg.TITLE,cg.MEMO,cg.AUTHOR,cg.SGIN_TIME,cg.COVER_PICTURE_ID,cg.sgin_show,p.ID AS picId,p.FILENAME  
+ 		 FROM cp_picture p,(SELECT g.ID,g.TITLE,g.MEMO,g.AUTHOR,g.SGIN_TIME,g.COVER_PICTURE_ID,c.sgin_show 
+ 		 FROM cp_pic_group g,(SELECT group_id,sgin_show FROM  cp_pic_group_column cpgc WHERE cpgc.column_id=#{columnId} AND cpgc.status=0 AND cpgc.sgin_show <![CDATA[ <> ]]> 0) AS c 
+ 		 WHERE g.ID=c.group_id) AS cg WHERE cg.COVER_PICTURE_ID = p.ID
+	</sql>
+	
+	<select id="selectNewestPicGroup" resultType="map">
+		 SELECT <include refid="Base_Group_Picture_Sgin_list" />   
+ 		 ORDER BY cg.SGIN_TIME DESC LIMIT 0,1
+	</select>
+	
+	<select id="getGroupCarouselPicList" resultType="map">
+		 SELECT <include refid="Base_Group_Picture_Time_list" />   
+ 		 ORDER BY cg.sgin_show ASC LIMIT 0,#{maxSignNum}
+	</select>
+	
+	<select id="getGroupPicList" resultType="map">
+		 SELECT <include refid="Base_Group_Picture_Sgin_list" />   
+ 		 ORDER BY cg.SGIN_TIME DESC
+	</select>
+	
+	
+	
+	<sql id="Base_Picture_List" >
+	    ID, ALLOW_SALE, AUDITOR, AUTHOR_ID, AUTHOR_NAME, CATEGORY_INFO, COLOR_TYPE, CREATE_TIME, 
+	    DELETE_FLAG, EDITOR, EX_DATETIME, EX_FNUMBER, EX_ISO, EX_MODEL, FILENAME, FILM_TIME, 
+	    IS_HISTORY_PICTURE, IS_IPTC, IS_LOCKED, IS_REFERRED_BY_PRODUCT, IS_REFERRED_BY_PUBLISH, 
+	    IS_SOURCE_PICTURE, KEYWORDS, LOCKER_NAME, MEMO, NEGATIVE_TYPE, ORIENTATION, PEOPLE, 
+	    PICTURE_HEIGHT, PICTURE_LENGTH, PICTURE_SOURCE_ID, PICTURE_STATE, PICTURE_WIDTH, 
+	    PLACE, PRICE, PRODUCT_TIME, PUBLISH_TIME, SECURITY_TYPE, SITE_ID, SOURCE_ID, SOURCE_PICTURE_ID, 
+	    SOURCE_PICTURE_LENGTH, SOURCE_PICTURE_NAME, TITLE, UPLOADER, EX_EXPOSURE_TIME, UPLOAD_PROGRESS, 
+	    GOODS_TYPE, DISCOUNT_PRICE, CAL_PRICE, DISCOUNT_RATE, FORUMS_INFO, FORUMS_TIME, REDUCE_PRICE, 
+	    IS_COVER, GROUP_ID, SORT_ID
+  	</sql>
+	
+	<select id="selectGroupByColumn" resultMap="BaseResultMap">
+		<include refid="Base_Column_List" /> 
+	</select>
+	 <select id="selectByGroupId" resultMap="BaseResultMap">
+	select group_id,sgin_show  from  cp_pic_group_column 
+	where column_id=#{columnId} and sgin_show!=0 and status=0
+	ORDER BY sgin_show ASC
+	limit #{signPosition}
+	</select>
+	 <select id="selectByColumnIdAndSgin" resultMap="BaseResultMap">
+	select group_id,sgin_show  from  cp_pic_group_column 
+	where column_id=#{columnId} and sgin_show=#{signId}
+	</select>
+	<select id="selectDeriGroupByColumnId" resultMap="BaseResultMap">
+		<include refid="Base_Column_List" /> 
+		WHERE cp.column_id=#{columnId} AND cp.status=0 
+		ORDER BY cp.SGIN_TIME ASC
+	</select>
+	<select id="findGroupPicByGroupId" resultType="com.deepai.photo.bean.CpLanmuGroupPic">
+		SELECT c.COVER_PICTURE_ID as picid, c.SGIN_TIME as
+		sgintime ,c.TITLE ,p.ALL_PATH as allpath ,a.PICTURE_HEIGHT as
+		pictureheight,a.PICTURE_WIDTH as picturewidth,a.PICTURE_LENGTH as
+		picturelength from cp_pic_group c ,cp_pic_allpath p ,cp_picture a
+		where c.COVER_PICTURE_ID=p.TRAGET_ID and p.PIC_TYPE=#{picType}
+		and c.id=#{id} and c.COVER_PICTURE_ID=a.ID
+	</select>
+	<select id="selectOrderGroupByColumnId" resultMap="BaseResultMap">
+		<include refid="Base_Column_List" /> 
+		WHERE cp.column_id=#{columnId} AND cp.sgin_show!=''
+		ORDER BY cp.sgin_show ASC LIMIT 0,#{showNum}
+	</select>
+	<select id="selectGroupByColumnIdAndTime" resultMap="BaseResultMap">
+		<include refid="Base_Column_List" /> 
+		WHERE cp.column_id=#{columnId} AND cp.status=0
+		ORDER BY cp.SGIN_TIME DESC LIMIT 0,1;
+	</select>
+	<select id="selectPicPictureByGroupId" resultType="com.deepai.photo.bean.CpPicture" parameterType="java.lang.Integer" >
+		SELECT  
+		<include refid="Base_Picture_List" /> 
+		FROM cp_picture
+		WHERE GROUP_ID = #{groupId,jdbcType=INTEGER}
+	</select>
+	<select id="selectOrderGroupIdByColumnId" resultType="java.lang.Integer">
+		SELECT group_id FROM cp_pic_group_column cp
+		WHERE cp.column_id=#{columnId} AND cp.sgin_show IS NOT NULL AND cp.status=0 
+		ORDER BY cp.sgin_show ASC LIMIT ${startPage},${maxPage}
+	</select>
+	<select id="selectGroupByGroupId" resultType="com.deepai.photo.bean.CpPicGroup">
+		SELECT ID, AUTHOR, AUTHOR_ID, CATEGORY_INFO, COVER_PICTURE_ID, CREATE_TIME,
+		APPLY_TIME,
+		CREATOR, CREATOR_ID, DELETE_FLAG, KEYWORDS, MEMO, PICTURE_COUNT,
+		PICTURE_DELETED_COUNT,
+		PLACE, PEOPLE, FILE_TIME, PROPERTIES, SITE_ID, GROUP_STATUS, TITLE, TYPE,
+		IS_LOCKED,
+		LOCKER_NAME, UNLOCK_NAME, TRUCK_AUTHOR_TRUE_NAME, TRUCKS_AUTHOR_TRUE_NAME,
+		SECURITY_TYPE,
+		REMARK, CAL_GROUP_PRICE, DISCOUNT_PRICE, DISCOUNT_RATE, FORUMS_INFO,
+		FORUMS_TIME,
+		GOODS_TYPE, PRICE_TYPE, PRICE, REDUCE_PRICE, EMERGENCY, LANG_TYPE, UPDATE_USER,
+		UPDATE_TIME,
+		FRIST_PFD_USER, SOURCE_ID, SGIN_TIME, LOCATION_TYPE FROM cp_pic_group 
+		WHERE ID=#{groupId}
+	</select>
+	<select id="getGroupCountByColumn" resultType="java.lang.Integer">
+		select count(id) from cp_pic_group_column where column_ID=${columnId}
+	</select>
+	<select id="getContByColumnIdAndSignId" resultType="java.lang.Integer">
+	select count(id) from cp_pic_group_column where column_ID=#{columnId} and sgin_show=#{signId} and status=0 and langType=#{langType}
+	</select>
+	<update id="updateCpPicGroupColumn">
+	update cp_pic_group_column set sgin_show=0 where column_id=#{columnId} and sgin_show=#{signId} and status=0	
+	</update>
+	<update id="updateByGroupIdAndColumnId">
+   update  cp_pic_group_column set status=1 where group_id=#{groupId} 
+   <if test="columnId != null">
+    and column_id=#{columnId}
+   </if>  
+  </update>
+</mapper>

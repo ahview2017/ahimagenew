@@ -1,0 +1,147 @@
+<div class="user-manager-container">
+	<div class="c-common-titbox">
+		<role-common-tit value="友情链接管理"></role-common-tit>
+	</div>
+	<div class="c-user-table">
+		<div class="t-search-hd clear">
+			<div class="user-hd-left fll">
+				<label for="checkAllWebInfo">
+                    <input class='selectall'type="checkbox"/>
+                    <span class="user-check-txt">全选</span>
+                </label>
+				<span class="dib cursor user-add-btn" ng-click="friendsLinkManage.cleanData()">添加</span>
+				<span class="dib cursor user-add-btn role-del-btn" ng-click="friendsLinkManage.deleteAll()">删除</span>
+			</div>
+		</div>
+		<div class="t-uinfo-bd">
+			<div class="table-responsive">
+				<table class="table table-bordered uInfo-table">
+					<thead>
+						<tr>
+							<th class="uinfo-hd-th"></th>
+							<th class="uinfo-hd-th">排序</th>
+							<th class="uinfo-hd-th">标题</th>
+							<th class="uinfo-hd-th">链接</th>
+							<th class="uinfo-hd-th">状态</th>
+							<th class="uinfo-hd-th">备注</th>
+							<th class="uinfo-hd-th">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat='friendsLink in friendsLinkManage.friendsLink'>
+							<td >
+								<input type="checkbox" class='select' value='{{friendsLink.id}}'/>
+							</td>
+							<td>{{friendsLink.orderId}}</td>
+							<td>{{friendsLink.title}}</td>
+							<td>{{friendsLink.friendshipLink}}</td>
+							<td>{{friendsLink.state}}</td>
+							<td>{{friendsLink.remark}}</td>
+							<td>
+								<img src="admin/assets/img/role/look_user_info.png" class="cursor" width="20" height="20" title="修改" ng-click="friendsLinkManage.editFriendsLink(friendsLink.id)" />
+								<img src="admin/assets/img/role/red_del.png" class="cursor u-pwd-reset" width="20" title="删除" height="20" ng-click="friendsLinkManage.deleFriendLink(friendsLink.id)" />
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<!--网站信息添加弹框-->
+	<div class="common-modal-style" id="friendsLink-add-modal" ng-mousemove="friendsLinkManage.moveModal('add-modal-tit','friendsLink-add-modal')" style="display:none">
+		<div class="role-add-con">
+			<div class="role-add-con">
+				<div id="add-modal-tit" class="role-add-tit oH">
+					<span class="fll">友情链接添加</span>
+					<span class="flr curp tit-close" ng-click="friendsLinkManage.friendsLinkModalHide('friendsLink-add-modal')">×</span>
+				</div>
+				<div class="role-add-main">
+					<div class="role-add-form-info advertise-add-form-info clear">
+						<div class="role-form-info-bottom clear">
+							<div class="role-remark-txt fll">排序</div>
+							<input type="text" class="adverse-remark-input fll" ng-model="friendsLinkManage.addorderId" />
+						</div>
+						<div class="role-form-info-bottom clear">
+							<div class="role-remark-txt fll">标题</div>
+							<input type="text" class="adverse-remark-input fll" ng-model="friendsLinkManage.addtitle" />
+						</div>
+						<div class="role-form-info-bottom clear">
+							<div class="role-remark-txt fll">链接</div>
+							<input type="text" class="adverse-remark-input fll" ng-model="friendsLinkManage.addfriendshipLink" />
+						</div>
+						<div class="role-form-info-bottom clear">
+							<div class="role-remark-txt fll">状态</div>
+							<select class="adverse-remark-input fll" ng-model="friendsLinkManage.addstate">
+								<option value='0'>不启用</option>
+								<option value='1'>启用</option>
+							</select>
+						</div>
+						<div class="role-form-info-bottom clear">
+							<div class="role-remark-txt fll">备注</div>
+							<input type="text" class="role-remark-input fll" ng-model="friendsLinkManage.addremark" />
+						</div>
+					</div>
+				</div>
+				<div class="tac">
+					<span class="dib cursor user-add-btn" ng-click="friendsLinkManage.addFriendsLink()">添加</span>
+					<span class="dib cursor user-add-btn role-del-btn" ng-click="friendsLinkManage.friendsLinkModalHide('friendsLink-add-modal')">取消</span>
+				</div>
+			</div>			
+		</div>
+	</div>
+	<!--友情链接信息修改弹框-->
+	<div class="common-modal-style" id="friendsLink-modify-modal" ng-mousemove="friendsLinkManage.moveModal('modify-modal-tit','friendsLink-modify-modal')" style="display:none">
+		<div class="role-add-con">
+			<div id="modify-modal-tit" class="role-add-tit oH">
+				<span class="fll">友情链接修改</span><input type='hidden' ng-model='friendsLinkManage.editid'>
+				<span class="flr curp tit-close" ng-click="friendsLinkManage.friendsLinkModalHide('friendsLink-modify-modal')">×</span>
+			</div>
+			<div class="role-add-main">
+					<div class="role-add-form-info advertise-add-form-info clear">
+						<div class="role-form-info-bottom clear">
+							<div class="role-remark-txt fll">排序</div>
+							<input type="text" class="adverse-remark-input fll" ng-model="friendsLinkManage.editorderId" />
+						</div>
+						<div class="role-form-info-bottom clear">
+							<div class="role-remark-txt fll">标题</div>
+							<input type="text" class="adverse-remark-input fll" ng-model="friendsLinkManage.edittitle" />
+						</div>
+						<div class="role-form-info-bottom clear">
+							<div class="role-remark-txt fll">链接</div>
+							<input type="text" class="adverse-remark-input fll" ng-model="friendsLinkManage.editfriendshipLink" />
+						</div>
+						<div class="role-form-info-bottom clear">
+							<div class="role-remark-txt fll">状态</div>
+							<select class="adverse-remark-input fll" ng-model="friendsLinkManage.editstate">
+								<option value='0'>不启用</option>
+								<option value='1'>启用</option>
+							</select>
+						</div>
+						<div class="role-form-info-bottom clear">
+							<div class="role-remark-txt fll">备注</div>
+							<input type="text" class="role-remark-input fll" ng-model="friendsLinkManage.editremark" />
+						</div>
+					</div>
+				</div>
+			<div class="tac">
+				<span class="dib cursor user-add-btn" ng-click="friendsLinkManage.editfriendshipLinks()">修改</span>
+				<span class="dib cursor user-add-btn role-del-btn" ng-click="friendsLinkManage.friendsLinkModalHide('friendsLink-modify-modal')">取消</span>
+			</div>
+		</div>
+	</div>
+	<!--友情链接删除弹框-->
+	<div class="common-modal-style" id="friendsLink-del-modal" ng-mousemove="friendsLinkManage.moveModal('del-modal-tit','friendsLink-del-modal')" style="display:none">
+		<div class="role-add-con">
+			<div id="del-modal-tit" class="role-add-tit">
+				删除提醒
+			</div>
+			<div class="role-modal-con">
+				你确定要删除该友情链接吗？<input type='hidden' ng-model='friendsLinkManage.deleFriendLinkId'>
+			</div>
+			<div class="tac mt10">
+				<span class="dib cursor user-add-btn" ng-click="friendsLinkManage.deleteFriendLink(friendsLinkManage.deleFriendLinkId)">确定</span>
+				<span class="dib cursor user-add-btn role-del-btn" ng-click="friendsLinkManage.friendsLinkModalHide('friendsLink-del-modal')">取消</span>
+			</div>
+		</div>
+	</div>
+</div>

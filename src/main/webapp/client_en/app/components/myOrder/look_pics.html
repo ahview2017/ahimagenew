@@ -1,0 +1,27 @@
+<div class="need_channel container">
+    <div class="needChannel-cont">
+        <div class="cont-release oH">
+            <a class="flr color-0000ff cursor">[查看所有已下载图片]</a>
+        </div>
+        <div>
+            <table>
+                <tr>
+                    <th width="15%">缩略图</th>
+                    <th width="10%">订单号</th>
+                    <th width="15%">图片文件名</th>
+                    <th width="32%"></th>
+                </tr>
+                <tr ng-repeat="item in lookPics.lookPicList">
+                    <td>
+                        <img ng-src="{{item.samllPath}}" width="200" height="200"/>
+                    </td>
+                    <td>{{item.ORDER_NO}}</td>
+                    <td>{{item.FILENAME}}</td>
+                    <td>
+                        <a class="cursor color-0000ff" ui-sref="root.newSingleDetail({groupId:item.GROUP_ID,pictureId:item.pid})">[查看中图]</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

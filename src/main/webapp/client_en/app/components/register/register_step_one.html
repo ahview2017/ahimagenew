@@ -1,0 +1,44 @@
+<div class="webinfo-view-container container">
+    <h5 class="client-user-reg margin_t">用户注册</h5>
+    <div class="ml20">
+        <div class="client-user-fill-rule">
+            <p class="fwb">用户名填写规则：</p>
+            <p>◆ 3-16 个字，中/英文或数字皆可。</p>
+            <p>◆ 用户名中不可出现空格符。</p>
+            <p>◆ 可以使用这些字符: "破折号 -", "下划线 _", "点 ."。</p>
+            <p>◆ 不可使用“&、%、$、*”等字符。</p>
+        </div>
+        <form name="registerFirstForm" class="mt15 margin_t">
+            <div class="c-register-info-item">
+                <span class="c-register-tit">用户名:</span>
+                <input type="text" class="c-register-input" ng-model="registerStepOne.user.userName" ng-blur="registerStepOne.req_checkHoverUserExist()">
+                <span class="ml50 color_standard" ng-show="registerStepOne.state == 2">
+                    用户名可用
+                </span>
+                <span class="ml50 color_red" ng-show="registerStepOne.state == 0">
+                    用户名已存在
+                </span>
+                <span class="ml50 color_red" ng-show="registerStepOne.state == 1">
+                    用户名格式不正确
+                </span>
+            </div>
+            <div class="c-register-info-item mt10">
+                <span class="c-register-tit">申请用户类别：</span>
+                <select class="c-register-input" ng-model="registerStepOne.user.userCategory">
+                    <option value="5">订户</option>
+                    <option value="3">签约摄影师</option>
+                </select>
+                <span class="ml50">[</span>
+                <a class="change-hover-color">
+                    用户类别说明
+                </a>
+                <span>]</span>
+            </div>
+            {{registerFirstForm.input.$valid}}
+        </form>
+        <div class="mt20 margin_t">
+            <button type="button" class="mr10 client-login-go-btn login_btn" ng-click="registerStepOne.signInNext(registerFirstForm)">下一步</button>
+            <button type="button" class="client-login-go-btn ml20 login_btn">取消</button>
+        </div>
+    </div>
+</div>

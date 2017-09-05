@@ -1,0 +1,112 @@
+<div class="adv-search-container">
+    <div class="adv-search-inner-box">
+        <div class="adv-search-item-box clear">
+            <div class="adv-search-each-item adv-search-left-item">
+                <div  class="fll adv-search-tit">
+                    标题：
+                </div>
+                <div  class="fll">
+                    <input type="text" class="adv-search-input" ng-model="advSearch.orginalSearch.gtitle"/>
+                </div>
+            </div>
+            <div class="adv-search-each-item adv-search-right-item">
+                <div class="fll adv-search-tit">
+                    图片类型：
+                </div>
+                <div class="fll">
+                    <select  class="adv-search-input" ng-model="advSearch.orginalSearch.properties">
+                        <option value="">全部</option>
+                        <option value="0" selected>新闻图片</option>
+                        <option value="1" selected>专题图片</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="adv-search-item-box clear">
+            <div class="adv-search-each-item adv-search-left-item">
+                <div  class="fll adv-search-tit">
+                    人物：
+                </div>
+                <div  class="fll">
+                    <input type="text"  class="adv-search-input"  ng-model="advSearch.orginalSearch.people"/>
+                </div>
+            </div>
+            <div class="adv-search-each-item adv-search-right-item">
+                <div class="fll adv-search-tit">
+                    地点：
+                </div>
+                <div class="fll">
+                    <input type="text"  class="adv-search-input"  ng-model="advSearch.orginalSearch.place"/>
+                </div>
+            </div>
+        </div>
+        <div class="adv-search-item-box clear">
+            <div class="adv-search-each-item adv-search-left-item">
+                <div  class="fll adv-search-tit">
+                    图片作者：
+                </div>
+                <div  class="fll">
+                    <input type="text"  class="adv-search-input"   ng-model="advSearch.orginalSearch.authorName"/>
+                </div>
+            </div>
+            <div class="adv-search-each-item adv-search-right-item">
+                <div class="fll adv-search-tit">
+                    关键字：
+                </div>
+                <div class="fll">
+                    <input type="text"  class="adv-search-input"    ng-model="advSearch.orginalSearch.keyWords"/>
+                </div>
+            </div>
+        </div>
+        <div class="adv-search-item-box clear">
+            <div class="adv-search-each-item adv-search-left-item">
+                <div  class="fll adv-search-tit">
+                    图片说明：
+                </div>
+                <div  class="fll">
+                    <input type="text" class="adv-search-input"    ng-model="advSearch.orginalSearch.memo"/>
+                </div>
+            </div>
+            <div class="adv-search-each-item adv-search-right-item">
+                <div class="fll adv-search-tit">
+                    稿件分类：
+                </div>
+                <div class="fll">
+                       <select  class="adv-search-input" ng-model="advSearch.orginalSearch.category_id"
+                             ng-options="cate.id as cate.categoryName for cate in advSearch.categories">
+                        <option value="">全部</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="adv-search-item-box clear">
+                <div  class="fll adv-search-tit">
+                    图片文件名：
+                </div>
+                <div  class="fll">
+                    <input type="text" class="adv-search-file-input"  ng-model="advSearch.orginalSearch.fileName"/>
+                    <span>(文件名之间用逗号分隔)</span>
+                </div>
+        </div>
+        <div class="adv-search-item-box clear">
+            <div  class="fll adv-search-tit">
+                时间：
+            </div>
+            <div  class="fll">
+                <input type="text" class="Wdate proof-date-input demand-use-time" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" class="Wdate" ng-model="advSearch.orginalSearch.staTime" datepicker/>
+                <span class="demand-use-time-txt fll">至</span>
+                <input type="text" class="Wdate proof-date-input demand-use-time" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" class="Wdate" ng-model="advSearch.orginalSearch.endTime" datepicker/>
+            </div>
+        </div>
+        <div class="adv-search-item-box tac clear">
+            <a class="adv-searc-btn cursor" ng-click="advSearch.search()">
+                <img src="client_en/assets/images/myInfo/search.png"/>
+                <span>查询</span>
+            </a>
+            <a  class="adv-searc-btn cursor">
+                <img src="client_en/assets/images/redo.png"/>
+                <span>重置</span>
+            </a>
+        </div>
+    </div>
+</div>

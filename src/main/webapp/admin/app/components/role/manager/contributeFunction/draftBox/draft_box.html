@@ -1,0 +1,212 @@
+<div class="user-manager-container">
+    <div class="c-common-titbox" translate>
+        100041
+        <!-- <role-common-tit value="草稿箱"></role-common-tit> -->
+    </div>
+    <div class="c-user-table">
+        <div class="t-search-hd clear">
+            <div class="user-hd-left fll">
+                <label for="checkAllDraft">
+                    <input type="checkbox" ng-model="draftbox.checkedAllDraft" id="checkAllDraft"
+                           ng-click="draftbox.checkAllDraft(draftbox.checkedAllDraft)"/>
+                    <span class="user-check-txt cursor" translate>100042</span>
+                </label>
+                <span class="dib cursor user-add-btn role-del-btn"
+                      ng-click="draftbox.draftDelModalShow('draft-del-modal')" translate>100043</span>
+                <span class="dib cursor user-add-btn role-modify-btn"
+                      ng-click="draftbox.commitDraftModalShow('draft-commit-confirm-modal')" translate>100013</span>
+            </div>
+            <div class="user-hd-right flr">
+                <input class="user-search-input" placeholder="可根据稿件ID、标题、作者名 检索" 
+				ng-model="draftbox.paramStr" ng-keydown="draftbox.enterQuery($event)"/>
+                <img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic"
+                     ng-click="draftbox.onSearchDataClick()"/>
+                <span class="dib cursor user-search-btn"
+                      ng-click="draftbox.draftModalShow('draftBoxModalId')" translate>100044</span>
+            </div>
+        </div>
+        <div class="t-uinfo-bd">
+            <div class="table-responsive">
+                <table class="table table-bordered uInfo-table">
+                    <thead>
+                    <tr>
+                        <th class="uinfo-hd-th">
+                            <!--<input type="checkbox"/>-->
+                        </th>
+                        <th class="uinfo-hd-th" translate>100045</th>
+                        <th class="uinfo-hd-th" translate>100046</th>
+                        <th class="uinfo-hd-th" translate>100047</th>
+                        <th class="uinfo-hd-th" translate>100048</th>
+                        <th class="uinfo-hd-th" translate>100049</th>
+                        <th class="uinfo-hd-th" translate>100050</th>
+                        <th class="uinfo-hd-th" translate>100051</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr dir-paginate="item in draftbox.draftboxList | itemsPerPage: draftbox.selPageRows"
+                        total-items="draftbox.draftList_total"
+                        current-page="draftbox.pagination.current">
+                        <td>
+                            <input type="checkbox" ng-model="draftbox.selGroupIds[item.ID]"/>
+                        </td>
+                        <td>{{item.ID}}</td>
+                        <td>{{item.GOODS_TYPE | draftImgTypeFilter}}</td>
+                        <td>
+                            <img ng-src="{{item.samllPath}}" width="100" height="100" class="curp"
+                                 ui-sref="role.manager.draftDetail({id: item.ID})"/>
+                        </td>
+                        <td>{{item.PICTURE_COUNT}}</td>
+                        <td>{{item.TITLE}}</td>
+                        <td>
+                                <span ng-if="item.UPDATE_TIME">
+                                    <p>{{item.UPDATE_TIME | date : 'yyyy-MM-dd'}}</p>
+                                      <p>{{item.UPDATE_TIME | date : 'HH:mm:ss'}}</p>
+                                </span>
+                            <span ng-if="!item.UPDATE_TIME">--------</span>
+                        </td>
+                        <td>
+                            <img src="admin/assets/img/role/hook_success.png" class="cursor u-pwd-reset" width="18"
+                                 height="18"
+                                 title="提交"
+                                 ng-click="draftbox.commitItemDraftModalShow(item,'draft-commit-confirm-modal')"/>
+                            <img src="admin/assets/img/role/red_del.png" class="cursor" width="18" height="18"
+                                 title="删除"
+                                 ng-click="draftbox.delItemDraftModalShow(item,'draft-del-modal')"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!-- 分页 -->
+                <div class="paging-con-box mt10 clear">
+                    <div class="photo-record-page fll">
+                        <select ng-model="draftbox.selPageRows" class="mr10">
+                            <option value="50">50</option>
+                            <option value="40">40</option>
+                            <option value="30">30</option>
+                            <option value="20">20</option>
+                            <option value="10">10</option>
+                            <option value="6">6</option>
+                        </select>
+                        <span translate>100052</span>
+                        <span class="color_red">{{draftbox.draftList_total}}</span>
+                        <span translate>100053</span>
+                    </div>
+                    <div class="photo-now-page fll">
+                        <span translate>100054</span>
+                        <span>{{draftbox.pagination.current}}</span>
+                        <span>/</span>
+                        <span>{{draftbox.totalPages}}</span>
+                        <span translate>100055</span>
+                    </div>
+                    <div class="photo-jump-page flr">
+                        <dir-pagination-controls on-page-change="draftbox.pageChanged(newPageNumber)"
+                                                 template-url="admin/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+                        </dir-pagination-controls>
+                    </div>
+                </div>
+            </div>
+            <!--提交弹框-->
+            <div class="common-modal-style" id="draft-commit-confirm-modal" style="display:none">
+                <div class="role-add-con">
+                    <div class="role-add-tit" translate>
+                        100056
+                    </div>
+                    <div class="role-modal-con" translate>
+                        100057
+                    </div>
+                    <div class="tac mt10">
+                        <span class="dib cursor user-add-btn"
+                              ng-click="draftbox.confirmCommitDraft('draft-commit-confirm-modal')" translate>100058</span>
+                        <span class="dib cursor user-add-btn role-del-btn"
+                              ng-click="draftbox.draftModalHide('draft-commit-confirm-modal')" translate>100039</span>
+                    </div>
+                </div>
+            </div>
+            <!--草稿箱删除弹框-->
+            <div class="common-modal-style" id="draft-del-modal" style="display:none">
+                <div class="role-add-con">
+                    <div class="role-add-tit" translate>
+                        100059
+                    </div>
+                    <div class="role-modal-con" translate>
+                        100060
+                    </div>
+                    <div class="tac mt10">
+                        <span class="dib cursor user-add-btn"
+                              ng-click="draftbox.confirmDelDraft('draft-del-modal')" translate>100058</span>
+                        <span class="dib cursor user-add-btn role-del-btn"
+                              ng-click="draftbox.draftModalHide('draft-del-modal')" translate>100039</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--高级检索弹框-->
+    <div class="common-modal-style common-modal-style-wid" id="draftBoxModalId"
+         ng-mousemove="draftbox.moveModal('search-modal-tit','draftBoxModalId')"
+         style="display:none">
+        <div class="role-add-con">
+            <div id="search-modal-tit" class="role-add-tit oH">
+                <span class="fll" translate>100044</span>
+                <span class="flr curp tit-close"
+                      ng-click="draftbox.draftModalHide('draftBoxModalId')">×</span>
+            </div>
+            <div class="role-add-main">
+                <div class="role-add-form-info clear">
+                    <div class="role-form-info-top clear">
+                        <div class="fll send-ms-search-part">
+                            <span translate>100049</span>
+                            <input type="text" class="role-add-input" ng-model="draftbox.search.title"/>
+                        </div>
+                        <div class="fll send-ms-search-part">
+                            <span translate>100016</span>
+                            <input type="text" class="role-add-input" ng-model="draftbox.search.author"/>
+                        </div>
+                        <div class="fll send-ms-search-part">
+                            <span translate>100061</span>
+                            <input type="text" class="role-add-input" ng-model="draftbox.search.place"/>
+                        </div>
+                        <div class="fll send-ms-search-part">
+                            <span translate>100024</span>
+                            <input type="text" class="role-add-input" ng-model="draftbox.search.editor"/>
+                        </div>
+                    </div>
+                    <div class="role-form-info-top clear mt15">
+                        <div class="fll send-ms-search-part">
+                            <span translate>100062</span>
+                            <input type="text" class="role-add-input" ng-model="draftbox.search.memo"/>
+                        </div>
+                        <div class="fll send-ms-search-part">
+                            <span translate>100063</span>
+                            <input type="text" class="role-add-input" ng-model="draftbox.search.fileName"/>
+                        </div>
+                        <div class="fll send-ms-search-part">
+                            <span translate>100045</span>
+                            <input type="text" class="role-add-input" ng-model="draftbox.search.id"/>
+                        </div>
+                    </div>
+                    <div class="role-form-info-top clear mt15">
+                        <div class="fll manuscript-serach-date">
+                            <span class="fll" translate>100064</span>
+                            <input type="text" class="Wdate proof-date-input"
+                                   onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss'});" class="Wdate"
+                                   ng-model="draftbox.search.beginTime" datepicker/>
+                        </div>
+                        <div class="fll manuscript-serach-date">
+                            <span class="fll"translate>100065</span>
+                            <input type="text" class="Wdate proof-date-input"
+                                   onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss'});" class="Wdate"
+                                   ng-model="draftbox.search.endTime" datepicker/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tac mt10">
+                <span class="dib cursor user-add-btn"
+                      ng-click="draftbox.onAdvancedSearchClick()" translate>100058</span>
+                <span class="dib cursor user-add-btn role-del-btn"
+                      ng-click="draftbox.draftModalHide('draftBoxModalId')" translate>100039</span>
+            </div>
+        </div>
+    </div>
+</div>

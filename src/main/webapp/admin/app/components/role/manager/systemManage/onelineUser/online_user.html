@@ -1,0 +1,85 @@
+<div class="user-manager-container">
+    <div class="c-common-titbox">
+        <role-common-tit value="在线用户"></role-common-tit>
+    </div>
+    <div class="c-user-table table-spec-noline">
+        <!--<div class="t-search-hd clear">-->
+            <!--<div class="user-hd-left fll">-->
+                <!--<input type="checkbox" id="inputAllCheckId" ng-model="userManage.isHadAllCheck"/>-->
+                <!--<span class="user-check-txt">全选</span>-->
+            <!--</div>-->
+            <!--<div class="user-hd-right flr">-->
+                <!--<input class="user-search-input" style="width: 320px" ng-model="userManage.userSearchModel"-->
+                       <!--placeholder="可查询id、登录名、真实姓名、作者名及用户类型"/>-->
+                <!--<img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic"/>-->
+                <!--&lt;!&ndash;<span class="dib cursor user-search-btn"&ndash;&gt;-->
+                <!--&lt;!&ndash;ng-click="userManage.userModalShow('user-search-modal')">高级检索</span>&ndash;&gt;-->
+            <!--</div>-->
+        <!--</div>-->
+        <div class="t-uinfo-bd">
+            <div class="table-responsive">
+                <table class="table table-bordered uInfo-table">
+                    <thead>
+                    <tr>
+                        <th class="uinfo-hd-th">ID</th>
+                        <th class="uinfo-hd-th">登录名</th>
+                        <th class="uinfo-hd-th">真实姓名</th>
+                        <th class="uinfo-hd-th">作者名</th>
+                        <th class="uinfo-hd-th">用户类型</th>
+                        <th class="uinfo-hd-th">最近登录时间</th>
+                        <th class="uinfo-hd-th">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr dir-paginate="item in onlineUser.OnLineUsersList | itemsPerPage: onlineUser.selPageRows"
+                            total-items="onlineUser.onlineList_total"
+                            current-page="onlineUser.pagination.current">
+                            <td>{{item.id}}</td>
+                            <td>{{item.userName}}</td>
+                            <td>{{item.tureName}}</td>
+                            <td>{{item.authorName}}</td>
+                            <td>{{item.rolenames}}</td>
+                            <td>
+                                <p>{{item.loginTime | date:'yyyy-MM-dd'}}</p>
+                                <p>{{item.loginTime | date:'HH:mm:ss'}}</p>
+                            </td>
+                            <td>
+                                <img src="admin/assets/img/role/logout_user.png" class="cursor"
+                                     width="20" height="20" title="下线" ng-click="onlineUser.logoutUser(item.id)"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- 分页 -->
+            <div class="paging-con-box mt10 clear">
+                <div class="photo-record-page fll">
+                    <select ng-model="onlineUser.selPageRows" class="mr10">
+                        <option value="50">50</option>
+                        <option value="40">40</option>
+                        <option value="30">30</option>
+                        <option value="20">20</option>
+                        <option value="10">10</option>
+                    </select>
+                    <span>共找到</span>
+                    <span class="color_red">{{onlineUser.onlineList_total}}</span>
+                    <span>条记录</span>
+                </div>
+                <div class="photo-now-page fll">
+                    <span>第 </span>
+                    <span>{{onlineUser.pagination.current}}</span>
+                    <span>/</span>
+                    <span>{{onlineUser.totalPages}}</span>
+                    <span>页</span>
+                </div>
+                <div class="photo-jump-page flr">
+                    <dir-pagination-controls on-page-change="onlineUser.pageChanged(newPageNumber)"
+                                             template-url="admin/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+                    </dir-pagination-controls>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

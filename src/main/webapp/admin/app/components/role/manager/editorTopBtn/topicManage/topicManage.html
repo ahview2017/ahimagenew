@@ -1,0 +1,198 @@
+<div class="user-manager-container">
+    <div class="c-common-titbox">
+        <role-common-tit value="专题管理"></role-common-tit>
+    </div>
+    <div class="c-user-table">
+        <div class="t-search-hd clear">
+            <div class="user-hd-left fll">
+                <input type="checkbox" class=""/>
+                <span class="user-check-txt">全选</span>
+                <span class="dib cursor user-add-btn" ng-click="topicManage.projectModalShow('project-add-modal')">添加</span>
+                <span class="dib cursor user-add-btn role-modify-btn" ng-click="topicManage.projectModalShow('project-modify-modal')">修改</span>
+                <span class="dib cursor user-add-btn role-del-btn" ng-click="topicManage.projectModalShow('project-del-modal')">删除</span>
+            </div>
+            <div class="user-hd-right flr">
+                <input class="user-search-input"/>
+                <img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic"/>
+            </div>
+        </div>
+        <div class="t-uinfo-bd">
+            <div class="table-responsive">
+                <table  class="table table-bordered uInfo-table">
+                    <thead>
+                    <tr>
+                        <th class="uinfo-hd-th">
+                            <input type="checkbox"/>
+                        </th>
+                        <th class="uinfo-hd-th">ID</th>
+                        <th class="uinfo-hd-th">缩略图</th>
+                        <th class="uinfo-hd-th">名称</th>
+                        <th class="uinfo-hd-th">网站是否显示</th>
+                        <th class="uinfo-hd-th">签发是否显示</th>
+                        <th class="uinfo-hd-th">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <input type="checkbox"/>
+                        </td>
+                        <td>123</td>
+                        <td>
+                            <img src="admin/assets/img/role/close.png" width="115" height="100"/>
+                        </td>
+                        <td>拓尔思</td>
+                        <td>拓尔思</td>
+                        <td>离线</td>
+                        <td>
+                            <!--todo 预览缺少预览页-->
+                            <img src="admin/assets/img/role/icon_link.png" title="预览"
+                                 class="cursor" width="20" height="20"/>
+                            <img src="admin/assets/img/role/look_user_info.png" title="修改" class="cursor u-pwd-reset" width="20" height="20"/>
+                            <img src="admin/assets/img/role/red_del.png" title="删除" class="cursor" width="20" height="20"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!--专题添加弹框-->
+    <div class="common-modal-style" id="project-add-modal" style="display:none">
+        <div class="role-add-con">
+            <div class="role-add-tit">
+                新建主题
+            </div>
+            <div class="role-add-main">
+                <div class="role-add-form-info advertise-add-form-info clear">
+                    <div class="role-form-info-bottom clear">
+                        <div class="project-remark-txt fll">专题类型</div>
+                        <select class="adverse-remark-input fll"></select>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="project-remark-txt fll">操作类型</div>
+                        <select class="adverse-remark-input fll"></select>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="project-remark-txt fll">专题名称</div>
+                        <input type="text" class="adverse-remark-input fll"/>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="project-remark-txt fll">专题链接</div>
+                        <input type="text" class="adverse-remark-input fll"/>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="project-remark-txt fll">模板</div>
+                        <select class="adverse-remark-input fll"></select>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="project-remark-txt fll">签发数量</div>
+                        <input type="text" class="adverse-remark-input fll"/>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="project-remark-txt fll">缩略图</div>
+                        <div class="project-remark-input fll tal">
+                            <div class="adverse-upload-con fll">
+                                <div class="project-upload-btn cursor">上传文件</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="project-remark-txt fll">签发是否显示</div>
+                        <select class="adverse-remark-input fll"></select>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="project-remark-txt fll">网站是否显示</div>
+                        <select class="adverse-remark-input fll"></select>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="project-remark-txt fll">备注</div>
+                        <textarea class="project-remark-textarea fll">
+
+                        </textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="tac">
+                <span class="dib cursor user-add-btn">下一步</span>
+                <span class="dib cursor user-add-btn role-del-btn" ng-click="topicManage.projectModalHide('project-add-modal')">取消</span>
+            </div>
+        </div>
+    </div>
+    <!--专题修改弹框-->
+    <div class="common-modal-style" id="project-modify-modal" style="display:none">
+        <div class="role-add-con">
+            <div class="role-add-tit">
+                修改主题
+            </div>
+            <div class="role-add-main">
+                <div class="role-add-form-info advertise-add-form-info clear">
+                    <div class="role-form-info-bottom clear">
+                        <div class="project-remark-txt fll">专题类型</div>
+                        <select class="adverse-remark-input fll"></select>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="project-remark-txt fll">操作类型</div>
+                        <select class="adverse-remark-input fll"></select>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="project-remark-txt fll">专题名称</div>
+                        <input type="text" class="adverse-remark-input fll"/>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="project-remark-txt fll">专题链接</div>
+                        <input type="text" class="adverse-remark-input fll"/>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="project-remark-txt fll">模板</div>
+                        <select class="adverse-remark-input fll"></select>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="project-remark-txt fll">签发数量</div>
+                        <input type="text" class="adverse-remark-input fll"/>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="project-remark-txt fll">缩略图</div>
+                        <div class="project-remark-input fll tal">
+                            <div class="adverse-upload-con fll">
+                                <div class="project-upload-btn cursor">上传文件</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="project-remark-txt fll">签发是否显示</div>
+                        <select class="adverse-remark-input fll"></select>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="project-remark-txt fll">网站是否显示</div>
+                        <select class="adverse-remark-input fll"></select>
+                    </div>
+                    <div class="role-form-info-bottom clear">
+                        <div class="project-remark-txt fll">备注</div>
+                        <textarea class="project-remark-textarea fll">
+
+                        </textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="tac">
+                <span class="dib cursor user-add-btn">下一步</span>
+                <span class="dib cursor user-add-btn role-del-btn" ng-click="topicManage.projectModalHide('project-modify-modal')">取消</span>
+            </div>
+        </div>
+    </div>
+    <!--专题删除弹框-->
+    <div class="common-modal-style" id="project-del-modal" style="display:none">
+        <div class="role-add-con">
+            <div class="role-add-tit">
+                删除提醒
+            </div>
+            <div class="role-modal-con">
+                你确定要删除改专题吗？
+            </div>
+            <div class="tac mt10">
+                <span class="dib cursor user-add-btn"  ng-click="topicManage.projectModalHide('project-del-modal')">确定</span>
+            </div>
+        </div>
+    </div>
+</div>

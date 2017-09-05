@@ -1,0 +1,160 @@
+<div class="user-manager-container">
+    <div class="c-common-titbox clear">
+        <div class="fll proj-detail-left">
+            <role-common-tit  value="专题管理-->栏目管理"></role-common-tit>
+        </div>
+        <span class="edit-column">编辑栏目信息</span>
+        <div class="flr clear">
+            <div class="user-hd-left fll">
+                <span class="dib cursor user-add-btn role-del-btn" ui-sref="role.manager.projectManageView({id:projectManageEdit8.columnId,topicId:projectManageEdit8.specialId,templateId:projectManageEdit8.typeId})">预览</span>
+                <span class="dib cursor user-add-btn" ng-click="projectManageEdit8.saveProjectManageEdit()">保存</span>
+                <span class="dib cursor user-add-btn role-modify-btn" ui-sref="role.manager.projectManageDetail({id:projectManageEdit8.specialId})">返回</span>
+            </div>
+        </div>
+    </div>
+    <div class="c-user-table padding-10-15 pro-height-auto">
+        <p class="l-e-title">栏目信息</p>
+        <div class="l-e-container clear">
+            <div class="fll w50p h-110">
+                <div class="form-group">
+                    <label class="label-info">专题名称</label>
+                    <span>{{projectManageEdit8.specialName}}</span>
+                </div>
+                <div class="form-group">
+                    <label class="label-info">栏目模板</label>
+                    <span>八展</span>
+                </div>
+                <div class="form-group">
+                    <label class="label-info">栏目名称</label>
+                    <input type="text" value="" ng-model="projectManageEdit8.columnName"><span class="color_red">*</span>
+                </div>
+            </div>
+           <!-- <div class="flr w50p h-185">
+                <div class="form-group">
+                    <label class="label-info label-top">缩略图</label>
+                    <img src="admin/assets/img/role/template6.png" alt="">
+                </div>
+            </div>-->
+        </div>
+    </div>
+    <div class="c-user-table padding-10-15">
+        <!--栏目内容-->
+        <p class="l-e-title">页面内容</p>
+        <div class="l-e-tab clear">
+            <div class="fll text-center">
+                <span class="l-e-tab-1">元素1</span><span class="l-e-tab-2">稿件</span>
+            </div>
+        </div>
+        <p class="l-e-title-16">栏目首页显示稿件:</p>
+        <div class="clear">
+            <!--稿件-->
+            <div ng-repeat="item in projectManageEdit8.manuscript track by $index" class="pad-10 col-sm-3">
+                <div class="l-e-gj-box">
+                    <div class="clear">
+                        <span class="l-e-tip fll">稿件{{$index + 1 }}</span>
+                    </div>
+                    <div class="img-box pos-r">
+                        <img class="div-center" ng-if="item" ng-src="{{item.cpLanmuGroupPic.allpath}}" alt="" class="">
+                        <img class="div-center" style="max-height:160px;" ng-if="!item" src="admin/assets/img/role/empty1.png" alt="" class="">
+                    </div>
+                    <p ng-if="item" class="gj-title">{{item.cpLanmuGroupPic.title}}</p>
+                    <p ng-if="!item" class="gj-title">这里是标题</p>
+                    <div>
+                        <span ng-if="item" ng-click="projectManageEdit8.selectManuscript(projectManageEdit8.columnId,$index+1)" class="add-img cursor">替换稿件</span>
+                        <span ng-if="!item" ng-click="projectManageEdit8.selectManuscript(projectManageEdit8.columnId,$index+1)" class="add-img cursor">选择稿件</span>
+                    </div>
+                </div>
+            </div>
+            <!--稿件结束-->
+        </div>
+        <!--更多稿件list-->
+        <div class="gj-more-list mt15" >
+            <div class="clear">
+                <div class="fll l-e-title-16">更多稿件:</div>
+                <div ng-show="!projectManageEdit8.tableShow" ng-click="projectManageEdit8.addMoreManuscript(projectManageEdit8.columnId,8);" class="flr dib cursor user-add-btn role-modify-btn">添加稿件</div>
+            </div>
+            <div class="gj-box clear" ng-show="!projectManageEdit8.tableShow">
+                <div ng-repeat="item in projectManageEdit8.moreManuscript track by $index" class="pad-10 col-sm-3">
+                    <div class="l-e-gj-box more-manuscript">
+                        <div class="clear">
+                            <span class="l-e-tip fll">稿件{{$index + 1 }}</span>
+                        </div>
+                        <div class="img-box pos-r">
+                            <img class="div-center" ng-if="item" ng-src="{{item.cpLanmuGroupPic.allpath}}" alt="" class="">
+                            <img class="div-center" style="max-height:160px;" ng-if="!item" src="admin/assets/img/role/empty1.png" alt="" class="">
+                        </div>
+                        <p ng-if="item" class="gj-title">{{item.cpLanmuGroupPic.title}}</p>
+                        <p ng-if="!item" class="gj-title">这里是标题</p>
+                    </div>
+                </div>
+            </div>
+            <div class="clear" ng-show="!projectManageEdit8.tableShow">
+                <span class="flr cursor" ng-click="projectManageEdit8.showManuscriptTable(1)">查看更多>></span>
+            </div>
+        </div>
+        <!--更多稿件list结束-->
+
+        <!--更多稿件table开始-->
+        <div class="gj-more-table mt15 clear" ng-show="projectManageEdit8.tableShow">
+            <div class="c-user-table">
+                <div class="t-search-hd clear">
+                    <div class="user-hd-left fll">
+                        <label for="checkAllProEdit8">
+                            <input type="checkbox" class="" ng-model="projectManageEdit8.isHadAllCheck"
+                                   id="checkAllProEdit8"
+                                   ng-click="projectManageEdit8.onCheckAllClick()"/>
+                            <span class="user-check-txt">全选</span>
+                        </label>
+                        <span class="dib cursor user-add-btn" ng-click="projectManageEdit8.addMoreManuscript(projectManageEdit8.columnId,8)">添加稿件</span>
+                        <span class="dib cursor user-add-btn role-del-btn" ng-click="projectManageEdit8.onShowDeleteModelClick()">批量删除</span>
+                        <span class="dib cursor user-add-btn role-modify-btn" ng-click="projectManageEdit8.backMoreManuscriptList()">返回</span>
+                    </div>
+                    <div class="user-hd-right flr">
+                        <input class="user-search-input" />
+                        <img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic"/>
+                    </div>
+                </div>
+                <div class="t-uinfo-bd">
+                    <div class="table-responsive">
+                        <table class="table table-bordered uInfo-table">
+                            <thead>
+                            <tr>
+                                <th class="uinfo-hd-th"></th>
+                                <th class="uinfo-hd-th">ID</th>
+                                <th class="uinfo-hd-th">缩略图</th>
+                                <th class="uinfo-hd-th">标题</th>
+                                <th class="uinfo-hd-th">编辑时间</th>
+                                <th class="uinfo-hd-th">操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="item in projectManageEdit8.moreContribute"
+                                ng-init="projectManageEdit8.checkBoxArray[$index] = false">
+                                <td>
+                                    <input type="checkbox" ng-model="projectManageEdit8.checkBoxArray[$index]" ng-true-value="{{item.id}}" ng-false-value="false"/>
+                                </td>
+                                <td>{{item.id}}</td>
+                                <td>
+                                    <img ng-if="item.cpLanmuGroupPic.allpath" class="thumbnail-img" ng-src="{{item.cpLanmuGroupPic.allpath}}" alt="">
+                                    <img ng-if="!item.cpLanmuGroupPic.allpath" class="thumbnail-img" src="admin/assets/img/role/empty1.png" alt="">
+                                </td>
+                                <td>{{item.cpLanmuGroupPic.title}}</td>
+                                <td>{{item.cpLanmuGroupPic.sgintime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                <td>
+                                    <img src="admin/assets/img/role/look_user_info.png" ng-click="projectManageEdit8.selectManuscript(projectManageEdit8.columnId, 100, item.id);" title="替换稿件" class="cursor u-pwd-reset" width="20" height="20" />
+                                    <img src="admin/assets/img/role/red_del.png" title="删除稿件" ng-click="projectManageEdit8.delMoreManuscript(item.id);" class="cursor" width="20" height="20"/>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- 分页 -->
+                    <div class="flr pr15">
+                        <ul class="pagination" id="paginationImgId"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--更多稿件table结束-->
+    </div>
+</div>

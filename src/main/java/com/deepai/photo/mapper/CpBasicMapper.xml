@@ -1,0 +1,689 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deepai.photo.mapper.CpBasicMapper" >
+
+ <!--  <resultMap id="RoleRightMap" type="com.deepai.photo.bean.CpRole" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="ROLE_NAME" property="roleName" jdbcType="VARCHAR" />
+    <result column="MEMO" property="memo" jdbcType="VARCHAR" />
+    <result column="SITE_ID" property="siteId" jdbcType="INTEGER" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="DELETE_FLAG" property="deleteFlag" jdbcType="TINYINT" />
+    <result column="NUM_ORDER" property="numOrder" jdbcType="INTEGER" />
+    <collection property="rights" ofType="com.deepai.photo.bean.CpRight">
+		<id column="RIGHT_ID" property="id" jdbcType="INTEGER" />
+	    <result column="TYPE" property="type" jdbcType="TINYINT" />
+	    <result column="RIGHT_NAME" property="rightName" jdbcType="VARCHAR" />
+	</collection>
+  </resultMap> -->
+  
+  <!-- user基础map -->
+   <resultMap id="UserBaseMap" type="com.deepai.photo.bean.CpUser" >
+	<id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+    <result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+    <result column="TURE_NAME" property="tureName" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="ZIPCODE" property="zipcode" jdbcType="VARCHAR" />
+    <result column="EMAIL_BIND" property="emailBind" jdbcType="VARCHAR" />
+    <result column="EMAIL_CONTACT" property="emailContact" jdbcType="VARCHAR" />
+    <result column="TEL_BIND" property="telBind" jdbcType="VARCHAR" />
+    <result column="TEL_CONTACT" property="telContact" jdbcType="VARCHAR" />
+    <result column="UPLOAD_COUNT" property="uploadCount" jdbcType="INTEGER" />
+    <result column="PUB_COUNT" property="pubCount" jdbcType="INTEGER" />
+    <result column="KEEP_COUNT" property="keepCount" jdbcType="INTEGER" />
+    <result column="APPLY_DATE" property="applyDate" jdbcType="TIMESTAMP" />
+    <result column="REG_DATE" property="regDate" jdbcType="TIMESTAMP" />
+    <result column="DOWNLOAD_LEVEL" property="downloadLevel" jdbcType="INTEGER" />
+     <result column="ROCK_TIME" property="rockTime" jdbcType="TIMESTAMP" />
+    <result column="IS_DOWNLOAD" property="isDownload" jdbcType="TINYINT" />
+    <result column="DOWNLOAD_TYPE" property="downloadType" jdbcType="INTEGER" />
+    <result column="CONTRACT_PERPRICE" property="contractPerprice" jdbcType="INTEGER" />
+    <result column="CONTRACT_START_TIME" property="contractStartTime" jdbcType="TIMESTAMP" />
+    <result column="CONTRACT_END_TIME" property="contractEndTime" jdbcType="TIMESTAMP" />
+    <result column="CONTRACT_LIMIT_TYPE" property="contractLimitType" jdbcType="INTEGER" />
+    <result column="CONTRACT_LIMIT_NUM" property="contractLimitNum" jdbcType="INTEGER" />
+    <result column="CONTRACT_BUY_NUM" property="contractBuyNum" jdbcType="INTEGER" />
+    <result column="CONTRACT_NUM" property="contractNum" jdbcType="INTEGER" />
+    <result column="CONTRACT_ALL_NUM" property="contractAllNum" jdbcType="INTEGER" />
+    <result column="ACCOUNT" property="account" jdbcType="DECIMAL" />
+    <result column="BALANCE_PERPRICE" property="balancePerprice" jdbcType="INTEGER" />
+    <result column="BALANCE_LIMIT_TYPE" property="balanceLimitType" jdbcType="INTEGER" />
+    <result column="BALANCE_LIMIT_NUM" property="balanceLimitNum" jdbcType="INTEGER" />
+    <result column="BALANCE_ALL_NUM" property="balanceAllNum" jdbcType="INTEGER" />
+    <result column="THREE_LIMIT_TYPE" property="threeLimitType" jdbcType="INTEGER" />
+    <result column="THREE_LIMIT_NUM" property="threeLimitNum" jdbcType="INTEGER" />
+    <result column="DOWN_LINE_NUM" property="downLineNum" jdbcType="INTEGER" />
+    <result column="ON_LINE_NUM" property="onLineNum" jdbcType="INTEGER" />
+    <result column="ALL_DOWNLOAD_NUM" property="allDownloadNum" jdbcType="INTEGER" />
+    <result column="UNIT_NAME" property="unitName" jdbcType="VARCHAR" />
+    <result column="UNIT_ADDRESS" property="unitAddress" jdbcType="VARCHAR" />
+    <result column="UNIT_TEL" property="unitTel" jdbcType="VARCHAR" />
+    <result column="UNIT_FAX" property="unitFax" jdbcType="VARCHAR" />
+    <result column="MEMO" property="memo" jdbcType="VARCHAR" />
+    <result column="AUTHOR_NAME" property="authorName" jdbcType="VARCHAR" />
+    <result column="SUBSCRIBER_TYPE" property="subscriberType" jdbcType="TINYINT" />
+    <result column="IS_PUBLISH" property="isPublish" jdbcType="TINYINT" />
+    <result column="FEE_TYPE" property="feeType" jdbcType="TINYINT" />
+     <result column="LOGIN_NO" property="loginNo" jdbcType="INTEGER" />
+    <result column="BANK_ACCOUNT" property="bankAccount" jdbcType="VARCHAR" />
+    <result column="BANK_USERNAME" property="bankUsername" jdbcType="VARCHAR" />
+    <result column="BANK_NAME" property="bankName" jdbcType="VARCHAR" />
+    <result column="BANK_ID_CARD" property="bankIdCard" jdbcType="VARCHAR" />
+    <result column="MAIL_ADDRESS" property="mailAddress" jdbcType="VARCHAR" />
+    <result column="MAIL_USERNAME" property="mailUsername" jdbcType="VARCHAR" />
+    <result column="MAIL_ID_CARD" property="mailIdCard" jdbcType="VARCHAR" />
+    <result column="MAIL_ZIP_CODE" property="mailZipCode" jdbcType="VARCHAR" />
+    <result column="DISCOUNT" property="discount" jdbcType="INTEGER" />
+    <result column="PHOTOGRAPHY_DIRECTION" property="photographyDirection" jdbcType="VARCHAR" />
+    <result column="ZONE" property="zone" jdbcType="VARCHAR" />
+    <result column="SUBSCRIPTION_TYPE" property="subscriptionType" jdbcType="TINYINT" />
+    <result column="PROVINCE" property="province" jdbcType="VARCHAR" />
+    <result column="CITY" property="city" jdbcType="VARCHAR" />
+    <result column="ID_CARD" property="idCard" jdbcType="VARCHAR" />
+    <result column="PHOTOGRAPHER_LEVEL" property="photographerLevel" jdbcType="TINYINT" />
+    <result column="LOGINCOUNT" property="logincount" jdbcType="INTEGER" />
+    <result column="LOGIN_TIME" property="loginTime" jdbcType="TIMESTAMP" />
+    <result column="LAST_LOGIN_TIME" property="lastLoginTime" jdbcType="TIMESTAMP" />
+    <result column="USER_ORDER" property="userOrder" jdbcType="INTEGER" />
+    <result column="USER_STATUS" property="userStatus" jdbcType="INTEGER" />
+    <result column="QUESTION" property="question" jdbcType="VARCHAR" />
+    <result column="ANSWER" property="answer" jdbcType="VARCHAR" />
+    <result column="IS_UNIT" property="isUnit" jdbcType="TINYINT" />
+    <result column="PAY_TYPE" property="payType" jdbcType="TINYINT" />
+    <result column="SMSDUTY" property="smsduty" jdbcType="TINYINT" />
+    <result column="PLAIN_PASSWORD" property="plainPassword" jdbcType="VARCHAR" />
+    <result column="SITE_ID" property="siteId" jdbcType="INTEGER" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="ROLENAMES" property="rolenames" jdbcType="VARCHAR" />
+  </resultMap>
+  <!-- role基础map -->
+  <resultMap id="RoleBaseMap" type="com.deepai.photo.bean.CpRole" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="ROLE_NAME" property="roleName" jdbcType="VARCHAR" />
+    <result column="MEMO" property="memo" jdbcType="VARCHAR" />
+    <result column="SITE_ID" property="siteId" jdbcType="INTEGER" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="DELETE_FLAG" property="deleteFlag" jdbcType="TINYINT" />
+    <result column="NUM_ORDER" property="numOrder" jdbcType="INTEGER" />
+    <result column="LANG_TYPE" property="langType" jdbcType="INTEGER" />
+  </resultMap>
+  <!-- 根据ID批量删除子库 -->
+  <update id="delSiteByIds" parameterType="map">
+  	UPDATE cp_site SET UPDATE_USER=#{username} ,UPDATE_TIME=#{updatetime} ,DELETE_FLAG=1 where id in 
+  		<foreach collection="ids" item="id" open="(" close=")" separator=",">
+  			#{id}
+  		</foreach>
+  </update>
+  <select id="getUserAll" parameterType="map" resultType="map">
+ select ID,USER_NAME from cp_user t 
+    <where>
+  		<if test="userName != null">
+  			 t.USER_NAME like CONCAT('%',#{userName},'%') and  t.ID not in( select user_id from cp_group_management_user where group_id=#{groupId})
+  		</if>  
+  		<if test="userName == null">
+  			 t.ID not in( select user_id from cp_group_management_user where group_id=#{groupId})
+  		</if>	
+  	</where>
+  		ORDER BY LAST_LOGIN_TIME DESC
+  		
+  			
+  </select>
+  <!-- 根据条件查询子库 -->
+  <select id="selectSiteByQuery" parameterType="map" resultType="map">
+  	select * from cp_site t where t.DELETE_FLAG=0
+  		<if test="siteId !=null">
+  			and t.ID =#{siteId} 
+  		</if>
+  		<if test="siteName != null">
+  			and (t.SITE_NAME like CONCAT('%',#{siteName},'%') or t.ID like CONCAT('%',#{siteName},'%') )
+  		</if>  	
+  </select>
+  
+  <!-- 根据条件查询权限 -->
+  <select id="selectRightByQuery" parameterType="map" resultType="map">
+  	select * from cp_right t where t.DELETE_FLAG=0 
+  		<if test="type !=null">
+  			and t.TYPE=#{type}
+  		</if>
+  		<if test="rightId !=null">
+  			and t.ID =#{rightId} 
+  		</if>
+  		<if test="rightName != null">
+  			and (t.ID like CONCAT('%',#{rightName},'%') or t.RIGHT_NAME like CONCAT('%',#{rightName},'%')  or t.MEMO like  CONCAT('%',#{rightName},'%') )
+  		</if>  	
+  </select>
+  
+  <!-- 根据条件查询角色 -->
+  <select id="selectRoleByQuery" parameterType="map" resultType="map">
+  		SELECT t.*
+		FROM cp_role t
+		WHERE t.DELETE_FLAG = 0 and t.SITE_ID=#{siteId}
+  		<if test="roleId !=null">
+  			and t.ID =#{roleId} 
+  		</if>
+  		<if  test="roleName != null">
+			  and (t.ROLE_NAME like CONCAT('%',#{roleName},'%') or t.MEMO like  CONCAT('%',#{roleName},'%') )		    
+  		</if>
+  </select>
+  
+   <!-- 根据角色id查询权限 -->
+  <select id="selectRightByRoleId" parameterType="map" resultType="map">
+	select t.* from cp_right t
+		LEFT JOIN cp_auth_right a on a.RIGHT_ID=t.ID and a.TYPE=0 AND a.`STATUS` = 0 
+		where t.DELETE_FLAG = 0 and a.TRAGET_ID=#{0}
+  </select>
+  
+  <!-- 批量插入角色权限（为角色分配多个权限） -->
+  <insert id="insertRoleRightBatch" parameterType="map" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+     insert into cp_auth_right (TYPE,TRAGET_ID, RIGHT_ID, STATUS,CREATE_USER, CREATE_TIME)
+    values
+	 <foreach collection="rightIds" item="rightId" index="index" separator="," >  
+        (0,#{roleId}, #{rightId}, 0,  #{createUser}, #{createTime})
+     </foreach>  
+  </insert>
+  
+  <!-- 根据ID批量删除角色-->
+  <update id="delRoleByIds" parameterType="map">
+  	UPDATE cp_role SET UPDATE_USER=#{username} ,UPDATE_TIME=#{updatetime} ,DELETE_FLAG=1 where id in 
+  		<foreach collection="ids" item="id" open="(" close=")" separator=",">
+  			#{id}
+  		</foreach>
+  </update>
+  
+   <!-- 根据条件查询敏感词 -->
+  <select id="selectSstvWordByQuery" parameterType="map" resultType="map">
+  	select * from cp_sensitive_word t where t.SITE_ID=#{siteId}
+  		<if test="sstvWordId !=null">
+  			and t.ID =#{sstvWordId} 
+  		</if>
+  		<if test="status !=null">
+  			and t.WORD_STATUS =#{status} 
+  		</if>
+  		<if test="sstvWord != null">
+  			and (t.WORD_CONTENT like CONCAT('%',#{sstvWord},'%') or t.MEMO like CONCAT('%',#{sstvWord},'%'))
+  		</if>  	
+  		order by CREATE_TIME desc
+  </select>
+  
+   <!-- 根据条件查询检索词 -->
+  <select id="selectScWordByQuery" parameterType="map" resultType="map">
+  	select * from cp_search_word t where t.SITE_ID=#{siteId}
+  		<if test="scWordId !=null">
+  			and t.ID =#{scWordId} 
+  		</if>
+  		<if test="langType !=null">
+  			and t.LANG_TYPE =#{langType} 
+  		</if>
+  		<if test="count !=null">
+  			and t.WORD_COUNT =#{count} 
+  		</if>
+  		<if test="scWord != null">
+  			and t.WORD_CONTENT like CONCAT('%',#{scWord},'%')
+  		</if>  	
+  		<if test="beginTime!=null">
+			and t.LAST_TIME &gt;=#{beginTime}
+		</if>
+		<if test="endTime!=null">
+			and t.LAST_TIME &lt;= #{endTime}
+		</if>	
+		<if test="paramter !=null">
+			and (t.WORD_COUNT = #{paramter} or t.WORD_CONTENT like CONCAT('%',#{paramter},'%') or t.ID like CONCAT('%',#{paramter},'%') )
+		</if>	
+		order by t.CREATE_TIME desc
+  </select>
+  
+  <sql id="base_select_user">
+  	select * from cp_user t  
+  		<if test="roleId !=null">
+  			LEFT JOIN cp_user_role ur on t.ID=ur.USER_ID where ur.ROLE_ID=#{roleId} and t.SITE_ID=#{siteId}
+  		</if>
+  		<if test="roleId ==null">
+  			where t.SITE_ID=#{siteId}
+  		</if>  		
+  		<if test="userId !=null">
+  			and t.ID =#{userId} 
+  		</if>
+  		<if test="userName != null">
+  			and t.USER_NAME like CONCAT('%',#{userName},'%')
+  		</if>  	
+  		<if test="userStatus != null">
+  			and t.USER_STATUS =#{userStatus}
+  		</if>
+  		  	
+  		<if test="emailBind != null">
+  			and t.EMAIL_BIND like CONCAT('%',#{emailBind},'%')
+  		</if>
+  		<if test="telBind != null">
+  			and t.TEL_BIND like CONCAT('%',#{telBind},'%')
+  		</if>
+		<if test="telContact != null">
+			and t.TEL_CONTACT like CONCAT('%',#{telContact},'%')
+  		</if>  	
+  		<if test="standBy1 != null">
+  			and t.STANDBY1 like CONCAT('%',#{standBy1},'%')
+  		</if>
+  		<if test="standBy2 != null">
+  			and t.STANDBY2 like CONCAT('%',#{standBy2},'%')
+  		</if>  	
+  		<if test="trueName != null">
+  			and t.TURE_NAME like CONCAT('%',#{trueName},'%')
+  		</if>  
+  		<if test="subScriberType != null">
+  			and t.SUBSCRIBER_TYPE=#{subScriberType}
+  		</if>  
+  		<if test="userType != null">
+  			and t.USER_TYPE=#{userType}
+  		</if>  
+  		<if test="unitFlax != null">
+  			and t.UNIT_FAX like CONCAT('%',#{unitFlax},'%')
+  		</if>  
+  		<if test="unitTel != null">
+  			and t.UNIT_TEL like CONCAT('%',#{unitTel},'%')
+  		</if>  
+  		<if test="authorName != null">
+  			and t.AUTHOR_NAME like CONCAT('%',#{authorName},'%')
+  		</if>  
+  		<if test="address != null">
+  			and t.ADDRESS like CONCAT('%',#{address},'%')
+  		</if>
+  		<if test="unitName != null">
+  			and t.UNIT_NAME like CONCAT('%',#{unitName},'%')
+  		</if>
+  		<if test="unitAddress != null">
+  			and t.UNIT_ADDRESS like CONCAT('%',#{unitAddress},'%')
+  		</if>
+  		<if test="mailAddress != null">
+  			and t.MAIL_ADDRESS like CONCAT('%',#{mailAddress},'%')
+  		</if>
+  		<if test="mailUserName != null">
+  			and t.MAIL_USERNAME like CONCAT('%',#{mailUserName},'%')
+  		</if>
+  		<if test="mailIdCard != null">
+  			and t.MAIL_ID_CARD like CONCAT('%',#{mailIdCard},'%')
+  		</if>
+  		<if test="feeType != null">
+  			and t.FEE_TYPE=#{feeType}
+  		</if>
+  		<if test="mailZipCode != null">
+  			and t.MAIL_ZIP_CODE like CONCAT('%',#{mailZipCode},'%')
+  		</if>  
+  		<if test="bankAccount != null">
+  			and t.BANK_ACCOUNT like CONCAT('%',#{bankAccount},'%')
+  		</if>
+  		<if test="bankUserName != null">
+  			and t.BANK_USERNAME like CONCAT('%',#{bankUserName},'%')
+  		</if>
+  		<if test="bankIdCard != null">
+  			and t.BANK_ID_CARD like CONCAT('%',#{bankIdCard},'%')
+  		</if>
+  		<if test="bankName != null">
+  			and t.BANK_NAME like CONCAT('%',#{bankName},'%')
+  		</if>
+  		<if test="memo != null">
+  			and t.MEMO like CONCAT('%',#{memo},'%')
+  		</if>
+  		
+  		<if test="direction != null">
+  			and 1=SUBSTRING(t.PHOTOGRAPHY_DIRECTION,#{direction},1)
+  		</if>  	
+  		<if test="zone != null">
+  			and t.ZONE =#{zone}
+  		</if>  
+  		<if test="province != null">
+  			and t.PROVINCE =#{province}
+  		</if>  	
+  		<if test="city != null">
+  			and t.CITY =#{city}
+  		</if>
+  		<if test="parameter !=null">
+  			and  (t.ID like CONCAT('%',#{parameter},'%') 
+  					or t.USER_NAME like CONCAT('%',#{parameter},'%')
+					or t.TURE_NAME like CONCAT('%',#{parameter},'%')
+					or t.AUTHOR_NAME like CONCAT('%',#{parameter},'%'))
+  		</if>   	
+  </sql>
+  <select id="selectUserByLogin" parameterType="map" resultType="map">
+  	<include refid="base_select_user"/> 
+  	ORDER BY t.LOGIN_TIME DESC
+  </select>
+  <select id="selectUserByCreate" parameterType="map" resultType="map">
+  	<include refid="base_select_user"/> 
+  	ORDER BY t.CREATE_TIME DESC
+  </select>
+  
+  <!-- 根据条件查询用户 -->
+  <select id="selectUserByQuery" parameterType="map" resultType="map">
+  	<include refid="base_select_user"/>  	
+  </select>
+  <!-- 根据条件查询用户1 -->
+  <select id="selectUserByQuery1" parameterType="map" resultType="map">
+  	select DISTINCT t.* from cp_user t  
+		LEFT JOIN cp_user_role ur on t.ID=ur.USER_ID
+		LEFT JOIN cp_role r on r.ID=ur.ROLE_ID
+	where 1=1 
+		<if test="siteId !=null">
+  			and t.SITE_ID=#{siteId} 
+  		</if>
+  		<if test="userId !=null">
+  			and t.ID =#{userId} 
+  		</if>
+  		<if test="roleId !=null">
+  			and r.ID =#{roleId} 
+  		</if>
+  		<if test="parameter !=null">
+  			and  (t.ID like CONCAT('%',#{parameter},'%') 
+  					or t.USER_NAME like CONCAT('%',#{parameter},'%')
+					or t.TURE_NAME like CONCAT('%',#{parameter},'%')
+					or t.AUTHOR_NAME like CONCAT('%',#{parameter},'%')
+					or r.ROLE_NAME like CONCAT('%',#{parameter},'%'))
+  		</if>  		
+  		ORDER BY t.REG_DATE desc
+  		limit #{begin},#{end}
+  </select>
+  <!-- 根据条件查询用户1 -->
+  <select id="selectUserByQuery1Count" parameterType="map" resultType="int">
+  	select count(*) from (
+	  	select DISTINCT t.* from cp_user t  
+			LEFT JOIN cp_user_role ur on t.ID=ur.USER_ID
+			LEFT JOIN cp_role r on r.ID=ur.ROLE_ID
+		where 1=1 
+			<if test="siteId !=null">
+	  			and t.SITE_ID=#{siteId} 
+	  		</if>
+	  		<if test="userId !=null">
+	  			and t.ID =#{userId} 
+	  		</if>
+	  		<if test="roleId !=null">
+  			and r.ID =#{roleId} 
+  		   </if>
+	  		<if test="parameter !=null">
+	  			and  (t.ID like CONCAT('%',#{parameter},'%') 
+	  					or t.USER_NAME like CONCAT('%',#{parameter},'%')
+						or t.TURE_NAME like CONCAT('%',#{parameter},'%')
+						or t.AUTHOR_NAME like CONCAT('%',#{parameter},'%')
+						or r.ROLE_NAME like CONCAT('%',#{parameter},'%'))
+	  		</if>  		
+	 ) t
+  </select>
+  
+  <!-- 批量插入用户权限（为用户分配多个权限） -->
+  <insert id="insertUserRightBatch" parameterType="map" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+     insert into cp_auth_right (TYPE,TRAGET_ID, RIGHT_ID, STATUS,CREATE_USER, CREATE_TIME)
+    values
+	 <foreach collection="rightIds" item="rightId" index="index" separator="," >  
+        (1,#{userId}, #{rightId}, 0,  #{createUser}, #{createTime})
+     </foreach>  
+  </insert>
+ 
+  <!-- 批量插入用户角色（为用户分配多个角色） -->
+  <insert id="insertUserRoleBatch" parameterType="map" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cp_user_role (ROLE_ID, USER_ID, CREATE_TIME, CREATE_USER, UPDATE_USER, UPDATE_TIME)
+    values
+	 <foreach collection="roleIds" item="roleId" index="index" separator="," >  
+        (#{roleId},#{userId}, #{createTime}, #{createUser}, #{createUser}, #{createTime})
+     </foreach>  
+  </insert>
+  
+  <!-- 根据用户ID查询用户所有权限 ：角色权限U用户权限 -->
+  <select id="selectAllRightByUserId" resultType="map" parameterType="map">
+  	SELECT * FROM cp_right rt WHERE rt.ID IN (
+		SELECT DISTINCT t.RIGHT_ID FROM
+			(
+				SELECT
+					a.*
+				FROM
+					cp_auth_right a
+				LEFT JOIN cp_user u ON u.ID = a.TRAGET_ID
+				WHERE
+					u.ID =#{userId}
+				AND a.TYPE = 1
+				UNION
+				SELECT
+					a.*
+				FROM
+					cp_auth_right a
+				LEFT JOIN cp_user_role ur ON ur.ROLE_ID = a.TRAGET_ID
+				LEFT JOIN cp_role r on r.ID =ur.ROLE_ID 
+				LEFT JOIN cp_user u ON u.ID = ur.USER_ID
+				WHERE
+					u.ID =#{userId}
+				AND a.TYPE = 0 and r.DELETE_FLAG=0
+				<if test="roleId !=null ">
+					and a.TRAGET_ID=#{roleId}
+				</if>
+			) t
+	)
+  </select>
+ <!-- 查询用户权限 ，角色和用户权限并集会重复权限  -->
+ <select id="selectUserRightById" resultType="map" parameterType="map">
+  	select a.*,r.RIGHT_NAME from cp_auth_right a 
+		LEFT JOIN cp_user u on u.ID=a.TRAGET_ID 
+		LEFT JOIN cp_right r on r.ID=a.RIGHT_ID
+		where u.ID=#{userId} and a.TYPE=1
+		UNION 
+		select a.*,r.RIGHT_NAME from cp_auth_right a 	
+		LEFT JOIN cp_user_role ur on ur.ROLE_ID=a.TRAGET_ID 
+		LEFT JOIN cp_role ro on ro.ID =ur.ROLE_ID 
+		LEFT JOIN cp_user u on u.ID=ur.USER_ID
+		LEFT JOIN cp_right r on r.ID=a.RIGHT_ID
+		where u.ID=#{userId} and a.TYPE=0 and ro.DELETE_FLAG=0
+		<if test="roleId !=null ">
+			and a.TRAGET_ID=#{roleId}
+		</if>
+  </select>
+  
+   <!-- 根据ID批量删除用户 -->
+  <update id="delUserByIds" parameterType="map">
+  	UPDATE cp_user SET UPDATE_USER=#{username} ,UPDATE_TIME=#{updatetime} ,USER_STATUS=2 where id in 
+  		<foreach collection="ids" item="id" open="(" close=")" separator=",">
+  			#{id}
+  		</foreach>
+  </update>
+  <!-- 彻底删除用户 -->
+  <delete id="removeUser" parameterType="map">
+  	delete  from cp_user where id in 
+  		<foreach collection="ids" item="id" open="(" close=")" separator=",">
+  			#{id}
+  		</foreach>
+  </delete>
+  <!-- 添加信息到另一张表 -->
+   <insert id="insOther" parameterType="map">
+    INSERT into cp_user_delete SELECT * from cp_user where id in
+     <foreach collection="ids" item="id" open="(" close=")" separator=",">
+  	#{id}
+    </foreach>
+  </insert>
+  
+  <select id="selectAuthRightIds" parameterType="map" resultType="int">
+ 	 select t.ID from cp_auth_right t where t.TYPE=#{type} and t.TRAGET_ID=#{tragetId}
+  </select>
+  
+  <!-- 批量插入用户角色（为多个用户分配多个角色） -->
+  <insert id="insertUsersRolesBatch" parameterType="map" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cp_user_role (ROLE_ID, USER_ID, CREATE_TIME, CREATE_USER, UPDATE_USER, UPDATE_TIME)
+    values
+	 <foreach collection="roleIds" item="roleId" index="index" separator="," >  
+		 <foreach collection="userIds" item="userId" index="index" separator="," >  
+	        (#{roleId},#{userId}, #{createTime}, #{createUser}, #{createUser}, #{createTime})
+	     </foreach>  
+     </foreach>  
+  </insert>
+  
+  <!-- 校验用户接口权限(功能) -->
+  <select id="checkUserRight" parameterType="map" resultType="int">
+  	SELECT
+		count(*)
+	FROM
+		(
+			SELECT
+				r.ID
+			FROM
+				cp_auth_right a
+			LEFT JOIN cp_user u ON u.ID = a.TRAGET_ID
+			LEFT JOIN cp_right r ON r.P_ID = a.RIGHT_ID
+			WHERE
+				u.ID = #{userId}
+			AND a.TYPE = 1
+			AND r.TARGET_VALUE = #{rightUri}
+			UNION
+				SELECT
+					r.ID
+				FROM
+					cp_auth_right a
+				LEFT JOIN cp_user_role ur ON ur.ROLE_ID = a.TRAGET_ID
+				LEFT JOIN cp_user u ON u.ID = ur.USER_ID
+				LEFT JOIN cp_right r ON r.P_ID = a.RIGHT_ID
+				WHERE
+					u.ID = #{userId}
+				AND a.TYPE = 0
+				AND r.TARGET_VALUE = #{rightUri}
+				UNION
+					SELECT
+						r.ID
+					FROM
+						cp_auth_right a
+					LEFT JOIN cp_user u ON u.ID = a.TRAGET_ID
+					LEFT JOIN cp_right r ON r.ID = a.RIGHT_ID
+					WHERE
+						u.ID = #{userId}
+					AND a.TYPE = 1
+					AND r.TARGET_VALUE = #{rightUri}
+					UNION
+						SELECT
+							r.ID
+						FROM
+							cp_auth_right a
+						LEFT JOIN cp_user_role ur ON ur.ROLE_ID = a.TRAGET_ID
+						LEFT JOIN cp_user u ON u.ID = ur.USER_ID
+						LEFT JOIN cp_right r ON r.ID = a.RIGHT_ID
+						WHERE
+							u.ID = #{userId}
+						AND a.TYPE = 0
+						AND r.TARGET_VALUE = #{rightUri}
+	) ct
+  </select>
+  
+  <!-- 根据用户id查询用户角色 -->
+  <select id="selectUserRoleByUId" parameterType="map" resultMap="RoleBaseMap">
+  SELECT t.* FROM cp_role t
+	LEFT JOIN cp_user_role ur ON ur.ROLE_ID = t.ID
+	WHERE t.DELETE_FLAG=0 and ur.USER_ID=#{0} 
+	order by t.NUM_ORDER
+  </select>
+  <!-- 根据用户名或用户ID获取用户密码 -->
+  <select id="selectPwdByUserName" parameterType="map" resultMap="UserBaseMap">
+ 	 select * from cp_user u where 1=1
+ 	 <if test="userName!=null">
+ 	 	and u.USER_NAME=#{userName}
+ 	 </if>
+ 	 <if test="userId!=null">
+ 	 	and u.ID=#{userId}
+ 	 </if>
+ 	LIMIT 1
+  </select>
+  
+  <!-- 设置登陆次数 -->
+  <update id="upLoginTime" parameterType="map" >
+ 	 update cp_user c set c.LOGIN_NO=c.LOGIN_NO+1 WHERE USER_NAME=#{userName}
+  </update>
+  
+  <!-- 锁住用户 -->
+  <update id="LockUser" parameterType="map" >
+ 	 update cp_user c set ROCK_TIME = #{rockTime,jdbcType=TIMESTAMP} WHERE USER_NAME=#{userName}
+  </update>
+  
+  <!-- 清除锁定时间 -->
+ 
+  <update id="lockTimeClear" parameterType="map" >
+ 	 update cp_user c set ROCK_TIME = null ,c.LOGIN_NO=0 WHERE USER_NAME=#{userName}
+  </update> 
+  
+  <!-- 查询日志 -->
+  <select id="selectLogByQuery" parameterType="map" resultType="map">
+  	select l.*,t.LOGTYPE_NAME ,t.CREATE_USER from cp_log l
+		left join cp_log_type t on t.id=l.LOGTYPE_ID
+		where l.SITE_ID=#{siteId}
+		<if test="opeIp!=null">
+			and l.OPE_IP like CONCAT('%',#{opeIp},'%')
+		</if>
+		<if test="opeType!=null">
+			and l.OPE_TYPE=#{opeType}
+		</if>
+		<if test="cpeUser!=null">
+			and l.OPE_USER like CONCAT('%',#{cpeUser},'%')
+		</if>
+		<if test="opeContent!=null">
+			and l.OPE_CONTENT like CONCAT('%',#{opeContent},'%')
+		</if>
+		<if test="beginTime!=null">
+			and l.OPE_TIME &gt;=#{beginTime}
+		</if>
+		<if test="endTime!=null">
+			and l.OPE_TIME &lt;= #{endTime}
+		</if>
+		<if test="logtypeId!=null">
+			and t.ID=#{logtypeId}
+		</if>
+		<if test="days!=null">
+			and l.OPE_TIME &gt;= date_sub(curdate(), INTERVAL #{days} DAY)
+		</if>
+		<if test="type!=null and type==0">
+			and l.LOGTYPE_ID = 23
+		</if>
+		<if test="type!=null and type==1">
+			and l.LOGTYPE_ID != 23
+		</if>
+		<if test ="strWhere!=null">
+		    and (t.LOGTYPE_NAME like CONCAT('%',#{strWhere},'%') or OPE_IP like CONCAT('%',#{strWhere},'%') or OPE_USER like CONCAT('%',#{strWhere},'%') or OPE_CONTENT  like CONCAT('%',#{strWhere},'%') or OPE_RESULT  like CONCAT('%',#{strWhere},'%') )
+		</if>
+	 ORDER BY l.OPE_TIME desc
+  </select>
+  <!-- 查询用户登录日志 -->
+  <select id="selectUserLoginLog" parameterType="map" resultType="map">
+  	select l.ID,l.OPE_IP,l.OPE_TIME,l.OPE_USER from cp_log l where l.OPE_USER=#{cpeUser} and l.SITE_ID=#{siteId} and l.LOGTYPE_ID=23
+  		<if test="days!=null">
+			and l.OPE_TIME &gt;= date_sub(curdate(), INTERVAL #{days} DAY)
+		</if>
+	ORDER BY l.OPE_TIME desc
+  </select>
+  <!-- 查询用户操作日志 -->
+  <select id="selectUserOpeLog" parameterType="map" resultType="map">
+  	select l.* from cp_log l where l.ope_ids like CONCAT('%',#{opeId},'%') and l.LOGTYPE_ID!=23
+  		<if test="days!=null">
+			and l.OPE_TIME &gt;= date_sub(curdate(), INTERVAL #{days} DAY)
+		</if>
+	 ORDER BY l.OPE_TIME desc
+  </select>
+  
+  <!-- 根据ID批量删除配置 -->
+  <update id="delConfigsByIds" parameterType="map">
+  	UPDATE cp_system_config SET UPDATE_USER=#{username} ,UPDATE_TIME=#{updatetime} ,DELETE_FLAG=1 where id in 
+  		<foreach collection="ids" item="id" open="(" close=")" separator=",">
+  			#{id}
+  		</foreach>
+  </update>
+  <!-- 查询有没有已存在的检索词 -->
+  
+</mapper>

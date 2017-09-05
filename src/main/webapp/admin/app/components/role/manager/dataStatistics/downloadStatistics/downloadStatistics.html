@@ -1,0 +1,196 @@
+<div class="user-manager-container">
+    <div class="download-tit">
+        <span ng-class="{ 'download-tit-active' : downloadStatistics.downloadType == 1 }" ng-click="downloadStatistics.downloadTypeClick(1)">图片下载统计</span>
+        <span ng-class="{ 'download-tit-active' : downloadStatistics.downloadType == 2 }" ng-click="downloadStatistics.downloadTypeClick(2)">用户下载统计</span>
+    </div>
+    <div>
+        <!--图片下载统计-->
+        <div ng-if="downloadStatistics.downloadType == 1">
+            <div class="contribute-tit">
+                <span ng-class="{ 'contribute-tit-active' : downloadStatistics.tab == 1 || downloadStatistics.tab == 3 }" ng-click="downloadStatistics.statisticsTypeClick(1)">图表统计</span>
+                <span ng-class="{ 'contribute-tit-active' : downloadStatistics.tab == 2 }" ng-click="downloadStatistics.statisticsTypeClick(2)">列表统计</span>
+            </div>
+            <!--图表统计-->
+            <div ng-if="downloadStatistics.tab == 1" class="contribute-cont">
+                <div class="contribute-pic">
+                    <div class="oH">
+                        <p class="contribute-pic-tit fll">分类下载统计</p>
+                        <p class="contribute-pic-detailBtn flr" ng-click="downloadStatistics.statisticsTypeClick(3)">查看详情</p>
+                    </div>
+                    <div class="contribute-pic-cont">
+                        无数据
+                    </div>
+                </div>
+            </div>
+
+            <!--列表统计-->
+            <div ng-if="downloadStatistics.tab == 2">
+                <div class="c-user-table">
+                    <div class="t-search-hd clear">
+                        <div class="user-hd-right flr">
+                            <input class="user-search-input"/>
+                            <img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic"/>
+                            <span class="dib cursor user-search-btn">高级检索</span>
+                        </div>
+                    </div>
+                    <div class="t-uinfo-bd">
+                        <div class="table-responsive">
+                            <table class="table table-bordered uInfo-table">
+                                <thead>
+                                <tr>
+                                    <th class="uinfo-hd-th">序号</th>
+                                    <th class="uinfo-hd-th">图片ID</th>
+                                    <th class="uinfo-hd-th">图片作者</th>
+                                    <th class="uinfo-hd-th">所属组图</th>
+                                    <th class="uinfo-hd-th">下载数</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>123</td>
+                                    <td>111</td>
+                                    <td>拓尔思</td>
+                                    <td>拓尔思</td>
+                                    <td>离线</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--分类下载统计 详情-->
+            <div ng-if="downloadStatistics.tab == 3">
+                <div class="contribute-detail oH">
+                    <p class="contributeDetail-tit fll">分类下载统计</p>
+                    <p class="contributeDetail-returnBtn flr" ng-click="downloadStatistics.statisticsTypeClick(1)">< 返回</p>
+                </div>
+                <div class="c-user-table">
+                    <div class="t-search-hd clear">
+                        <div class="user-hd-right flr">
+                            <input class="user-search-input"/>
+                            <img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic"/>
+                        </div>
+                    </div>
+                    <div class="t-uinfo-bd">
+                        <div class="table-responsive">
+                            <table  class="table table-bordered uInfo-table">
+                                <thead>
+                                <tr>
+                                    <th class="uinfo-hd-th">序号</th>
+                                    <th class="uinfo-hd-th">分类</th>
+                                    <th class="uinfo-hd-th">下载数</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>123</td>
+                                    <td>111</td>
+                                    <td>拓尔思</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--用户下载统计-->
+        <div ng-if="downloadStatistics.downloadType == 2">
+            <div class="contribute-tit">
+                <span ng-class="{ 'contribute-tit-active' : downloadStatistics.tab == 1 || downloadStatistics.tab == 3 }" ng-click="downloadStatistics.statisticsTypeClick(1)">图表统计</span>
+                <span ng-class="{ 'contribute-tit-active' : downloadStatistics.tab == 2 }" ng-click="downloadStatistics.statisticsTypeClick(2)">列表统计</span>
+            </div>
+            <!--图表统计-->
+            <div ng-if="downloadStatistics.tab == 1" class="contribute-cont">
+                <div class="contribute-pic">
+                    <div class="oH">
+                        <p class="contribute-pic-tit fll">区域用户下载统计</p>
+                        <p class="contribute-pic-detailBtn flr" ng-click="downloadStatistics.statisticsTypeClick(3)">查看详情</p>
+                    </div>
+                    <div class="contribute-pic-cont">
+                        无数据
+                    </div>
+                </div>
+            </div>
+
+            <!--列表统计-->
+            <div ng-if="downloadStatistics.tab == 2">
+                <div class="c-user-table">
+                    <div class="t-search-hd clear">
+                        <div class="user-hd-right flr">
+                            <input class="user-search-input"/>
+                            <img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic"/>
+                            <span class="dib cursor user-search-btn">高级检索</span>
+                        </div>
+                    </div>
+                    <div class="t-uinfo-bd">
+                        <div class="table-responsive">
+                            <table class="table table-bordered uInfo-table">
+                                <thead>
+                                <tr>
+                                    <th class="uinfo-hd-th">序号</th>
+                                    <th class="uinfo-hd-th">用户ID</th>
+                                    <th class="uinfo-hd-th">用户名</th>
+                                    <th class="uinfo-hd-th">真实姓名</th>
+                                    <th class="uinfo-hd-th">下载数</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>123</td>
+                                    <td>111</td>
+                                    <td>拓尔思</td>
+                                    <td>拓尔思</td>
+                                    <td>离线</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--区域用户下载统计 详情-->
+            <div ng-if="downloadStatistics.tab == 3">
+                <div class="contribute-detail oH">
+                    <p class="contributeDetail-tit fll">区域用户下载统计</p>
+                    <p class="contributeDetail-returnBtn flr" ng-click="downloadStatistics.statisticsTypeClick(1)">< 返回</p>
+                </div>
+                <div class="c-user-table">
+                    <div class="t-search-hd clear">
+                        <div class="user-hd-right flr">
+                            <input class="user-search-input"/>
+                            <img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic"/>
+                        </div>
+                    </div>
+                    <div class="t-uinfo-bd">
+                        <div class="table-responsive">
+                            <table  class="table table-bordered uInfo-table">
+                                <thead>
+                                <tr>
+                                    <th class="uinfo-hd-th">序号</th>
+                                    <th class="uinfo-hd-th">区域</th>
+                                    <th class="uinfo-hd-th">用户人数</th>
+                                    <th class="uinfo-hd-th">下载数</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>123</td>
+                                    <td>111</td>
+                                    <td>拓尔思</td>
+                                    <td>拓尔思</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

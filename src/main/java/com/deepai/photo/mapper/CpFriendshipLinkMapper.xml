@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deepai.photo.mapper.CpFriendshipLinkMapper" >
+	<resultMap id="FriendshipLinkResultMap" type="com.deepai.photo.bean.CpFriendshipLink" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="DATE" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="friendship_link" property="friendshipLink" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="order_id" property="orderId" jdbcType="INTEGER" />
+    <result column="lang_type" property="langType" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <select id="selectFriendshipLinkList" resultMap="FriendshipLinkResultMap">
+  	select id, title, create_time,create_user, create_user_id, friendship_link, remark, order_id, state
+  	from cp_friendship_link where lang_type=#{langType} and state=1 order by order_id
+  </select>
+  <insert id="addFriendshipLink" parameterType="com.deepai.photo.bean.CpFriendshipLink">
+  	insert into cp_friendship_link(title, create_time,create_user, create_user_id, friendship_link, remark, order_id, lang_type, state)
+  	values(#{title}, #{createTime},#{createUser}, #{createUserId}, #{friendshipLink}, #{remark}, #{orderId}, #{langType}, #{state})
+  </insert>
+  <delete id="deleteFriendshipLink">
+  	delete from cp_friendship_link where id = #{id}
+  </delete>
+  <update id="editFriendshipLink" parameterType="com.deepai.photo.bean.CpFriendshipLink">
+  update cp_friendship_link set 
+  		title = #{title},friendship_link = #{friendshipLink},order_id=#{orderId},remark=#{remark}, state=#{state}
+  		where id = #{id}
+  </update>
+</mapper>

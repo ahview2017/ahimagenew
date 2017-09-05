@@ -1,0 +1,135 @@
+<div class="user-manager-container">
+    <div class="edt-dbTit oH">
+        <role-common-tit value="内部留资" class="fll"></role-common-tit>
+    </div>
+    <div>
+        <div class="db-detail-tit oH">
+            <div class="ml10">
+                <span class="spanDatabaseBtn" ui-sref="role.manager.internalRetention">返回</span>
+                <span class="spanDatabaseBtn" ng-click="detail.projectModalShow('getBackModalId')">取回</span>
+                <span class="spanDatabaseBtn">全选&nbsp;&nbsp;<input type="checkbox" class="all"></span>
+                <span class="spanDatabaseBtn" ng-click="detail.ModalShow('detail-type-modal')">下载</span>
+                <span class="spanDatabaseBtn" ui-sref="role.manager.operateRecord({groupId: detail.inInformId,dtType: detail.dtType})">操作记录</span>
+                <span class="spanDatabaseBtn" ui-sref="role.manager.historyVersion({groupId: detail.inInformId,dtType: detail.dtType})">历史版本</span>
+                </div>
+            </div>
+
+            <div class="ml10 mt20">
+                <h3>{{detail.inInformObj.title}}</h3>
+                <p class="mt5">
+                    <span>中新社发 {{detail.inInformObj.author}} 摄</span>
+                    <span>{{detail.inInformObj.fileTime|date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                </p>
+            </div>
+            <div class="ml10 mt20">
+                <p>
+                    <span class="spanDatabaseBtn">稿件类别</span>
+                    <span>{{detail.inInformType}}</span>
+                </p>
+                <p>
+                    <span class="spanDatabaseBtn">关键词</span>
+                    <span>{{detail.inInformObj.keywords}}</span>
+                </p>
+                <p>
+                    <span class="spanDatabaseBtn">留资时间</span>
+                    <span>{{detail.inInformObj.operateTime | date:'yyyy-MM-dd HH:mm:ss' }}</span>
+                </p>
+                <p>
+                    <span class="spanDatabaseBtn">留资用户</span>
+                    <span>{{detail.inInformObj.operateUserName}}</span>
+                </p>
+                <p>
+                    <span class="spanDatabaseBtn">留资理由</span>
+                    <span>{{detail.inInformObj.innerRemark}}</span>
+                </p>
+            </div>
+        </div>
+
+        <div class="db-detail-cont">
+            <div class="oH">
+                <div class="db-detail-cont-item w20p mt20 ml3p fll"
+                     ng-repeat="picItem in detail.inInformObj.pics">
+                    <div>
+                        <input type="checkbox" name="check" class="check" value="{{picItem.id}}">
+                        <img class="ms-detail-picture" ng-src="{{picItem.smallPath}}"
+                             width="225" height="255"/>
+                    </div>
+                    <div>
+                        <div class="mt10 clear">
+                            <div class="ms-addpic-left fll">
+                                <span>文件名</span>
+                            </div>
+                            <div class="ms-addpic-right fll">
+                                <a class="aTextHideShow" style="overflow: hidden;display: block"
+                                   href="javascript:void(0)" title="{{picItem.filename}}">
+                                    {{picItem.filename}}</a>
+                            </div>
+                        </div>
+                        <div class="mt5 clear">
+                            <div class="ms-addpic-left fll">
+                                <span>作者</span>
+                            </div>
+                            <div class="ms-addpic-right fll">
+                                <a class="aTextHideShow" style="overflow: hidden;display: block"
+                                   href="javascript:void(0)" title="{{picItem.authorName}}">
+                                    {{picItem.authorName}}</a>
+                            </div>
+                        </div>
+                        <div class="mt5 clear">
+                            <div class="ms-addpic-left fll">
+                                <span>图片说明</span>
+                            </div>
+                            <div class="ms-addpic-right fll">
+                                <a class="aTextHideShow" style="overflow: hidden;display: block"
+                                   href="javascript:void(0)" title="{{picItem.memo}}">
+                                    {{picItem.memo}}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="db-detail-cont-txt" style="padding-left: 0">
+                <p class="db-txt-tit">稿件正文</p>
+
+                <p class="db-txt-cont">{{detail.inInformObj.memo}}</p>
+            </div>
+        </div>
+    </div>
+    <!--取回弹框-->
+    <div class="common-modal-style" id="getBackModalId" style="display:none">
+        <div class="role-add-con">
+            <div class="role-add-tit">
+                是否取回
+            </div>
+            <div class="role-add-main">
+                <div class="role-add-form-info">
+                    <div class="clear">
+                        <span style="font-size: 18px">是否确定取回？</span>
+                    </div>
+                </div>
+            </div>
+            <div class="tac" style="margin-top: 16px">
+                <span class="dib cursor user-add-btn" ng-click="detail.onGetBackClick()">确定</span>
+                <span class="dib cursor user-add-btn cancel-btn-color"
+                      ng-click="detail.projectModalHide('getBackModalId')">取消</span>
+            </div>
+        </div>
+    </div>
+</div>
+<!--下载类别弹框-->
+<div class="common-modal-style" id="detail-type-modal"  style="display:none">
+    <div class="role-add-con">
+        <div id="del-modal-tit" class="role-add-tit">
+            下载类别 <span class="flr curp tit-close"
+                       ng-click="internalRetention.ModalHide('detail-type-modal')">×</span>
+        </div>
+        <div class="role-modal-con">
+            请选择下载类别？<input type='hidden' ng-model='detail.deleFriendLinkId'>
+
+        </div>
+        <div class="tac mt10">
+            <span class="dib cursor user-add-btn" ng-click="detail.downLoadPic(0)">组图</span>
+            <span class="dib cursor user-add-btn " ng-click="detail.downLoadPic(1)">组图和说明</span>
+        </div>
+    </div>
+</div>

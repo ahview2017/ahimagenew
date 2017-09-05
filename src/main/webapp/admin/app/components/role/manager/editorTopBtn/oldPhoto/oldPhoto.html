@@ -1,0 +1,122 @@
+<div class="user-manager-container">
+    <div class="c-common-titbox">
+        <role-common-tit value="老照片"></role-common-tit>
+    </div>
+    <div class="c-user-table">
+        <div class="t-search-hd clear">
+            <div class="color_red mb15 fz18">
+                <p>注：老照片压缩文件须提前由管理员拷贝至服务器指定位置，请按照该指定位置</p>
+                <p class="old-hint-txt">已存在的文件名进行下列输入，才可正常上传入库。</p>
+            </div>
+            <div>
+                <span class="t-old-pic-name">请输入老照片文件名：</span>
+                <input type="text" class="old-pic-input" ng-model="oldPhoto.oldZipName"/>
+                <button class="old-pic-up-btn" ng-click="oldPhoto.confirmUpOldPic()">确认上传</button>
+            </div>
+            <div class="mt2">
+                <span class="t-old-file-name">注：请输入.zip格式的文件名</span>
+            </div>
+            <!--<div class="user-hd-left fll">
+                <img src="admin/assets/img/role/upload.png" class="cursor"/>
+                <span class="cursor fwb" ngf-select="oldPhoto.uploadOldPhoto($file)"
+                     name="file" ngf-pattern="'.zip,.ZIP.rar,.RAR'"
+                     ngf-accept="'.zip,.ZIP,.rar,.RAR'">上传老照片</span>
+            </div>
+            <a ng-click="oldPhoto.test()" class="ml10">test</a>
+            <div>
+                <input type="text" ng-model="oldPhoto.oldZipName"/>
+            </div>-->
+        </div>
+        <div class="t-uinfo-bd">
+            <div class="table-responsive">
+                <table class="table table-bordered uInfo-table">
+                    <thead>
+                    <tr>
+                        <th class="uinfo-hd-th">ID</th>
+                        <th class="uinfo-hd-th">文件名</th>
+                        <th class="uinfo-hd-th">上传日期</th>
+                        <th class="uinfo-hd-th">上传人</th>
+                        <th class="uinfo-hd-th">状态</th>
+                        <th class="uinfo-hd-th">已上传图</th>
+                        <th class="uinfo-hd-th">成功入库</th>
+                        <th class="uinfo-hd-th">总记录数</th>
+                        <th class="uinfo-hd-th">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr dir-paginate="item in oldPhoto.oldPhotoList | itemsPerPage: oldPhoto.selPageRows"
+                        total-items="oldPhoto.oldPicList_total"
+                        current-page="oldPhoto.pagination.current">
+                        <td>
+                           {{item.id}}
+                        </td>
+                        <td>{{item.fileName}}</td>
+                        <td>{{item.uploadDate  | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td>{{item.uploadUserid}}</td>
+                        <td>{{item.status}}</td>
+                        <td>{{item.picUploadNum}}</td>
+                        <td>{{item.storageNum}}</td>
+                        <td>{{item.recordTotal}}</td>
+                        <td>
+                            <a ui-sref="role.manager.toPublishPic({id: item.id})">待发布图片</a>
+                            <a class="ml16 cursor" data-toggle="modal"  ng-click="oldPhoto.queryStorageResult(item.id)">查询分析入库结果</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- 分页 -->
+            <div class="paging-con-box mt10 clear">
+                <div class="photo-record-page fll">
+                    <select ng-model="oldPhoto.selPageRows" class="mr10">
+                        <option value="50">50</option>
+                        <option value="40">40</option>
+                        <option value="30">30</option>
+                        <option value="20">20</option>
+                        <option value="10">10</option>
+                    </select>
+                    <span>共找到</span>
+                    <span class="color_red">{{oldPhoto.oldPicList_total}}</span>
+                    <span>条记录</span>
+                </div>
+                <div class="photo-now-page fll">
+                    <span>第 </span>
+                    <span>{{oldPhoto.pagination.current}}</span>
+                    <span>/</span>
+                    <span>{{oldPhoto.totalPages}}</span>
+                    <span>页</span>
+                </div>
+                <div class="photo-jump-page flr">
+                    <dir-pagination-controls on-page-change="oldPhoto.pageChanged(newPageNumber)"
+                                             template-url="admin/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+                    </dir-pagination-controls>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- query-storage-modal -->
+    <div class="modal fade" id="query-storage-modal" tabindex="-1" role="dialog" aria-labelledby="storageModalLabel">
+        <div class="modal-dialog query-storage-modal-content" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">查询分析入库结果</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <span>
+                            老照片已部分成功入库，有{{oldPhoto.storageOldPics.length}}张解析入库失败，请重新导入。
+                            入库失败的图片为：
+                        </span>
+                        <span ng-repeat="item in oldPhoto.storageOldPics">
+                            {{item}}，
+                        </span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

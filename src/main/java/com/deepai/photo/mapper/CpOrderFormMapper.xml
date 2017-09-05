@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deepai.photo.mapper.CpOrderFormMapper" >
+  <resultMap id="BaseResultMap" type="com.deepai.photo.bean.CpOrderForm" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="ORDER_NO" property="orderNo" jdbcType="VARCHAR" />
+    <result column="USER_ID" property="userId" jdbcType="INTEGER" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+    <result column="USER_TYPE" property="userType" jdbcType="INTEGER" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="ORDER_STATUS" property="orderStatus" jdbcType="INTEGER" />
+    <result column="LAST_SUBMIT_TIME" property="lastSubmitTime" jdbcType="TIMESTAMP" />
+    <result column="TOTAL_PRICE" property="totalPrice" jdbcType="DECIMAL" />
+    <result column="PAY_TIME" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="PIC_COUNT" property="picCount" jdbcType="INTEGER" />
+    <result column="PAY_TYPE" property="payType" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, ORDER_NO, USER_ID, USER_NAME, USER_TYPE, CREATE_TIME, ORDER_STATUS, LAST_SUBMIT_TIME, 
+    TOTAL_PRICE, PAY_TIME, PIC_COUNT, PAY_TYPE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.deepai.photo.bean.CpOrderFormExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cp_order_form
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectOrderByQuery" resultMap="BaseResultMap" resultType="map">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from cp_order_form c 
+  	where 1=1 
+  	<if test="orderno!=null">
+  		and c.ORDER_NO like CONCAT('%',#{orderno},'%')
+  	</if>
+  	<if test="userName!=null">
+  		and c.USER_NAME like CONCAT('%',#{userName},'%')
+  	</if>
+  	<if test="orderStatus!=null">
+  		and c.ORDER_STATUS = #{orderStatus}
+  	</if>
+  	<if test="staNum!=null">
+  		and c.PIC_COUNT &gt;=#{staNum}
+  	</if>
+  	<if test="endNum!=null">
+  		and c.PIC_COUNT &lt;=#{endNum}
+  	</if>
+  	<if test="staMoney!=null">
+  		and c.TOTAL_PRICE &gt;=#{staMoney}
+  	</if>
+  	<if test="endMoney!=null">
+  		and c.TOTAL_PRICE &lt;=#{endMoney}
+  	</if>
+  	<if test="langType!=null">
+  		and c.LANGTYPE = #{langType}
+  	</if>
+  	<if test="createStartTime!=null">
+    <![CDATA[ and DATE_FORMAT(c.CREATE_TIME, '%Y-%m-%d') >=  DATE_FORMAT(#{createStartTime}, '%Y-%m-%d')]]>
+	</if>
+	<if test="createEndTime!=null">
+    <![CDATA[ and DATE_FORMAT(c.CREATE_TIME, '%Y-%m-%d') <=  DATE_FORMAT(#{createEndTime}, '%Y-%m-%d')]]>
+	</if>
+  	<if test="payStartTime!=null">
+    <![CDATA[ and DATE_FORMAT(c.PAY_TIME, '%Y-%m-%d') >=  DATE_FORMAT(#{payStartTime}, '%Y-%m-%d')]]>
+	</if>
+	<if test="payEndTime!=null">
+    <![CDATA[ and DATE_FORMAT(c.PAY_TIME, '%Y-%m-%d') <=  DATE_FORMAT(#{payEndTime}, '%Y-%m-%d')]]>
+	</if>
+  	ORDER BY c.CREATE_TIME DESC
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from cp_order_form
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from cp_order_form
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.deepai.photo.bean.CpOrderFormExample" >
+    delete from cp_order_form
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.deepai.photo.bean.CpOrderForm" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cp_order_form (ORDER_NO, USER_ID, USER_NAME, 
+      USER_TYPE, CREATE_TIME, ORDER_STATUS, 
+      LAST_SUBMIT_TIME, TOTAL_PRICE, PAY_TIME, 
+      PIC_COUNT, PAY_TYPE)
+    values (#{orderNo,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, 
+      #{userType,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{orderStatus,jdbcType=INTEGER}, 
+      #{lastSubmitTime,jdbcType=TIMESTAMP}, #{totalPrice,jdbcType=DECIMAL}, #{payTime,jdbcType=TIMESTAMP}, 
+      #{picCount,jdbcType=INTEGER}, #{payType,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.deepai.photo.bean.CpOrderForm" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cp_order_form
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderNo != null" >
+        ORDER_NO,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="userName != null" >
+        USER_NAME,
+      </if>
+      <if test="userType != null" >
+        USER_TYPE,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="orderStatus != null" >
+        ORDER_STATUS,
+      </if>
+      <if test="lastSubmitTime != null" >
+        LAST_SUBMIT_TIME,
+      </if>
+      <if test="totalPrice != null" >
+        TOTAL_PRICE,
+      </if>
+      <if test="payTime != null" >
+        PAY_TIME,
+      </if>
+      <if test="picCount != null" >
+        PIC_COUNT,
+      </if>
+      <if test="payType != null" >
+        PAY_TYPE,
+      </if>
+       <if test="langType != null" >
+        LANGTYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        #{userType,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderStatus != null" >
+        #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="lastSubmitTime != null" >
+        #{lastSubmitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="totalPrice != null" >
+        #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="payTime != null" >
+        #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="picCount != null" >
+        #{picCount,jdbcType=INTEGER},
+      </if>
+      <if test="payType != null" >
+        #{payType,jdbcType=INTEGER},
+      </if>
+       <if test="langType != null" >
+        #{langType,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.deepai.photo.bean.CpOrderFormExample" resultType="java.lang.Integer" >
+    select count(*) from cp_order_form
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update cp_order_form
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderNo != null" >
+        ORDER_NO = #{record.orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null" >
+        USER_ID = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userName != null" >
+        USER_NAME = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userType != null" >
+        USER_TYPE = #{record.userType,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.orderStatus != null" >
+        ORDER_STATUS = #{record.orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.lastSubmitTime != null" >
+        LAST_SUBMIT_TIME = #{record.lastSubmitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.totalPrice != null" >
+        TOTAL_PRICE = #{record.totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.payTime != null" >
+        PAY_TIME = #{record.payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.picCount != null" >
+        PIC_COUNT = #{record.picCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.payType != null" >
+        PAY_TYPE = #{record.payType,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update cp_order_form
+    set ID = #{record.id,jdbcType=INTEGER},
+      ORDER_NO = #{record.orderNo,jdbcType=VARCHAR},
+      USER_ID = #{record.userId,jdbcType=INTEGER},
+      USER_NAME = #{record.userName,jdbcType=VARCHAR},
+      USER_TYPE = #{record.userType,jdbcType=INTEGER},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      ORDER_STATUS = #{record.orderStatus,jdbcType=INTEGER},
+      LAST_SUBMIT_TIME = #{record.lastSubmitTime,jdbcType=TIMESTAMP},
+      TOTAL_PRICE = #{record.totalPrice,jdbcType=DECIMAL},
+      PAY_TIME = #{record.payTime,jdbcType=TIMESTAMP},
+      PIC_COUNT = #{record.picCount,jdbcType=INTEGER},
+      PAY_TYPE = #{record.payType,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.deepai.photo.bean.CpOrderForm" >
+    update cp_order_form
+    <set >
+      <if test="orderNo != null" >
+        ORDER_NO = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        USER_NAME = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        USER_TYPE = #{userType,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderStatus != null" >
+        ORDER_STATUS = #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="lastSubmitTime != null" >
+        LAST_SUBMIT_TIME = #{lastSubmitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="totalPrice != null" >
+        TOTAL_PRICE = #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="payTime != null" >
+        PAY_TIME = #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="picCount != null" >
+        PIC_COUNT = #{picCount,jdbcType=INTEGER},
+      </if>
+      <if test="payType != null" >
+        PAY_TYPE = #{payType,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.deepai.photo.bean.CpOrderForm" >
+    update cp_order_form
+    set ORDER_NO = #{orderNo,jdbcType=VARCHAR},
+      USER_ID = #{userId,jdbcType=INTEGER},
+      USER_NAME = #{userName,jdbcType=VARCHAR},
+      USER_TYPE = #{userType,jdbcType=INTEGER},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      ORDER_STATUS = #{orderStatus,jdbcType=INTEGER},
+      LAST_SUBMIT_TIME = #{lastSubmitTime,jdbcType=TIMESTAMP},
+      TOTAL_PRICE = #{totalPrice,jdbcType=DECIMAL},
+      PAY_TIME = #{payTime,jdbcType=TIMESTAMP},
+      PIC_COUNT = #{picCount,jdbcType=INTEGER},
+      PAY_TYPE = #{payType,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap type="com.deepai.photo.bean.CpOrderForm" id="detailList">
+		<id column="id" property="id" />
+		<result column="user_name" property="userName" jdbcType="VARCHAR"/>
+		<result column="order_No" property="orderNo" />
+		<result column="create_Time" property="createTime" />
+		<result column="order_Status" property="orderStatus" />
+		<result column="last_Submit_Time" property="lastSubmitTime" />
+		<result column="total_Price" property="totalPrice" />
+		<result column="pay_Time" property="payTime" />
+		<result column="pic_Count" property="picCount" />
+		<result column="pay_Type" property="payType" />    
+		<result column="user_Id" property="userId" />
+		<collection property="list" ofType="com.deepai.photo.bean.CpOrderDetail">
+			<result column="filename" property="filename" />
+			<result column="picid" property="picid" />
+			<result column="price" property="price" />
+			<result column="padd" property="padd" />
+		</collection>
+	</resultMap>
+  <select id="detail" parameterType="string" resultMap="detailList">
+		SELECT
+		d.PICID,d.PRICE , F.*,d.FILENAME,d.PADD from cp_order_form f , cp_order_detail d where
+		f.ORDER_NO=d.ORDER_ID AND f.ORDER_NO=#{ID}
+	</select>
+</mapper>

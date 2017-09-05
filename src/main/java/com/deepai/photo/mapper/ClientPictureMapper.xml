@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deepai.photo.mapper.ClientPictureMapper" >
+  <resultMap id="GroupPicMap" type="com.deepai.photo.bean.CpPicGroup" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="AUTHOR" property="author" jdbcType="VARCHAR" />
+    <result column="AUTHOR_ID" property="authorId" jdbcType="INTEGER" />
+    <result column="CATEGORY_INFO" property="categoryInfo" jdbcType="VARCHAR" />
+    <result column="COVER_PICTURE_ID" property="coverPictureId" jdbcType="INTEGER" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="APPLY_TIME" property="applyTime" jdbcType="TIMESTAMP" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+    <result column="CREATOR_ID" property="creatorId" jdbcType="INTEGER" />
+    <result column="DELETE_FLAG" property="deleteFlag" jdbcType="TINYINT" />
+    <result column="KEYWORDS" property="keywords" jdbcType="VARCHAR" />
+    <result column="MEMO" property="memo" jdbcType="VARCHAR" />
+    <result column="PICTURE_COUNT" property="pictureCount" jdbcType="INTEGER" />
+    <result column="PICTURE_DELETED_COUNT" property="pictureDeletedCount" jdbcType="INTEGER" />
+    <result column="PLACE" property="place" jdbcType="VARCHAR" />
+    <result column="PEOPLE" property="people" jdbcType="VARCHAR" />
+    <result column="FILE_TIME" property="fileTime" jdbcType="TIMESTAMP" />
+    <result column="PROPERTIES" property="properties" jdbcType="TINYINT" />
+    <result column="SITE_ID" property="siteId" jdbcType="INTEGER" />
+    <result column="GROUP_STATUS" property="groupStatus" jdbcType="INTEGER" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="TINYINT" />
+    <result column="IS_LOCKED" property="isLocked" jdbcType="INTEGER" />
+    <result column="LOCKER_NAME" property="lockerName" jdbcType="VARCHAR" />
+    <result column="UNLOCK_NAME" property="unlockName" jdbcType="VARCHAR" />
+    <result column="TRUCK_AUTHOR_TRUE_NAME" property="truckAuthorTrueName" jdbcType="VARCHAR" />
+    <result column="TRUCKS_AUTHOR_TRUE_NAME" property="trucksAuthorTrueName" jdbcType="VARCHAR" />
+    <result column="SECURITY_TYPE" property="securityType" jdbcType="TINYINT" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CAL_GROUP_PRICE" property="calGroupPrice" jdbcType="VARCHAR" />
+    <result column="DISCOUNT_PRICE" property="discountPrice" jdbcType="DECIMAL" />
+    <result column="DISCOUNT_RATE" property="discountRate" jdbcType="DECIMAL" />
+    <result column="FORUMS_INFO" property="forumsInfo" jdbcType="VARCHAR" />
+    <result column="FORUMS_TIME" property="forumsTime" jdbcType="TIMESTAMP" />
+    <result column="GOODS_TYPE" property="goodsType" jdbcType="INTEGER" />
+    <result column="PRICE_TYPE" property="priceType" jdbcType="INTEGER" />
+    <result column="PRICE" property="price" jdbcType="INTEGER" />
+    <result column="REDUCE_PRICE" property="reducePrice" jdbcType="DECIMAL" />
+    <result column="EMERGENCY" property="emergency" jdbcType="INTEGER" />
+    <result column="LANG_TYPE" property="langType" jdbcType="INTEGER" />
+    <result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="FRIST_PFD_USER" property="fristPfdUser" jdbcType="VARCHAR" />
+    <result column="SOURCE_ID" property="sourceId" jdbcType="INTEGER" />
+    <result column="SGIN_TIME" property="sginTime" jdbcType="TIMESTAMP" />
+    <result column="LOCATION_TYPE" property="locationType" jdbcType="INTEGER" />
+    <collection property="cates" ofType="com.deepai.photo.bean.CpCategory">
+    	<id column="cid" property="id" jdbcType="INTEGER" />
+		<result column="CATEGORY_NAME" property="categoryName" jdbcType="VARCHAR" />
+    </collection>
+    <collection property="pics" ofType="com.deepai.photo.bean.CpPicture">
+   		<id column="picId" property="id" jdbcType="INTEGER" />
+	    <result column="ALLOW_SALE" property="allowSale" jdbcType="TINYINT" />
+	    <result column="AUDITOR" property="auditor" jdbcType="VARCHAR" />
+	    <result column="pAUTHOR_ID" property="authorId" jdbcType="INTEGER" />
+	    <result column="pAUTHOR_NAME" property="authorName" jdbcType="VARCHAR" />
+	    <result column="CATEGORY_INFO" property="categoryInfo" jdbcType="VARCHAR" />
+	    <result column="COLOR_TYPE" property="colorType" jdbcType="VARCHAR" />
+	    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+	    <result column="DELETE_FLAG" property="deleteFlag" jdbcType="TINYINT" />
+	    <result column="EDITOR" property="editor" jdbcType="VARCHAR" />
+	    <result column="EX_DATETIME" property="exDatetime" jdbcType="TIMESTAMP" />
+	    <result column="EX_FNUMBER" property="exFnumber" jdbcType="VARCHAR" />
+	    <result column="EX_ISO" property="exIso" jdbcType="VARCHAR" />
+	    <result column="EX_MODEL" property="exModel" jdbcType="VARCHAR" />
+	    <result column="FILENAME" property="filename" jdbcType="VARCHAR" />
+	    <result column="pFILM_TIME" property="filmTime" jdbcType="TIMESTAMP" />
+	    <result column="IS_HISTORY_PICTURE" property="isHistoryPicture" jdbcType="TINYINT" />
+	    <result column="IS_IPTC" property="isIptc" jdbcType="TINYINT" />
+	    <result column="IS_LOCKED" property="isLocked" jdbcType="TINYINT" />
+	    <result column="IS_REFERRED_BY_PRODUCT" property="isReferredByProduct" jdbcType="TINYINT" />
+	    <result column="IS_REFERRED_BY_PUBLISH" property="isReferredByPublish" jdbcType="TINYINT" />
+	    <result column="IS_SOURCE_PICTURE" property="isSourcePicture" jdbcType="TINYINT" />
+	    <result column="pKEYWORDS" property="keywords" jdbcType="VARCHAR" />
+	    <result column="LOCKER_NAME" property="lockerName" jdbcType="VARCHAR" />
+	    <result column="pMEMO" property="memo" jdbcType="VARCHAR" />
+	    <result column="NEGATIVE_TYPE" property="negativeType" jdbcType="TINYINT" />
+	    <result column="ORIENTATION" property="orientation" jdbcType="TINYINT" />
+	    <result column="pPEOPLE" property="people" jdbcType="VARCHAR" />
+	    <result column="PICTURE_HEIGHT" property="pictureHeight" jdbcType="INTEGER" />
+	    <result column="PICTURE_LENGTH" property="pictureLength" jdbcType="INTEGER" />
+	    <result column="PICTURE_SOURCE_ID" property="pictureSourceId" jdbcType="INTEGER" />
+	    <result column="PICTURE_STATE" property="pictureState" jdbcType="INTEGER" />
+	    <result column="PICTURE_WIDTH" property="pictureWidth" jdbcType="INTEGER" />
+	    <result column="PLACE" property="place" jdbcType="VARCHAR" />
+	    <result column="PRICE" property="price" jdbcType="DECIMAL" />
+	    <result column="PRODUCT_TIME" property="productTime" jdbcType="TIMESTAMP" />
+	    <result column="PUBLISH_TIME" property="publishTime" jdbcType="TIMESTAMP" />
+	    <result column="SECURITY_TYPE" property="securityType" jdbcType="TINYINT" />
+	    <result column="SITE_ID" property="siteId" jdbcType="INTEGER" />
+	    <result column="SOURCE_ID" property="sourceId" jdbcType="INTEGER" />
+	    <result column="SOURCE_PICTURE_ID" property="sourcePictureId" jdbcType="INTEGER" />
+	    <result column="SOURCE_PICTURE_LENGTH" property="sourcePictureLength" jdbcType="INTEGER" />
+	    <result column="SOURCE_PICTURE_NAME" property="sourcePictureName" jdbcType="VARCHAR" />
+	    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+	    <result column="UPLOADER" property="uploader" jdbcType="VARCHAR" />
+	    <result column="EX_EXPOSURE_TIME" property="exExposureTime" jdbcType="VARCHAR" />
+	    <result column="UPLOAD_PROGRESS" property="uploadProgress" jdbcType="INTEGER" />
+	    <result column="GOODS_TYPE" property="goodsType" jdbcType="VARCHAR" />
+	    <result column="DISCOUNT_PRICE" property="discountPrice" jdbcType="DECIMAL" />
+	    <result column="CAL_PRICE" property="calPrice" jdbcType="DECIMAL" />
+	    <result column="DISCOUNT_RATE" property="discountRate" jdbcType="DECIMAL" />
+	    <result column="FORUMS_INFO" property="forumsInfo" jdbcType="VARCHAR" />
+	    <result column="FORUMS_TIME" property="forumsTime" jdbcType="TIMESTAMP" />
+	    <result column="REDUCE_PRICE" property="reducePrice" jdbcType="DECIMAL" />
+	    <result column="IS_COVER" property="isCover" jdbcType="INTEGER" />
+	    <result column="GROUP_ID" property="groupId" jdbcType="INTEGER" />
+	    <result column="SORT_ID" property="sortId" jdbcType="INTEGER" />
+    </collection>
+  </resultMap>
+  <!-- 下载级别DownLeveltMap -->
+  <resultMap id="DownLeveltMap" type="com.deepai.photo.bean.CpDownloadLevel" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="LEVEL_NAME" property="levelName" jdbcType="VARCHAR" />
+    <result column="LIMIT_PX_H" property="limitPxH" jdbcType="INTEGER" />
+    <result column="LIMIT_PX_W" property="limitPxW" jdbcType="INTEGER" />
+    <result column="IS_WATERMARK" property="isWatermark" jdbcType="TINYINT" />
+    <result column="WATERMARK_LOCATION" property="watermarkLocation" jdbcType="INTEGER" />
+    <result column="SITE_ID" property="siteId" jdbcType="INTEGER" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="DELETE_FLAG" property="deleteFlag" jdbcType="TINYINT" />
+    <result column="WATERMARK_PIC_ID" property="watermarkPicId" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap type="com.deepai.photo.bean.CpPictureDownloadrecord" id="CpPictureDownloadrecordMap">
+   <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="DOWNLOAD_TIME" property="downloadTime" jdbcType="TIMESTAMP" />
+    <result column="PICTURE_GROUP_ID" property="pictureGroupId" jdbcType="INTEGER" />
+    <result column="PICTURE_ID" property="pictureId" jdbcType="INTEGER" />
+    <result column="PICTURE_SIZE" property="pictureSize" jdbcType="VARCHAR" />
+    <result column="PICTURE_TYPE" property="pictureType" jdbcType="INTEGER" />
+    <result column="SITE_ID" property="siteId" jdbcType="INTEGER" />
+    <result column="USER_ID" property="userId" jdbcType="INTEGER" />
+<!--     <result column="WATERMARKER" property="watermarker" jdbcType="BYTE" /> -->
+    <result column="USERNAME" property="userName" jdbcType="VARCHAR" />
+    <result column="PICTURE_TITLE" property="pictureTitle" jdbcType="VARCHAR" />
+    <result column="PICTURE_FILE_NAME" property="pictureFileName" jdbcType="VARCHAR" />
+    <result column="PICTURE_FILE_PATH" property="pictureFilePath" jdbcType="VARCHAR" />
+    <result column="PICTURE_SIGN_TIME" property="pictureSignTime" jdbcType="TIMESTAMP" />
+    <result column="USER_IP" property="userIP" jdbcType="VARCHAR" />
+    <result column="PICTURE_PRICE" property="picturePrice" jdbcType="DOUBLE" />
+    <result column="SUBSCRIBER_TYPE" property="subscriberType" jdbcType="INTEGER" />
+    <result column="PICTURE_AUTHOR" property="pictureAuthor" jdbcType="VARCHAR" />
+    <result column="PICTURE_GROUP" property="pictureGroup" jdbcType="INTEGER" />
+    <result column="IS_INTERIOR_DOWNLOAD" property="isInteriorDownLoad" jdbcType="INTEGER" />
+    <result column="EDIT_USER" property="editUser" jdbcType="VARCHAR" />
+    <result column="INCOME_BEFORE" property="incomeBefore" jdbcType="DOUBLE" />
+    <result column="AUTHOR_ID" property="authorId" jdbcType="INTEGER" />
+    <result column="AUTHOR_LOGIN_NAME" property="authorLoginName" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="downloadrecordByQuery" parameterType="com.deepai.photo.bean.CpPictureDownloadrecord" resultMap="CpPictureDownloadrecordMap">
+  select d.ID, d.DOWNLOAD_TIME, d.PICTURE_GROUP_ID, d.PICTURE_ID, d.PICTURE_SIZE, d.PICTURE_TYPE, d.SITE_ID, d.USER_ID,
+  	d.WATERMARKER, d.USERNAME, d.PICTURE_TITLE, d.PICTURE_FILE_NAME, d.PICTURE_FILE_PATH, d.PICTURE_SIGN_TIME, d.USER_IP,
+  	d.PICTURE_PRICE, d.SUBSCRIBER_TYPE, d.PICTURE_AUTHOR, d.PICTURE_GROUP, d.IS_INTERIOR_DOWNLOAD, d.EDIT_USER,INCOME_BEFORE, d.AUTHOR_ID
+  	from cp_picture_downloadrecord d
+  	<if test="pictureGroup != null">
+  	LEFT JOIN cp_pic_group_category c on c.GROUP_ID=d.PICTURE_GROUP_ID
+  	</if>
+  	
+  	<where>
+  		1=1
+  		<if test="authorId !=null">
+  		and AUTHOR_ID = #{authorId}
+  		</if>
+  		<if test="authorLoginName !=null">
+  		and AUTHOR_LOGIN_NAME like CONCAT('%',#{authorLoginName},'%') 
+  		</if>
+  		<if test="downStartTime != null and downEndTime != null"> 
+  		and DOWNLOAD_TIME BETWEEN #{downStartTime} and #{downEndTime}  		
+  		</if>
+  		<if test="userId != null">
+  		and USER_ID = #{userId}
+  		</if>
+  		<if test="userName != null">
+  		and USERNAME like CONCAT('%',#{userName},'%')
+  		</if>
+  		<if test="pictureTitle != null">
+  		and PICTURE_TITLE like CONCAT('%',#{pictureTitle},'%') 
+  		</if>
+  		<if test="pictureFileName != null">
+  		and PICTURE_FILE_NAME like CONCAT('%',#{pictureFileName},'%')  
+  		</if>
+  		<if test="pictureFilePath != null">
+  		and PICTURE_FILE_PATH = #{pictureFilePath}
+  		</if>
+  		<if test="signStartTime != null and signEndTime != null"> 
+  		and PICTURE_SIGN_TIME BETWEEN #{signStartTime} and #{signEndTime}  			
+  		</if>
+  		<if test="pictureAuthor != null">
+  		and PICTURE_AUTHOR like CONCAT('%',#{pictureAuthor},'%') 
+  		</if>
+  		<if test="editUser != null">
+  		and EDIT_USER like CONCAT('%',#{editUser},'%')
+  		</if>
+  		<if test="isInteriorDownLoad != null">
+  		and IS_INTERIOR_DOWNLOAD = #{isInteriorDownLoad}
+  		</if>
+  		<if test="langType != null">
+  		and LANG_TYPE = #{langType}
+  		</if>
+  		<if test="pictureGroup != null">
+  		and c.CATEGORY_ID IN (select id FROM cp_category
+			where PARENT_ID=#{pictureGroup} or id=#{pictureGroup})
+  		</if>
+  		<if test="orderByCase != null">
+  		 ORDER BY #{orderByCase}
+  		</if>
+  	  </where>
+  </select>
+  <!-- 查询客户端首页稿件-签发分类稿件 -->
+  <select id="selectClientGroup" resultType="map">
+  select g.ID,g.TITLE,p.ID picId ,p.FILENAME,c.POSITION,g.PICTURE_COUNT,g.SGIN_TIME,g.AUTHOR,g.AUTHOR_ID from cp_pic_group g 
+	LEFT JOIN cp_picture p on g.COVER_PICTURE_ID=p.ID
+	LEFT JOIN cp_pic_group_category c on c.GROUP_ID=g.ID 
+	where g.SOURCE_ID=0 and g.GROUP_STATUS=4 
+		and c.TYPE=1 and c.CATEGORY_ID=#{sginId} and c.POSITION is not NULL
+		<if test="limit!=null">
+			ORDER BY c.POSITION
+			limit #{limit}
+		</if>
+		<if test="limit ==null">
+			ORDER BY g.SGIN_TIME desc
+		</if>
+  </select>
+  
+  <!-- <select id="selectClientGroup" resultType="map">
+  select g.ID,g.TITLE,p.ID picId ,p.FILENAME,c.sgin_show,g.PICTURE_COUNT,g.SGIN_TIME,g.AUTHOR,g.AUTHOR_ID from cp_pic_group g 
+	LEFT JOIN cp_picture p on g.COVER_PICTURE_ID=p.ID
+	LEFT JOIN cp_pic_group_column c on c.GROUP_ID=g.ID 
+	where g.SOURCE_ID=0 and g.GROUP_STATUS=4 
+		and c.langType=0 and c.COLUMN_ID=#{sginId} and c.sgin_show is not NULL
+		<if test="limit!=null">
+			ORDER BY c.sgin_show
+			limit #{limit}
+		</if>
+		<if test="limit ==null">
+			ORDER BY g.SGIN_TIME desc
+		</if>
+  </select> -->
+ 
+  <!-- 查询客户端稿件-更多 -->
+  <select id="selectMoreGroup" resultType="map">
+  select g.ID,g.TITLE,p.ID picId ,p.FILENAME,g.PICTURE_COUNT,g.SGIN_TIME,g.AUTHOR,g.AUTHOR_ID from cp_pic_group g 
+	LEFT JOIN cp_picture p on g.COVER_PICTURE_ID=p.ID
+	LEFT JOIN cp_pic_group_category c on c.GROUP_ID=g.ID 
+	where g.SOURCE_ID=0 and g.GROUP_STATUS=4 
+		<if test="sginId !=null and sginId!=''">
+			and c.TYPE=1 and c.CATEGORY_ID in (${sginId}) 
+		</if>
+		<if test="cateId !=null">
+			and c.TYPE=0 and c.CATEGORY_ID  in (SELECT a.id from cp_category a where a.PARENT_ID=${cateId} OR a.id = ${cateId})   
+		</if>
+		<if test="parameter !=null">
+			<if test="pType == 0">
+				and g.AUTHOR like CONCAT('%',#{parameter},'%')
+			</if>
+			<if test="pType == 1">
+				and p.FILENAME like CONCAT('%',#{parameter},'%')
+			</if>
+			<if test="pType == 2">
+				and g.TITLE  like CONCAT('%',#{parameter},'%')
+			</if>
+		</if>
+		<if test="timeType ==0">
+			and g.SGIN_TIME > date_add(now(),interval-7 day)
+		</if>
+		<if test="timeType ==1">
+			and date_format(g.SGIN_TIME, '%Y%m') = date_format(curdate() , '%Y%m')
+		</if>
+		ORDER BY g.SGIN_TIME desc
+  </select>
+  <!-- 查询专题图片或新闻图片 -->
+  <select id="selectPropertiesGroup" resultType="map">
+  select g.ID,g.TITLE,p.ID picId ,p.FILENAME,g.PICTURE_COUNT,g.SGIN_TIME,g.AUTHOR,g.AUTHOR_ID from cp_pic_group g 
+	LEFT JOIN cp_picture p on g.COVER_PICTURE_ID=p.ID
+	where g.SOURCE_ID=0  and g.GROUP_STATUS=4 and g.PROPERTIES=#{properties} 
+		<if test="langType!=null">
+			and g.LANG_TYPE=#{langType}
+		</if>
+		<if test="parameter !=null">
+			<if test="pType == 0">
+				and g.AUTHOR like CONCAT('%',#{parameter},'%')
+			</if>
+			<if test="pType == 1">
+				and p.FILENAME like CONCAT('%',#{parameter},'%')
+			</if>
+			<if test="pType == 2">
+				and g.TITLE  like CONCAT('%',#{parameter},'%')
+			</if>
+		</if>
+		<if test="timeType ==0">
+			and g.SGIN_TIME > date_add(now(),interval-7 day)
+		</if>
+		<if test="timeType ==1">
+			and date_format(g.SGIN_TIME, '%Y%m') = date_format(curdate() , '%Y%m')
+		</if>
+		ORDER BY g.SGIN_TIME desc
+  </select>
+  <!-- 查询client稿件详情 -->
+  <select id="selectClientGroupPics" resultMap="GroupPicMap">
+	 SELECT
+		g.*,
+		p.ID picId,p.MEMO pmemo,
+		p.FILENAME,p.KEYWORDS pKEYWORDS,p.AUTHOR_ID pAUTHOR_ID,p.AUTHOR_NAME pAUTHOR_NAME,
+	p.PICTURE_HEIGHT,p.PICTURE_WIDTH,p.PICTURE_LENGTH
+	FROM
+		cp_pic_group g
+	LEFT JOIN cp_picture p ON g.ID = p.GROUP_ID
+	WHERE
+		g.SOURCE_ID = 0
+	AND g.GROUP_STATUS = 4
+	AND g.ID = #{0}
+	ORDER BY p.IS_COVER DESC,p.id
+  </select>
+  <!-- 查询client图片详情 -->
+  <select id="selectClientPicture" resultMap="GroupPicMap">
+	 SELECT
+		g.ID,
+		g.TITLE,
+		g.MEMO,
+		g.AUTHOR,
+		g.AUTHOR_ID,
+		g.SGIN_TIME,
+	g.FILE_TIME,g.SITE_ID,
+	g.KEYWORDS,	g.PICTURE_COUNT,
+		p.ID picId,
+		p.FILENAME,p.KEYWORDS pKEYWORDS,p.MEMO pMEMO,
+	p.PICTURE_HEIGHT,p.PICTURE_WIDTH,p.PICTURE_LENGTH
+	FROM
+		cp_pic_group g
+	LEFT JOIN cp_picture p ON g.ID = p.GROUP_ID
+	WHERE
+		g.SOURCE_ID = 0
+	AND g.GROUP_STATUS = 4
+	<if test="groupId!=null">
+	AND g.ID = #{groupId} 
+	</if>
+	and p.ID=#{pictureId}
+  </select>
+  <!-- 获取用户下载级别 -->
+  <select id="selectUserDownLevel" parameterType="map" resultMap="DownLeveltMap">
+  SELECT d.* from cp_download_level d  
+	LEFT JOIN cp_user u on u.DOWNLOAD_LEVEL=d.ID
+	where u.ID=#{userId}
+  </select>
+  <!-- 获取下载图片的相关信息 -->
+  <select id="selectDownPics" parameterType="map" resultType="map">
+ SELECT t1.*,t2.id,IF(t1.PID=t2.PIC_ID,1,0) payed FROM
+	(SELECT
+	   	p.ID PID,g.ID GID,g.PRICE_TYPE,g.PRICE,g.GOODS_TYPE,
+	   	p.FILENAME,p.AUTHOR_ID,	p.AUTHOR_NAME,
+		u.USER_DIVIDE from cp_picture p
+	LEFT JOIN cp_pic_group g on g.ID =p.GROUP_ID
+	LEFT JOIN cp_user u on u.ID=p.AUTHOR_ID
+	where p.ID in 
+	<foreach collection="picIdArr" item="picId" separator="," open="(" close=")">
+		#{picId}
+	</foreach>	
+	) t1 
+	LEFT JOIN (
+		SELECT PIC_ID ,id FROM
+	(
+		SELECT od.PIC_ID, od.id FROM
+			cp_order_form of
+		LEFT JOIN cp_order_detail od ON od.ORDER_ID = of.ID
+		WHERE of.PAY_TIME >= NOW() - INTERVAL 72 HOUR
+		AND of.USER_ID = #{userId}
+		ORDER BY id DESC
+	) tmp GROUP BY tmp.PIC_ID) t2 on t1.PID =t2.PIC_ID
+  </select>
+<!--   <select id="selectDownPics" parameterType="map" resultType="map">
+ SELECT
+   	p.ID PID,g.ID GID,g.PRICE_TYPE,g.PRICE,g.GOODS_TYPE,
+   	p.FILENAME,p.AUTHOR_ID,	p.AUTHOR_NAME,
+	u.USER_DIVIDE from cp_picture p
+	LEFT JOIN cp_pic_group g on g.ID =p.GROUP_ID
+	LEFT JOIN cp_user u on u.ID=p.AUTHOR_ID
+	where p.ID in 
+	<foreach collection="picIdArr" item="picId" separator="," open="(" close=")">
+		#{picId}
+	</foreach>
+  </select> -->
+  
+  <!-- 批量插入订单详情 -->
+  <insert id="insertOrderDetails" parameterType="map">
+  insert into cp_order_detail(
+		ORDER_ID,
+		ORDER_NO,
+		FILENAME,
+		PIC_ID,
+		GROUP_ID,
+		PRICE,
+		DEAL_PRICE,
+		USER_ID,
+		USER_NAME,
+		CREATETIME,
+		PHOTO_USER_ID,
+		PHOTO_USER_NAME,
+		PHOTO_USER_DIVIDE,
+		DIVIDE_PRICE,
+		DIVIDE_STATUS
+		)
+	VALUES
+	<foreach collection="details" item="detail" separator="," index="index">
+		(#{orderId},#{orderNum},#{detail.filename},
+		#{detail.picId},#{detail.groupId},#{detail.price},
+		#{detail.dealPrice},#{detail.userId},#{detail.userName},
+		#{detail.createtime},#{detail.photoUserId},#{detail.photoUserName},
+		#{detail.photoUserDivide},#{detail.dividePrice},#{detail.divideStatus})
+	</foreach>
+  </insert>
+  <!-- 批量插入下载记录 -->
+  <insert id="insertDownRecords" parameterType="map">
+  insert into cp_picture_downloadrecord(
+		DOWNLOAD_TIME,
+		PICTURE_GROUP_ID,
+		PICTURE_ID,
+		SITE_ID,
+		USER_ID,
+		WATERMARKER,
+		USERNAME,		
+		PICTURE_TITLE,
+		PICTURE_FILE_NAME,
+		PICTURE_FILE_PATH,
+		PICTURE_SIGN_TIME,
+		USER_IP,
+		PICTURE_PRICE,
+		SUBSCRIBER_TYPE,
+		EDIT_USER,
+		AUTHOR_LOGIN_NAME,
+		IS_INTERIOR_DOWNLOAD,
+		AUTHOR_ID,
+		DOWNLOAD_PRICE
+		)
+	VALUES
+	<foreach collection="recordList" item="record" separator="," index="index">
+		(#{record.downloadTime},#{record.pictureGroupId},#{record.pictureId},
+		#{record.siteId},#{record.userId},#{record.watermarker},#{record.userName},
+		#{record.pictureTitle},#{record.pictureFileName},#{record.pictureFilePath},
+		#{record.pictureSignTime},#{record.userIP},#{record.picturePrice},#{record.subscriberType},
+		#{record.editUser},#{record.authorLoginName},
+		#{record.isInteriorDownLoad},#{record.authorId},#{record.downLoadPrice}) 
+	</foreach>
+  </insert>
+  
+  <!-- 将限制类型下载数量重置为0 -->
+  <update id="updateLimitDlMun" parameterType="map">
+ 	UPDATE  cp_user set  BALANCE_LIMIT_DL_NUM=0 WHERE  BALANCE_LIMIT_TYPE=#{type};
+	UPDATE  cp_user set  CONTRACT_LIMIT_DL_NUM=0 WHERE  CONTRACT_LIMIT_TYPE=#{type};
+	UPDATE  cp_user set  THREE_LIMIT_DL_NUM=0 WHERE  THREE_LIMIT_TYPE=#{type};
+  </update>
+  
+  <!-- 查询订单的图片 -->
+  <select id="selectOrderPics" parameterType="map" resultType="map">
+  	SELECT o.ID detailId,o.ORDER_NO,o.PIC_ID pid,o.FILENAME,o.GROUP_ID from cp_order_detail o where o.ORDER_ID=#{orderId}
+  </select>
+  
+  <!-- 查询我下载的图片 -->
+  <select id="selectMyDownPics" parameterType="map" resultType="map">
+    SELECT d.ID,d.DOWNLOAD_TIME,if(IFNULL(p.AUTHOR_NAME,'')='',g.AUTHOR,p.AUTHOR_NAME) AUTHOR,
+    	g.TITLE,p.FILENAME ,p.ID PID,g.ID GID from cp_picture_downloadrecord d
+	LEFT JOIN cp_picture p on p.ID=d.PICTURE_ID
+	LEFT JOIN cp_pic_group g on g.ID=d.PICTURE_GROUP_ID
+	 where d.USER_ID=#{uid} 
+	 <if test="flag==1">
+	  and DATE_SUB(CURDATE(), INTERVAL 1 WEEK) &lt;= date(d.DOWNLOAD_TIME)
+	 </if>
+	 <if test="flag==2">
+	and DATE_SUB(CURDATE(), INTERVAL 1 YEAR) &lt;= date(d.DOWNLOAD_TIME)
+	 </if>
+  </select>
+  <select id="findDefWaterPic" resultType="string">
+  SELECT d.ALL_PATH from cp_water_mark_picture c LEFT JOIN cp_pic_allpath d ON c.ID=d.TRAGET_ID 
+  where c.IS_DEFAULT_WMPIC=1 and d.PIC_TYPE=5
+  </select>
+  <delete id="delete">
+  delete from cp_picture_downloadrecord where ID=#{id}
+  </delete>
+</mapper>

@@ -1,0 +1,361 @@
+<div class="user-manager-container">
+    <div class="c-common-titbox">
+        <role-common-tit value="广告位管理"></role-common-tit>
+    </div>
+    <div class="c-user-table">
+        <div class="t-search-hd clear">
+            <div class="user-hd-left fll">
+                <label for="inputAllCheckId">
+                    <input type="checkbox" id="inputAllCheckId" ng-model="advertisingManage.isHadAllCheck"
+                           ng-click="advertisingManage.onCheckAllClick()"/>
+                    <span class="user-check-txt cursor">全选</span>
+                </label>
+                <span class="dib cursor user-add-btn"
+                      ng-click="advertisingManage.onAddAdModelClick()">添加</span>
+                <span class="dib cursor user-add-btn role-modify-btn"
+                      ng-click="advertisingManage.onShowEditModelClick(0,null,null)">修改</span>
+                <span class="dib cursor user-add-btn role-del-btn"
+                      ng-click="advertisingManage.onShowDeleteModelClick(0,null)">删除</span>
+            </div>
+            <div class="user-hd-right flr">
+                <input class="user-search-input" ng-model="advertisingManage.adSearchModel"
+                       placeholder="可查询广告名字" ng-keydown="advertisingManage.onEnterSearchClick($event)"/>
+                <img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic"
+                     ng-click="advertisingManage.onSearchDataClick()"/>
+                <!--<span class="dib cursor user-search-btn">高级检索</span>-->
+            </div>
+        </div>
+        <div class="t-uinfo-bd">
+            <div class="table-responsive">
+                <table class="table table-bordered uInfo-table">
+                    <thead>
+                    <tr>
+                        <th class="uinfo-hd-th"  style="width:4%;"></th>
+                        <th class="uinfo-hd-th"  style="width:6%;">ID</th>
+                        <th class="uinfo-hd-th"  style="width:10%;">广告名字</th>
+                        <th class="uinfo-hd-th"  style="width:10%;">缩略图</th>
+                        <th class="uinfo-hd-th"  style="width:10%;">位置</th>
+                        <!--<th class="uinfo-hd-th"  style="width:10%;">宽*高</th>-->
+                        <th class="uinfo-hd-th"  style="width:10%;">类型</th>
+                        <th class="uinfo-hd-th"  style="width:18%;">链接</th>
+                        <th class="uinfo-hd-th"  style="width:12%;">备注</th>
+                        <th class="uinfo-hd-th"  style="width:10%;">状态</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                     <tr dir-paginate="adItem in advertisingManage.adInformArray | itemsPerPage: advertisingManage.selPageRows"
+                        total-items="advertisingManage.adverList_total"
+                        current-page="advertisingManage.pagination.current"
+                        ng-init="advertisingManage.checkBoxArray[$index] = false">
+                        <td  style="width:4%;">
+                            <input type="checkbox" ng-model="advertisingManage.checkBoxArray[$index]"
+                                   ng-true-value="{{adItem.id}}" ng-false-value="false"/>
+                        </td>
+                        <td  style="width:6%;"   class="wbba">{{adItem.id}}</td>
+                        <td  style="width:10%;"  class="wbba">{{adItem.name}}</td>
+                        <td  style="width:10%;"  class="wbba"><img ng-src="{{adItem.file}}" width="50px" height="40px"/></td>
+                        <td  style="width:10%;"  class="wbba">{{adItem.position|adPositionFilter}}</td>
+                        <!--<td  style="width:10%;"  class="wbba">{{adItem.bwidth|adWidthHeightFilter:adItem.bheight}}</td>-->
+                        <td  style="width:10%;"  class="wbba">{{adItem.style==1?"文字显示":"图片显示"}}</td>
+                        <td  style="width:18%;"  class="wbba">{{adItem.url}}</td>
+                        <td  style="width:12%;"  class="wbba">{{adItem.remarks}}</td>
+                        <td  style="width:10%;"  class="wbba">
+                            <img src="admin/assets/img/role/look_user_info.png" class="cursor" width="20" height="20"
+                                 title="修改" ng-click="advertisingManage.onShowEditModelClick(-1,adItem.id,$index)"/>
+                            <img src="admin/assets/img/role/red_del.png" class="cursor u-pwd-reset" width="20"
+                                 title="删除" height="20"
+                                 ng-click="advertisingManage.onShowDeleteModelClick(-1,adItem.id)"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- 分页 -->
+            <div class="paging-con-box mt10 clear">
+                <div class="photo-record-page fll">
+                    <select ng-model="advertisingManage.selPageRows" class="mr10">
+                        <option value="50">50</option>
+                        <option value="40">40</option>
+                        <option value="30">30</option>
+                        <option value="20">20</option>
+                        <option value="10">10</option>
+                    </select>
+                    <span>共找到</span>
+                    <span class="color_red">{{advertisingManage.adverList_total}}</span>
+                    <span>条记录</span>
+                </div>
+                <div class="photo-now-page fll">
+                    <span>第 </span>
+                    <span>{{advertisingManage.pagination.current}}</span>
+                    <span>/</span>
+                    <span>{{advertisingManage.totalPages}}</span>
+                    <span>页</span>
+                </div>
+                <div class="photo-jump-page flr">
+                    <dir-pagination-controls on-page-change="advertisingManage.pageChanged(newPageNumber)"
+                                             template-url="admin/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+                    </dir-pagination-controls>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--广告位添加弹框-->
+    <div class="common-modal-style" id="advertisement-add-modal"
+         ng-mousemove="advertisingManage.modalMove('add-modal-tit','advertisement-add-modal')"
+         style="display: none;">
+        <div class="role-add-con">
+            <div id="add-modal-tit" class="role-add-tit oH">
+                <span class="fll">广告位添加</span>
+                <span class="flr curp tit-close"
+                      ng-click="advertisingManage.modalHide('advertisement-add-modal')">×</span>
+            </div>
+            <!--<iframe name="addAdInformFrame" id="addAdInformFrameId" style="display: none"></iframe>-->
+            <form action="/cnsphoto/adver/add.do" id="addAdInformFormId" name="addAdInformForm" method="post"
+                  enctype="multipart/form-data" autocomplete="off" target="addAdInformFrame">
+                <div class="role-add-main">
+                    
+                    <div class="role-add-form-info advertise-add-form-info clear">
+                        <div class="role-form-info-bottom clear">
+                            <input type="text" style="opacity: 0" name="langType" ng-model="advertisingManage.langType"/>
+                            <div class="role-remark-txt fll">名称</div>
+                            <input type="text" class="adverse-remark-input fll" name="name"
+                                   ng-model="advertisingManage.addAdNameModel"/>
+                        </div>
+                        <div class="role-form-info-bottom clear">
+                            <div class="role-remark-txt fll">分类</div>
+                            <select class="adverse-remark-input fll" name="style"
+                                    ng-model="advertisingManage.addAdClassModel">
+                                <option value="">请选择</option>
+                                <option value="1">广告图片</option>
+                                <option value="2">文字链接</option>
+                            </select>
+                        </div>
+                        <div class="role-form-info-bottom clear">
+                            <div class="role-remark-txt fll">位置</div>
+                            <select class="adverse-remark-input fll" name="position"
+                                    ng-model="advertisingManage.addAdPositionModel">
+                                <option value="">请选择</option>
+                                <option value="1">第1广告位</option>
+                                <option value="2">第2广告位</option>
+                                <option value="3">第3广告位</option>
+                                <option value="4">第4广告位</option>
+                                <option value="5">第5广告位</option>
+                                <option value="6">第6广告位</option>
+                                <option value="7">第7广告位</option>
+                                <option value="8">第8广告位</option>
+                                <option value="9">第9广告位</option>
+                                <option value="10">第10广告位</option>
+                                <option value="11">第11广告位</option>
+                                <option value="12">第12广告位</option>
+                                <option value="13">第13广告位</option>
+                            </select>
+                        </div>
+                        <div class="role-form-info-bottom clear">
+                            <div class="role-remark-txt fll">专题页</div>
+                            <select class="adverse-remark-input fll" name="topicId"
+                                    ng-model="advertisingManage.addAdTopicModel">
+                                <option value="">请选择</option>
+                                <option value="{{item.ID}}" ng-repeat="item in advertisingManage.topicListArray">
+                                    {{item.NAME}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="role-form-info-bottom clear">
+                            <div class="role-remark-txt fll">链接</div>
+                            <input type="text" class="role-remark-input fll" name="url"
+                                   ng-model="advertisingManage.addAdUrlModel"/>
+                        </div>
+                        <div class="role-form-info-bottom clear">
+                            <div class="role-remark-txt fll">缩略图</div>
+                            <div class="role-remark-input fll tal">
+                                <!--<div class="adverse-upload-desc fll">
+                                    <input type="number" class="adverse-thumbnail-input" name="bwidth"
+                                           ng-model="advertisingManage.addAdWidthModel"/>
+                                    <span class="dverse-thumbnail-txt">W</span>
+                                    <input type="number" class="adverse-thumbnail-input" name="bheight"
+                                           ng-model="advertisingManage.addAdHeightModel"/>
+                                    <span class="dverse-thumbnail-txt">H</span>
+                                </div>-->
+                                <div class="adverse-upload-con fll">
+                                    <!--<div class="adverse-upload-btn cursor">上传文件</div>-->
+                                    <input type="file" name="wmFile" fileinput="file" filepreview="filepreview"
+                                           class="cursor" id="addInputFileId"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="role-form-info-bottom clear">
+                            <div class="role-remark-txt fll">备注</div>
+                            <input type="text" class="role-remark-input fll" name="remarks"
+                                   ng-model="advertisingManage.addAdRemarkModel"/>
+                        </div>
+                        <div class="role-form-info-bottom clear">
+                            <div class="role-remark-txt fll">显示</div>
+                            <div class="role-remark-input fll tal">
+                                <input type="radio" name="display" value="1"
+                                       ng-model="advertisingManage.addAdDisplayModel"/>
+                                <span class="adverse-txt-yes">YES</span>
+                                <input type="radio" name="display" value="2"
+                                       ng-model="advertisingManage.addAdDisplayModel"/>
+                                <span class="adverse-txt-yes">NO</span>
+                            </div>
+                        </div>
+                        <div class="role-form-info-bottom clear">
+                            <div class="role-remark-txt fll">排序号</div>
+                            <input type="number" class="adverse-remark-input fll" name="orderno"
+                                   ng-model="advertisingManage.addAdOrderModel"/>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="tac">
+                    <span class="dib cursor user-add-btn" ng-click="advertisingManage.onAddAdInformClick()">添加</span>
+                <span class="dib cursor user-add-btn role-del-btn"
+                      ng-click="advertisingManage.modalHide('advertisement-add-modal')">取消</span>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!--广告位修改弹框-->
+    <div class="common-modal-style" id="advertisement-modify-modal"
+         ng-mousemove="advertisingManage.modalMove('modify-modal-tit','advertisement-modify-modal')"
+         style="display:none">
+        <div class="role-add-con">
+            <div id="modify-modal-tit" class="role-add-tit oH">
+                <span>广告位修改</span>
+                <span class="flr curp tit-close"
+                      ng-click="advertisingManage.modalHide('advertisement-modify-modal')">×</span>
+            </div>
+            <!--<iframe name="editAdInformFrame" id="editAdInformFrameId" style="display: none"></iframe>-->
+            <form action="/cnsphoto/adver/edit.do" id="editAdInformFormId" name="editAdInformForm" method="post"
+                  enctype="multipart/form-data" autocomplete="off" target="editAdInformFrame">
+                <div class="role-add-main">
+                    <input type="hidden" class="adverse-remark-input fll" name="id"
+                           value="{{advertisingManage.updateEditId}}"/>
+
+                    <div class="role-add-form-info advertise-add-form-info clear">
+                        <div class="role-form-info-bottom clear">
+                            <div class="role-remark-txt fll">名称</div>
+                            <input type="text" class="adverse-remark-input fll" name="name"
+                                   ng-model="advertisingManage.editAdNameModel"/>
+                        </div>
+                        <div class="role-form-info-bottom clear">
+                            <div class="role-remark-txt fll">分类</div>
+                            <select class="adverse-remark-input fll" name="style"
+                                    ng-model="advertisingManage.editAdClassModel">
+                                <option value="">请选择</option>
+                                <option value="1">广告图片</option>
+                                <option value="2">文字链接</option>
+                            </select>
+                        </div>
+                        <div class="role-form-info-bottom clear">
+                            <div class="role-remark-txt fll">位置</div>
+                            <select class="adverse-remark-input fll" name="position"
+                                    ng-model="advertisingManage.editAdPositionModel">
+                                <option value="">无</option>
+                                <option value="1">第1广告位</option>
+                                <option value="2">第2广告位</option>
+                                <option value="3">第3广告位</option>
+                                <option value="4">第4广告位</option>
+                                <option value="5">第5广告位</option>
+                                <option value="6">第6广告位</option>
+                                <option value="7">第7广告位</option>
+                                <option value="8">第8广告位</option>
+                                <option value="9">第9广告位</option>
+                                <option value="10">第10广告位</option>
+                                <option value="11">第11广告位</option>
+                                <option value="12">第12广告位</option>
+                                <option value="13">第13广告位</option>
+                            </select>
+                        </div>
+                        <div class="role-form-info-bottom clear">
+                            <div class="role-remark-txt fll">专题页</div>
+                            <select class="adverse-remark-input fll" name="topicId"
+                                    ng-model="advertisingManage.editAdTopicModel">
+                                <option value="">无</option>
+                                <option value="{{item.ID}}" ng-repeat="item in advertisingManage.topicListArray">
+                                    {{item.NAME}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="role-form-info-bottom clear">
+                            <div class="role-remark-txt fll">链接</div>
+                            <input type="text" class="role-remark-input fll" name="url"
+                                   ng-model="advertisingManage.editAdUrlModel"/>
+                        </div>
+                        <div class="role-form-info-bottom clear">
+                            <div class="role-remark-txt fll">缩略图</div>
+                            <div class="role-remark-input fll tal">
+                                <!--<div class="adverse-upload-desc fll">
+                                    <input type="number" class="adverse-thumbnail-input" name="bwidth"
+                                           ng-model="advertisingManage.editAdWidthModel"/>
+                                    <span class="dverse-thumbnail-txt">W</span>
+                                    <input type="number" class="adverse-thumbnail-input" name="bheight"
+                                           ng-model="advertisingManage.editAdHeightModel"/>
+                                    <span class="dverse-thumbnail-txt">H</span>
+                                </div>-->
+                                <div class="adverse-upload-con fll">
+                                    <!--<div class="adverse-upload-btn cursor">上传文件</div>-->
+                                    <input type="file" name="wmFile" fileinput="file" filepreview="filepreview"
+                                           class="cursor inputFileAdHide" id="editInputFileId"
+                                           ng-model="advertisingManage.editAdImageModel"/>
+
+                                    <div class="divInputFileAdPo">
+                                        <label for="editInputFileId" class="spanInputFileAdSelect">选择文件</label>
+                                        <span title="{{advertisingManage.editAdImageModel}}">
+                                            {{advertisingManage.editAdImageModel|adFileUploadTipFilter:20:"未选择任何文件"}}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="role-form-info-bottom clear">
+                            <div class="role-remark-txt fll">备注</div>
+                            <input type="text" class="role-remark-input fll" name="remarks"
+                                   ng-model="advertisingManage.editAdRemarkModel"/>
+                        </div>
+                        <div class="role-form-info-bottom clear">
+                            <div class="role-remark-txt fll">显示</div>
+                            <div class="role-remark-input fll tal">
+                                <input type="radio" name="display" value="1"
+                                       ng-model="advertisingManage.editAdDisplayModel"/>
+                                <span class="adverse-txt-yes">YES</span>
+                                <input type="radio" name="display" value="2"
+                                       ng-model="advertisingManage.editdDisplayModel"/>
+                                <span class="adverse-txt-yes">NO</span>
+                            </div>
+                        </div>
+                        <div class="role-form-info-bottom clear">
+                            <div class="role-remark-txt fll">排序号</div>
+                            <input type="number" class="adverse-remark-input fll" name="orderno"
+                                   ng-model="advertisingManage.editAdOrderModel"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="tac">
+                    <span class="dib cursor user-add-btn" ng-click="advertisingManage.onEditAdInformClick()">修改</span>
+                <span class="dib cursor user-add-btn role-del-btn"
+                      ng-click="advertisingManage.modalHide('advertisement-modify-modal')">取消</span>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!--广告位删除弹框-->
+    <div class="common-modal-style" id="advertisement-del-modal"
+         ng-mousemove="advertisingManage.modalMove('del-modal-tit','advertisement-del-modal')"
+         style="display:none">
+        <div class="role-add-con">
+            <div id="del-modal-tit" class="role-add-tit">
+                删除提醒
+            </div>
+            <div class="role-modal-con">
+                你确定要删除该广告位吗？
+            </div>
+            <div class="tac mt10">
+                <span class="dib cursor user-add-btn"
+                      ng-click="advertisingManage.onDeleteAdTableData()">确定</span>
+                <span class="dib cursor user-add-btn role-del-btn"
+                      ng-click="advertisingManage.advertiseModalHide('advertisement-del-modal')">取消</span>
+            </div>
+        </div>
+    </div>
+</div>

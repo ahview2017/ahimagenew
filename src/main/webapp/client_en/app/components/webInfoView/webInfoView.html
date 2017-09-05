@@ -1,0 +1,12 @@
+<div class="webinfo-view-container">
+	<div class="tac" ng-show="webInfoview.webSelectType==1">
+		<h2>{{webInfoview.webDetailObj.noticeTitle}}</h2>
+		<span class="webinfo-span-msg">
+            {{webInfoview.webDetailObj.createTime|date:'yyyy-MM-dd HH:mm:ss'}}
+        </span>
+	</div>
+
+	<div class="webinfo-view-con">
+		<div ng-bind-html="webInfoview.webDetailContent | trustHtml"></div>
+	</div>
+</div>

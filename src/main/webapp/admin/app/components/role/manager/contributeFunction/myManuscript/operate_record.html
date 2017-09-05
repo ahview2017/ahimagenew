@@ -1,0 +1,51 @@
+<div class="user-manager-container">
+    <div class="c-common-titbox">
+        <role-common-tit  value="操作记录"></role-common-tit>
+   </div>
+   <div class="c-user-table">
+        <div class="t-search-hd clear">
+            <div class="user-hd-left smt-detail-operate fll">
+                <span ui-sref="role.manager.myManuscriptDetail({id: record.groupId,gType: record.gType})" class="cursor">返回</span>
+            </div>
+            <!--<div class="user-hd-right flr">-->
+                <!--<input class="user-search-input"  type="search" id="search" ng-model="search"/>-->
+                <!--<img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic"/>-->
+                <!--&lt;!&ndash;<span class="dib cursor user-search-btn">高级检索</span>&ndash;&gt;-->
+            <!--</div>-->
+        </div>
+        <div class="t-uinfo-bd">
+            <div class="table-responsive">
+                <table  class="table table-bordered uInfo-table">
+                    <thead>
+                    <tr>
+                        <th class="uinfo-hd-th">序号</th>
+                        <th class="uinfo-hd-th">操作</th>
+                        <th class="uinfo-hd-th">操作人</th>
+                        <th class="uinfo-hd-th">操作时间</th>
+                        <th class="uinfo-hd-th">备注</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in record.operateRecord | filter:search track by $index">
+                            <td>
+                                <!--{{item.id}}-->
+                                {{$index + 1}}
+                            </td>
+                            <td>{{item.flowType | flowTypeFilter}}</td>
+                            <td>{{item.operateUsername}}</td>
+                            <td>
+                                <p>{{item.operateTime | date : 'yyyy-MM-dd'}}</p>
+                                <p>{{item.operateTime | date : 'HH:mm:ss'}}</p>
+                            </td>
+                            <td>
+                                <span ng-if="item.operateMemo">{{item.operateMemo}}</span>
+                                <span ng-if="!item.operateMemo">--------</span>
+                            </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,290 @@
+<div class="user-manager-container">
+	<div class="c-common-titbox">
+		<role-common-tit value="需求管理"></role-common-tit>
+	</div>
+	<div class="c-user-table">
+		<div class="t-search-hd clear">
+			<div class="user-hd-right flr">
+				<input class="user-search-input" ng-model="demandManage.searchDemandModel" 
+				       placeholder="可查询用户名、需求内容" 
+					   ng-keydown="demandManage.onEnterSearchClick($event)" />
+				<img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic"
+				      ng-click="demandManage.onSearchDemandClick()" />
+				<span class="dib cursor user-search-btn" ng-click="demandManage.userModalShow('user-search-modal')">高级检索</span>
+			</div>
+		</div>
+		<div class="t-uinfo-bd">
+			<div class="table-responsive">
+				<table class="table table-bordered uInfo-table">
+					<thead>
+						<tr>
+                        <th class="uinfo-hd-th" style="width:5%;">序号</th>
+                        <th class="uinfo-hd-th" style="width:17%;">需求内容</th>
+                        <th class="uinfo-hd-th" style="width:11%;">用户</th>
+                        <th class="uinfo-hd-th" style="width:15%;">图片用途</th>
+                        <th class="uinfo-hd-th" style="width:16%;">使用时间</th>
+                        <th class="uinfo-hd-th" style="width:16%;">发布时间</th>
+                        <th class="uinfo-hd-th" style="width:10%;">状态</th>
+                        <th class="uinfo-hd-th" style="width:10%;">操作</th>
+
+						</tr>
+					</thead>
+					<tbody>
+						<tr dir-paginate="word in demandManage.listData | itemsPerPage: demandManage.selPageRows" 
+						    total-items="demandManage.demandList_total" 
+							current-page="demandManage.pagination.current">
+                        <td  style="width:5%;" class="wbba">{{word.id}}</td>
+                        <td  style="width:17%;" class="wbba">{{word.descs}}</td>
+                        <td style="width:11%;" class="wbba">{{word.username}}</td>
+                        <td style="width:15%;" class="wbba">{{word.pictureuse}}</td>
+                        <td style="width:16%;" class="wbba">{{word.day}}</td>
+                        <td style="width:16%;" class="wbba">{{word.datetime}}</td>
+                        <td  style="width:10%;" class="wbba">{{word.status | demandStatusFilter}}</td>
+                        <td style="width:10%;" class="wbba">
+
+								<img src="admin/assets/img/role/check_demand.png" title="审核" class="cursor" width="20" 
+								     height="20" 
+								     ng-click="demandManage.showReviewModel(word)" />
+								<img src="admin/assets/img/role/red_del.png" title="删除" class="cursor u-pwd-reset" 
+								     width="20" height="20" 
+									 ng-click="demandManage.showDelModel(word)" />
+								<!--<img src="admin/assets/img/role/close_red.png" title="关闭" class="cursor" width="20" height="20"-->
+								<!--ng-click="demandManage.showCloseModel(word)"/>-->
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!-- 分页 -->
+			<div class="paging-con-box mt10 clear">
+				<div class="photo-record-page fll">
+					<select ng-model="demandManage.selPageRows" class="mr10">
+						<option value="50">50</option>
+						<option value="40">40</option>
+						<option value="30">30</option>
+						<option value="20">20</option>
+						<option value="10">10</option>
+					</select>
+					<span>共找到</span>
+					<span class="color_red">{{demandManage.demandList_total}}</span>
+					<span>条记录</span>
+				</div>
+				<div class="photo-now-page fll">
+					<span>第 </span>
+					<span>{{demandManage.pagination.current}}</span>
+					<span>/</span>
+					<span>{{demandManage.totalPages}}</span>
+					<span>页</span>
+				</div>
+				<div class="photo-jump-page flr">
+					<dir-pagination-controls on-page-change="demandManage.pageChanged(newPageNumber)" 
+					                         template-url="admin/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+					</dir-pagination-controls>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--需求管理审核弹框-->
+		<div class="common-modal-style" id="demand-check-modal" 
+		     ng-mousemove="demandManage.moveModal('check-modal-tit','demand-check-modal')" 
+			 style="display:none">
+		<div class="role-add-con">
+			<div id="check-modal-tit" class="role-add-tit oH">
+				<span class="fll">审核需求</span>
+				<span class="flr curp tit-close" 
+				ng-click="demandManage.demandModalHide('demand-check-modal')">×</span>
+			</div>
+			<div class="role-add-main">
+				<div class="check-demand-con">
+					<div class="check-demand-con-top clear">
+						<div class="check-demand-item clear">
+							<div class="check-demand-left  fll">
+								<div class="check-demand-txt fll">
+									用户：
+								</div>
+								<div class="check-demand-details fll">
+									{{demandManage.detailData.username}}
+								</div>
+							</div>
+						</div>
+						<div class="check-demand-item clear">
+							<div class="check-demand-left fll">
+								<div class="check-demand-txt fll">
+									发布时间：
+								</div>
+								<div class="check-demand-details fll">
+									{{demandManage.detailData.datetime}}
+								</div>
+							</div>
+							<div class="check-demand-right  fll">
+								<div class="check-demand-txt fll">
+									失效时间：
+								</div>
+								<div class="check-demand-details fll">
+									{{demandManage.detailData.falsetime}}
+								</div>
+							</div>
+						</div>
+						<div class="check-demand-item clear">
+							<div class="check-demand-left  fll">
+								<div class="check-demand-txt fll">
+									需求说明：
+								</div>
+								<div class="check-demand-details fll">
+									{{demandManage.detailData.descs}}
+								</div>
+							</div>
+						</div>
+						<div class="check-demand-item clear">
+							<div class="check-demand-left  fll">
+								<div class="check-demand-txt fll">
+									购买张数：
+								</div>
+								<div class="check-demand-details fll">
+									{{demandManage.detailData.count}}
+								</div>
+							</div>
+							<div class="check-demand-right  fll">
+								<div class="check-demand-txt fll">
+									图片用途：
+								</div>
+								<div class="check-demand-details fll">
+									{{demandManage.detailData.pictureuse}}
+								</div>
+							</div>
+						</div>
+						<div class="check-demand-item clear">
+							<div class="check-demand-left fll">
+								<div class="check-demand-txt fll">
+									预购价格：
+								</div>
+								<div class="check-demand-details fll">
+									{{demandManage.detailData.price}}
+								</div>
+							</div>
+							<div class="check-demand-right fll">
+								<div class="check-demand-txt fll">
+									使用时间：
+								</div>
+								<div class="check-demand-details fll">
+									{{demandManage.detailData.day}}
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div class="check-demand-con-bottom clear">
+						<div class="check-demand-bottom-item clear">
+							<div class="check-demand-headline fll">
+								审核
+							</div>
+							<div class="check-demand-select fll">
+								<select ng-model="demandManage.tempNeedsData.status" 
+								        ng-options="option.id as option.name for option in demandManage.reviewStatus">
+								</select>
+							</div>
+						</div>
+						<div class="check-demand-bottom-item clear">
+							<div class="check-demand-headline fll">
+								审核理由
+							</div>
+							<div class="check-demand-select fll">
+							     <textarea class="check-demand-textarea" 
+								           ng-model="demandManage.tempNeedsData.auditdesc"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="tac">
+				<span class="dib cursor user-add-btn" ng-click="demandManage.editNeeds()">保存</span>
+				<span class="dib cursor user-add-btn role-del-btn" 
+				      ng-click="demandManage.demandModalHide('demand-check-modal')">取消</span>
+			</div>
+		</div>
+	</div>
+	<!--需求管理删除弹框-->
+	<div class="common-modal-style" id="demand-del-modal" 
+	     ng-mousemove="demandManage.moveModal('del-modal-tit','demand-del-modal')" 
+		 style="display:none">
+		<div class="role-add-con">
+			<div id="del-modal-tit" class="role-add-tit">
+				删除提醒
+			</div>
+			<div class="role-modal-con">
+				您确定要删除该需求吗？
+			</div>
+			<div class="tac mt10">
+				<span class="dib cursor user-add-btn" ng-click="demandManage.delNeeds()">确定</span>
+				<span class="dib cursor user-add-btn role-del-btn" ng-click="demandManage.demandModalHide('demand-del-modal')">取消</span>
+			</div>
+		</div>
+	</div>
+	<!--高级检索模态框-->
+	<div class="common-modal-style common-modal-style-widt" id="user-search-modal" style="display:none;">
+		<div class="user-add-con">
+			<div id="search-modal-tit" class="role-add-tit oH">
+				<span class="fll">高级检索</span>
+				<span class="flr curp tit-close" ng-click="demandManage.databaseModalHide('user-search-modal')">×</span>
+			</div>
+			<div class="role-add-main">
+				<div class="user-form-info clear">
+					<div class="user-form-info-top clear">
+						<div class="fll user-form-part clear">
+							<div class="user-search-left_o  fll">用户名</div>
+							<div class="user-search-right fll">
+								<input type="text" class="user-add-input" ng-model="demandManage.userName" />
+							</div>
+						</div>
+						<div class="fll user-form-part clear">
+							<div class="user-search-left_o fll">需求内容</div>
+							<div class="user-search-right fll">
+								<input type="text" class="user-add-input" ng-model="demandManage.descs" />
+							</div>
+						</div>	
+						<div class="fll user-form-part clear">
+							<div class="fll user-search-left_o">图片用途</div>
+							<div class="user-search-right fll">
+								<input type="text" class="user-add-input" ng-model="demandManage.pictureUse" />
+							</div>
+						</div>
+					</div>
+					<div class="user-form-info-top clear">
+						<div class="fll user-form-part clear">
+							<div class="user-search-left_o  fll">发布时间</div>
+							<div class="user-search-right fll">
+								<input type="text" class="Wdate user-add-input_o" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" class="Wdate" ng-model="demandManage.beginTime" datepicker/>
+							</div>
+						</div>
+						<div class="fll user-form-part clear">
+							<div class="user-search-left_o  fll">结束时间</div>
+							<div class="user-search-right fll">
+								<input type="text" class="Wdate user-add-input_o" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" class="Wdate" ng-model="demandManage.pEndTime " datepicker/>
+							</div>
+						</div>	
+					</div>	
+					<div class="tar mt10">
+						<span class="dib cursor user-high-search-btn" ng-click="demandManage.userAdvanceSearch('user-search-modal')">检索</span>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<!--需求管理关闭弹框-->
+	<div class="common-modal-style" id="demand-close-modal" style="display:none">
+		<div class="role-add-con">
+			<div class="role-add-tit">
+				关闭确认
+			</div>
+			<div class="role-modal-con">
+				您确定要关闭该需求吗？
+			</div>
+			<div class="tac mt10">
+				<span class="dib cursor user-add-btn" ng-click="demandManage.closeNeeds()">确定</span>
+				<span class="dib cursor user-add-btn role-del-btn" 
+			          ng-click="demandManage.demandModalHide('demand-close-modal')">取消</span>
+			</div>
+		</div>
+	</div>
+</div>

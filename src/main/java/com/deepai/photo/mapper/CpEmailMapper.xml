@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deepai.photo.mapper.CpEmailMapper" >
+  <resultMap id="BaseResultMap" type="com.deepai.photo.bean.CpEmail" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="EMAIL_TITLE" property="emailTitle" jdbcType="VARCHAR" />
+    <result column="EMAIL_CONTENT" property="emailContent" jdbcType="VARCHAR" />
+    <result column="EMAIL_RECIVER_ROLE" property="emailReciverRole" jdbcType="VARCHAR" />
+    <result column="EMAIL_RECIVER" property="emailReciver" jdbcType="VARCHAR" />
+    <result column="SITE_ID" property="siteId" jdbcType="INTEGER" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="INTEGER" />
+    <result column="SENDER" property="sender" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, EMAIL_TITLE, EMAIL_CONTENT, EMAIL_RECIVER_ROLE, EMAIL_RECIVER, SITE_ID, CREATE_TIME, 
+    STATUS, SENDER
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.deepai.photo.bean.CpEmailExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cp_email
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+      order by CREATE_TIME desc
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from cp_email
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from cp_email
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.deepai.photo.bean.CpEmailExample" >
+    delete from cp_email
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.deepai.photo.bean.CpEmail" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cp_email (EMAIL_TITLE, EMAIL_CONTENT, EMAIL_RECIVER_ROLE, 
+      EMAIL_RECIVER, SITE_ID, CREATE_TIME, 
+      STATUS, SENDER)
+    values (#{emailTitle,jdbcType=VARCHAR}, #{emailContent,jdbcType=VARCHAR}, #{emailReciverRole,jdbcType=VARCHAR}, 
+      #{emailReciver,jdbcType=VARCHAR}, #{siteId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=INTEGER}, #{sender,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.deepai.photo.bean.CpEmail" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cp_email
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="emailTitle != null" >
+        EMAIL_TITLE,
+      </if>
+      <if test="emailContent != null" >
+        EMAIL_CONTENT,
+      </if>
+      <if test="emailReciverRole != null" >
+        EMAIL_RECIVER_ROLE,
+      </if>
+      <if test="emailReciver != null" >
+        EMAIL_RECIVER,
+      </if>
+      <if test="siteId != null" >
+        SITE_ID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="sender != null" >
+        SENDER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="emailTitle != null" >
+        #{emailTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="emailContent != null" >
+        #{emailContent,jdbcType=VARCHAR},
+      </if>
+      <if test="emailReciverRole != null" >
+        #{emailReciverRole,jdbcType=VARCHAR},
+      </if>
+      <if test="emailReciver != null" >
+        #{emailReciver,jdbcType=VARCHAR},
+      </if>
+      <if test="siteId != null" >
+        #{siteId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="sender != null" >
+        #{sender,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.deepai.photo.bean.CpEmailExample" resultType="java.lang.Integer" >
+    select count(*) from cp_email
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update cp_email
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.emailTitle != null" >
+        EMAIL_TITLE = #{record.emailTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.emailContent != null" >
+        EMAIL_CONTENT = #{record.emailContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.emailReciverRole != null" >
+        EMAIL_RECIVER_ROLE = #{record.emailReciverRole,jdbcType=VARCHAR},
+      </if>
+      <if test="record.emailReciver != null" >
+        EMAIL_RECIVER = #{record.emailReciver,jdbcType=VARCHAR},
+      </if>
+      <if test="record.siteId != null" >
+        SITE_ID = #{record.siteId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.sender != null" >
+        SENDER = #{record.sender,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update cp_email
+    set ID = #{record.id,jdbcType=INTEGER},
+      EMAIL_TITLE = #{record.emailTitle,jdbcType=VARCHAR},
+      EMAIL_CONTENT = #{record.emailContent,jdbcType=VARCHAR},
+      EMAIL_RECIVER_ROLE = #{record.emailReciverRole,jdbcType=VARCHAR},
+      EMAIL_RECIVER = #{record.emailReciver,jdbcType=VARCHAR},
+      SITE_ID = #{record.siteId,jdbcType=INTEGER},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      STATUS = #{record.status,jdbcType=INTEGER},
+      SENDER = #{record.sender,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.deepai.photo.bean.CpEmail" >
+    update cp_email
+    <set >
+      <if test="emailTitle != null" >
+        EMAIL_TITLE = #{emailTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="emailContent != null" >
+        EMAIL_CONTENT = #{emailContent,jdbcType=VARCHAR},
+      </if>
+      <if test="emailReciverRole != null" >
+        EMAIL_RECIVER_ROLE = #{emailReciverRole,jdbcType=VARCHAR},
+      </if>
+      <if test="emailReciver != null" >
+        EMAIL_RECIVER = #{emailReciver,jdbcType=VARCHAR},
+      </if>
+      <if test="siteId != null" >
+        SITE_ID = #{siteId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="sender != null" >
+        SENDER = #{sender,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.deepai.photo.bean.CpEmail" >
+    update cp_email
+    set EMAIL_TITLE = #{emailTitle,jdbcType=VARCHAR},
+      EMAIL_CONTENT = #{emailContent,jdbcType=VARCHAR},
+      EMAIL_RECIVER_ROLE = #{emailReciverRole,jdbcType=VARCHAR},
+      EMAIL_RECIVER = #{emailReciver,jdbcType=VARCHAR},
+      SITE_ID = #{siteId,jdbcType=INTEGER},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=INTEGER},
+      SENDER = #{sender,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

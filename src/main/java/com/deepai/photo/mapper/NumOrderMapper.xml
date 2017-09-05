@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deepai.photo.mapper.NumOrderMapper" >
+
+ <!-- 敏感词 -->
+ <!-- 新建敏感词并默认排序号 -->
+ <insert id="insertSstwOrder" parameterType="com.deepai.photo.bean.CpSensitiveWord" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cp_sensitive_word
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="wordContent != null" >
+        WORD_CONTENT,
+      </if>
+      <if test="memo != null" >
+        MEMO,
+      </if>
+      <if test="wordStatus != null" >
+        WORD_STATUS,
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateUser != null" >
+        UPDATE_USER,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="siteId != null" >
+        SITE_ID,
+      </if>     
+        UNM_ORDER,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="wordContent != null" >
+        #{wordContent,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="wordStatus != null" >
+        #{wordStatus,jdbcType=TINYINT},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="siteId != null" >
+        #{siteId,jdbcType=INTEGER},
+      </if>
+      (SELECT IFNULL(MAX(t.UNM_ORDER), 0) + 1 FROM cp_sensitive_word t)
+    </trim>
+  </insert>  
+  <!-- 部分排序号加1 -->
+  <update id="addOneOrderSstw" parameterType="map">
+  	update cp_sensitive_word set UNM_ORDER=UNM_ORDER+1 where UNM_ORDER &gt;= #{small} and UNM_ORDER &lt;= #{big} 
+  </update>  
+  <!-- 部分排序号减1 -->
+  <update id="minusOneOrderSstw" parameterType="map">
+  	update cp_sensitive_word set UNM_ORDER=UNM_ORDER-1 where UNM_ORDER &gt;= #{small} and UNM_ORDER &lt;= #{big} 
+  </update>
+  
+  <!--角色  -->
+   <!-- 新建角色并默认排序号 -->
+  <insert id="insertRoleOrder" parameterType="com.deepai.photo.bean.CpRole" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cp_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="roleName != null" >
+        ROLE_NAME,
+      </if>
+      <if test="memo != null" >
+        MEMO,
+      </if>
+      <if test="siteId != null" >
+        SITE_ID,
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateUser != null" >
+        UPDATE_USER,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="deleteFlag != null" >
+        DELETE_FLAG,
+      </if>
+      <if test="langType != null" >
+        LANG_TYPE,
+      </if>
+       NUM_ORDER,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="roleName != null" >
+        #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="siteId != null" >
+        #{siteId,jdbcType=INTEGER},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlag != null" >
+        #{deleteFlag,jdbcType=TINYINT},
+      </if>
+      <if test="langType != null" >
+        #{langType,jdbcType=TINYINT},
+      </if>
+      (SELECT IFNULL(MAX(t.NUM_ORDER), 0) + 1 FROM cp_role t)
+    </trim>
+  </insert>
+   <!-- 部分排序号加1 -->
+  <update id="addOneOrderRole" parameterType="map">
+  	update cp_role set NUM_ORDER=NUM_ORDER+1 where NUM_ORDER &gt;= #{small} and NUM_ORDER &lt;= #{big} 
+  </update>  
+  <!-- 部分排序号减1 -->
+  <update id="minusOneOrderRole" parameterType="map">
+  	update cp_role set NUM_ORDER=NUM_ORDER-1 where NUM_ORDER &gt; #{small} and NUM_ORDER &lt; #{big} 
+  </update>
+  
+  <!-- 查询角色最大排序号 -->
+  <select id="selectRoleMaxUnm" resultType="int">
+  	SELECT IFNULL(MAX(t.NUM_ORDER), 1)  FROM cp_role t
+  </select>
+  
+  <!-- 查询排序号最大排序号 -->
+  <select id="selectSstvMaxUnm" resultType="int">
+  	SELECT IFNULL(MAX(t.UNM_ORDER), 1)  FROM cp_sensitive_word t
+  </select>
+</mapper>

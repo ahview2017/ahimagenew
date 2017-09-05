@@ -1,0 +1,18 @@
+.camerist-left-box{
+    width: 3%;
+}
+.camerist-right-box{
+    width: 97%;
+    background: #FFFFFF;
+}
+.camerist-top-box{
+    border-bottom: 2px solid #F2F2F2;
+    padding: 20px 10px;
+}
+.camerist-returnIndex{
+    color: #FFF;
+    background: #3399CC;
+    padding: 5px 10px;
+    margin-top: 25px;
+    cursor: pointer;
+}
