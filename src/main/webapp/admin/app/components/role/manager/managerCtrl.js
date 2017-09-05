@@ -198,6 +198,9 @@ adminModule.controller('managerCtrl',function($scope, $cookies, req, md5, $state
          */
         vm.toggleTreeMenu = function(selRightId){
             switch(selRightId){
+	            case 413:
+	        		$state.go('role.manager.didwith',{rightId:413});
+	        		break;
                 case 402:
                     $state.go('role.manager.downloaddataStatistics',{rightId:402});
                     break;

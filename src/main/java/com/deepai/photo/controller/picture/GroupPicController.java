@@ -3,6 +3,7 @@ package com.deepai.photo.controller.picture;
 import java.io.File;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -2287,4 +2288,86 @@ public class GroupPicController {
         return result;
 
     }
+    
+    
+    @ResponseBody
+    @RequestMapping("/getGroupPicsInDeal")
+    public Object getGroupPicsInDeal(HttpServletRequest request,
+            HttpServletResponse response,GroupQuery query) {
+        ResponseMessage result = new ResponseMessage();
+        CpUser user = SessionUtils.getUser(request);
+        try {
+
+            // 从操作记录中获取稿件
+            CpPicGroupProcessExample e = new CpPicGroupProcessExample();
+            List<Integer> types = new ArrayList<Integer>();
+            types.add(0);// 发稿提交
+            types.add(1);// 一审提交
+            types.add(2);// 二审提交
+            types.add(3);// 三审签发
+
+            Criteria c = e.createCriteria();
+            c.andFlowTypeIn(types);
+            c.andOperateUserIdEqualTo(user.getId());
+            List<CpPicGroupProcess> logs = processMapper.selectByExample(e);
+
+            String sGroupIds = ",";
+//            List<Integer> groupIds = new ArrayList<Integer>();
+            for (CpPicGroupProcess picLog : logs) {
+                int nGroupId = picLog.getPicgroupId();
+                if (sGroupIds.indexOf("," + nGroupId + ",") < 0) {
+                    sGroupIds += nGroupId + ",";
+                }
+//                if (!groupIds.contains(nGroupId)) {
+//                    groupIds.add(nGroupId);
+//                }
+            }
+
+            List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+            if (sGroupIds.length() > 1) {
+                sGroupIds = sGroupIds.substring(1, sGroupIds.length() - 1);
+                log.info 
+
+("group ids is :" + sGroupIds);
+                Map<String, Object> param = new HashMap<String, Object>();
+                param.put("groupIds", sGroupIds);
+                param.put("query", query);
+                
+                PageHelper.startPage(request);
+                list = aboutPictureMapper.selectGroupsByQuery(param);
+                for (Map<String, Object> map : list) {
+                    if (map.containsKey("FILENAME")) {
+                        map.put("samllPath",
+                                CommonConstant.SMALLHTTPPath
+                                        + ImgFileUtils.getSamllPathByName(
+                                                map.get("FILENAME").toString(),
+                                                request));
+                    }
+                    if (map.containsKey("FILENAME")) {
+                        map.put("wmPath",
+                                CommonConstant.SMALLHTTPPath
+                                        + ImgFileUtils.getWMPathByName(
+                                                map.get("FILENAME").toString(),
+                                                request));
+                    }
+                }
+                PageHelper.addPages(result, list);
+
+                result.setData(list);
+                PageHelper.addPagesAndTotal(result, list);
+            }
+            result.setCode(CommonConstant.SUCCESSCODE);
+            result.setMsg(CommonConstant.SUCCESSSTRING);
+        } catch (InvalidHttpArgumentException e) {
+            result.setCode(e.getCode());
+            result.setMsg(e.getMsg());
+        } catch (Exception e1) {
+            e1.printStackTrace();
+            log.error("查询稿件操作记录，" + e1.getMessage());
+            result.setCode(CommonConstant.EXCEPTIONCODE);
+            result.setMsg(CommonConstant.EXCEPTIONMSG);
+        }
+        return result;
+    }
+
 }

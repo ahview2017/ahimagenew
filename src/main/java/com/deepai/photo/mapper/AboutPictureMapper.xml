@@ -405,6 +405,9 @@
 		<if test="statusS != null">
 			and g.GROUP_STATUS in (${statusS})
 		</if>
+		<if test="groupIds != null">
+			and g.ID in (${groupIds})
+		</if>
 		<if test="notStatus != null">
 			and g.GROUP_STATUS !=#{notStatus}
 		</if>

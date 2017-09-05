@@ -17,7 +17,8 @@
     </div>
     <div>
         <div class="smt-detail-operate smt-detail-spec-operate">
-            <span ui-sref="role.manager.myManuscript">返回</span>
+            <span ui-sref="role.manager.myManuscript" ng-if="(detail.gType != -1)">返回</span>
+            <span ui-sref="role.manager.didwith" ng-if="(detail.gType == -1)">返回</span>
             <span ng-if="((detail.manuscriptDetail.isLocked != 1) && (detail.gType == 3))" ng-click="detail.editSendManuscript()">编辑</span>
             <span ng-if="((detail.manuscriptDetail.isLocked != 1) && (detail.gType == 3))" ng-click="detail.delModalShow('commit-del-modal')">删除</span>
             <span  ng-if="(detail.manuscriptDetail.isLocked != 1) && (detail.gType == 3)"  ng-click="detail.commitModalShow('commit-confirm-modal')">提交</span>

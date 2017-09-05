@@ -175,7 +175,7 @@ adminModule.controller('headCtrl',function($translate, $scope, $cookies, req, md
         //系统管理数组
         var sysManageArr = [206,30, 103,334,345,377, 9, 6, 50, 46 , 56, 63 , 36 ,76,41,34,65,89,61,85,210,'子库管理',256,399];
         //投稿功能数组
-        var contributeFunArr = [110,113,121,'稿费统计','使用指南'];
+        var contributeFunArr = [110,113,121,413,'稿费统计','使用指南'];
         //管理功能数组
         var manageFunArr = [206,30, 103, 9, 6, 50, 46 , 56, 63 , 36 ,76,41,34,65,89,61,85,210,'子库管理',256];
         //销售管理数组

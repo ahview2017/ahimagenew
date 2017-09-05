@@ -380,6 +380,13 @@ adminModule.config(function($stateProvider,$urlRouterProvider,$locationProvider)
             templateUrl: 'admin/app/components/role/manager/contributeFunction/myManuscript/my_manuscript.html',
             controller: 'myManuscriptCtrl as myManuscript'
         })
+        //add by liu.jinfeng@20170905
+        //管理员-已处理的稿件
+        .state('role.manager.didwith', {
+            url:'/didwith',
+            templateUrl: 'admin/app/components/role/manager/contributeFunction/myManuscript/my_dealwith.html',
+            controller: 'myDealwithCtrl as didwith'
+        })
         //管理员-我的稿件详情
         .state('role.manager.myManuscriptDetail', {
             url:'/myManuscriptDetail/:id?/:gType?',
