@@ -37,6 +37,7 @@ import org.slf4j.LoggerFactory;
 import com.deepai.photo.bean.CpPicture;
 import com.deepai.photo.bean.CpWaterMarkPicture;
 import com.deepai.photo.common.constant.SysConfigConstant;
+import com.deepai.photo.common.listener.SpringContextUtil;
 import com.deepai.photo.common.util.SessionUtils;
 import com.deepai.photo.service.admin.SysConfigService;
 import com.drew.imaging.jpeg.JpegMetadataReader;
@@ -264,6 +265,10 @@ public class ImageAnalyseUtil {
 			if (synFlag == null || synFlag) {
 				convert.setAsyncMode(true);
 			}
+			// add by xia.yunan@20170906
+			SysConfigService sysConfigService =  (SysConfigService)SpringContextUtil.getBean("sysConfigService");
+			convert.setSearchPath(sysConfigService.getDbSysConfig(
+	                SysConfigConstant.LOCAL_GM_PATH,1));
 			convert.run(op);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -2469,6 +2474,10 @@ public class ImageAnalyseUtil {
 			if (synFlag == null || synFlag) {
 				convert.setAsyncMode(true);
 			}
+			// add by xia.yunan@20170906
+			SysConfigService sysConfigService =  (SysConfigService)SpringContextUtil.getBean("sysConfigService");
+			convert.setSearchPath(sysConfigService.getDbSysConfig(
+	                SysConfigConstant.LOCAL_GM_PATH,1));
 
 			convert.run(op);
 		} catch (Exception e) {
