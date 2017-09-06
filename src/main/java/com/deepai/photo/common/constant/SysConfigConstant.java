@@ -87,6 +87,8 @@ public class SysConfigConstant {
     public static String WATERMARK_PIC_PATH1200 = "WATERMARK_PIC_PATH1200";// 1200
     public static String MEDIUM_PIC_SIZE1200 = "MEDIUM_PIC_SIZE1200";// D:/trsphoto/medium/
     public static String MEDIUM_PIC_PATH1200 = "MEDIUM_PIC_PATH1200";// D:/trsphoto/medium/
+    // add by xia.yunan 2017-09-06
+    public static String LOCAL_GM_PATH = "LOCAL_GM_PATH";// /usr/local/graphicsmagick/bin
 	public static Map<String,String> config;
 	
 	
