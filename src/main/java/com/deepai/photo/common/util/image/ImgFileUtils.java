@@ -1310,13 +1310,16 @@ public class ImgFileUtils {
         // case 1://小图
         // break;
         case 2:// 中图
-            sType = CommonConstant.MEDIUM;
+            sType = "small400";
             break;
-        case 3:// 1200中图
-            sType = CommonConstant.MEDIUM1200;
+        case 3:// 中图small400
+            sType = "medium";
             break;
-        case 4:// 大图
-            sType = CommonConstant.BIG;
+        case 4:// 1200中图
+            sType = "medium1200";
+            break;
+        case 5:// 大图
+            sType = "big";
             break;
 
         }
@@ -1345,7 +1348,7 @@ public class ImgFileUtils {
      */
     public static String getWMPathByNameAndSize(String fileName,HttpServletRequest request, Integer fileSize) {
         // 根据图片大小取位置，默认取最小图
-        String sType = fileSize==2?CommonConstant.WATERMEDIUM1200:CommonConstant.WATERMEDIUM;
+        String sType = fileSize==2?"watermarkedmedium1200":CommonConstant.WATERMEDIUM;
         
         if(SessionUtils.geLangType(request)==1){
             return  CommonConstant.EN+CommonConstant.doubleSprit+sType+CommonConstant.doubleSprit+

@@ -175,9 +175,9 @@ public class GetPicture {
      *            图片类型 1:水印，其他：无水印 默认无水印
      * @param size
      *            图片大小 水印：1:800；2:1200 ；<br/>
-     *            非水印：1:400，2:800，3:1200，4:3000...<br/>
+     *            非水印：1:小图，2:400，3:800，4:1200，5:3000...<br/>
      *            默认返回最小的
-     * @return
+     * @return 默认返回无水印的最小图
      */
 	@ResponseBody
 	@RequestMapping("/getClientGroups")
