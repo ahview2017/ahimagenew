@@ -191,7 +191,7 @@ public class GetPicture {
 			limit=limit==null?5:limit;
 			
 			 //设置默认值 默认非水印，最小图
-            picType = picType==null?0:1;
+            picType = picType==null?0:picType;
             size = size==null?1:size;
             
 			param.put("limit", limit);
