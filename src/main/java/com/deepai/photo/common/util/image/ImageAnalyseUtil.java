@@ -2479,6 +2479,7 @@ public class ImageAnalyseUtil {
 			convert.setSearchPath(sysConfigService.getDbSysConfig(
 	                SysConfigConstant.LOCAL_GM_PATH,1));
 
+			
 			convert.run(op);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
