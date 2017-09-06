@@ -269,6 +269,7 @@ public class ImageAnalyseUtil {
 			SysConfigService sysConfigService =  (SysConfigService)SpringContextUtil.getBean("sysConfigService");
 			convert.setSearchPath(sysConfigService.getDbSysConfig(
 	                SysConfigConstant.LOCAL_GM_PATH,1));
+			
 			convert.run(op);
 		} catch (Exception e) {
 			e.printStackTrace();
