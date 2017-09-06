@@ -163,15 +163,22 @@ public class GetPicture {
 	}
 	
 	//TODO(客户端获取稿件)
-	/**
-	 * 获取客户端首页稿件
-	 * @param request
-	 * @param signId 签发分类id：1资料图片，2最新发布，3今日头条，4每日推荐，5一周最佳采用，6娱乐风尚，7财富经济，8台湾视角，9国际风采，10限价图片，11漫画图表，12两会
-	 * @param limit 查询几条记录：如10条，8条，默认5
-	 * @param picType 图片类型 1:水印，其他：无水印 默认无水印
-	 * @param size 图片大小 （1:400，2:800，3:1200...）默认返回最小的
-	 * @return 
-	 */
+    /**
+     * 获取客户端首页稿件
+     * 默认返回非水印最小值
+     * @param request
+     * @param signId
+     *            签发分类id：1资料图片，2最新发布，3今日头条，4每日推荐，5一周最佳采用，6娱乐风尚，7财富经济，8台湾视角，9国际风采，10限价图片，11漫画图表，12两会
+     * @param limit
+     *            查询几条记录：如10条，8条，默认5
+     * @param picType
+     *            图片类型 1:水印，其他：无水印 默认无水印
+     * @param size
+     *            图片大小 水印：1:800；2:1200 ；<br/>
+     *            非水印：1:400，2:800，3:1200，4:3000...<br/>
+     *            默认返回最小的
+     * @return
+     */
 	@ResponseBody
 	@RequestMapping("/getClientGroups")
 	@SkipLoginCheck
@@ -182,6 +189,11 @@ public class GetPicture {
 			Map<String,Object> param=new HashMap<String, Object>();
 			param.put("sginId", sginId);
 			limit=limit==null?5:limit;
+			
+			 //设置默认值 默认非水印，最小图
+            picType = picType==null?0:1;
+            size = size==null?1:size;
+            
 			param.put("limit", limit);
 			List<Map<String,Object>> list=clientPictureMapper.selectClientGroup(param);
 			if(picType == 1){
