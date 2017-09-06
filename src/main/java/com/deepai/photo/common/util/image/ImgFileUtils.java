@@ -1251,6 +1251,7 @@ public class ImgFileUtils {
 					fileName.substring(0, 8)+CommonConstant.doubleSprit+fileName;
 		}
 	}
+
 	/**
 	 * 根据文件名，返回文件水印中图路径，
 	 * 如：20170109151434_1483946074110_p.jpg
@@ -1289,5 +1290,71 @@ public class ImgFileUtils {
 		}
 
 	}
+	 /**
+     * 根据文件名和类型，返回相应文件地址
+     * 
+     * @Description: TODO <BR>
+     * @author liu.jinfeng
+     * @date 2017年9月6日 上午10:43:07
+     * @param fileName 文件名
+     * @param request
+     * @param fileSize 文件大小(1:400,2:800,3:1200,4:3000)
+     * @return
+     */
+    public static String getPathByNameAndSize(String fileName,
+            HttpServletRequest request, Integer fileSize) {
 
+        // 根据图片大小取位置，默认取最小图
+        String sType = CommonConstant.SMALL;
+        switch (fileSize) {
+        // case 1://小图
+        // break;
+        case 2:// 中图
+            sType = CommonConstant.MEDIUM;
+            break;
+        case 3:// 1200中图
+            sType = CommonConstant.MEDIUM1200;
+            break;
+        case 4:// 大图
+            sType = CommonConstant.BIG;
+            break;
+
+        }
+
+        if (SessionUtils.geLangType(request) == 1) {
+            return CommonConstant.EN + CommonConstant.doubleSprit + sType
+                    + CommonConstant.doubleSprit + fileName.substring(0, 4)
+                    + CommonConstant.doubleSprit + fileName.substring(0, 8)
+                    + CommonConstant.doubleSprit + fileName;
+        } else {
+            return CommonConstant.ZH + CommonConstant.doubleSprit + sType
+                    + CommonConstant.doubleSprit + fileName.substring(0, 4)
+                    + CommonConstant.doubleSprit + fileName.substring(0, 8)
+                    + CommonConstant.doubleSprit + fileName;
+        }
+    }
+    /**
+     * 根据文件名和大小，返回文件水印中图路径
+     * @Description: TODO <BR>
+     * @author liu.jinfeng
+     * @date 2017年9月6日 上午11:06:41
+     * @param fileName
+     * @param request
+     * @param fileSize 图片大小（1:800；2:1200）
+     * @return
+     */
+    public static String getWMPathByNameAndSize(String fileName,HttpServletRequest request, Integer fileSize) {
+        // 根据图片大小取位置，默认取最小图
+        String sType = fileSize==2?CommonConstant.WATERMEDIUM1200:CommonConstant.WATERMEDIUM;
+        
+        if(SessionUtils.geLangType(request)==1){
+            return  CommonConstant.EN+CommonConstant.doubleSprit+sType+CommonConstant.doubleSprit+
+                    fileName.substring(0, 4)+CommonConstant.doubleSprit+
+                    fileName.substring(0, 8)+CommonConstant.doubleSprit+fileName;
+        }else{
+            return  CommonConstant.ZH+CommonConstant.doubleSprit+sType+CommonConstant.doubleSprit+
+                    fileName.substring(0, 4)+CommonConstant.doubleSprit+
+                    fileName.substring(0, 8)+CommonConstant.doubleSprit+fileName;
+        }
+    }
 }

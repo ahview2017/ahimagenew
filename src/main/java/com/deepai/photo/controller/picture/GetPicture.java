@@ -168,12 +168,14 @@ public class GetPicture {
 	 * @param request
 	 * @param signId 签发分类id：1资料图片，2最新发布，3今日头条，4每日推荐，5一周最佳采用，6娱乐风尚，7财富经济，8台湾视角，9国际风采，10限价图片，11漫画图表，12两会
 	 * @param limit 查询几条记录：如10条，8条，默认5
+	 * @param picType 图片类型 1:水印，其他：无水印 默认无水印
+	 * @param size 图片大小 （1:400，2:800，3:1200...）默认返回最小的
 	 * @return 
 	 */
 	@ResponseBody
 	@RequestMapping("/getClientGroups")
 	@SkipLoginCheck
-	public Object getClientGroups(HttpServletRequest request,Integer sginId,Integer limit){
+	public Object getClientGroups(HttpServletRequest request,Integer sginId,Integer limit,Integer picType,Integer size){
 		ResponseMessage result=new ResponseMessage();
 		try {
 			CommonValidation.checkParamBlank(sginId+"", "签发分类id");
@@ -182,7 +184,21 @@ public class GetPicture {
 			limit=limit==null?5:limit;
 			param.put("limit", limit);
 			List<Map<String,Object>> list=clientPictureMapper.selectClientGroup(param);
-			if(sginId==23||sginId==133||sginId==513){
+			if(picType == 1){
+			    for (Map<String,Object> map:list) {
+                    if(map.containsKey("FILENAME")){
+                        map.put("FilePath", CommonConstant.SMALLHTTPPath+ImgFileUtils.getWMPathByNameAndSize(map.get("FILENAME").toString(),request,size));
+                    }
+			    }
+			}else{
+			    for (Map<String,Object> map:list) {
+                    if(map.containsKey("FILENAME")){
+                        map.put("FilePath", CommonConstant.SMALLHTTPPath+ImgFileUtils.getPathByNameAndSize(map.get("FILENAME").toString(),request,size));
+                    }
+                }
+			}
+			
+			/* if(sginId==23||sginId==133||sginId==513){
 				for (Map<String,Object> map:list) {
 					if(map.containsKey("FILENAME")){
 						map.put("wmPath", CommonConstant.SMALLHTTPPath+ImgFileUtils.getWMPathByName(map.get("FILENAME").toString(),request));
@@ -194,7 +210,7 @@ public class GetPicture {
 						map.put("samllPath", CommonConstant.SMALLHTTPPath+ImgFileUtils.getSamllPathByName(map.get("FILENAME").toString(),request));
 					}
 				}
-			}
+			}*/
 			result.setCode(CommonConstant.SUCCESSCODE);
 			result.setMsg(CommonConstant.SUCCESSSTRING);
 			result.setData(list);
