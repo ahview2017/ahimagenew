@@ -2297,7 +2297,6 @@ public class GroupPicController {
         ResponseMessage result = new ResponseMessage();
         CpUser user = SessionUtils.getUser(request);
         try {
-
             // 从操作记录中获取稿件
             CpPicGroupProcessExample e = new CpPicGroupProcessExample();
             List<Integer> types = new ArrayList<Integer>();
@@ -2326,33 +2325,21 @@ public class GroupPicController {
             List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
             if (sGroupIds.length() > 1) {
                 sGroupIds = sGroupIds.substring(1, sGroupIds.length() - 1);
-                log.info 
-
-("group ids is :" + sGroupIds);
+                log.info ("group ids is :" + sGroupIds);
                 Map<String, Object> param = new HashMap<String, Object>();
                 param.put("groupIds", sGroupIds);
                 param.put("query", query);
-                
                 PageHelper.startPage(request);
                 list = aboutPictureMapper.selectGroupsByQuery(param);
                 for (Map<String, Object> map : list) {
                     if (map.containsKey("FILENAME")) {
-                        map.put("samllPath",
-                                CommonConstant.SMALLHTTPPath
-                                        + ImgFileUtils.getSamllPathByName(
-                                                map.get("FILENAME").toString(),
-                                                request));
+                        map.put("samllPath",CommonConstant.SMALLHTTPPath + ImgFileUtils.getSamllPathByName(map.get("FILENAME").toString(),request));
                     }
                     if (map.containsKey("FILENAME")) {
-                        map.put("wmPath",
-                                CommonConstant.SMALLHTTPPath
-                                        + ImgFileUtils.getWMPathByName(
-                                                map.get("FILENAME").toString(),
-                                                request));
+                        map.put("wmPath",CommonConstant.SMALLHTTPPath + ImgFileUtils.getWMPathByName(map.get("FILENAME").toString(),request));
                     }
                 }
                 PageHelper.addPages(result, list);
-
                 result.setData(list);
                 PageHelper.addPagesAndTotal(result, list);
             }

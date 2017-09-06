@@ -163,10 +163,6 @@
   			LEFT JOIN cp_picture w on p.TRAGET_ID=w.ID
 			WHERE p.PIC_TYPE=#{picType} and  w.ID=#{tragetId}
   		</if>
-  		<if test="picType!=null and picType &gt;=0 and picType &lt;=4">
-  			LEFT JOIN cp_picture w on p.TRAGET_ID=w.ID
-			WHERE p.PIC_TYPE=#{picType} and  w.ID=#{tragetId}
-  		</if>
   		<if test="picType!=null and picType==6">
   			LEFT JOIN cp_user_idpic w on p.TRAGET_ID=w.ID
 			WHERE p.PIC_TYPE=6 and  w.ID=#{tragetId}

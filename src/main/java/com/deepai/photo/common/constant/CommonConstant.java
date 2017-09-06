@@ -120,7 +120,6 @@ public  class CommonConstant {
 
 	public static final String Category = "Category";
 
-	
 	public static class OpCode {
 		public static final short SUCCESS = 200;
 		public static final short INVALID_PARAMS = 400;
@@ -129,7 +128,6 @@ public  class CommonConstant {
 		public static final short RESOURCE_NOT_FOUND = 404;
 		public static final short INTERNAL_EXCEPTION = 500;
 	}
-	
 }
 
 

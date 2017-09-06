@@ -490,7 +490,7 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 		} else {
 			vm.navActiveMenu = '';
 		}
-		if(name == '新闻图片') {
+		if(name == '新闻图片'){
 			vm.properties = 0;
 		} else if(name == '专题图片') {
 			vm.properties = 1;
@@ -520,7 +520,9 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 				if(classDataArray.length > 0) {
 					for(var item = 0; item < classDataArray.length; item++) {
 						var itemObject = classDataArray[item];
-						if(itemObject.categoryName == "新闻图片" || itemObject.categoryName == "专题图片") {
+						//add by xiayunan2017-09-05
+						//if(itemObject.categoryName == "新闻图片" || itemObject.categoryName == "专题图片") {
+						if(itemObject.categoryName == "新闻图片" || itemObject.categoryName == "专题图片"||itemObject.categoryName == "老照片") {
 							catedata.push(itemObject);
 						} else if(itemObject.categoryName == '新闻类别') {
 							categories = itemObject.categories;
@@ -528,7 +530,8 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 					}
 					for(var item = 0; item < catedata.length; item++) {
 						var itemObject = catedata[item];
-						if(itemObject.categoryName == "新闻图片" || itemObject.categoryName == "专题图片") {
+						//if(itemObject.categoryName == "新闻图片" || itemObject.categoryName == "专题图片") {
+						if(itemObject.categoryName == "新闻图片" || itemObject.categoryName == "专题图片"||itemObject.categoryName == "老照片") {
 							catedata[item].categories = categories;
 						}
 

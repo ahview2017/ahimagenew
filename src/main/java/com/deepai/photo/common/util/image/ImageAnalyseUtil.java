@@ -2469,6 +2469,10 @@ public class ImageAnalyseUtil {
 			if (synFlag == null || synFlag) {
 				convert.setAsyncMode(true);
 			}
+			// add by liu.jinfeng@20170903
+//          convert.setSearchPath("/usr/local/Cellar/graphicsmagick/1.3.26_1/bin");
+			convert.setSearchPath("/usr/local/graphicsmagick/bin");
+
 			convert.run(op);
 		} catch (Exception e) {
 			logger.error(e.getMessage());

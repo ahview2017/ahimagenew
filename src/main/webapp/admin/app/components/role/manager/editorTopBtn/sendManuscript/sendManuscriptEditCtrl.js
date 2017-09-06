@@ -37,10 +37,7 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
         vm.photoUNameWay = '0';
         //从cookie里取得角色id
         vm.adminRoleId = $cookies.get('admin_roleId');
-
-        console.log("99999999999999999999999999selmasvideo:"+($("#selmasvideo").val()==''));
-
-
+		
 
         //存储稿件图片信息
         vm.manuscriptPicData = [];
@@ -185,6 +182,7 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
                 vm.manuscriptDetail = resp.data;
                 if(vm.manuscriptDetail.videoId!=null&&vm.manuscriptDetail.videoId!=0){
 					vm.masUrl = "http://192.168.18.85:8081/mas/openapi/pages.do?method=exPlay&appKey=TRSPMS123&type=vod&id="+vm.manuscriptDetail.videoId;
+					document.getElementById("mas-div").style.display="block";
 				}
 				vm.masUrl =  $sce.trustAsResourceUrl(vm.masUrl);
 				console.log("vm.manuscriptDetail.videoId:"+vm.manuscriptDetail.videoId);

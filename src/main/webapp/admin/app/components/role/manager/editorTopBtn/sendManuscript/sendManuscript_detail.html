@@ -191,7 +191,7 @@
                     </div>
                 </div>
             </div>
-        	<div class="smt-detail-video" ng-hide="((detail.manuscriptDetail.videoId == null) || ((detail.manuscriptDetail.videoId == 0 ))">
+        	<div class="smt-detail-video" ng-hide="detail.manuscriptDetail.videoId == 0">
         		<!-- 视频显示 -->
 					<span id="mas-video-box-detail" >
 						<iframe id='mas-video-detail' src='{{detail.masUrl}}'></iframe>
