@@ -96,7 +96,7 @@ public class PhoneMSGUtils {
 
         JSONObject result = new JSONObject();
         result.put("code", code);
-        result.put("", code.equals("1") ? "发送成功" : "发送失败");
+        result.put("msg", code.equals("1") ? String.valueOf(vilidate) : "发送失败");
         return result;
     }
 
@@ -113,7 +113,6 @@ public class PhoneMSGUtils {
      * @throws Exception
      */
     private String send(String phone, String content) throws Exception {
-        logger.info("url is:"+phoneUrl);
         URL endpoint = new URL(phoneUrl);
 
         SendMsgComponent service = new SendMsgComponentLocator();
