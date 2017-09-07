@@ -161,8 +161,8 @@
   </select>
   <!-- 重置序列从1开始 -->
   <select id="resetSequence">
-    UPDATE sequence set current_val=1 where name='seq_order';
-	UPDATE sequence set current_val=1 where name='seq_article'
+     UPDATE sequence set current_val=1 where seq_name='seq_order';
+	 UPDATE sequence set current_val=1 where seq_name='seq_article'
   </select>
   
   <!-- 校验添加的校审时间是否重复 -->
