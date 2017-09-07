@@ -526,7 +526,7 @@ public class LoginController {
 	@SkipLoginCheck
 	@SkipAuthCheck
 	@LogInfo(content = "用户注册", logTypeCode = CommonConstant.User, opeType = 0)
-	public Object register(HttpServletRequest request, CpUser user, Integer roleId) {
+	public Object register(HttpServletRequest request, CpUser user, Integer roleId,String code) {
 		ResponseMessage result = new ResponseMessage();
 		try {
 			CommonValidation.checkParamBlank(user.getUserName(), "用户名");
@@ -544,6 +544,7 @@ public class LoginController {
 			CommonValidation.checkParamBlank(user.getEmailBind(), "邮箱");
 			CommonValidation.checkParamBlank(user.getZipcode(), "邮政编码");
 			CommonValidation.checkParamBlank(user.getFeeType() + "", "接收稿费方式");
+			CommonValidation.checkParamBlank(code + "", "验证码");
 			if (roleId.equals("4") && user.getFeeType() == CommonConstant.BYTE0) {// 摄影师-邮寄
 				CommonValidation.checkParamBlank(user.getMailAddress(), "通信地址");
 				CommonValidation.checkParamBlank(user.getMailUsername(), "收稿费人姓名");
@@ -565,6 +566,17 @@ public class LoginController {
 				result.setMsg(String.format("用户名为【%s】已存在！", user.getUserName()));
 				return result;
 			}
+			
+			//add by liu.jinfeng@2017年9月7日 上午10:36:23 增加验证码校验
+            String redisCode = redisClientTemplate.get("PHONE"+user.getTelBind()+code);
+//            log.info(code+"=="+redisCode);
+//            log.info("PHONE"+user.getTelBind()+code);
+            if(redisCode==null||!redisCode.equals(code)){
+                result.setCode(CommonConstant.EXCEPTIONCODE);
+                result.setMsg("验证码无效，请重新输入验证码");
+                return result;
+            }
+            
 			// 前端传来的是单次md5加密后的密码，倒叙后再次加密存入数据库
 			user.setLangType(SessionUtils.geLangType(request));
 			//user.setLangType(Integer.parseInt(request.getSession(true).getAttribute("langType").toString()));

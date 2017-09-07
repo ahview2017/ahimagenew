@@ -820,37 +820,45 @@ public class PhoneMSGController {
         ResponseMessage result = new ResponseMessage();
 
         CommonValidation.checkParamBlank(phoneNum, "手机号");
-        // 正则验证手机号码是否合法
+        //正则验证手机号码是否合法
         final String REGEX_MOBILE = "^((17[0-9])|(14[0-9])|(13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";
-        if (!Pattern.matches(REGEX_MOBILE, phoneNum)) {
+        if(!Pattern.matches(REGEX_MOBILE, phoneNum)){
             result.setCode(CommonConstant.EXCEPTIONCODE);
             result.setMsg(CommonConstant.EXCEPTIONMSG);
             return result;
         }
-
+        
+//        log.info("========"+redisClientTemplate.get("PHONE"+phoneNum));
+        if(redisClientTemplate.get("PHONE"+phoneNum)!=null){
+            result.setCode(CommonConstant.EXCEPTIONCODE);
+            result.setMsg(CommonConstant.EXCEPTIONMSG);
+            return result;
+        }
+        
         JSONObject resultObj = null;
         try {
-            resultObj = phoneMSGUtils.sendMsg(phoneNum,
-                    PhoneMSGUtils.TYPE_SEND_CODE);
+            resultObj = phoneMSGUtils.sendMsg(phoneNum, PhoneMSGUtils.TYPE_SEND_CODE);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             result.setCode(CommonConstant.EXCEPTIONCODE);
             result.setMsg("短信发送失败");
             return result;
         }
-        if (null == resultObj || resultObj.getString("code").equals("0")) {
+        if(null ==resultObj||resultObj.getString("code").equals("0")){
             result.setCode(CommonConstant.EXCEPTIONCODE);
             result.setMsg("短信发送失败");
             return result;
         }
 
-        // 验证码有效期 3分钟
+        //验证码有效期 3分钟
         String vilidata = resultObj.getString("msg");
-        redisClientTemplate.set("PHONE" + phoneNum + vilidata, vilidata + "");
-        redisClientTemplate.expire("PHONE" + phoneNum + vilidata, 60 * 3);
-
-        log.info("PHONE" + phoneNum + vilidata + "==="
-                + redisClientTemplate.get("PHONE" + phoneNum + vilidata));
+        redisClientTemplate.set("PHONE"+phoneNum+vilidata, vilidata+"");
+        redisClientTemplate.expire("PHONE"+phoneNum+vilidata, 60*3);
+        //保存手机号，防止频繁调用接口
+        redisClientTemplate.set("PHONE"+phoneNum, vilidata+"");
+        redisClientTemplate.expire("PHONE"+phoneNum, 60);
+        
+//        log.info("PHONE"+phoneNum+vilidata+"==="+redisClientTemplate.get("PHONE"+phoneNum+vilidata));
         result.setCode(CommonConstant.SUCCESSCODE);
         result.setMsg(CommonConstant.SUCCESSSTRING);
         return result;

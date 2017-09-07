@@ -55,25 +55,27 @@ clientModule.controller('registerStepTwoCtrl',function($scope, $cookies, req, md
 //发送验证码
     var clock = '';
     var nums = 10;
+    var start = true;
     vm.sendmsg = function(form){
     	if(form.mobilePhone.$error.required || form.mobilePhone.$error.pattern){
             layer.alert('请输入正确格式的移动电话');
             return;
         }
     	
-    	if(nums==10){
+    	if(nums==10&&start){
+    		start = false;
 	    	$("#code").removeAttr('ng-click');
 	    	$("#code").attr('disabled',"true");
 	    	$("#code").html(nums+'秒后可重新获取');
 	    	clock = setInterval(doLoop, 1000); //一秒执行一次
-	    	
+	    	console.log("发送短信");
 	    	req.post('phonemsg/sendMsgCode.do',{
 	    		phoneNum: vm.registerInfo.mobilePhone
             }).success(function(resp){
                 if(resp.code == '211'){
                   
                 }else{
-                    layer.alert(resp.desc);
+                    layer.alert("获取验证码失败");
                 }
             });
 	    	
@@ -90,6 +92,7 @@ clientModule.controller('registerStepTwoCtrl',function($scope, $cookies, req, md
 		     $("#code").attr('ng-click','registerStepTwo.sendmsg(register_form');
 		     $("#code").removeAttr('disabled');
 		     nums = 10; //重置时间
+		     start = true;
 	    }
     }
 
