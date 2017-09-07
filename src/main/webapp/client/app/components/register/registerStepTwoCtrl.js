@@ -52,8 +52,49 @@ clientModule.controller('registerStepTwoCtrl',function($scope, $cookies, req, md
             req_Register();
         }
     }
-
-
+//发送验证码
+    var clock = '';
+    var nums = 10;
+    var start = true;
+    vm.sendmsg = function(form){
+    	if(form.mobilePhone.$error.required || form.mobilePhone.$error.pattern){
+            layer.alert('请输入正确格式的移动电话');
+            return;
+        }
+    	
+    	if(nums==10&&start){
+    		start = false;
+	    	$("#code").removeAttr('ng-click');
+	    	$("#code").attr('disabled',"true");
+	    	$("#code").html(nums+'秒后可重新获取');
+	    	clock = setInterval(doLoop, 1000); //一秒执行一次
+	    	console.log("发送短信");
+	    	req.post('phonemsg/sendMsgCode.do',{
+	    		phoneNum: vm.registerInfo.mobilePhone
+            }).success(function(resp){
+                if(resp.code == '211'){
+                  
+                }else{
+                    layer.alert("获取验证码失败");
+                }
+            });
+	    	
+    	}
+    }
+    function doLoop()
+    {
+    	nums--;
+	    if(nums > 0){
+	    	 $("#code").html(nums+'秒后可重新获取');
+	    }else{
+		     clearInterval(clock); //清除js定时器
+		     $("#code").html('获取验证码');
+		     $("#code").attr('ng-click','registerStepTwo.sendmsg(register_form');
+		     $("#code").removeAttr('disabled');
+		     nums = 10; //重置时间
+		     start = true;
+	    }
+    }
 
     //校验注册信息
     function validRegisterInfo(form,callback){
@@ -62,6 +103,7 @@ clientModule.controller('registerStepTwoCtrl',function($scope, $cookies, req, md
         var standby1 = /[1-9][0-9]{4,10}/;
         var standby2 = /^[a-zA-Z]{1}[-_a-zA-Z0-9]{5,19}$/;
 
+        //alert(vm.registerInfo.phoneCode);
         //验证用户信息
         if(!valid_Info()) return;
 
@@ -78,7 +120,7 @@ clientModule.controller('registerStepTwoCtrl',function($scope, $cookies, req, md
         //    layer.alert('请输入8-16个字符确认密码');
         //    return;
         //}
-
+      
         if(!vm.registerInfo.enterPwd){
             layer.alert('请输入8-16个密码');
             return;
@@ -147,6 +189,12 @@ clientModule.controller('registerStepTwoCtrl',function($scope, $cookies, req, md
         }
         if(form.mobilePhone.$error.required || form.mobilePhone.$error.pattern){
             layer.alert('请输入正确格式的移动电话');
+            return;
+        }
+        //ch add by liu.jinfeng@20170906
+        // alert(vm.registerInfo.phoneCode+"=="+(/^\d{4}$/.test(vm.registerInfo.phoneCode)));
+        if(form.phoneCode.$error.required || !(/^\d{6}$/.test(vm.registerInfo.phoneCode))){
+        	layer.alert('请输入6位数字验证码');
             return;
         }
         if(form.mail.$error.required || form.mail.$error.pattern){
@@ -292,6 +340,7 @@ clientModule.controller('registerStepTwoCtrl',function($scope, $cookies, req, md
             bankIdCard: vm.registerInfo.bankIdCard,
             bankName: vm.registerInfo.bankName,
             idCard: vm.registerInfo.IdNumber,
+            code: vm.registerInfo.phoneCode,
             langType:0
         };
         req.post('login/registerOne.do',reqData).success(function(resp){

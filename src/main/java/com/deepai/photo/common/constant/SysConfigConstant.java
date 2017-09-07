@@ -91,5 +91,7 @@ public class SysConfigConstant {
     public static String LOCAL_GM_PATH = "LOCAL_GM_PATH";// /usr/local/graphicsmagick/bin
 	public static Map<String,String> config;
 	
-	
+	 /** 发送短信模版 */
+	//add by liu.jinfeng@2017年9月7日 上午10:00:58
+    public static final String MSG_SEND_CODE = "MSG_SEND";
 }

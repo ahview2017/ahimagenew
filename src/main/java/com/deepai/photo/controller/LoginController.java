@@ -18,6 +18,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.httpclient.NameValuePair;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -525,7 +526,7 @@ public class LoginController {
 	@SkipLoginCheck
 	@SkipAuthCheck
 	@LogInfo(content = "用户注册", logTypeCode = CommonConstant.User, opeType = 0)
-	public Object register(HttpServletRequest request, CpUser user, Integer roleId) {
+	public Object register(HttpServletRequest request, CpUser user, Integer roleId,String code) {
 		ResponseMessage result = new ResponseMessage();
 		try {
 			CommonValidation.checkParamBlank(user.getUserName(), "用户名");
@@ -543,6 +544,7 @@ public class LoginController {
 			CommonValidation.checkParamBlank(user.getEmailBind(), "邮箱");
 			CommonValidation.checkParamBlank(user.getZipcode(), "邮政编码");
 			CommonValidation.checkParamBlank(user.getFeeType() + "", "接收稿费方式");
+			CommonValidation.checkParamBlank(code + "", "验证码");
 			if (roleId.equals("4") && user.getFeeType() == CommonConstant.BYTE0) {// 摄影师-邮寄
 				CommonValidation.checkParamBlank(user.getMailAddress(), "通信地址");
 				CommonValidation.checkParamBlank(user.getMailUsername(), "收稿费人姓名");
@@ -564,6 +566,17 @@ public class LoginController {
 				result.setMsg(String.format("用户名为【%s】已存在！", user.getUserName()));
 				return result;
 			}
+			
+			//add by liu.jinfeng@2017年9月7日 上午10:36:23 增加验证码校验
+            String redisCode = redisClientTemplate.get("PHONE"+user.getTelBind()+code);
+//            log.info(code+"=="+redisCode);
+//            log.info("PHONE"+user.getTelBind()+code);
+            if(redisCode==null||!redisCode.equals(code)){
+                result.setCode(CommonConstant.EXCEPTIONCODE);
+                result.setMsg("验证码无效，请重新输入验证码");
+                return result;
+            }
+            
 			// 前端传来的是单次md5加密后的密码，倒叙后再次加密存入数据库
 			user.setLangType(SessionUtils.geLangType(request));
 			//user.setLangType(Integer.parseInt(request.getSession(true).getAttribute("langType").toString()));
@@ -869,7 +882,7 @@ public class LoginController {
 	}
 	
 	
-	public static void main(String[] args) {
+//	public static void main(String[] args) {
 		
 		//密码找回成功   生成秘钥标示
 //		String markStr = UUID.randomUUID().toString().substring(0, 8)+users.get(0).getUserName();
@@ -903,7 +916,7 @@ public class LoginController {
 //	    Matcher m = p.matcher(email);  
 //	    System.out.println(m.replaceAll("$1***$3"));
 
-	}
+//	}
 	
 	@ResponseBody
 	@RequestMapping("/findPassword")
@@ -1135,13 +1148,5 @@ public class LoginController {
 		}
 		return res;
 	}
-//	public static void main(String[] args) {
-//		/*CpPicAllpathExample e=new CpPicAllpathExample();
-//		e.createCriteria().andPicTypeEqualTo(5).andTragetIdEqualTo(78);
-//		List<CpPicAllpath> all=CpPicAllpathMapper.selectByExample(e);//水印图片地址
-//		if(!all.isEmpty()){
-//		String	wMPath=all.get(0).getAllPath();
-//			System.out.println(wMPath);
-//		}*/
-//	}
+	
 }
