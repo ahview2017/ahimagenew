@@ -68,6 +68,9 @@ public interface CpBasicMapper {
     //校验用户接口权限
     public Integer checkUserRight(Map map)throws Exception;
     
+    //根据权限ID校验用户接口权限  add by xiayunan 20170907
+    public Integer checkUserRightByRightId(Map map)throws Exception;
+    
     //根据用户id查询用户角色
     public List<CpRole> selectUserRoleByUId(int userId)throws Exception;
     

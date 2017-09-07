@@ -19,6 +19,9 @@ public interface CpRightMapper {
     List<CpRight> selectByExample(CpRightExample example);
 
     CpRight selectByPrimaryKey(Integer id);
+    
+    //add by xiayunan 20170907
+    CpRight selectByRightName(String rightName);
 
     int updateByExampleSelective(@Param("record") CpRight record, @Param("example") CpRightExample example);
 

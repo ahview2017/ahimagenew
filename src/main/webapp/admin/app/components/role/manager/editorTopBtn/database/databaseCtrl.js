@@ -490,11 +490,14 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 		} else {
 			vm.navActiveMenu = '';
 		}
-		if(name == '新闻图片'){
+		if(name == '新闻图片') {
 			vm.properties = 0;
 		} else if(name == '专题图片') {
 			vm.properties = 1;
+		}else if(name == '老照片') {//add by xiayunan  2017-09-06
+			vm.properties = 2;
 		}
+
 		if(vm.acitiveOneSlideTit == 1) {
 			getSignGroups(1, null, 1, 0, false);
 			getSignGroups(1, null, 1, 1, false);
@@ -520,19 +523,30 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 				if(classDataArray.length > 0) {
 					for(var item = 0; item < classDataArray.length; item++) {
 						var itemObject = classDataArray[item];
-						//add by xiayunan2017-09-05
-						//if(itemObject.categoryName == "新闻图片" || itemObject.categoryName == "专题图片") {
-						if(itemObject.categoryName == "新闻图片" || itemObject.categoryName == "专题图片"||itemObject.categoryName == "老照片") {
-							catedata.push(itemObject);
-						} else if(itemObject.categoryName == '新闻类别') {
+						//edit by xiayunan2017-09-05
+						if(itemObject.hasRight==1){
+							if(itemObject.categoryName == "新闻图片" || itemObject.categoryName == "专题图片"||itemObject.categoryName == "老照片") {
+								catedata.push(itemObject);
+							} 
+						}else{
+							if(itemObject.categoryName == "新闻图片" || itemObject.categoryName == "专题图片") {
+								catedata.push(itemObject);
+							} 
+						}
+						if(itemObject.categoryName == '新闻类别') {
 							categories = itemObject.categories;
 						}
 					}
 					for(var item = 0; item < catedata.length; item++) {
 						var itemObject = catedata[item];
-						//if(itemObject.categoryName == "新闻图片" || itemObject.categoryName == "专题图片") {
-						if(itemObject.categoryName == "新闻图片" || itemObject.categoryName == "专题图片"||itemObject.categoryName == "老照片") {
-							catedata[item].categories = categories;
+						if(itemObject.hasRight==1){
+							if(itemObject.categoryName == "新闻图片" || itemObject.categoryName == "专题图片"||itemObject.categoryName == "老照片") {
+								catedata[item].categories = categories;
+							}
+						}else{
+							if(itemObject.categoryName == "新闻图片" || itemObject.categoryName == "专题图片"){
+								catedata[item].categories = categories;
+							}
 						}
 
 					}

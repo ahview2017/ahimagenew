@@ -410,6 +410,23 @@ public class UserRoleRightService {
 	}
 	
 	/**
+	 * 根据权限ID校验用户是否有当前接口权限
+	 * @param userId
+	 * @param rightId
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean checkUserRightByRightId(int userId,int rightId) throws Exception{
+		Map<String,Object> param=new HashMap<String, Object>();
+		param.put("userId", userId);
+		param.put("rightId", rightId);
+		Integer c=cpBasicMapper.checkUserRightByRightId(param);
+		return c!=null&&c>0?true:false;
+	}
+	
+	
+	
+	/**
 	 * 校验用户是否登录
 	 * @param userToken 用户令牌
 	 * @return user

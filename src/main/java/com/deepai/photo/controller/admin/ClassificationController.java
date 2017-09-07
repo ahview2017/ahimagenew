@@ -1,6 +1,7 @@
 package com.deepai.photo.controller.admin;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,15 +16,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.deepai.photo.common.util.html.HtmlUtil;
-import com.deepai.photo.common.validation.CommonValidation;
 import com.deepai.photo.bean.CpCategory;
+import com.deepai.photo.bean.CpRight;
+import com.deepai.photo.bean.CpUser;
 import com.deepai.photo.common.annotation.LogInfo;
 import com.deepai.photo.common.annotation.SkipLoginCheck;
 import com.deepai.photo.common.constant.CommonConstant;
 import com.deepai.photo.common.pojo.ResponseMessage;
 import com.deepai.photo.common.util.SessionUtils;
+import com.deepai.photo.common.util.html.HtmlUtil;
+import com.deepai.photo.mapper.CpRightMapper;
 import com.deepai.photo.service.admin.ClassificationService;
+import com.deepai.photo.service.admin.UserRoleRightService;
 
 /**
  * @author zhangshuo 管理员-分类配置
@@ -35,6 +39,10 @@ public class ClassificationController {
 
 	@Autowired
 	private ClassificationService classificationService;
+	@Autowired
+	private UserRoleRightService userRoleRightService;
+	@Autowired
+	private CpRightMapper cpRightMapper;
 
 	/**
 	 * 查询分类配置信息
@@ -48,9 +56,20 @@ public class ClassificationController {
 			HttpServletResponse response,Integer langType) {
 		ResponseMessage result = new ResponseMessage();
 		try {
+			//老照片权限控制 add by xiayunan 20170907
+			CpUser user = SessionUtils.getUser(request);
+			CpRight cpRight = cpRightMapper.selectByRightName("老照片管理");
+			boolean hasRight = false;
+			if(user!=null&&cpRight!=null){
+				hasRight = userRoleRightService.checkUserRightByRightId(user.getId(),cpRight.getId());
+			}
 			Integer siteId = SessionUtils.getSiteId(request);
 			List<Map<String, Object>> categorys = classificationService
 					.selCpCategorys(siteId,langType);
+			//返回信息添加老照片权限标识
+			for(Map<String, Object> map:categorys){
+				map.put("hasRight", hasRight?1:0);
+			}
 			result.setCode(CommonConstant.SUCCESSCODE);
 			result.setMsg(CommonConstant.SUCCESSSTRING);
 			result.setData(categorys);

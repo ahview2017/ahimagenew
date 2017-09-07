@@ -585,6 +585,61 @@
 	) ct
   </select>
   
+   <!-- 校验用户是否包含权限 add by xiayunan 20170907 -->
+  <select id="checkUserRightByRightId" parameterType="map" resultType="int">
+  	SELECT
+		count(*)
+	FROM
+		(
+			SELECT
+				r.ID
+			FROM
+				cp_auth_right a
+			LEFT JOIN cp_user u ON u.ID = a.TRAGET_ID
+			LEFT JOIN cp_right r ON r.P_ID = a.RIGHT_ID
+			WHERE
+				u.ID = #{userId}
+			AND a.TYPE = 1
+			AND r.ID = #{rightId}
+			UNION
+				SELECT
+					r.ID
+				FROM
+					cp_auth_right a
+				LEFT JOIN cp_user_role ur ON ur.ROLE_ID = a.TRAGET_ID
+				LEFT JOIN cp_user u ON u.ID = ur.USER_ID
+				LEFT JOIN cp_right r ON r.P_ID = a.RIGHT_ID
+				WHERE
+					u.ID = #{userId}
+				AND a.TYPE = 0
+				AND  r.ID = #{rightId}
+				UNION
+					SELECT
+						r.ID
+					FROM
+						cp_auth_right a
+					LEFT JOIN cp_user u ON u.ID = a.TRAGET_ID
+					LEFT JOIN cp_right r ON r.ID = a.RIGHT_ID
+					WHERE
+						u.ID = #{userId}
+					AND a.TYPE = 1
+					AND  r.ID = #{rightId}
+					UNION
+						SELECT
+							r.ID
+						FROM
+							cp_auth_right a
+						LEFT JOIN cp_user_role ur ON ur.ROLE_ID = a.TRAGET_ID
+						LEFT JOIN cp_user u ON u.ID = ur.USER_ID
+						LEFT JOIN cp_right r ON r.ID = a.RIGHT_ID
+						WHERE
+							u.ID = #{userId}
+						AND a.TYPE = 0
+						AND  r.ID = #{rightId}
+	) ct
+  </select>
+  
+  
   <!-- 根据用户id查询用户角色 -->
   <select id="selectUserRoleByUId" parameterType="map" resultMap="RoleBaseMap">
   SELECT t.* FROM cp_role t
