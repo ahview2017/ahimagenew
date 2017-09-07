@@ -99,7 +99,8 @@ public class PhoneMSGService {
 		String extno = "";//扩展码
 		
 		String result="";
-		PostMethod post = new PostMethod(url);
+//		PostMethod post = new PostMethod(url);
+		PostMethod post = new PostMethod("http://192.168.18.158:10001/services/invokenEmsService");
 		post.addRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=utf-8"); 
 	  
 		NameValuePair[] data = {
@@ -152,7 +153,11 @@ public class PhoneMSGService {
 	 * 117	IP地址认证错,请求调用的IP地址不是系统登记的IP地址
 	 * 118	用户没有相应的发送权限
 	 * 119	用户已过期
+	 * @throws UnsupportedEncodingException 
 	 */
-	
+	public static void main(String[] args) throws UnsupportedEncodingException {
+        PhoneMSGService service = new PhoneMSGService();
+        service.sendSMS("13770784187", "测试", "photo", "Ahrb9265_");
+    }
 	
 }

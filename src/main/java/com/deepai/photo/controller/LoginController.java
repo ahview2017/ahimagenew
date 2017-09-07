@@ -18,6 +18,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.httpclient.NameValuePair;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -869,7 +870,7 @@ public class LoginController {
 	}
 	
 	
-	public static void main(String[] args) {
+//	public static void main(String[] args) {
 		
 		//密码找回成功   生成秘钥标示
 //		String markStr = UUID.randomUUID().toString().substring(0, 8)+users.get(0).getUserName();
@@ -903,7 +904,7 @@ public class LoginController {
 //	    Matcher m = p.matcher(email);  
 //	    System.out.println(m.replaceAll("$1***$3"));
 
-	}
+//	}
 	
 	@ResponseBody
 	@RequestMapping("/findPassword")
@@ -1135,13 +1136,5 @@ public class LoginController {
 		}
 		return res;
 	}
-//	public static void main(String[] args) {
-//		/*CpPicAllpathExample e=new CpPicAllpathExample();
-//		e.createCriteria().andPicTypeEqualTo(5).andTragetIdEqualTo(78);
-//		List<CpPicAllpath> all=CpPicAllpathMapper.selectByExample(e);//水印图片地址
-//		if(!all.isEmpty()){
-//		String	wMPath=all.get(0).getAllPath();
-//			System.out.println(wMPath);
-//		}*/
-//	}
+	
 }
