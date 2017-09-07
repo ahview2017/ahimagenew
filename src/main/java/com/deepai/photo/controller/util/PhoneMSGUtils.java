@@ -1,11 +1,12 @@
 /*
- *	History				Who				What
- *  2017年9月6日			liujinfeng			Created.
+ *  History             Who             What
+ *  2017年9月6日           liujinfeng          Created.
  */
 package com.deepai.photo.controller.util;
 
 import java.net.URL;
 import java.util.Date;
+import java.util.List;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -36,10 +37,11 @@ import net.sf.json.JSONObject;
  * @version 1.0
  */
 @Service
-@Transactional(readOnly = false, rollbackFor=Exception.class)
+@Transactional(readOnly = false, rollbackFor = Exception.class)
 public class PhoneMSGUtils {
     private static org.apache.log4j.Logger logger = org.apache.log4j.Logger
             .getLogger(PhoneMSGUtils.class);
+
     @Value("${phonseUrl}")
     private String phoneUrl;
 
@@ -48,6 +50,40 @@ public class PhoneMSGUtils {
 
     /** 注册发送验证码 */
     public static final String TYPE_SEND_CODE = "1";
+
+    /**
+     * 发送短信通知
+     * 
+     * @Description: TODO <BR>
+     * @author liu.jinfeng
+     * @date 2017年9月7日 下午2:35:22
+     * @param phone
+     * @param content
+     * @return
+     * @throws Exception
+     */
+    public String sendSMSMsg(String phone, String content) throws Exception {
+
+        return send(phone, content);
+    }
+
+    /**
+     * 群发短信
+     * 
+     * @Description: TODO <BR>
+     * @author liu.jinfeng
+     * @date 2017年9月7日 下午2:46:21
+     * @param phones
+     *            多个手机号英文逗号分隔
+     * @param content
+     * @return
+     * @throws Exception
+     */
+    public JSONObject sendSMSGroups(String phones, String content)
+            throws Exception {
+
+        return sendSMS(phones, content);
+    }
 
     /**
      * 发送手机短信
@@ -86,11 +122,12 @@ public class PhoneMSGUtils {
      */
     private JSONObject sendPhoneCode(String phone) throws Exception {
         // sysConfigService.
-        String sContent = sysConfigService.getDbSysConfig(SysConfigConstant.MSG_SEND_CODE, 1);
+        String sContent = sysConfigService
+                .getDbSysConfig(SysConfigConstant.MSG_SEND_CODE, 1);
         // 6位随机验证码
         Integer vilidate = (int) ((Math.random() * 9 + 1) * 100000);
         sContent = String.format(sContent, vilidate);
-        logger.info("发送内容是："+sContent);
+        logger.info("发送内容是：" + sContent);
         // 发送信息
         String code = send(phone, sContent);
 
@@ -119,6 +156,9 @@ public class PhoneMSGUtils {
         SendMsgComponentPortType client = service
                 .getSendMsgComponentHttpPort(endpoint);
 
+      //获取用户名密码
+        String[] attr = getPhoneAttr();
+        
         Date date = new Date();
         StringBuffer buff = new StringBuffer();
         buff.append("<?xml version='1.0' encoding='UTF-8'?>");
@@ -126,9 +166,9 @@ public class PhoneMSGUtils {
         buff.append("<time>" + date.getTime() + "</time>"); // <!-- 时间 -->
         buff.append("<serviceCount>1</serviceCount>");// <!-- 发送总数 -->
         // 按实际情况填写分配给自己的用户名
-        buff.append("<userCode>photo</userCode>");// <!-- 用户名 -->
+        buff.append("<userCode>"+attr[0]+"</userCode>");// <!-- 用户名 -->
         // 按实际情况填写分配给自己的密码,并需MD5加密,且英文大写
-        buff.append("<password>" + MD5.md5for32("Ahrb9265_") + "</password>");
+        buff.append("<password>" + MD5.md5for32(attr[1]) + "</password>");
         buff.append("<dataSign></dataSign>");// <!-- 数字签名 -->
         buff.append("<extend></extend>");// <!-- 扩展字段 -->
         // 个性短信内容也要测试一下
@@ -147,6 +187,106 @@ public class PhoneMSGUtils {
         return getCodeSendMsg(str);
     }
 
+    /**
+     * 群发短信
+     * 
+     * @Description: TODO <BR>
+     * @author liu.jinfeng
+     * @date 2017年9月7日 下午2:50:38
+     * @param phones
+     * @param content
+     * @return
+     * @throws Exception
+     */
+    private JSONObject sendSMS(String phones, String content) throws Exception {
+        if (phones == null || phones.trim().length() == 0) {
+            return null;
+        }
+        String[] sPhones = phones.split(",");
+
+        URL endpoint = new URL(phoneUrl);
+
+        SendMsgComponent service = new SendMsgComponentLocator();
+        SendMsgComponentPortType client = service
+                .getSendMsgComponentHttpPort(endpoint);
+
+        //获取用户名密码
+        String[] attr = getPhoneAttr();
+        
+        Date date = new Date();
+        StringBuffer buff = new StringBuffer();
+        buff.append("<?xml version='1.0' encoding='UTF-8'?>");
+        buff.append("<ESB>");
+        buff.append("<time>" + date.getTime() + "</time>"); // <!-- 时间 -->
+        buff.append("<serviceCount>1</serviceCount>");// <!-- 发送总数 -->
+        // 按实际情况填写分配给自己的用户名
+        buff.append("<userCode>"+attr[0]+"</userCode>");// <!-- 用户名 -->
+        // 按实际情况填写分配给自己的密码,并需MD5加密,且英文大写
+        buff.append("<password>" + MD5.md5for32(attr[1]) + "</password>");
+        buff.append("<dataSign></dataSign>");// <!-- 数字签名 -->
+        buff.append("<extend></extend>");// <!-- 扩展字段 -->
+        // 个性短信内容也要测试一下
+        buff.append("<content>" + content + "</content>");// <!--
+        // 填写号码列表,多个号码使用多个NumberSet节点
+        buff.append("<NumberSets>");// <!-- 号码列表 -->
+
+        for (String phone : sPhones) {
+            buff.append("<NumberSet>");//
+            buff.append("<phone>" + phone + "</phone>");// <!-- 号码 -->
+            buff.append("</NumberSet>");//
+        }
+
+        buff.append("</NumberSets>");//
+        buff.append("<TO>EMS</TO>");// <!-- 到哪个系统 -->
+        buff.append("<FROM>视觉安徽网</FROM>");// <!-- 来自哪个系统 -->
+        buff.append("</ESB>");//
+
+        String str = client.invokenMsgSend(buff.toString());
+        return getCodeSendMsgs(str);
+    }
+
+    /**
+     * 获取群发返回值
+     * 
+     * @Description: TODO <BR>
+     * @author liu.jinfeng
+     * @date 2017年9月7日 下午3:23:11
+     * @param xmlCode
+     * @return
+     * @throws DocumentException
+     */
+    private JSONObject getCodeSendMsgs(String xmlCode)
+            throws DocumentException {
+        Document doc = DocumentHelper.parseText(xmlCode);
+        Element rootElt = doc.getRootElement(); // 获取根节点
+
+        // 定义返回值
+        JSONObject json = new JSONObject();
+        if (!(rootElt.elementText("resultCode")).equals("0")) {
+            json.put("code", "0");// 失败
+            json.put("fail", "");
+            return json;
+        }
+
+        Element errorElement = rootElt.element("errorSet");
+        List<Element> errorElements = errorElement.elements();
+        if (errorElements.isEmpty()) {
+            json.put("code", "1");// 成功
+            json.put("fail", "");
+            return json;
+        }
+
+        StringBuffer failPhone = new StringBuffer();
+        for (Element errorEle : errorElements) {
+            failPhone.append(errorEle.getText()).append(",");
+        }
+        failPhone.setLength(failPhone.length() - 1);
+
+        json.put("code", "1");// 成功
+        json.put("fail", failPhone.toString());
+        return json;
+    }
+
     private String getCodeSendMsg(String xmlCode) throws DocumentException {
         Document doc = DocumentHelper.parseText(xmlCode);
         Element rootElt = doc.getRootElement(); // 获取根节点
@@ -155,8 +295,32 @@ public class PhoneMSGUtils {
         return code.equals("0") ? "1" : "0";
     }
 
-     public static void main(String[] args) throws Exception {
-         PhoneMSGUtils utils = new PhoneMSGUtils();
-         utils.sendMsg("13770784187", "1");
-     }
+    private String[] getPhoneAttr() {
+        List<String> phoneMSG = sysConfigService.findEmail(
+                SysConfigConstant.Phone_username,
+                SysConfigConstant.Phone_password);
+
+        String[] attr = new String[2];
+        attr[0] = phoneMSG.get(0);// account
+        attr[1] = phoneMSG.get(1);//pass
+        
+        logger.info(phoneMSG.get(0)+"====="+phoneMSG.get(1));
+        return attr;
+    }
+    
+    public static void main(String[] args) throws Exception {
+        PhoneMSGUtils utils = new PhoneMSGUtils();
+        // utils.sendMsg("13770784187", "1");
+
+        // String xml =
+        // "<ESB><resultCode>0</resultCode><msg>任务总提交了3条，成功发送了1条，号码重复的0条，号码错误的2条；号码在黑名单的0条；含屏蔽词的0条!</msg><errorSet><errorPhone>17327789013</errorPhone><errorPhone>17370784187</errorPhone></errorSet><blackSet></blackSet><keyWordSet></keyWordSet></ESB>";
+//        String xml = "<ESB><resultCode>0</resultCode><msg>任务总提交了3条，成功发送了1条，号码重复的0条，号码错误的2条；号码在黑名单的0条；含屏蔽词的0条!</msg><errorSet></errorSet><blackSet></blackSet><keyWordSet></keyWordSet></ESB>";
+//        Object s = utils.getCodeSendMsgs(xml);
+//        logger.info(s.toString());
+        
+        String[] a =utils.getPhoneAttr();
+        for(String s:a){
+            System.out.println(s+"==");
+        }
+    }
 }

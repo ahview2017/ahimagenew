@@ -110,19 +110,32 @@ public class PhoneMSGController {
                 cpPhoneMsg.setSender(userName);
                 cpPhoneMsg.setContent(content);
 
-                List<String> phoneMSG = configService.findEmail(
-                        SysConfigConstant.Phone_username,
-                        SysConfigConstant.Phone_password);
+//                List<String> phoneMSG = configService.findEmail(
+//                        SysConfigConstant.Phone_username,
+//                        SysConfigConstant.Phone_password);
                 // h3235055,geagag11515gag2t2gaegaga 这是原来的用户名密码
                 try {
 
-                    String msgResult = "";
-                    msgResult = phoneMSGService.sendSMS(cpUser.getTelBind(),
-                            content, phoneMSG.get(0), phoneMSG.get(1));
-                    log.info("短信发送结果----------> " + msgResult);
-                    msgResult = msgResult.replace('\n', ',');
-                    result2 = msgResult.split(",")[1];
-                    if ("0".equalsIgnoreCase(result2)) { // 如果发送成功就保存到数据库
+                    // String msgResult = "";
+                    // msgResult = phoneMSGService.sendSMS(cpUser.getTelBind(),
+                    // content,phoneMSG.get(0) , phoneMSG.get(1));
+                    // log.info("短信发送结果----------> "+msgResult );
+                    // msgResult=msgResult.replace('\n', ',');
+                    // result2 = msgResult.split(",")[1];
+                    // if ("0".equalsIgnoreCase(result2)) { // 如果发送成功就保存到数据库
+                    // cpPhoneMsg.setStatus(0); // 发送成功
+                    // phoneMSGService.add(cpPhoneMsg);
+                    // result.setCode(CommonConstant.SUCCESSCODE);
+                    // result.setMsg(CommonConstant.SUCCESSSTRING);
+                    // }else{
+                    // cpPhoneMsg.setStatus(2); // 发送失败
+                    // phoneMSGService.add(cpPhoneMsg);
+                    // result.setCode(CommonConstant.EXCEPTIONCODE);
+                    // result.setMsg("短信发送失败");
+                    // }
+                    String msgResult = phoneMSGUtils
+                            .sendSMSMsg(cpUser.getTelBind(), content);
+                    if (msgResult.equals("1")) {
                         cpPhoneMsg.setStatus(0); // 发送成功
                         phoneMSGService.add(cpPhoneMsg);
                         result.setCode(CommonConstant.SUCCESSCODE);
@@ -133,7 +146,6 @@ public class PhoneMSGController {
                         result.setCode(CommonConstant.EXCEPTIONCODE);
                         result.setMsg("短信发送失败");
                     }
-
                 } catch (Exception e) {
                     e.printStackTrace();
                     result.setCode(CommonConstant.EXCEPTIONCODE);
@@ -216,9 +228,9 @@ public class PhoneMSGController {
                     userid = userid + findNameByUid + ":";
                 }
             }
-            List<String> phoneMSG = configService.findEmail(
-                    SysConfigConstant.Phone_username,
-                    SysConfigConstant.Phone_password);
+//            List<String> phoneMSG = configService.findEmail(
+//                    SysConfigConstant.Phone_username,
+//                    SysConfigConstant.Phone_password);
             // h3235055,geagag11515gag2t2gaegaga 这是原来的用户名密码
             try {
                 List<String> phoneN = userRoleRightService
@@ -228,30 +240,41 @@ public class PhoneMSGController {
                 if (!(phoneN.size() % 50000 == 0)) {
                     num++;
                 }
-                String msgResult = "";
+                // String msgResult = "";
+                JSONObject msgResult = new JSONObject();
                 String phones = "";
                 for (int i = 0; i < num - 1; i++) {
                     phones = StringUtils.join(
                             phoneN.subList(0 + i * 5000, 49999 + i * 50000),
                             ",");
-                    msgResult = phoneMSGService.sendSMS(phones, content,
-                            phoneMSG.get(0), phoneMSG.get(1));
-                    log.info("短信发送结果----------> " + msgResult);
-                    msgResult = msgResult.replace('\n', ',');
-                    result2 = msgResult.split(",")[1];
-                    if ("0".equalsIgnoreCase(result2)) { // 如果发送成功就保存到数据库
+                    // msgResult = phoneMSGService.sendSMS(phones, content,
+                    // phoneMSG.get(0), phoneMSG.get(1));
+                    msgResult = phoneMSGUtils.sendSMSGroups(phones, content);
+                    // log.info("短信发送结果----------> " + msgResult);
+                    // msgResult = msgResult.replace('\n', ',');
+                    // result2 = msgResult.split(",")[1];
+                    result2 = msgResult.getString("code");
+                    if ("1".equalsIgnoreCase(result2)) { // 如果发送成功就保存到数据库
                         if (roseid.length() > 1) {
                             roseid = roseid.substring(0, roseid.length() - 1);
                         }
                         if (userid.length() > 1) {
                             userid = userid.substring(0, userid.length() - 1);
                         }
+
+                        // if(msgResult.getString("fail")==null||msgResult.getString("fail")==""){
+                        //
+                        // }
+                        String failsNum = msgResult.getString("fail");
+
                         CpUser user = SessionUtils.getUser(request);
                         CpPhoneMsg cpPhoneMsg = new CpPhoneMsg();
                         cpPhoneMsg.setSender(user.getUserName());
                         cpPhoneMsg.setPhoneReciver(teamIds);// 这里发送的是电话号码（改为teamId）
                         cpPhoneMsg.setPhoneReciverRole(roseid);
-                        cpPhoneMsg.setStatus(0); // 发送成功
+                        cpPhoneMsg.setStatus(
+                                failsNum.indexOf(user.getTelBind()) < 0 ? 0
+                                        : 2); // 发送成功
                         cpPhoneMsg.setContent(content);
                         phoneMSGService.add(cpPhoneMsg);
                         result.setCode(CommonConstant.SUCCESSCODE);
@@ -267,25 +290,30 @@ public class PhoneMSGController {
                 phones = StringUtils.join(
                         phoneN.subList(0 + (num - 1) * 50000, phoneN.size()),
                         ",");
-                msgResult = phoneMSGService.sendSMS(phones, content,
-                        phoneMSG.get(0), phoneMSG.get(1));
-                log.info("短信发送结果----------> " + msgResult);
-                msgResult = msgResult.replace('\n', ',');
+                // msgResult = phoneMSGService.sendSMS(phones, content,
+                // phoneMSG.get(0), phoneMSG.get(1));
+                // log.info("短信发送结果----------> " + msgResult);
+                // msgResult = msgResult.replace('\n', ',');
 
-                result2 = msgResult.split(",")[1];
-                if ("0".equalsIgnoreCase(result2)) { // 如果发送成功就保存到数据库
+                // result2 = msgResult.split(",")[1];
+                msgResult = phoneMSGUtils.sendSMSGroups(phones, content);
+                result2 = msgResult.getString("code");
+                if ("1".equalsIgnoreCase(result2)) { // 如果发送成功就保存到数据库
                     if (roseid.length() > 1) {
                         roseid = roseid.substring(0, roseid.length() - 1);
                     }
                     if (userid.length() > 1) {
                         userid = userid.substring(0, userid.length() - 1);
                     }
+                    String failsNum = msgResult.getString("fail");
+
                     CpUser user = SessionUtils.getUser(request);
                     CpPhoneMsg cpPhoneMsg = new CpPhoneMsg();
                     cpPhoneMsg.setSender(user.getUserName());
                     cpPhoneMsg.setPhoneReciver(teamIds);// 这里发送的是电话号码(单发),teamId(群发)
                     cpPhoneMsg.setPhoneReciverRole(roseid);
-                    cpPhoneMsg.setStatus(0); // 发送成功
+                    cpPhoneMsg.setStatus(
+                            failsNum.indexOf(user.getTelBind()) < 0 ? 0 : 2); // 发送成功
                     cpPhoneMsg.setContent(content);
                     phoneMSGService.add(cpPhoneMsg);
                     result.setCode(CommonConstant.SUCCESSCODE);
@@ -539,7 +567,7 @@ public class PhoneMSGController {
                     SysConfigConstant.Phone_username,
                     SysConfigConstant.Phone_password);
 
-            content = "【中新社】 中新社密码找回。 用户密码是 ：" + newPassword;
+            content = "中新社密码找回。 用户密码是 ：" + newPassword;
 
             // SendChit sendChit = new SendChit();
             String sendResult = phoneMSGService.sendSMS(userPhone, content,
@@ -675,9 +703,9 @@ public class PhoneMSGController {
             // result.setMsg("该手机号对应账户不唯一，请直接联系网站管理员。");
             // return result;
             // }
-            List<String> phoneMSG = configService.findEmail(
-                    SysConfigConstant.Phone_username,
-                    SysConfigConstant.Phone_password);
+//            List<String> phoneMSG = configService.findEmail(
+//                    SysConfigConstant.Phone_username,
+//                    SysConfigConstant.Phone_password);
             // 生成六位验证码发送到手机
             Integer vilidate = (int) ((Math.random() * 9 + 1) * 100000);
             redisClientTemplate.set("PHONE" + userName + vilidate,
@@ -689,30 +717,39 @@ public class PhoneMSGController {
             // redisClientTemplate.expire("EMAIL"+userName+request.getSession().getAttribute("phoneVilidate"),
             // -2);
             // request.getSession().setAttribute("phoneVilidate", vilidate);
-            String content = "【中新社】 您正在执行中新社密码找回，验证码是: " + vilidate
+            String content = "您正在执行中新社密码找回，验证码是: " + vilidate
                     + "。请按页面提示提交验证码，切记请勿将验证码泄露给他人。";
 
-            String sendResult = phoneMSGService.sendSMS(user.getTelBind(),
-                    content, phoneMSG.get(0), phoneMSG.get(1));
-            sendResult = sendResult.replace('\n', ',');
-
-            String[] arrstr = sendResult.split(",");
-            if (arrstr.length > 1) {
-                if (arrstr[1].equals("0")) {
-                    log.info("提交成功，返回值：" + arrstr[2]);
-                    result.setCode(CommonConstant.SUCCESSCODE);
-                    result.setMsg(CommonConstant.SUCCESSSTRING);
-                } else {
-                    log.info(user.getTelBind() + "提交失败，错误码：" + arrstr[1]);
-                    result.setCode(CommonConstant.EXCEPTIONCODE);
-                    result.setMsg(CommonConstant.EXCEPTIONMSG);
-                    // 错误码 详见接口文档
-                }
-            } else {
-                log.info(user.getTelBind() + "提交异常，返回值：" + result);
+            // String sendResult = phoneMSGService.sendSMS(user.getTelBind(),
+            // content, phoneMSG.get(0), phoneMSG.get(1));
+            // sendResult = sendResult.replace('\n', ',');
+            //
+            // String[] arrstr = sendResult.split(",");
+            String resultCode = phoneMSGUtils.sendSMSMsg(user.getTelBind(),
+                    content);
+            if (resultCode.equals("0")) {// 失败
                 result.setCode(CommonConstant.EXCEPTIONCODE);
                 result.setMsg(CommonConstant.EXCEPTIONMSG);
+            } else {
+                result.setCode(CommonConstant.SUCCESSCODE);
+                result.setMsg(CommonConstant.SUCCESSSTRING);
             }
+            // if (arrstr.length > 1) {
+            // if (arrstr[1].equals("0")) {
+            // log.info("提交成功，返回值：" + arrstr[2]);
+            // result.setCode(CommonConstant.SUCCESSCODE);
+            // result.setMsg(CommonConstant.SUCCESSSTRING);
+            // } else {
+            // log.info(user.getTelBind() + "提交失败，错误码：" + arrstr[1]);
+            // result.setCode(CommonConstant.EXCEPTIONCODE);
+            // result.setMsg(CommonConstant.EXCEPTIONMSG);
+            // // 错误码 详见接口文档
+            // }
+            // } else {
+            // log.info(user.getTelBind() + "提交异常，返回值：" + result);
+            // result.setCode(CommonConstant.EXCEPTIONCODE);
+            // result.setMsg(CommonConstant.EXCEPTIONMSG);
+            // }
         } catch (Exception e1) {
             e1.printStackTrace();
             log.error("短信验证码发送失败， " + e1.getMessage());
@@ -738,39 +775,47 @@ public class PhoneMSGController {
                 result.setMsg("您输入的手机号对应账户不唯一，请直接联系网站管理员。");
                 return result;
             }
-            List<String> phoneMSG = configService.findEmail(
-                    SysConfigConstant.Phone_username,
-                    SysConfigConstant.Phone_password);
+//            List<String> phoneMSG = configService.findEmail(
+//                    SysConfigConstant.Phone_username,
+//                    SysConfigConstant.Phone_password);
             // 生成验证码发送到手机
             String vilidate = UUID.randomUUID().toString().substring(0, 8);
             // HttpSession session = request.getSession();
             request.getSession().setAttribute("vilidate", vilidate);
             // String title="中新社密码找回验证码 \r\n";
-            String content = "【中新社】 您正在执行中新社密码找回，验证码是: " + vilidate
+            String content = "您正在执行中新社密码找回，验证码是: " + vilidate
                     + "。请按页面提示提交验证码，切记请勿将验证码泄露给他人。";
 
-            // SendChit sendChit = new SendChit();
-            String sendResult = phoneMSGService.sendSMS(phoneNum, content,
-                    phoneMSG.get(0), phoneMSG.get(1));
-            sendResult = sendResult.replace('\n', ',');
-
-            String[] arrstr = sendResult.split(",");
-            if (arrstr.length > 1) {
-                if (arrstr[1].equals("0")) {
-                    log.info("提交成功，返回值：" + arrstr[2]);
-                    result.setCode(CommonConstant.SUCCESSCODE);
-                    result.setMsg(CommonConstant.SUCCESSSTRING);
-                } else {
-                    log.info(phoneNum + "提交失败，错误码：" + arrstr[1]);
-                    result.setCode(CommonConstant.EXCEPTIONCODE);
-                    result.setMsg(CommonConstant.EXCEPTIONMSG);
-                    // 错误码 详见接口文档
-                }
-            } else {
-                log.info(phoneNum + "提交异常，返回值：" + result);
+            String resultCode = phoneMSGUtils.sendSMSMsg(phoneNum, content);
+            if (resultCode.equals("0")) {// 失败
                 result.setCode(CommonConstant.EXCEPTIONCODE);
                 result.setMsg(CommonConstant.EXCEPTIONMSG);
+            } else {
+                result.setCode(CommonConstant.SUCCESSCODE);
+                result.setMsg(CommonConstant.SUCCESSSTRING);
             }
+            // SendChit sendChit = new SendChit();
+            // String sendResult = phoneMSGService.sendSMS(phoneNum, content,
+            // phoneMSG.get(0), phoneMSG.get(1));
+            // sendResult = sendResult.replace('\n', ',');
+            //
+            // String[] arrstr = sendResult.split(",");
+            // if (arrstr.length > 1) {
+            // if (arrstr[1].equals("0")) {
+            // log.info("提交成功，返回值：" + arrstr[2]);
+            // result.setCode(CommonConstant.SUCCESSCODE);
+            // result.setMsg(CommonConstant.SUCCESSSTRING);
+            // } else {
+            // log.info(phoneNum + "提交失败，错误码：" + arrstr[1]);
+            // result.setCode(CommonConstant.EXCEPTIONCODE);
+            // result.setMsg(CommonConstant.EXCEPTIONMSG);
+            // // 错误码 详见接口文档
+            // }
+            // } else {
+            // log.info(phoneNum + "提交异常，返回值：" + result);
+            // result.setCode(CommonConstant.EXCEPTIONCODE);
+            // result.setMsg(CommonConstant.EXCEPTIONMSG);
+            // }
             // HttpClient client = new HttpClient();
             // PostMethod post = new PostMethod("http://gbk.sms.webchinese.cn");
             // post.addRequestHeader("Content-Type",
@@ -820,47 +865,61 @@ public class PhoneMSGController {
         ResponseMessage result = new ResponseMessage();
 
         CommonValidation.checkParamBlank(phoneNum, "手机号");
-        //正则验证手机号码是否合法
+        // 正则验证手机号码是否合法
         final String REGEX_MOBILE = "^((17[0-9])|(14[0-9])|(13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";
-        if(!Pattern.matches(REGEX_MOBILE, phoneNum)){
+        if (!Pattern.matches(REGEX_MOBILE, phoneNum)) {
             result.setCode(CommonConstant.EXCEPTIONCODE);
             result.setMsg(CommonConstant.EXCEPTIONMSG);
             return result;
         }
-        
-//        log.info("========"+redisClientTemplate.get("PHONE"+phoneNum));
-        if(redisClientTemplate.get("PHONE"+phoneNum)!=null){
+
+        // log.info("========"+redisClientTemplate.get("PHONE"+phoneNum));
+        if (redisClientTemplate.get("PHONE" + phoneNum) != null) {
             result.setCode(CommonConstant.EXCEPTIONCODE);
             result.setMsg(CommonConstant.EXCEPTIONMSG);
             return result;
         }
-        
+
+        CpPhoneMsg cpPhoneMsg = new CpPhoneMsg();
+        // 添加短信信息
+        cpPhoneMsg.setSender("系统管理员");
+        cpPhoneMsg.setContent("发送短信验证码");
         JSONObject resultObj = null;
         try {
-            resultObj = phoneMSGUtils.sendMsg(phoneNum, PhoneMSGUtils.TYPE_SEND_CODE);
+            resultObj = phoneMSGUtils.sendMsg(phoneNum,
+                    PhoneMSGUtils.TYPE_SEND_CODE);
         } catch (Exception e) {
+            cpPhoneMsg.setStatus(2); // 发送失败
+            phoneMSGService.add(cpPhoneMsg);
+
             log.error(e.getMessage(), e);
             result.setCode(CommonConstant.EXCEPTIONCODE);
             result.setMsg("短信发送失败");
             return result;
         }
-        if(null ==resultObj||resultObj.getString("code").equals("0")){
+        if (null == resultObj || resultObj.getString("code").equals("0")) {
+            cpPhoneMsg.setStatus(2); // 发送失败
+            phoneMSGService.add(cpPhoneMsg);
+
             result.setCode(CommonConstant.EXCEPTIONCODE);
             result.setMsg("短信发送失败");
             return result;
         }
 
-        //验证码有效期 3分钟
+        // 验证码有效期 3分钟
         String vilidata = resultObj.getString("msg");
-        redisClientTemplate.set("PHONE"+phoneNum+vilidata, vilidata+"");
-        redisClientTemplate.expire("PHONE"+phoneNum+vilidata, 60*3);
-        //保存手机号，防止频繁调用接口
-        redisClientTemplate.set("PHONE"+phoneNum, vilidata+"");
-        redisClientTemplate.expire("PHONE"+phoneNum, 60);
-        
-//        log.info("PHONE"+phoneNum+vilidata+"==="+redisClientTemplate.get("PHONE"+phoneNum+vilidata));
+        redisClientTemplate.set("PHONE" + phoneNum + vilidata, vilidata + "");
+        redisClientTemplate.expire("PHONE" + phoneNum + vilidata, 60 * 3);
+        // 保存手机号，防止频繁调用接口
+        redisClientTemplate.set("PHONE" + phoneNum, vilidata + "");
+        redisClientTemplate.expire("PHONE" + phoneNum, 60);
+
+        cpPhoneMsg.setStatus(0); // 发送成功
+        phoneMSGService.add(cpPhoneMsg);
+        // log.info("PHONE"+phoneNum+vilidata+"==="+redisClientTemplate.get("PHONE"+phoneNum+vilidata));
         result.setCode(CommonConstant.SUCCESSCODE);
         result.setMsg(CommonConstant.SUCCESSSTRING);
         return result;
     }
+    
 }
