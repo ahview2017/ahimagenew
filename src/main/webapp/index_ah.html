@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="client.module">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache,must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <!--<meta name="viewport" content="width=device-width,initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />-->
+    <!--<meta name="apple-mobile-web-app-capable" content="yes" />-->
+    <!--<meta name="full-screen" content="true" />-->
+    <!--<meta name="screen-orientation" content="portrait" />-->
+    <!--<meta name="x5-fullscreen" content="true" />-->
+    <!--<meta name="360-fullscreen" content="true" />-->
+    <!--<meta content="telephone=no" name="format-detection" />-->
+    <link rel="shortcut icon" href="admin/assets/img/ahrbico_02.ico" type="image/x-icon"/>
+    <title>安徽日报图片库</title>
+
+    <!--css libs-->
+    <link rel="stylesheet" href="client_ah/assets/libs/font-awesome/font-awesome.min.css">
+    <link rel="stylesheet" href="client_ah/assets/libs/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="client_ah/assets/libs/angular-bootstrap-datetimepicker/datetimepicker.css">
+    
+    <link rel="stylesheet" href="client_ah/assets/libs/css/jquery/pagination.css">
+    <link rel="stylesheet" href="client_ah/assets/libs/swipe/swiper-3.4.1.min.css">
+
+
+    <!------------------manager css------------------->
+    <link rel="stylesheet" href="client_ah/assets/css/base.css">
+    <link rel="stylesheet" href="client_ah/assets/css/common.css">
+    <link rel="stylesheet" href="client_ah/assets/css/root.css">
+    <link rel="stylesheet" href="client_ah/assets/css/media.css">
+    <!--index css-->
+    <link rel="stylesheet" href="client_ah/assets/css/index/index.css">
+    <!--photolist css-->
+    <link rel="stylesheet" href="client_ah/assets/css/photolist/photolist.css">
+    <!--detail css-->
+    <link rel="stylesheet" href="client_ah/assets/css/detail/detailList.css"/>
+    <!--newDetail css-->
+    <link rel="stylesheet" href="client_ah/assets/css/newDetail/newDetail.css"/>
+    <!--specPic css-->
+    <link rel="stylesheet" href="client_ah/assets/css/specPic/specpic.css">
+    <!--oldPic css-->
+    <link rel="stylesheet" href="client_ah/assets/css/oldPic/oldpic.css">
+    <!--acadepic css-->
+    <link rel="stylesheet" href="client_ah/assets/css/acadePic/acadepic.css">
+    <!--personpic css-->
+    <link rel="stylesheet" href="client_ah/assets/css/personPic/personpic.css">
+    <!--chartList css-->
+    <link rel="stylesheet" href="client_ah/assets/css/chartList/chartList.css">
+    <!--fashionpic css-->
+    <link rel="stylesheet" href="client_ah/assets/css/fashionPic/fashionpic.css">
+    <!--financePic css-->
+    <link rel="stylesheet" href="client_ah/assets/css/financePic/financepic.css">
+    <!--webInfoView css-->
+    <link rel="stylesheet" href="client_ah/assets/css/webInfoView/web_info_view.css">
+    <!--topicPlayBack css-->
+    <link rel="stylesheet" href="client_ah/assets/css/topicPlayBack/topic_play_back.css">
+    <!--monthDraft css-->
+    <link rel="stylesheet" href="client_ah/assets/css/monthDraft/month_draft.css">
+    <!--famousLecture css-->
+    <link rel="stylesheet" href="client_ah/assets/css/famousLecture/famous_lecture.css">
+    <!--login css-->
+    <link rel="stylesheet" href="client_ah/assets/css/login/login.css">
+    <!--register css-->
+    <link rel="stylesheet" href="client_ah/assets/css/register/register.css">
+    <!--forgetPwd css-->
+    <link rel="stylesheet" href="client_ah/assets/css/forgetPwd/forgetPwd.css">
+    <!--register css-->
+    <link rel="stylesheet" href="client_ah/assets/css/currentDoctor/current_doctor.css">
+    <!--needChannel css-->
+    <link rel="stylesheet" href="client_ah/assets/css/needChannel/need_channel.css"/>
+    <!--favorite css-->
+    <link rel="stylesheet" href="client_ah/assets/css/favorite/favorite.css"/>
+    <!--myInfo css-->
+    <link rel="stylesheet" href="client_ah/assets/css/myInfo/myInfo.css"/>
+    <!--shoppingCart-->
+    <link rel="stylesheet" href="client_ah/assets/css/shoppingCart/shoppingCart.css"/>
+    <!--special-->
+    <link rel="stylesheet" href="client_ah/assets/css/special/special.css"/>
+    <!--advSearch-->
+    <link rel="stylesheet" href="client_ah/assets/css/advSearch/advSearch.css"/>
+	
+	<!--ahrb assets 20170904-->
+	 <link rel="stylesheet" href="client_ah/assets/images_ah/trs_web_styleV2.0.css"/>
+	 <link rel="stylesheet" href="client_ah/assets/images_ah/sjah_index.css"/>
+	 
+	 
+
+    <!--JS libs-->
+    <script src="client_ah/assets/libs/angular/angular1.5.min.js"></script>
+    <script src="client_ah/assets/libs/moment/moment-with-locales.min.js"></script>
+    <script src="client_ah/assets/libs/angular-bootstrap-datetimepicker/datetimepicker.js"></script>
+    <script src="client_ah/assets/libs/angular-bootstrap-datetimepicker/datetimepicker.templates.js"></script>
+    <script src="client_ah/assets/libs/angular/angular-ui-router.js"></script>
+    <script src="client_ah/assets/libs/angular/angular-md5.js"></script>
+    <script src="client_ah/assets/libs/angular-cookies/angular-cookies.min.js"></script>
+    <script src="client_ah/assets/libs/ng-file-upload/ng-file-upload-all.min.js"></script>
+    <script src="client_ah/assets/libs/jquery/jquery-1.11.3.min.js"></script>
+    <script src="client_ah/assets/libs/jquery/jquery.qrcode.min.js"></script>
+    <script src="client_ah/assets/libs/jquery/pingpp-pc.js"></script>
+    <script src="client_ah/assets/libs/My97DatePicker/WdatePicker.js"></script>
+    <script src="client_ah/assets/libs/jquery/layer.js"></script>
+    <script src="client_ah/assets/libs/jquery/jqPaginator.js"></script>
+    <script src="client_ah/assets/libs/bootstrap/bootstrap.min.js"></script>
+    <script src="client_ah/assets/libs/angular-dirPagination/dirPagination.js"></script>
+    <script src="client_ah/assets/libs/angular-bootstrap-datetimepicker/bootstrap-datepicker.js"></script>
+    <script src="client_ah/assets/libs/flexslider/jquery.flexslider-min.js"></script>
+    <script src="client_ah/assets/libs/jq-slidebox/jquery.slideBox.js"></script>
+    <script src="client_ah/assets/libs/jquery/jquery.SuperSlide.2.1.1.js"></script>
+    <script src="client_ah/assets/libs/jquery/jquery.pagination.min.js"></script>
+    <script src="admin/assets/libs/My97DatePicker/WdatePicker.js"></script>
+    <script src="admin/assets/libs/swipe/swiper-3.4.1.jquery.min.js"></script>
+	
+	<!--ahrb script-->
+	
+
+
+    <!---------------------------------------- Javascript ---------------------------------->
+    <script src="client_ah/app/client.services.js"></script>
+    <script src="client_ah/app/client.filter.js"></script>
+    <script src="client_ah/app/client.directive.js"></script>
+    <script src="client_ah/app/client.module.js"></script>
+    <script src="client_ah/app/client.value.js"></script>
+    <script src="client_ah/app/shared/header/headCtrl.js"></script>
+    <script src="client_ah/app/shared/footer/footerCtrl.js"></script>
+    <script src="client_ah/app/components/login/loginCtrl.js"></script>
+    <script src="client_ah/app/components/index/indexCtrl.js"></script>
+    <script src="client_ah/app/components/photoList/photoListCtrl.js"></script>
+    <script src="client_ah/app/components/moreSortList/moreSortListCtrl.js"></script>
+    <script src="client_ah/app/components/detail/detailList/detailListCtrl.js"></script>
+    <script src="client_ah/app/components/newDetail/detailList/picsDetailCtrl.js"></script>
+    <script src="client_ah/app/components/newDetail/singleDetail/singleDetailCtrl.js"></script>
+    <script src="client_ah/app/components/specPic/specPicCtrl.js"></script>
+    <script src="client_ah/app/components/oldPic/oldPicCtrl.js"></script>
+    <script src="client_ah/app/components/acadePic/acadePicCtrl.js"></script>
+    <script src="client_ah/app/components/personPic/personPicCtrl.js"></script>
+    <script src="client_ah/app/components/personPic/personList/personListCtrl.js"></script>
+    <script src="client_ah/app/components/fashionPic/fashionPicCtrl.js"></script>
+    <script src="client_ah/app/components/financePic/financePicCtrl.js"></script>
+    <script src="client_ah/app/components/chartList/chartListCtrl.js"></script>
+    <script src="client_ah/app/components/webInfoView/webInfoViewCtrl.js"></script>
+    <script src="client_ah/app/components/webInfoView/webInfoAllViewCtrl.js"></script>
+    <script src="client_ah/app/components/topicPlayback/topicPlayBackCtrl.js"></script>
+    <script src="client_ah/app/components/monthDraft/monthDraftCtrl.js"></script>
+    <script src="client_ah/app/components/famousLecture/famousLectureCtrl.js"></script>
+    <script src="client_ah/app/components/register/registerCtrl.js"></script>
+    <script src="client_ah/app/components/register/registerStepOneCtrl.js"></script>
+    <script src="client_ah/app/components/register/registerStepTwoCtrl.js"></script>
+    <script src="client_ah/app/components/register/registerSuccessCtrl.js"></script>
+    <script src="client_ah/app/components/forgetPwd/forgetPwdCtrl.js"></script>
+    <script src="client_ah/app/components/forgetPwd/forgetPasswordCtrl.js"></script>
+    <script src="client_ah/app/components/forgetPwd/forgetPasswordStepOneCtrl.js"></script>
+    <script src="client_ah/app/components/forgetPwd/forgetPasswordStepTwoCtrl.js"></script>
+    <script src="client_ah/app/components/forgetPwd/forgetPasswordSuccessCtrl.js"></script>
+    <script src="client_ah/app/components/currentDoctor/currentDoctorCtrl.js"></script>
+    <script src="client_ah/app/components/currentDoctor/currentDoctorClassifyCtrl.js"></script>
+    <script src="client_ah/app/components/needChannel/needChannelCtrl.js"></script>
+    <script src="client_ah/app/components/needChannel/releaseNeedCtrl.js"></script>
+    <script src="client_ah/app/components/needChannel/providePicCtrl.js"></script>
+    <script src="client_ah/app/components/favorite/favoriteCtrl.js"></script>
+    <script src="client_ah/app/components/favorite/detailCtrl.js"></script>
+    <script src="client_ah/app/components/shoppingCart/shoppingCartCtrl.js"></script>
+    <script src="client_ah/app/components/myInfo/myInfoCtrl.js"></script>
+    <script src="client_ah/app/components/myOrder/myOrderCtrl.js"></script>
+    <script src="client_ah/app/components/fullRetrieval/fulltext.js"></script>
+    <script src="client_ah/app/components/advSearch/advSearchCtrl.js"></script>
+    <script src="client_ah/app/components/special/special.js"></script>
+    <script src="client_ah/app/components/notice/ggDisplay.js"></script>
+    <script src="client_ah/app/components/notice/ggList.js"></script>
+    <script src="client_ah/app/components/special/moreContribute.js"></script>
+    <script src="client_ah/app/components/myOrder/lookPicsCtrl.js"></script>
+    <script src="client_ah/app/components/siteMsg/siteMsg.js"></script>
+</head>
+<body>
+<div class="wrapper">
+    <div ui-view="header" class="clear"></div>
+    <div ui-view="main" class="clear"></div>
+    <div ui-view="footer" class="clear"></div>
+</div>
+<div ui-view="specCon"></div>
+</body>
+</html>
