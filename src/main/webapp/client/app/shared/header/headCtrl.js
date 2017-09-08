@@ -42,6 +42,8 @@ clientModule.controller('headerCtrl', function ($scope, $cookies, req, md5, $sta
             if (resp.code == '211') {
                 $state.go('root.login');
                 $rootScope.user_online = false;
+                $scope.client_uName = false;
+                $rootScope.client_uName = false;
                 $cookies.remove('client_uname');
                 initSetting();
                 removeAllCookies();

@@ -98,8 +98,8 @@ public class PhoneMSGController {
             String pwd_md5 = Coder.reverse(Coder.decryptBASE64(pwd_db));// md5密码
 
             if (pwd_md5.equals(password)) {
-                String content = "[cnsphoto]帐户注册通知！亲爱的用户" + userName + "：您好！ "
-                        + "感谢您注册cnsphoto的账户，您的注册邮箱号为：" + cpUser.getEmailBind();
+                String content = "安徽视觉网帐户注册通知！亲爱的用户" + userName + "：您好！ "
+                        + "感谢您注册安徽视觉网的账户，您的注册邮箱号为：" + cpUser.getEmailBind();
 
                 if (roleId != null && roleId == 3) {
                     // 摄影师
@@ -567,7 +567,7 @@ public class PhoneMSGController {
                     SysConfigConstant.Phone_username,
                     SysConfigConstant.Phone_password);
 
-            content = "中新社密码找回。 用户密码是 ：" + newPassword;
+            content = "安徽视觉网密码找回。 用户密码是 ：" + newPassword;
 
             // SendChit sendChit = new SendChit();
             String sendResult = phoneMSGService.sendSMS(userPhone, content,
@@ -717,7 +717,7 @@ public class PhoneMSGController {
             // redisClientTemplate.expire("EMAIL"+userName+request.getSession().getAttribute("phoneVilidate"),
             // -2);
             // request.getSession().setAttribute("phoneVilidate", vilidate);
-            String content = "您正在执行中新社密码找回，验证码是: " + vilidate
+            String content = "您正在执行安徽视觉网密码找回，验证码是: " + vilidate
                     + "。请按页面提示提交验证码，切记请勿将验证码泄露给他人。";
 
             // String sendResult = phoneMSGService.sendSMS(user.getTelBind(),
@@ -783,7 +783,7 @@ public class PhoneMSGController {
             // HttpSession session = request.getSession();
             request.getSession().setAttribute("vilidate", vilidate);
             // String title="中新社密码找回验证码 \r\n";
-            String content = "您正在执行中新社密码找回，验证码是: " + vilidate
+            String content = "您正在执行安徽视觉网密码找回，验证码是: " + vilidate
                     + "。请按页面提示提交验证码，切记请勿将验证码泄露给他人。";
 
             String resultCode = phoneMSGUtils.sendSMSMsg(phoneNum, content);
