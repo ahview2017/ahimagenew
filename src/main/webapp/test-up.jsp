@@ -12,7 +12,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>上传1111</title>
+<title>上传</title>
 <script type="text/javascript" src="<%=basePath%>js/jquery-2.0.3.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
