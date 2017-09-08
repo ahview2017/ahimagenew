@@ -53,7 +53,7 @@ adminModule.controller('logManageCtrl', function ($scope, $cookies, req, md5, $s
             var time = new Date().format("yyyyMMddhhmmss");
             var fileName = "系统日志_" + time + ".xls";//文件名
             return $http({
-                url: "/cnsphoto/logCtro/downLoadog.do",
+                url: "/photo/logCtro/downLoadog.do",
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'

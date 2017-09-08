@@ -148,7 +148,7 @@ clientModule.controller('singleDetailCtrl', function ($scope, $cookies, req, md5
         var params =
             '?orderId=' + orderId +
             '&type=' + downWay;
-        window.open('/cnsphoto/downloadPicture/downByOrder.do' + params, '_blank');
+        window.open('/photo/downloadPicture/downByOrder.do' + params, '_blank');
     }
 
     //根据订单详情id下载图片
@@ -160,7 +160,7 @@ clientModule.controller('singleDetailCtrl', function ($scope, $cookies, req, md5
         var params =
             '?picIds=' + details +
             '&type=' + downWay;
-        window.open('/cnsphoto/downloadPicture/downByPicId.do' + params, '_blank');
+        window.open('/photo/downloadPicture/downByPicId.do' + params, '_blank');
     }
 
     /**

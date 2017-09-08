@@ -244,7 +244,7 @@ adminModule.controller('projectManageNewDetailCtrl',function($scope,$cookies,req
     $scope.uploadBannerFile = function(file,item){
         if(!file)  return;
         Upload.upload({
-            url: 'http://192.168.180.124/cnsphoto/enTopicColum/upPic.do',
+            url: '/photo/enTopicColum/upPic.do',
             data: {pic: file}
         }).then(function (resp) {
             console.log('Success ');

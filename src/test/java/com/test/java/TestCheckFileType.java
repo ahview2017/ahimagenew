@@ -16,6 +16,5 @@ public class TestCheckFileType {
 //			sErrorMsg	= "只允许上传“doc,docx,xls,xlsx,pdf,zip,rar,txt”!";
 //		}
 //		System.out.println("sErrorMsg:"+sErrorMsg);
-		
 	}
 }

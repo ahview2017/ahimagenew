@@ -173,7 +173,7 @@ adminModule.controller('orderManageCtrl', function ($scope, $cookies, req, md5, 
         if(window.localStorage.lang==0){
             jumpUrl = '/#/lookPics/' + orderId;
         }else{
-            jumpUrl = '/cnsphoto_en/index.html#/lookPics/' + orderId;
+            jumpUrl = '/photo_en/index.html#/lookPics/' + orderId;
         }
         window.open(jumpUrl,'_blank');
     }
@@ -184,6 +184,6 @@ adminModule.controller('orderManageCtrl', function ($scope, $cookies, req, md5, 
     //下载订单图片请求
     function  req_downOrderPic(orderId){
         var params  = '?orderId=' + orderId;
-        window.open('/cnsphoto/downloadPicture/adminDownByOrder.do' + params,'_blank');
+        window.open('/photo/downloadPicture/adminDownByOrder.do' + params,'_blank');
     }
 });

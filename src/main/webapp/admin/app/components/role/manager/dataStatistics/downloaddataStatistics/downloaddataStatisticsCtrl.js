@@ -163,7 +163,7 @@ adminModule.controller('downloaddataStatisticsCtrl', function(req, $state, $scop
    
    //导出数据
    vm.exportExcel=function(){
-   	document.location = "/cnsphoto/downLoadStatisticsCtrl/exportExcel.do?selectType="
+   	document.location = "/photo/downLoadStatisticsCtrl/exportExcel.do?selectType="
    	 +vm.selectType+"&langtype="+window.localStorage.lang+"&rows="+vm.selPageRows+"&page="+vm.pagination.current+
    	 "&pictureAuthor="+vm.pictureAuthor+"&authorId="+vm.authorId+"&authorLoginName="+vm.authorLoginName+
    	 "&pictureTitle="+vm.pictureTitle+"&editUser="+vm.editUser+"&pictureFileName="+vm.pictureFileName+

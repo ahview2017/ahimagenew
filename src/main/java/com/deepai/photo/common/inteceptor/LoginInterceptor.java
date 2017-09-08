@@ -121,7 +121,7 @@ public class LoginInterceptor implements HandlerInterceptor{
 								return true;
 							}else{
 								// 开始进行权限验证
-								requestUri=requestUri.substring(0, requestUri.lastIndexOf(".")).replace("/cnsphoto/", "");
+								requestUri=requestUri.substring(0, requestUri.lastIndexOf(".")).replace("/photo/", "");
 								if (userRoleRightService.checkUserRight(user.getId(), requestUri)){
 									return true;
 								} else {

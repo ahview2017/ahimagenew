@@ -151,7 +151,7 @@ clientModule.controller('myOrderCtrl',function($scope,$cookies,req,md5,$state,$r
         var params =
             '?orderId=' + vm.orderId +
             '&type=' + downWay;
-        window.open('/cnsphoto/downloadPicture/downByOrder.do'+ params,'_blank');
+        window.open('/photo/downloadPicture/downByOrder.do'+ params,'_blank');
     }
 
 });

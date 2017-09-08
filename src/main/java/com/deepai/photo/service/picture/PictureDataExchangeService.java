@@ -100,6 +100,8 @@ public class PictureDataExchangeService {
 						filename = getFileName("jpg");
 					}
 					
+					System.out.println("<<<<<<<<<<<<<<<<<<<<<dir:"+dir);
+					System.out.println("<<<<<<<<<<<<<<<<<<<<<filename:"+filename);
 					CpPicture pic=uploadOnePicByPicFile(dir, filename, siteId,map);
 					
 					pic.setSmallPath(CommonConstant.SMALLHTTPPath+ImgFileUtils.getSamllPathByName(filename,request));

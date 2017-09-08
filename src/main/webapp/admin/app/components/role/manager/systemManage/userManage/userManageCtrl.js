@@ -527,7 +527,7 @@ adminModule.controller('userManageCtrl', function($scope, $cookies, req, md5, $s
 			var fileName = "用户信息_" + time + ".xls"; //文件名
 			// searchUrl = "userCtro/downLoadUserInfo.do";
 			return $http({
-				url: "/cnsphoto/userCtro/downLoadUserInfo.do",
+				url: "/photo/userCtro/downLoadUserInfo.do",
 				method: "POST",
 				headers: {
 					'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'

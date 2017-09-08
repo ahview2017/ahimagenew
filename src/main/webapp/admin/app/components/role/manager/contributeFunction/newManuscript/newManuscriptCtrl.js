@@ -66,15 +66,27 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
         vm.hasSeledUNameFlag = false;
         //是否采用添加社外作者方式选择作者，默认无
         vm.addAuthorItemFlag = false;
-        //视频id
-        vm.videoid = document.getElementById("selmasvideo").value;
     }
     //页面初始化
     function init(){
         initSetting();
+		getMasBaseUrl();
         req_getPhotoUser();
     }
     init();
+
+	//获取Mas视频基础URL add by xiayunan 20170907
+	function getMasBaseUrl(){
+		req.post('groupPicCtro/getMasBaseUrl.do', {
+			groupId: vm.groupId
+		}).success(function(resp) {
+			if(resp.code == '211') {
+				vm.masBaseUrl = resp.data.masBaseUrl;
+			}else if(resp.msg != '未登录') {
+				layer.alert(resp.msg);
+			}
+		});
+	}
 
     //拖拽弹框
     vm.modalMove = function(dragDiv,tagDiv){
@@ -249,7 +261,7 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
     
     //选择Mas视频
     vm.selectMasVideo =  function(){
-    	window.open("http://192.168.18.85:8081/mas/openapi/pages.do?method=list&appKey=TRSPMS123");
+    	window.open(vm.masBaseUrl+"&method=list");
     }
     
     
@@ -302,7 +314,7 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
         $.ajax({
             type: "POST",
             data: formdata,
-            url: "/cnsphoto/groupPicCtro/upPic.do" + '?time=' + new Date().getTime(),
+            url: "/photo/groupPicCtro/upPic.do" + '?time=' + new Date().getTime(),
             cache: false,
             contentType: false,     //必须false才会自动加上正确的Content-Type
             processData: false,     //必须false才会避开jQuery对formdata的默认处理
@@ -598,8 +610,8 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
         }*/
         
         var saveGroupUrl = 'groupPicCtro/saveGroupPic.do';
-        console.info("================"+lang);
-        console.log("vm.videoid:"+vm.videoid);
+		var videoId = document.getElementById("selmasvideo").value;
+		console.info("============videoId:"+videoId);
         req.post(saveGroupUrl,{
             type: type,
             fTime: vm.nowfTime,
@@ -616,7 +628,7 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
             langType: lang,
             properties: vm.acitiveSlideTit,
             roleId: vm.adminRoleId,
-            videoid:vm.videoid
+            videoId:videoId
         }).success(function(resp){
             layer.close(vm.loadUpMs);
             if(resp && resp.code == '211'){

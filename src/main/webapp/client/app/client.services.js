@@ -2,7 +2,7 @@
  * Created by Admin on 2016/6/28.
  */
 angular.module('client.services', [])
-    .constant('baseUrl', '/cnsphoto/')
+    .constant('baseUrl', '/photo/')
     //封装$http请求
     .factory('req', function ($http, baseUrl) {
         var transform = function (data) {

@@ -147,7 +147,7 @@ adminModule.controller('mDatabaseDetailCtrl', function ($scope, $cookies, req, m
             layer.alert("请选择图片");
             return;
         }
-        document.location = "/cnsphoto/enGroupPicDown/downSinglePic.do?picIds=" + picIds+"&type="+type+"&langType="+vm.langType;
+        document.location = "/photo/enGroupPicDown/downSinglePic.do?picIds=" + picIds+"&type="+type+"&langType="+vm.langType;
         modalOperate.modalHide('detail-type-modal');
     }
     /**

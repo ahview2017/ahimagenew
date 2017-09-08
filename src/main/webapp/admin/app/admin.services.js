@@ -2,7 +2,7 @@
  * Created by Admin on 2016/6/28.
  */
 angular.module('admin.services', [])
-    .constant('baseUrl', '/cnsphoto/')
+    .constant('baseUrl', '/photo/')
     // .constant('baseUrl', 'http://192.168.180.124/cnsphoto/')
     .factory('req', function ($http, baseUrl) {
         var transform = function (data) {

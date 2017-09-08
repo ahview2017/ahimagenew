@@ -596,7 +596,7 @@ adminModule.factory('HttpInterceptor', ['$q', '$cookies', '$rootScope','$locatio
         layer.alert('请登录', function (index) {
             $cookies.put('latest_hash', location.hash);
             layer.close(index);
-            location.href = '/cnsphoto/admin.html#/login';
+            location.href = '/photo/admin.html#/login';
             //location.reload();
         });
     }

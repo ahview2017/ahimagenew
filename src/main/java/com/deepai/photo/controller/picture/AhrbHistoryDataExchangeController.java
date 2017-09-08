@@ -120,13 +120,11 @@ public class AhrbHistoryDataExchangeController {
 				String content = "";//内容
 				String cateIdsStr = "";
 	        	try {
-	        		
 	        		String fileName = rs.getString("UP_File_Vc");
 		        	String filePath = rs.getString("UP_PhotoPath_Vc");
 		        	if(filePath!=null&&!"".equals(filePath)){
 		        		filePath = filePath.replaceAll("z:", "c:");
 		        	}
-		        	
 		        	String id = rs.getString("UP_ID_N");
 		        	String uploadUser = rs.getString("UP_UploadUser_Vc");
 		        	

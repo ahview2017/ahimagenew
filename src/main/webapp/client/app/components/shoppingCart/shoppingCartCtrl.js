@@ -217,7 +217,7 @@ clientModule.controller('shoppingCartCtrl',function($scope, $cookies, req, md5, 
         var params =
             '?orderId=' + orderId +
             '&type=' + downWay;
-        window.open('/cnsphoto/downloadPicture/downByOrder.do' + params, '_blank');
+        window.open('/photo/downloadPicture/downByOrder.do' + params, '_blank');
         req_delete(function (resp) {
             renderList();
         })
@@ -233,7 +233,7 @@ clientModule.controller('shoppingCartCtrl',function($scope, $cookies, req, md5, 
         var params =
             '?picIds=' + details +
             '&type=' + downWay;
-        window.open('/cnsphoto/downloadPicture/downByPicId.do' + params, '_blank');
+        window.open('/photo/downloadPicture/downByPicId.do' + params, '_blank');
     }
 
 

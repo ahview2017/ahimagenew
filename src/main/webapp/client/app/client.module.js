@@ -609,7 +609,7 @@ clientModule.factory('HttpInterceptor', ['$q', '$cookies', '$rootScope','$locati
         },
         response:      function (res) {
             //遇到掉线但接口可以返回响应的情况：判断msg内容
-            if (res.status == 200 && res.config.url != '/cnsphoto/login/getOnLineUsers.do') {
+            if (res.status == 200 && res.config.url != '/photo/login/getOnLineUsers.do') {
                 if (res.data.msg == '未登录') {
                     handleLogOut();
                 }

@@ -148,12 +148,13 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
     }
 	// 编辑稿件分类模态框显示
     vm.selectMasVideo = function(){
-        window.open("http://192.168.18.85:8081/mas/openapi/pages.do?method=list&appKey=TRSPMS123");
+        window.open(vm.masBaseUrl+"&method=list");
     }
 
     //页面初始化
     function init(){
         initSetting();
+		getMasBaseUrl();
         getselCpCategories(function(category){
             angular.forEach(category,function(item,index){
                 if(item.categoryName == '新闻类别'){
@@ -171,6 +172,18 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
     }
     init();
 
+	//获取Mas视频基础URL
+	function getMasBaseUrl(){
+		req.post('groupPicCtro/getMasBaseUrl.do', {
+			groupId: vm.groupId
+		}).success(function(resp) {
+			if(resp.code == '211') {
+				vm.masBaseUrl = resp.data.masBaseUrl;
+			}else if(resp.msg != '未登录') {
+				layer.alert(resp.msg);
+			}
+		});
+	}
 
 
     //获取稿件详情
@@ -181,11 +194,11 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
             if(resp.code == '211'){
                 vm.manuscriptDetail = resp.data;
                 if(vm.manuscriptDetail.videoId!=null&&vm.manuscriptDetail.videoId!=0){
-					vm.masUrl = "http://192.168.18.85:8081/mas/openapi/pages.do?method=exPlay&appKey=TRSPMS123&type=vod&id="+vm.manuscriptDetail.videoId;
+					vm.masUrl = vm.masBaseUrl+"&method=exPlay&type=vod&id="+vm.manuscriptDetail.videoId;
+					//vm.masUrl = "http://192.168.18.85:8081/mas/openapi/pages.do?method=exPlay&appKey=TRSPMS123&type=vod&id="+vm.manuscriptDetail.videoId;
 					$(".smt-detail-video").show();
 				}
 				vm.masUrl =  $sce.trustAsResourceUrl(vm.masUrl);
-				console.log("vm.manuscriptDetail.videoId:"+vm.manuscriptDetail.videoId);
 				console.log("<<<<<<<<<<<masUrl:"+vm.masUrl);
 				console.log(resp.data);
                 vm.groupStatus = resp.data.groupStatus;
@@ -503,7 +516,7 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
         $.ajax({
             type: "POST",
             data: formdata,
-            url: "/cnsphoto/groupPicCtro/upPic.do" + '?time=' + new Date().getTime(),
+            url: "/photo/groupPicCtro/upPic.do" + '?time=' + new Date().getTime(),
             cache: false,
             contentType: false,     //必须false才会自动加上正确的Content-Type
             processData: false,     //必须false才会避开jQuery对formdata的默认处理

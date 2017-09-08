@@ -49,7 +49,7 @@ adminModule.controller('groupManageDetailCtrl', function(req, $scope, $statePara
 			groupId: $stateParams.groupId
 		};
 		return $http({
-			url: "/cnsphoto/userCtro/downLoadUserInfo.do",
+			url: "/photo/userCtro/downLoadUserInfo.do",
 			method: "POST",
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'

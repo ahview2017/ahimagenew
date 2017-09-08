@@ -160,7 +160,7 @@ adminModule.controller('mSendManuscriptCtrl', function($scope, $cookies, req, md
             layer.alert("请选择图片");
             return;
         }else{
-        	document.location = "/cnsphoto/enGroupPicDown/downSinglePic.do?picIds=" + picIds+"&type="+type;
+        	document.location = "/photo/enGroupPicDown/downSinglePic.do?picIds=" + picIds+"&type="+type;
         }        
     }
     //自动分配 or 显示全部

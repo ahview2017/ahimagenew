@@ -287,7 +287,7 @@ adminModule.controller('sensitiveWordManageCtrl', function ($scope, $cookies, re
     };
     //附件下载
     $scope.fileSensitiveDown = function (url, name) {
-    	window.location.href="cnsphoto/enSensitiveWordManage/downFile.do";
+    	window.location.href="photo/enSensitiveWordManage/downFile.do";
     }
     
 });

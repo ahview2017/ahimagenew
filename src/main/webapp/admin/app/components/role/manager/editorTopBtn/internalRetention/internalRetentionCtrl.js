@@ -243,7 +243,7 @@ adminModule.controller('mInternalRetentionCtrl', function ($scope, $cookies, req
           layer.alert("请选择下载的稿件");
             return;
 }
-    document.location = "/cnsphoto/enGroupPicDown/downGrouplePic.do?groupIds=" + groupIds+"&type="+type+"&langType="+vm.langTypeFlag;
+    document.location = "/photo/enGroupPicDown/downGrouplePic.do?groupIds=" + groupIds+"&type="+type+"&langType="+vm.langTypeFlag;
     modalOperate.modalHide("internalRetention-type-modal");
 
 }

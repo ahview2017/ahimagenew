@@ -30,6 +30,7 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 	function init() {
 		console.log('init');
 		initSetting();
+		getMasBaseUrl();
 		getManuscriptDetails();
 		initSignTree();
 		// 从service里取得我的值班级别的数据，实现数据持久化
@@ -41,6 +42,19 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 
 	init();
 
+	//获取Mas视频基础URL add by xiayunan 20170907
+	function getMasBaseUrl(){
+		req.post('groupPicCtro/getMasBaseUrl.do', {
+			groupId: vm.groupId
+		}).success(function(resp) {
+			if(resp.code == '211') {
+				vm.masBaseUrl = resp.data.masBaseUrl;
+			}else if(resp.msg != '未登录') {
+				layer.alert(resp.msg);
+			}
+		});
+	}
+	
 	//作者信息弹框
 	vm.showAuthorinfor = function() {
 		$("#authorinformation-modal").show();
@@ -380,7 +394,7 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 			if(resp.code == '211') {
 				vm.manuscriptDetail = resp.data;
 				if(vm.manuscriptDetail.videoId!=null&&vm.manuscriptDetail.videoId!=0){
-					vm.masUrl = "http://192.168.18.85:8081/mas/openapi/pages.do?method=exPlay&appKey=TRSPMS123&type=vod&id="+vm.manuscriptDetail.videoId;
+					vm.masUrl = vm.masBaseUrl+"&method=exPlay&type=vod&id="+vm.manuscriptDetail.videoId;
 				}
 				vm.masUrl =  $sce.trustAsResourceUrl(vm.masUrl);
 				console.log("<<<<<<<<<<<masUrl:"+vm.masUrl);

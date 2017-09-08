@@ -101,7 +101,7 @@ adminModule.controller('mInternalRetentionDetailCtrl', function ($scope, $cookie
             layer.alert("请选择图片");
             return;
         }
-        document.location = "/cnsphoto/enGroupPicDown/downSinglePic.do?picIds=" + picIds+"&type="+type+"&langType="+vm.langTypeFlag;
+        document.location = "/photo/enGroupPicDown/downSinglePic.do?picIds=" + picIds+"&type="+type+"&langType="+vm.langTypeFlag;
         modalOperate.modalHide('detail-type-modal');
     }
 });
