@@ -538,7 +538,9 @@ adminModule.controller('mDatabaseDetailCtrl', function ($scope, $cookies, req, m
                 layer.msg('操作成功');
                 getHadSignData(vm.dataBankId);
                 vm.projectModalHide('fillSignModalId');
-            } else if(resp.msg != '未登录') {
+            } else if(resp.code == '100'){
+            	layer.alert(resp.msg);
+            }else if(resp.msg != '未登录') {
                 layer.alert(resp.msg);
             }
         });

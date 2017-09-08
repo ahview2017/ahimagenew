@@ -789,7 +789,7 @@ public class FlowService {
 	/**
 	 * 记录稿件流程日志
 	 * @param groupId 稿件id
-	 * @param type 操作类型：-1保存稿件，0发稿提交; 1级审提交，2二审提交；3三审签发，4补签，5内部留资，6撤稿，7上架，8删除，9推送，10编辑，11一审退稿，12二审退稿，13三审退稿，14取回，15稿件合并，16强制解锁，17彻底删除，18恢复
+	 * @param type 操作类型：-1保存稿件，0发稿提交; 1级审提交，2二审提交；3三审签发，4补签，5内部留资，6撤稿，7上架，8删除，9推送，10编辑，11一审退稿，12二审退稿，13三审退稿，14取回，15稿件合并，16强制解锁，17彻底删除，18恢复,19签报
 	 * @param memo 备注(可为null)
 	 * @param proofreadId 校审配置ID(可为null)
 	 * @param user 操作人
@@ -1419,6 +1419,43 @@ public class FlowService {
 		return res==null?null:res.toString();
 	}
 	
-	public static void main(String[] args) {
-	}
+	 /**
+     * @Description: 签发时校验栏目是否签发过 <BR>
+     * @author liu.jinfeng
+     * @date 2017年9月7日 下午9:26:57
+     * @param cates
+     * @return
+     */
+    public String checkSignClnum(Integer groupId,
+            List<Map<String, Object>> cates) {
+        StringBuffer sb = new StringBuffer(50);
+        StringBuffer sbIds = new StringBuffer(",");
+        // 依次查询栏目是否签发过
+        for (Map<String, Object> m : cates) {
+            if (m.get("type").toString().equals("0")) {// 签发
+                String sid = String.valueOf(m.get("signId"));
+                Integer signId = Integer.parseInt(sid.substring(0, sid.lastIndexOf(".")));
+                if(sbIds.toString().indexOf(","+signId+",")>-1){
+                    continue;
+                }
+                sbIds.append(signId).append(",");
+                
+                CpPicGroupCategoryExample e = new CpPicGroupCategoryExample();
+                e.createCriteria().andGroupIdEqualTo(groupId).andTypeEqualTo(1)
+                        .andCategoryIdEqualTo(signId);
+                int nCount = cpPicGroupCategoryMapper.countByExample(e);
+                if (nCount > 0) {// 表示这个栏目之前已经签过
+                    // sb.append(signId).append(",");
+                    CpColumn colume = columnMapper.selectBykey(signId);
+                    sb.append(colume.getName()).append(",");
+                }
+            }
+        }
+
+        if (sb.length() > 1) {
+            sb.setLength(sb.length() - 1);
+            return sb.toString();
+        }
+        return null;
+    }
 }
