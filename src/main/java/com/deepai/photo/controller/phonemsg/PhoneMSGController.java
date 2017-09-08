@@ -922,4 +922,67 @@ public class PhoneMSGController {
         return result;
     }
     
+    /**
+     * 前台登录获取验证码
+     * @Description: TODO <BR>
+     * @author liu.jinfeng
+     * @date 2017年9月8日 下午2:59:48
+     * @param request
+     * @param userName 用户名
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/getPhoneVilidate")
+    @SkipLoginCheck
+    @SkipAuthCheck
+    public Object getPhoneVilidate(HttpServletRequest request, String userName){
+        ResponseMessage result = new ResponseMessage();
+        CommonValidation.checkParamBlank(userName, "用户名");
+        CpUser user = cpUserMapper.findUserByUserName(userName);
+        if(null == user){
+            result.setCode(CommonConstant.EXCEPTIONCODE);
+            result.setMsg("用户不存在");
+            return result;
+        }
+        
+        Integer status = user.getUserStatus();
+        if (status == 3) {
+            result.setCode(CommonConstant.FAILURECODE);
+            result.setMsg("该用户已禁用");
+            return result;
+        } 
+        
+        // 生成六位验证码发送到手机
+        Integer vilidate = (int) ((Math.random() * 9 + 1) * 100000);
+        redisClientTemplate.set("USERNAME" + userName + vilidate,
+                vilidate + "");
+        redisClientTemplate.expire("USERNAME" + userName + vilidate, 60 * 2);
+        
+        String content = "您本次登录的验证码为"+vilidate+",请勿向他人提供您收到的短信验证码";
+//        content = String.format(content, vilidate);
+        
+        
+        String sResult = "";
+        try {
+            log.info(user.getTelBind()+"=="+content);
+            sResult = phoneMSGUtils.sendSMSMsg(user.getTelBind(), content);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("获取验证码失败", e);
+            result.setCode(CommonConstant.EXCEPTIONCODE);
+            result.setMsg("获取验证码失败");
+            return result;
+        }
+        
+        if(sResult.equals("0")){
+            result.setCode(CommonConstant.EXCEPTIONCODE);
+            result.setMsg("获取验证码失败");
+            return result;
+        }
+        
+        result.setCode(CommonConstant.SUCCESSCODE);
+        result.setMsg(CommonConstant.SUCCESSSTRING);
+        return result;
+    }
+    
 }

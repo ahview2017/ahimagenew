@@ -33,12 +33,13 @@
                                ng-model="login.inputImgVCodeModel"  ng-keydown="login.enterLogin($event)"/>
 
                         <div style="display:inline-block;">
-                            <img src="/cnsphoto/yanzheng.do"
+                           <!--  <img src="/cnsphoto/yanzheng.do"
                                  onclick="javascript:this.src='/cnsphoto/yanzheng.do?tm='+Math.random()"
                                  id="vCodeId"/>
                             <a class="cursor change-hover-color" href="javascript:void(0);"
                                onclick="document.getElementById('vCodeId').src='/cnsphoto/yanzheng.do?tm='+Math.random()">
-                                换一张</a>
+                                换一张</a> -->
+                            <a class="cursor change-hover-color" href="javascript:void(0);" id="code" ng-click="login.sendmsg()">获取验证码</a>
                         </div>
                     </div>
                     <button type="submit" class="client-login-go-btn flr" ng-click="login.loginIn()">登录</button>

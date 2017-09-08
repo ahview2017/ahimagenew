@@ -70,6 +70,48 @@ clientModule.controller('loginCtrl', function ($scope, $cookies, req, md5, $stat
         });
     }
 
+    //发送验证码
+    var clock = '';
+    var nums = 60;
+    var start = true;
+    vm.sendmsg = function(form){
+    	if (vm.user.name == '') {
+            layer.msg("请输入用户名");
+            $('.username').focus();
+            return;
+        }
+    	
+    	if(nums==60&&start){
+    		start = false;
+	    	$("#code").removeAttr('ng-click');
+	    	$("#code").attr('disabled',"true");
+	    	$("#code").html(nums+'秒后可重新获取');
+	    	clock = setInterval(doLoop, 1000); //一秒执行一次
+	    	console.log("发送短信");
+	    	req.post('phonemsg/getPhoneVilidate.do',{
+	    		userName: vm.user.name
+            }).success(function(resp){
+                if(resp.code != '211'){
+                    layer.alert(resp.msg);
+                }
+            });
+	    	
+    	}
+    }
+    function doLoop()
+    {
+    	nums--;
+	    if(nums > 0){
+	    	 $("#code").html(nums+'秒后可重新获取');
+	    }else{
+		     clearInterval(clock); //清除js定时器
+		     $("#code").html('获取验证码');
+		     $("#code").attr('ng-click','registerStepTwo.sendmsg(register_form');
+		     $("#code").removeAttr('disabled');
+		     nums = 60; //重置时间
+		     start = true;
+	    }
+    }
     //登录请求
     function req_login() {
         var saltPwdMix = md5.createHash(vm.user.pwd) + vm.loginSalt;
@@ -77,7 +119,8 @@ clientModule.controller('loginCtrl', function ($scope, $cookies, req, md5, $stat
         req.post('login/doLogin.do', {
             userName: vm.user.name,
             password: vm.finalPwd,
-            vilidate: vm.inputImgVCodeModel
+            vilidate: vm.inputImgVCodeModel,
+            type: 1
         }).success(function (resp) {
             if (resp.code == '211') {
                 //用户信息

@@ -82,7 +82,8 @@ adminModule.controller('loginCtrl', function ($scope, $cookies, req, md5, $state
         req.post('login/doLogin.do', {
             userName: vm.user.name,
             password: vm.finalPwd,
-            vilidate: vm.vCodeModel
+            vilidate: vm.vCodeModel,
+            type: 0
         }).success(function (resp) {
             if (resp.code == '211') {
                 //用户信息

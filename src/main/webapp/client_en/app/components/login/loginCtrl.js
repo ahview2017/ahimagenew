@@ -76,7 +76,8 @@ cnsphoto_enModule.controller('loginCtrl', function ($scope, $cookies, req, md5, 
         req.post('login/doLogin.do', {
             userName: vm.user.name,
             password: vm.finalPwd,
-            vilidate: vm.inputImgVCodeModel
+            vilidate: vm.inputImgVCodeModel,
+            type: 1
         }).success(function (resp) {
             if (resp.code == '211') {
                 //用户信息
