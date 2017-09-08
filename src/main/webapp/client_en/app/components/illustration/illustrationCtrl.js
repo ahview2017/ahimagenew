@@ -1,7 +1,7 @@
 /**
  * Created by wx on 2017/5/10.
  */
-cnsphoto_enModule.controller('illustrationCtrl', function () {
+photo_enModule.controller('illustrationCtrl', function () {
     var vm = this;
     console.log("illustrationCtrl");
     $(document).ready(function () {

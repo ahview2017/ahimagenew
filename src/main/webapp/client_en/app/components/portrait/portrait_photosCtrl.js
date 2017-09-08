@@ -1,4 +1,4 @@
-cnsphoto_enModule.controller('portrait_photosCtrl', function () {
+photo_enModule.controller('portrait_photosCtrl', function () {
     var vm = this;
     console.log("portrait_photosCtrl");
     $(document).ready(function () {

@@ -1,7 +1,7 @@
 /**
  * Created by Sun on 2017/1/20.
  */
-cnsphoto_enModule.controller('lookPicsCtrl',function($scope, $cookies, req, md5, $state, $rootScope, modalOperate, $stateParams){
+photo_enModule.controller('lookPicsCtrl',function($scope, $cookies, req, md5, $state, $rootScope, modalOperate, $stateParams){
     var vm = this;
     //从路由获得订单ID
     vm.orderId = $stateParams.orderId;

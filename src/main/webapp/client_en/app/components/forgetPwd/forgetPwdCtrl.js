@@ -1,4 +1,4 @@
-cnsphoto_enModule.controller('forgetPwdCtrl',function($scope,$cookies,req,md5,$state,$rootScope){
+photo_enModule.controller('forgetPwdCtrl',function($scope,$cookies,req,md5,$state,$rootScope){
     var vm = this;
     //初始化页面相关设置
     function initSetting(){

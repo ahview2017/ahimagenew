@@ -1,4 +1,4 @@
-cnsphoto_enModule.controller('advSearchCtrl',function($scope,$cookies,req,md5,$state,$rootScope,layerIfShow,$stateParams,getFullText){
+photo_enModule.controller('advSearchCtrl',function($scope,$cookies,req,md5,$state,$rootScope,layerIfShow,$stateParams,getFullText){
         var vm = this;
         function initSetting(){
             //初始化搜索对象

@@ -1,7 +1,7 @@
 /**
  * 查询系统公告全部数据
  */
-cnsphoto_enModule.controller('webInfoAllViewCtrl', function ($scope, $cookies, req, md5, $state, $rootScope, layerIfShow) {
+photo_enModule.controller('webInfoAllViewCtrl', function ($scope, $cookies, req, md5, $state, $rootScope, layerIfShow) {
     var vm = this;
 
     /**

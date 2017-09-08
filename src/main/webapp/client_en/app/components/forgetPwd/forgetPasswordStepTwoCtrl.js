@@ -1,4 +1,4 @@
-cnsphoto_enModule.controller('forgetPasswordStepTwoCtrl',function($scope,$cookies,req,forgetPassword,md5,$state,$rootScope){
+photo_enModule.controller('forgetPasswordStepTwoCtrl',function($scope,$cookies,req,forgetPassword,md5,$state,$rootScope){
     var vm = this;
     //初始化页面相关设置
     function initSetting(){

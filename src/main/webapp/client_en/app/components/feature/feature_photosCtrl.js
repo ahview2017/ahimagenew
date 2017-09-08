@@ -1,4 +1,4 @@
-cnsphoto_enModule.controller('feature_photosCtrl', function () {
+photo_enModule.controller('feature_photosCtrl', function () {
     var vm = this;
     console.log("feature_photosCtrl");
     $(document).ready(function () {

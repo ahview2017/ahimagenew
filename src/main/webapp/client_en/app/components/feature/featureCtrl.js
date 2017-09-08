@@ -1,7 +1,7 @@
 /**
  * Created by wx on 2017/5/10.
  */
-cnsphoto_enModule.controller('featureCtrl', function () {
+photo_enModule.controller('featureCtrl', function () {
     var vm = this;
     console.log("featureCtrl");
 

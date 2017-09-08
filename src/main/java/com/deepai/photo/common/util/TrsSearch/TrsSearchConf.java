@@ -131,6 +131,8 @@ public class TrsSearchConf {
 			rs = getConn().executeSelect(tableName,search, "", "", "",
 					TRSConstant.TCM_IDEOSINGLE, TRSConstant.TCM_IDEOSINGLE,
 					false);
+//			getConn().executeSelectQuick(strSources, strWhere, strSortMethod, strDefautCols, lEstimateUnit, lEstimateStops, iSearchOption, iHitPointType)
+			
 			log.info("全文检索结果（计数）"+rs.getRecordCount());
 			log.info("全文检索条件--------------------->"+search);
 		}
@@ -148,22 +150,44 @@ public class TrsSearchConf {
 			rs.moveTo(0, i);
 			TRSResult tr = new TRSResult();
 			tr.setId(rs.getString("id"));
+			System.out.println("<<<<<<<<<id:"+rs.getString("id"));
 //			System.out.println("===================GROUP_ID"+rs.getString("GROUP_ID"));
 			tr.setGroupid(rs.getString("GROUP_ID"));
+			System.out.println("<<<<<<<<<id:"+rs.getString("GROUP_ID"));
 			tr.setTitle(rs.getString("title"));
+			System.out.println("<<<<<<<<<title:"+rs.getString("title"));
 			System.out.println("9999999999999999");
 			tr.setGtitle(rs.getString("gtitle"));
+			System.out.println("<<<<<<<<<gtitle:"+rs.getString("gtitle"));
+			
 //			tr.setDate(rs.getString("date"));
 			tr.setDate(rs.getString("create_time"));
+			System.out.println("<<<<<<<<<create_time:"+rs.getString("create_time"));
+			
 			tr.setKeyWords(rs.getString("KEYWORDS"));
+			System.out.println("<<<<<<<<<KEYWORDS:"+rs.getString("KEYWORDS"));
+			
 			tr.setMemo(rs.getString("MEMO"));
+			System.out.println("<<<<<<<<<MEMO:"+rs.getString("MEMO"));
+			
+			
 			tr.setAuthorName(rs.getString("AUTHOR_NAME"));
+			System.out.println("<<<<<<<<<AUTHOR_NAME:"+rs.getString("AUTHOR_NAME"));
 //			tr.setPeople(rs.getString("someOne"));
 			tr.setPeople(rs.getString("people"));
+			System.out.println("<<<<<<<<<people:"+rs.getString("people"));
+			
 			tr.setCategory_id(Integer.parseInt(rs.getString("category_id")));
+			System.out.println("<<<<<<<<<category_id:"+rs.getString("category_id"));
+			
 			tr.setFileName(rs.getString("fileName"));
+			System.out.println("<<<<<<<<<fileName:"+rs.getString("fileName"));
+			
 			tr.setPlace(rs.getString("place"));
+			System.out.println("<<<<<<<<<place:"+rs.getString("place"));
+			
 			tr.setgKEYWORDS(rs.getString("gKEYWORDS"));
+			System.out.println("<<<<<<<<<gKEYWORDS:"+rs.getString("gKEYWORDS"));
 			//首图
 //			String cp=rs.getString("coverPic");
 			if (StringUtils.isNotBlank(tr.getFileName())) {

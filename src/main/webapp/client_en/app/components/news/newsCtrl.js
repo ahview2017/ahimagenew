@@ -1,7 +1,7 @@
 /**
  * Created by wx on 2017/5/10.
  */
-cnsphoto_enModule.directive('repeatFinish', function ($timeout) {
+photo_enModule.directive('repeatFinish', function ($timeout) {
     return {
         restrict: 'A',
         link: function(scope, element, attr) {
@@ -52,7 +52,7 @@ cnsphoto_enModule.directive('repeatFinish', function ($timeout) {
         }
     };
 }); 
-cnsphoto_enModule.controller('newsCtrl', function ($state, req, $stateParams, $scope) {
+photo_enModule.controller('newsCtrl', function ($state, req, $stateParams, $scope) {
     var vm = this;
     console.log("newsCtrl");
 
@@ -445,7 +445,7 @@ cnsphoto_enModule.controller('newsCtrl', function ($state, req, $stateParams, $s
             layer.alert(resp.msg);
         }
     })
-  /*  req.get("cnsphoto/getGroupPicCtro/showAllGroupPic.do?callback=JSON_CALLBACK", paramsColumn).success(function (resp) {
+  /*  req.get("photo/getGroupPicCtro/showAllGroupPic.do?callback=JSON_CALLBACK", paramsColumn).success(function (resp) {
         console.log(resp);
         if(resp.code == '211'){
             $scope.columnGroupPictures = resp.data;

@@ -1,7 +1,7 @@
 /**
  * Created by Admin on 2016/6/29.
  */
-angular.module('cnsphoto_en.value', [])
+angular.module('photo_en.value', [])
     .constant('cityList', {
         "citylist"
             :

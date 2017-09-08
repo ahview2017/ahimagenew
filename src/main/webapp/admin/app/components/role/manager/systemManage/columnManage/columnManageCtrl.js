@@ -536,7 +536,7 @@ adminModule.controller('columnManageCtrl', function ($scope, $cookies, req, md5,
             return;
         }
         Upload.upload({
-            url: '/cnsphoto/topic/addTopic.do',
+            url: '/photo/topic/addTopic.do',
             data: {
                 name: vm.specialName,
                 type: vm.handleType,
@@ -631,7 +631,7 @@ adminModule.controller('columnManageCtrl', function ($scope, $cookies, req, md5,
             return;
         }
         Upload.upload({
-            url: '/cnsphoto/topic/editTopic.do',
+            url: '/photo/topic/editTopic.do',
             data: {
                 id: vm.updateEditId,
                 name: vm.specialName1,

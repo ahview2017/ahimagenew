@@ -1,4 +1,4 @@
-cnsphoto_enModule.controller('headerCtrl', function($state, req, md5, $scope, $rootScope, $cookies) {
+photo_enModule.controller('headerCtrl', function($state, req, md5, $scope, $rootScope, $cookies) {
 	var vm = this;
 	console.log("headerCtrl");
 

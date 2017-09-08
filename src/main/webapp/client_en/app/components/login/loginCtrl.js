@@ -1,4 +1,4 @@
-cnsphoto_enModule.controller('loginCtrl', function ($scope, $cookies, req, md5, $state, $rootScope, $window) {
+photo_enModule.controller('loginCtrl', function ($scope, $cookies, req, md5, $state, $rootScope, $window) {
     var vm = this;    
     var client_width=$(document).height()-335+'px';
     $('.client_en-login-container').css('min-height',client_width);

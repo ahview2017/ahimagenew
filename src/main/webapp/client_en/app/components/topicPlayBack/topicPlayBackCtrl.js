@@ -1,4 +1,4 @@
-cnsphoto_enModule.controller('topicPlayBackCtrl',function($scope,$cookies,req,md5,$state,$rootScope){
+photo_enModule.controller('topicPlayBackCtrl',function($scope,$cookies,req,md5,$state,$rootScope){
     var vm = this;
     $('.topic_play_cont').css('minHeight',$(window).height()-331);
     //页面初始化

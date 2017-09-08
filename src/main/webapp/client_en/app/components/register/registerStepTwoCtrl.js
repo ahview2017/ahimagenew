@@ -1,4 +1,4 @@
-cnsphoto_enModule.controller('registerStepTwoCtrl',function($scope, $cookies, req, md5, $state, $rootScope, layerIfShow, ellipsis, $stateParams, cityList, regex){
+photo_enModule.controller('registerStepTwoCtrl',function($scope, $cookies, req, md5, $state, $rootScope, layerIfShow, ellipsis, $stateParams, cityList, regex){
     var vm = this;
     //取得从路由传来的用户名
     vm.loginName = $stateParams.userName;

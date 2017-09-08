@@ -1,7 +1,7 @@
 /**
  * Created by Sun on 2017/2/10.
  */
-cnsphoto_enModule.controller('shoppingCartCtrl',function($scope, $cookies, req, md5, $state, $rootScope){
+photo_enModule.controller('shoppingCartCtrl',function($scope, $cookies, req, md5, $state, $rootScope){
     var vm = this;
     
     var client_width=$(document).height()-309+'px';
@@ -217,7 +217,7 @@ cnsphoto_enModule.controller('shoppingCartCtrl',function($scope, $cookies, req, 
         var params =
             '?orderId=' + orderId +
             '&type=' + downWay;
-        window.open('cnsphoto/downloadPicture/downByOrder.do' + params, '_blank');
+        window.open('photo/downloadPicture/downByOrder.do' + params, '_blank');
         req_delete(function (resp) {
             renderList();
         })

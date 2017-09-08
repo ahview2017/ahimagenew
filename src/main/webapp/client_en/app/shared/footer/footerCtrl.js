@@ -1,4 +1,4 @@
-cnsphoto_enModule.controller('footerCtrl', function (req) {
+photo_enModule.controller('footerCtrl', function (req) {
     var vm = this;
     console.log("footerCtrl");
     //友情链接

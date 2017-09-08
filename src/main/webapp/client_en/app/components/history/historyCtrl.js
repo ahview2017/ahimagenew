@@ -1,7 +1,7 @@
 /**
  * Created by wx on 2017/5/10.
  */
-cnsphoto_enModule.controller('historyCtrl', function () {
+photo_enModule.controller('historyCtrl', function () {
     var vm = this;
     console.log("historyCtrl");
     $(document).ready(function () {

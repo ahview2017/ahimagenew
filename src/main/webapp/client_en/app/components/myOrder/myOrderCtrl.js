@@ -1,7 +1,7 @@
 /**
  * Created by Sun on 2017/1/20.
  */
-cnsphoto_enModule.controller('myOrderCtrl',function($scope,$cookies,req,md5,$state,$rootScope,modalOperate,getFullTexts){
+photo_enModule.controller('myOrderCtrl',function($scope,$cookies,req,md5,$state,$rootScope,modalOperate,getFullTexts){
     var vm = this;
     var client_width=$(document).height()-360+'px';
     $('.need_channel').css('min-height',client_width);
@@ -117,7 +117,7 @@ cnsphoto_enModule.controller('myOrderCtrl',function($scope,$cookies,req,md5,$sta
         var params =
             '?orderId=' + vm.orderId +
             '&type=' + downWay;
-        window.open('/cnsphoto/downloadPicture/downByOrder.do'+ params,'_blank');
+        window.open('/photo/downloadPicture/downByOrder.do'+ params,'_blank');
     }
 
 });

@@ -1,5 +1,5 @@
 // 监视器 监视ng-repeat循环完成
-cnsphoto_enModule.directive('onFinishRenderFilters', function ($timeout) {
+photo_enModule.directive('onFinishRenderFilters', function ($timeout) {
     return {
         restrict: 'A',
         link: function(scope, element, attr) {
@@ -40,7 +40,7 @@ cnsphoto_enModule.directive('onFinishRenderFilters', function ($timeout) {
         }
     };
 });
-cnsphoto_enModule.controller('mainPageCtrl', function ($state ,req ,$http ,$scope) {
+photo_enModule.controller('mainPageCtrl', function ($state ,req ,$http ,$scope) {
     var vm = this;
     console.log("mainPage");
     //轮播图

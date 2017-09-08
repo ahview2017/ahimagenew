@@ -1,4 +1,4 @@
-angular.module('cnsphoto_en.filter', [])
+angular.module('photo_en.filter', [])
     .filter('trustHtml', function ($sce) {
         return function (input) {
             return $sce.trustAsHtml(input);

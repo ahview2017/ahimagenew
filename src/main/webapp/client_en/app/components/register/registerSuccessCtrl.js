@@ -1,4 +1,4 @@
-cnsphoto_enModule.controller('registerSuccessCtrl',function($scope,$cookies,req,md5,$state,$rootScope,layerIfShow,ellipsis,$stateParams){
+photo_enModule.controller('registerSuccessCtrl',function($scope,$cookies,req,md5,$state,$rootScope,layerIfShow,ellipsis,$stateParams){
 
     var vm = this;
     //取得从路由传来的用户名

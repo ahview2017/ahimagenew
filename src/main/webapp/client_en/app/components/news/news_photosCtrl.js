@@ -1,4 +1,4 @@
-cnsphoto_enModule.directive('repeatFinishss',function(){
+photo_enModule.directive('repeatFinishss',function(){
     return {
         link: function(scope,element,attr){
             // console.log(scope.$index)
@@ -188,7 +188,7 @@ cnsphoto_enModule.directive('repeatFinishss',function(){
     }
 })
 
-cnsphoto_enModule.controller('news_photosCtrl', function ($stateParams,$state,req,$scope,$cookies, md5, $rootScope, getFullText, $timeout) {
+photo_enModule.controller('news_photosCtrl', function ($stateParams,$state,req,$scope,$cookies, md5, $rootScope, getFullText, $timeout) {
     var vm = this;
     console.log("news_photosCtrl");    
     var params = { 

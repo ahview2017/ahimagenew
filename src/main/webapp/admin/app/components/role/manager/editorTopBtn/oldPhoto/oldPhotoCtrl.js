@@ -53,7 +53,7 @@ adminModule.controller('oldPhotoCtrl', function ($scope, $cookies, req, md5, $st
     /*vm.uploadOldPhoto = function(file){
         if(!file) return;
         Upload.upload({
-            url: '/cnsphoto/oldPhotoUpload/photoExcelUpload.do',
+            url: '/photo/oldPhotoUpload/photoExcelUpload.do',
             data: {
                 zipFile: file
             }

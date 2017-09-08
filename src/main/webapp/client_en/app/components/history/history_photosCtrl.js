@@ -1,4 +1,4 @@
-cnsphoto_enModule.controller('history_photosCtrl', function () {
+photo_enModule.controller('history_photosCtrl', function () {
     var vm = this;
     console.log("history_photosCtrl");
     $(document).ready(function () {

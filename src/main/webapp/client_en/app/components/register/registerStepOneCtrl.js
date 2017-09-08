@@ -1,4 +1,4 @@
-cnsphoto_enModule.controller('registerStepOneCtrl',function($scope,$cookies,req,md5,$state,$rootScope,layerIfShow){
+photo_enModule.controller('registerStepOneCtrl',function($scope,$cookies,req,md5,$state,$rootScope,layerIfShow){
 	
     var vm = this;
     //匹配用户名正则

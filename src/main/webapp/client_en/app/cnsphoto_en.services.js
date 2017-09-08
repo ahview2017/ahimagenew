@@ -1,8 +1,8 @@
 /**
  * Created by suzhangjun on 2017/2/17.
  */
-angular.module('cnsphoto_en.services', [])
-    .constant('baseUrl', '/cnsphoto/')
+angular.module('photo_en.services', [])
+    .constant('baseUrl', '/photo/')
     .factory('req', function ($http, baseUrl) {
         var transform = function (data) {
             return $.param(data);

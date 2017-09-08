@@ -1,4 +1,4 @@
-angular.module("cnsphoto_en.directive",[])
+angular.module("photo_en.directive",[])
     .constant('layerIfShow', false)
     .directive('roleCommonTit',function(){
         return {

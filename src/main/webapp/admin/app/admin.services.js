@@ -3,7 +3,7 @@
  */
 angular.module('admin.services', [])
     .constant('baseUrl', '/photo/')
-    // .constant('baseUrl', 'http://192.168.180.124/cnsphoto/')
+    // .constant('baseUrl', 'http://192.168.180.124/photo/')
     .factory('req', function ($http, baseUrl) {
         var transform = function (data) {
             return $.param(data);

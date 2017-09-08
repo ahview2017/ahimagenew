@@ -1,4 +1,4 @@
-cnsphoto_enModule.controller('fullTextCtrl',function($scope,$cookies,req,md5,$state,$rootScope,layerIfShow,$stateParams,getFullText){
+photo_enModule.controller('fullTextCtrl',function($scope,$cookies,req,md5,$state,$rootScope,layerIfShow,$stateParams,getFullText){
     var vm = this;
     var client_width=$(document).height()-309+'px';
     $('.photolist-container').css('min-height',client_width);

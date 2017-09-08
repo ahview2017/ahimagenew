@@ -1,4 +1,4 @@
-cnsphoto_enModule.controller('registerCtrl',function($state){
+photo_enModule.controller('registerCtrl',function($state){
     var vm = this;
     //页面初始化
     function init(){

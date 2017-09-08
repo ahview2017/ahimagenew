@@ -1,4 +1,4 @@
-cnsphoto_enModule.controller('webInfoViewCtrl', function ($scope, $cookies, req, md5, $state, $rootScope, layerIfShow
+photo_enModule.controller('webInfoViewCtrl', function ($scope, $cookies, req, md5, $state, $rootScope, layerIfShow
     , $stateParams) {
     var vm = this;
 

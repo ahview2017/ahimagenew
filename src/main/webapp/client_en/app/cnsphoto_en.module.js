@@ -1,7 +1,7 @@
 var lang = "1";
 window.localStorage.lang = lang;
-var cnsphoto_enModule = angular.module('cnsphoto_en.module', ['ui.router', 'cnsphoto_en.services', 'cnsphoto_en.value', 'cnsphoto_en.directive', 'cnsphoto_en.filter', 'ngSanitize', 'angular-md5', 'ngCookies']);
-cnsphoto_enModule.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
+var photo_enModule = angular.module('photo_en.module', ['ui.router', 'photo_en.services', 'photo_en.value', 'photo_en.directive', 'photo_en.filter', 'ngSanitize', 'angular-md5', 'ngCookies']);
+photo_enModule.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 	$urlRouterProvider.otherwise('/');
 	$stateProvider
 
@@ -312,7 +312,7 @@ cnsphoto_enModule.config(function($stateProvider, $urlRouterProvider, $locationP
 			}
 		})
 });
-cnsphoto_enModule.run(function($rootScope, $state) {
+photo_enModule.run(function($rootScope, $state) {
 	/*$rootScope.layerIfShow = false;*/
 	$rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
 		console.log('Enter state: ' + toState.name);
@@ -332,7 +332,7 @@ cnsphoto_enModule.run(function($rootScope, $state) {
 	})
 });
 
-cnsphoto_enModule.config(['$httpProvider', config]);
+photo_enModule.config(['$httpProvider', config]);
 
 function config($httpProvider) {
 	$httpProvider.defaults.withCredentials = true;
