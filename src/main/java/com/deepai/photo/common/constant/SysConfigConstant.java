@@ -89,6 +89,8 @@ public class SysConfigConstant {
     public static String MEDIUM_PIC_PATH1200 = "MEDIUM_PIC_PATH1200";// D:/trsphoto/medium/
     // add by xia.yunan 2017-09-06
     public static String LOCAL_GM_PATH = "LOCAL_GM_PATH";// /usr/local/graphicsmagick/bin
+    public static String MAS_BASE_URL = "MAS_BASE_URL";// http://192.168.18.85:8081/mas/openapi/pages.do?appKey=TRSPMS123
+    
 	public static Map<String,String> config;
 	
 	 /** 发送短信模版 */

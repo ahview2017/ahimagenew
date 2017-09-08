@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.beanutils.BeanMap;
 import org.apache.log4j.Logger;
 import org.dom4j.Document;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,7 @@ import com.deepai.photo.common.annotation.LogInfo;
 import com.deepai.photo.common.annotation.SkipAuthCheck;
 import com.deepai.photo.common.annotation.SkipLoginCheck;
 import com.deepai.photo.common.constant.CommonConstant;
+import com.deepai.photo.common.constant.SysConfigConstant;
 import com.deepai.photo.common.exception.InvalidHttpArgumentException;
 import com.deepai.photo.common.pagehelper.PageHelper;
 import com.deepai.photo.common.pojo.ResponseMessage;
@@ -175,9 +177,6 @@ public class GroupPicController {
 	public Object saveGroupPic(HttpServletRequest request,String picData,CpPicGroup group,Integer isIpTc,Integer isFlash,String fTime,Integer type,Integer roleId){
 		ResponseMessage result=new ResponseMessage();
 		try {
-			System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<提交稿件");
-			System.out.println("===============================================");
-			System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<获取videoid:"+group.getVideoId());
 			CommonValidation.checkParamBlank(group.getTitle(), "稿件标题");
 			CommonValidation.checkParamBlank(group.getKeywords(), "关键字");
 			CommonValidation.checkParamBlank(group.getAuthor(), "稿件作者");
@@ -1630,6 +1629,10 @@ public class GroupPicController {
 		}
 		return result;
 	}
+	
+	
+	
+	
 	/**
 	 * 获取内部留资稿件：留资
 	 * @param request
@@ -1973,7 +1976,7 @@ public class GroupPicController {
 				group.setBackRemark(logs1.get(0).getOperateMemo());
 
 			}
-				result.setMsg(res);
+			result.setMsg(res);
 			result.setCode(CommonConstant.SUCCESSCODE);
 			result.setData(group);
 		} catch (InvalidHttpArgumentException e) {
@@ -1987,6 +1990,43 @@ public class GroupPicController {
 		}
 		return result;
 	}
+	
+	
+	/**
+	 * 获取稿件详情
+	 * @param request
+	 * @param groupId 稿件id
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/getMasBaseUrl")
+	@SkipLoginCheck
+	@SkipAuthCheck
+	public Object getMasBaseUrl(HttpServletRequest request,Integer groupId){
+		ResponseMessage result=new ResponseMessage();
+		try {
+			//返回Mas基础URL地址 	add by xiayunan 20170907
+			String masBaseUrl = sysConfigService.getDbSysConfig(SysConfigConstant.MAS_BASE_URL,1);
+			Map<Object,Object> map = new HashMap<Object,Object>();
+			if(StringUtil.notBlank(masBaseUrl)){
+				map.put("masBaseUrl", masBaseUrl);
+			}
+			result.setMsg("获取Mas基础URL成功");
+			result.setCode(CommonConstant.SUCCESSCODE);
+			result.setData(map);
+		} catch (InvalidHttpArgumentException e) {
+			result.setCode(e.getCode());
+			result.setMsg(e.getMsg());
+		}catch(Exception e1){
+			e1.printStackTrace();
+			log.error("获取Mas基础URL，"+e1.getMessage());
+			result.setCode(CommonConstant.EXCEPTIONCODE);
+			result.setMsg(CommonConstant.EXCEPTIONMSG);
+		}
+		return result;
+	}
+	
+	
 	/**
 	 * 查询签发类型已签稿件
 	 * @param request
@@ -2168,6 +2208,7 @@ public class GroupPicController {
 		}
 		return result;
 	}
+	
 	
 	/**
 	 * 显示签发专题

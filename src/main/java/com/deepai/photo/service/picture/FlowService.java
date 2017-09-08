@@ -695,6 +695,8 @@ public class FlowService {
 			//签发
 			addCategoryForGroup(oldGroup.getId(), cates);
 		}
+		
+		
 		//修改稿件状态
 		cpPicGroupMapper.updateByPrimaryKeySelective(group);
 		if(type==3){
@@ -715,6 +717,60 @@ public class FlowService {
 		//记录流程日志
 		addFlowLog(oldGroup.getId(), type, null, null, user);
 	}
+	
+	
+	/**
+	 * 老照片专用三审提交
+	 * @param oldGroup 提交前稿件
+	 * @param user 审核用户
+	 * @param type 审核级别：1一级，2二级，3三级
+	 * @param signIds 签发类型ids
+	 */
+	public void examByProofreadForHistory(CpPicGroup oldGroup,CpUser user,int type,List<Map<String,Object>> cates)throws Exception{
+		//TODO 校验稿件状态与校审用户级别
+		checkUser(oldGroup, user, type, oldGroup.getSiteId());
+		CpPicGroup group=new CpPicGroup();
+		group.setId(oldGroup.getId());
+		if(oldGroup.getVideoId()!=null&&oldGroup.getVideoId()!=0){
+			group.setMasvideoSign(1);
+			group.setVideoId(oldGroup.getVideoId());
+		}
+		group.setGroupStatus(type+1);//待下级审核
+		group.setUpdateTime(new Date());
+		group.setUpdateUser(user.getUserName());
+		if(type == 2){
+			group.setFristPfdUser(oldGroup.getFristPfdUser() + "、" + user.getUserName());
+		}
+		if(type==3){
+			group.setSginTime(new Date());//发布时间
+			//签发
+			addCategoryForGroup(oldGroup.getId(), cates);
+		}
+		group.setProperties((byte)2);
+		
+		System.out.println("Properties:"+group.getProperties());
+		//修改稿件状态
+		cpPicGroupMapper.updateByPrimaryKeySelective(group);
+		if(type==3){
+			//生成图片的TXT
+			CpPicGroup pinfo=aboutPictureMapper.selectPicInfoByGroupId(oldGroup.getId());
+//			String fileName = null;//图片文件名
+			String txtPicInfo = null;//txt文件名
+			String oriPicPath = null;//原图
+			for (int j = 0; j < pinfo.getPics().size(); j++) {
+				CpPicture picture=pinfo.getPics().get(j);
+				/*fileName = group.getPics().get(j).getFilename();
+				txtPicInfo = fileName.substring(0, fileName.lastIndexOf(".")) + ".txt";*/
+				oriPicPath= picture.getOriAllPath();
+				txtPicInfo=oriPicPath.substring(0, oriPicPath.lastIndexOf(".")) + ".txt";
+				downloadService.createPictureInfoTxt(pinfo, picture, txtPicInfo);
+			}
+		}
+		//记录流程日志
+		addFlowLog(oldGroup.getId(), type, null, null, user);
+	}
+	
+	
 	
 	/**
 	 * 补签稿件
