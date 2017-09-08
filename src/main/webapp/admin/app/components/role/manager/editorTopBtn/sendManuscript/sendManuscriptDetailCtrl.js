@@ -703,7 +703,9 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 				modalOperate.modalHide(modalId);
 				initSetting();
 				$state.go('role.manager.sendManuscript');
-			} else if(resp.msg != '未登录') {
+			} else if(resp.code == '100'){
+            	layer.alert(resp.msg);
+            }else if(resp.msg != '未登录') {
 				layer.alert(resp.msg);
 			}
 		});
