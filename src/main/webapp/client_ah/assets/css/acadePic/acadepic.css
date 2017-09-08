@@ -1,0 +1,51 @@
+.acade-pic-container{
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+.acade-pic-li{
+    width: 49.5%;
+    margin-right: 0.5%;
+    background: #E0E0E0;
+}
+.acade-person-tit{
+    font-size:14px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.acade-topic-pic{
+    width: 40%;
+}
+.acade-topic-desc{
+    width: 60%;
+}
+.acade-topic-item{
+    border: 1px solid #ccc;
+}
+.acade-person-con{
+    padding:5px;
+}
+.acade-topic-tit{
+    text-align: left;
+    padding-left: 13px;
+    font-weight: bold;
+}
+.acade-top-img{
+    background: #FFF;
+}
+.acade-banner{
+    width: 59%;
+    margin-right: 0.5%;
+    border: 1px solid #ccc;
+    padding:2px;
+}
+.hot-topic-con{
+    width: 40%;
+}
+.hot-spec-li{
+    text-align: center;
+    padding:6px;
+}
+.hot-pic-txt{
+    margin: 18px 0 11px 0;
+}

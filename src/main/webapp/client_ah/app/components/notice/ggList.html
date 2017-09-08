@@ -1,0 +1,37 @@
+<div class="photolist-container text-left" style="padding-top: 0;">
+    <div class="row pad-10-20 n-margin">
+        <h3>专题公告列表</h3>
+        <hr>
+        <ul class="notice-list">
+            <li class="l-h-30 clear change-hover-color" ng-repeat="item in ggList.noticeList">
+                <a ui-sref="root.ggDisplay({id:item.id})">
+                    <div class="fll">
+                        <i class="icon-circle mr5"></i>
+                        <span>{{item.noticeTitle}}</span>
+                    </div>
+                    <div class="flr">
+                        <span>{{item.createTime | date : 'yyyy-MM-dd HH:mm:ss' }}</span>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!--gglist paging-->
+    <div class="hd-photo-paging mt10 clear">
+        <div class="photo-record-page fll">
+            <span>共找到</span>
+            <span class="color_red">{{ggList.totalNum}}</span>
+            <span>条记录</span>
+        </div>
+        <div class="photo-now-page fll">
+            <span>第 </span>
+            <span>{{ggList.pageNum | pageHandle}} </span>
+            <span>/</span>
+            <span>{{ggList.totalPage}} </span>
+            <span>页</span>
+        </div>
+        <div class="photo-jump-page flr">
+            <div id="jq-page"></div>
+        </div>
+    </div>
+</div>

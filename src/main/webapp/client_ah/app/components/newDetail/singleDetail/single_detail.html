@@ -1,0 +1,308 @@
+<div>
+	<div class="slideBox_pic">
+		<div class="hd">
+			<ul>
+				<li ng-repeat='clientPictureDetail in singleDetail.clientPictureDetails.pics'>
+				</li>
+			</ul>
+		</div>
+		<div class="bd">
+			<ul>
+				<li ng-repeat='clientPictureDetail in singleDetail.clientPictureDetails.pics' on-finish-render-filters>
+					<img ng-src="{{clientPictureDetail.wmPath}}">
+					<div class="single-detail flr">
+						<div>
+							<p class="tac fz18">
+								<a class="color-black  change-hover-color" target="_blank" ui-sref="root.newDetailList({groupId: singleDetail.singlePic.id})">【查看组图】</a>
+							</p>
+							<p class="newDetail-title">{{clientPictureDetail.title}}</p>
+
+							<p class="newDetail-date">发布时间:{{clientPictureDetails.sginTime | date:'yyyy-MM-dd HH:mm:ss'}}</p>
+						</div>
+						<div ng-repeat="item in singleDetail.singlePic.pics">
+							<p class="single-detail-note">
+								<span>图&emsp;片ID：</span>
+								<span>{{clientPictureDetail.id}}</span>
+							</p>
+							<p class="single-detail-note">
+								<span>图片作者：</span>
+								<span>{{clientPictureDetail.authorName}}</span>
+							</p>
+							<p class="single-detail-note">
+								<span>尺&emsp;&emsp;寸：</span>
+								<span>{{clientPictureDetail.pictureWidth}}*{{clientPictureDetail.pictureHeight}}</span>
+							</p>
+
+							<p class="single-detail-note">
+								<span>JPG 大小：</span>
+								<span>{{clientPictureDetail.pictureLength / 1024 | number : 2}}K</span>
+							</p>
+							<p class="single-detail-note">
+								<span>图片说明：</span>
+								<span>{{clientPictureDetail.memo}}</span>
+							</p>
+
+						</div>
+						<div class="single-detail-note buy-singlePic" style="position: relative">
+							<span class="shopping-car" ng-click="singleDetail.onCartPicClick()">加入购物车</span>
+							<span class="download" ng-click="singleDetail.downPic()">下载</span>
+							<span class="collect" ng-click="singleDetail.onIsShowMineCollectClick()">收藏到</span>
+
+							<div class="divSdMineCollect" ng-show="singleDetail.IsShowMineCollectFlag">
+								<div class="divSdMcBottomBorder">
+									<span style="font-size: 14px;font-weight: bold">我的收藏夹</span>
+								</div>
+								<div class="divSdMcBottomBorder cursor" style="font-size: 13px" ng-repeat="collectItem in singleDetail.collectBookArray" ng-click="singleDetail.onCollectPicClick(collectItem.id)">
+									{{collectItem.folderName}}
+								</div>
+								<div class="tac p5 cursor" style="font-size: 13px" ng-click="singleDetail.onModalShow('favoriteAddModal')">+创建新收藏夹
+								</div>
+							</div>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<a class="prev" href="javascript:void(0)">
+			<</a>
+				<a class="next" href="javascript:void(0)">></a>
+	</div>
+
+	<!--<div class="newDetail-single" style="clear: both">
+		<div class="single-pic fll" ng-repeat="item in singleDetail.singlePic.pics">
+			<img ng-src="{{item.wmPath}}" width="100%" />
+		</div>
+		<div class="single-detail fll">
+			<div>
+				<p class="tac fz18">
+					<a class="color-black  change-hover-color" target="_blank" ui-sref="root.newDetailList({groupId: singleDetail.singlePic.id})">【查看组图】</a>
+				</p>
+				<p class="newDetail-title">{{singleDetail.singlePic.title}}</p>
+
+				<p class="newDetail-date">发布时间:{{singleDetail.singlePic.sginTime | date:'yyyy-MM-dd HH:mm:ss'}}</p>
+			</div>
+			<div ng-repeat="item in singleDetail.singlePic.pics">
+				<p class="single-detail-note">
+					<span>图&emsp;片ID：</span>
+					<span>{{item.id}}</span>
+				</p>
+				<p class="single-detail-note">
+					<span>图片作者：</span>
+					<span>{{item.authorName}}</span>
+				</p>
+				<p class="single-detail-note">
+					<span>尺&emsp;&emsp;寸：</span>
+					<span>{{item.pictureWidth}}*{{item.pictureHeight}}</span>
+				</p>
+				
+				<p class="single-detail-note">
+					<span>JPG 大小：</span>
+					<span>{{item.pictureLength / 1024 | number : 2}}K</span>
+				</p>
+				<p class="single-detail-note">
+					<span>图片说明：</span>
+					<span>{{item.memo}}</span>
+				</p>
+
+				
+			</div>
+			<div class="single-detail-note buy-singlePic" style="position: relative">
+				<span class="shopping-car" ng-click="singleDetail.onCartPicClick()">加入购物车</span>
+				<span class="download" ng-click="singleDetail.downPic()">下载</span>
+				<span class="collect" ng-click="singleDetail.onIsShowMineCollectClick()">收藏到</span>
+				
+				<div class="divSdMineCollect" ng-show="singleDetail.IsShowMineCollectFlag">
+					<div class="divSdMcBottomBorder">
+						<span style="font-size: 14px;font-weight: bold">我的收藏夹</span>
+					</div>
+					<div class="divSdMcBottomBorder cursor" style="font-size: 13px" ng-repeat="collectItem in singleDetail.collectBookArray" ng-click="singleDetail.onCollectPicClick(collectItem.id)">
+						{{collectItem.folderName}}
+					</div>
+					<div class="tac p5 cursor" style="font-size: 13px" ng-click="singleDetail.onModalShow('favoriteAddModal')">+创建新收藏夹
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>-->
+	<div style="clear: both;padding-top: 20px">
+		<div class="newDetail-ad-left fll">
+			<!--网站公告-->
+			<div>
+				<div class="ad-title">
+					<span>系统公告</span>
+					<span class="ad-title-more" ui-sref="root.webInfoAllView">更多</span>
+				</div>
+				<div class="ad-cont">
+					<p class="oH pd5 cHand" ng-repeat="wpItem in singleDetail.webPublishArray" ui-sref="root.webInfoView({id:wpItem.id,name:wpItem.noticeTitle,type:1})">
+						<span>>></span>
+						<span>{{wpItem.noticeTitle}}</span>
+					</p>
+				</div>
+			</div>
+			<!--一周最佳采用-->
+			<div>
+				<div class="ad-title">
+					<span>一周最佳采用</span>
+				</div>
+				<div>
+					<div class="mt5">
+						<img src="client/assets/img/pic-6.jpg" width="100%" />
+					</div>
+					<div class="mt5">
+						<img src="client/assets/img/pic-6.jpg" width="100%" />
+					</div>
+					<div class="mt5">
+						<img src="client/assets/img/pic-6.jpg" width="100%" />
+					</div>
+					<div class="checkAll">
+						查看全部
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="newDetail-ad-right flr">
+			<!--稿件说明-->
+			<div>
+				<div class="ad-title">
+					<span>稿件说明</span>
+				</div>
+				<div class="pic-illustrate">
+					<div>
+						<div ng-bind-html="singleDetail.singlePic.memo | trustHtml"></div>
+					</div>
+					<p class="mt10">
+						中新社发 {{singleDetail.singlePic.author}} 摄 {{singleDetail.singlePic.remark.fileTime | date:'yyyy-MM-hh'}}
+					</p>
+
+					<p class="mt20">
+						关键字：{{singleDetail.singlePic.keywords}}
+					</p>
+
+					<p class="mt20">
+						分享页面
+					</p>
+				</div>
+			</div>
+			<!--相似稿件-->
+			<div>
+				<div class="ad-title">
+					<span>相似稿件</span>
+				</div>
+				<div class="newDetail-list col-lg-12 col-md-12 col-sm-12 newDetail-simlilar-box" ng-if="singleDetail.similarMs">
+					<img src="client/assets/img/left_arrow.svg" class="new-similar-arrow new-similar-left-arrow" ng-click="changePic(false)" />
+					<div class="newDetail-list-item col-lg-3 col-md-3 col-sm-6" ng-repeat="item in singleDetail.similarMs">
+						<img ng-src="{{item.coverPic}}" class="img-responsive curp pic-details-img" />
+						<!--<p class="tac">{{item.gtitle}}</p>-->
+					</div>
+					<img src="client/assets/img/right_arrow.svg" class="new-similar-arrow new-similar-right-arrow" ng-click="changePic(true)" />
+
+				</div>
+				<div class="tac" ng-if="singleDetail.similarMs">
+					<span>{{page}} / {{similarTotal}}页</span>
+				</div>
+				<div class="newDetail-list col-lg-12 col-md-12 col-sm-12 tac mt10" ng-if="!singleDetail.similarMs">
+					<span class="fz16">无</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 下载图片生成的订单信息模态框 -->
+<div class="modal fade" id="down-pic-order-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog w100p">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+				<h4 class="modal-title" id="myModalLabel">
+                    订单信息
+                </h4>
+			</div>
+			<div class="modal-body">
+				<table class="table table-bordered uInfo-table" ng-if="singleDetail.orderList.length != 0">
+					<thead>
+						<tr>
+							<th class="uinfo-hd-th bdbn tac">订单ID</th>
+							<th class="uinfo-hd-th bdbn tac">订单号</th>
+							<th class="uinfo-hd-th bdbn tac">用户名</th>
+							<th class="uinfo-hd-th bdbn tac">下单时间</th>
+							<th class="uinfo-hd-th bdbn tac">状态</th>
+							<th class="uinfo-hd-th bdbn tac">总价格</th>
+							<th class="uinfo-hd-th bdbn tac">图片张数</th>
+							<th class="uinfo-hd-th bdbn tac">用户结算方式</th>
+							<th class="uinfo-hd-th bdbn tac">下载方式</th>
+						</tr>
+					</thead>
+					<tbody class="tac">
+						<tr ng-repeat="item in singleDetail.orderList">
+							<td>{{item.id}}</td>
+							<td>{{item.orderNo}}</td>
+							<td>{{item.userName}}</td>
+							<td>{{item.createTime}}</td>
+							<td>{{item.orderStatus | orderStatusFilter}}</td>
+							<td>{{item.totalPrice}}</td>
+							<td>{{item.picCount}}</td>
+							<td>{{item.payType | payWayFilter}}</td>
+							<td>
+								<!--<a class="cursor" ng-click="singleDetail.sureDownPic(item.id,0)">图片下载</a>-->
+								<a class="cursor ml10" ng-click="singleDetail.sureDownPic(item.id,1)">图文下载</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<h5 class="modal-title text-danger" id="myRemark" ng-if="singleDetail.pics.length != 0">
+                    <strong>以下图片已经结算过，本次下载不计入订单内</strong>
+                </h5>
+				<table class="table table-bordered uInfo-table" ng-if="singleDetail.pics.length != 0">
+					<thead>
+						<tr>
+							<th class="uinfo-hd-th bdbn tac">作者ID</th>
+							<th class="uinfo-hd-th bdbn tac">图片名</th>
+							<th class="uinfo-hd-th bdbn tac">稿件ID</th>
+							<th class="uinfo-hd-th bdbn tac">图片ID</th>
+							<th class="uinfo-hd-th bdbn tac">下载</th>
+						</tr>
+					</thead>
+					<tbody class="tac">
+						<tr ng-repeat="item in singleDetail.pics">
+							<td>{{item.AUTHOR_ID}}</td>
+							<td>{{item.FILENAME}}</td>
+							<td>{{item.GID}}</td>
+							<td>{{item.PID}}</td>
+							<td rowspan="singleDetail.pics.length">
+								<a class="cursor ml10" ng-click="singleDetail.sureDownPicByOrderDetail(singleDetail.orderDetailId,1)">图文下载</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 添加收藏夹模态框 -->
+<div class="commonModalStyle" id="favoriteAddModal" style="display:none">
+	<div class="favoriteAddCon">
+		<div class="favoriteAddTit">
+			添加收藏夹
+		</div>
+		<div class="favoriteAddModal">
+			<div class="mt20 clear">
+				<div class="w33p fll tar">
+					<span>收藏夹名：</span>
+				</div>
+				<div class="w60p fll tal">
+					<input type="text" ng-model="singleDetail.addCollectNameModel" />
+				</div>
+			</div>
+		</div>
+		<div class="tac mt30">
+			<span class="dib cursor favoriteConBtn" ng-click="singleDetail.onAddCollectConClick()">确定</span>
+			<span class="dib cursor favoriteCanBtn" ng-click="singleDetail.onModalHide('favoriteAddModal')">取消</span>
+		</div>
+	</div>
+</div>

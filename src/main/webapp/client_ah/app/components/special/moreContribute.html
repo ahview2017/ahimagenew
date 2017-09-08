@@ -1,0 +1,39 @@
+<div class="photolist-container text-left" style="padding-top: 0;">
+    <div class="row pad-10-20 n-margin">
+        <!--photolist con-->
+        <div class="bd-photo-list">
+            <div class="photo-list-item">
+                <div class="photoList-rec-item clear">
+                    <div class="photo-item-li curp" ng-repeat="item in moreContribute.content"
+                         ui-sref="root.newDetailList({groupId: item.groupId})">
+                        <div style="height:160px;">
+                            <img ng-src="{{item.cpLanmuGroupPic.allpath}}" class="photo-img">
+                        </div>
+                        <p class="change-hover-color photo-spec-intro">{{item.cpLanmuGroupPic.picname}}</p>
+                        <p>{{item.cpLanmuGroupPic.creator}} 摄</p>
+                        <p class="photo-file-name">文件名：{{item.cpLanmuGroupPic.title}}</p>
+                        <p>发布于：{{item.cpLanmuGroupPic.sgintime | date: 'yyyy-MM-hh'}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--gglist paging-->
+    <div class="hd-photo-paging mt10 clear">
+        <div class="photo-record-page fll">
+            <span>共找到</span>
+            <span class="color_red">{{moreContribute.totalNum}}</span>
+            <span>条记录</span>
+        </div>
+        <div class="photo-now-page fll">
+            <span>第 </span>
+            <span>{{moreContribute.pageNum | pageHandle}} </span>
+            <span>/</span>
+            <span>{{moreContribute.totalPage}} </span>
+            <span>页</span>
+        </div>
+        <div class="photo-jump-page flr">
+            <div id="jq-page"></div>
+        </div>
+    </div>
+</div>

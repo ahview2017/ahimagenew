@@ -1,0 +1,190 @@
+<div>
+    <div class="oH">
+        <div class="favoriteDetail-head oH">
+            我的收藏夹 > {{detail.collectName}}
+        </div>
+        <div class="clear">
+            <div class="newDetail-list-item favorite-detail-list"
+                 ng-repeat="picItem in detail.allPicArray"
+                 ng-init="detail.checkBoxArray[$index] = false">
+                <img ng-src="{{picItem.allPath}}"  class="img-responsive curp"
+                     ui-sref="root.newSingleDetail({groupId: picItem.groupId, pictureId: picItem.pictureId})"/>
+
+                <p class="fwb">
+                    <input type="checkbox" ng-model="detail.checkBoxArray[$index]"
+                           ng-true-value="{{picItem.id}}+'_'+{{picItem.pictureId}}"
+                           ng-false-value="false"/>
+                    {{picItem.groupTitle}}
+                </p>
+
+                <p>
+                    <span>图&emsp;片ID：</span>
+                    <span>{{picItem.pictureId}}</span>
+                </p>
+
+                <p>
+                    <span>图片作者：</span>
+                    <span>{{picItem.creater}}</span>
+                </p>
+
+                <p>
+                    <span>尺&emsp;&emsp;寸：</span>
+                    <span>{{picItem.pictureWidth}}*{{picItem.pictureHeight}}像素</span>
+                </p>
+
+               <!-- <p>
+                    <span>TIFF大小：</span>
+                    <span>51.26 M</span>
+                </p>-->
+
+                <p>
+                    <span>JPG 大小：</span>
+                    <span>{{picItem.pictureLength}}K</span>
+                </p>
+
+               <!-- <p>
+                    <span>点&ensp;击&ensp;数：</span>
+                    <span>277</span>
+                </p>-->
+            </div>
+        </div>
+    </div>
+    <div class="favoriteDetail-btn">
+        <span>
+            <label for="checkAllfavoriteBtn">
+                <input type="checkbox" ng-model="detail.isHadAllCheck" id="checkAllfavoriteBtn"
+                       ng-click="detail.onCheckAllClick()"/>
+                <span class="cursor">全选</span>
+            </label>
+        </span>
+        <span class="favoriteDetail-btn-del"
+              ng-click="detail.onShowDeleteModelClick(0,null)">删除</span>
+        <span class="favoriteDetail-btn-add"
+              ng-click="detail.onShowHadSelectModelClick(0,null)">加入购物车</span>
+        <span class="favoriteDetail-btn-download" ng-click="detail.downPic()">下载</span>
+        <!-- 分页 -->
+        <div class="flr pr15">
+            <ul class="pagination" id="paginationAllPicId"></ul>
+        </div>
+    </div>
+    <!-- 删除收藏夹图片模态框 -->
+    <div class="commonModalStyle" id="picDeleteModal" style="display:none">
+        <div class="favoriteAddCon">
+            <div class="favoriteAddTit">
+                删除图片
+            </div>
+            <div class="favoriteAddModal">
+                <div class="mt20 clear">
+                    <div class="tac">
+                        <span>您确定要删除所选图片？</span>
+                    </div>
+                </div>
+            </div>
+            <div class="tac mt30">
+                    <span class="dib cursor favoriteConBtn"
+                          ng-click="detail.onDeleteCollectPicData()">确定</span>
+                    <span class="dib cursor favoriteCanBtn"
+                          ng-click="detail.favoriteModalHide('picDeleteModal')">取消</span>
+            </div>
+        </div>
+    </div>
+    <!-- 购物车模态框 -->
+    <div class="commonModalStyle" id="hadSelectPayModal" style="display:none">
+        <div class="favoriteAddCon">
+            <div class="favoriteAddTit">
+                购物车
+            </div>
+            <div class="favoriteAddModal">
+                <div class="mt20 clear">
+                    <div class="tac">
+                        <span>您确定要将所选图片加入购物车？</span>
+                    </div>
+                </div>
+            </div>
+            <div class="tac mt30">
+                    <span class="dib cursor favoriteConBtn"
+                          ng-click="detail.onHadSelectPayClick()">确定</span>
+                    <span class="dib cursor favoriteCanBtn"
+                          ng-click="detail.favoriteModalHide('hadSelectPayModal')">取消</span>
+            </div>
+        </div>
+    </div>
+    <!-- 下载图片生成的订单信息模态框 -->
+    <div class="modal fade" id="down-pic-order-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog w100p">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        订单信息
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered uInfo-table"  ng-if="detail.orderList.length != 0">
+                        <thead>
+                        <tr>
+                            <th class="uinfo-hd-th bdbn tac">订单ID</th>
+                            <th class="uinfo-hd-th bdbn tac">订单号</th>
+                            <th class="uinfo-hd-th bdbn tac">用户名</th>
+                            <th class="uinfo-hd-th bdbn tac">下单时间</th>
+                            <th class="uinfo-hd-th bdbn tac">状态</th>
+                            <th class="uinfo-hd-th bdbn tac">总价格</th>
+                            <th class="uinfo-hd-th bdbn tac">图片张数</th>
+                            <th class="uinfo-hd-th bdbn tac">用户结算方式</th>
+                            <th class="uinfo-hd-th bdbn tac">下载方式</th>
+                        </tr>
+                        </thead>
+                        <tbody class="tac">
+                        <tr ng-repeat="item in detail.orderList">
+                            <td>{{item.id}}</td>
+                            <td>{{item.orderNo}}</td>
+                            <td>{{item.userName}}</td>
+                            <td>{{item.createTime}}</td>
+                            <td>{{item.orderStatus | orderStatusFilter}}</td>
+                            <td>{{item.totalPrice}}</td>
+                            <td>{{item.picCount}}</td>
+                            <td>{{item.payType | payWayFilter}}</td>
+                            <td>
+                                <!--<a class="cursor" ng-click="detail.sureDownPic(item.id,0)">图片下载</a>-->
+                                <a class="cursor ml10" ng-click="detail.sureDownPic(item.id,1)">图文下载</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <h5 class="modal-title text-danger" id="myRemark"  ng-if="detail.pics.length != 0">
+                        <strong>以下图片已经结算过，本次下载不计入订单内</strong>
+                    </h5>
+                    <table class="table table-bordered uInfo-table" ng-if="detail.pics.length != 0">
+                        <thead>
+                        <tr>
+                            <th class="uinfo-hd-th bdbn tac">作者ID</th>
+                            <th class="uinfo-hd-th bdbn tac">图片名</th>
+                            <th class="uinfo-hd-th bdbn tac">稿件ID</th>
+                            <th class="uinfo-hd-th bdbn tac">图片ID</th>
+                            <th class="uinfo-hd-th bdbn tac">下载</th>
+                        </tr>
+                        </thead>
+                        <tbody class="tac">
+                        <tr ng-repeat="item in detail.pics">
+                            <td>{{item.AUTHOR_ID}}</td>
+                            <td>{{item.FILENAME}}</td>
+                            <td>{{item.GID}}</td>
+                            <td>{{item.PID}}</td>
+                            <td rowspan="singleDetail.pics.length">
+                                <a class="cursor ml10" ng-click="detail.sureDownPicByOrderDetail(detail.orderDetailId,1)">图文下载</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

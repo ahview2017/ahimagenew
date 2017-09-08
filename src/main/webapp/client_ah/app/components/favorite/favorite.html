@@ -1,0 +1,100 @@
+<div class="favorite">
+    <div class="favorite-title">
+        我的收藏夹
+    </div>
+    <div class="favorite-cont">
+        <div class="favorite-list oH">
+            <div class="favorite-list-item fll" ng-repeat="collectItem in favorite.allCollectArray">
+                <div class="oH favorite-list-item-imgs" style="height: 184px;"
+                     ui-sref="root.favoriteDetail({id:collectItem.id,name:collectItem.folderName})">
+                    <div class="favorite-list-item-img fll"
+                         ng-repeat="picItem in collectItem['cpFavoriteFolderPics'] ">
+                        <img ng-src="{{picItem.allPath}}" width="100%"/>
+                    </div>
+                </div>
+                <div class="oH mb2p">
+                    <div class="favorite-list-item-tit fll">
+                        <span ng-show="!favorite.editCollectFlag">{{collectItem.folderName}}</span>
+                        <span ng-show="favorite.editCollectFlag">
+                            <input type="text" class="input-favorite-edit"
+                                   ng-model="collectItem.folderName"/>
+                        </span>
+                    </div>
+                    <div class="favorite-list-item-modify flr" ng-show="favorite.editCollectFlag">
+                        <img src="client/assets/img/favorite/confirm.png" class="curp"
+                             ng-click="favorite.onConfirmNameClick(collectItem.id,collectItem.folderName)"/>
+                        <img src="client/assets/img/favorite/cancel.png" class="curp"
+                             ng-click="favorite.onCancelNameClick()"/>
+                    </div>
+                </div>
+                <div class="favorite-list-item-btn oH">
+                    <div class="favorite-list-item-btn-modify fll">
+                        <img src="client/assets/img/favorite/edit.png" class="curp"
+                             ng-click="favorite.onEditCollectClick()"/>
+                    </div>
+                    <div class="favorite-list-item-btn-del fll">
+                        <img src="client/assets/img/favorite/delete.png" class="curp"
+                             ng-click="favorite.onShowDeleteModalClick(collectItem.id)"/>
+                    </div>
+                </div>
+            </div>
+            <!--创建新收藏夹-->
+            <div class="favorite-list-item fll curp">
+                <div class="add-favorite-list-item"
+                     ng-click="favorite.favoriteModalShow('favoriteAddModal')">
+                    <img src="client/assets/img/favorite/add.png" width="25"/><br/>
+                    <span>创建新收藏夹</span>
+                </div>
+            </div>
+        </div>
+        <!-- 分页 -->
+        <div class="flr pr15">
+            <ul class="pagination" id="paginationAllCollectId"></ul>
+        </div>
+    </div>
+    <!-- 添加收藏夹模态框 -->
+    <div class="commonModalStyle" id="favoriteAddModal" style="display:none">
+        <div class="favoriteAddCon">
+            <div class="favoriteAddTit">
+                添加收藏夹
+            </div>
+            <div class="favoriteAddModal">
+                <div class="mt20 clear">
+                    <div class="w33p fll tar">
+                        <span>收藏夹名：</span>
+                    </div>
+                    <div class="w60p fll tal">
+                        <input type="text" ng-model="favorite.addCollectNameModel"/>
+                    </div>
+                </div>
+            </div>
+            <div class="tac mt30">
+                    <span class="dib cursor favoriteConBtn"
+                          ng-click="favorite.onAddCollectConClick()">确定</span>
+                    <span class="dib cursor favoriteCanBtn"
+                          ng-click="favorite.favoriteModalHide('favoriteAddModal')">取消</span>
+            </div>
+        </div>
+    </div>
+    <!-- 删除收藏夹模态框 -->
+    <div class="commonModalStyle" id="favoriteDeleteModal" style="display:none">
+        <div class="favoriteAddCon">
+            <div class="favoriteAddTit">
+                删除收藏夹
+            </div>
+            <div class="favoriteAddModal">
+                <div class="mt20 clear">
+                    <div class="tac">
+                        <span>您确定要删除该收藏夹？</span>
+                    </div>
+                </div>
+            </div>
+            <div class="tac mt30">
+                    <span class="dib cursor favoriteConBtn"
+                          ng-click="favorite.onDeleteCollectClick()">确定</span>
+                    <span class="dib cursor favoriteCanBtn"
+                          ng-click="favorite.favoriteModalHide('favoriteDeleteModal')">取消</span>
+            </div>
+        </div>
+    </div>
+</div>

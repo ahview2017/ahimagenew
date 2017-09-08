@@ -1,0 +1,68 @@
+<div class="photolist-container">
+    <!--photolist search-->
+    <div class="hd-photo-operate">
+        <span> 时间范围：</span>
+        <!--<select>
+            <option value="">7天</option>
+            <option>一个月</option>
+            <option>不限</option>
+        </select>-->
+        <select ng-model="moreSortList.tempSortsData.time"
+                ng-options="option.id as option.name for option in moreSortList.timeFrame">
+        </select>
+        <span class="ml5 mr5">
+             <span>指定关键字：</span>
+             <input type="text" ng-model="moreSortList.tempSortsData.keyWord"/>
+        </span>
+        <span>按 </span>
+        <!--<select>
+            <option value="">作者</option>
+            <option>文件名</option>
+            <option>标题</option>
+        </select>-->
+        <select ng-model="moreSortList.tempSortsData.pType"
+                ng-options="option.id as option.name for option in moreSortList.retrievalType">
+        </select>
+        <button type="button" class="cursor photo-serach-btn" ng-click="moreSortList.retrieval()">检索</button>
+    </div>
+    <!--photolist con-->
+    <div class="bd-photo-list">
+        <div class="photo-list-item oH">
+            <div class="more-sort-list-item clear">
+                <div class="photo-item-li curp" 
+                     dir-paginate="item in moreSortList.getMoreGroupsList | itemsPerPage: moreSortList.itemsPerPage"
+                     total-items="moreSortList.moreSortList_total"
+                     current-page="moreSortList.pagination.current">
+                    <div style="height:160px;" ui-sref="root.newDetailList({groupId: item.ID})">
+                        <img ng-src="{{item.samllPath}}" class="photo-img">
+                    </div>
+                    <p class="photo-file-name change-hover-color photo-spec-intro" title="{{item.TITLE}}（{{item.PICTURE_COUNT}}张）">{{item.TITLE}}（{{item.PICTURE_COUNT}}张）</p>
+                    <p>{{item.AUTHOR}} 摄</p>
+                    <p class="photo-file-name" title="{{item.FILENAME}}">文件名：{{item.FILENAME}}</p>
+                    <p>发布于：{{item.SGIN_TIME | date: 'yyyy-MM-hh HH:mm:ss'}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--photolist paging-->
+    <div class="hd-photo-paging mt10 clear">
+        <div class="photo-record-page fll">
+            <span>共找到</span>
+            <span class="color_red">{{moreSortList.moreSortList_total}}</span>
+            <span>条记录</span>
+        </div>
+        <div class="photo-now-page fll">
+            <span>第 </span>
+            <span>{{moreSortList.pagination.current}}</span>
+            <span>/</span>
+            <span>{{moreSortList.totalPages}}</span>
+            <span>页</span>
+        </div>
+        <!--分页-->
+        <div class="photo-jump-page flr">
+            <dir-pagination-controls on-page-change="moreSortList.pageChanged(newPageNumber)"
+                                     template-url="client/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+            </dir-pagination-controls>
+        </div>
+    </div>-
+</div>

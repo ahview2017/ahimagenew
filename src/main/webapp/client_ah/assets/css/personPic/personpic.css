@@ -1,0 +1,53 @@
+/*personpic css*/
+.person-pic-container{
+    border: 1px solid #ccc;
+}
+.pic-focus-item{
+    text-align: center;
+}
+.person-pic-focus{
+    width:18%;
+    display:table-cell;
+    border-right: 1px solid #ccc;
+    padding:10px;
+}
+.person-pic-focus-con{
+    width: 82%;
+    display:table-cell;
+    padding: 0 40px;
+}
+.person-focus-box{
+    display:table-row;
+}
+.person-Photo-name{
+    border: 1px solid #ccc;
+    padding:2px;
+    width: 8rem;
+}
+.person-photo-tit{
+    width: 131px;
+    background:url('../../img/person-pic-bg.gif');
+    color: red;
+    font-weight: bold;
+    vertical-align: middle;
+}
+.person-pic-more{
+    width: 100%;
+}
+/*personlist css*/
+.person-industry-hd-bg{
+    background:url('../../img/pic-industry-bg.gif') no-repeat;
+    padding: 2px 12px;
+    margin-bottom: 10px;
+}
+.person-ind-tit{
+    color:#FFF;
+    font-weight: bold;
+}
+.person-ind-hd-txt{
+    height: 28px;
+    line-height: 28px;
+}
+.person-ind-bd-txt{
+    margin: 8px 0;
+}

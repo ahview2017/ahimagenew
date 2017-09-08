@@ -1,0 +1,60 @@
+.old-pic-container{
+    border: 1px solid #ccc;
+    padding: 10px;
+    background: #FFF;
+}
+.old-topic-tit{
+    text-align: center;
+    padding: 7px 0 2px 0;
+    font-weight: bold;
+}
+.old-topic-con{
+    padding: 0px 7px 20px 7px;
+}
+.old-pic-topic{
+    border:1px solid #ccc;
+    margin-top: 10px;
+}
+.old-new-storage{
+    border:1px solid #ccc;
+    margin-top: 10px;
+    padding:8px;
+}
+.new-storage-pic{
+    width: 12px;
+    height:9px;
+    margin-top: -6px;
+}
+.n-storage-details{
+    border:1px solid #ccc;
+}
+.n-storage-tit{
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+.n-storage-li{
+    width: 33.333%;
+    float:left;
+    text-align: center;
+    padding:16px 0;
+}
+.n-storage-desc{
+    color: #000;
+    margin-top: 8px;
+    cursor:pointer;
+}
+.torage-desc-img{
+    width: 80%;
+}
+.old-politics-defense{
+    border:1px solid #ccc;
+    margin-top: 10px;
+    padding:10px;
+}
+.old-poldef-li{
+    width: 20%;
+    float:left;
+}
+.old-overseas-pic{
+    width: 95%;
+}
