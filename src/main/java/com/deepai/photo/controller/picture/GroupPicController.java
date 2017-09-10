@@ -2002,7 +2002,7 @@ public class GroupPicController {
 	@RequestMapping("/getMasBaseUrl")
 	@SkipLoginCheck
 	@SkipAuthCheck
-	public Object getMasBaseUrl(HttpServletRequest request,Integer groupId){
+	public Object getMasBaseUrl(HttpServletRequest request){
 		ResponseMessage result=new ResponseMessage();
 		try {
 			//返回Mas基础URL地址 	add by xiayunan 20170907

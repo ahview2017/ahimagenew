@@ -1,7 +1,5 @@
 package com.deepai.photo.common.util.TrsSearch;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -12,31 +10,29 @@ import org.apache.commons.lang.StringUtils;
  *
  */
 public class TrsSearchUtil {
-	  private int _dividedWordLength = 5;//分割检索词长度
-	  private Calendar cal = null;
-	  private Calendar calToday = null;
-	  SimpleDateFormat formater = new SimpleDateFormat("yyyy.MM.dd");
 	  private static final String LIKE_QUOTE_STR = String.valueOf('\\');
 	  private static final char[] LIKE_CHARS = { '(', ')', '[', ']', '-', '+', '*', '/' };
 	  
-	  public String handleSqlWhere(String keyword, String preKeyword, String colum, Boolean research){
+	  public static String handleSqlWhere(String keyword){
 		  if ((StringUtils.isEmpty(keyword)) || (keyword.trim().length() < 1)){
 			  return "";
 		  }
 	      String[] keywordsArray = keyword.split(" ");
 	      String tempWhere = "";
-	      for (int i = 0; i < keywordsArray.length; i++){
-	    	  tempWhere = new StringBuilder().append(tempWhere)
-	    			  		.append(keywordsArray[i].length() > this._dividedWordLength ? new StringBuilder()
-	    			  		.append(" (DOCTITLE,DOCCONTENT OR like(")
-	    			  		.append(unescapeLike(keywordsArray[i]))
-	    			  		.append("))").toString() : new StringBuilder()
-	    			  		.append("(DOCTITLE/100, DOCCONTENT/1+=")
-	    			  		.append(keywordsArray[i]).append(")").toString()).toString();
-	    	  tempWhere = new StringBuilder().append(tempWhere).append(i + 1 == keywordsArray.length ? " AND " : " or ").toString();
-	    }
-	    tempWhere = (!research.booleanValue()) || (StringUtils.isEmpty(preKeyword)) ? tempWhere : new StringBuilder().append(tempWhere).append(" (DOCTITLE=").append(preKeyword).append(" or DOCCONTENT=").append(preKeyword).append(") and ").toString();
-
+	      System.out.println("<<<<<<<<<<<<<<keywordsArray.length"+keywordsArray.length);
+	      if(keywordsArray.length>0){
+	    	  StringBuilder sb = new StringBuilder();
+	    	  sb.append("(AUTHOR_NAME,KEYWORDS,MEMO,TITLE,gtitle,gkeywords) += ")
+	    		.append("(");
+	    	  for (int i = 0; i < keywordsArray.length; i++){
+	    		  sb.append(keywordsArray[i]);
+	    		  if(i<(keywordsArray.length-1)){
+	    			  sb.append(" and "); 
+	    		  }
+	    	  }
+	    	  sb.append(")");
+	    	  tempWhere = sb.toString();
+	      }
 	    return tempWhere;
 	  }
 	  

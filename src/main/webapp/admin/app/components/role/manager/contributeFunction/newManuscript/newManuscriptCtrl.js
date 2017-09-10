@@ -77,9 +77,7 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
 
 	//获取Mas视频基础URL add by xiayunan 20170907
 	function getMasBaseUrl(){
-		req.post('groupPicCtro/getMasBaseUrl.do', {
-			groupId: vm.groupId
-		}).success(function(resp) {
+		req.get('groupPicCtro/getMasBaseUrl.do').success(function(resp) {
 			if(resp.code == '211') {
 				vm.masBaseUrl = resp.data.masBaseUrl;
 			}else if(resp.msg != '未登录') {

@@ -70,8 +70,15 @@ public class TrsSearchConf {
 		}
 		Map<String, Object> map =new HashMap<String, Object>();
 		List<TRSResult> list =new ArrayList<TRSResult>();
+		System.out.println("<<<<<<<<<<<<<<strWhere"+strWhere);
+		StringBuffer extrCondition = new StringBuffer();
+		extrCondition.append(TrsSearchUtil.handleSqlWhere(strWhere));
+		
+		
+		
+		System.out.println("<<<<<<<<<<<<<extrCondition:"+extrCondition.toString());
 		if (StringUtils.isNotBlank(strWhere)) {
-			rs = getConn().executeSelect(tableName, strWhere, "", "", "*",
+			rs = getConn().executeSelect(tableName, extrCondition.toString(), "", "", "*",
 					TRSConstant.TCM_IDEOSINGLE, TRSConstant.TCM_IDEOSINGLE,
 					false);
 		}else{
@@ -212,6 +219,9 @@ public class TrsSearchConf {
 		}
 		Map<String, Object> map =new HashMap<String, Object>();
 		List<TRSResult> list =new ArrayList<TRSResult>();
+		
+	
+		
 		
 		if (StringUtils.isNotBlank(strWhere)) {
 			rs = getConn().executeSelect(enTableName, strWhere, "", "", "*",
