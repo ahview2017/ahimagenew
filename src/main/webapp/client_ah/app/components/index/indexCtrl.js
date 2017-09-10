@@ -38,6 +38,57 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
         });
     });
 	
+    //登录、注册模块js 20170910 
+            function register(){
+                $("#gray").css("display",'block');
+                $("#register_div").css("display",'block');
+            }
+            function login(){
+                $("#gray").css("display",'block');
+                $("#login_div").css("display",'block');
+            }
+
+            function go_close(){
+                $("#gray").hide();
+                $(".login_box").hide();
+                $(".register_box").hide();
+            }
+
+            $(window).resize(function(){
+                tc_center();
+            });
+
+            function tc_center(){
+                var _top=($(window).height()-$("#login_div").height())/2;
+                var _left=($(window).width()-$("#login_div").width())/2;
+                $("#login_div").css({top:_top,left:_left});
+                $("#login_div").css({top:_top,left:_left});
+                var _top1=($(window).height()-$("#register_div").height())/2;
+                var _left1=($(window).width()-$("#register_div").width())/2;
+                //alert($(window).width()+":"+$("#login_div").width()+":"+_left);
+                $("#register_div").css({top:_top1,left:_left1});
+            }
+
+        $('#login_in').bind('click',function(event){
+                post_login();
+        });
+
+        function post_login(){
+             var cur_user = document.getElementById('login_user').value;
+             var cur_pass = document.getElementById('login_pass').value;
+             if (cur_user == '' || cur_pass == ''){
+                  alert('用户名或密码不可为空');
+                  return false;
+            }
+           //窗口水平居中
+            $(window).resize(function(){
+                tc_center();
+            });
+        }
+        setup();
+
+
+
 	/**
 	$(function () {
 	jQuery(".slideBox").slide({titCell:".btn li",mainCell:".bd ul",autoPlay:true,trigger:"click",effect:"fold",delayTime:0});
