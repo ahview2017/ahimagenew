@@ -1,0 +1,20 @@
+<div class="hot-play-back-container clear">
+    <div class="hot-play-back-topic">
+        <img src="client/assets/img/hot-play-back-bg.gif"/>
+    </div>
+    <div class="hot-play-back-con">
+        <div class="hot-play-back-tit">
+            <h6 class="spec-topic-tit">精彩专题</h6>
+        </div>
+        <div class="clear" style="background: #ccc;padding: 16px;margin-top: 10px;border-spacing: 6px;">
+            <div style="display: flex;flex-direction:row;flex-wrap:wrap;align-items:flex-start;align-content:space-around;">
+                <div ng-repeat="item in topicPlayBack.topicList"
+                     ng-click="topicPlayBack.toShowTopic(item.type,item.url,item.id)"
+                     class="p5 col-md-4" >
+                    <img ng-src="{{item.emage}}" title="{{item.name}}"
+                         class="img-responsive cursor top-img-hover"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,53 @@
+<div class="photolist-container">
+    <!--photolist add cart-->
+    <div class="newDetail-headR mt15 adv-search-dis clear">
+                <span class="dib fll">
+                    <label for="allCheckPicsBtn">
+                        <input type="checkbox"  ng-model="fullText.selectedAll" id="allCheckPicsBtn"
+                               ng-click="fullText.checkAll()"/>
+                        <span class="cursor">全选</span>
+                    </label>
+                </span>
+        <button type="button" class="cursor photo-serach-btn flr" ng-click="fullText.addCart()">批量加入购物车</button>
+    </div>
+    <!--photolist con-->
+    <div class="bd-photo-list">
+        <div class="photo-list-item">
+            <div class="photoList-rec-item clear">
+                <a  ui-sref="root.newSingleDetail({groupId:item.groupid,pictureId:item.id})" target="_blank"
+                     class="photo-item-li cursor color-black" style="height: 300px;"
+                     ng-repeat="item in fullText.photoList">
+                    <div style="height:160px;">
+                        <img ng-src="{{item.coverPic}}" class="photo-img">
+                    </div>
+                    <p class="change-hover-color photo-spec-intro">
+                        <input type="checkbox"
+                               ng-model="fullText.selPicIds[item.id]"/>
+                        <span>{{item.gtitle}}</span>
+                    </p>
+                    <p>{{item.authorName}} 摄</p>
+                    <p class="photo-file-name">文件名：{{item.fileName}}</p>
+                    <p>发布于：{{item.date | date: 'yyyy-MM-hh'}}</p>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!--photolist paging-->
+    <div class="hd-photo-paging mt10 clear">
+        <div class="photo-record-page fll">
+            <span>共找到</span>
+            <span class="color_red">{{fullText.totalNum}}</span>
+            <span>条记录</span>
+        </div>
+        <div class="photo-now-page fll">
+            <span>第 </span>
+            <span>{{fullText.pageNum | pageHandle}} </span>
+            <span>/</span>
+            <span>{{fullText.totalPage}} </span>
+            <span>页</span>
+        </div>
+        <div class="photo-jump-page flr">
+            <div id="jq-page"></div>
+        </div>
+    </div>
+</div>

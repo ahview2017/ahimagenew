@@ -1,0 +1,105 @@
+.webinfo-view-container {
+    border: 1px solid #ccc;
+    padding: 16px;
+}
+
+.webinfo-view-con {
+    border: 1px solid #ccc;
+    background: #FFF;
+    padding: 18px;
+    overflow: hidden;
+}
+
+.webinfo-view-tit {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 6px;
+}
+
+.webinfo-span-msg {
+    display: block;
+    color: #c00000;
+    border-top: 1px solid #ccc;
+    height: 40px;
+    line-height: 40px;
+    text-align: left;
+    margin-top: 10px;
+}
+
+.divAllWebInfoContent {
+    padding: 0 80px;
+    font-size: 12px;
+}
+
+.divAllWebInfoContent table > tbody > tr > td {
+    border-bottom: 1px solid #ccc;
+}
+
+.aAllWebInfoItem {
+    color: #333;
+}
+
+.aAllWebInfoItem:hover {
+    color: #FF9900;
+}
+
+/*帮助页面*/
+.lh25{
+    line-height: 25px;
+}
+/*编辑提示页面*/
+.editTips-tit{
+    font-size: 17px;
+    font-weight: bold;
+    border-bottom: 1px solid #9A9A9A;
+    padding: 7px 0;
+}
+.editTips-time{
+    padding: 15px 0;
+}
+
+/*网站留言*/
+.site-msg-container{
+    width: 100%;
+    border:1px solid #ccc;
+}
+.site-msg-contents{
+    margin:0 auto;
+    background: #FFF;
+}
+.site-msg-tit{
+    padding: 10px 0 11px 0;
+    border-bottom: 1px solid #ccc;
+}
+.site-hint-txt{
+    color:red;
+}
+.site-hint-txt p{
+    margin-top: 15px;
+}
+.f-content-tit{
+    width: 60px;
+    display:inline-block;
+    vertical-align: top;
+    margin-top: 5px;
+}
+.site-msg-content{
+    width: 917px;
+    height:233px;
+    border:1px solid #ccc;
+}
+.site-msg-phone{
+    width: 354px;
+    height:40px;
+    line-height: 40px;
+    padidng-left:5px;
+}
+.site-msg-form{
+    margin-top: 23px;
+}
+.site-msg-submit-btn{
+    width: 100px;
+}
+.site-submit-btn{
+    margin:20px 0 0 62px;
+}

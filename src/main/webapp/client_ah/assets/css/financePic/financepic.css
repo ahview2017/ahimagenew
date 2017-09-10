@@ -1,0 +1,134 @@
+.finance-hd-tit{
+	height: 30px;
+    line-height: 30px;
+	width: 65%;
+	float: right;
+	margin-right: 9%;
+	color: #000;
+}
+.finance-hd-tit a,.finance-hd-tit span{
+	color:#000;
+}
+.finance-focus-item{
+	/*display:table-cell;*/
+	float:left;
+}
+.finance-focus-banner{
+	width: 53.5%;
+	padding-left: 23px;
+	padding-top: 27px;
+}
+.finance-focus-con{
+	width: 46.5%;
+}
+.finance-move-txt-item{
+	display: table-cell;
+    border: 1px solid #FFC2B6;
+    background: #FFF;
+}
+.finance-category-item{
+	width: 19.5%;
+	float:left;
+	margin-left: 0.5%;
+}
+.last-no-margin{
+	margin-left: 0;
+}
+.finance-move-txt-right{
+	width: 90%;
+    border-spacing: 6px 0px;
+}
+.finance-category-box{
+	width: 100%;
+}
+.daily-focus-bottom-con{
+	display:table-cell;
+	vertical-align: middle;
+}
+.finance-movie-pic{
+	padding: 10px;
+	display: block;
+	margin: 0 auto;
+	height: 11rem;
+}
+.daily-focus-bottom-box{
+	border-spacing: 11px 8px;
+}
+.finance-pic-link{
+	border:1px solid #999;
+	padding:6px;
+}
+.finance-bg-container-link{
+	display:block;
+}
+.finace-person-bg{
+	background: url('../../img/finance-person-bg.gif');
+	background-size: 100% 100%;
+	height:76px;
+}
+.finace-financial-bg{
+	background: url('../../img/finance-security-bg.gif');
+	background-size: 100% 100%;
+	height:76px;
+}
+.finace-commercial-consume-bg{
+	background: url('../../img/finance-commercial-consume-bg.gif');
+	background-size: 100% 100%;
+	height:76px;
+}
+.finance-house-build-bg{
+	background: url('../../img/finance-house-build.gif');
+	background-size: 100% 100%;
+	height:76px;
+}
+.finance-meeting-exhibition-bg{
+	background: url('../../img/finance-meeting-exhibition.gif');
+	background-size: 100% 100%;
+	height:76px;
+}
+.finance-company-enterprise-bg{
+	background: url('../../img/finance-company-enterprise-bg.gif');
+	background-size: 100% 100%;
+	height:76px;
+}
+.finance-IT-communication-bg{
+	background: url('../../img/finance-IT-communication.gif');
+	background-size: 100% 100%;
+	height:76px;
+}
+.finance-automobile-industry-bg{
+	background: url('../../img/finance-automobile-industry.gif');
+	background-size: 100% 100%;
+	height:76px;
+}
+.finance-key-project-bg{
+	background: url('../../img/finance-key-project.gif');
+	background-size: 100% 100%;
+	height:76px;
+}
+.finance-science-nproduct-bg{
+	background: url('../../img/finance-science-nproduct.gif');
+	background-size: 100% 100%;
+	height:76px;
+}
+.finance-chart-bg{
+	background: url('../../img/finance-chart.gif');
+	background-size: 100% 100%;
+	height:76px;
+}
+.finance-cartoons-bg{
+	background: url('../../img/finance-cartoons.gif');
+	background-size: 100% 100%;
+	height:76px;
+}
+.finace-person-linebg{
+	background: url('../../img/finance-line-bg.gif');
+	background-size: 100% 100%;
+}
+.finace-category-container{
+	padding-right: 1%;
+}
+.finance-big-foucs-bpic{
+	width: 100%;
+	height:330px;
+}

@@ -1,0 +1,56 @@
+.client-login-container{
+    border: 1px solid #ccc;
+}
+.client-login-con{
+    width: 86%;
+    margin: 0 auto;
+}
+.client-hd-login-tit{
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+}
+.cuser-login-tit{
+    padding:20px 0;
+    font-size: 16px;
+    font-weight: bold;
+}
+.client-bd-login-detail{
+    width: 405px;
+    margin:20px auto 20px;
+    border: 1px solid #ccc;
+    padding:20px;
+}
+.c-login-item{
+
+}
+.c-login-item-txt{
+    width: 79px;
+    font-weight: bold;
+}
+.c-login-item-input{
+    
+}
+.c-login-info-input{
+    width: 160px;
+}
+.pwd-spec-item{
+    margin: 10px 0;
+}
+.client-login-go-btn{
+    border: 1px solid #9B9B9B;
+    padding: 0 10px;
+    outline: none!important;
+}
+.forget-register-box{
+    text-align: center;
+    margin-top: 12px;
+}
+.login-suceess-center{
+    text-align: center;
+}
+.login-success-bottom{
+    margin-bottom: 5px;
+}
+.login-suceess-cursor{
+    cursor:pointer;
+}

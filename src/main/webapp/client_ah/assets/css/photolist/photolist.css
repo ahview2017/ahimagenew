@@ -1,0 +1,76 @@
+.photolist-container{
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    text-align: center;
+    padding: 7px 0;
+}
+.photo-serach-btn{
+    border: 1px solid #9B9B9B;
+    padding:1px 5px;
+    margin-left: 3px;
+    outline: none!important;
+}
+.photo-list-li{
+    width: 19.6%;
+    padding: 1.2rem;
+    border: 1px solid #ccc;
+    margin-right: 0.5%;
+    font-size: 1.2rem;
+    background: #FFF;
+    /*height: 22rem;*/
+    display:table-cell;
+}
+.photo-item-li{
+    width: 20%;
+    padding: 1.2rem;
+    border: 1px solid #ccc;
+    font-size: 1.2rem;
+    background: #FFF;
+    /*float:left;*/
+    display:inline-block;
+}
+.photo-img{
+    margin:0 auto;
+    display:block;
+    padding:10px 0;
+}
+.photo-file-name{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.photo-list-item{
+    padding:0 5px;
+    margin-top: 10px;
+}
+.photo-spec-intro{
+    margin: 13px 0 6px 0;
+}
+.page-jump-input{
+    width: 33px;
+    margin: 0 8px;
+}
+.photo-record-page{
+    width: 30%;
+    text-align: left;
+}
+.photo-now-page{
+    width: 30%;
+    text-align: center;
+}
+.photo-jump-page{
+    width: 40%;
+    text-align: right;
+}
+.hd-photo-paging{
+    padding:0 11px;
+}
+.jump-pre-page{
+    margin:0 10px;
+}
+.photoList-rec-item{
+   /*float:left;*/
+    width: 100%;
+    display:flex;
+    flex-flow:row wrap;
+}
