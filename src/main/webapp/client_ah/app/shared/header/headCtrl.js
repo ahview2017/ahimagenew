@@ -20,8 +20,34 @@ clientModule.controller('headerCtrl', function ($scope, $cookies, req, md5, $sta
         //从cookie获取客户端用户名
         $rootScope.client_uName = $cookies.get('client_uname');
     }
-
-
+    //登录按钮
+    vm.login_user = function(){
+    	 $("#gray").css("display",'block');
+         $("#login_div").css("display",'block');
+    }
+    //初始化样式
+    function tc_center(){
+        var _top=($(window).height()-$("#login_div").height())/2;
+        var _left=($(window).width()-$("#login_div").width())/2;
+        $("#login_div").css({top:_top,left:_left});
+        $("#login_div").css({top:_top,left:_left});
+        var _top1=($(window).height()-$("#register_div").height())/2;
+        var _left1=($(window).width()-$("#register_div").width())/2;
+        $("#register_div").css({top:_top1,left:_left1});
+    }
+    //关闭按钮
+    vm.go_close = function(){
+    	 $("#gray").hide();
+         $(".login_box").hide();
+         $(".register_box").hide();
+    }
+    //注册按钮
+    vm.register = function(){
+    	 $("#gray").css("display",'block');
+         $("#register_div").css("display",'block');
+    }
+    
+/*
             //登录、注册模块js 20170910 
             function register(){
                 $("#gray").css("display",'block');
@@ -69,13 +95,14 @@ clientModule.controller('headerCtrl', function ($scope, $cookies, req, md5, $sta
                 tc_center();
             });
         }
-        setup();
+        setup();*/
 
     
 
     //初始化
     function init() {
         initSetting();
+        tc_center();
         getselCpCategories(function (category) {
             angular.forEach(category, function (item, index) {
                 if (item.categoryName == '新闻类别') {

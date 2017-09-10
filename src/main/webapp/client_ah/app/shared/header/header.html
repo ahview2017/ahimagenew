@@ -10,11 +10,11 @@
 	                </div>
 	                <div class="login right">
 	                    <div class="login_left left">
-	                        <span><a href="">注册</a></span> | 
-	                        <span><a href="">登录</a></span>
+	                        <span><a href="javascript:void(0);" ng-click="header.register()">注册</a></span> | 
+	                        <span><a href="javascript:void(0);" ng-click="header.login_user()">登录</a></span>
 	                    </div>
 	                    <div class="login_right right">
-	                        <span><a href="">我要投稿</a></span>
+	                        <span><a href="javascript:void(0);">我要投稿</a></span>
 	                    </div>
 	                </div>
 	            </div>
@@ -23,7 +23,7 @@
             <div class="login_box" id="login_div" style="width:700px; height:247px; background-color: #fff; z-index: 100; position: fixed;display:none;top:400px;left:400px;">
             <div class="login_title">我要登录
                 <div class="close_login">
-                    <a href="javascript:go_close();"><img src="images/close_button.png"></a>
+                    <a href="javascript:void(0);" ng-click="header.go_close()"><img src="client_ah/assets/images_ah/close_button.png"></a>
                 </div>
             </div>
 
@@ -51,7 +51,7 @@
             <div class="register_box" id="register_div" style="width:700px; height: 898px; background-color: rgb(255, 255, 255); z-index: 100; position: fixed;display:none;top:200px;left:400px;" >
             <div class="register_title" style="position:relative;">我要登录
                  <div class="close_login">
-                    <a href="javascript:go_close();"><img src="images/close_button.png"></a>
+                    <a href="javascript:void(0);" ng-click="header.go_close()"><img src="client_ah/assets/images_ah/close_button.png"></a>
                 </div>
             </div>
             <div class="register_content">
