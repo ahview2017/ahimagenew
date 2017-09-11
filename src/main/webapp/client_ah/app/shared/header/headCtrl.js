@@ -562,6 +562,10 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 			}
 		});
 	}
+	//我要投稿
+	vm.newManuscript = function(){
+		window.location.href = "/photo/admin.html#/manager/newManuscript";
+	}
 
 	/**
 	 * 全文检索
