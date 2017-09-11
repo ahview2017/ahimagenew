@@ -121,6 +121,29 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 
 		}
 	}
+	vm.sendmsg2 = function() {
+		if(vm.mobilePhone==''||!(/^1[3,4,5,7,8]\d{9}$/.test(vm.mobilePhone))){
+            layer.alert('请输入正确格式的移动电话');
+            return;
+        }
+		
+		if (nums == 60 && start) {
+			start = false;
+			$("#code2").removeAttr('ng-click');
+			$("#code2").attr('disabled', "true");
+			$("#code2").html(nums + '秒后可重新获取');
+			clock = setInterval(doLoop2, 1000); // 一秒执行一次
+			console.log("发送短信");
+			req.post('phonemsg/sendMsgCode.do', {
+				phoneNum : vm.mobilePhone
+			}).success(function(resp) {
+				if (resp.code != '211') {
+					layer.alert(resp.msg);
+				}
+			});
+			
+		}
+	}
 	function doLoop() {
 		nums--;
 		if (nums > 0) {
@@ -130,6 +153,19 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 			$("#code").html('获取验证码');
 			$("#code").attr('ng-click', 'header.sendmsg()');
 			$("#code").removeAttr('disabled');
+			nums = 60; // 重置时间
+			start = true;
+		}
+	}
+	function doLoop2() {
+		nums--;
+		if (nums > 0) {
+			$("#code2").html(nums + '秒后可重新获取');
+		} else {
+			clearInterval(clock); // 清除js定时器
+			$("#code2").html('获取验证码');
+			$("#code2").attr('ng-click', 'header.sendmsg2()');
+			$("#code2").removeAttr('disabled');
 			nums = 60; // 重置时间
 			start = true;
 		}
@@ -276,15 +312,179 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 	}
 	//确认注册
     vm.confirmRegister = function(form){
-    	layer.alert("success");
-//        validRegisterInfo(form,function(){
-//            req_Register();
-//        });
+//    	layer.alert("success");
+        validRegisterInfo(form,function(){
+            req_Register();
+        });
 //        console.log(form);
 //        console.log(form.$valid);
 //        if(form.$valid){
 //            req_Register();
 //        }
+    }
+    //校验注册信息
+    function validRegisterInfo(form,callback){
+        var idNumExp = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+        var pwdExp = /^(?![A-Z]+$)(?![a-z]+$)(?!\d+$)(?![\W_]+$)\S{8,16}$/;
+        var standby1 = /[1-9][0-9]{4,10}/;
+        var standby2 = /^[a-zA-Z]{1}[-_a-zA-Z0-9]{5,19}$/;
+        var postCode = /^[1-9][0-9]{5}$/;
+        var charLen = /^.{8,16}$/;
+        var pwdHintQue = /^.{0,20}$/;
+        //验证用户信息
+        if(!valid_Info()) return;
+
+        if(!vm.applyCategory){
+        	layer.alert('请选择申请类别');
+            return;
+        }
+        if(!vm.enterPwd){
+            layer.alert('请输入8-16个密码');
+            return;
+        }
+        if(!(pwdExp.test(vm.enterPwd))){
+            layer.alert('请输入8-16个字符密码，且密码要含有小写字母、大写字母、数字、特殊符号的两种及以上');
+            return;
+        }
+        if(!vm.confirmPwd){
+            layer.alert('请输入8-16个字符确认密码');
+            return;
+        }
+        if(vm.enterPwd != vm.confirmPwd){
+            layer.alert('两次输入密码必须一致');
+            return;
+        }
+        if(form.pwdHintQuestion.$error.required ||!(pwdHintQue.test(vm.pwdQuestion))){
+            layer.alert('请输入不多于20个字符密码提示问题');
+            return;
+        }
+        if(form.pwdHintAnswer.$error.required || !(charLen.test(vm.pwdAnswer))){
+            layer.alert('请输入8-16个字符密码提示答案');
+            return;
+        }
+       if($("#province").val()==''||$("#province").val()=='省份'){
+            layer.alert('请选择所在省');
+            return;
+        } 
+        if($("#city").val()==''||$("#city").val()=='地级市'){
+            layer.alert('请选择所在市');
+            return;
+        }
+        if(form.realName.$error.required){
+            layer.alert('请填写真实姓名');
+            return;
+        }
+        if(!vm.IdNumber||!(idNumExp.test(vm.IdNumber))){
+            layer.alert('请输入正确格式的身份证号');
+            return;
+        }
+        if(form.unitName.$error.required){
+            layer.alert('请填写单位名称');
+            return;
+        }
+        if(form.postcode.$error.required || !(postCode.test(vm.postcode))){
+            layer.alert('请填写正确格式的邮政编码');
+            return;
+        }
+        if(form.contactPhone.$error.pattern){
+            layer.alert('请输入正确格式的联系电话');
+            return;
+        }
+        if(form.mobilePhone.$error.required || form.mobilePhone.$error.pattern){
+            layer.alert('请输入正确格式的移动电话');
+            return;
+        }
+        if(form.register_code.$error.required || form.register_code.$error.pattern){
+        	layer.alert('请输入正确格式的验证码');
+        	return;
+        }
+        if(form.mail.$error.required || form.mail.$error.pattern){
+            layer.alert('请输入正确格式的邮箱');
+            return;
+        }
+        if(vm.standby1 && !(standby1.test(vm.standby1))){
+            layer.alert('请输入正确格式的QQ号码');
+            return;
+        }
+        if(vm.standby2 && !(standby2.test(vm.standby2))){
+            layer.alert('请输入正确格式的微信号');
+            return;
+        }
+
+        if(callback) callback();
+    }
+  //校验信息
+    function valid_Info(){
+        var valid = true;
+        if(!vm.loginName){
+            valid = false;
+            layer.alert("请输入用户名");
+        }else if(!(uNameRegExp.test(vm.loginName))){
+            valid = false;
+            layer.alert("请输入正确格式的用户名");
+        }
+        return valid;
+    }
+  //确认注册请求
+    function req_Register(){
+        var reqData = {
+            userName: vm.loginName,
+            roleId: vm.applyCategory,  //用户类别
+            subscriberType: 0, //订户类型，默认是个人
+            subscriptionType:'', //订阅类型
+            tureName: vm.realName,
+            photographyDirection: 00000000,
+            password: md5.createHash(vm.enterPwd), //密码为密文
+            question: vm.pwdQuestion,
+            answer:  vm.pwdAnswer,
+            province: $("#province").val(),
+            city: $("#city").val(),
+            authorName: vm.loginName,
+            unitName: vm.unitName,
+            zipcode: vm.postcode,
+            telBind: vm.mobilePhone,
+            telContact: vm.contactPhone||'',
+            emailBind: vm.mail,
+            standby1: vm.standby1||'',
+            standby2: vm.standby2||'',
+            feeType: 0,
+            idCard: vm.IdNumber,
+            code: vm.register_code,
+            isPublish: $('input[name="publishInfo"]:checked ').val()=='0'?0:1,
+            langType:0
+        };
+        console.log(reqData);
+        req.post('login/registerOne.do',reqData).success(function(resp){
+            if(resp.code == '211'){
+            	$('#register_form')[0].reset();//清空表单
+            	//关闭窗口
+            	$("#gray").hide();
+        		$(".register_box").hide();
+                var sendData ={
+                    userName: vm.loginName,
+                    password: md5.createHash(vm.enterPwd), //密码为密文
+                    userEmail:vm.mail
+                }
+                if(vm.applyCategory == '3'){
+                    sendData['roleId'] = vm.applyCategory;
+                }
+                //发送邮件
+                req.post("/mail/sendEmailByName.do",sendData).success(function (response) {
+                    if(response.code == '211'){
+                        console.log("邮件发送："+response.msg);
+                    }
+                });
+                //发送短信
+                req.post("/phonemsg/sendMessageByUserName.do",sendData).success(function (response) {
+                    if(response.code == '211'){
+                        console.log("短信发送："+response.msg);
+                    }
+                });
+                $state.go('root.registerSuccess',{userName:vm.loginName,emailBind:vm.mail,telBind:vm.mobilePhone});
+            }else{
+                layer.alert(resp.msg);
+            }
+        });
     }
 	// 初始化
 	function init() {
@@ -361,6 +561,10 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 				console.log(resp.msg);
 			}
 		});
+	}
+	//我要投稿
+	vm.newManuscript = function(){
+		window.location.href = "/photo/admin.html#/manager/newManuscript";
 	}
 
 	/**

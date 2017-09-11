@@ -617,13 +617,22 @@ public class PictureService {
 		String wmM=aboutPictureMapper.selectPicPathByType(param);
 //		logger.info("wmM>>>>>>>>>>>>>>>>>"+wmM+"<---->"+picId);
 //		logger.info("mediumAllPath>>>>>>>>>>>>>>>>>"+mediumAllPath+"<---->"+picId);
+		
+		//add by xiayunan 2017-09-11
+		String waterPicPostion=sysConfigService.getDbSysConfig(SysConfigConstant.WATERMAKER_POSITION, siteId);
+		String transparency=sysConfigService.getDbSysConfig(SysConfigConstant.WATERMAKER_TRANSPARENCY, siteId);
+		
 		if(wmM==null){
 			String waterPic=sysConfigService.getDbSysConfig(SysConfigConstant.DEFAULT_WATERMARK_PIC, siteId);
 //			logger.info("默认水印图为："+waterPic);
-			String position=sysConfigService.getDbSysConfig(SysConfigConstant.UPLOAD_WATER_POSITION, siteId);
+//			String position=sysConfigService.getDbSysConfig(SysConfigConstant.UPLOAD_WATER_POSITION, siteId);
 			String watermarkedmedium=sysConfigService.getDbSysConfig(SysConfigConstant.WATERMARKEDMEDIUM_PIC_PATH, siteId);
 			String wmAllPath=initFullPathByOrder(watermarkedmedium,fileName);
-			ImageAnalyseUtil.waterMarkPic(wmAllPath, mediumAllPath, waterPic, position,true);
+			
+			//add by xiayunan 20170911
+			//ImageAnalyseUtil.waterMarkPic(wmAllPath, mediumAllPath, waterPic, position,true);
+			ImageAnalyseUtil.SpePositionWaterMarkPic(wmAllPath, mediumAllPath, waterPic, waterPicPostion, Integer.valueOf(transparency), true);
+			
 //			logger.info("wmAllPath："+wmAllPath);
 			addPicAllPath(wmAllPath, 4, picId);
 		}
@@ -662,8 +671,7 @@ public class PictureService {
             String waterPic = sysConfigService.getDbSysConfig(
                     SysConfigConstant.DEFAULT_WATERMARK_PIC, siteId);
             // logger.info ("默认水印图为："+waterPic);
-            String position = sysConfigService.getDbSysConfig(
-                    SysConfigConstant.UPLOAD_WATER_POSITION, siteId);
+//            String position = sysConfigService.getDbSysConfig(SysConfigConstant.UPLOAD_WATER_POSITION, siteId);
             String watermarkedmedium1200 = sysConfigService.getDbSysConfig(
                     SysConfigConstant.WATERMARK_PIC_PATH1200, siteId);
             String wmAllPath1200 = initFullPathByOrder(watermarkedmedium1200, fileName);
@@ -671,8 +679,10 @@ public class PictureService {
 //            logger.info ("wmAllPath1200>>"+wmAllPath1200);
 //            logger.info ("mediumAllPath1200>>"+mediumAllPath1200);
             
-            ImageAnalyseUtil.waterMarkPic(wmAllPath1200, mediumAllPath1200, waterPic,
-                    position, true);
+            //add by xiayunan 2017-09-11
+           // ImageAnalyseUtil.waterMarkPic(wmAllPath1200, mediumAllPath1200, waterPic,position, true);
+			ImageAnalyseUtil.SpePositionWaterMarkPic(wmAllPath1200, mediumAllPath1200, waterPic, waterPicPostion, Integer.valueOf(transparency), true);
+			
             // logger.info ("wmAllPath："+wmAllPath);
             addPicAllPath(wmAllPath1200, 9, picId);
         }
