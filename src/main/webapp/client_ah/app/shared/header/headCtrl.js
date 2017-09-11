@@ -274,7 +274,18 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 		}
 
 	}
-
+	//确认注册
+    vm.confirmRegister = function(form){
+    	layer.alert("success");
+//        validRegisterInfo(form,function(){
+//            req_Register();
+//        });
+//        console.log(form);
+//        console.log(form.$valid);
+//        if(form.$valid){
+//            req_Register();
+//        }
+    }
 	// 初始化
 	function init() {
 		initSetting();
