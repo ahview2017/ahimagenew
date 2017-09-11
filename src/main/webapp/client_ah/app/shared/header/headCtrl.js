@@ -450,7 +450,7 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
             feeType: 0,
             idCard: vm.IdNumber,
             code: vm.register_code,
-            is_publish: $('input[name="publishInfo"]:checked ').val(),
+            isPublish: $('input[name="publishInfo"]:checked ').val()=='0'?0:1,
             langType:0
         };
         console.log(reqData);
