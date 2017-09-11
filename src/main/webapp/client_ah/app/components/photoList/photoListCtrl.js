@@ -9,7 +9,7 @@ clientModule.controller('photoListCtrl',function($scope,$cookies,req,md5,$state,
         vm.photoList = [];
         vm.photoList_total = 0;
         //默认每页10条
-        vm.selPageRows = '10';
+        vm.selPageRows = '20';
         vm.pagination = {
             current: 1
         };
