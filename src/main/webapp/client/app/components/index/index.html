@@ -58,7 +58,7 @@
             </div>
             <div class="ad-focus-pic tac" ng-repeat="item in index.bestUse track by $index" ng-if="$first">
                 <a  target="_blank" ui-sref="root.newDetailList({groupId: item.ID})">
-                    <img ng-src="{{item.samllPath}}" class="hd-ad-pic ad-specuse-pic cursor"
+                    <img ng-src="{{item.FilePath}}" class="hd-ad-pic ad-specuse-pic cursor"
                          >
                 </a>
                 <p class="tac mid-adopt-desc cursor change-hover-color">
@@ -68,7 +68,7 @@
             <div class="clear">
                 <div class="adopt-focus-pic mr-percent2 tac" ng-repeat="item in index.bestUse  track by $index" ng-if="!$first">
                     <a  target="_blank" ui-sref="root.newDetailList({groupId: item.ID})">
-                        <img ng-src="{{item.samllPath}}" class="ad-specuse-pic cursor"
+                        <img ng-src="{{item.FilePath}}" class="ad-specuse-pic cursor"
                          >
                     </a>
                     <p class="tac mt2 cursor change-hover-color adpot-txt-desc">
@@ -112,7 +112,7 @@
                 <ul class="daily-rec-list-item clear" ng-repeat="item in index.dailyRecGroups track by $index">
                     <li class="daily-rec-li">
                         <a  ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
-                            <img ng-src="{{item.samllPath}}" class="daily-rec-pic"/>
+                            <img ng-src="{{item.FilePath}}" class="daily-rec-pic"/>
                         </a>
                     </li>
                     <p class="daily-rec-desc">
@@ -159,7 +159,7 @@
                 <div class="other-classify-detail clear" ng-init="index.getClientGroups(112)">
                     <div class="other-classify-li other-classpic-left fll" ng-repeat="item in index.amusementFashion  track by $index">
                         <a class="cursor"  ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
-                            <img ng-src="{{item.samllPath}}" class="img-responsive index-pic-one-percent"
+                            <img ng-src="{{item.FilePath}}" class="img-responsive index-pic-one-percent"
                                 />
                         </a>
                         <p class="other-classify-detail-tit curp change-hover-color tac">
@@ -183,7 +183,7 @@
                 <div class="other-classify-detail clear" ng-init="index.getClientGroups(113)">
                     <div class="other-classify-li other-classpic-left fll" ng-repeat="item in index.economicWealth  track by $index">
                         <a class="cursor"  ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
-                            <img ng-src="{{item.samllPath}}" class="img-responsive index-pic-one-percent"
+                            <img ng-src="{{item.FilePath}}" class="img-responsive index-pic-one-percent"
                                     />
                         </a>
                         <p class="other-classify-detail-tit curp change-hover-color tac">
@@ -230,7 +230,7 @@
             <div class="other-classify-detail clear" ng-init="index.getClientGroups(114)">
                 <div class="other-classify-li other-classpic-left  fll" ng-repeat="item in index.taiwanAngle  track by $index">
                     <a class="cursor"  ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
-                        <img ng-src="{{item.samllPath}}" class="img-responsive index-pic-one-percent"
+                        <img ng-src="{{item.FilePath}}" class="img-responsive index-pic-one-percent"
                                 />
                     </a>
                     <p class="other-classify-detail-tit curp change-hover-color tac">
@@ -255,7 +255,7 @@
                 <div class="other-classify-li other-classpic-left  fll" ng-repeat="item in index.Intlpresence  track by $index">
                     <div class="other-wrap-index-con">
                         <a class="cursor"  ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
-                            <img ng-src="{{item.samllPath}}" class="img-responsive index-pic-one-percent"
+                            <img ng-src="{{item.FilePath}}" class="img-responsive index-pic-one-percent"
                                     />
                         </a>
                         <p class="other-classify-detail-tit curp change-hover-color tac">
@@ -301,7 +301,7 @@
             <div class="other-classify-detail clear" ng-init="index.getClientGroups(116)">
                 <div class="other-classify-li other-classpic-left fll" ng-repeat="item in index.limitPictures  track by $index">
                     <a class="cursor"  ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
-                        <img ng-src="{{item.samllPath}}" class="img-responsive index-pic-one-percent"
+                        <img ng-src="{{item.FilePath}}" class="img-responsive index-pic-one-percent"
                                 />
                     </a>
                     <p class="other-classify-detail-tit curp change-hover-color tac">
@@ -325,7 +325,7 @@
             <div class="other-classify-detail clear" ng-init="index.getClientGroups(118)">
                 <div class="other-classify-li other-classpic-left fll" ng-repeat="item in index.chartComic  track by $index">
                     <a class="cursor"  ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
-                        <img ng-src="{{item.samllPath}}" class="img-responsive index-pic-one-percent"
+                        <img ng-src="{{item.FilePath}}" class="img-responsive index-pic-one-percent"
                                 />
                     </a>
                     <p class="other-classify-detail-tit curp change-hover-color tac">
