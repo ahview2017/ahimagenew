@@ -10,8 +10,10 @@
 	                </div>
 	                <div class="login right">
 	                    <div class="login_left left">
-	                        <span><a href="javascript:void(0);" ng-click="header.register()">注册</a></span> | 
-	                        <span><a href="javascript:void(0);" ng-click="header.login_user()">登录</a></span>
+	                        <span ng-show="(client_logined)"><a href="javascript:void(0);" >{{client_uName}}</a></span> 
+	                        <span ng-show="(client_logined)"><a href="javascript:void(0);" ng-click="header.logOut()">【退出】</a></span> 
+	                        <span ng-show="(!client_logined)"><a href="javascript:void(0);" ng-click="header.register()">注册</a></span>  
+	                        <span ng-show="(!client_logined)"><a href="javascript:void(0);" ng-click="header.login_user()"> | 登录</a></span>
 	                    </div>
 	                    <div class="login_right right">
 	                        <span><a href="javascript:void(0);">我要投稿</a></span>
@@ -30,20 +32,20 @@
             <div class="login_content">
                 <div class="login_name">
                     <span>登录名：</span>
-                    <input rel="text" type="text" name="login_name" id="login_user">
+                    <input rel="text" type="text" name="login_name" id="login_user" >
                 </div>
                 <div class="login_psd">
                     <span>密　码：</span>
-                    <input rel="text" type="text" name="login_psd" id="login_pass">
+                    <input rel="text" type="password" name="login_psd" id="login_pass">
                 </div>
                 <div class="login_code" >
                     <span>验证码：</span>
-                    <input rel="text" type="text" name="login_code">
-                    <span class="send_code"><a href="">发送验证码</a></span>
+                    <input rel="text" type="text" name="login_code" id="login_code">
+                    <span class="send_code"><a class="cursor change-hover-color" href="javascript:void(0);" id="code" ng-click="header.sendmsg()">发送验证码</a></span>
                 </div>
                 <div class="submit_reset_box">
-                    <input type="submit" value="登陆" name="submit" id="login_in">   
-                    <span class="forget_psd"><a href="">忘记密码？</a></span>
+                    <input type="submit" value="登录" name="submit" id="login_in" ng-click="header.loginIn()">   
+                    <span class="forget_psd"><a href="javascript:void(0);" ng-click="header.forgetPassword()">忘记密码？</a></span>
                 </div>
             </div>
             </div>
