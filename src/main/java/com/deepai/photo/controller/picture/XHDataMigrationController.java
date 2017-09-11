@@ -49,9 +49,9 @@ import cnml.node.Titles;
  *
  */
 @Controller
-@RequestMapping("/xinHuaDataExchangeCtro")
-public class XinHuaDataExchangeControllerForLinux {
-	private Logger log=Logger.getLogger(XinHuaDataExchangeControllerForLinux.class);
+@RequestMapping("/xhDataMigrationCtro")
+public class XHDataMigrationController {
+	private Logger log=Logger.getLogger(XHDataMigrationController.class);
 	@Autowired
 	private PictureDataExchangeService pictureService;
 	@Autowired
@@ -91,14 +91,14 @@ public class XinHuaDataExchangeControllerForLinux {
 	}  
 	
 	/**
-	 * 显示签发专题
+	 * 数据迁移
 	 * @param request
 	 * @param response
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping("/upPic")
-	public Object showQianFaTopic(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping("/dataMigration")
+	public Object dataMigration(HttpServletRequest request, HttpServletResponse response) {
 		ResponseMessage result=new ResponseMessage();
 		try {
 			log.info("============================信件迁移开始！===========================");

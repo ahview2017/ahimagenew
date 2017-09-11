@@ -38,6 +38,7 @@ import com.deepai.photo.bean.CpPicture;
 import com.deepai.photo.bean.CpWaterMarkPicture;
 import com.deepai.photo.common.constant.SysConfigConstant;
 import com.deepai.photo.common.listener.SpringContextUtil;
+import com.deepai.photo.common.util.NumberUtils;
 import com.deepai.photo.common.util.SessionUtils;
 import com.deepai.photo.service.admin.SysConfigService;
 import com.drew.imaging.jpeg.JpegMetadataReader;
@@ -2417,7 +2418,7 @@ public class ImageAnalyseUtil {
 			map.put("height", height);
 		} catch (IIOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
 			try {
 				IMOperation op = new IMOperation();
 				op.format("%w#%h");
@@ -2488,6 +2489,80 @@ public class ImageAnalyseUtil {
 		}
 
 	}
+	
+	/**
+	 * 输出的水印图
+	 * 
+	 * @param waterPic 
+	 * 			生成水印在特定位置的的水印图
+	 * @param srcPic 
+	 * 			原图
+	 * @param waterMarkerPic 
+	 * 			水印图
+	 * @param postionCoefficient 
+	 * 			位置系数
+	 * @param alpha 
+	 * 			水印透明度
+	 * @param alpha 
+	 * 			水印透明度
+	 * @param synFlag 
+	 * 			是否异步
+	 * @throws IM4JavaException
+	 * @throws InterruptedException
+	 * @throws IOException
+	 * @author xiayunan
+	 * @date 2017-09-11
+	 */
+	public static void SpePositionWaterMarkPic(String waterPic, String srcPic, String waterMarkerPic,String postionCoefficient,int alpha,
+			Boolean synFlag) throws IOException, InterruptedException, IM4JavaException {
+		try {
+			ImgFileUtils.makeDirectory(waterPic);
+			IMOperation op = new IMOperation();
+			int width = 0;//水印宽度（可以于水印图片大小不同） 
+			int height = 0;//水印高度（可以于水印图片大小不同）
+			int x = 0;//水印开始X坐标 
+			int y = 0;//水印开始y坐标 
+			double posCoefficient = Double.valueOf(postionCoefficient);
+			Map<String,Integer> srcPicMap = getPictureSize(srcPic);
+			if(srcPicMap.containsKey("width")){
+				x = (int)(posCoefficient*(srcPicMap.get("width")));
+			}
+			if(srcPicMap.containsKey("height")){
+				y = (int)(posCoefficient*(srcPicMap.get("height")));
+			}
+			Map<String,Integer> waterPicMap = getPictureSize(waterMarkerPic);
+			if(waterPicMap.containsKey("width")){
+				width = waterPicMap.get("width");
+			}
+			if(waterPicMap.containsKey("height")){
+				height = waterPicMap.get("height");
+			}
+			op.dissolve(alpha); 
+			op.geometry(width, height, x, y);
+			
+			op.addImage(waterMarkerPic);
+			op.addImage(srcPic);
+			op.addImage(waterPic);
+			CompositeCmd convert = new CompositeCmd(true);
+			if (synFlag == null || synFlag) {
+				convert.setAsyncMode(true);
+			}
+			// add by xia.yunan@20170906
+			SysConfigService sysConfigService =  (SysConfigService)SpringContextUtil.getBean("sysConfigService");
+			convert.setSearchPath(sysConfigService.getDbSysConfig(
+	                SysConfigConstant.LOCAL_GM_PATH,1));
+
+			
+			convert.run(op);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			e.printStackTrace();
+		}
+
+	}
+	
+	
+	
 
 	public static int[] computeSize(BufferedImage alterdImage, int picRealSize) {
 		int[] size = new int[2];

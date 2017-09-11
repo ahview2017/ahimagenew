@@ -91,6 +91,10 @@ public class SysConfigConstant {
     public static String LOCAL_GM_PATH = "LOCAL_GM_PATH";// /usr/local/graphicsmagick/bin
     public static String MAS_BASE_URL = "MAS_BASE_URL";// http://192.168.18.85:8081/mas/openapi/pages.do?appKey=TRSPMS123
     
+    // add by xia.yunan 2017-09-11
+    public static String WATERMAKER_TRANSPARENCY = "WATERMAKER_TRANSPARENCY";//100
+    public static String WATERMAKER_POSITION = "WATERMAKER_POSITION";//0.6
+    
 	public static Map<String,String> config;
 	
 	 /** 发送短信模版 */
