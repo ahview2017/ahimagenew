@@ -8,8 +8,9 @@ this.Items[id] = iArray;
 }
 Dsy.prototype.Exists = function(id)
 {
-if(typeof(this.Items[id]) == "undefined") return false;
-return true;
+if(typeof(this.Items[id]) == "undefined") 
+	return false;
+//return true;
 }
 function change(v){
 var str="0";
