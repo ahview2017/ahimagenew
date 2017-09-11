@@ -158,7 +158,7 @@ public class LoginController {
                         .get("USERNAME" + userName + vilidate);
                 if(scode==null){
                     res.setCode(CommonConstant.EXCEPTIONCODE);
-                    res.setMsg(CommonConstant.EXCEPTIONMSG);
+                    res.setMsg("验证码无效");
                     return res;
                 }
             }
