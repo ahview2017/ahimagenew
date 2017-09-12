@@ -72,9 +72,125 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
         initSetting();
 		getMasBaseUrl();
         req_getPhotoUser();
+        getselCpCategories(function(category){
+            angular.forEach(category,function(item,index){
+                if(item.categoryName == '新闻类别'){
+                    vm.categories = item.categories;
+                    console.log("2=="+vm.categories);
+                    loadEditSortZTree();
+                }
+            });
+        });
     }
     init();
-
+ // 编辑稿件分类模态框显示
+    vm.editMsSortsModalShow = function(){
+         $('#edit-sort-modal').modal('show');
+        loadEditSortZTree();
+    }
+    // 加载编辑分类树
+    function loadEditSortZTree(){
+//    	layer.alert(vm.selCpCategories);
+    	console.log("3=="+vm.selCpCategories);
+        $.fn.zTree.init($("#edit_sort_tree"), setting, vm.selCpCategories);
+        selectedEverSorts();
+    }
+ // 确定编辑稿件分类
+    vm.confirmEditMsSorts = function(){
+       //console.log(getChildNodesSortId());
+        if(getChildNodesSortId() == ''){
+            layer.alert('请选择稿件类别');
+            return;
+        }
+        $('#edit-sort-modal').modal('hide');
+    }
+    // 获取子节点的分类id，多个用英文逗号隔开
+    function getChildNodesSortId(){
+        var cateIdParamArr = [];
+        var categoryNameArr  = [];
+        var cateIdParamStr = '';
+        var treeObj = $.fn.zTree.getZTreeObj("edit_sort_tree");
+        var nodes = treeObj.getCheckedNodes(true); //获取选中的值
+        for(var i = 0, nodesLen = nodes.length; i < nodesLen; i++){
+            // 排除父节点
+            //if(!nodes[i].isParent){
+                cateIdParamArr.push(nodes[i].id);
+                categoryNameArr.push(nodes[i].categoryName);
+                cateIdParamStr = cateIdParamArr.join();
+                vm.categoryNameStr = categoryNameArr.join();
+//                console.log(cateIdParamStr);
+//                console.log(vm.categoryNameStr);
+            //}
+        }
+        return cateIdParamStr;
+    }
+  //获取稿件分类信息
+    function getselCpCategories(callback){
+        req.post('classification/selCpCategories.do',{
+	langType:window.localStorage.lang}).success(function(resp){
+            if(resp.code == '211'){
+            	category = resp.data;
+            	angular.forEach(category, function (item, index) {
+                if (item.categoryName == '新闻类别') {
+                    vm.selCpCategories  = item.categories;
+//                    console.log(vm.selCpCategories);
+	                }
+	            });
+                if (callback) callback(resp.data);
+                console.log('success');
+            }else if(resp.msg != '未登录'){
+                layer.alert(resp.msg);
+            }
+        });
+    }
+    // 选中已经编辑完的分类
+    function selectedEverSorts(){
+        var treeObj = $.fn.zTree.getZTreeObj("edit_sort_tree");
+        var nodes = treeObj.transformToArray(treeObj.getNodes());
+        if(vm.manuscriptCates && vm.manuscriptCates.length){
+            for (var i=0, l=nodes.length; i < l; i++) {
+                for(var j = 0,Len = vm.manuscriptCates.length; j < Len; j++){
+                    if(vm.manuscriptCates[j].id == nodes[i].id){
+                        treeObj.checkNode(nodes[i], true, true);
+                    }
+                }
+            }
+        }
+    }
+    var zTree;
+    var setting = {
+        view: {
+            dblClickExpand: false,//双击节点时，是否自动展开父节点的标识
+       /*     showLine: true,//是否显示节点之间的连线
+            fontCss:{'color':'black','font-weight':'bold'},//字体样式函数*/
+            selectedMulti: false //设置是否允许同时选中多个节点
+        },
+        check:{
+            chkboxType: { "Y": "", "N": "" },
+            chkStyle: "checkbox",//复选框类型
+            enable: true //每个节点上是否显示 CheckBox
+        },
+        data: {
+            key: {
+                checked: "checked",
+                children: "categories",
+                name: "categoryName"
+            },
+            simpleData: {//简单数据模式
+                enable:true
+            }
+        },
+        callback: {
+            /*beforeClick: function(treeId, treeNode) {
+                zTree = $.fn.zTree.getZTreeObj("edit_sort_tree");
+                if (treeNode.isParent) {
+                    zTree.expandNode(treeNode);//如果是父节点，则展开该节点
+                }else{
+                    zTree.checkNode(treeNode, !treeNode.checked, true, true);//单击勾选，再次单击取消勾选
+                }
+            }*/
+        }
+    };
 	//获取Mas视频基础URL add by xiayunan 20170907
 	function getMasBaseUrl(){
 		req.get('groupPicCtro/getMasBaseUrl.do').success(function(resp) {
@@ -537,6 +653,12 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
             layer.alert('关键词要少于200字');
             return;
         }
+        //add by liu.jinfeng@20170912
+        vm.finalSortParam = getChildNodesSortId();
+        if(vm.finalSortParam == ''){
+            layer.alert('请选择稿件类别');
+            return;
+        }
        /* if((!vm.newManuscriptManuscript.selProv &&  !vm.newManuscriptManuscript.selCity) && (!vm.newManuscriptManuscript.abroadPlace)){
             layer.alert('请填写地点');
             return;
@@ -626,7 +748,8 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
             langType: lang,
             properties: vm.acitiveSlideTit,
             roleId: vm.adminRoleId,
-            videoId:videoId
+            videoId:videoId,
+            cateIds: vm.finalSortParam
         }).success(function(resp){
             layer.close(vm.loadUpMs);
             if(resp && resp.code == '211'){
