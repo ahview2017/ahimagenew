@@ -97,7 +97,23 @@ public class SysConfigConstant {
     
 	public static Map<String,String> config;
 	
-	 /** 发送短信模版 */
-	//add by liu.jinfeng@2017年9月7日 上午10:00:58
-    public static final String MSG_SEND_CODE = "MSG_SEND";
+    /** 注册发送短信模版 */
+   public static final String MSG_SEND_CODE = "MSG_SEND";
+   /** 忘记密码发送短信模版 */
+   public static final String MSG_FORGET_CODE = "MSG_FORGET_SEND";
+   /** 前台登录发送短信模版 */
+   public static final String MSG_LOGIN_CODE = "MSG_LOGIN_SEND";
+   /** 注册成功后发送短信模版 */
+   public static final String MSG_SUCCESS_CODE = "MSG_SUCCESS_SEND";
+   /**注册成功后发送邮件内容模版*/
+   public static final String MAIL_SUCCESS_CODE = "MAIL_SUCCESS_SEND";
+   /**注册成功后发送邮件标题模版*/
+   public static final String MAIL_TITLE_CODE = "MAIL_TITLE_SEND";
+   /**忘记密码发送邮件模版*/
+   public static final String MAIL_FORGET_CODE = "MAIL_FORGET_SEND";
+   /**找回密码邮件模版*/
+   public static final String MAIL_GET_CODE = "MAIL_GET_SEND";
+   /**找回密码邮件标题*/
+   public static final String MAIL_FORGETTITLE_CODE = "MAIL_FORGETTITLE_SEND";
+   
 }

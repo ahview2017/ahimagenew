@@ -98,43 +98,26 @@ public class PhoneMSGController {
             String pwd_md5 = Coder.reverse(Coder.decryptBASE64(pwd_db));// md5密码
 
             if (pwd_md5.equals(password)) {
-                String content = "安徽视觉网帐户注册通知！亲爱的用户" + userName + "：您好！ "
-                        + "感谢您注册安徽视觉网的账户，您的注册邮箱号为：" + cpUser.getEmailBind();
-
-                if (roleId != null && roleId == 3) {
-                    // 摄影师
-                    content += ",您的作者名是：" + cpUser.getAuthorName();
-                }
-                content += ",请您核实信息！";
+//                String content = "安徽视觉网帐户注册通知！亲爱的用户" + userName + "：您好！ "
+//                        + "感谢您注册安徽视觉网的账户，您的注册邮箱号为：" + cpUser.getEmailBind();
+//
+//                if (roleId != null && roleId == 3) {
+//                    // 摄影师
+//                    content += ",您的作者名是：" + cpUser.getAuthorName();
+//                }
+//                content += ",请您核实信息！";
+                String sContent = configService
+                        .getDbSysConfig(SysConfigConstant.MSG_SUCCESS_CODE, 1);
+                sContent = String.format(sContent, userName,cpUser.getEmailBind());
+                
+//                log.info("发送短信为 ："+sContent);
                 // 添加短信信息
                 cpPhoneMsg.setSender(userName);
-                cpPhoneMsg.setContent(content);
+                cpPhoneMsg.setContent(sContent);
 
-//                List<String> phoneMSG = configService.findEmail(
-//                        SysConfigConstant.Phone_username,
-//                        SysConfigConstant.Phone_password);
-                // h3235055,geagag11515gag2t2gaegaga 这是原来的用户名密码
                 try {
-
-                    // String msgResult = "";
-                    // msgResult = phoneMSGService.sendSMS(cpUser.getTelBind(),
-                    // content,phoneMSG.get(0) , phoneMSG.get(1));
-                    // log.info("短信发送结果----------> "+msgResult );
-                    // msgResult=msgResult.replace('\n', ',');
-                    // result2 = msgResult.split(",")[1];
-                    // if ("0".equalsIgnoreCase(result2)) { // 如果发送成功就保存到数据库
-                    // cpPhoneMsg.setStatus(0); // 发送成功
-                    // phoneMSGService.add(cpPhoneMsg);
-                    // result.setCode(CommonConstant.SUCCESSCODE);
-                    // result.setMsg(CommonConstant.SUCCESSSTRING);
-                    // }else{
-                    // cpPhoneMsg.setStatus(2); // 发送失败
-                    // phoneMSGService.add(cpPhoneMsg);
-                    // result.setCode(CommonConstant.EXCEPTIONCODE);
-                    // result.setMsg("短信发送失败");
-                    // }
                     String msgResult = phoneMSGUtils
-                            .sendSMSMsg(cpUser.getTelBind(), content);
+                            .sendSMSMsg(cpUser.getTelBind(), sContent);
                     if (msgResult.equals("1")) {
                         cpPhoneMsg.setStatus(0); // 发送成功
                         phoneMSGService.add(cpPhoneMsg);
@@ -228,10 +211,6 @@ public class PhoneMSGController {
                     userid = userid + findNameByUid + ":";
                 }
             }
-//            List<String> phoneMSG = configService.findEmail(
-//                    SysConfigConstant.Phone_username,
-//                    SysConfigConstant.Phone_password);
-            // h3235055,geagag11515gag2t2gaegaga 这是原来的用户名密码
             try {
                 List<String> phoneN = userRoleRightService
                         .findPhoneByUid(list2);
@@ -567,7 +546,7 @@ public class PhoneMSGController {
                     SysConfigConstant.Phone_username,
                     SysConfigConstant.Phone_password);
 
-            content = "安徽视觉网密码找回。 用户密码是 ：" + newPassword;
+            content = "中新社密码找回。 用户密码是 ：" + newPassword;
 
             // SendChit sendChit = new SendChit();
             String sendResult = phoneMSGService.sendSMS(userPhone, content,
@@ -694,18 +673,6 @@ public class PhoneMSGController {
         ResponseMessage result = new ResponseMessage();
         try {
             CpUser user = cpUserMapper.findUserByUserName(userName);
-            // if (users==null||users.size()==0) {
-            // result.setCode(CommonConstant.REPEATCODE);
-            // result.setMsg("手机号输入错误");
-            // return result;
-            // }else if(users.size()>1){
-            // result.setCode(CommonConstant.REPEATCODE);
-            // result.setMsg("该手机号对应账户不唯一，请直接联系网站管理员。");
-            // return result;
-            // }
-//            List<String> phoneMSG = configService.findEmail(
-//                    SysConfigConstant.Phone_username,
-//                    SysConfigConstant.Phone_password);
             // 生成六位验证码发送到手机
             Integer vilidate = (int) ((Math.random() * 9 + 1) * 100000);
             redisClientTemplate.set("PHONE" + userName + vilidate,
@@ -713,43 +680,20 @@ public class PhoneMSGController {
             redisClientTemplate.expire("PHONE" + userName + vilidate, 60 * 2);
 
             // //清除过期key值
-            // request.getSession().setAttribute("phoneVilidate", vilidate);
-            // redisClientTemplate.expire("EMAIL"+userName+request.getSession().getAttribute("phoneVilidate"),
-            // -2);
-            // request.getSession().setAttribute("phoneVilidate", vilidate);
-            String content = "您正在执行安徽视觉网密码找回，验证码是: " + vilidate
-                    + "。请按页面提示提交验证码，切记请勿将验证码泄露给他人。";
-
-            // String sendResult = phoneMSGService.sendSMS(user.getTelBind(),
-            // content, phoneMSG.get(0), phoneMSG.get(1));
-            // sendResult = sendResult.replace('\n', ',');
+            // String content = "您正在执行中新社密码找回，验证码是: " + vilidate
+            // + "。请按页面提示提交验证码，切记请勿将验证码泄露给他人。";
             //
-            // String[] arrstr = sendResult.split(",");
-            String resultCode = phoneMSGUtils.sendSMSMsg(user.getTelBind(),
-                    content);
-            if (resultCode.equals("0")) {// 失败
+            // String resultCode = phoneMSGUtils.sendSMSMsg(user.getTelBind(),
+            // content);
+            JSONObject resultObj = phoneMSGUtils.sendMsg(user.getTelBind(),
+                    PhoneMSGUtils.TYPE_FORGET_CODE);
+            if (null == resultObj || resultObj.getString("code").equals("0")) {// 失败
                 result.setCode(CommonConstant.EXCEPTIONCODE);
                 result.setMsg(CommonConstant.EXCEPTIONMSG);
             } else {
                 result.setCode(CommonConstant.SUCCESSCODE);
                 result.setMsg(CommonConstant.SUCCESSSTRING);
             }
-            // if (arrstr.length > 1) {
-            // if (arrstr[1].equals("0")) {
-            // log.info("提交成功，返回值：" + arrstr[2]);
-            // result.setCode(CommonConstant.SUCCESSCODE);
-            // result.setMsg(CommonConstant.SUCCESSSTRING);
-            // } else {
-            // log.info(user.getTelBind() + "提交失败，错误码：" + arrstr[1]);
-            // result.setCode(CommonConstant.EXCEPTIONCODE);
-            // result.setMsg(CommonConstant.EXCEPTIONMSG);
-            // // 错误码 详见接口文档
-            // }
-            // } else {
-            // log.info(user.getTelBind() + "提交异常，返回值：" + result);
-            // result.setCode(CommonConstant.EXCEPTIONCODE);
-            // result.setMsg(CommonConstant.EXCEPTIONMSG);
-            // }
         } catch (Exception e1) {
             e1.printStackTrace();
             log.error("短信验证码发送失败， " + e1.getMessage());
@@ -775,68 +719,22 @@ public class PhoneMSGController {
                 result.setMsg("您输入的手机号对应账户不唯一，请直接联系网站管理员。");
                 return result;
             }
-//            List<String> phoneMSG = configService.findEmail(
-//                    SysConfigConstant.Phone_username,
-//                    SysConfigConstant.Phone_password);
             // 生成验证码发送到手机
             String vilidate = UUID.randomUUID().toString().substring(0, 8);
             // HttpSession session = request.getSession();
             request.getSession().setAttribute("vilidate", vilidate);
             // String title="中新社密码找回验证码 \r\n";
-            String content = "您正在执行安徽视觉网密码找回，验证码是: " + vilidate
-                    + "。请按页面提示提交验证码，切记请勿将验证码泄露给他人。";
+//            String content = "您正在执行中新社密码找回，验证码是: " + vilidate
+//                    + "。请按页面提示提交验证码，切记请勿将验证码泄露给他人。";
 
-            String resultCode = phoneMSGUtils.sendSMSMsg(phoneNum, content);
-            if (resultCode.equals("0")) {// 失败
+            JSONObject resultCode = phoneMSGUtils.sendMsg(phoneNum, PhoneMSGUtils.TYPE_FORGET_CODE);
+            if (resultCode == null||resultCode.getString("code").equals("0")) {// 失败
                 result.setCode(CommonConstant.EXCEPTIONCODE);
                 result.setMsg(CommonConstant.EXCEPTIONMSG);
             } else {
                 result.setCode(CommonConstant.SUCCESSCODE);
                 result.setMsg(CommonConstant.SUCCESSSTRING);
             }
-            // SendChit sendChit = new SendChit();
-            // String sendResult = phoneMSGService.sendSMS(phoneNum, content,
-            // phoneMSG.get(0), phoneMSG.get(1));
-            // sendResult = sendResult.replace('\n', ',');
-            //
-            // String[] arrstr = sendResult.split(",");
-            // if (arrstr.length > 1) {
-            // if (arrstr[1].equals("0")) {
-            // log.info("提交成功，返回值：" + arrstr[2]);
-            // result.setCode(CommonConstant.SUCCESSCODE);
-            // result.setMsg(CommonConstant.SUCCESSSTRING);
-            // } else {
-            // log.info(phoneNum + "提交失败，错误码：" + arrstr[1]);
-            // result.setCode(CommonConstant.EXCEPTIONCODE);
-            // result.setMsg(CommonConstant.EXCEPTIONMSG);
-            // // 错误码 详见接口文档
-            // }
-            // } else {
-            // log.info(phoneNum + "提交异常，返回值：" + result);
-            // result.setCode(CommonConstant.EXCEPTIONCODE);
-            // result.setMsg(CommonConstant.EXCEPTIONMSG);
-            // }
-            // HttpClient client = new HttpClient();
-            // PostMethod post = new PostMethod("http://gbk.sms.webchinese.cn");
-            // post.addRequestHeader("Content-Type",
-            // "application/x-www-form-urlencoded;charset=gbk");// 在头文件中设置转码
-            // List<String> phone = new ArrayList<String>();
-            // phone.add(phoneNum+"");
-            // for (int i = 0; i < phone.size(); i++) {
-            // NameValuePair[] data = { new NameValuePair("Uid",
-            // phoneMSG.get(0)), // 注册的用户名
-            // new NameValuePair("Key", phoneMSG.get(1)), // 注册成功后，登录网站后得到的密钥
-            // new NameValuePair("smsMob", phone.get(i)), // 手机号码
-            // new NameValuePair("smsText", content) };// 短信内容
-            // post.setRequestBody(data);
-            // client.executeMethod(post);
-            // Header[] headers = post.getResponseHeaders();
-            // int statusCode = post.getStatusCode();
-            // result2 = new
-            // String(post.getResponseBodyAsString().getBytes("gbk"));
-            // }
-            // result.setCode(CommonConstant.SUCCESSCODE);
-            // result.setMsg(CommonConstant.SUCCESSSTRING);
         } catch (Exception e1) {
             e1.printStackTrace();
             log.error("短信验证码发送失败， " + e1.getMessage());
@@ -921,51 +819,50 @@ public class PhoneMSGController {
         result.setMsg(CommonConstant.SUCCESSSTRING);
         return result;
     }
-    
+
     /**
      * 前台登录获取验证码
+     * 
      * @Description: TODO <BR>
      * @author liu.jinfeng
      * @date 2017年9月8日 下午2:59:48
      * @param request
-     * @param userName 用户名
+     * @param userName
+     *            用户名
      * @return
      */
     @ResponseBody
     @RequestMapping("/getPhoneVilidate")
     @SkipLoginCheck
     @SkipAuthCheck
-    public Object getPhoneVilidate(HttpServletRequest request, String userName){
+    public Object getPhoneVilidate(HttpServletRequest request,
+            String userName) {
         ResponseMessage result = new ResponseMessage();
         CommonValidation.checkParamBlank(userName, "用户名");
         CpUser user = cpUserMapper.findUserByUserName(userName);
-        if(null == user){
+        if (null == user) {
             result.setCode(CommonConstant.EXCEPTIONCODE);
             result.setMsg("用户不存在");
             return result;
         }
-        
+
         Integer status = user.getUserStatus();
         if (status == 3) {
             result.setCode(CommonConstant.FAILURECODE);
             result.setMsg("该用户已禁用");
             return result;
-        } 
-        
+        }
+
         // 生成六位验证码发送到手机
         Integer vilidate = (int) ((Math.random() * 9 + 1) * 100000);
         redisClientTemplate.set("USERNAME" + userName + vilidate,
                 vilidate + "");
         redisClientTemplate.expire("USERNAME" + userName + vilidate, 60 * 2);
-        
-        String content = "您本次登录的验证码为"+vilidate+",请勿向他人提供您收到的短信验证码";
-//        content = String.format(content, vilidate);
-        
-        
-        String sResult = "";
+
+        JSONObject resultObj = null;
         try {
-            log.info(user.getTelBind()+"=="+content);
-            sResult = phoneMSGUtils.sendSMSMsg(user.getTelBind(), content);
+            resultObj = phoneMSGUtils.sendMsg(user.getTelBind(),
+                    PhoneMSGUtils.TYPE_LOGIN_CODE);
         } catch (Exception e) {
             e.printStackTrace();
             log.error("获取验证码失败", e);
@@ -973,16 +870,16 @@ public class PhoneMSGController {
             result.setMsg("获取验证码失败");
             return result;
         }
-        
-        if(sResult.equals("0")){
+
+        if (null == resultObj || resultObj.getString("code").equals("0")) {
             result.setCode(CommonConstant.EXCEPTIONCODE);
             result.setMsg("获取验证码失败");
             return result;
         }
-        
+
         result.setCode(CommonConstant.SUCCESSCODE);
         result.setMsg(CommonConstant.SUCCESSSTRING);
         return result;
     }
-    
+
 }

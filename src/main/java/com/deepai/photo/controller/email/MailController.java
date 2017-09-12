@@ -398,19 +398,25 @@ public class MailController {
 			String pwd_md5 = Coder.reverse(Coder.decryptBASE64(pwd_db));// md5密码
 			
 			if(pwd_md5.equals(password)){
-				String title = "[cnsphoto]帐户注册通知！";
-				String content = "亲爱的用户"+userName+"：您好！ "
-						+"感谢您注册cnsphoto的账户，您的注册手机号为："+cpUser.getTelBind();
-				
-				if(roleId != null&&roleId == 3){
-					//摄影师
-					content += ",您的作者名是："+cpUser.getAuthorName();	
-				}
-				content += ",请您核实信息！";				
+//				String title = "[photo]帐户注册通知！";
+//				String content = "亲爱的用户"+userName+"：您好！ "
+//						+"感谢您注册photo的账户，您的注册手机号为："+cpUser.getTelBind();
+//				
+//				if(roleId != null&&roleId == 3){
+//					//摄影师
+//					content += ",您的作者名是："+cpUser.getAuthorName();	
+//				}
+//				content += ",请您核实信息！";		
+			    String title = configService
+                        .getDbSysConfig(SysConfigConstant.MAIL_TITLE_CODE, 1);
+			    String sContent = configService
+                        .getDbSysConfig(SysConfigConstant.MAIL_SUCCESS_CODE, 1);
+			    sContent = String.format(sContent, userName,cpUser.getTelBind());
+			    
 				//添加邮件信息
 				email.setEmailReciver(userName);
 				email.setEmailTitle(title);
-				email.setEmailContent(content);
+				email.setEmailContent(sContent);
 				
 				List<String> mails = new ArrayList<String>();
 				mails.add(userEmail);
@@ -431,7 +437,7 @@ public class MailController {
 				msg.setSubject(title);
 				// 设置邮件内容
 //			 	msg.setText(content);
-				msg.setContent(content, "text/html;charset=utf-8");
+				msg.setContent(sContent, "text/html;charset=utf-8");
 				// 设置发件人
 				msg.setFrom(new InternetAddress(Email.get(0)));
 
@@ -550,7 +556,9 @@ public class MailController {
 //				
 //			}
 			CpUser user= cpUserMapper.findUserByUserName(userName);
-			String title = "中新社密码找回";
+//			String title = "中新社密码找回";
+			String title = configService
+                    .getDbSysConfig(SysConfigConstant.MAIL_FORGETTITLE_CODE, 1);
 			//生成六位验证码发送到邮箱
 			Integer vilidate = (int)((Math.random()*9+1)*100000);
 			redisClientTemplate.set("EMAIL"+userName+vilidate, vilidate+"");
@@ -560,7 +568,11 @@ public class MailController {
 //			request.getSession().setAttribute("emailVilidate", vilidate);
 //			redisClientTemplate.expire("EMAIL"+userName+request.getSession().getAttribute("emailVilidate"), -2);
 			
-			String content = "【中新社】 您正在执行中新社密码找回，验证码是: "+vilidate+"。请按页面提示提交验证码，切记请勿将验证码泄露给他人。";
+//			String content = "【中新社】 您正在执行中新社密码找回，验证码是: "+vilidate+"。请按页面提示提交验证码，切记请勿将验证码泄露给他人。";
+			String content = configService
+                    .getDbSysConfig(SysConfigConstant.MAIL_FORGET_CODE, 1);
+			content = String.format(content, vilidate);
+			
 			
 			List<String> mails = new ArrayList<String>();
 			mails.add(user.getEmailBind());
@@ -627,10 +639,15 @@ public class MailController {
 	@ResponseBody
 	@RequestMapping("/findPasswordByEmail")
 	public Object findPasswordByEmail(HttpServletRequest request, String userName, String newPassword, String userEmail
-			,Integer userId) throws MessagingException {
+			,Integer userId) throws Exception {
 		ResponseMessage result = new ResponseMessage();
-		String title = "中新社密码找回";
-		String content = "用户的密码是: " + newPassword;
+//		String title = "中新社密码找回";
+		String title = configService
+                .getDbSysConfig(SysConfigConstant.MAIL_FORGETTITLE_CODE, 1);
+//		String content = "用户的密码是: " + newPassword;
+		String content = configService
+                .getDbSysConfig(SysConfigConstant.MAIL_GET_CODE, 1);
+		content = String.format(content, newPassword);
 		int[] teamId = null;
 		int[] uid = { userId };
 		try {
