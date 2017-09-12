@@ -50,7 +50,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/photolist/:type?',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/photoList/photolist.html',
+                    templateUrl: 'client_ah/app/components/photoList/photolist.html',
                     controller: 'photoListCtrl as photoList'
                 }
             }
