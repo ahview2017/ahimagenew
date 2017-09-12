@@ -60,7 +60,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/moreSortList/:cateId?/:sginId?',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/moreSortList/more_sort_list.html',
+                    templateUrl: 'client_ah/app/components/moreSortList/more_sort_list.html',
                     controller: 'moreSortListCtrl as moreSortList'
                 }
             }
@@ -70,7 +70,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/detailList',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/detail/detailList/pics_detail.html',
+                    templateUrl: 'client_ah/app/components/detail/detailList/pics_detail.html',
                     //controller: 'detailListCtrl as detailList'
                 }
             }
@@ -80,7 +80,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/photoDetail',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/detail/photoDetail/photo_detail.html'
+                    templateUrl: 'client_ah/app/components/detail/photoDetail/photo_detail.html'
                     //controller: 'photoListCtrl as photoList'
                 }
             }
@@ -90,7 +90,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/newDetail/list/:groupId',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/newDetail/detailList/pics_detail.html',
+                    templateUrl: 'client_ah/app/components/newDetail/detailList/pics_detail.html',
                     controller: 'picsDetailCtrl as picsDetail'
                 }
             }
@@ -100,7 +100,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/newDetail/single/:groupId?/:pictureId?/:keywords?',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/newDetail/singleDetail/single_detail.html',
+                    templateUrl: 'client_ah/app/components/newDetail/singleDetail/single_detail.html',
                     controller: 'singleDetailCtrl as singleDetail'
                 }
             }
@@ -110,7 +110,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/specPic',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/specPic/specPic.html',
+                    templateUrl: 'client_ah/app/components/specPic/specPic.html',
                     controller: 'specPicCtrl as specPic'
                 }
             }
@@ -120,7 +120,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/oldPic',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/oldPic/oldPic.html',
+                    templateUrl: 'client_ah/app/components/oldPic/oldPic.html',
                     controller: 'oldPicCtrl as oldPic'
                 }
             }
@@ -130,7 +130,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/acadePic',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/acadePic/acadePic.html',
+                    templateUrl: 'client_ah/app/components/acadePic/acadePic.html',
                     controller: 'acadePicCtrl as acadePic'
                 }
             }
@@ -140,7 +140,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/personPic',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/personPic/personPic.html',
+                    templateUrl: 'client_ah/app/components/personPic/personPic.html',
                     controller: 'personPicCtrl as personPic'
                 }
             }
@@ -150,7 +150,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/personList',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/personPic/personList/personList.html',
+                    templateUrl: 'client_ah/app/components/personPic/personList/personList.html',
                     controller: 'personListCtrl as personList'
                 }
             }
@@ -160,7 +160,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/chartList',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/chartList/chart_list.html',
+                    templateUrl: 'client_ah/app/components/chartList/chart_list.html',
                     controller: 'chartListCtrl as chartList'
                 }
             }
@@ -170,7 +170,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/myInfo/:activeTab?',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/myInfo/myInfo.html',
+                    templateUrl: 'client_ah/app/components/myInfo/myInfo.html',
                     controller: 'myInfoCtrl as myInfo'
                 }
             }
@@ -180,7 +180,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/shoppingCart/list',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/shoppingCart/shoppingCart.html',
+                    templateUrl: 'client_ah/app/components/shoppingCart/shoppingCart.html',
                     controller: 'shoppingCartCtrl as shoppingCart'
                 }
             }
@@ -190,7 +190,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/myOrder',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/myOrder/my_order.html',
+                    templateUrl: 'client_ah/app/components/myOrder/my_order.html',
                     controller: 'myOrderCtrl as myOrder'
                 }
             }
@@ -200,7 +200,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/lookPics/:orderId',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/myOrder/look_pics.html',
+                    templateUrl: 'client_ah/app/components/myOrder/look_pics.html',
                     controller: 'lookPicsCtrl as lookPics'
                 }
             }
@@ -210,7 +210,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/needChannel/list',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/needChannel/need_channel.html',
+                    templateUrl: 'client_ah/app/components/needChannel/need_channel.html',
                     controller: 'needChannelCtrl as needChannel'
                 }
             }
@@ -220,7 +220,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/needChannel/releaseNeed',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/needChannel/release_need.html',
+                    templateUrl: 'client_ah/app/components/needChannel/release_need.html',
                     controller: 'releaseNeedCtrl as releaseNeed'
                 }
             }
@@ -230,7 +230,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/needChannel/providePic/:id',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/needChannel/provide_pic.html',
+                    templateUrl: 'client_ah/app/components/needChannel/provide_pic.html',
                     controller: 'providePicCtrl as providePic'
                 }
             }
@@ -240,7 +240,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/favorite/list',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/favorite/favorite.html',
+                    templateUrl: 'client_ah/app/components/favorite/favorite.html',
                     controller: 'favoriteCtrl as favorite'
                 }
             }
@@ -250,7 +250,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/favorite/detail/:id/:name',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/favorite/detail.html',
+                    templateUrl: 'client_ah/app/components/favorite/detail.html',
                     controller: 'favoriteDetailCtrl as detail'
                 }
             }
@@ -260,7 +260,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/fashionPic',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/fashionPic/fashionPic.html',
+                    templateUrl: 'client_ah/app/components/fashionPic/fashionPic.html',
                     controller: 'fashionPicCtrl as fashionPic'
                 }
             }
@@ -270,7 +270,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/financePic',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/financePic/financePic.html',
+                    templateUrl: 'client_ah/app/components/financePic/financePic.html',
                     controller: 'financePicCtrl as financePic'
                 }
             }
@@ -280,7 +280,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/webInfoView/:id/:name:/:type',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/webInfoView/webInfoView.html',
+                    templateUrl: 'client_ah/app/components/webInfoView/webInfoView.html',
                     controller: 'webInfoViewCtrl as webInfoview'
                 }
             }
@@ -290,7 +290,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/webInfoAllView',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/webInfoView/webInfoAllView.html',
+                    templateUrl: 'client_ah/app/components/webInfoView/webInfoAllView.html',
                     controller: 'webInfoAllViewCtrl as webInfoAllView'
                 }
             }
@@ -300,7 +300,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/siteMsg',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/siteMsg/siteMsg.html',
+                    templateUrl: 'client_ah/app/components/siteMsg/siteMsg.html',
                     controller: 'siteMsgCtrl as siteMsg'
                 }
             }
@@ -310,7 +310,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/topicPlayBack',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/topicPlayback/topic_play_back.html',
+                    templateUrl: 'client_ah/app/components/topicPlayback/topic_play_back.html',
                     controller: 'topicPlayBackCtrl as topicPlayBack'
                 }
             }
@@ -320,7 +320,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/monthDraft',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/monthDraft/month_draft.html',
+                    templateUrl: 'client_ah/app/components/monthDraft/month_draft.html',
                     controller: 'monthDraftCtrl as monthDraft'
                 }
             }
@@ -330,7 +330,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/famousLecture',
             views:{
                 'specCon@':{
-                    templateUrl: 'client/app/components/famousLecture/famous_lecture.html',
+                    templateUrl: 'client_ah/app/components/famousLecture/famous_lecture.html',
                     controller: 'famousLectureCtrl as famousLecture'
                 }
             }
@@ -340,7 +340,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/login',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/login/login.html',
+                    templateUrl: 'client_ah/app/components/login/login.html',
                     controller: 'loginCtrl as login'
                 }
             }
@@ -350,7 +350,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/register',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/register/register.html',
+                    templateUrl: 'client_ah/app/components/register/register.html',
                     controller: 'registerCtrl as register'
                 }
             }
@@ -360,7 +360,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/registerStepOne',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/register/register_step_one.html',
+                    templateUrl: 'client_ah/app/components/register/register_step_one.html',
                     controller: 'registerStepOneCtrl as registerStepOne'
                 }
             }
@@ -370,7 +370,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/registerStepTwo/:userName/:applyCategory',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/register/register_step_two.html',
+                    templateUrl: 'client_ah/app/components/register/register_step_two.html',
                     controller: 'registerStepTwoCtrl as registerStepTwo'
                 }
             }
@@ -380,7 +380,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/registerSuccess/:userName/:emailBind/:telBind',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/register/register_success.html',
+                    templateUrl: 'client_ah/app/components/register/register_success.html',
                     controller: 'registerSuccessCtrl as registerSuccess'
                 }
             }
@@ -390,7 +390,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/forgetPassword',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/forgetPwd/forget_password.html',
+                    templateUrl: 'client_ah/app/components/forgetPwd/forget_password.html',
                     controller: 'forgetPasswordCtrl as forgetPassword'
                 }
             }
@@ -400,7 +400,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/forgetPasswordStepOne',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/forgetPwd/forget_password_step_one.html',
+                    templateUrl: 'client_ah/app/components/forgetPwd/forget_password_step_one.html',
                     controller: 'forgetPasswordStepOneCtrl as forgetPasswordStepOne'
                 }
             }
@@ -410,7 +410,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/forgetPasswordStepTwo',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/forgetPwd/forget_password_step_two.html',
+                    templateUrl: 'client_ah/app/components/forgetPwd/forget_password_step_two.html',
                     controller: 'forgetPasswordStepTwoCtrl as forgetPasswordStepTwo'
                 }
             }
@@ -420,7 +420,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/forgetPasswordSuccess',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/forgetPwd/forget_password_success.html',
+                    templateUrl: 'client_ah/app/components/forgetPwd/forget_password_success.html',
                     controller: 'forgetPasswordSuccessCtrl as forgetPasswordSuccess'
                 }
             }
@@ -433,7 +433,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/forgetPwd',
             views:{
                 'specCon@':{
-                    templateUrl: 'client/app/components/forgetPwd/forget_pwd.html',
+                    templateUrl: 'client_ah/app/components/forgetPwd/forget_pwd.html',
                     controller: 'forgetPwdCtrl as forgetPwd'
                 }
             }
@@ -444,7 +444,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/currentDoctor',
             views:{
                 'specCon@':{
-                    templateUrl: 'client/app/components/currentDoctor/forget_pwd.html',
+                    templateUrl: 'client_ah/app/components/currentDoctor/forget_pwd.html',
                     controller: 'currentDoctorCtrl as currentDoctor'
                 }
             }
@@ -455,7 +455,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/currentDoctorClassify/:searchAllName',
             views:{
                 'specCon@':{
-                    templateUrl: 'client/app/components/currentDoctor/current_doctor_classify.html',
+                    templateUrl: 'client_ah/app/components/currentDoctor/current_doctor_classify.html',
                     controller: 'currentDoctorClassifyCtrl as currentDoctorClassify'
                 }
             }
@@ -465,7 +465,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/fullTextSearch/:searchAllName?/:randomNum?/:searchObj?',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/fullRetrieval/fulltext.html',
+                    templateUrl: 'client_ah/app/components/fullRetrieval/fulltext.html',
                     controller: 'fullTextCtrl as fullText'
                 }
             }
@@ -475,7 +475,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/advSearch',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/advSearch/adv_search.html',
+                    templateUrl: 'client_ah/app/components/advSearch/adv_search.html',
                     controller: 'advSearchCtrl as advSearch'
                 }
             }
@@ -495,7 +495,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/special/:id',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/special/special.html',
+                    templateUrl: 'client_ah/app/components/special/special.html',
                     controller: 'specialCtrl as special'
                 }
             }
@@ -506,7 +506,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/moreContribute/:id',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/special/moreContribute.html',
+                    templateUrl: 'client_ah/app/components/special/moreContribute.html',
                     controller: 'moreContributeCtrl as moreContribute'
                 }
             }
@@ -517,7 +517,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/ggList/:id',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/notice/ggList.html',
+                    templateUrl: 'client_ah/app/components/notice/ggList.html',
                     controller: 'ggListCtrl as ggList'
                 }
             }
@@ -528,7 +528,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/ggDisplay/:id',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/notice/ggDisplay.html',
+                    templateUrl: 'client_ah/app/components/notice/ggDisplay.html',
                     controller: 'ggDisplayCtrl as ggDisplay'
                 }
             }
@@ -538,7 +538,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/help',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/help/help.html',
+                    templateUrl: 'client_ah/app/components/help/help.html',
                     //controller: 'helpCtrl as help'
                 }
             }
@@ -548,7 +548,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/editTips',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/editTips/edit_tips.html',
+                    templateUrl: 'client_ah/app/components/editTips/edit_tips.html',
                     //controller: 'editTipsCtrl as editTips'
                 }
             }
