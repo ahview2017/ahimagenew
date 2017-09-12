@@ -2273,6 +2273,10 @@ public class ImageAnalyseUtil {
 			op.rotate(di);
 			op.addImage(srcFilename);
 			op.addImage(destPath);
+			
+			SysConfigService sysConfigService =  (SysConfigService)SpringContextUtil.getBean("sysConfigService");
+			cmd.setSearchPath(sysConfigService.getDbSysConfig(
+	                SysConfigConstant.LOCAL_GM_PATH,1));
 			cmd.run(op);
 
 		} catch (Exception e) {
@@ -2368,6 +2372,9 @@ public class ImageAnalyseUtil {
 				IdentifyCmd identifyCmd = new IdentifyCmd(true);
 				ArrayListOutputConsumer output = new ArrayListOutputConsumer();
 				identifyCmd.setOutputConsumer(output);
+				SysConfigService sysConfigService =  (SysConfigService)SpringContextUtil.getBean("sysConfigService");
+				identifyCmd.setSearchPath(sysConfigService.getDbSysConfig(
+		                SysConfigConstant.LOCAL_GM_PATH,1));
 				identifyCmd.run(op);
 				ArrayList<String> out = output.getOutput();
 				String wNh = null;
@@ -2426,6 +2433,10 @@ public class ImageAnalyseUtil {
 				IdentifyCmd identifyCmd = new IdentifyCmd(true);
 				ArrayListOutputConsumer output = new ArrayListOutputConsumer();
 				identifyCmd.setOutputConsumer(output);
+				//add by xiayunan 20170912
+				SysConfigService sysConfigService =  (SysConfigService)SpringContextUtil.getBean("sysConfigService");
+				identifyCmd.setSearchPath(sysConfigService.getDbSysConfig(
+		                SysConfigConstant.LOCAL_GM_PATH,1));
 				identifyCmd.run(op);
 				ArrayList<String> out = output.getOutput();
 				String wNh = null;
@@ -2524,18 +2535,16 @@ public class ImageAnalyseUtil {
 			int y = 0;//水印开始y坐标 
 			double posCoefficient = Double.valueOf(postionCoefficient);
 			Map<String,Integer> srcPicMap = getPictureSize(srcPic);
-			if(srcPicMap.containsKey("width")){
-				x = (int)(posCoefficient*(srcPicMap.get("width")));
-			}
-			if(srcPicMap.containsKey("height")){
-				y = (int)(posCoefficient*(srcPicMap.get("height")));
-			}
 			Map<String,Integer> waterPicMap = getPictureSize(waterMarkerPic);
-			if(waterPicMap.containsKey("width")){
-				width = waterPicMap.get("width");
-			}
-			if(waterPicMap.containsKey("height")){
-				height = waterPicMap.get("height");
+			width = waterPicMap.get("width");
+			height = waterPicMap.get("height");
+			if(posCoefficient>=0){//水印沿做左对角线从左往右
+				x = (int)(posCoefficient*(srcPicMap.get("width")-width));
+				y = (int)(posCoefficient*(srcPicMap.get("height")-height));
+			}else{//水印沿右对角线从右往左
+				posCoefficient = Math.abs(posCoefficient);
+				x = (int)((1-posCoefficient)*(srcPicMap.get("width")-width));
+				y = (int)(posCoefficient*(srcPicMap.get("height")-height));
 			}
 			op.dissolve(alpha); 
 			op.geometry(width, height, x, y);
@@ -2551,7 +2560,6 @@ public class ImageAnalyseUtil {
 			SysConfigService sysConfigService =  (SysConfigService)SpringContextUtil.getBean("sysConfigService");
 			convert.setSearchPath(sysConfigService.getDbSysConfig(
 	                SysConfigConstant.LOCAL_GM_PATH,1));
-
 			
 			convert.run(op);
 		} catch (Exception e) {
@@ -2688,7 +2696,23 @@ public class ImageAnalyseUtil {
 					posW = alterdImage.getWidth() - waterPicWidth;
 					posH = alterdImage.getHeight() - waterPicHeight;
 					break;
-
+				case 10://自定义水印位置，根据 位置系数确定在左右对角线上的位置
+					// add by xia.yunan@20170906
+					SysConfigService sysConfigService =  (SysConfigService)SpringContextUtil.getBean("sysConfigService");
+					System.out.println("<<<<<<<<<sysConfigService:"+sysConfigService);
+					String waterPosCoefficient = sysConfigService.getDbSysConfig(
+			                SysConfigConstant.WATERMAKER_POSITION,1);
+					double posCoefficient = Double.valueOf(waterPosCoefficient);
+					System.out.println("posCoefficient:"+posCoefficient);
+					if(posCoefficient>=0){
+						posW = (int)(posCoefficient*(alterdImage.getWidth() - waterPicWidth));
+						posH = (int)(posCoefficient*(alterdImage.getHeight() - waterPicHeight));
+					}else{
+						posCoefficient = Math.abs(posCoefficient);
+						posW = (int)((1-posCoefficient)*(alterdImage.getWidth() - waterPicWidth));
+						posH = (int)(posCoefficient*(alterdImage.getHeight() - waterPicHeight));
+					}
+					break;
 				default:
 					posW = alterdImage.getWidth() - waterPicWidth;
 					posH = alterdImage.getHeight() - waterPicHeight;
@@ -2700,6 +2724,7 @@ public class ImageAnalyseUtil {
 				finalImage = alterdImage;
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			logger.error("下载生成水印出错:" + e.getMessage());
 		}
 		return finalImage;

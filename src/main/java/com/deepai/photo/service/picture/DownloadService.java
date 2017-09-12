@@ -657,6 +657,7 @@ public class DownloadService {
 							throw new InvalidHttpArgumentException(CommonConstant.FAILURECODE, String.format("图片【%s】暂不出售", fileName));
 						}*/
 						txtPicInfo = fileName.substring(0, fileName .lastIndexOf(".")) + ".txt";
+						
 						try {
 							BufferedImage alterdImage = ImageIO.read(new FileInputStream(oriPicPath));
 							BufferedImage waterPic = null;
@@ -674,6 +675,7 @@ public class DownloadService {
 								//改变图片大小
 								alterdImage = ImageAnalyseUtil.resize(alterdImage, pxH);
 								//水印图
+								
 								finalImage = ImageAnalyseUtil.computePosAndMark(isWaterMark, postion, wMPath, waterPic, alterdImage);
 								//将图片保存为JPG格式
 								ImageAnalyseUtil.saveJPG(finalImage, filePath+".jpg");
@@ -858,6 +860,7 @@ public class DownloadService {
 							throw new InvalidHttpArgumentException(CommonConstant.FAILURECODE, String.format("图片【%s】暂不出售", fileName));
 						}*/
 						txtPicInfo = fileName.substring(0, fileName .lastIndexOf(".")) + ".txt";
+						
 						try {
 							BufferedImage alterdImage = ImageIO.read(new FileInputStream(oriPicPath));
 							BufferedImage waterPic = null;
@@ -920,7 +923,10 @@ public class DownloadService {
 						record.setPictureSignTime(group.getSginTime());						
 						record.setPictureAuthor(group.getAuthor());
 						record.setAuthorLoginName(userName);//作者登录名
-						record.setDownLoadPrice(user.getBalanceBasePerprice());
+						//add by xiayunan 2017-09-12
+						if(user.getBalanceBasePerprice()!=null){
+							record.setDownLoadPrice(user.getBalanceBasePerprice());
+						}
 						record.setPictureFileName(fileName);
 						record.setPictureFilePath(oriPicPath);
 						record.setPictureTitle(picture.getTitle());
@@ -1009,19 +1015,24 @@ public class DownloadService {
 		// 遍历列表
 		for (int i = 0; i < gorupList.size(); i++) {
 			CpPicGroup group=gorupList.get(i);
-
 			try {
 				for (int j = 0; j < group.getPics().size(); j++) {
 					CpPicture picture=group.getPics().get(j);
 					// 得到对象、对象filename
 					fileName = group.getPics().get(j).getFilename();
 					oriPicPath= picture.getOriAllPath();
+					//add by xiayunan 2017-09-12
+					txtPicInfo = fileName.substring(0, fileName .lastIndexOf(".")) + ".txt";
 					try {
 						// 根据对象filename找到原图复制到临时目录
+						
 						ImgFileUtils.copyFile(oriPicPath, filePath+ File.separator + fileName);
 						//稿件文本文件
 						if(type==1){
 							String txtPath=oriPicPath.substring(0, oriPicPath.lastIndexOf(".")) + ".txt";//txt原路径
+							System.out.println("<<<<<<<<<<<<<<txtPicInfo:"+txtPicInfo);
+							System.out.println("<<<<<<<<<<<<<<txtPath:"+txtPath);
+							System.out.println("<<<<<<<<<<<<<<filePath:"+filePath+ File.separator + txtPicInfo);
 							ImgFileUtils.copyFile(txtPath, filePath+ File.separator + txtPicInfo);
 						}
 					} catch (FileNotFoundException e) {

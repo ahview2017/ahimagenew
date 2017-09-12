@@ -1,6 +1,6 @@
 /*
- *  History             Who             What
- *  2017年9月6日           liujinfeng          Created.
+ *	History				Who				What
+ *  2017年9月6日			liujinfeng			Created.
  */
 package com.deepai.photo.controller.util;
 
@@ -50,6 +50,15 @@ public class PhoneMSGUtils {
 
     /** 注册发送验证码 */
     public static final String TYPE_SEND_CODE = "1";
+
+    /** 忘记密码，找回密码 */
+    public static final String TYPE_FORGET_CODE = "2";
+
+    /** 登录验证码 */
+    public static final String TYPE_LOGIN_CODE = "3";
+
+    /** 注册成功后发送短信 */
+    public static final String TYPE_SUCCESS_CODE = "4";
 
     /**
      * 发送短信通知
@@ -102,9 +111,14 @@ public class PhoneMSGUtils {
         JSONObject result = null;
         switch (type) {
         case TYPE_SEND_CODE:
-            result = sendPhoneCode(phone);
+            result = sendPhoneCode(phone, TYPE_SEND_CODE);
             break;
-
+        case TYPE_LOGIN_CODE:
+            result = sendPhoneCode(phone, TYPE_LOGIN_CODE);
+            break;
+        case TYPE_FORGET_CODE:
+            result = sendPhoneCode(phone, TYPE_FORGET_CODE);
+            break;
         default:
             break;
         }
@@ -117,17 +131,37 @@ public class PhoneMSGUtils {
      * @date 2017年9月6日 下午9:54:13
      * @param phone
      *            手机号码
+     * @param type
+     *            短信类型
      * @return
      * @throws Exception
      */
-    private JSONObject sendPhoneCode(String phone) throws Exception {
+    private JSONObject sendPhoneCode(String phone, String type)
+            throws Exception {
+        String sContent = "";
+        switch (type) {
+        case TYPE_SEND_CODE:
+            sContent = sysConfigService
+                    .getDbSysConfig(SysConfigConstant.MSG_SEND_CODE, 1);
+            break;
+        case TYPE_LOGIN_CODE:
+            sContent = sysConfigService
+                    .getDbSysConfig(SysConfigConstant.MSG_LOGIN_CODE, 1);
+            break;
+        case TYPE_FORGET_CODE:
+            sContent = sysConfigService
+                    .getDbSysConfig(SysConfigConstant.MSG_FORGET_CODE, 1);
+            break;
+
+        default:
+            break;
+        }
         // sysConfigService.
-        String sContent = sysConfigService
-                .getDbSysConfig(SysConfigConstant.MSG_SEND_CODE, 1);
+
         // 6位随机验证码
         Integer vilidate = (int) ((Math.random() * 9 + 1) * 100000);
         sContent = String.format(sContent, vilidate);
-        logger.info("发送内容是：" + sContent);
+//        logger.info("发送内容是：" + sContent);
         // 发送信息
         String code = send(phone, sContent);
 
@@ -156,9 +190,9 @@ public class PhoneMSGUtils {
         SendMsgComponentPortType client = service
                 .getSendMsgComponentHttpPort(endpoint);
 
-      //获取用户名密码
+        // 获取用户名密码
         String[] attr = getPhoneAttr();
-        
+
         Date date = new Date();
         StringBuffer buff = new StringBuffer();
         buff.append("<?xml version='1.0' encoding='UTF-8'?>");
@@ -166,7 +200,7 @@ public class PhoneMSGUtils {
         buff.append("<time>" + date.getTime() + "</time>"); // <!-- 时间 -->
         buff.append("<serviceCount>1</serviceCount>");// <!-- 发送总数 -->
         // 按实际情况填写分配给自己的用户名
-        buff.append("<userCode>"+attr[0]+"</userCode>");// <!-- 用户名 -->
+        buff.append("<userCode>" + attr[0] + "</userCode>");// <!-- 用户名 -->
         // 按实际情况填写分配给自己的密码,并需MD5加密,且英文大写
         buff.append("<password>" + MD5.md5for32(attr[1]) + "</password>");
         buff.append("<dataSign></dataSign>");// <!-- 数字签名 -->
@@ -210,9 +244,9 @@ public class PhoneMSGUtils {
         SendMsgComponentPortType client = service
                 .getSendMsgComponentHttpPort(endpoint);
 
-        //获取用户名密码
+        // 获取用户名密码
         String[] attr = getPhoneAttr();
-        
+
         Date date = new Date();
         StringBuffer buff = new StringBuffer();
         buff.append("<?xml version='1.0' encoding='UTF-8'?>");
@@ -220,7 +254,7 @@ public class PhoneMSGUtils {
         buff.append("<time>" + date.getTime() + "</time>"); // <!-- 时间 -->
         buff.append("<serviceCount>1</serviceCount>");// <!-- 发送总数 -->
         // 按实际情况填写分配给自己的用户名
-        buff.append("<userCode>"+attr[0]+"</userCode>");// <!-- 用户名 -->
+        buff.append("<userCode>" + attr[0] + "</userCode>");// <!-- 用户名 -->
         // 按实际情况填写分配给自己的密码,并需MD5加密,且英文大写
         buff.append("<password>" + MD5.md5for32(attr[1]) + "</password>");
         buff.append("<dataSign></dataSign>");// <!-- 数字签名 -->
@@ -302,25 +336,26 @@ public class PhoneMSGUtils {
 
         String[] attr = new String[2];
         attr[0] = phoneMSG.get(0);// account
-        attr[1] = phoneMSG.get(1);//pass
-        
-        logger.info(phoneMSG.get(0)+"====="+phoneMSG.get(1));
+        attr[1] = phoneMSG.get(1);// pass
+
+        logger.info(phoneMSG.get(0) + "=====" + phoneMSG.get(1));
         return attr;
     }
-    
+
     public static void main(String[] args) throws Exception {
         PhoneMSGUtils utils = new PhoneMSGUtils();
         // utils.sendMsg("13770784187", "1");
 
         // String xml =
         // "<ESB><resultCode>0</resultCode><msg>任务总提交了3条，成功发送了1条，号码重复的0条，号码错误的2条；号码在黑名单的0条；含屏蔽词的0条!</msg><errorSet><errorPhone>17327789013</errorPhone><errorPhone>17370784187</errorPhone></errorSet><blackSet></blackSet><keyWordSet></keyWordSet></ESB>";
-//        String xml = "<ESB><resultCode>0</resultCode><msg>任务总提交了3条，成功发送了1条，号码重复的0条，号码错误的2条；号码在黑名单的0条；含屏蔽词的0条!</msg><errorSet></errorSet><blackSet></blackSet><keyWordSet></keyWordSet></ESB>";
-//        Object s = utils.getCodeSendMsgs(xml);
-//        logger.info(s.toString());
-        
-        String[] a =utils.getPhoneAttr();
-        for(String s:a){
-            System.out.println(s+"==");
+        // String xml =
+        // "<ESB><resultCode>0</resultCode><msg>任务总提交了3条，成功发送了1条，号码重复的0条，号码错误的2条；号码在黑名单的0条；含屏蔽词的0条!</msg><errorSet></errorSet><blackSet></blackSet><keyWordSet></keyWordSet></ESB>";
+        // Object s = utils.getCodeSendMsgs(xml);
+        // logger.info(s.toString());
+
+        String[] a = utils.getPhoneAttr();
+        for (String s : a) {
+            System.out.println(s + "==");
         }
     }
 }
