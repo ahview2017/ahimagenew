@@ -1030,9 +1030,6 @@ public class DownloadService {
 						//稿件文本文件
 						if(type==1){
 							String txtPath=oriPicPath.substring(0, oriPicPath.lastIndexOf(".")) + ".txt";//txt原路径
-							System.out.println("<<<<<<<<<<<<<<txtPicInfo:"+txtPicInfo);
-							System.out.println("<<<<<<<<<<<<<<txtPath:"+txtPath);
-							System.out.println("<<<<<<<<<<<<<<filePath:"+filePath+ File.separator + txtPicInfo);
 							ImgFileUtils.copyFile(txtPath, filePath+ File.separator + txtPicInfo);
 						}
 					} catch (FileNotFoundException e) {

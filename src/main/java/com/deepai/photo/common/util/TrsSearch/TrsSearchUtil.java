@@ -19,7 +19,6 @@ public class TrsSearchUtil {
 		  }
 	      String[] keywordsArray = keyword.split(" ");
 	      String tempWhere = "";
-	      System.out.println("<<<<<<<<<<<<<<keywordsArray.length"+keywordsArray.length);
 	      if(keywordsArray.length>0){
 	    	  StringBuilder sb = new StringBuilder();
 	    	  sb.append("(AUTHOR_NAME,KEYWORDS,MEMO,TITLE,gtitle,gkeywords) += ")

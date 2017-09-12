@@ -197,7 +197,6 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
 					$(".smt-detail-video").show();
 				}
 				vm.masUrl =  $sce.trustAsResourceUrl(vm.masUrl);
-				console.log("<<<<<<<<<<<masUrl:"+vm.masUrl);
 				console.log(resp.data);
                 vm.groupStatus = resp.data.groupStatus;
                 vm.manuscriptPlaceArr = resp.data.place.split(' ');

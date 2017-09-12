@@ -70,13 +70,11 @@ public class TrsSearchConf {
 		}
 		Map<String, Object> map =new HashMap<String, Object>();
 		List<TRSResult> list =new ArrayList<TRSResult>();
-		System.out.println("<<<<<<<<<<<<<<strWhere"+strWhere);
 		StringBuffer extrCondition = new StringBuffer();
 		extrCondition.append(TrsSearchUtil.handleSqlWhere(strWhere));
 		
 		
 		
-		System.out.println("<<<<<<<<<<<<<extrCondition:"+extrCondition.toString());
 		if (StringUtils.isNotBlank(strWhere)) {
 			rs = getConn().executeSelect(tableName, extrCondition.toString(), "", "", "*",
 					TRSConstant.TCM_IDEOSINGLE, TRSConstant.TCM_IDEOSINGLE,
@@ -157,48 +155,33 @@ public class TrsSearchConf {
 			rs.moveTo(0, i);
 			TRSResult tr = new TRSResult();
 			tr.setId(rs.getString("id"));
-			System.out.println("<<<<<<<<<id:"+rs.getString("id"));
-//			System.out.println("===================GROUP_ID"+rs.getString("GROUP_ID"));
 			tr.setGroupid(rs.getString("GROUP_ID"));
-			System.out.println("<<<<<<<<<id:"+rs.getString("GROUP_ID"));
 			tr.setTitle(rs.getString("title"));
-			System.out.println("<<<<<<<<<title:"+rs.getString("title"));
-			System.out.println("9999999999999999");
 			tr.setGtitle(rs.getString("gtitle"));
-			System.out.println("<<<<<<<<<gtitle:"+rs.getString("gtitle"));
 			
 //			tr.setDate(rs.getString("date"));
 			tr.setDate(rs.getString("create_time"));
-			System.out.println("<<<<<<<<<create_time:"+rs.getString("create_time"));
 			
 			tr.setKeyWords(rs.getString("KEYWORDS"));
-			System.out.println("<<<<<<<<<KEYWORDS:"+rs.getString("KEYWORDS"));
 			
 			tr.setMemo(rs.getString("MEMO"));
-			System.out.println("<<<<<<<<<MEMO:"+rs.getString("MEMO"));
-			
 			
 			tr.setAuthorName(rs.getString("AUTHOR_NAME"));
-			System.out.println("<<<<<<<<<AUTHOR_NAME:"+rs.getString("AUTHOR_NAME"));
 //			tr.setPeople(rs.getString("someOne"));
 			tr.setPeople(rs.getString("people"));
-			System.out.println("<<<<<<<<<people:"+rs.getString("people"));
 			
 			tr.setCategory_id(Integer.parseInt(rs.getString("category_id")));
-			System.out.println("<<<<<<<<<category_id:"+rs.getString("category_id"));
 			
 			tr.setFileName(rs.getString("fileName"));
-			System.out.println("<<<<<<<<<fileName:"+rs.getString("fileName"));
 			
 			tr.setPlace(rs.getString("place"));
-			System.out.println("<<<<<<<<<place:"+rs.getString("place"));
 			
 			tr.setgKEYWORDS(rs.getString("gKEYWORDS"));
-			System.out.println("<<<<<<<<<gKEYWORDS:"+rs.getString("gKEYWORDS"));
 			//首图
 //			String cp=rs.getString("coverPic");
 			if (StringUtils.isNotBlank(tr.getFileName())) {
-				tr.setCoverPic(CommonConstant.SMALLHTTPPath+ImgFileUtils.getSamllPathByName(tr.getFileName(),request));
+//				tr.setCoverPic(CommonConstant.SMALLHTTPPath+ImgFileUtils.getSamllPathByName(tr.getFileName(),request));
+				tr.setCoverPic(CommonConstant.SMALLHTTPPath+ImgFileUtils.getPathByNameAndSize(tr.getFileName(), request, 2));
 			}
 			list.add(tr);
 		}
@@ -212,7 +195,6 @@ public class TrsSearchConf {
 				|| null == page){
 			page = "1";
 		}
-			
 		if (MyStringUtil.isEmpty(rows) || !MyStringUtil.isNumeric(rows)
 				|| null == page){
 			rows ="10";
@@ -221,7 +203,6 @@ public class TrsSearchConf {
 		List<TRSResult> list =new ArrayList<TRSResult>();
 		
 	
-		
 		
 		if (StringUtils.isNotBlank(strWhere)) {
 			rs = getConn().executeSelect(enTableName, strWhere, "", "", "*",
@@ -307,7 +288,8 @@ public class TrsSearchConf {
 			tr.setgKEYWORDS(rs.getString("gKEYWORDS"));
 
 			if (StringUtils.isNotBlank(tr.getFileName())) {
-				tr.setCoverPic(CommonConstant.SMALLHTTPPath+ImgFileUtils.getSamllPathByName(tr.getFileName(),request));
+//				tr.setCoverPic(CommonConstant.SMALLHTTPPath+ImgFileUtils.getSamllPathByName(tr.getFileName(),request));
+				tr.setCoverPic(CommonConstant.SMALLHTTPPath+ImgFileUtils.getPathByNameAndSize(tr.getFileName(), request, 2));
 			}
 			list.add(tr);
 		}
@@ -322,7 +304,6 @@ public class TrsSearchConf {
 		tr.setId("23010");
 //		System.out.println("===================GROUP_ID"+rs.getString("GROUP_ID"));
 		tr.setGroupid("7017");
-		System.out.println("9999999999999999");
 	}
 	
 }
