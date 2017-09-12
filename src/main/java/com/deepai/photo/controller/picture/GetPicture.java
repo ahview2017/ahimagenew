@@ -272,7 +272,8 @@ public class GetPicture {
 			PageHelper.addPagesAndTotal(result, list);
 			for (Map<String,Object> map:list) {
 				if(map.containsKey("FILENAME")){
-					map.put("samllPath", CommonConstant.SMALLHTTPPath+ImgFileUtils.getSamllPathByName(map.get("FILENAME").toString(),request));
+//					map.put("samllPath", CommonConstant.SMALLHTTPPath+ImgFileUtils.getSamllPathByName(map.get("FILENAME").toString(),request));
+                    map.put("FilePath", CommonConstant.SMALLHTTPPath+ImgFileUtils.getPathByNameAndSize(map.get("FILENAME").toString(),request,2));
 				}
 			}
 			result.setCode(CommonConstant.SUCCESSCODE);
