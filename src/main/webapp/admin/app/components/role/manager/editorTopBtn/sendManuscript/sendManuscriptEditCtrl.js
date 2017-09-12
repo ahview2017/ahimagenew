@@ -186,7 +186,7 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
 
     //获取稿件详情
     function getManuscriptDetails(callback){
-        req.get('groupPicCtro/getGroupPics.do',{
+        req.post('groupPicCtro/getGroupPics.do',{
             groupId: vm.groupId
         }).success(function(resp){
             if(resp.code == '211'){
