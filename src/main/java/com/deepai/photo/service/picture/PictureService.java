@@ -27,6 +27,7 @@ import com.deepai.photo.bean.CpPicture;
 import com.deepai.photo.bean.CpPictureExample;
 import com.deepai.photo.bean.CpPictureExample.Criteria;
 import com.deepai.photo.bean.CpUser;
+import com.deepai.photo.common.StringUtil;
 import com.deepai.photo.common.constant.CommonConstant;
 import com.deepai.photo.common.constant.SysConfigConstant;
 import com.deepai.photo.common.exception.InvalidHttpArgumentException;
@@ -625,13 +626,16 @@ public class PictureService {
 		if(wmM==null){
 			String waterPic=sysConfigService.getDbSysConfig(SysConfigConstant.DEFAULT_WATERMARK_PIC, siteId);
 //			logger.info("默认水印图为："+waterPic);
-//			String position=sysConfigService.getDbSysConfig(SysConfigConstant.UPLOAD_WATER_POSITION, siteId);
+			String position=sysConfigService.getDbSysConfig(SysConfigConstant.UPLOAD_WATER_POSITION, siteId);
 			String watermarkedmedium=sysConfigService.getDbSysConfig(SysConfigConstant.WATERMARKEDMEDIUM_PIC_PATH, siteId);
 			String wmAllPath=initFullPathByOrder(watermarkedmedium,fileName);
 			
 			//add by xiayunan 20170911
-			//ImageAnalyseUtil.waterMarkPic(wmAllPath, mediumAllPath, waterPic, position,true);
-			ImageAnalyseUtil.SpePositionWaterMarkPic(wmAllPath, mediumAllPath, waterPic, waterPicPostion, Integer.valueOf(transparency), true);
+			if(StringUtil.notBlank(position)&&!"Custom".equals(position)){
+				ImageAnalyseUtil.waterMarkPic(wmAllPath, mediumAllPath, waterPic, position,true);
+			}else{
+				ImageAnalyseUtil.SpePositionWaterMarkPic(wmAllPath, mediumAllPath, waterPic, waterPicPostion, Integer.valueOf(transparency), true);
+			}
 			
 //			logger.info("wmAllPath："+wmAllPath);
 			addPicAllPath(wmAllPath, 4, picId);
@@ -671,7 +675,7 @@ public class PictureService {
             String waterPic = sysConfigService.getDbSysConfig(
                     SysConfigConstant.DEFAULT_WATERMARK_PIC, siteId);
             // logger.info ("默认水印图为："+waterPic);
-//            String position = sysConfigService.getDbSysConfig(SysConfigConstant.UPLOAD_WATER_POSITION, siteId);
+            String position = sysConfigService.getDbSysConfig(SysConfigConstant.UPLOAD_WATER_POSITION, siteId);
             String watermarkedmedium1200 = sysConfigService.getDbSysConfig(
                     SysConfigConstant.WATERMARK_PIC_PATH1200, siteId);
             String wmAllPath1200 = initFullPathByOrder(watermarkedmedium1200, fileName);
@@ -680,8 +684,12 @@ public class PictureService {
 //            logger.info ("mediumAllPath1200>>"+mediumAllPath1200);
             
             //add by xiayunan 2017-09-11
-           // ImageAnalyseUtil.waterMarkPic(wmAllPath1200, mediumAllPath1200, waterPic,position, true);
-			ImageAnalyseUtil.SpePositionWaterMarkPic(wmAllPath1200, mediumAllPath1200, waterPic, waterPicPostion, Integer.valueOf(transparency), true);
+            if(StringUtil.notBlank(position)&&!"Custom".equals(position)){
+            	ImageAnalyseUtil.waterMarkPic(wmAllPath1200, mediumAllPath1200, waterPic,position, true);
+            }else{
+            	ImageAnalyseUtil.SpePositionWaterMarkPic(wmAllPath1200, mediumAllPath1200, waterPic, waterPicPostion, Integer.valueOf(transparency), true);
+            }
+			
 			
             // logger.info ("wmAllPath："+wmAllPath);
             addPicAllPath(wmAllPath1200, 9, picId);

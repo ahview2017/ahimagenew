@@ -26,7 +26,10 @@ public class TestWaterPicPostion {
 //			e.printStackTrace();
 //		}
 		
-		System.out.println((int)(1*891));
+		double a = 0.1;
+		double b = -0.1;
+		System.out.println(a>0);
+		System.out.println(b>0);
 
 	}
 	
