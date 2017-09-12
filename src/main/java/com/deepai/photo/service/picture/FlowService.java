@@ -410,10 +410,39 @@ public class FlowService {
 			group.setApplyTime(new Date());
 			//分配记录
 			CpPicGroupAssign assign=new CpPicGroupAssign();
+			//定义用户类型 一审1 二审2 三审3
+            boolean is1Shen = false;
+            boolean is2Shen = false;
+            boolean is3Shen = false;
+            boolean pdExist = false;
 			if((roleId==2 || roleId==63)&&sourceSign==0){//值班编辑的稿子分配给自己
 				group.setFristPfdUser(user.getUserName());
 				memo="约稿自动分配给自己";
 				assign.setType(0);	
+				
+				//add by liu.jinfeng@2017年9月11日 下午9:52:47 值班编辑的稿件如下处理
+                //值班编辑在几审稿件就到几审列表，如果属于多个审核，以最高审为准
+                if(pd!=null){
+                    pdExist = true;
+                  //值班人员。包括一审二审三审
+                    List<CpDutyUser> dutyUser=pd.getDutys();
+                    
+                    for(CpDutyUser duty : dutyUser){
+                        //一审 
+                        if(duty.getType()==1){
+                            is1Shen = true;
+                        }
+                        //二审
+                        if(duty.getType()==2&&duty.getUserName().equals(user.getUserName())){
+                            is2Shen = true;
+                        }
+                        //三审
+                        if(duty.getType()==3&&duty.getUserName().equals(user.getUserName())){
+                            is3Shen = true;
+                        }
+                    }
+                }
+                
 			}else{
 				assign.setType(1);
 				if(pd!=null){
@@ -491,10 +520,45 @@ public class FlowService {
 			assign.setCreateTime(new Date());
 			assignMapper.insertSelective(assign);
 			addFlowLog(group.getId(), 0, memo, pdId, user);
+			
+			// 如果是3审直接进3审稿件列表
+            if (is3Shen) {
+                examByProofread(group, user, 2);
+                group.setGroupStatus(3);// 待3审
+            } else if (!is3Shen && is2Shen) {
+                examByProofread(group, user, 1);
+                group.setGroupStatus(2);// 待2审
+            } 
 		} catch (Exception e) {
 			throw e;
 		}
 	}
+	/**
+     * 值班编辑提交稿件处理逻辑
+     * @Description: TODO <BR>
+     * @author liu.jinfeng
+     * @date 2017年9月12日 上午9:18:25
+     * @param oldGroup
+     * @param user
+     * @param type
+     * @param cates
+     * @throws Exception
+     */
+    private void examByProofread(CpPicGroup oldGroup,CpUser user,int type)throws Exception{
+        //TODO 校验稿件状态与校审用户级别
+        CpPicGroup group=new CpPicGroup();
+        group.setId(oldGroup.getId());
+        group.setGroupStatus(type+1);//待下级审核
+        group.setUpdateTime(new Date());
+        group.setUpdateUser(user.getUserName());
+        if(type == 2){
+            group.setFristPfdUser(oldGroup.getFristPfdUser() + "、" + user.getUserName());
+        }
+        //修改稿件状态
+        cpPicGroupMapper.updateByPrimaryKeySelective(group);
+        //记录流程日志
+        addFlowLog(oldGroup.getId(), type, null, null, user);
+    }
 	/**
 	 * 编辑稿件
 	 * @param oldGroup 编辑前
