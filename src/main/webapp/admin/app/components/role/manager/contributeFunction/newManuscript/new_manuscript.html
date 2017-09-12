@@ -135,6 +135,18 @@
 								<input placeholder="必填，少于200字" class="draft-sign-input" ng-model="newManuscript.newManuscriptManuscript.keywords" />
 							</div>
 						</div>
+						<!-- 稿件类别模块 开始-->
+						<div class="draft-signed-hd-item clear">
+                                <div class="fll draft-signed-hd-left">
+                                    <span class="draft-sign-txt">稿件类别</span>
+                                </div>
+                                <div class="fll draft-signed-hd-right">
+                                    <textarea type="text" class="edit-sort-input" data-toggle="modal" readonly
+                                           ng-model="newManuscript.categoryNameStr"></textarea>
+                                    <span class="ml10 edit-sort-sel-btn"   ng-click="newManuscript.editMsSortsModalShow()">选择</span>
+                                </div>
+                        </div>
+						<!-- 稿件类别模块 结束-->
 						<div class="draft-signed-hd-item clear">
 							<div class="fll draft-signed-hd-left">
 								<span class="draft-sign-txt" translate>100026</span>
@@ -320,4 +332,28 @@
 	<div class="layui-progress" id="layuiProgress">
 		<div class="layui-progress-bar" lay-percent="10%"></div>
 	</div>
+	
+	 <!--编辑分类模态框-->
+    <div class="modal fade" id="edit-sort-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="role-add-con">
+                        <div class="role-add-tit clear" id="role-add-tit">
+                            <span class="fll">稿件类别</span>
+                            <span class="flr curp tit-close" data-dismiss="modal">×</span>
+                        </div>
+                        <div class="role-modal-con">
+                            <!--稿件类别-->
+                            <ul id="edit_sort_tree" class="ztree" style="overflow: auto;height: 500px;"></ul>
+                        </div>
+                        <div class="tac mt10">
+                            <span class="dib cursor user-add-btn"   ng-click="newManuscript.confirmEditMsSorts()">确定</span>
+                            <span class="dib cursor user-add-btn cancel-btn-color"  data-dismiss="modal">取消</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

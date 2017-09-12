@@ -174,7 +174,7 @@ public class GroupPicController {
 	@ResponseBody
 	@RequestMapping("/saveGroupPic")
 	@LogInfo(content="保存或提交中文稿件",opeType=2,logTypeCode=CommonConstant.PicGroupOperation)
-	public Object saveGroupPic(HttpServletRequest request,String picData,CpPicGroup group,Integer isIpTc,Integer isFlash,String fTime,Integer type,Integer roleId){
+	public Object saveGroupPic(HttpServletRequest request,String picData,CpPicGroup group,Integer isIpTc,Integer isFlash,String fTime,Integer type,Integer roleId,String cateIds){
 		ResponseMessage result=new ResponseMessage();
 		try {
 			CommonValidation.checkParamBlank(group.getTitle(), "稿件标题");
@@ -209,7 +209,7 @@ public class GroupPicController {
 			if(group.getLangType() == null){
 				group.setLangType(0);//中文稿件
 			}
-			int a=flowService.makePicGroup(pics, group, isIpTcB,SessionUtils.getUser(request),SessionUtils.getSiteId(request),type,roleId);
+			int a=flowService.makePicGroup(pics, group, isIpTcB,SessionUtils.getUser(request),SessionUtils.getSiteId(request),type,roleId,cateIds);
 			StringBuffer ids= new StringBuffer();
 			for (CpPicture pic : pics) {
 				ids.append(pic.getId()).append(",");
