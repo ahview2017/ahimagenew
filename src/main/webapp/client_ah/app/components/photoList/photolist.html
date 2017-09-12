@@ -69,59 +69,42 @@
 </div> -->
 
 
-<div class="gailan_content ng-scope">
-        <div class="gailan_title ng-scope">
-            <div class="title_box ng-scope">
-                <span>当前位置：<a href="">首页</a> > <a href="">	新闻图片</a> > <a href="">时政</a></span>
-                
-                <div class="gailan_curpage ng-scope">
-                    <span><a href=""><</a></span>
-                    <ul style="display: inline-block;">
-                        <li class="gailan_hover ng-scope"><a href="">1</a></li>
-                        <li><a href="">2</a></li>
-                        <li><a href="">3</a></li>
-                        <li><a href="">4</a></li>
-                        <li><a href="">5</a></li>
-                        <li>...</li>
-                        <li><a href="">10</a></li>
-                        <li><a href="">11</a></li>
-                    </ul>
-                    <span><a href="" class="gailan_plus ng-scope">></a></span>
-                    共{{photoList.photoList_total}}条记录
-                </div>
+<div class="gailan_content">
+        <div class="gailan_title">
+            <div class="title_box">
+                <span>当前位置：<a href="">首页</a> > <a href="">  新闻图片</a> > <a href="">时政</a></span>
             </div>
-            <div class="clear ng-scope"></div>
+            <div class="clear"></div>
         </div>
-        <div class="gailan_mainPic ng-scope">
+        <div class="gailan_mainPic">
                 <ul>
                     <li dir-paginate="item in photoList.photoList | itemsPerPage: photoList.selPageRows"
                      total-items="photoList.photoList_total"
                      current-page="photoList.pagination.current">
-                        <a href=""><img ng-src="{{item.samllPath}}"  width="285" height="179"></a>
-                        <p><a ui-sref="root.newDetailList({groupId})">{{item.TITLE}}</a></p>
+                        <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
+                            <img ng-src="{{item.samllPath}}" width="285" height="179"></a>
+                        <p><a title="{{item.TITLE}}（{{item.PICTURE_COUNT}}张）" href="">{{item.TITLE}}（{{item.PICTURE_COUNT}}张）</a></p>
                     </li>
-                    <!-- <li>
-                        <a href=""><img src="images/gailan_mainpic_03.png" width="285" height="179"></a>
-                        <p><a href="">瑶海区嘉山街道荣获全国维护妇女儿童先进集体（共9张图）</a></p>
-                    </li> -->
-                    
-
                 </ul>
         </div>
 
-        <div class="gailan_curpage_bottom ng-scope">
-            <span><a href=""><</a></span>
-            <ul style="display:inline-block;">
-                <li class="gailan_hover ng-scope"><a href="" >1</a></li>
-                <li><a href="">2</a></li>
-                <li><a href="">3</a></li>
-                <li><a href="">4</a></li>
-                <li><a href="">5</a></li>
-                <li>...</li>
-                <li><a href="">10</a></li>
-                <li><a href="">11</a></li>
-            </ul>
-            <span><a href="" class="gailan_plus ng-scope">></a></span>
-                共11页
-        </div>
+        <div class="gailan_curpage_bottom clear">
+                <div class="photo-record-page left">
+                    <span>共找到</span>
+                    <span class="color_red ng-binding">{{photoList.photoList_total}}</span>
+                    <span>条记录</span>
+                </div>
+                <div class="photo-now-page left">
+                    <span>第 </span>
+                    <span class="ng-binding">{{photoList.pagination.current}}</span>
+                    <span>/</span>
+                    <span class="ng-binding">{{photoList.totalPages}}</span>
+                    <span>页</span>
+                </div>
+                <div class="photo-jump-page right">
+                    <dir-pagination-controls on-page-change="photoList.pageChanged(newPageNumber)"
+                        template-url="client_ah/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+                    </dir-pagination-controls>
+                </div>
+            </div>
     </div>
