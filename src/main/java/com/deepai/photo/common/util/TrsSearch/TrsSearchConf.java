@@ -198,7 +198,8 @@ public class TrsSearchConf {
 			//首图
 //			String cp=rs.getString("coverPic");
 			if (StringUtils.isNotBlank(tr.getFileName())) {
-				tr.setCoverPic(CommonConstant.SMALLHTTPPath+ImgFileUtils.getSamllPathByName(tr.getFileName(),request));
+//				tr.setCoverPic(CommonConstant.SMALLHTTPPath+ImgFileUtils.getSamllPathByName(tr.getFileName(),request));
+				tr.setCoverPic(CommonConstant.SMALLHTTPPath+ImgFileUtils.getPathByNameAndSize(tr.getFileName(), request, 2));
 			}
 			list.add(tr);
 		}
