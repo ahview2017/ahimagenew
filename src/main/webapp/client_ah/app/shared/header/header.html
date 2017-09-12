@@ -4,8 +4,8 @@
 		<div class="header_right right">
 			<div class="search_box left">
 				<form action="">
-					<input type="text" class="input_text"> <input type="submit"
-						value="搜索" rel="index_submit">
+					<input ng-model="header.searchAllName" type="text" class="input_text"> 
+					<input ng-click="header.searchAll()" type="submit" value="搜索" rel="index_submit">
 				</form>
 			</div>
 			<div class="login right">
