@@ -157,6 +157,8 @@ adminModule.controller('loginCtrl', function ($scope, $cookies, req, md5, $state
             $cookies.put("admin_head_portrait", userInfo.standby3, {expires: expireDate, path: '/'});
         }
         $window.localStorage['admin_userRight'] = JSON.stringify(vm.userRight);
+        // add by liu.jinfeng@20170910 定义变量区分是否登录
+		$cookies.put("client_logined", true);
     }
 /*
     // 模拟点击执行
