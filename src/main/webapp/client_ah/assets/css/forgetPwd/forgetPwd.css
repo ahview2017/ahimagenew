@@ -82,7 +82,8 @@
     background-image: url(../../img/flowChar.jpg);
     background-repeat: repeat-y;
     background-position: 0px 140px;
-    margin-left: 60px;
+    /* margin-left: 60px; */
+    margin-left: 210px;
     margin-top: 20px;
     height: 35px;
     line-height:35px;
@@ -108,7 +109,8 @@
     text-align:center;
 }
 .forget-password-content{
-    margin-left: 360px;
+    /* margin-left: 360px; */
+    margin-left: 520px;
     margin-top: 20px;
 }
 .forget-password-conTop{
