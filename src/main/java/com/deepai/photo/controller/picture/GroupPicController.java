@@ -1929,9 +1929,6 @@ public class GroupPicController {
 			CommonValidation.checkParamBlank(groupId+"", "稿件id");
 			CpPicGroup group= aboutPictureMapper.selectGroupPics(groupId);
 			
-			System.out.println("<<<<<<<<<<<<MasvideoSign:"+group.getMasvideoSign());
-			System.out.println("<<<<<<<<<<<<videoId:"+group.getVideoId());
-			
 			String res = flowService.checkSstvWordAndRes(JsonUtil.getString(group));
 			if(group==null){
 				throw new InvalidHttpArgumentException(CommonConstant.NULLCODE, String.format("不存在稿件Id=%s的稿子", groupId));
