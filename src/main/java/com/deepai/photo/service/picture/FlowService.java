@@ -628,7 +628,7 @@ public class FlowService {
             boolean is1Shen = false;
             boolean is2Shen = false;
             boolean is3Shen = false;
-            boolean pdExist = false;
+//            boolean pdExist = false;
             if((roleId==2 || roleId==63)&&sourceSign==0){//值班编辑的稿子分配给自己
                 group.setFristPfdUser(user.getUserName());
                 memo="约稿自动分配给自己";
@@ -637,13 +637,13 @@ public class FlowService {
                 //add by liu.jinfeng@2017年9月11日 下午9:52:47 值班编辑的稿件如下处理
                 //值班编辑在几审稿件就到几审列表，如果属于多个审核，以最高审为准
                 if(pd!=null){
-                    pdExist = true;
+//                    pdExist = true;
                   //值班人员。包括一审二审三审
                     List<CpDutyUser> dutyUser=pd.getDutys();
                     
                     for(CpDutyUser duty : dutyUser){
                         //一审 
-                        if(duty.getType()==1){
+                        if(duty.getType()==1&&duty.getUserName().equals(user.getUserName())){
                             is1Shen = true;
                         }
                         //二审
@@ -660,7 +660,7 @@ public class FlowService {
                 
             }
 
-            if((!is1Shen&&!is2Shen&&!is3Shen)||!pdExist){
+            if(!is2Shen&&!is3Shen&&!is1Shen){
                 assign.setType(1);
                 if(pd!=null){
                     memo=memo+pd.getId();

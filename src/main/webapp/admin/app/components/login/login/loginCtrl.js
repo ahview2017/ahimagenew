@@ -43,7 +43,7 @@ adminModule.controller('loginCtrl', function ($scope, $cookies, req, md5, $state
     vm.goFindPwd = function(){
         //$window.location.href='/#/forgetPassword';
 //    	$state.go('forgetPassword');
-    	$window.location.href='/photo/index.html#/forgetPassword';
+    	$window.location.href='/photo/index_ah.html#/forgetPassword';
     }
     // 客户端登录
     vm.loginIn = function () {
