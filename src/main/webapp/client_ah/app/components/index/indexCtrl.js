@@ -81,11 +81,22 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
 //                  return false;
 //            }
 //           //窗口水平居中
-//            $(window).resize(function(){
-//                tc_center();
-//            });
+//            
 //        }
 //        setup();
+        $(window).resize(function(){
+               tc_center();
+        });
+        function tc_center(){
+            var _top=($(window).height()-$("#login_div").height())/2;
+            var _left=($(window).width()-$("#login_div").width())/2;
+            $("#login_div").css({top:_top,left:_left});
+            $("#login_div").css({top:_top,left:_left});
+            var _top1=($(window).height()-$("#register_div").height())/2;
+            var _left1=($(window).width()-$("#register_div").width())/2;
+               //alert($(window).width()+":"+$("#login_div").width()+":"+_left);
+            $("#register_div").css({top:_top1,left:_left1});
+        }
 
 
 
