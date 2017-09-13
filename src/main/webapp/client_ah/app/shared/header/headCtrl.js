@@ -17,14 +17,24 @@ clientModule.directive('onFinishRendersFilters', function($timeout) {
 });
 
 clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
-		$state, $rootScope, layerIfShow, getFullText) {
+		$state, $rootScope, layerIfShow, getFullText,cityList) {
 	var vm = this;
 
 	function initSetting() {
 		// 从cookie获取客户端用户名
 		$rootScope.client_uName = $cookies.get('client_uname');
 		$rootScope.client_logined = $cookies.get('client_logined');
+		//省市县联动数据
+		vm.msCityList = cityList.citylist;
 	}
+	//改变省的时候
+	vm.changeProv = function(prov) {
+		for(var i = 0; i < vm.msCityList.length; i++) {
+			if(prov == vm.msCityList[i].p) {
+				vm.cities = vm.msCityList[i].c;
+			}
+		}
+	};
 	// 登录按钮
 	vm.login_user = function() {
 		$("#gray").css("display", 'block');
@@ -362,11 +372,11 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
             layer.alert('请输入8-16个字符密码提示答案');
             return;
         }
-       if($("#province").val()==''||$("#province").val()=='省份'){
+        if(!vm.province){
             layer.alert('请选择所在省');
             return;
         } 
-        if($("#city").val()==''||$("#city").val()=='地级市'){
+        if(!vm.city){
             layer.alert('请选择所在市');
             return;
         }
@@ -437,8 +447,8 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
             password: md5.createHash(vm.enterPwd), //密码为密文
             question: vm.pwdQuestion,
             answer:  vm.pwdAnswer,
-            province: $("#province").val(),
-            city: $("#city").val(),
+            province: vm.province,
+            city: vm.city,
             authorName: vm.loginName,
             unitName: vm.unitName,
             zipcode: vm.postcode,

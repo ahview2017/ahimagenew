@@ -123,9 +123,11 @@
 
 					<tr>
 						<td><font color="#f00">*</font>所属省市：</td>
-						<td><select id="province" name="locationProv" required></select>
-							<!-- name="register_province"  ng-model="header.selProv"--> <select
-							id="city" name="locationCity" required></select> <!-- name="register_city" ng-model="header.selCity"--></td>
+						<td><select  name="locationProv" ng-change="header.changeProv(header.province)" ng-model="header.province" ng-options="prov.p as prov.p for prov in header.msCityList">
+							<option value="">请选择</option></select>
+							<select  name="locationCity" ng-model="header.city" ng-options="city.n as city.n for city in header.cities">
+							<option value="">请选择</option></select> 
+						</td>
 						<td></td>
 					</tr>
 
