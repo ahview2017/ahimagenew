@@ -11,7 +11,7 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
                 //clickBarRadius: 3,
                 //width: 305,
                 //height: 549
-				mainCell:".bd ul",effect:"fade",autoPlay:true,delayTime:1000,titCell:".btn li"
+				mainCell:".bd ul",effect:"leftLoop",autoPlay:true,delayTime:1000,titCell:".btn li"
             });
         }, 1000);
     });
@@ -121,7 +121,7 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
         initSetting();
         //req_getClientPicture();
         //getClientGroupPics();
-        setup();
+        // setup();
     }
 
     init();
