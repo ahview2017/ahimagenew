@@ -16,7 +16,7 @@
 	margin-bottom:12px;
 	font-size: 14px;
 }
-.title_box span{
+/*.title_box span{
 	margin-left:10px;
 }
 .gailan_curpage{
@@ -65,11 +65,11 @@
 }
 .gailan_curpage li.gailan_hover a{
 	color:#fff;
-}
+}*/
 .gailan_mainPic{
 	width:100%;
 	margin-top:20px;
-	height:1330px;
+	height:auto;
 }
 .gailan_mainPic li{
 	float:left;
@@ -87,46 +87,36 @@
 	color:#666;
 	margin-right:10px;
 	font-size:14px;
-	width:400px;
+	width:1200px;
 	height:25px;
 	line-height: 25px;
 	margin:0 auto;
 }
-.gailan_curpage_bottom li{
-	color:#666;
-	height:21px;
-	width:21px;
-	border-radius: 50%;
-	text-align: center;
-	line-height: 21px;
-	float:left;
-	margin:0 5px -5px 5px;
+.photo-record-page {
+    text-align: right;
+    width: 30%;
 }
-.gailan_curpage_bottom span{
-	display:inline-block;
-	height:25px;
-	width:25px;
-	line-height: 25px;
+.color_red {
+    color: red;
 }
-.gailan_curpage_bottom span a{
-	height:25px;
-	width:25px;
-	line-height: 25px;
-	font-size: 14px;
+.photo-now-page {
+    text-align: center;
+    width: 30%;
 }
-.gailan_curpage_bottom li a{
-	color:#666;
-	height:21px;
-	width:21px;
-	line-height: 21px;
-	border-radius: 50%;
-	text-align: center;
-	display:inline-block;
+.photo-jump-page {
+    text-align: left;
+    width: 40%;
 }
-.gailan_curpage_bottom li.gailan_hover{
-	background:#ef2127;
-	color:#fff;
+.page-btn {
+    color: #000;
+    cursor: pointer;
+    display: inline-block;
+    width: 35px;
 }
-.gailan_curpage_bottom li.gailan_hover a{
-	color:#fff;
+.page-btn-long {
+    width: 50px;
+}
+.toPageNum {
+    margin-left: 10px;
+    width: 45px;
 }
