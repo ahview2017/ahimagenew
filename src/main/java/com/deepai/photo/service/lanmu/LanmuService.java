@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.deepai.photo.bean.CpColumnExample;
 import com.deepai.photo.bean.CpLanmu;
 import com.deepai.photo.bean.CpLanmuExample;
 import com.deepai.photo.bean.CpLanmuPicture;
@@ -254,5 +255,7 @@ public class LanmuService {
 		}
 		return list;
 	}
-
+	
+	
+	
 }
