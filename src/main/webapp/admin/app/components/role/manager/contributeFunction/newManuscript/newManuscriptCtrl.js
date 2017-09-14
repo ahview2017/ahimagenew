@@ -395,7 +395,12 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
             $('.ms-upinfo-box .ms-up-content-box').eq(j).fadeOut();
         }
         angular.forEach(vm.uploadEditPicList,function(item,index){
-            $scope.$apply(function(){
+        	//add by liu.jinfeng@20170914
+        	if(!item.bIsExif){
+        		vm.bIsExif = false;
+        		return;
+        	}
+        	$scope.$apply(function(){
 
                 vm.upMenuscriptPicArr.push({
                     id: item.id + '',
@@ -454,10 +459,16 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
         }).success(function (resp) {
            if(resp.code && resp.code == '211'){
                 vm.uploadEditPicList = resp.data;
-                console.log(vm.uploadEditPicList);
+                //console.log(vm.uploadEditPicList);
+                vm.bIsExif = true;
                 uploadedPicCallback(j);
                 displayed[j] = true;
-                if(j === vm.upMsTotalLen -1){
+                if(!vm.bIsExif){
+                	layer.alert("上传不包含Exif信息的图片失败");
+                	if((j+1) < vm.upMsTotalLen){
+               		 req_upMs(j+1);
+                	}
+                }else if(j === vm.upMsTotalLen -1){
                     console.log('显示完毕');
                    //操作结束清空input中的内容，解决input file表单无法重复上传同一个图片的问题
                      $('#picFile').val('');
