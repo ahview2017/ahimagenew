@@ -5,7 +5,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
         //弹框遮罩层
         .state('mask', {
             url:'/mask',
-            templateUrl: 'client/app/shared/mask/mask.html',
+            templateUrl: 'client_ah/app/shared/mask/mask.html',
             controller: 'maskCtrl as mask'
 
         })
@@ -485,7 +485,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             url:'/special/:id',
             views:{
                 'main@':{
-                    templateUrl: 'client/app/components/special/special.html',
+                    templateUrl: 'client_ah/app/components/special/special.html',
                     controller: 'specialCtrl as special'
                 }
             }
