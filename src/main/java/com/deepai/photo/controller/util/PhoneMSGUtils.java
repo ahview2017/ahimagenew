@@ -104,20 +104,21 @@ public class PhoneMSGUtils {
      *            手机号码
      * @param type
      *            短信类型 1:注册获取验证码
+     * @param vilidate 
      * @return {"code":"1","msg":"内容"} code:0失败，1成功
      * @throws Exception
      */
-    public JSONObject sendMsg(String phone, String type) throws Exception {
+    public JSONObject sendMsg(String phone, String type, Integer vilidate) throws Exception {
         JSONObject result = null;
         switch (type) {
         case TYPE_SEND_CODE:
-            result = sendPhoneCode(phone, TYPE_SEND_CODE);
+            result = sendPhoneCode(phone, TYPE_SEND_CODE,null);
             break;
         case TYPE_LOGIN_CODE:
-            result = sendPhoneCode(phone, TYPE_LOGIN_CODE);
+            result = sendPhoneCode(phone, TYPE_LOGIN_CODE,vilidate);
             break;
         case TYPE_FORGET_CODE:
-            result = sendPhoneCode(phone, TYPE_FORGET_CODE);
+            result = sendPhoneCode(phone, TYPE_FORGET_CODE,vilidate);
             break;
         default:
             break;
@@ -133,10 +134,11 @@ public class PhoneMSGUtils {
      *            手机号码
      * @param type
      *            短信类型
+     * @param vilidate 
      * @return
      * @throws Exception
      */
-    private JSONObject sendPhoneCode(String phone, String type)
+    private JSONObject sendPhoneCode(String phone, String type, Integer vilidate)
             throws Exception {
         String sContent = "";
         switch (type) {
@@ -158,8 +160,10 @@ public class PhoneMSGUtils {
         }
         // sysConfigService.
 
+        if(vilidate == null){
         // 6位随机验证码
-        Integer vilidate = (int) ((Math.random() * 9 + 1) * 100000);
+        vilidate = (int) ((Math.random() * 9 + 1) * 100000);
+        }
         sContent = String.format(sContent, vilidate);
 //        logger.info("发送内容是：" + sContent);
         // 发送信息
