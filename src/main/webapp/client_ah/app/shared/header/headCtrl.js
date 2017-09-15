@@ -557,6 +557,59 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 			}
 		});
 	}
+	
+	//获取首页栏目信息
+	vm.getselChildColumn = function (pColumnId) {
+        req_getselChildColumn(pColumnId);
+    };
+	
+	// 获取栏目信息
+	function req_getselChildColumn(pColumnId) {
+		req.post('enColumn/selChildColumn.do', {
+			pColumnId : pColumnId
+		}).success(function(resp) {
+			if (resp.code == '211') {
+				//新闻图片
+				if (pColumnId == 3064) {
+                    vm.newsPhoto = resp.data;
+					console.log('success');
+                }
+				//专题图片
+				if (pColumnId == 3077) {
+                    vm.topicPhoto = resp.data;
+					console.log('success');
+                }
+				//皖风徽韵
+				if (pColumnId == 3078) {
+                    vm.anhuiStyle = resp.data;
+                }
+				//历史资料
+				if (pColumnId == 3079) {
+                    vm.anhuiHistory = resp.data;
+                }
+				//各市图库
+				if (pColumnId == 3080) {
+                    vm.anhuiCitys = resp.data;
+                }
+				//视频VR
+				if (pColumnId == 3081) {
+                    vm.anhuiVideo = resp.data;
+                }
+				//艺苑菁华
+				if (pColumnId == 3082) {
+                    vm.artEssence = resp.data;
+                }
+				//互动空间
+				if (pColumnId == 3083) {
+                    vm.interactiveSpace = resp.data;
+                }
+				
+			} else {
+				console.log(resp.msg);
+			}
+		});
+	}
+	
 	getOnlineUserList();
 	// 获取在线用户列表
 	function getOnlineUserList() {
