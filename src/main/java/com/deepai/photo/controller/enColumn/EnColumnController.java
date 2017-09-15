@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.deepai.photo.bean.CpColumn;
+import com.deepai.photo.bean.CpLanmu;
 import com.deepai.photo.common.annotation.SkipLoginCheck;
 import com.deepai.photo.common.constant.CommonConstant;
 import com.deepai.photo.common.pojo.ResponseMessage;
@@ -100,5 +101,34 @@ public class EnColumnController {
 		}
 		return result;
 		
+	}
+	
+	
+	/**
+	 * 根据栏目ID查询子栏目
+	 * @author xiayunan
+	 * @date  2017-09-14
+	 * @param request
+	 * @param response
+	 * @param lanmuid
+	 * @return
+	 */
+	@ResponseBody
+	@SkipLoginCheck
+	@RequestMapping("/selChildColumn")
+	public Object selChildColumn(HttpServletRequest request, HttpServletResponse response, int pColumnId) {
+		ResponseMessage result = new ResponseMessage();
+		try {
+			List<CpColumn> cpCoLumnList = enColumnService.selectNextColumn(pColumnId);
+			result.setCode(CommonConstant.SUCCESSCODE);
+			result.setMsg(CommonConstant.SUCCESSSTRING);
+			result.setData(cpCoLumnList);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			log.error("查询栏目ID为【"+pColumnId+"】失败， " + e1.getMessage());
+			result.setCode(CommonConstant.EXCEPTIONCODE);
+			result.setMsg(CommonConstant.EXCEPTIONMSG);
+		}
+		return result;
 	}
 }
