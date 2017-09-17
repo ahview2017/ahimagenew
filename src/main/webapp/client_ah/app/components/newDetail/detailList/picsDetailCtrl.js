@@ -21,7 +21,9 @@ clientModule.controller('picsDetailCtrl', function ($scope, $cookies, req, md5, 
     //获取客户端稿件详情
     function getClientGroupPics(callback) {
         req.post('getPicture/getClientGroupPics.do', {
-            groupId: vm.groupId
+            groupId: vm.groupId,
+			picType: 1,
+			size: 2
         }).success(function (resp) {
             if (resp.code == '211') {
                 vm.clientPictureDetail = resp.data;
