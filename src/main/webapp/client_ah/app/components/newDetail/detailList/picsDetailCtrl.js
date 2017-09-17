@@ -5,6 +5,11 @@ clientModule.controller('picsDetailCtrl', function ($scope, $cookies, req, md5, 
     var vm = this;
     //从路由取得稿件id
     vm.groupId = $stateParams.groupId;
+
+	//从路由取得图片id
+    vm.pictureId = $stateParams.pictureId;
+
+
     //初始化页面相关配置
     function initSetting() {
         //选中图片id
@@ -89,6 +94,12 @@ clientModule.controller('picsDetailCtrl', function ($scope, $cookies, req, md5, 
             });
         }, 1000);
     });
+
+
+    // $(function(){
+    //     vm.picCount=$("#picCount").html();
+    //     $(".span_color_red").html=vm.picCount;
+    // })
 
 
     //判断是否选择了数据
@@ -230,16 +241,17 @@ clientModule.controller('picsDetailCtrl', function ($scope, $cookies, req, md5, 
     };
 
     //下载图片
-    vm.downPic = function () {
-        req_genereateOrder();
+    vm.downPic = function (picid) {
+        req_genereateOrder(picid);
     };
     //订户下载生成订单请求
-    function req_genereateOrder(callback) {
+    function req_genereateOrder(picid) {
         req.post('downloadPicture/downForOrder.do', {
-            picIds: vm.pictureId
+            picIds: picid
         }).success(function (resp) {
             if (resp.code == '211') {
-                vm.orderList = resp.other;
+
+				vm.orderList = resp.other;
                 vm.orderId = resp.other.id;
                 vm.pics= resp.data;
                 vm.orderDetailId='';
@@ -248,6 +260,7 @@ clientModule.controller('picsDetailCtrl', function ($scope, $cookies, req, md5, 
                 });
                 // alert(vm.orderDetailId);
                 $('#down-pic-order-modal').modal('show');
+
             }else if(resp.msg != '未登录'){
                layer.alert(resp.msg);
             }
@@ -360,9 +373,9 @@ clientModule.controller('picsDetailCtrl', function ($scope, $cookies, req, md5, 
     /**
      * 将图片加入购物车
      */
-    vm.onCartPicClick = function () {
+    vm.onCartPicClick = function (picid) {
         req.post("car/add.do", {
-            pictureId: vm.pictureId,
+            pictureId: picid,
         }).success(function (resp) {
             if (resp.code == '211') {
                 contacts=resp.data.contacts
