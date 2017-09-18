@@ -231,57 +231,57 @@
 				<li class="right_border tab_li" ng-init="header.getselChildColumn(3064)">
 					<a href="">新闻图片</a>
 					<div class="news_pic_alert rel_pad" style="display: none;">
-						<ul ng-repeat="item in header.newsPhoto">
-							<li><a ui-sref="root.moreSortList({sginId:item.id})" target="_blank">{{item.name}}</a></li>
+						<ul>
+							<li class="tab_li1" ng-repeat="item in header.newsPhoto"><a ui-sref="root.moreSortList({sginId:item.id})" target="_blank">{{item.name}}</a></li>
 						</ul>
 					</div></li>
 				<li class="right_border tab_li" ng-init="header.getselChildColumn(3077)">
 					<a href="">专题图片</a>
 					<div class="news_pic_alert1 rel_pad" style="display: none;">
-						<ul ng-repeat="item in header.topicPhoto">
-							<li><a ui-sref="root.moreSortList({sginId:item.id})" target="_blank">{{item.name}}</a></li>
+						<ul>
+							<li class="tab_li1" ng-repeat="item in header.topicPhoto"><a ui-sref="root.moreSortList({sginId:item.id})" target="_blank">{{item.name}}</a></li>
 						</ul>
 					</div></li>
 				<li class="right_border tab_li" ng-init="header.getselChildColumn(3078)">
 					<a href="">皖风徽韵</a>
 					<div class="news_pic_alert2 rel_pad" style="display: none;">
-						<ul ng-repeat="item in header.anhuiStyle">
-							<li><a ui-sref="root.moreSortList({sginId:item.id})" target="_blank">{{item.name}}</a></li>
+						<ul>
+							<li class="tab_li1" ng-repeat="item in header.anhuiStyle"><a ui-sref="root.moreSortList({sginId:item.id})" target="_blank">{{item.name}}</a></li>
 						</ul>
 					</div></li>
 				<li class="right_border tab_li" ng-init="header.getselChildColumn(3079)">
 					<a href="">历史资料</a>
 					<div class="news_pic_alert3 rel_pad" style="display: none;">
-						<ul ng-repeat="item in header.anhuiHistory">
-							<li><a ui-sref="root.moreSortList({sginId:item.id})" target="_blank">{{item.name}}</a></li>
+						<ul >
+							<li class="tab_li1" ng-repeat="item in header.anhuiHistory"><a ui-sref="root.moreSortList({sginId:item.id})" target="_blank">{{item.name}}</a></li>
 						</ul>
 					</div></li>
 				<li class="right_border tab_li" ng-init="header.getselChildColumn(3080)">
 					<a href="">各市图库</a>
 					<div class="news_pic_alert4 rel_pad" style="display: none;">
-						<ul ng-repeat="item in header.anhuiCitys">
-							<li><a ui-sref="root.moreSortList({sginId:item.id})" target="_blank">{{item.name}}</a></li>
+						<ul>
+							<li class="tab_li1" ng-repeat="item in header.anhuiCitys"><a ui-sref="root.moreSortList({sginId:item.id})" target="_blank">{{item.name}}</a></li>
 						</ul>
 					</div></li>
 				<li class="right_border tab_li" ng-init="header.getselChildColumn(3081)">
 					<a href="">视频VR</a>
 					<div class="news_pic_alert5 rel_pad" style="display: none;">
-						<ul ng-repeat="item in header.anhuiVideo">
-							<li><a ui-sref="root.moreSortList({sginId:item.id})" target="_blank">{{item.name}}</a></li>
+						<ul>
+							<li class="tab_li1" ng-repeat="item in header.anhuiVideo"><a ui-sref="root.moreSortList({sginId:item.id})" target="_blank">{{item.name}}</a></li>
 						</ul>
 					</div></li>
 				<li class="right_border tab_li" ng-init="header.getselChildColumn(3082)">
 					<a href="">艺苑菁华</a>
 					<div class="news_pic_alert6 rel_pad" style="display: none;">
-						<ul ng-repeat="item in header.artEssence">
-							<li><a ui-sref="root.moreSortList({sginId:item.id})" target="_blank">{{item.name}}</a></li>
+						<ul >
+							<li class="tab_li1" ng-repeat="item in header.artEssence"><a ui-sref="root.moreSortList({sginId:item.id})" target="_blank">{{item.name}}</a></li>
 						</ul>
 					</div></li>
 				<li class="right_border tab_li" ng-init="header.getselChildColumn(3083)">
 					<a href="">互动空间</a>
 					<div class="news_pic_alert7 rel_pad" style="display: none;">
-						<ul ng-repeat="item in header.interactiveSpace">
-							<li><a ui-sref="root.moreSortList({sginId:item.id})" target="_blank">{{item.name}}</a></li>
+						<ul>
+							<li class="tab_li1" ng-repeat="item in header.interactiveSpace"><a ui-sref="root.moreSortList({sginId:item.id})" target="_blank">{{item.name}}</a></li>
 						</ul>
 					</div></li>
 				<li class="tab_li"><a href="">掌上图库</a></li>
@@ -293,5 +293,9 @@
 		</div>
 	</div>
 </div>
-
+<div class="marquee_box">
+    <div class="marquee">
+	    <marquee behavior="scroll" scrollamount="5" direction="left" loop="-1" onMouseOut="this.start()" onMouseOver="this.stop()">通知：<a href="">视觉安徽图片新闻网滚动通知。</a></marquee>
+	</div>
+</div>
 <div class="clear"></div>

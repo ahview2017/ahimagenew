@@ -18,9 +18,9 @@ input[rel="index_submit"]{width:74px;height:42px;background: url("search_pic_03.
 .login_right span a{height:30px;width:40px;line-height: 30px;font-size: 14px;padding-left:32px;}
 .nav{width:100%;background:#333;height:50px;}
 .nav_content{width:1200px;margin:0 auto;height:50px;line-height:50px;position:relative;}
-.nav_content li{float:left;width:106px;height:50px;}
-.nav_content li img{margin-right:10px;margin-bottom:8px;}
-.nav_content li a{width:106px;height:24px;font-size: 16px;line-height:24px;margin:13px auto;color:#fff;text-align:center;display:inline-block;}
+.nav_content li.tab_li{float:left;width:106px;height:50px;}
+.nav_content li.tab_li img{margin-right:10px;margin-bottom:8px;}
+.nav_content li.tab_li a{width:106px;height:24px;font-size: 16px;line-height:24px;margin:13px auto;color:#fff;text-align:center;display:inline-block;}
 .nav_content li.right_border>a{border-right:1px solid #999;}
 .nav_content li.hover{background:#fff;border-top:4px solid #ee1d23;color:#ee1c22;}
 .nav_content li.hover>a{color:#ee1c22;}
@@ -33,7 +33,7 @@ input[rel="index_submit"]{width:74px;height:42px;background: url("search_pic_03.
 
 /*导航下拉效果*/
 .rel_pad{
-	width:400px;
+	width:1200px;
 	height:30px;
 	float:left;
 	position:absolute;	
@@ -56,7 +56,7 @@ input[rel="index_submit"]{width:74px;height:42px;background: url("search_pic_03.
 }
 .news_pic_alert4{
 	bottom:-30px;
-	left:520px;
+	left:248px;
 }
 .news_pic_alert5{
 	bottom:-30px;
@@ -70,17 +70,18 @@ input[rel="index_submit"]{width:74px;height:42px;background: url("search_pic_03.
 	bottom:-30px;
 	left:838px;
 }
-.rel_pad li{
+.rel_pad li.tab_li1{
 	float:left;
-	width:80px;
 	height:30px;
 	line-height: 30px;
+	margin-right:10px;
 	border:none;
 }
-.rel_pad li a{
+.rel_pad li.tab_li1 a{
 	color:#000;
 	font-size: 16px;
 	border:none;
+	width:auto;
 }
 .rel_pad li a:hover{
 	color:#ee1c22;
@@ -91,6 +92,9 @@ input[rel="index_submit"]{width:74px;height:42px;background: url("search_pic_03.
 	line-height: 30px;
 	height:30px;
 	font-size: 16px;
+}
+.marquee_box{
+	height:30px;
 }
 /*焦点图*/
 .slideBox{

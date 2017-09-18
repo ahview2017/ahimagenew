@@ -11,13 +11,13 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
                 //clickBarRadius: 3,
                 //width: 305,
                 //height: 549
-				mainCell:".bd ul",effect:"leftLoop",autoPlay:true,delayTime:1000,titCell:".btn li"
+				mainCell:".bd ul",effect:"leftLoop",autoPlay:true,delayTime:500,titCell:".btn li"
             });
         }, 1000);
     });
 	
 	/**导航切换效果*/
-	$(function () {
+	/*$(function () {
         var dz=$('li.tab_li');
         var b;
         for (var p=0; p< dz.length; p++) {
@@ -33,11 +33,13 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
     $(document).ready(function(){
         $('li.tab_li').mousemove(function(){
             $(this).find('.rel_pad').show();
+            $('.marquee').hide();
         });
         $('li.tab_li').mouseleave(function(){
             $(this).find('.rel_pad').hide();
+            $('.marquee').show();
         });
-    });
+    });*/
 	
     /**登录、注册模块js 20170910 
             function register(){
@@ -111,7 +113,6 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
         initSetting();
         //req_getClientPicture();
         //getClientGroupPics();
-
     }
 
     init();
