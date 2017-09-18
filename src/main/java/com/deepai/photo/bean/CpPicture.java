@@ -120,6 +120,7 @@ public class CpPicture {
     private String smallPath;
     private String wmPath;
     private String oriAllPath;
+    private String filePath;//add by xiayunan 20170917
     
 	public String getOriAllPath() {
 		return oriAllPath;
@@ -599,4 +600,12 @@ public class CpPicture {
     public void setSortId(Integer sortId) {
         this.sortId = sortId;
     }
+
+	public String getFilePath() {
+		return filePath;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
 }

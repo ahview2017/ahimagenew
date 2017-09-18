@@ -199,13 +199,13 @@ public class GetPicture {
 			if(picType == 1){
 			    for (Map<String,Object> map:list) {
                     if(map.containsKey("FILENAME")){
-                        map.put("FilePath", CommonConstant.SMALLHTTPPath+ImgFileUtils.getWMPathByNameAndSize(map.get("FILENAME").toString(),request,size));
+                        map.put("filePath", CommonConstant.SMALLHTTPPath+ImgFileUtils.getWMPathByNameAndSize(map.get("FILENAME").toString(),request,size));
                     }
 			    }
 			}else{
 			    for (Map<String,Object> map:list) {
                     if(map.containsKey("FILENAME")){
-                        map.put("FilePath", CommonConstant.SMALLHTTPPath+ImgFileUtils.getPathByNameAndSize(map.get("FILENAME").toString(),request,size));
+                        map.put("filePath", CommonConstant.SMALLHTTPPath+ImgFileUtils.getPathByNameAndSize(map.get("FILENAME").toString(),request,size));
                     }
                 }
 			}
@@ -273,7 +273,7 @@ public class GetPicture {
 			for (Map<String,Object> map:list) {
 				if(map.containsKey("FILENAME")){
 //					map.put("samllPath", CommonConstant.SMALLHTTPPath+ImgFileUtils.getSamllPathByName(map.get("FILENAME").toString(),request));
-                    map.put("FilePath", CommonConstant.SMALLHTTPPath+ImgFileUtils.getPathByNameAndSize(map.get("FILENAME").toString(),request,2));
+                    map.put("filePath", CommonConstant.SMALLHTTPPath+ImgFileUtils.getPathByNameAndSize(map.get("FILENAME").toString(),request,2));
 				}
 			}
 			result.setCode(CommonConstant.SUCCESSCODE);
@@ -351,10 +351,15 @@ public class GetPicture {
 	@ResponseBody
 	@RequestMapping("/getClientGroupPics")
 	@SkipLoginCheck
-	public Object getClientGroupPics(HttpServletRequest request,Integer groupId){
+	public Object getClientGroupPics(HttpServletRequest request,Integer groupId,Integer picType,Integer size){
 		ResponseMessage result=new ResponseMessage();
 		try {
 			CommonValidation.checkParamBlank(groupId+"", "稿件id");
+			
+			//设置默认值 默认非水印，最小图
+            picType = picType==null?0:picType;
+            size = size==null?1:size;
+			
 			CpPicGroup group= clientPictureMapper.selectClientGroupPics(groupId);
 			if(group==null){
 				throw new InvalidHttpArgumentException(CommonConstant.NULLCODE, String.format("不存在稿件Id=%s的稿子", groupId));
@@ -362,8 +367,29 @@ public class GetPicture {
 			if(group.getPics()!=null){
 				for (CpPicture pic:group.getPics()) {
 					if(pic.getFilename()!=null){
-						pic.setSmallPath(CommonConstant.SMALLHTTPPath+ImgFileUtils.getSamllPathByName(pic.getFilename(),request));
-						pic.setWmPath(CommonConstant.SMALLHTTPPath+ImgFileUtils.getWMPathByName(pic.getFilename(),request));
+						//add by xiayunan20170917
+						if(picType == 1){
+							pic.setFilePath(CommonConstant.SMALLHTTPPath+ImgFileUtils.getWMPathByNameAndSize(pic.getFilename(),request,size));
+						}else{
+							pic.setFilePath(CommonConstant.SMALLHTTPPath+ImgFileUtils.getPathByNameAndSize(pic.getFilename(),request,size));
+						}
+						
+//						if(picType == 1){
+//						    for (Map<String,Object> map:list) {
+//			                    if(map.containsKey("FILENAME")){
+//			                        map.put("FilePath", CommonConstant.SMALLHTTPPath+ImgFileUtils.getWMPathByNameAndSize(map.get("FILENAME").toString(),request,size));
+//			                    }
+//						    }
+//						}else{
+//						    for (Map<String,Object> map:list) {
+//			                    if(map.containsKey("FILENAME")){
+//			                        map.put("FilePath", CommonConstant.SMALLHTTPPath+ImgFileUtils.getPathByNameAndSize(map.get("FILENAME").toString(),request,size));
+//			                    }
+//			                }
+//						}
+						
+//						pic.setSmallPath(CommonConstant.SMALLHTTPPath+ImgFileUtils.getSamllPathByName(pic.getFilename(),request));
+//						pic.setWmPath(CommonConstant.SMALLHTTPPath+ImgFileUtils.getWMPathByName(pic.getFilename(),request));
 					}
 				}
 			}
