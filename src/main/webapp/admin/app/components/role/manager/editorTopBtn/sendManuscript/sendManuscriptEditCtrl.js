@@ -159,7 +159,7 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
             angular.forEach(category,function(item,index){
                 if(item.categoryName == '新闻类别'){
                     vm.categories = item.categories;
-                    console.log(vm.categories);
+                    //console.log(vm.categories);
                     loadEditSortZTree();
                 }
             });
@@ -197,7 +197,7 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
 					$(".smt-detail-video").show();
 				}
 				vm.masUrl =  $sce.trustAsResourceUrl(vm.masUrl);
-				console.log(resp.data);
+				//console.log(resp.data);
                 vm.groupStatus = resp.data.groupStatus;
                 vm.manuscriptPlaceArr = resp.data.place.split(' ');
                 vm.manuscriptPicResult = resp.data.pics;
@@ -209,7 +209,7 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
                     vm.manuscriptCates = resp.data.cates;
                 }
                 if(callback) callback();
-                console.log('success');
+                //console.log('success');
             }else if(resp.msg != '未登录'){
                 layer.alert(resp.msg);
             }
@@ -293,8 +293,8 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
                categoryNameArr.push(nodes[i].categoryName);
                cateIdParamStr = cateIdParamArr.join();
                vm.categoryNameStr = categoryNameArr.join();
-               console.log(cateIdParamStr);
-               console.log(vm.categoryNameStr);
+              // console.log(cateIdParamStr);
+               //console.log(vm.categoryNameStr);
            //}
        }
        return cateIdParamStr;
@@ -302,7 +302,7 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
 
     // 确定编辑稿件分类
     vm.confirmEditMsSorts = function(){
-       console.log(getChildNodesSortId());
+       //console.log(getChildNodesSortId());
         if(getChildNodesSortId() == ''){
             layer.alert('请选择稿件类别');
             return;
@@ -319,11 +319,11 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
             	angular.forEach(category, function (item, index) {
                 if (item.categoryName == '新闻类别') {
                     vm.selCpCategories  = item.categories;
-                    console.log(vm.selCpCategories);
+                    //console.log(vm.selCpCategories);
 	                }
 	            });
                 if (callback) callback(resp.data);
-                console.log('success');
+                //console.log('success');
             }else if(resp.msg != '未登录'){
                 layer.alert(resp.msg);
             }
@@ -376,7 +376,7 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
     }
     //选择用户展示方式
     vm.choseUnameShowWay = function(){
-        console.log(vm.photoUNameWay);
+        //console.log(vm.photoUNameWay);
         //如果是默认的作者名，没有修改过
         if(!vm.hasSeledUNameFlag && !vm.addAuthorItemFlag){
             if((vm.photoUNameWay == '0')){
@@ -507,7 +507,7 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
     //上传稿件请求
     function req_upMs(j){
         var formdata = new FormData();
-        console.log(vm.upMsFiles[j]);
+        //console.log(vm.upMsFiles[j]);
         formdata.append('picFiles', vm.upMsFiles[j]);
         formdata.append("langType",lang);
         $.ajax({
@@ -539,11 +539,18 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
         }).success(function (resp) {
             if(resp.code && resp.code == '211'){
                 vm.uploadEditPicList = resp.data;
-                console.log(vm.uploadEditPicList);
+               // console.log(vm.uploadEditPicList);
+                vm.bIsExif = true;
                 uploadedPicCallback(j);
                 displayed[j] = true;
-                if(j === vm.upMsTotalLen -1){
-                    console.log('显示完毕');
+                if(!vm.bIsExif){
+                	layer.alert("上传不包含Exif信息的图片失败");
+                	if((j+1) < vm.upMsTotalLen){
+               		 req_upMs(j+1);
+                	}
+               		 
+                }else if(j === vm.upMsTotalLen -1){
+                    //console.log('显示完毕');
                     //操作结束清空input中的内容，解决input file表单无法重复上传同一个图片的问题
                     $('#picFile').val('');
                 }else if(j < vm.upMsTotalLen){
@@ -559,7 +566,7 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
                 }
             }
         }).error(function (resp) {
-            console.log(resp);
+            //console.log(resp);
         });
     }
 
@@ -570,6 +577,11 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
             $('.ms-upinfo-box .ms-up-content-box').eq(j).fadeOut();
         }
         angular.forEach(vm.uploadEditPicList,function(item,index){
+        	//add by liu.jinfeng@20170914
+        	if(!item.bIsExif){
+        		vm.bIsExif = false;
+        		return;
+        	}
             $scope.$apply(function(){
                 vm.upMenuscriptPicArr.push({
                     id: item.id + '',
@@ -639,8 +651,8 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
                 vm.upMsFiles = Array.prototype.slice.call(element.files,0);
                 vm.upMsFiles.splice(i,1);
                 vm.upMsTotalLen = vm.upMsFiles.length;
-                console.log(vm.upMsFiles);
-                console.log(vm.upMsTotalLen);
+                //console.log(vm.upMsFiles);
+                //console.log(vm.upMsTotalLen);
             }
         }
         return false; // 必须返回false，否则表单会自己再做一次提交操作，并且页面跳转
@@ -697,7 +709,7 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
     //获取图片的相关参数
     function getPicDataParams(){
         //获取picData参数
-        console.log(typeof angular.toJson(vm.upMenuscriptPicArr,true));
+        //console.log(typeof angular.toJson(vm.upMenuscriptPicArr,true));
         angular.forEach(vm.upMenuscriptPicArr,function(item,index){
             vm.manuscriptPicData.push({
                 id: item.id + '',
@@ -711,7 +723,7 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
                 filmTime: vm.upMenuscriptPicArr[index].filmTime + ' 00:00:00'
             })
         });
-        console.log(vm.manuscriptPicData);
+       // console.log(vm.manuscriptPicData);
     }
     //获取地点参数
     function getPlaceParams(){
@@ -849,7 +861,7 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
                 layer.alert(resp.msg);
             }
         }).error(function(resp){
-            console.log('error');
+            //console.log('error');
             layer.close(vm.loadUpMs);
             //todo 因为net::ERR_INCOMPLETE_CHUNKED_ENCODING错误暂时这么处理
             $state.go('role.manager.sendManuscriptDetail',{id: vm.groupId,dtType:vm.dtType});
@@ -867,7 +879,7 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
             groupId: vm.groupId
         }).success(function(resp){
             if(resp.code == '211'){
-                console.log('success');
+                //console.log('success');
                 $state.go('role.manager.sendManuscriptDetail',{id: vm.groupId,dtType:vm.dtType});
             }else if(resp.msg != '未登录'){
                 layer.alert(resp.msg);

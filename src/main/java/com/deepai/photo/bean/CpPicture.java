@@ -121,7 +121,16 @@ public class CpPicture {
     private String wmPath;
     private String oriAllPath;
     private String filePath;//add by xiayunan 20170917
+    //add by liu.jinfeng@2017年9月14日 下午7:00:20
+    private boolean bIsExif;
     
+    public boolean isbIsExif() {
+        return bIsExif;
+    }
+
+    public void setbIsExif(boolean bIsExif) {
+        this.bIsExif = bIsExif;
+    }
 	public String getOriAllPath() {
 		return oriAllPath;
 	}
