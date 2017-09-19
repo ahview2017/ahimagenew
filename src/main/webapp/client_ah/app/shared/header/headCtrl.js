@@ -35,6 +35,35 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 			}
 		}
 	};
+	
+
+	/**导航切换效果*/
+	$(function () {
+        var dz=$('li.tab_li');
+        var b;
+        for (var p=0; p< dz.length; p++) {
+            dz[p].max=p;
+            dz[p].onmouseover=function  () {
+                dz.removeClass("hover"); 
+                $(this).addClass("hover");
+                b=this.max;
+            }
+        }
+    });
+	//头部一级导航菜单效果
+    $(document).ready(function(){
+        $('li.tab_li').mousemove(function(){
+            $(this).find('.rel_pad').show();
+            $('.marquee').hide();
+        });
+        $('li.tab_li').mouseleave(function(){
+            $(this).find('.rel_pad').hide();
+            $('.marquee').show();
+        });
+    });
+
+
+
 	// 登录按钮
 	vm.login_user = function() {
 		$("#gray").css("display", 'block');

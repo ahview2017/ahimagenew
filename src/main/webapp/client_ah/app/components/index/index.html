@@ -1,6 +1,8 @@
-	    <div class="marquee">
+	    <!-- <div class="marquee_box">
+        <div class="marquee">
 	        <marquee behavior="scroll" scrollamount="5" direction="left" loop="-1" onMouseOut="this.start()" onMouseOver="this.stop()">通知：<a href="">视觉安徽图片新闻网滚动通知。</a></marquee>
 	    </div>
+        </div> -->
 		<!-- 通栏广告 -->
 	    <div class="main_box">
 	        <div class="special_pic">
@@ -17,7 +19,7 @@
                     <ul ng-init="index.getClientGroups(3067,5,1,2)">
                         <li ng-repeat="item in index.toddayNews track by $index">
                             <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
-								<img ng-src="{{item.FilePath}}" width="1200" height="480">
+								<img ng-src="{{item.filePath}}" width="1200" height="480">
 							</a>
                             <p><a ui-sref="root.newDetailList({groupId: item.ID})">{{item.TITLE || '尚未签发'}}</a></p>
                         </li>
@@ -48,7 +50,7 @@
                     <ul>
                         <li ng-repeat="item in index.newsPhoto track by $index">
 							<a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
-								<img ng-src="{{item.FilePath}}" width="386" height="245">
+								<img ng-src="{{item.filePath}}" width="386" height="245">
 							</a>
                             <p class="split_string"><a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">{{item.TITLE}}</a></p>
                         </li>
@@ -88,14 +90,14 @@
                         <div class="hfwy_content" ng-init="index.getClientGroups(3078,5,0,2)">
                             <div class="hfwy_content_1 left" ng-repeat="item in index.anhuiStyle track by $index" ng-if="$first">
 								<a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
-									<img ng-src="{{item.FilePath}}" width="254" height="348">
+									<img ng-src="{{item.filePath}}" width="254" height="348">
 								</a>
                                 <p class="split_string"><a href="">{{item.TITLE}}</a></p>
                             </div>
                             <div class="hfwy_content_2 right">
                                 <div class="hfwy_content_2_1" ng-repeat="item in index.anhuiStyle track by $index" ng-if="!$first">
 									<a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
-										<img ng-src="{{item.FilePath}}" width="255" height="164">
+										<img ng-src="{{item.filePath}}" width="255" height="164">
 									</a>
                                     <p class="split_string"><a href="">{{item.TITLE}}</a></p>
                                 </div>
@@ -118,7 +120,7 @@
                         <div class="yyjh_content" ng-init="index.getClientGroups(3082,3,0,2)">
                             <div class="yyjh_content_1" ng-repeat="item in index.artEssence track by $index">
 								<a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
-									<img ng-src="{{item.FilePath}}" height="198" width="254">
+									<img ng-src="{{item.filePath}}" height="198" width="254">
 								</a>
                                 <p class="split_string"><a href="">{{item.TITLE}}</a></p>
                             </div>
@@ -153,19 +155,19 @@
                         <div class="gstk_content" ng-init="index.getClientGroups(3080,3,0,2)">
                             <div class="gstk_content_1 left" ng-repeat="item in index.anhuiCitys track by $index" ng-if="$first">
 								<a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
-									<img ng-src="{{item.FilePath}}" height="165" width="254">
+									<img ng-src="{{item.filePath}}" height="165" width="254">
 								</a>
                                 <p class="split_string"><span>[合肥]</span><a href="">{{item.TITLE}}</a></p>
                             </div>
                             <div class="gstk_content_2 gstk_content_1 left" ng-repeat="item in index.anhuiCitys track by $index" ng-if="$middle">
 								<a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
-									<img ng-src="{{item.FilePath}}" height="165" width="254">
+									<img ng-src="{{item.filePath}}" height="165" width="254">
 								</a>
                                 <p class="split_string"><span>[芜湖]</span><a href="">{{item.TITLE}}</a></p>
                             </div>
                             <div class="gstk_content_1 right" ng-repeat="item in index.anhuiCitys track by $index" ng-if="$last">
 								<a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
-									<img ng-src="{{item.FilePath}}" height="165" width="254">
+									<img ng-src="{{item.filePath}}" height="165" width="254">
 								</a>
                                 <p class="split_string"><span>[合肥]</span><a href="">{{item.TITLE}}</a></p>
                             </div>
@@ -203,7 +205,7 @@
                         </div>
                         <div class="sp_content" ng-repeat="item in index.anhuiVideo track by $index">
 							<a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
-								<img ng-src="{{item.FilePath}}" width="329" height="198">
+								<img ng-src="{{item.filePath}}" width="329" height="198">
 							</a>
                             <p class="split_string"><a href="">{{item.TITLE}}</a></p>
                         </div>
@@ -240,7 +242,7 @@
                     <ul>
                         <li ng-repeat="item in index.anhuiHistory track by $index">
 							<a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
-								<img ng-src="{{item.FilePath}}" width="390" height="245">
+								<img ng-src="{{item.filePath}}" width="390" height="245">
 							</a>
                             <div class="history_subtitle">
                                 <p class="split_string"><a href="">{{item.TITLE}}</a></p>

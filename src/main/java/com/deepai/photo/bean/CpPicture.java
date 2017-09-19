@@ -120,7 +120,17 @@ public class CpPicture {
     private String smallPath;
     private String wmPath;
     private String oriAllPath;
+    private String filePath;//add by xiayunan 20170917
+    //add by liu.jinfeng@2017年9月14日 下午7:00:20
+    private boolean bIsExif;
     
+    public boolean isbIsExif() {
+        return bIsExif;
+    }
+
+    public void setbIsExif(boolean bIsExif) {
+        this.bIsExif = bIsExif;
+    }
 	public String getOriAllPath() {
 		return oriAllPath;
 	}
@@ -599,4 +609,12 @@ public class CpPicture {
     public void setSortId(Integer sortId) {
         this.sortId = sortId;
     }
+
+	public String getFilePath() {
+		return filePath;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
 }
