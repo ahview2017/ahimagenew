@@ -6,22 +6,24 @@
         </div>
         <div class="pic_detail_content_box">
             <div class="ditail_title">
-                <p>{{picsDetail.clientPictureDetail.title}}</p>
+                <p style="text-align:center;">{{picsDetail.clientPictureDetail.title}}</p>
             </div>
             <div class="detial_main_box">
-                <div class="detial_content_pic">
+				
+				<div class="iframeBox" ng-if="picsDetail.videoId!=0">
+					<iframe frameborder="0" width="800" height="560" scrolling="no" style="margin:0 auto;display: block;" src="{{picsDetail.masUrl}}"></iframe>
+				</div>
+				
+                <div class="detial_content_pic" ng-if="picsDetail.videoId==0">
                     <div class="pic_show left">
                         <ul  ng-init="picsDetail.clientPictureDetail({groupId: picsDetail.single.id})">
                             <li ng-repeat="item in picsDetail.clientPictureDetail.pics">
 							<div class="pics_img_box">
-								<div ng-if="item.videoid==0" class="imgBOX">
+								<div  class="imgBOX">
 									<a href="{{item.filePath}}" target="_blank"><img ng-src="{{item.filePath}}" style="max-width:800px;max-height:560px"></a><!--width="895" height="560"-->
 								</div>
 							</div>
-								
-								<span ng-if="item.videoid!=0">
-									 <iframe src="{{picsDetail.masUrl}}" frameborder="0" width="800" height="550" scrolling="no" ></iframe>
-								</span>
+
                                 <div class="pic_state right">
                                     <div class="pic_state_title">
                                         图片信息
