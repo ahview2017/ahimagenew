@@ -580,17 +580,17 @@ input[rel="index_submit"]{width:74px;height:42px;background: url("search_pic_03.
 	height:300px;
 	overflow:hidden;
 }
-.eric_list{
+.ericnews_box li{
 	float:left;
 	height:300px;
 	width:214px;
 	border:2px solid #ddd;
 }
-.ericnews_box div:nth-child(2){
+.ericnews_box li:nth-child(2){
 	margin-left:18px;
 	margin-right:19px;
 }
-.ericnews_box div:nth-child(4){
+.ericnews_box li:nth-child(4){
 	margin-left:18px;
 	margin-right:19px;
 }
