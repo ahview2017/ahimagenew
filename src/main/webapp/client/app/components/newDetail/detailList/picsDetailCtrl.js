@@ -150,6 +150,7 @@ clientModule.controller('picsDetailCtrl', function ($scope, $cookies, req, md5, 
         window.open('/photo/downloadPicture/downByOrder.do' + params, '_blank');
     }
 
+    
     //根据订单详情id下载图片
     vm.sureDownPicByOrderDetail = function (details, downWay) {
         req_sureDownPicByOrderDetailId(details, downWay);

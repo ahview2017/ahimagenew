@@ -295,7 +295,6 @@ public class XHDataMigrationForWinController {
     								result.setCode(CommonConstant.SUCCESSCODE);
     								result.setMsg(CommonConstant.SUCCESSSTRING);
     								result.setOther(String.format("三审审核提交稿件groupid=【%s】",group.getId()));
-    								log.info("第"+(++SUCCESS_PIC_NUM)+"篇稿件迁移成功,稿件标题："+title+"！");
     							}
     						}
     						log.info("第"+(++SUCCESS_PIC_NUM)+"篇稿件迁移成功,稿件标题："+title+"！");

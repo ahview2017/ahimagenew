@@ -53,9 +53,9 @@ import cnml.node.Titles;
  *
  */
 @Controller
-@RequestMapping("/historyLayoutDataExchangeForWinCtro")
-public class HistoryLayoutDataExchangeForWinController {
-	private  Logger log=Logger.getLogger(HistoryLayoutDataExchangeForWinController.class);
+@RequestMapping("/historyLayoutDataExchange")
+public class HistoryLayoutDataExchangeController {
+	private  Logger log=Logger.getLogger(HistoryLayoutDataExchangeController.class);
 	@Autowired
 	private  PictureDataExchangeService pictureService;
 	@Autowired
@@ -65,14 +65,14 @@ public class HistoryLayoutDataExchangeForWinController {
 	@Autowired
 	private CpPicGroupMapper cpPicGroupMapper;
 	public static final String SESSION_LANGTYPE = "session_langType";
-	private static final int FIRST_EDIT_ID = 338;
-	private static final int SECOND_EDIT_ID = 339;
-	private static final int THIRD_EDIT_ID = 340;
-	private static final String AUTHOR_NAME = "秋天";
-	private static final int AUTHOR_ID = 338;
+	private static final int FIRST_EDIT_ID = 339;
+	private static final int SECOND_EDIT_ID = 340;
+	private static final int THIRD_EDIT_ID = 341;
+	private static final String AUTHOR_NAME = "第一审核人";
+	private static final int AUTHOR_ID = 339;
 	private static final int DATA_EXCHANGE_CHNL_ID = 3063;
 	private static final String FILE_SEP = File.separator;
-	private static final int HISTORY_LAYOUT_COLUMN_ID = 100182643;//历史版面分类ID
+	private static final int HISTORY_LAYOUT_COLUMN_ID = 100182653;//历史版面分类ID
 	private static int SUCCESS_PIC_NUM = 0;
 	private static int FAILED_PIC_NUM = 0;
 	
@@ -82,13 +82,13 @@ public class HistoryLayoutDataExchangeForWinController {
 	 * @param response
 	 * @return
 	 */
-//	@ResponseBody
+	@ResponseBody
 	@SkipLoginCheck
 	@RequestMapping("/upPic")
 	public Object showQianFaTopic(HttpServletRequest request, HttpServletResponse response) {
 		ResponseMessage result=new ResponseMessage();
 		log.info("============================历史版面图片迁移开始！===========================");
-		String rootPicPath = "D:\\uniphoto\\199205\\";
+		String rootPicPath = FILE_SEP+"home"+FILE_SEP+"temp"+FILE_SEP+"historylayout";
 		result = traverseFolder(rootPicPath,result);
 		log.info("============================历史版面图片迁移结束！===========================");
 		log.info("信件迁移结束！成功数："+SUCCESS_PIC_NUM+"失败数："+FAILED_PIC_NUM+"!");
@@ -200,7 +200,7 @@ public class HistoryLayoutDataExchangeForWinController {
     							
     							CpPicGroupCategory cpPicGroupCategory1 = new CpPicGroupCategory();
     							cpPicGroupCategory1.setType(0);
-    							cpPicGroupCategory1.setCategoryId(473);
+    							cpPicGroupCategory1.setCategoryId(3096);
     							List<CpPicGroupCategory> list = new ArrayList<CpPicGroupCategory>();
     							list.add(cpPicGroupCategory);
     							list.add(cpPicGroupCategory1);

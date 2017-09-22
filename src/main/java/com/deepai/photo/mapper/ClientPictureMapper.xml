@@ -48,6 +48,8 @@
     <result column="SOURCE_ID" property="sourceId" jdbcType="INTEGER" />
     <result column="SGIN_TIME" property="sginTime" jdbcType="TIMESTAMP" />
     <result column="LOCATION_TYPE" property="locationType" jdbcType="INTEGER" />
+    <result column="MASVIDEO_SIGN" property="masvideoSign" jdbcType="INTEGER" />
+    <result column="VIDEO_ID" property="videoId" jdbcType="INTEGER" />
     <collection property="cates" ofType="com.deepai.photo.bean.CpCategory">
     	<id column="cid" property="id" jdbcType="INTEGER" />
 		<result column="CATEGORY_NAME" property="categoryName" jdbcType="VARCHAR" />

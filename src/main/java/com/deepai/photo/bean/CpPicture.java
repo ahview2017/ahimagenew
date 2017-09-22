@@ -123,6 +123,16 @@ public class CpPicture {
     private String filePath;//add by xiayunan 20170917
     //add by liu.jinfeng@2017年9月14日 下午7:00:20
     private boolean bIsExif;
+    private Integer videoid;//add by xiayunan 20170922
+
+	public Integer getVideoid() {
+		return videoid;
+	}
+
+	public void setVideoid(Integer videoid) {
+		this.videoid = videoid;
+	}
+
     
     public boolean isbIsExif() {
         return bIsExif;

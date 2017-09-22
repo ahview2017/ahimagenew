@@ -44,15 +44,14 @@ import com.google.gson.reflect.TypeToken;
 
 /**
  * 安徽日报旧图片库数据迁移接口
- * 生产环境专用
  * @author xiayunan
  * @date   2017年9月21日
  *
  */
 @Controller
 @RequestMapping("/ahrbHistoryDataExchangeCtro")
-public class AhrbHistoryDataExchangeController {
-	private Logger log=Logger.getLogger(AhrbHistoryDataExchangeController.class);
+public class AhrbHistoryDataExchangeForTestController {
+	private Logger log=Logger.getLogger(AhrbHistoryDataExchangeForTestController.class);
 	@Autowired
 	private PictureDataExchangeService pictureService;
 	@Autowired
@@ -62,12 +61,13 @@ public class AhrbHistoryDataExchangeController {
 	@Autowired
 	private CpPicGroupMapper cpPicGroupMapper;
 	public static final String SESSION_LANGTYPE = "session_langType";
-	private static final int FIRST_EDIT_ID = 409;
-	private static final int SECOND_EDIT_ID = 406;
-	private static final int THIRD_EDIT_ID = 352;
-	private static final String AUTHOR_NAME = "吴文兵";
-	private static final int AUTHOR_ID = 409;
-	private static final int DATA_EXCHANGE_CHNL_ID = 3066;//数据迁移专用栏目
+	private static final int FIRST_EDIT_ID = 339;
+	private static final int SECOND_EDIT_ID = 340;
+	private static final int THIRD_EDIT_ID = 341;
+	private static final String AUTHOR_NAME = "第一审核人";
+	private static final int AUTHOR_ID = 339;
+	private static final int DATA_EXCHANGE_CHNL_ID = 3066;
+	private static final String FILE_SEP = File.separator;
 	private static int SUCCESS_PIC_NUM = 0;
 	private static int FAILED_PIC_NUM = 0;
 	private static Map<String,Integer> categoryMap = null;
@@ -95,16 +95,14 @@ public class AhrbHistoryDataExchangeController {
 		 categoryMap.put("重大事件", 1774);
 		 categoryMap.put("中央领导", 1775);
 		 categoryMap.put("省领导", 1777);
-		 categoryMap.put("外事", 100182648);
+		 categoryMap.put("外交", 100182648);
 		 categoryMap.put("旅游", 100182649);
 		 categoryMap.put("民族宗教", 1767);
 		 categoryMap.put("美术", 100182650);
 		 categoryMap.put("世界各地", 1770);
 		 categoryMap.put("新华社", 1771);
 		 categoryMap.put("历史资料", 1772);
-		 categoryMap.put("历史版面", 100182653);
-		 categoryMap.put("交通", 100182654);
-		 categoryMap.put("视频", 100182655);
+		 categoryMap.put("历史版面", 1773);
 		 //老系统栏目分类
 //		 oldCategoryMap = new HashMap<String, String>();
 //		 oldCategoryMap.put("ahrb", "安徽日报");
@@ -129,8 +127,8 @@ public class AhrbHistoryDataExchangeController {
 		 
 		 oldCategoryMap = new HashMap<String, Integer>();
 		 oldCategoryMap.put("ahrb", 1772);
-		 oldCategoryMap.put("ahrb_anhuird", 1777);
-		 oldCategoryMap.put("ahrb_anhuizx", 1777);
+		 oldCategoryMap.put("ahrb_anhuird", 1772);
+		 oldCategoryMap.put("ahrb_anhuizx", 1772);
 		 oldCategoryMap.put("ahrb_dianxrw", 1773);
 		 oldCategoryMap.put("ahrb_guojiard", 1775);
 		 oldCategoryMap.put("ahrb_guojiazx", 1775);
@@ -170,12 +168,12 @@ public class AhrbHistoryDataExchangeController {
 		try {
 			log.info("============================信件迁移开始！===========================");
 			conn =  getConnection();
-			String sql = "SELECT * FROM uninews_Product a WHERE UP_SignDate_DT BETWEEN '2017-09-01' AND '2017-09-22'";
+			String sql = "SELECT * FROM uninews_Product a WHERE UP_SignDate_DT BETWEEN '2017-09-01' AND '2017-09-02'";
 	        pstmt = (PreparedStatement)conn.prepareStatement(sql);
 	        log.info("获取数据库连接成功！");
 	        rs = pstmt.executeQuery();
 	        int col = rs.getMetaData().getColumnCount();
-	        log.info("<<<<<<<<<总记录数："+col);
+	        log.info("<<<<<<<<<总记录数：");
 	        while (rs.next()) {
 	        	String dateStr = "";//日期
 				String title = "";//标题
@@ -284,7 +282,7 @@ public class AhrbHistoryDataExchangeController {
 						
 						CpPicGroupCategory cpPicGroupCategory1 = new CpPicGroupCategory();
 						cpPicGroupCategory1.setType(0);
-						cpPicGroupCategory1.setCategoryId(3094);//前台签发栏目  历史资料》历史图片
+						cpPicGroupCategory1.setCategoryId(473);
 						List<CpPicGroupCategory> list = new ArrayList<CpPicGroupCategory>();
 						list.add(cpPicGroupCategory);
 						list.add(cpPicGroupCategory1);

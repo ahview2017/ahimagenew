@@ -40,8 +40,6 @@ public class TrsSearchUtil {
 	      for (char _char : LIKE_CHARS) {
 	        str = StringUtils.replace(str, String.valueOf(_char), LIKE_QUOTE_STR + _char);
 	      }
-	      
-	      
 	    }
 	    return str;
 	  }

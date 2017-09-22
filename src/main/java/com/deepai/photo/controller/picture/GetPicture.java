@@ -356,7 +356,7 @@ public class GetPicture {
 		try {
 			CommonValidation.checkParamBlank(groupId+"", "稿件id");
 			
-			//设置默认值 默认非水印，最小图
+//			//设置默认值 默认非水印，最小图
             picType = picType==null?0:picType;
             size = size==null?1:size;
 			
@@ -364,6 +364,8 @@ public class GetPicture {
 			if(group==null){
 				throw new InvalidHttpArgumentException(CommonConstant.NULLCODE, String.format("不存在稿件Id=%s的稿子", groupId));
 			}
+			int videoid = group.getVideoId();
+			logger.info("<<<<<<<<<<<videoid:"+videoid);
 			if(group.getPics()!=null){
 				for (CpPicture pic:group.getPics()) {
 					if(pic.getFilename()!=null){
@@ -373,7 +375,8 @@ public class GetPicture {
 						}else{
 							pic.setFilePath(CommonConstant.SMALLHTTPPath+ImgFileUtils.getPathByNameAndSize(pic.getFilename(),request,size));
 						}
-						
+						pic.setVideoid(videoid);
+					
 //						if(picType == 1){
 //						    for (Map<String,Object> map:list) {
 //			                    if(map.containsKey("FILENAME")){

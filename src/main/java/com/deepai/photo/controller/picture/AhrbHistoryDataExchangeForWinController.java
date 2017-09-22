@@ -7,8 +7,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -28,12 +26,9 @@ import com.deepai.photo.bean.CpPicGroup;
 import com.deepai.photo.bean.CpPicGroupCategory;
 import com.deepai.photo.bean.CpPicture;
 import com.deepai.photo.bean.CpUser;
-import com.deepai.photo.common.annotation.SkipAuthCheck;
-import com.deepai.photo.common.annotation.SkipLoginCheck;
 import com.deepai.photo.common.constant.CommonConstant;
 import com.deepai.photo.common.pojo.ResponseMessage;
 import com.deepai.photo.common.util.date.DateUtil;
-import com.deepai.photo.common.util.date.DateUtils;
 import com.deepai.photo.mapper.CpPicGroupMapper;
 import com.deepai.photo.mapper.CpUserMapper;
 import com.deepai.photo.service.picture.FlowService;
@@ -44,15 +39,14 @@ import com.google.gson.reflect.TypeToken;
 
 /**
  * 安徽日报旧图片库数据迁移接口
- * 生产环境专用
  * @author xiayunan
- * @date   2017年9月21日
+ * @date   2017年8月30日
  *
  */
 @Controller
-@RequestMapping("/ahrbHistoryDataExchangeCtro")
-public class AhrbHistoryDataExchangeController {
-	private Logger log=Logger.getLogger(AhrbHistoryDataExchangeController.class);
+@RequestMapping("/ahrbHistoryDataExchangeForLinuxCtro")
+public class AhrbHistoryDataExchangeForWinController {
+	private Logger log=Logger.getLogger(AhrbHistoryDataExchangeForWinController.class);
 	@Autowired
 	private PictureDataExchangeService pictureService;
 	@Autowired
@@ -62,95 +56,40 @@ public class AhrbHistoryDataExchangeController {
 	@Autowired
 	private CpPicGroupMapper cpPicGroupMapper;
 	public static final String SESSION_LANGTYPE = "session_langType";
-	private static final int FIRST_EDIT_ID = 409;
-	private static final int SECOND_EDIT_ID = 406;
-	private static final int THIRD_EDIT_ID = 352;
-	private static final String AUTHOR_NAME = "吴文兵";
-	private static final int AUTHOR_ID = 409;
-	private static final int DATA_EXCHANGE_CHNL_ID = 3066;//数据迁移专用栏目
+	private static final int FIRST_EDIT_ID = 338;
+	private static final int SECOND_EDIT_ID = 339;
+	private static final int THIRD_EDIT_ID = 340;
+	private static final String AUTHOR_NAME = "秋天";
+	private static final int AUTHOR_ID = 338;
+	private static final int DATA_EXCHANGE_CHNL_ID = 3063;
+	private static final String FILE_SEP = File.separator;
 	private static int SUCCESS_PIC_NUM = 0;
 	private static int FAILED_PIC_NUM = 0;
 	private static Map<String,Integer> categoryMap = null;
-	private static Map<String,Integer> oldCategoryMap = null;
 	private static String driverName="com.microsoft.sqlserver.jdbc.SQLServerDriver";
-	//private static String dbURL="jdbc:sqlserver://192.168.17.73:1433;DatabaseName=uniphoto";
-	private static String dbURL="jdbc:sqlserver://192.168.2.11:1433;DatabaseName=uniphoto";
-	private static String userName="trstest";
-	private static String userPwd="trsadmin";
+	private static String dbURL="jdbc:sqlserver://192.168.17.73:1433;DatabaseName=uniphoto";
+	private static String userName="sa";
+	private static String userPwd="sasa";
 	static{  
 		 categoryMap = new HashMap<String, Integer>();  
 		 categoryMap.put("政治", 1761);
 		 categoryMap.put("经济", 1762);
-		 categoryMap.put("文化", 1764);
+		 categoryMap.put("科技教育卫生", 1763);
+		 categoryMap.put("文化艺术", 1764);
 		 categoryMap.put("体育", 1765);
-		 categoryMap.put("农业", 100182646);
-		 categoryMap.put("科技", 1763);
-		 categoryMap.put("教育", 100182645);
-		 categoryMap.put("医卫", 100182647);
-		 categoryMap.put("军事", 1768);
-		 categoryMap.put("法制", 1776);
-		 categoryMap.put("生态", 1769);
-		 categoryMap.put("社会", 1766);
-		 categoryMap.put("典型人物", 1773);
-		 categoryMap.put("重大事件", 1774);
-		 categoryMap.put("中央领导", 1775);
-		 categoryMap.put("省领导", 1777);
-		 categoryMap.put("外事", 100182648);
-		 categoryMap.put("旅游", 100182649);
-		 categoryMap.put("民族宗教", 1767);
-		 categoryMap.put("美术", 100182650);
+		 categoryMap.put("社会生活", 1766);
+		 categoryMap.put("民族与宗教", 1767);
+		 categoryMap.put("法治与军事", 1768);
+		 categoryMap.put("自然环境", 1769);
 		 categoryMap.put("世界各地", 1770);
-		 categoryMap.put("新华社", 1771);
+		 categoryMap.put("中国新闻社", 1771);
 		 categoryMap.put("历史资料", 1772);
-		 categoryMap.put("历史版面", 100182653);
-		 categoryMap.put("交通", 100182654);
-		 categoryMap.put("视频", 100182655);
-		 //老系统栏目分类
-//		 oldCategoryMap = new HashMap<String, String>();
-//		 oldCategoryMap.put("ahrb", "安徽日报");
-//		 oldCategoryMap.put("ahrb_anhuird", "安徽人大");
-//		 oldCategoryMap.put("ahrb_anhuizx", "安徽政协");
-//		 oldCategoryMap.put("ahrb_dianxrw", "典型人物");
-//		 oldCategoryMap.put("ahrb_guojiard", "国家人大");
-//		 oldCategoryMap.put("ahrb_guojiazx", "国家政协");
-//		 oldCategoryMap.put("ahrb_jinji", "经济");
-//		 oldCategoryMap.put("ahrb_junshi", "军事");
-//		 oldCategoryMap.put("ahrb_kejiao", "科教卫");
-//		 oldCategoryMap.put("ahrb_qitq", "其他");
-//		 oldCategoryMap.put("ahrb_shehui", "社会");
-//		 oldCategoryMap.put("ahrb_shengld", "省领导");
-//		 oldCategoryMap.put("ahrb_tiyu", "体育");
-//		 oldCategoryMap.put("ahrb_tuhua", "图画");
-//		 oldCategoryMap.put("ahrb_waijiao", "外交");
-//		 oldCategoryMap.put("ahrb_wenhua", "文化");
-//		 oldCategoryMap.put("ahrb_zhengzhi", "政治");
-//		 oldCategoryMap.put("ahrb_zhongdsj", "重大事件");
-//		 oldCategoryMap.put("ahrb_zhongyld", "中央领导");
-		 
-		 oldCategoryMap = new HashMap<String, Integer>();
-		 oldCategoryMap.put("ahrb", 1772);
-		 oldCategoryMap.put("ahrb_anhuird", 1777);
-		 oldCategoryMap.put("ahrb_anhuizx", 1777);
-		 oldCategoryMap.put("ahrb_dianxrw", 1773);
-		 oldCategoryMap.put("ahrb_guojiard", 1775);
-		 oldCategoryMap.put("ahrb_guojiazx", 1775);
-		 oldCategoryMap.put("ahrb_jinji", 1762);
-		 oldCategoryMap.put("ahrb_junshi", 1768);
-		 oldCategoryMap.put("ahrb_kejiao", 1763);
-		 oldCategoryMap.put("ahrb_qitq", 1772);
-		 oldCategoryMap.put("ahrb_shehui", 1766);
-		 oldCategoryMap.put("ahrb_shengld", 1777);
-		 oldCategoryMap.put("ahrb_tiyu", 1765);
-		 oldCategoryMap.put("ahrb_tuhua", 100182650);
-		 oldCategoryMap.put("ahrb_waijiao", 100182648);
-		 oldCategoryMap.put("ahrb_wenhua", 1764);
-		 oldCategoryMap.put("ahrb_zhengzhi", 1761);
-		 oldCategoryMap.put("ahrb_zhongdsj",1774);
-		 oldCategoryMap.put("ahrb_zhongyld", 1775);
-		 
+		 categoryMap.put("人物图库", 1773);
+		 categoryMap.put("漫画、图表", 1774);
+		 categoryMap.put("台港澳", 1775);
+		 categoryMap.put("创意图片", 1776);
+		 categoryMap.put("精品图片", 1777);
 	}  
-	
-	
 	
 	/**
 	 * 显示签发专题
@@ -160,8 +99,6 @@ public class AhrbHistoryDataExchangeController {
 	 */
 	@ResponseBody
 	@RequestMapping("/upPic")
-	@SkipLoginCheck
-	@SkipAuthCheck
 	public Object showQianFaTopic(HttpServletRequest request, HttpServletResponse response) {
 		ResponseMessage result=new ResponseMessage();
 		PreparedStatement pstmt = null;
@@ -170,12 +107,11 @@ public class AhrbHistoryDataExchangeController {
 		try {
 			log.info("============================信件迁移开始！===========================");
 			conn =  getConnection();
-			String sql = "SELECT * FROM uninews_Product a WHERE UP_SignDate_DT BETWEEN '2017-09-01' AND '2017-09-22'";
+			String sql = "SELECT * FROM uninews_Product a WHERE (UP_SignDate_DT BETWEEN '2017-09-01' AND '2017-09-22'";
 	        pstmt = (PreparedStatement)conn.prepareStatement(sql);
-	        log.info("获取数据库连接成功！");
 	        rs = pstmt.executeQuery();
 	        int col = rs.getMetaData().getColumnCount();
-	        log.info("<<<<<<<<<总记录数："+col);
+	        System.out.println("col:"+col);
 	        while (rs.next()) {
 	        	String dateStr = "";//日期
 				String title = "";//标题
@@ -187,31 +123,27 @@ public class AhrbHistoryDataExchangeController {
 	        		String fileName = rs.getString("UP_File_Vc");
 		        	String filePath = rs.getString("UP_PhotoPath_Vc");
 		        	if(filePath!=null&&!"".equals(filePath)){
-		        		filePath = "/trsphoto/dataexchange"+filePath.replaceAll("z:", "");
+		        		filePath = filePath.replaceAll("z:", "c:");
 		        	}
-		        	log.info("<<<<<<<filePath:"+filePath);
 		        	String id = rs.getString("UP_ID_N");
 		        	String uploadUser = rs.getString("UP_UploadUser_Vc");
 		        	
-		        	String picType = fileName.substring(fileName.lastIndexOf("."),fileName.length());
-		        	if(picType.indexOf("jpg")==-1&&picType.indexOf("JPG")==-1){
-		        		picType = ".jpg";
-		        	}
-		        	String fileFullPath = filePath+uploadUser+"_"+"O"+id+picType;
-		        	log.info("<<<<<<<<<<fileFullPath:"+fileFullPath);
+		        	
+		        	String fileFullPath = filePath+uploadUser+"_"+"O"+id+".jpg";
 //		        	String filePath = "D:\\xinhuaphoto\\20170820\\XxjpsgC000668_20170820_TPPFN1A001.jpg";
 		        	
 					dateStr = rs.getString("UP_PhotoDate_Dt");//日期
-		        	if(dateStr!=null && dateStr.length()>=19 ){
-		        		dateStr = dateStr.substring(0, 19);
+		        	System.out.println(dateStr.length());
+		        	if(dateStr!=null && dateStr.length()>20 ){
+		        		dateStr = dateStr.substring(0, dateStr.length()-2);
 		        	}
-		        	log.info("<<<<<<<<<<dateStr:"+dateStr);
 		        	title = rs.getString("UP_Title_Vc");
 		        	author = rs.getString("UP_Author_Vc");
 		        	keyWordsStr = rs.getString("UP_KeyWord_Vc");
 		        	content = rs.getString("UP_Content_T");
-		        	cateIdsStr = oldCategoryMap.get(rs.getString("UP_Code_Vc")).toString()==""?"1772":oldCategoryMap.get(rs.getString("UP_Code_Vc")).toString();
-		        	log.info("<<<<<<<<<<<<<<cateIdsStr:"+cateIdsStr);
+		        	
+		        	cateIdsStr = categoryMap.get("精品图片")+"";
+		        
 					/**
 					 * 2.上传稿件
 					 */
@@ -223,8 +155,8 @@ public class AhrbHistoryDataExchangeController {
 					map.put("strMemo", content);
 					map.put("authorName", author);
 					int siteid = 1;
-					List<CpPicture> pics = pictureService.uploadMorePicForAhrbHistoyData(picFile, siteid,map,dateStr);
-					log.info("====================上传 图片成功======================");
+					List<CpPicture> pics = pictureService.uploadMorePicByPicFiles(picFile, siteid,map);
+					System.out.println("上传成功");
 					result.setCode(CommonConstant.SUCCESSCODE);
 					result.setMsg(CommonConstant.SUCCESSSTRING);
 					result.setData(pics);
@@ -243,7 +175,7 @@ public class AhrbHistoryDataExchangeController {
 					group.setTitle(title);
 					group.setType((byte)1);
 					group.setProperties((byte)0);
-					group.setFileTime(DateUtils.sdfLongTimePlus.parse(dateStr));
+					group.setFileTime(DateUtil.convertStringToDate(dateStr));
 					
 					boolean isIpTc = true;
 					CpUser user = cpUserMapper.selectByPrimaryKey(1);
@@ -284,7 +216,7 @@ public class AhrbHistoryDataExchangeController {
 						
 						CpPicGroupCategory cpPicGroupCategory1 = new CpPicGroupCategory();
 						cpPicGroupCategory1.setType(0);
-						cpPicGroupCategory1.setCategoryId(3094);//前台签发栏目  历史资料》历史图片
+						cpPicGroupCategory1.setCategoryId(473);
 						List<CpPicGroupCategory> list = new ArrayList<CpPicGroupCategory>();
 						list.add(cpPicGroupCategory);
 						list.add(cpPicGroupCategory1);
@@ -298,15 +230,15 @@ public class AhrbHistoryDataExchangeController {
 					}
 					log.info("第"+(++SUCCESS_PIC_NUM)+"篇稿件迁移成功,稿件标题："+title+"！");
 			} catch (Exception e) {
-				log.error("==================出错啦=================");
-				++FAILED_PIC_NUM;
 				e.printStackTrace();
-				log.error("迁移稿件失败，"+e.getMessage());
 			}
 	        
 	      }  
 		}catch(Exception e1){
+			System.out.println("==================出错啦=================");
+			++FAILED_PIC_NUM;
 			e1.printStackTrace();
+			log.error("迁移稿件失败，"+e1.getMessage());
 			result.setCode(CommonConstant.EXCEPTIONCODE);
 			result.setMsg(CommonConstant.EXCEPTIONMSG);
 		}finally{
@@ -315,8 +247,6 @@ public class AhrbHistoryDataExchangeController {
 		log.info("信件迁移结束！成功数："+SUCCESS_PIC_NUM+"失败数："+FAILED_PIC_NUM+"!");
 		return result;
 	}
-	
-	
 	
 	/**
 	 * 获取数据库连接
@@ -361,24 +291,5 @@ public class AhrbHistoryDataExchangeController {
     }
 		
 	
-	public static void main(String[] args) {
-//		String str = "既要“站起来”，还要“走得远”.jpg";
-//		str = str.substring(str.lastIndexOf("."),str.length());
-//		System.out.println(str);
-		
-		String dateStr = "2017-09-01 15:33:06990";
-		if(dateStr.length()>19){
-			dateStr = dateStr.substring(0, 19);
-		}
-		System.out.println(dateStr);
-//		dateStr = dateStr.substring(0, dateStr.length()-2);
-//		System.out.println("dateStr:"+dateStr);
-//		
-//		try {
-//			System.out.println(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse("2017-9-8 23:12:12").toString());
-//		} catch (ParseException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-	}
+	
 }
