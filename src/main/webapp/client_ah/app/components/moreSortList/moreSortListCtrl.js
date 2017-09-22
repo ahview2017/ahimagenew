@@ -56,8 +56,23 @@ clientModule.controller('moreSortListCtrl',function($scope, $cookies, req, md5, 
         initSetting();
         resetTempSortsData();
         getMoreGroups(vm.pagination.current);
+		getColumnName();
     }
     init();
+
+
+	//获取栏目名称  add by xiayunan 20170922
+    function getColumnName(){
+        req.post('enColumn/showColumnById.do',{
+            columnId: vm.sginId,
+        }).success(function(resp){
+            if(resp.code == '211'){
+                vm.columnName = resp.data.name;
+            }else if(resp.msg != '未登录'){
+                layer.alert(resp.msg);
+            }
+        });
+    }
 
     //获取更多分类图片
     function getMoreGroups(page){

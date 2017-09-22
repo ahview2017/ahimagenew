@@ -34,7 +34,7 @@ public class TrsSearchConf {
 	
 	private static TRSConnection conn = null;
 	private static TRSResultSet rs = null;
-	private static String ip="192.168.18.86";//全文检索数据库ip  192.168.180.126
+	private static String ip="192.168.81.9";//全文检索数据库ip  192.168.180.126
 	private static String prot="8888";//端口
 	private static String user="system";//用户名
 	private static String password="manager";//密码

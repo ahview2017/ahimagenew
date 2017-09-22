@@ -121,7 +121,175 @@ public class PictureDataExchangeService {
 	}
 	
 	
+	/**
+	 * 上传图片，保存原图和小图
+	 * @param picFiles 多图目录
+	 * @param siteId
+	 * @throws Exception
+	 * @author xiayunan
+	 */
+	public   List<CpPicture> uploadMorePicForAhrbHistoyData(File dir,int siteId,Map<String,String> map,String filetime) throws Exception{
+		List<CpPicture> res=new ArrayList<CpPicture>();
+//		List<Map<String,Object>> res=new ArrayList<Map<String,Object>>();
+//		if(dir.isDirectory()){
+//			File[] picFiles = dir.listFiles(); 
+//			for (int i = 0; i < picFiles.length; i++) {
+				String name = dir.getName();
+				if ((name != null) && (!name.trim().equals(""))) {
+					String filename=null;
+					if (name.toLowerCase().lastIndexOf("jpg") >= name.length() - 4) {
+						filename = getFileName("jpg");
+					}else if (name.toLowerCase().lastIndexOf("tif") >= name.length() - 4) {
+						filename = getFileName("tif");
+					}else if (name.toLowerCase().lastIndexOf("png") >= name.length() - 4) {
+						filename = getFileName("png");
+					}else{
+						filename = getFileName("jpg");
+					}
+					
+					System.out.println("<<<<<<<<<<<<<<<<<<<<<dir:"+dir);
+					System.out.println("<<<<<<<<<<<<<<<<<<<<<filename:"+filename);
+					CpPicture pic=uploadOnePicForAhrbHistoryData(dir, filename, siteId,map,filetime);
+					
+					pic.setSmallPath(CommonConstant.SMALLHTTPPath+ImgFileUtils.getSamllPathByName(filename,request));
+					/*Map<String,Object> map=new HashMap<String, Object>();
+					map.put("picId",pic.getId());
+					map.put("fileTime",pic.getFilmTime());
+					map.put("samllPath", CommonConstant.SMALLHTTPPath+ImgFileUtils.getSamllPathByName(filename));
+					map.put("height",pic.getPictureHeight());
+					map.put("width",pic.getPictureWidth());
+					map.put("filename",pic.getFilename());
+					map.put("length",pic.getPictureLength());*/
+					res.add(pic);
+				}
+//			}
+//		}
+		return res;
+	}
 	
+	/**
+	 * 上传单张图，保存图片原图和小图
+	 * @param picFile
+	 * @param oriPath
+	 * @param filename
+	 * @param siteId
+	 * @throws Exception
+	 * @author xiayunan
+	 */
+	public CpPicture uploadOnePicForAhrbHistoryData(File picFile,String filename,int siteId,Map<String,String> map,String fileTime) throws Exception{
+		//原图存放路径
+		String oriPath=sysConfigService.getDbSysConfig(SysConfigConstant.DEFAULT_CLASSIFICATION_PATH, siteId);
+		oriPath=initFullPathNoFile(oriPath, filename);
+		//上传原图并返回全途径
+		FileInputStream fis = new FileInputStream(picFile);
+		String oriAllPath=FileUpload.fileUpNameByInputStream(fis, oriPath, filename);
+		int height = 0;
+		int width = 0;
+		String time=null;
+		IMOperation op = new IMOperation();
+		op.format("%w#%h#%[EXIF:DateTimeOriginal]");
+		op.addImage(oriAllPath);
+		IdentifyCmd identifyCmd = new IdentifyCmd(true);
+		ArrayListOutputConsumer output = new ArrayListOutputConsumer();
+		identifyCmd.setOutputConsumer(output);
+		identifyCmd.run(op);
+		ArrayList<String> out = output.getOutput();
+		String wNh = null;
+		if (out.size() > 0) {
+			wNh = out.get(0);
+			String arr[]=wNh.split("#");
+			width = Integer.parseInt(arr[0]);
+			height = Integer.parseInt(arr[1]);
+			//上传图片宽高限制
+			String minWidth=sysConfigService.getDbSysConfig(SysConfigConstant.PICTUREMINWIDTH, siteId);//最小宽
+			if(width<Integer.valueOf(minWidth)){
+				throw new InvalidHttpArgumentException(CommonConstant.FAILURECODE, String.format("图片宽不能小于【%s】像素", minWidth));
+			}
+			String minHeight=sysConfigService.getDbSysConfig(SysConfigConstant.PICTUREMINHEIGHT, siteId);//最小高
+			if(height<Integer.valueOf(minHeight)){
+				throw new InvalidHttpArgumentException(CommonConstant.FAILURECODE, String.format("图片高不能小于【%s】像素", minHeight));
+			}
+			if(arr.length>2){
+				time = arr[2];
+			}			
+		}
+		CpPicture pic = new CpPicture();
+		//处理小图，返回小图原路径
+		String smallAllPath=opeTmpSmall(oriAllPath, width, height, false,siteId);
+		if (width > height) {
+			pic.setOrientation(CommonConstant.BYTE0);//横
+		} else if (width == height) {
+			pic.setOrientation(CommonConstant.BYTE2);//方
+		} else {
+			pic.setOrientation(CommonConstant.BYTE1);//竖
+		}
+		if (filename.toLowerCase().lastIndexOf("tif") >= filename.length() - 4) {
+			filename = filename.substring(0, filename.length() - 3) + "jpg";
+		}
+		File saveFile = new File(oriAllPath);
+		//上传图片大小限制
+		String minM=sysConfigService.getDbSysConfig(SysConfigConstant.PICTUREMINLENGTH, siteId);
+		Integer minMI=Integer.valueOf(minM);//图片大小 最小限制 单位KB
+		Long minL=minMI * 1024L;//单位字节
+		if(saveFile.length()<minL){
+			throw new InvalidHttpArgumentException(CommonConstant.FAILURECODE, String.format("图片大小不能小于【%s】KB", minM));
+		}
+		String maxM=sysConfigService.getDbSysConfig(SysConfigConstant.PICTUREMAXLENGTH, siteId);
+		Integer maxMI=Integer.valueOf(maxM);//图片大小 最大限制 单位KB
+		Long maxL=maxMI * 1024L;//单位字节
+		if(saveFile.length()>maxL){
+			throw new InvalidHttpArgumentException(CommonConstant.FAILURECODE, String.format("图片大小不能超过【%s】KB", maxM));
+		}
+		
+		pic.setPictureHeight(height);
+		pic.setPictureWidth(width);
+		pic.setFilename(filename);
+		pic.setPictureLength(saveFile.length());
+		System.out.println("=========*OriginalFilename*===========:"+picFile.getName());
+//		pic.setSourcePictureName(picFile.getOriginalFilename());
+		pic.setSourcePictureName(picFile.getName());
+		if(time!=null&&!time.equals("unknown")){
+			time=time.replaceFirst(":", "-").replaceFirst(":", "-");
+			pic.setFilmTime(DateUtils.sdfLongTimePlus.parse(time));
+		}else{
+//			pic.setFilmTime(new Date());
+			pic.setFilmTime(DateUtils.sdfLongTimePlus.parse(fileTime));
+		}
+		pic.setCreateTime(DateUtils.sdfLongTimePlus.parse(fileTime));
+		pic.setSiteId(siteId);
+		// 标识缩略图图片状态，组件上传成功后需改过来
+		pic.setPictureState(-1);
+		/*if(groupId!=null){
+			pic.setGroupId(groupId);
+		}*/
+		pic.setDeleteFlag(CommonConstant.BYTE0);
+		cpPictureMapper.insertSelective(pic);
+		//记录图片全路径
+		addPicAllPath(oriAllPath, 3, pic.getId());//原图
+		addPicAllPath(smallAllPath, 2, pic.getId());//小图
+		//生成中图
+		int mediumSize=Integer.valueOf(sysConfigService.getDbSysConfig(SysConfigConstant.MEDIUM_PIC_SIZE, siteId));
+		String mediumPath=sysConfigService.getDbSysConfig(SysConfigConstant.MEDIUM_PIC_PATH, siteId);
+		String mediumAllPath=initFullPathByOrder(mediumPath, filename);
+		int picSize =width>height?width:height;
+		if (mediumSize <= picSize) {
+			ImageAnalyseUtil.gmAlterImg(mediumSize, oriAllPath, 
+					initFullPathByOrder(mediumPath,filename), width,height,false);
+		}else {
+			ImgFileUtils.makeDirectory(mediumAllPath);
+			ImgFileUtils.copyFile(oriAllPath, mediumAllPath);
+		}
+		addPicAllPath(mediumAllPath, 1, pic.getId());
+		try{
+			pic.setIsIptc(CommonConstant.BYTE1);
+//			pic.setCreateTime(new Date());
+			pic.setCreateTime(DateUtils.sdfLongTimePlus.parse(fileTime));
+			File oriFile=new File(oriAllPath);
+			pic=loadInfoByIPTCForAhrbHistoryData(pic, oriFile,map,fileTime);
+		}catch(Exception iptce){
+		}
+		return pic;
+	}
 	
 	
 	
@@ -257,7 +425,7 @@ public class PictureDataExchangeService {
 		if (mediumSize <= picSize) {
 			ImageAnalyseUtil.gmAlterImg(mediumSize, oriAllPath, 
 					initFullPathByOrder(mediumPath,filename), width,height,false);
-		} else {
+		}else {
 			ImgFileUtils.makeDirectory(mediumAllPath);
 			ImgFileUtils.copyFile(oriAllPath, mediumAllPath);
 		}
@@ -472,7 +640,6 @@ public class PictureDataExchangeService {
 			Directory IPTCInfo = ImageAnalyseUtil.extratIPTCFromFile(temp
 					.getAbsolutePath());
 			Boolean isnull = true;
-			System.out.println(IPTCInfo.getString(IptcDirectory.TAG_CAPTION));
 			isnull = shiftCase(isnull, IPTCInfo
 					.getString(IptcDirectory.TAG_CAPTION));
 			isnull = shiftCase(isnull, IPTCInfo
@@ -548,7 +715,6 @@ public class PictureDataExchangeService {
 			Directory IPTCInfo = ImageAnalyseUtil.extratIPTCFromFile(temp
 					.getAbsolutePath());
 			Boolean isnull = true;
-			System.out.println(IPTCInfo.getString(IptcDirectory.TAG_CAPTION));
 			isnull = shiftCase(isnull, IPTCInfo
 					.getString(IptcDirectory.TAG_CAPTION));
 			isnull = shiftCase(isnull, IPTCInfo
@@ -582,6 +748,81 @@ public class PictureDataExchangeService {
 				// 日期格式可能多种,暂时不抛异常
 				logger.info("加载IPTC拍摄时间转换异常，使用当前时间");
 				ap.setFilmTime(new Date());
+			}
+			// 地点
+			ap.setPlace(map.get("place"));
+			// 说明
+			String strMemo=map.get("strMemo");
+			if(strMemo.length()>1100){
+				strMemo=strMemo.substring(0, 1100);
+			}
+			ap.setMemo(strMemo);
+			// 文件名
+			String fileName = temp.getName();
+
+			if (fileName.toLowerCase().indexOf("tif") >= fileName.length() - 4) {
+				fileName = fileName.substring(0, fileName.length() - 3) + "jpg";
+			}
+			ap.setFilename(fileName);
+			// 图片体积
+			ap.setPictureLength(temp.length());
+			// 分类
+			ap.setCategoryInfo(IPTCInfo.getString(IptcDirectory.TAG_CATEGORY));
+			// 这里还要注入当前编辑信息
+			// 摄影师
+			ap.setAuthorName(map.get("authorName"));
+		} catch (Exception e) {
+			logger.info("上传图片包含非IPTC图片");
+//			throw new Exception("上传图片包含非IPTC图片，请重新选择图片上传");
+		}
+		return ap;
+	}
+	
+	/**
+	 * 加载图片IPTC信息
+	 * @param ap
+	 * @param temp
+	 * @throws Exception
+	 */
+	private CpPicture loadInfoByIPTCForAhrbHistoryData(CpPicture ap, File temp,Map<String,String> map,String time) throws Exception {
+		try {
+			Directory IPTCInfo = ImageAnalyseUtil.extratIPTCFromFile(temp
+					.getAbsolutePath());
+			Boolean isnull = true;
+			isnull = shiftCase(isnull, IPTCInfo
+					.getString(IptcDirectory.TAG_CAPTION));
+			isnull = shiftCase(isnull, IPTCInfo
+					.getString(IptcDirectory.TAG_KEYWORDS));
+			isnull = shiftCase(isnull, IPTCInfo
+					.getString(IptcDirectory.TAG_CITY));
+			isnull = shiftCase(isnull, IPTCInfo
+					.getString(IptcDirectory.TAG_HEADLINE));
+			isnull = shiftCase(isnull, IPTCInfo
+					.getString(IptcDirectory.TAG_CATEGORY));
+			isnull = shiftCase(isnull, IPTCInfo
+					.getString(IptcDirectory.TAG_WRITER));
+			if (isnull) {
+				logger.info("图片没有可用的IPTC信息");
+//				throw new Exception("图片没有可用的IPTC信息");
+			}
+			// 标题
+			String strTitle=map.get("title");
+			if(strTitle.length()>250){
+				strTitle=strTitle.substring(1, 250);
+			}
+			ap.setTitle(strTitle);
+			// 关键词
+			ap.setKeywords(map.get("keywords"));
+			// 拍摄时间
+			try {
+				ap.setFilmTime(new SimpleDateFormat(
+						"EEE MMM dd HH:mm:ss 'CST' yyyy", Locale.US)
+						.parse(IPTCInfo.getString(IptcDirectory.TAG_DATE_CREATED)));
+			} catch (Exception e) {
+				// 日期格式可能多种,暂时不抛异常
+				logger.info("加载IPTC拍摄时间转换异常，使用当前时间");
+				ap.setFilmTime(new Date());
+				ap.setFilmTime(DateUtils.sdfLongTimePlus.parse(time));
 			}
 			// 地点
 			ap.setPlace(map.get("place"));
