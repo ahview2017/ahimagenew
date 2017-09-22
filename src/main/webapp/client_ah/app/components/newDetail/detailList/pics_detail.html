@@ -13,9 +13,11 @@
                     <div class="pic_show left">
                         <ul  ng-init="picsDetail.clientPictureDetail({groupId: picsDetail.single.id})">
                             <li ng-repeat="item in picsDetail.clientPictureDetail.pics">
-								<span ng-if="item.videoid==0">
+							<div class="pics_img_box">
+								<div ng-if="item.videoid==0" class="imgBOX">
 									<a href="{{item.filePath}}" target="_blank"><img ng-src="{{item.filePath}}" style="max-width:800px;max-height:560px"></a><!--width="895" height="560"-->
-								</span>
+								</div>
+							</div>
 								
 								<span ng-if="item.videoid!=0">
 									 <iframe src="{{picsDetail.masUrl}}" frameborder="0" width="800" height="550" scrolling="no" ></iframe>

@@ -77,13 +77,14 @@
 }
 .gailan_mainPic li{
 	width: 288px;
-    height: 240px;
-    margin-right: 15px;
-    text-align: center;
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin-bottom: 14px;
+	height: 240px;
+	margin-right: 15px;
+	text-align: center;
+	border: 1px solid #ccc;
+	padding: 10px;
+	margin-bottom: 14px;
 	float: left;
+	position: relative;
 }
 .gailan_mainPic li p{
 	margin-top:10px;
@@ -92,6 +93,10 @@
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
+	position: absolute;
+	bottom: 10px;
+	left: 0;
+	width: 100%;
 }
 
 .gailan_mainPic li img{
