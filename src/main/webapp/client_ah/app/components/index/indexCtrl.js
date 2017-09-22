@@ -17,18 +17,16 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
         }, 1000);
     });
 
-    $(function () {
-        $timeout(function () {
+        $(function () {
             $('#ericnews_box_box').slide({
                 mainCell:".ericnews_box_box .ericnews_box",
                 effect:"leftMarquee",
                 autoPlay:true,
-                vis:3,
+                vis:5,
                 interTime:50,
                 trigger:"click"
             });
-        }, 1000);
-    });
+        })
 	
 	/**导航切换效果*/
 	/*$(function () {
