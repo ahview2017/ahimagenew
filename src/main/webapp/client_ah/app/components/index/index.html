@@ -46,7 +46,7 @@
                    <div class="refresh right"><span><a target="_blank" ui-sref="root.moreSortList({sginId: 3064})">更多</a></span></div>
                 </div>
                 <div class="clear"></div>
-                <div class="news_content" ng-init="index.getClientGroups(3064,3,0,2)">
+                <div class="news_content" ng-init="index.getClientGroups(3064,4,0,2)">
                     <ul>
                         <li ng-repeat="item in index.newsPhoto track by $index">
 							<a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
@@ -86,7 +86,7 @@
                         </div>
                         <div class="clear"></div>
 						<!--皖风徽韵-->
-                        <div class="hfwy_content" ng-init="index.getClientGroups(3078,5,0,2)">
+                        <div class="hfwy_content" ng-init="index.getClientGroups(3078,6,0,2)">
                             <div class="hfwy_content_1 left" ng-repeat="item in index.anhuiStyle track by $index" ng-if="$first">
 								<a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
 									<img ng-src="{{item.filePath}}" width="254" height="348">
@@ -116,7 +116,7 @@
                                 </div>
                             </div>     
                         </div>
-                        <div class="yyjh_content" ng-init="index.getClientGroups(3082,3,0,2)">
+                        <div class="yyjh_content" ng-init="index.getClientGroups(3082,4,0,2)">
                             <div class="yyjh_content_1" ng-repeat="item in index.artEssence track by $index">
 								<a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
 									<img ng-src="{{item.filePath}}" height="170" width="254">
@@ -138,13 +138,14 @@
 								<a ui-sref="root.moreSortList({sginId:item.id})">{{item.name}}</a>
 							</span>
                         </div>
-                        <div class="gstk_content" ng-init="index.getClientGroups(3080,3,0,2)">
-                            <div class="gstk_content_1 left" ng-repeat="item in index.anhuiCitys track by $index" ng-if="$first">
+                        <div class="gstk_content" ng-init="index.getClientGroups(3080,4,0,2)">
+                            <div class="gstk_content_1 left" ng-repeat="item in index.anhuiCitys track by $index">
 								<a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
 									<img ng-src="{{item.filePath}}" height="165" width="254">
 								</a>
                                 <p class="split_string"><span></span><a href="">{{item.TITLE}}</a></p>
                             </div>
+							<!--
                             <div class="gstk_content_2 gstk_content_1 left" ng-repeat="item in index.anhuiCitys track by $index" ng-if="$middle">
 								<a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
 									<img ng-src="{{item.filePath}}" height="165" width="254">
@@ -156,7 +157,7 @@
 									<img ng-src="{{item.filePath}}" height="165" width="254">
 								</a>
                                 <p class="split_string"><span></span><a href="">{{item.TITLE}}</a></p>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                 </div>
@@ -165,25 +166,30 @@
                     <div class="hfwy_zt">
                         <div class="zt_title_box">
                             <div class="zt_title">
-                                专题
+                                <a ui-sref="root.moreSortList({sginId:3077})" target="_blank">专题</a>
                             </div>     
                         </div>
-                        <div class="zt_content_box">
-                            <div class="zt_content_pic">
-                                <a href=""><img src="client_ah/assets/images_ah/sjah_index_47.png" width="330" height="164"></a>
+                        <div class="zt_content_box" ng-init="index.getClientGroups(3077,7,0,2)">
+                            <div class="zt_content_pic" ng-repeat="item in index.ahhuiTopics track by $index" ng-if="$first">
+                                <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
+									<img ng-src="{{item.filePath}}" width="330" height="164">
+								</a>
                             </div>
                             <div class="zt_content_list">
                                 <ul>
-                                    <li><a href="">安徽休宁：山村工匠41年的“钟情”</a></li>
-                                    <li><a href="">“品质包河。大美滨湖”摄影采风</a></li>
+                                    <li ng-repeat="item in index.ahhuiTopics track by $index" ng-if="!$first">
+										<a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">{{item.TITLE}}</a>
+									</li>
+                                    
+									<!--<li><a href="">“品质包河。大美滨湖”摄影采风</a></li>
                                     <li><a href="">裕溪河龙舟节，百船赛龙舟！</a></li>
                                     <li><a href="">合安高铁上的半边天</a></li>
-                                    <li><a href="">20170305女子粉蓝丝代公益跑</a></li>
+                                    <li><a href="">20170305女子粉蓝丝代公益跑</a></li>-->
                                 </ul>
                             </div>
                         </div>
                     </div>
-                    <div class="yyjh_sp" ng-init="index.getClientGroups(3081,1,0,2)">
+                    <div class="yyjh_sp" ng-init="index.getClientGroups(3081,2,0,2)">
                         <div class="zt_title_box">
                             <div class="zt_title">
                                 <a ui-sref="root.moreSortList({sginId:3081})" target="_blank">视频</a>
@@ -197,7 +203,7 @@
                         </div>
                     </div>
 
-                    <div class="gstk_hd" ng-init="index.getClientGroups(3083,1,0,2)">
+                    <div class="gstk_hd" ng-init="index.getClientGroups(3083,2,0,2)">
                         <div class="zt_title_box">
                             <div class="zt_title">
                                 <a ui-sref="root.moreSortList({sginId:3083})" target="_blank">互动</a>
@@ -230,7 +236,7 @@
                     <ul>
                         <li ng-repeat="item in index.anhuiHistory track by $index">
 							<a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
-								<img ng-src="{{item.filePath}}" width="390" height="245">
+								<img ng-src="{{item.filePath}}" width="387" height="245">
 							</a>
                             <div class="history_subtitle">
                                 <p class="split_string"><a href="">{{item.TITLE}}</a></p>
@@ -248,7 +254,7 @@
                    <div class="line"></div>
                    <a ui-sref="root.moreSortList({sginId:3097})" target="_blank"><div class="eric_title_pic"></div></a>
                 </div>
-                <div class="ericnews_box" ng-init="index.getClientGroups(3097,5,0,2)">
+                <div class="ericnews_box" ng-init="index.getClientGroups(3097,6,0,2)">
                     <div class="eric_list" ng-repeat="item in index.ericNewsPaper track by $index">
                         <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank"><img ng-src="{{item.filePath}}" alt="" height=300 width=214></a>
                     </div>

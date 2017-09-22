@@ -24,7 +24,7 @@
         <div class="gailan_mainPic">
                 <ul>
                     <li ng-repeat="item in fullText.photoList">
-                        <a ui-sref="root.newSingleDetail({groupId:item.groupid,pictureId:item.id})" target="_blank">
+                        <a ui-sref="root.newDetailList({groupId: item.groupid})" target="_blank">
 							<img ng-src="{{item.coverPic}}"></a>
                         <p><a title="{{item.gtitle}}" href="">{{item.gtitle}}</a></p>
                     </li>

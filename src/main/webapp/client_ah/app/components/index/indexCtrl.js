@@ -203,6 +203,11 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
                     vm.interactiveSpace = jugeGroupPos.jugeGroupPos(3097,resp.data);
 					console.log(vm.interactiveSpace);
                 }
+				//专题图片
+				if (signId == 3077) {
+                    vm.ahhuiTopics = jugeGroupPos.jugeGroupPos(3077,resp.data);
+					console.log(vm.ahhuiTopics);
+                }
 				
 				
 				
