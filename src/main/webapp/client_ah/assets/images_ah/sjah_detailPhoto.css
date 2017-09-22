@@ -57,7 +57,7 @@
 	text-align:center;
 }
 .pic_show  ul li img{
-	vertical-align:top;
+	vertical-align: middle;
 }
 .detail_prev{
 	background:url("left_right_05.png") no-repeat right center;
@@ -66,7 +66,7 @@
 	position:absolute;
 	top:245px;
 	width:42px;
-	left:778px;
+	left: 773px;
 }
 .detail_next{
 	background:url("left_right_03.png") no-repeat right center;
@@ -74,7 +74,7 @@
 	height:70px;
 	position:absolute;
 	top:245px;
-	left:20px;
+	left: 15px;
 	width:42px;
 }
 .pic_state{
@@ -82,7 +82,23 @@
 	height:560px;
 	background: #f7f7f7;
 	text-align:left;
+	overflow-x: hidden;
+	overflow-y: scroll;
 }
+.pics_img_box{
+	float: left;
+	width: 830px;
+    height: 560px;
+    background: #f7f7f7;
+}
+.imgBOX{
+	width: 830px;
+    height: 560px;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+
 .pic_state_title{
 	width:100%;
 	height:34px;

@@ -1,7 +1,7 @@
 /**
  * Created by Sun on 2016/12/30.
  */
-clientModule.controller('picsDetailCtrl', function ($scope, $cookies, req, md5, $state, $rootScope, $stateParams, getFullText, $timeout,jugeGroupPos) {
+clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, md5, $state, $rootScope, $stateParams, getFullText, $timeout,jugeGroupPos) {
     var vm = this;
     //从路由取得稿件id
     vm.groupId = $stateParams.groupId;
@@ -28,6 +28,18 @@ clientModule.controller('picsDetailCtrl', function ($scope, $cookies, req, md5, 
             if (resp.code == '211') {
                 vm.clientPictureDetail = resp.data;
                 vm.groupKeyWords = resp.data.keywords;
+				console.log("resp.data.length:"+resp.data.pics.length);
+				var vId = 0;
+				for(var i = 0; i < resp.data.pics.length; i++) {
+					vId = resp.data.pics[0].videoid;
+				}
+				vm.masUrl = '';
+				if(vId!=0){
+					vm.masUrl = "http://192.168.81.7:8080/mas/openapi/pages.do?method=exPlay&appKey=TRSPMS123&type=vod&autoplay=true&id="+vId;
+				}
+				vm.masUrl = $sce.trustAsResourceUrl(vm.masUrl);
+				console.log("vm.masUrl:"+vm.masUrl);
+
                 if(callback) callback();
             }else if(resp.msg != '未登录'){
                 layer.alert(resp.msg);

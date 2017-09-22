@@ -306,7 +306,12 @@ adminModule.controller('myManuscriptDetailCtrl', function ($scope, $cookies, req
                 vm.manuscriptProperties = resp.data.properties;
                 vm.manuscriptCates = resp.data.cates;
                 vm.fristPfdUser = resp.data.fristPfdUser;
-                console.log('success');
+               
+              //判断是否可以编辑（已提交过的不能编辑） add by liu.jinfeng@20170922
+                //fristPfdUser 只有一个的时候就是没有提交过，还能再次编辑
+                vm.canEdit = (resp.data.fristPfdUser).indexOf("、")==-1; 
+                //console.log('success'+ vm.canEdit);
+                //console.log('success');
             }else if(resp.msg != '未登录'){
                 layer.alert(resp.msg);
             }

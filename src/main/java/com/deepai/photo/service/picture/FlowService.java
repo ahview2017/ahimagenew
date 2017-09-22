@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,22 +16,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.deepai.photo.bean.CpColumn;
 import com.deepai.photo.bean.CpDutyUser;
 import com.deepai.photo.bean.CpDutyUserExample;
-import com.deepai.photo.bean.CpLanmu;
-import com.deepai.photo.bean.CpLanmuPicture;
-import com.deepai.photo.bean.CpPicAllpath;
-import com.deepai.photo.bean.CpPicAllpathExample;
 import com.deepai.photo.bean.CpPicGroup;
 import com.deepai.photo.bean.CpPicGroupAssign;
 import com.deepai.photo.bean.CpPicGroupCategory;
 import com.deepai.photo.bean.CpPicGroupCategoryExample;
-import com.deepai.photo.bean.CpPicGroupColumn;
 import com.deepai.photo.bean.CpPicGroupExample;
 import com.deepai.photo.bean.CpPicGroupProcess;
 import com.deepai.photo.bean.CpPicture;
-import com.deepai.photo.bean.CpPictureDownloadrecord;
 import com.deepai.photo.bean.CpPictureExample;
-import com.deepai.photo.bean.CpPicturePrice;
-import com.deepai.photo.bean.CpPicturePriceExample;
 import com.deepai.photo.bean.CpProofread;
 import com.deepai.photo.bean.CpUser;
 import com.deepai.photo.common.StringUtil;
@@ -42,7 +32,6 @@ import com.deepai.photo.common.exception.InvalidHttpArgumentException;
 import com.deepai.photo.common.redis.RedisClientTemplate;
 import com.deepai.photo.common.util.date.DateUtils;
 import com.deepai.photo.common.util.json.GsonUtil;
-import com.deepai.photo.common.util.json.JSONUtils;
 import com.deepai.photo.common.util.json.JsonUtil;
 import com.deepai.photo.common.validation.CommonValidation;
 import com.deepai.photo.mapper.AboutPictureMapper;
@@ -1177,11 +1166,19 @@ public class FlowService {
 				}
 			case 1:
 				if(oldGroup.getGroupStatus()==1){
-					if(user.getUserName().equals(oldGroup.getFristPfdUser())){
-						break;
-					}else{
-						throw new InvalidHttpArgumentException(CommonConstant.NORIGHT,String.format(CommonConstant.CNTEDITMSG, "待一审"));
-					}
+				  //add by liu.jinfeng@2017年9月22日 下午3:44:50 
+                    //如果当前用户是在2审或者3审中的用户则可以编辑
+                    if(user.getUserName().equals(oldGroup.getFristPfdUser())||checkUser(user, siteId, new int[]{2,3})){
+                        break;
+                    }else{
+                        throw new InvalidHttpArgumentException(CommonConstant.NORIGHT,String.format(CommonConstant.CNTEDITMSG, "待一审"));
+                    }
+                    
+                    /*if(user.getUserName().equals(oldGroup.getFristPfdUser())){
+                        break;
+                    }else{
+                        throw new InvalidHttpArgumentException(CommonConstant.NORIGHT,String.format(CommonConstant.CNTEDITMSG, "待一审"));
+                    }*/
 					
 				}else{
 					throw new InvalidHttpArgumentException(CommonConstant.NORIGHT,String.format(CommonConstant.NOTCNTEDITMSG, "待一审","一审"));
@@ -1224,6 +1221,55 @@ public class FlowService {
 				throw new InvalidHttpArgumentException(CommonConstant.FAILURECODE,CommonConstant.PARAMERRORMSG);
 		}
 	}
+	/**
+     * 校验用户是否在指定校审级别中
+     * @Description: TODO <BR>
+     * @author liu.jinfeng
+     * @date 2017年9月22日 下午3:48:25
+     * @param user
+     * @param status
+     * @return
+     * @throws Exception 
+     */
+    private boolean checkUser(CpUser user, int siteId, int... status)
+            throws Exception {
+        boolean exist = false;
+        for (int nStatus : status) {
+            if (exist)
+                break;
+            if (nStatus == 1) {// 一审
+                // 三审值班
+                List<String> dutys1 = getNowDuty(siteId, 1, 0);
+                for (int i = 0; i < dutys1.size(); i++) {
+                    if (user.getUserName().equals(dutys1.get(i))) {
+                        exist = true;
+                        break;
+                    }
+                }
+            } else if (nStatus == 2) {// 二审
+                // 三审值班
+                List<String> dutys2 = getNowDuty(siteId, 2, 0);
+                for (int i = 0; i < dutys2.size(); i++) {
+                    if (user.getUserName().equals(dutys2.get(i))) {
+                        exist = true;
+                        break;
+                    }
+                }
+            } else if (nStatus == 3) {// 三审
+                // 三审值班
+                List<String> dutys3 = getNowDuty(siteId, 3, 0);
+                for (int i = 0; i < dutys3.size(); i++) {
+                    if (user.getUserName().equals(dutys3.get(i))) {
+                        exist = true;
+                        break;
+                    }
+                }
+            }
+
+        }
+        return exist;
+    }
+	
 	/**
 	 * 获取当天值班人员
 	 * @param siteId
