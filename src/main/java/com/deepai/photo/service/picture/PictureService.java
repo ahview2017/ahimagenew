@@ -272,8 +272,12 @@ public class PictureService {
 		pic.setPictureLength(saveFile.length());
 		pic.setSourcePictureName(picFile.getOriginalFilename());
 		if(time!=null&&!time.equals("unknown")){
-			time=time.replaceFirst(":", "-").replaceFirst(":", "-");
-			pic.setFilmTime(DateUtils.sdfLongTimePlus.parse(time));
+			if("0000:00:00 00:00:00".equals(time)){
+				pic.setFilmTime(new Date());
+			}else{
+				time=time.replaceFirst(":", "-").replaceFirst(":", "-");
+				pic.setFilmTime(DateUtils.sdfLongTimePlus.parse(time));
+			}
 		}else{
 			pic.setFilmTime(new Date());
 		}

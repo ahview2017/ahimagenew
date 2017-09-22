@@ -354,6 +354,9 @@ public class FlowService {
 //              cpPicture.setSortId(i);
                 cpPicture.setCreateTime(new Date());
                 cpPicture.setDeleteFlag(CommonConstant.BYTE0);
+                if("0002-11-30 00:00:00".equals(DateUtils.sdfLongTimePlus.format(cpPicture.getExDatetime()))){
+                	cpPicture.setExDatetime(new Date());
+                }
                 cpPictureMapper.updateByPrimaryKeySelective(cpPicture);
             }
             return 1;
@@ -843,6 +846,9 @@ public class FlowService {
 				cpPicture.setEditor(user.getUserName());
 //				cpPicture.setSortId(i);
 				cpPicture.setDeleteFlag(CommonConstant.BYTE0);
+				if("0002-11-30 00:00:00".equals(DateUtils.sdfLongTimePlus.format(cpPicture.getExDatetime()))){
+                	cpPicture.setExDatetime(new Date());
+                }
 				cpPictureMapper.updateByPrimaryKeySelective(cpPicture);
 			}
 			//修改图片txt
