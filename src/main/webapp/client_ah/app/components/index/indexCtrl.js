@@ -19,7 +19,7 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
 
         $(function () {
             $('#ericnews_box_box').slide({
-                mainCell:".ericnews_box_box .ericnews_box",
+                mainCell:".ericnews_box_box ul",
                 effect:"leftMarquee",
                 autoPlay:true,
                 vis:5,
