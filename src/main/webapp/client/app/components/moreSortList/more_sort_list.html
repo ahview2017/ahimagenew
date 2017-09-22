@@ -34,7 +34,7 @@
                      total-items="moreSortList.moreSortList_total"
                      current-page="moreSortList.pagination.current">
                     <div style="height:160px;" ui-sref="root.newDetailList({groupId: item.ID})">
-                        <img ng-src="{{item.samllPath}}" class="photo-img">
+                        <img ng-src="{{item.filePath}}" class="photo-img">
                     </div>
                     <p class="photo-file-name change-hover-color photo-spec-intro" title="{{item.TITLE}}（{{item.PICTURE_COUNT}}张）">{{item.TITLE}}（{{item.PICTURE_COUNT}}张）</p>
                     <p>{{item.AUTHOR}} 摄</p>

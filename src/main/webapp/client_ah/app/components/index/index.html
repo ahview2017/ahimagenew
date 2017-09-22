@@ -19,7 +19,7 @@
                     <ul ng-init="index.getClientGroups(3067,5,1,2)">
                         <li ng-repeat="item in index.toddayNews track by $index">
                             <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
-								<img ng-src="{{item.filePath}}" width="1200" height="480">
+								<img ng-src="{{item.filePath}}" width="1200" height="600">
 							</a>
                             <p><a ui-sref="root.newDetailList({groupId: item.ID})">{{item.TITLE || '尚未签发'}}</a></p>
                         </li>
@@ -32,8 +32,8 @@
                     <li></li>
                     <li></li>
                 </ul>
-                <div class="index_prev"></div>
-                <div class="index_next"></div>
+                <div class="index_prev prev"></div>
+                <div class="index_next next"></div>
 			
             </div>
 
@@ -43,7 +43,7 @@
                 <div class="news_title">
                    <div class="line"></div>
                    <div class="news_title_pic"></div>
-                   <div class="refresh right"><span><a target="_blank" ui-sref="root.moreSortList({sginId: 3064})">换一批</a></span></div>
+                   <div class="refresh right"><span><a target="_blank" ui-sref="root.moreSortList({sginId: 3064})">更多</a></span></div>
                 </div>
                 <div class="clear"></div>
                 <div class="news_content" ng-init="index.getClientGroups(3064,3,0,2)">
@@ -76,12 +76,11 @@
                     <div class="hfwy">
                         <div class="hfwy_title_box">
                             <div class="hfwy_title">
-                                皖风徽韵
-                                <div class="hfwy_title_right right">
-                                    <span><a href="" target="_blank">大美安徽</a></span> | 
-                                    <span><a href="" target="_blank">创新安徽</a></span> | 
-                                    <span><a href="" target="_blank">开放安徽</a></span> | 
-                                    <span><a href="" target="_blank">人文安徽</a></span>
+                                <a ui-sref="root.moreSortList({sginId:3078})" target="_blank">皖风徽韵</a>
+                                <div class="hfwy_title_right right" ng-init="index.getselChildColumn(3078)">
+                                    <span ng-repeat="item in index.style">
+										<a ui-sref="root.moreSortList({sginId:item.id})">{{item.name}}</a>
+									</span>
                                 </div>
                             </div>     
                         </div>
@@ -109,18 +108,18 @@
                     <div class="yyjh">
                         <div class="yyjh_title_box">
                             <div class="yyjh_title">
-                                艺苑菁华
-                                <div class="yyjh_title_right right">
-                                    <span><a href="" target="_blank">安徽画坛</a></span> | 
-                                    <span><a href="" target="_blank">网上展厅</a></span> | 
-                                    <span><a href="" target="_blank">漫画天地</a></span>
+                                <a ui-sref="root.moreSortList({sginId:3082})" target="_blank">艺苑菁华</a>
+                                <div class="yyjh_title_right right" ng-init="index.getselChildColumn(3082)">
+                                    <span ng-repeat="item in index.essence">
+										<a ui-sref="root.moreSortList({sginId:item.id})">{{item.name}}</a>
+									</span>
                                 </div>
                             </div>     
                         </div>
                         <div class="yyjh_content" ng-init="index.getClientGroups(3082,3,0,2)">
                             <div class="yyjh_content_1" ng-repeat="item in index.artEssence track by $index">
 								<a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
-									<img ng-src="{{item.filePath}}" height="198" width="254">
+									<img ng-src="{{item.filePath}}" height="170" width="254">
 								</a>
                                 <p class="split_string"><a href="">{{item.TITLE}}</a></p>
                             </div>
@@ -131,45 +130,32 @@
                     <div class="gstk">
                         <div class="yyjh_title_box">
                             <div class="yyjh_title">
-                                各市图库
+                                <a ui-sref="root.moreSortList({sginId:3080})" target="_blank">各市图库</a>
                             </div>     
                         </div>
-                        <div class="gstk_nav">
-                            <span><a href="">合肥</a></span>|
-                            <span><a href="">芜湖</a></span>|
-                            <span><a href="">蚌埠</a></span>|
-                            <span><a href="">淮南</a></span>|
-                            <span><a href="">马鞍山</a></span>|
-                            <span><a href="">淮北</a></span>|
-                            <span><a href="">铜陵</a></span>|
-                            <span><a href="">安庆</a></span>|
-                            <span><a href="">宿州</a></span>|
-                            <span><a href="">滁州</a></span>|
-                            <span><a href="">六安</a></span>|
-                            <span><a href="">宣城</a></span>|
-                            <span><a href="">池州</a></span>|
-                            <span><a href="">阜阳</a></span>|
-                            <span><a href="">亳州</a></span>|
-                            <span><a href="">黄山</a></span>
+                        <div class="gstk_nav" ng-init="index.getselChildColumn(3080)">
+                            <span ng-repeat="item in index.citys">
+								<a ui-sref="root.moreSortList({sginId:item.id})">{{item.name}}</a>
+							</span>
                         </div>
                         <div class="gstk_content" ng-init="index.getClientGroups(3080,3,0,2)">
                             <div class="gstk_content_1 left" ng-repeat="item in index.anhuiCitys track by $index" ng-if="$first">
 								<a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
 									<img ng-src="{{item.filePath}}" height="165" width="254">
 								</a>
-                                <p class="split_string"><span>[合肥]</span><a href="">{{item.TITLE}}</a></p>
+                                <p class="split_string"><span></span><a href="">{{item.TITLE}}</a></p>
                             </div>
                             <div class="gstk_content_2 gstk_content_1 left" ng-repeat="item in index.anhuiCitys track by $index" ng-if="$middle">
 								<a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
 									<img ng-src="{{item.filePath}}" height="165" width="254">
 								</a>
-                                <p class="split_string"><span>[芜湖]</span><a href="">{{item.TITLE}}</a></p>
+                                <p class="split_string"><span></span><a href="">{{item.TITLE}}</a></p>
                             </div>
                             <div class="gstk_content_1 right" ng-repeat="item in index.anhuiCitys track by $index" ng-if="$last">
 								<a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
 									<img ng-src="{{item.filePath}}" height="165" width="254">
 								</a>
-                                <p class="split_string"><span>[合肥]</span><a href="">{{item.TITLE}}</a></p>
+                                <p class="split_string"><span></span><a href="">{{item.TITLE}}</a></p>
                             </div>
                         </div>
                     </div>
@@ -200,7 +186,7 @@
                     <div class="yyjh_sp" ng-init="index.getClientGroups(3081,1,0,2)">
                         <div class="zt_title_box">
                             <div class="zt_title">
-                                视频
+                                <a ui-sref="root.moreSortList({sginId:3081})" target="_blank">视频</a>
                             </div>     
                         </div>
                         <div class="sp_content" ng-repeat="item in index.anhuiVideo track by $index">
@@ -211,19 +197,21 @@
                         </div>
                     </div>
 
-                    <div class="gstk_hd">
+                    <div class="gstk_hd" ng-init="index.getClientGroups(3083,1,0,2)">
                         <div class="zt_title_box">
                             <div class="zt_title">
-                                互动
+                                <a ui-sref="root.moreSortList({sginId:3083})" target="_blank">互动</a>
                             </div>     
                         </div>
-                        <div class="hd_content">
+                        <div class="hd_content" ng-repeat="item in index.interactiveSpace track by $index">
                             <div class="hd_nav">
-                                <a href="">首届精准文化扶贫 助力贫困学生</a>
+                                <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">{{item.TITLE}}</a>
                             </div>
                             <div class="hd_content_1">
-                                <a href=""><img src="client_ah/assets/images_ah/sjah_index_66.png" alt="" width="329" height="164"></a>
-                                <p><a href="">摘要：8月7日下午，“首届精准文化扶贫 助力贫困学生仪式”，在蜀山区南岗镇人民政府举办。</a></p>
+                                <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
+									<img ng-src="{{item.filePath}}" alt="" width="329" height="164">
+								</a>
+                                <p><a href="">{{item.TITLE}}</a></p>
                             </div>
                         </div>
                     </div>
@@ -235,7 +223,7 @@
                 <div class="history_title">
                    <div class="line"></div>
                    <div class="history_title_pic"></div>
-                   <div class="refresh right"><span><a href="">换一批</a></span></div>
+                   <div class="refresh right"><span><a ui-sref="root.moreSortList({sginId:3079})" target="_blank">更多</a></span></div>
                 </div>
                 <div class="clear"></div>
                 <div class="history_content" ng-init="index.getClientGroups(3079,4,0,2)">
@@ -246,7 +234,7 @@
 							</a>
                             <div class="history_subtitle">
                                 <p class="split_string"><a href="">{{item.TITLE}}</a></p>
-                                <p class="split_string">摘要：屯溪属于黄山中心城区，新安江穿流而过，屯溪的老街也是闻名遐迩。春天的皖南时而烟雨蒙蒙，时而天气晴朗。雨夜的老街格外宁静....清晨，江水缓缓而逝哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈</p>
+                                <p class="split_string">{{item.TITLE}}</p>
                             </div>
 
                         </li>
@@ -258,23 +246,11 @@
             <div class="eric_newsPaper">
                 <div class="eric_title">
                    <div class="line"></div>
-                   <div class="eric_title_pic"></div>
+                   <a ui-sref="root.moreSortList({sginId:3097})" target="_blank"><div class="eric_title_pic"></div></a>
                 </div>
-                <div class="ericnews_box">
-                    <div class="eric_list">
-                        <a href=""><img src="client_ah/assets/images_ah/sjah_index_92.png" alt="" height=300 width=214></a>
-                    </div>
-                    <div class="eric_list">
-                        <a href=""><img src="client_ah/assets/images_ah/sjah_index_94.png" alt="" height=300 width=214></a>
-                    </div>
-                    <div class="eric_list">
-                        <a href=""><img src="client_ah/assets/images_ah/sjah_index_96.png" alt="" height=300 width=214></a>
-                    </div>
-                    <div class="eric_list">
-                        <a href=""><img src="client_ah/assets/images_ah/sjah_index_98.png" alt="" height=300 width=214></a>
-                    </div>
-                    <div class="eric_list">
-                        <a href=""><img src="client_ah/assets/images_ah/sjah_index_100.png" alt="" height=300 width=214></a>
+                <div class="ericnews_box" ng-init="index.getClientGroups(3097,5,0,2)">
+                    <div class="eric_list" ng-repeat="item in index.ericNewsPaper track by $index">
+                        <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank"><img ng-src="{{item.filePath}}" alt="" height=300 width=214></a>
                     </div>
                 </div>
             </div>

@@ -17,7 +17,7 @@ clientModule.controller('moreSortListCtrl',function($scope, $cookies, req, md5, 
         }
         vm.getMoreGroupsList = [];
         vm.moreSortList_total = 0;
-        vm.itemsPerPage = 30;
+        vm.itemsPerPage = 20;
         vm.pagination = {
             current: 1
         };

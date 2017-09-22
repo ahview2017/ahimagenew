@@ -101,7 +101,7 @@ input[rel="index_submit"]{width:74px;height:42px;background: url("search_pic_03.
 	overflow:hidden;
 	position:relative;
 	width:1200px;
-	height:480px;
+	height:600px;
 	background:#FFF; 
 	float:left;
 	margin-bottom:30px;
@@ -117,7 +117,7 @@ input[rel="index_submit"]{width:74px;height:42px;background: url("search_pic_03.
 	overflow:hidden;
 	position:relative;
 	width:1200px;
-	height:480px;
+	height:600px;
 }
 .bd ul{
 	overflow:hidden;
@@ -180,7 +180,7 @@ input[rel="index_submit"]{width:74px;height:42px;background: url("search_pic_03.
 	cursor:pointer;
 	height:70px;
 	position:absolute;
-	top:205px;
+	top:280px;
 	width:42px;
 	right:0;
 }
@@ -189,7 +189,7 @@ input[rel="index_submit"]{width:74px;height:42px;background: url("search_pic_03.
 	cursor:pointer;
 	height:70px;
 	position:absolute;
-	top:205px;
+	top:280px;
 	width:42px;
 }
 

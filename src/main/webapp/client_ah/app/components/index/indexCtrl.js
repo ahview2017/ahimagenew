@@ -11,7 +11,8 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
                 //clickBarRadius: 3,
                 //width: 305,
                 //height: 549
-				mainCell:".bd ul",effect:"leftLoop",autoPlay:true,delayTime:500,titCell:".btn li"
+				mainCell:".bd ul",effect:"leftLoop",autoPlay:true,delayTime:500,titCell:".btn li",events:"click",prevCell: ".index_prev",
+			nextCell: ".index_next"
             });
         }, 1000);
     });
@@ -107,6 +108,36 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
     //初始化页面相关配置
     function initSetting() {
     }
+	
+	//获取首页栏目信息
+	vm.getselChildColumn = function (pColumnId) {
+        req_getselChildColumn(pColumnId);
+    };
+	
+	// 初始化各市图库栏目信息
+	function req_getselChildColumn(pColumnId) {
+		req.post('enColumn/selChildColumn.do', {
+			pColumnId : pColumnId
+		}).success(function(resp) {
+			if (resp.code == '211') {
+				//各市图库
+				if (pColumnId == 3080) {
+                    vm.citys = resp.data;
+                }
+				//皖风徽韵
+				if (pColumnId == 3078) {
+                    vm.style = resp.data;
+                }
+				//艺苑菁华
+				if (pColumnId == 3082) {
+                    vm.essence = resp.data;
+                }
+				
+			} else {
+				console.log(resp.msg);
+			}
+		});
+	}
 
     //页面初始化
     function init() {
@@ -116,6 +147,7 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
     }
 
     init();
+	
 
     //获取首页签发的稿件
     vm.getClientGroups = function (signId,limit,size,picType) {
@@ -160,6 +192,16 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
 				if (signId == 3081) {
                     vm.anhuiVideo = jugeGroupPos.jugeGroupPos(3081,resp.data);
 					console.log(vm.anhuiVideo);
+                }
+				//数字报刊
+				if (signId == 3097) {
+                    vm.ericNewsPaper = jugeGroupPos.jugeGroupPos(3097,resp.data);
+					console.log(vm.ericNewsPaper);
+                }
+				//互动空间
+				if (signId == 3083) {
+                    vm.interactiveSpace = jugeGroupPos.jugeGroupPos(3097,resp.data);
+					console.log(vm.interactiveSpace);
                 }
 				
 				

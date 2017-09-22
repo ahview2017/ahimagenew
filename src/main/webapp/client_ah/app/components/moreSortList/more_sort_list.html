@@ -1,7 +1,7 @@
 <div class="gailan_content">
         <div class="gailan_title">
             <div class="title_box">
-                <span>当前位置：<a href="">首页</a> > <a href="">	新闻图片</a> > <a href="">时政</a></span>
+                <!--<span>当前位置：<a href="/photo/index_ah.html">首页</a> >  <a href="">头条</a></span>-->
                 
                 <!--<div class="gailan_curpage">
                     <span><a href=""><</a></span>
@@ -27,7 +27,7 @@
                      total-items="moreSortList.moreSortList_total"
                      current-page="moreSortList.pagination.current">
                         <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
-							<img ng-src="{{item.filePath}}" width="285" height="179"></a>
+							<img ng-src="{{item.filePath}}"></a><!--width:285px;max-height:179px-->
                         <p><a title="{{item.TITLE}}（{{item.PICTURE_COUNT}}张）" href="">{{item.TITLE}}（{{item.PICTURE_COUNT}}张）</a></p>
                     </li>
                 </ul>
