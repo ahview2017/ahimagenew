@@ -17,28 +17,17 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
         }, 1000);
     });
 
-        $(function () {
-<<<<<<< HEAD
-            $timeout(function () {
-                $('#ericnews_box_box').slide({
-                    mainCell:".ericnews_box ul",
-                    effect:"leftMarquee",
-                    autoPlay:true,
-                    vis:5,
-                    interTime:50
-                });
-            }, 1000);   
-=======
+    $(function () {
+        $timeout(function () { 
             $('#ericnews_box_box').slide({
-                mainCell:".ericnews_box_box ul",
+                mainCell:".ericnews_box ul",
                 effect:"leftMarquee",
                 autoPlay:true,
                 vis:5,
-                interTime:50,
-                trigger:"click"
+                interTime:50
             });
->>>>>>> ccbb90d36735bad6587756fd20b93c40e35b9b5a
-        })
+        }, 1000);
+    });
 	
 	/**导航切换效果*/
 	/*$(function () {
