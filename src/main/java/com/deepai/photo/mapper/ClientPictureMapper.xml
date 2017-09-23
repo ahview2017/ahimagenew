@@ -221,7 +221,7 @@
 	LEFT JOIN cp_picture p on g.COVER_PICTURE_ID=p.ID
 	LEFT JOIN cp_pic_group_category c on c.GROUP_ID=g.ID 
 	where g.SOURCE_ID=0 and g.GROUP_STATUS=4 
-		and c.TYPE=1 and c.CATEGORY_ID=#{sginId} and c.POSITION is not NULL
+		and c.TYPE=1 and c.CATEGORY_ID=#{sginId} and c.POSITION >0
 		<if test="limit!=null">
 			ORDER BY c.POSITION
 			limit #{limit}
