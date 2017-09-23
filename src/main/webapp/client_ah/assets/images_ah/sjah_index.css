@@ -574,6 +574,7 @@ input[rel="index_submit"]{width:74px;height:42px;background: url("search_pic_03.
 	position:relative;
 	margin-bottom:10px;
 }
+
 .ericnews_box,.ericnews_box_box{
 	width:1168px;
 	margin:0 auto;
@@ -586,11 +587,7 @@ input[rel="index_submit"]{width:74px;height:42px;background: url("search_pic_03.
 	width:214px;
 	border:2px solid #ddd;
 }
-.ericnews_box li:nth-child(2){
-	margin-left:18px;
-	margin-right:19px;
-}
-.ericnews_box li:nth-child(4){
+.ericnews_box li:nth-child(even){
 	margin-left:18px;
 	margin-right:19px;
 }

@@ -263,17 +263,14 @@
                    <a ui-sref="root.moreSortList({sginId:3097})" target="_blank"><div class="eric_title_pic"></div></a>
                 </div>
                 <div class="ericnews_box_box" id="ericnews_box_box">
-	                <div class="ericnews_box" ng-init="index.getClientGroups(3097,6,0,2)">
+                    <div class="ericnews_box" ng-init="index.getClientGroups(3097,9,0,2)">
                         <ul>
                             <li class="eric_list" ng-repeat="item in index.ericNewsPaper track by $index">
                                 <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank"><img ng-src="{{item.filePath}}" alt="" height=300 width=214></a>
                             </li>
                         </ul>
-	                    <!-- <div class="eric_list" ng-repeat="item in index.ericNewsPaper track by $index">
-	                        <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank"><img ng-src="{{item.filePath}}" alt="" height=300 width=214></a>
-	                    </div> -->
-	                </div>
-	            </div>
+                    </div>
+                </div>
             </div>
 	        
 	    </div>

@@ -18,14 +18,15 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
     });
 
         $(function () {
-            $('#ericnews_box_box').slide({
-                mainCell:".ericnews_box_box ul",
-                effect:"leftMarquee",
-                autoPlay:true,
-                vis:5,
-                interTime:50,
-                trigger:"click"
-            });
+            $timeout(function () {
+                $('#ericnews_box_box').slide({
+                    mainCell:".ericnews_box ul",
+                    effect:"leftMarquee",
+                    autoPlay:true,
+                    vis:5,
+                    interTime:50
+                });
+            }, 1000);   
         })
 	
 	/**导航切换效果*/

@@ -21,6 +21,18 @@
 .pic_detail_content_box{
 	width:100%;
 }
+
+.iframeBox{
+	height: 560px;
+	background: #f7f7f7;
+}
+
+.disNone{
+	display: none;
+}
+.disBlock{
+	display: block;
+}
 .ditail_title{
 	width:100%;
 	height:90px;
