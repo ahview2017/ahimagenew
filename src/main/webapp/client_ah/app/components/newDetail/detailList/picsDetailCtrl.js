@@ -18,6 +18,9 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
         $scope.page = 1;
     }
 
+
+
+
     //获取客户端稿件详情
     function getClientGroupPics(callback) {
         req.post('getPicture/getClientGroupPics.do', {
@@ -28,17 +31,16 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
             if (resp.code == '211') {
                 vm.clientPictureDetail = resp.data;
                 vm.groupKeyWords = resp.data.keywords;
-				console.log("resp.data.length:"+resp.data.pics.length);
-				var vId = 0;
-				for(var i = 0; i < resp.data.pics.length; i++) {
-					vId = resp.data.pics[0].videoid;
-				}
+
+				var videoId = resp.data.videoId;
+				//console.log("videoId:"+videoId);
+				vm.videoId = videoId;
 				vm.masUrl = '';
-				if(vId!=0){
-					vm.masUrl = "http://192.168.81.7:8080/mas/openapi/pages.do?method=exPlay&appKey=TRSPMS123&type=vod&autoplay=true&id="+vId;
+				if(videoId!=0){
+					vm.masUrl = vm.masBaseUrl+"&method=exPlay&type=vod&id="+videoId;
 				}
 				vm.masUrl = $sce.trustAsResourceUrl(vm.masUrl);
-				console.log("vm.masUrl:"+vm.masUrl);
+				//console.log("vm.masUrl:"+vm.masUrl);
 
                 if(callback) callback();
             }else if(resp.msg != '未登录'){
@@ -68,13 +70,28 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
     //页面初始化
     function init() {
         initSetting();
+		getMasBaseUrl();
         getClientGroupPics(function(){
             req_getFullText(1);
         });
+		
 
     }
 
     init();
+
+
+
+	//获取Mas视频基础URL add by xiayunan 20170907
+	function getMasBaseUrl(){
+		req.get('groupPicCtro/getMasBaseUrl.do').success(function(resp) {
+			if(resp.code == '211') {
+				vm.masBaseUrl = resp.data.masBaseUrl;
+			}else if(resp.msg != '未登录') {
+				layer.alert(resp.msg);
+			}
+		});
+	}
 
     // 切换相似稿件图片
     $scope.changePic = function(addsubFlag){
@@ -122,10 +139,10 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
         for (var key in vm.selPicIds) {
             if (vm.selPicIds[key]) {
                 vm.selKeyArr.push(key);
-                console.log(vm.selKeyArr.length);
+               // console.log(vm.selKeyArr.length);
             }
         }
-        console.log(vm.selKeyArr.length);
+       // console.log(vm.selKeyArr.length);
     }
 
     //获取选中图片ID
@@ -425,7 +442,7 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
                 if (signId == 25) {
                     vm.bestUse = jugeGroupPos.jugeGroupPos(25,resp.data);
                 }
-                console.log(vm.bestUse);
+              //  console.log(vm.bestUse);
             }else if(resp.msg != '未登录'){
                 layer.alert(resp.msg);
             }

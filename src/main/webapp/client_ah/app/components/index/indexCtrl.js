@@ -18,6 +18,7 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
     });
 
         $(function () {
+<<<<<<< HEAD
             $timeout(function () {
                 $('#ericnews_box_box').slide({
                     mainCell:".ericnews_box ul",
@@ -27,6 +28,16 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
                     interTime:50
                 });
             }, 1000);   
+=======
+            $('#ericnews_box_box').slide({
+                mainCell:".ericnews_box_box ul",
+                effect:"leftMarquee",
+                autoPlay:true,
+                vis:5,
+                interTime:50,
+                trigger:"click"
+            });
+>>>>>>> ccbb90d36735bad6587756fd20b93c40e35b9b5a
         })
 	
 	/**导航切换效果*/
