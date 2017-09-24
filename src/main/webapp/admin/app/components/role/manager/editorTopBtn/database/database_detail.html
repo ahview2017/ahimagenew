@@ -1,3 +1,14 @@
+<style>
+input[type=checkbox], input[type=radio]{ zoom:1.5;}
+.dpicimg{ width:25%; float:left;}
+.dpicdet{ width:70%; float:left; margin-left:3%;}
+.spanDatabaseBtn{ width:auto; min-width:80px; padding:8px;}
+.ms-addpic-left{ height:30px; line-height:30px; width:15%;}
+.ms-addpic-right{ line-height:30px; width:80%; }
+.db-txt-cont{ line-height:28px;}
+
+</style>
+
 <div class="user-manager-container">
     <div class="edt-dbTit oH">
         <role-common-tit value="资料库" class="fll"></role-common-tit>
@@ -45,7 +56,7 @@
                     <span class="pic-num-blue-color">{{detail.dataBankObj.pictureCount}}张</span>
                 </h3>
 
-                <p class="mt5">
+                <p class="mt10">
                     <span> {{detail.dataBankObj.author}} 摄</span>
                     <span>{{detail.dataBankObj.fileTime|date:'yyyy-MM-dd HH:mm:ss'}}</span>
                 </p>
@@ -77,14 +88,14 @@
         </div>-->
         <div class="db-detail-cont">
             <div class="oH">
-                <div class="db-detail-cont-item w20p mt20 ml3p fll"
+                <div class="db-detail-cont-item w100p mt20 ml3p fll"
                      ng-repeat="picItem in detail.dataBankObj.pics">
-                    <div>
+                    <div class="dpicimg">
                         <input type="checkbox" name="check" class="check" value="{{picItem.id}}">
                         <img class="ms-detail-picture" ng-src="{{picItem.smallPath}}"
                              width="225" height="255"/>
                     </div>
-                    <div>
+                    <div class="dpicdet">
                         <div class="mt10 clear">
                             <div class="ms-addpic-left fll">
                                 <span>文件名</span>
@@ -126,6 +137,7 @@
                             </div>
                         </div>
                     </div>
+                    <div class="clear"></div>
                 </div>
             </div>
             <div class="db-detail-cont-txt" style="padding-left: 0">
