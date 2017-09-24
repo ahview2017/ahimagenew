@@ -198,12 +198,14 @@ adminModule.controller('mDatabaseDetailCtrl', function ($scope, $cookies, req, m
         check: {
             enable: true,
             chkboxType: {
-                "Y": "",
+                "Y": "ps",
                 "N": "ps"
             }
         },
         callback: {
-            onCheck: treeCheckEvent
+            //onCheck: treeCheckEvent,
+        	//add by xiayunan@2017-09-24 
+        	beforeCheck: zTreeBeforeCheck
         }
     };
     column();
@@ -215,13 +217,15 @@ adminModule.controller('mDatabaseDetailCtrl', function ($scope, $cookies, req, m
         check: {
             enable: true,
             chkboxType: {
-                "Y": "",
+                "Y": "ps",
                 "N": "ps"
             }
         },
         callback: {
             // onClick: treeClick,
-            onCheck: treeCheckEvents
+            // onCheck: treeCheckEvents
+        	//add by xiayunan@2017-09-24 
+        	beforeCheck: zTreeBeforeCheck
         }
     };
 
@@ -234,6 +238,11 @@ adminModule.controller('mDatabaseDetailCtrl', function ($scope, $cookies, req, m
     function treeCheckEvents(event, treeId, treeNode, clickFlag) {
         console.log(treeNode.id);
     }
+    //add by xiayunan@2017-09-24 
+    function zTreeBeforeCheck(treeId, treeNode) {
+        return !treeNode.isParent;//当是父节点 返回false 不让选取
+    }
+
     /**
      * 获取签发的参数
      */
