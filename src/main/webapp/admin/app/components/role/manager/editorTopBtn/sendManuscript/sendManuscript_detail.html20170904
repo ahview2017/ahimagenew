@@ -23,7 +23,6 @@
             <span  ng-if="(detail.manuscriptDetail.deleteFlag == 0) && (detail.dtType == 1) && (detail.manuscriptDetail.groupStatus == 1) && (detail.manuscriptDetail.isLocked != 1) && (detail.fristPfdUser == detail.uName)"  ng-click="detail.commitModalShow('commit-confirm-modal', 1)">提交</span>
             <span  ng-if="(detail.manuscriptDetail.deleteFlag == 0) && (detail.dtType == 2) && (detail.manuscriptDetail.groupStatus == 2) && (detail.manuscriptDetail.isLocked != 1)"  ng-click="detail.commitModalShow('commit-confirm-modal', 2)">提交</span>
             <span ng-if="(detail.manuscriptDetail.deleteFlag == 0) && (detail.dtType == 3) && (detail.manuscriptDetail.groupStatus == 3) && (detail.manuscriptDetail.isLocked != 1)" ng-click="detail.signModalShow('sign-manuscript-modal')">签发</span>
-            <span ng-if="(detail.manuscriptDetail.deleteFlag == 0) && (detail.dtType == 3) && (detail.manuscriptDetail.groupStatus == 3) && (detail.manuscriptDetail.isLocked != 1)" ng-click="detail.signModalShow2('sign-manuscript-modal2')">签报</span>
             <span ng-hide="(detail.manuscriptDetail.deleteFlag == 1) || ((detail.manuscriptDetail.isLocked == 1) || (detail.dtType != detail.manuscriptDetail.groupStatus)) || ((detail.fristPfdUser != detail.uName) && (detail.dtType == 1))" ng-click="detail.delModalShow('commit-del-modal')">删除</span>
             <div class="smt-manage-box">
                 <p class="smt-manage-operate-detail smt-spec-manage-operate" ng-click="detail.toggleMangeOperateCon()">管理</p>
@@ -191,12 +190,6 @@
                     </div>
                 </div>
             </div>
-        	<div class="smt-detail-video" ng-hide="detail.manuscriptDetail.videoId == 0">
-        		<!-- 视频显示 -->
-					<span id="mas-video-box-detail" >
-						<iframe id='mas-video-detail' src='{{detail.masUrl}}'></iframe>
-					</span>
-        	</div>
         </div>
     </div>
     <!--作者信息弹框-->
@@ -336,29 +329,6 @@
             </div>
         </div>
     </div>
-    
-     <!--签报弹框-->
-    <div class="common-modal-style2" id="sign-manuscript-modal2"
-         ng-mousemove="detail.moveModal('role-add-tit','sign-manuscript-modal2')"
-         style="display:none">
-        <div class="role-add-con">
-            <div class="role-add-tit clear" id="role-add-tit">
-                <span class="fll">签报稿件</span>
-                <span class="flr curp tit-close" ng-click="detail.manuscriptDetailModalHide('sign-manuscript-modal2')">×</span>
-            </div>
-            <div text-align="left">
-              	报社图片 <input type="radio" name="checkpic" value="1"/>
-                 &nbsp;&nbsp;&nbsp;&nbsp;
-                新华社图片<input type="radio" name="checkpic" value="0"/>
-                
-            </div>
-            <div class="tac mt10">
-                <span class="dib cursor user-add-btn"   ng-click="detail.signManuscript2('sign-manuscript-modal2')">确定</span>
-                <span class="dib cursor user-add-btn cancel-btn-color"   ng-click="detail.manuscriptDetailModalHide('sign-manuscript-modal2')">取消</span>
-            </div>
-        </div>
-    </div>
-    
     <!--签发浏览位置弹框-->
     <div class="common-modal-style" id="look-sign-pos-modal"
          ng-mousemove="detail.moveModal('merge-modal-tit','look-sign-pos-modal')"
