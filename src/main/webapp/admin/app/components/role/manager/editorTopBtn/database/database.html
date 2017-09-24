@@ -24,6 +24,8 @@
 		    <span class='sel-all'>全选</span>
 		</div>
 		<div class="active-slide-item fll">
+			<!-- 资料库添加稿件合并 add by xiayunan@20170923 -->
+			<input type="button" class="dib cursor push-add-btn download-btn" ng-click="database.mergeManuscriptModalShow('wait-manuscript-merge-modal')" value="稿件合并">
 			<input type="button" class="dib cursor push-add-btn download-btn" ng-click="database.ModalShow('database-type-modal')" value="下载组图">
 		</div>
 	</div>
@@ -405,6 +407,70 @@
 			</div>
 		</div>
 	</div>
+	 <!--稿件合并弹框   add by xiayunan@2017-09-23-->
+    <div class="common-modal-style" id="wait-manuscript-merge-modal"
+         ng-mousemove="database.moveModal('merge-modal-tit','wait-manuscript-merge-modal')"
+         style="display:none">
+        <div class="role-add-con">
+            <div id="merge-modal-tit" class="role-add-tit oH">
+                <span class="fll">稿件合并</span>
+                <span class="flr curp tit-close"
+                      ng-click="database.sendManuscriptModalHide('wait-manuscript-merge-modal')">×</span>
+            </div>
+            <div class="ova" style="height: 465px;">
+                <div class="role-modal-con">
+                    <div>
+                        稿件合并，请选择主图：
+                    </div>
+                    <div>
+                        <div class="table-responsive">
+                            <table  class="table table-bordered uInfo-table fz16">
+                                <thead>
+                                <tr>
+                                    <th class="uinfo-hd-th">编号</th>
+                                    <th class="uinfo-hd-th">标题</th>
+                                    <th class="uinfo-hd-th">人物</th>
+                                    <th class="uinfo-hd-th">地点</th>
+                                    <th class="uinfo-hd-th">上传时间</th>
+                                </tr>
+                                </thead>
+                                <tbody ng-if="database.acitiveOneSlideTit == 1">
+                                <tr  ng-repeat="item in database.hadPubRowDataArray| filter: database.filterMergedMenuscript">
+                                    <td>
+                                        <input type="radio" name="mergeMsRadio" ng-model="database.selMergeWaitMsIds" ng-value="item.ID"/>
+                                        <span class="ml10">{{item.ID}}</span>
+                                    </td>
+                                    <td>{{item.TITLE}}</td>
+                                    <td>{{item.PEOPLE}}</td>
+                                    <td>{{item.PLACE}}</td>
+                                    <td>{{item.APPLY_TIME | date : 'yyyy-MM-dd HH:mm:ss'}}</td>
+                                </tr>
+                                </tbody>
+                                <tbody ng-if="database.acitiveOneSlideTit == 2">
+                                <tr ng-repeat="item in database.hadBackRowDataArray| filter: database.filterMergedMenuscript">
+                                    <td>
+                                        <input type="radio" name="mergeMsRadio" ng-model="database.selMergeWaitMsIds" ng-value="item.ID"/>
+                                        <span class="ml10">{{item.ID}}</span>
+                                    </td>
+                                    <td>{{item.TITLE}}</td>
+                                    <td>{{item.PEOPLE}}</td>
+                                    <td>{{item.PLACE}}</td>
+                                    <td>{{item.APPLY_TIME | date : 'yyyy-MM-dd HH:mm:ss'}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tac mt10">
+                    <span class="dib cursor user-add-btn" ng-click="database.comfirmMergeManuscript('wait-manuscript-merge-modal')">保存</span>
+                <span class="dib cursor user-add-btn cancel-btn-color"
+                      ng-click="database.sendManuscriptModalHide('wait-manuscript-merge-modal')">取消</span>
+                </div>
+            </div>
+            
+        </div>
+    </div>
 	<!--高级检索弹框-->
 	<div class="common-modal-style common-modal-style-widt" id="database-manuscript-search-modal" 
 		 ng-mousemove="database.moveModal('search-modal-tit','wait-manuscript-search-modal')"

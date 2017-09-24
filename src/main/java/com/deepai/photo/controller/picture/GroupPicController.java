@@ -1991,9 +1991,8 @@ public class GroupPicController {
 	
 	
 	/**
-	 * 获取稿件详情
+	 * 获取Mas基础URL
 	 * @param request
-	 * @param groupId 稿件id
 	 * @return
 	 */
 	@ResponseBody

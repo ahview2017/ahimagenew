@@ -45,7 +45,9 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 		//存在推送至英文栏目数组
 		vm.selPushGroup = [];
 		//以撤稿件的复选框的双向绑定
-		vm.selCheckback = []
+		vm.selCheckback = [];
+		 //存放待合并对象  add by xiayunan@20170924
+        vm.groupIds = [];
 		//存放资料库数组
 		vm.hadPubRowDataArray = [];
 		//资料库总条数
@@ -125,6 +127,115 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 	vm.databaseModalHide = function(modalId) {
 		modalOperate.modalHide(modalId);
 	};
+	
+	
+	//*********稿件合并START*********//
+	//add by xiayunan@2017-09-23
+	 
+	//判断是否选择了数据
+    function judgeSelData(){
+        vm.groupIds = [];
+		//发布稿件
+		if(vm.acitiveOneSlideTit == 1 && vm.acitiveTwoSlideTit1 == 1) {
+			$('input[name="check"]:checked').each(function() {
+				vm.groupIds.push($(this).val()); //向数组中添加元素
+			});
+		} else if(vm.acitiveOneSlideTit == 1 && vm.acitiveTwoSlideTit1 == 2) {
+			$('input[name="checked"]:checked').each(function() {
+				vm.groupIds.push($(this).val()); //向数组中添加元素
+			});
+		}
+		//以撤稿件
+		if(vm.acitiveOneSlideTit == 2 && vm.acitiveTwoSlideTit1 == 1) {
+			$('input[name="checkBack"]:checked').each(function() {
+				vm.groupIds.push($(this).val()); //向数组中添加元素
+			});
+		} else if(vm.acitiveOneSlideTit == 2 && vm.acitiveTwoSlideTit1 == 2) {
+			$('input[name="checkBack"]:checked').each(function() {
+				vm.groupIds.push($(this).val()); //向数组中添加元素
+			});
+		}
+    }
+	
+	 //稿件合并模态框显示
+    vm.mergeManuscriptModalShow = function(modalId){
+        judgeSelData();
+        if(vm.groupIds.length == 0 ){
+            layer.alert('请选择一条数据进行操作');
+            return;
+        }
+        if((vm.groupIds.length > 0)){
+            modalOperate.modalShow(modalId);         
+        }
+    }
+	
+  //稿件合并
+  vm.comfirmMergeManuscript = function(modalId){
+    console.log(vm.selMergeWaitMsIds);
+    req_mergeManuscript(modalId);
+  }
+	
+  //获取稿件合并的稿件ID
+    function getNeedMergeMsIds(){
+        vm.finalGIds = '';
+        vm.gIds = '';
+        for(var key in vm.groupIds){
+            if((vm.groupIds[key] != vm.selMergeWaitMsIds)){
+                vm.gIds += vm.groupIds[key] + ',';
+            }
+        }
+        vm.finalGIds = vm.gIds.slice(0,vm.finalGIds.length - 1);
+    } 
+    
+    //稿件合并请求
+    function req_mergeManuscript(modalId){
+        if(!vm.selMergeWaitMsIds){
+            layer.alert('请至少选中一个稿件');
+            return;
+        }
+        console.log(vm.groupIds);
+        getNeedMergeMsIds();
+        var reqData = {
+            groupId: vm.selMergeWaitMsIds,
+            gIds:  vm.finalGIds
+        };
+        req.post('groupPicCtro/mergeGroups.do',reqData).success(function(resp){
+            if(resp.code == '211'){
+                layer.alert('稿件合并成功');
+                vm.selWaitMsIds = {};
+                modalOperate.modalHide(modalId);
+                if(vm.acitiveOneSlideTit == 1) {
+                	getSignGroups(1, vm.cateId, vm.pagination.current, 0, vm.ifAdvanceSearchFlag);
+        			getSignGroups(1, vm.cateId, vm.pagination.current, 1, vm.ifAdvanceSearchFlag);
+                }else{
+                	getSignGroups(2, vm.cateId, vm.pagination.current, 0, vm.ifAdvanceSearchFlag);
+        			getSignGroups(2, vm.cateId, vm.pagination.current, 1, vm.ifAdvanceSearchFlag);
+                }
+                vm.selWaitMsIds = {};
+            }else if(resp.msg != '未登录'){
+                layer.alert(resp.msg);
+                vm.selWaitMsIds = {};
+            }
+        });
+    }
+	
+    //过滤需要合并的稿件
+    vm.filterMergedMenuscript = function(item){
+            for(var key in vm.groupIds){
+                if(vm.groupIds[key] == item.ID){
+                    return true;
+                }
+            }
+    }
+    
+    //待发稿件模态框隐藏
+    vm.sendManuscriptModalHide = function(modalId){
+        modalOperate.modalHide(modalId);
+        vm.selWaitMsIds = {};
+    }
+    //*********稿件合并End*********//
+	
+	
 	//推送资料图稿件到英文栏目
 	vm.pushGroupPicsToEn = function() {
 		var groupIds = [];
