@@ -28,7 +28,7 @@ input[rel="index_submit"]{width:74px;height:42px;background: url("search_pic_03.
 .special_ch a{width:73px;height:50px;display:inline-block;}
 
 .main_box{width:1200px;margin:0 auto;}
-.special_pic{width:1200px;height:100px;margin-bottom:22px;margin-top:15px;}
+.special_pic{width:1200px;height:100px;margin-bottom:30px;margin-top:0px;}
 
 
 /*导航下拉效果*/
@@ -144,8 +144,8 @@ input[rel="index_submit"]{width:74px;height:42px;background: url("search_pic_03.
     color:#FFF;
     text-align:left; 
     background:#000;
-    filter:alpha(opacity=10); 
-    background:rgba(0,0,0,0.1);
+    filter:alpha(opacity=60); 
+    background:rgba(0,0,0,0.6);
 }
 .bd ul p a{ 
 	color:#fff;
