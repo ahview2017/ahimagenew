@@ -11,8 +11,8 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
                 //clickBarRadius: 3,
                 //width: 305,
                 //height: 549
-				mainCell:".bd ul",effect:"leftLoop",autoPlay:true,delayTime:500,titCell:".btn li",events:"click",prevCell: ".index_prev",
-			nextCell: ".index_next"
+				mainCell:".bd ul",effect:"leftLoop",autoPlay:true,delayTime:500,titCell:".btn li",events:"click",nextCell: ".index_prev",
+			prevCell: ".index_next"
             });
         }, 1000);
     });

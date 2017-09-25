@@ -94,8 +94,6 @@
 	height:560px;
 	background: #f7f7f7;
 	text-align:left;
-	overflow-x: hidden;
-	overflow-y: scroll;
 }
 .pics_img_box{
 	float: left;
@@ -138,6 +136,9 @@
 	font-size:16px;
 	width:330px;
 	margin-left: 18px;
+	height: 160px;
+	overflow-x: hidden;
+	overflow-y: scroll;
 }
 .pic_state_exp p{
 	line-height: 32px;
@@ -152,7 +153,7 @@
 	display: inline-block;
 	width:136px;
 	height:84px;
-	margin-top: 75px;
+	margin-top: 40px;
 }
 .detail_bottom_state{
 	width:1200px;
