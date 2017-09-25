@@ -247,7 +247,7 @@ adminModule.controller('mDatabaseDetailCtrl', function ($scope, $cookies, req, m
      * 获取签发的参数
      */
     function getSignParams() {
-        var treeObj = $.fn.zTree.getZTreeObj("tree");
+    	var treeObj = $.fn.zTree.getZTreeObj("tree");
         var nodes = treeObj.getCheckedNodes(true);
         for (var i = 0; i < nodes.length; i++) {
             var position = $("#diyBtn_" + nodes[i].id).prop('value');
@@ -534,6 +534,10 @@ adminModule.controller('mDatabaseDetailCtrl', function ($scope, $cookies, req, m
                     columnId: column[i]
                 });
             }
+        }
+        if($.fn.zTree.getZTreeObj("treeDemo").getCheckedNodes(true).length == 0&&$.fn.zTree.getZTreeObj("tree").getCheckedNodes(true).length == 0){
+        	layer.alert('请至少选中一个签发类型');
+			return;
         }
         req.post('groupPicCtro/signAgainGroupPic.do', {
             groupId: vm.dataBankId,

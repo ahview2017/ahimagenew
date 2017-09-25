@@ -84,13 +84,15 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 		check: {
 			enable: true,
 			chkboxType: {
-				"Y": "",
+				"Y": "ps",
 				"N": "ps"
 			}
 		},
 		callback: {
 			// onClick: treeClick,
-			onCheck: treeCheckEvent
+			onCheck: treeCheckEvent,
+			//add by xiayunan@2017-09-24 
+        	beforeCheck: zTreeBeforeCheck
 		}
 	};
 	// 设置
@@ -101,16 +103,26 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 		check: {
 			enable: true,
 			chkboxType: {
-				"Y": "",
+				"Y": "ps",
 				"N": "ps"
 			}
 		},
 		callback: {
 			// onClick: treeClick,
-			onCheck: treeCheckEvents
+			//onCheck: treeCheckEvents
+			//add by xiayunan@2017-09-24 
+        	beforeCheck: zTreeBeforeCheck
 		}
 		
+		
 	};
+	
+	//add by xiayunan@2017-09-24 
+    function zTreeBeforeCheck(treeId, treeNode) {
+        return !treeNode.isParent;//当是父节点 返回false 不让选取
+    }
+	
+	
 	// 树复选框选中回调事件
 
 	function treeCheckEvent(event, treeId, treeNode, clickFlag) {
