@@ -66,12 +66,13 @@
     border-bottom: 1px solid #E7E8EB;
 }
 .c-user-table{
+	width:100%;
     border: 1px solid #e7e8eb;
     margin-top: 24px;
     border-radius: 4px;
     /*height: 888px;*/
     /*max-height: 810px;*/
-    /* overflow: auto; */
+    overflow: auto;
 }
 .table-spec-noline{
     border: none!important;
