@@ -2,7 +2,7 @@
 .user-manager-container{
     padding:20px;
     position: relative;
-    min-height: 1000px;
+    min-height: 1000px; 
 }
 .c-common-titbox{
     padding: 0 0 20px 0;
@@ -67,12 +67,12 @@
 }
 .c-user-table{
 	width:100%;
-    border: 1px solid #e7e8eb;
-    margin-top: 24px;
-    border-radius: 4px;
-    /*height: 888px;*/
-    /*max-height: 810px;*/
-    overflow: auto;
+	border: 1px solid #e7e8eb;
+	margin-top: 24px;
+	border-radius: 4px;
+	/*height: 888px;*/
+	/*max-height: 810px;*/
+	/* overflow: auto; */
 }
 .table-spec-noline{
     border: none!important;
@@ -1398,7 +1398,7 @@
 .template_ul p{
     margin-top:10px;
 }
-/* 子栏目 */
+/* å­æ ç›® */
 .addSub_column_ul{
     width:95%;
     float:right;
@@ -1892,7 +1892,7 @@
 	height:528px;
 }*/
 
-/*添加*/
+/*æ·»åŠ */
 .user-form-part_emaildate{
 	width:46%;
 }
