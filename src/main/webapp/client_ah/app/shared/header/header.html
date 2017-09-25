@@ -225,70 +225,70 @@
 	<div class="nav">
 		<div class="nav_content">
 			<ul class="list">
-				<li class="first_li hover tab_li"><a href="/photo/index_ah.html"><img
+				<li class="first_li hover tab_li"><a href="/photo/index.html"><img
 						src="client_ah/assets/images_ah//sjah_index_16.png">首页</a></li>
 
 				<li class="right_border tab_li" ng-init="header.getselChildColumn(3064)">
-					<a href="">新闻图片</a>
+					<a ui-sref="root.moreSortList({sginId:3064})">新闻图片</a>
 					<div class="news_pic_alert rel_pad" style="display: none;">
 						<ul>
 							<li class="tab_li1" ng-repeat="item in header.newsPhoto"><a ui-sref="root.moreSortList({sginId:item.id})" target="_blank">{{item.name}}</a></li>
 						</ul>
 					</div></li>
 				<li class="right_border tab_li" ng-init="header.getselChildColumn(3077)">
-					<a href="">专题图片</a>
+					<a ui-sref="root.moreSortList({sginId:3077})">专题图片</a>
 					<div class="news_pic_alert1 rel_pad" style="display: none;">
 						<ul>
 							<li class="tab_li1" ng-repeat="item in header.topicPhoto"><a ui-sref="root.moreSortList({sginId:item.id})" target="_blank">{{item.name}}</a></li>
 						</ul>
 					</div></li>
 				<li class="right_border tab_li" ng-init="header.getselChildColumn(3078)">
-					<a href="">皖风徽韵</a>
+					<a ui-sref="root.moreSortList({sginId:3078})">皖风徽韵</a>
 					<div class="news_pic_alert2 rel_pad" style="display: none;">
 						<ul>
 							<li class="tab_li1" ng-repeat="item in header.anhuiStyle"><a ui-sref="root.moreSortList({sginId:item.id})" target="_blank">{{item.name}}</a></li>
 						</ul>
 					</div></li>
 				<li class="right_border tab_li" ng-init="header.getselChildColumn(3079)">
-					<a href="">历史资料</a>
+					<a ui-sref="root.moreSortList({sginId:3079})">历史资料</a>
 					<div class="news_pic_alert3 rel_pad" style="display: none;">
 						<ul >
 							<li class="tab_li1" ng-repeat="item in header.anhuiHistory"><a ui-sref="root.moreSortList({sginId:item.id})" target="_blank">{{item.name}}</a></li>
 						</ul>
 					</div></li>
 				<li class="right_border tab_li" ng-init="header.getselChildColumn(3080)">
-					<a href="">各市图库</a>
+					<a ui-sref="root.moreSortList({sginId:3080})">各市图库</a>
 					<div class="news_pic_alert4 rel_pad" style="display: none;">
 						<ul>
 							<li class="tab_li1" ng-repeat="item in header.anhuiCitys"><a ui-sref="root.moreSortList({sginId:item.id})" target="_blank">{{item.name}}</a></li>
 						</ul>
 					</div></li>
 				<li class="right_border tab_li" ng-init="header.getselChildColumn(3081)">
-					<a href="">视频VR</a>
+					<a ui-sref="root.moreSortList({sginId:3081})">视频VR</a>
 					<div class="news_pic_alert5 rel_pad" style="display: none;">
 						<ul>
 							<li class="tab_li1" ng-repeat="item in header.anhuiVideo"><a ui-sref="root.moreSortList({sginId:item.id})" target="_blank">{{item.name}}</a></li>
 						</ul>
 					</div></li>
 				<li class="right_border tab_li" ng-init="header.getselChildColumn(3082)">
-					<a href="">艺苑菁华</a>
+					<a ui-sref="root.moreSortList({sginId:3082})">艺苑菁华</a>
 					<div class="news_pic_alert6 rel_pad" style="display: none;">
 						<ul >
 							<li class="tab_li1" ng-repeat="item in header.artEssence"><a ui-sref="root.moreSortList({sginId:item.id})" target="_blank">{{item.name}}</a></li>
 						</ul>
 					</div></li>
 				<li class="right_border tab_li" ng-init="header.getselChildColumn(3083)">
-					<a href="">互动空间</a>
+					<a ui-sref="root.moreSortList({sginId:3083})">互动空间</a>
 					<div class="news_pic_alert7 rel_pad" style="display: none;">
 						<ul>
 							<li class="tab_li1" ng-repeat="item in header.interactiveSpace"><a ui-sref="root.moreSortList({sginId:item.id})" target="_blank">{{item.name}}</a></li>
 						</ul>
 					</div></li>
-				<li class="tab_li"><a href="">掌上图库</a></li>
+				<li class="tab_li"><a ui-sref="root.moreSortList({sginId:3084})">掌上图库</a></li>
 			</ul>
 
 			<div class="special_ch right">
-				<a href=""></a>
+				<a ui-sref="root.moreSortList({sginId:3085})"></a>
 			</div>
 		</div>
 	</div>
