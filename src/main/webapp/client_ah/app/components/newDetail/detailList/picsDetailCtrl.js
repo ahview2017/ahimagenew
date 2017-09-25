@@ -121,7 +121,7 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
     $(function () {
         $timeout(function () {
             $('.detial_content_pic').slide({
-               mainCell:".pic_show ul",effect:"leftLoop",autoPlay:false
+               mainCell:".pic_show ul",effect:"leftLoop",autoPlay:false,nextCell:".detail_prev",prevCell:".detail_next",events:"click"
             });
         }, 1000);
     });
