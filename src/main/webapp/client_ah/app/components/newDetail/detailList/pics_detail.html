@@ -26,8 +26,17 @@
 
                                 <div class="pic_state right">
                                     <div class="pic_state_title">
+                                    <!-- <div class="pic_detail_info left"> -->
                                         作品信息
                                         <span style="color:#000;">（</span><span class="span_color_red">{{$index + 1}}</span><span style="color:#000;">/</span><span style="color:#000;">{{picsDetail.clientPictureDetail.pictureCount}}）</span>
+                                    <!-- </div> -->
+                                    <!-- <div class="pic_share right">
+                                    	<div class="jiathis_style">
+											<a class="jiathis_button_tsina"></a>
+											<a class="jiathis_button_weixin"></a>
+											<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank">更多</a>
+										</div>
+                                    </div> -->
                                     </div>
                                     <div class="pic_state_char">
                                         <p>图片编号：<span>{{item.id}}</span></p>
@@ -39,36 +48,12 @@
                                     <div class="pic_state_exp">
                                         <p>图片说明：{{item.memo}}</p>
                                     </div>
-                                    <!-- <div style="display:none;" id="picCount">{{$index + 1}}</div> -->
                                     <div class="buy_onload">
                                         <a href="javascript:void(0);" class="buy_onload_a1 left" ng-click="picsDetail.downPic(item.id)"><img src="client_ah/assets/images_ah/a_sjah_detail_03.png" width="136" height="84"></a>
                                         <a href="javascript:void(0);" class="buy_onload_a2 right" ng-click="picsDetail.onCartPicClick(item.id)""><img src="client_ah/assets/images_ah/a_sjah_detail_05.png" height="84" width="136"></a>
                                     </div>
                                 </div>
                             </li>
-							
-                            <!-- <li>
-                                <img src="images/sjah_newsPic_gxl_03_03.png" alt="" width="895" height="560">
-                                <div class="pic_state right">
-                                    <div class="pic_state_title">
-                                        图片信息
-                                    </div>
-                                    <div class="pic_state_char">
-                                        <p>图片编号：<span>1072955</span></p>
-                                        <p>尺　　寸：<span>3000*2103</span></p>
-                                        <p>格　　式：<span>EXIF</span></p>
-                                        <p>署　　名：<span>郝群英</span></p>
-                                        <p>上传时间：<span>2017-09-08 08:08:08</span></p>
-                                    </div>
-                                    <div class="pic_state_exp">
-                                        <p>图片说明：9月6日，刘伟利在检查学生作业。安徽蚌埠市大庆小学的刘伟利老师面对全班40名学生，却看不清他们的面孔。</p>
-                                    </div>
-                                    <div class="buy_onload">
-                                        <a href="" class="buy_onload_a1 left"><img src="images/a_sjah_detail_03.png" width="136" height="84"></a>
-                                        <a href="" class="buy_onload_a2 right"><img src="images/a_sjah_detail_05.png" height="84" width="136"></a>
-                                    </div>
-                                </div>
-                            </li> -->
                         </ul>
             
                     </div>
@@ -78,10 +63,7 @@
 
             <div class="clear"></div>
             <div class="detail_bottom_state ng-scope">
-                <!-- <div class="detail_bottom_state_left left ng-scope">
-                    <span class="span_color_red">{{$index + 1}}</span>/<span>{{picsDetail.clientPictureDetail.pictureCount}}</span>
-                </div>
- -->                <div class="detail_bottom_state_right left" style="margin-left:20px;font-size: 18px;width:90%;">
+               <div class="detail_bottom_state_right left" style="margin-left:20px;font-size: 18px;width:90%;">
 						<div  ng-bind-html="picsDetail.clientPictureDetail.memo | trustHtml"></div>
 					</div>
 					<div class="clear"></div>

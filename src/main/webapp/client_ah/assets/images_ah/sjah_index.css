@@ -20,7 +20,7 @@ input[rel="index_submit"]{width:74px;height:42px;background: url("search_pic_03.
 .nav_content{width:1200px;margin:0 auto;height:50px;line-height:50px;position:relative;}
 .nav_content li.tab_li{float:left;width:106px;height:50px;}
 .nav_content li.tab_li img{margin-right:10px;margin-bottom:8px;}
-.nav_content li.tab_li a{width:106px;height:24px;font-size: 16px;line-height:24px;margin:13px auto;color:#fff;text-align:center;display:inline-block;}
+.nav_content li.tab_li a{width:106px;height:24px;font-size: 16px;line-height:12px;margin:13px auto;color:#fff;text-align:center;display:inline-block;}
 .nav_content li.right_border>a{border-right:1px solid #999;}
 .nav_content li.hover{background:#fff;border-top:4px solid #ee1d23;color:#ee1c22;}
 .nav_content li.hover>a{color:#ee1c22;}
