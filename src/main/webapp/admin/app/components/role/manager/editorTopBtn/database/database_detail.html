@@ -6,7 +6,16 @@ input[type=checkbox], input[type=radio]{ zoom:1.5;}
 .ms-addpic-left{ height:30px; line-height:30px; width:15%;}
 .ms-addpic-right{ line-height:30px; width:80%; }
 .db-txt-cont{ line-height:28px;}
-
+#checkAll{
+	position:relative;
+	padding-left:18px;
+	text-align:left
+}
+#checkAllInput{
+	position: absolute;
+    right: 6px;
+    top: 2px;
+}
 </style>
 
 <div class="user-manager-container">
@@ -45,7 +54,7 @@ input[type=checkbox], input[type=radio]{ zoom:1.5;}
                       ui-sref="role.manager.historyVersion({groupId: detail.dataBankId})">历史版本</span>
                 <span class="spanDatabaseBtn"
                       ui-sref="role.manager.operateRecord({groupId: detail.dataBankId})">操作记录</span>
-                <span class="spanDatabaseBtn">全选 <input type="checkbox" class="all" name="all"></span>
+                <span class="spanDatabaseBtn" id="checkAll"  >全选 <input id="checkAllInput" type="checkbox" class="all" name="all"></span>
                  <span class="spanDatabaseBtn" ng-click="detail.ModalShow('detail-type-modal')">下载</span>
             </div>
         </div>
