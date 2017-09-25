@@ -23,7 +23,7 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
                 mainCell:".ericnews_box ul",
                 effect:"leftMarquee",
                 autoPlay:true,
-                vis:5,
+                vis:6,
                 interTime:50
             });
         }, 1000);
