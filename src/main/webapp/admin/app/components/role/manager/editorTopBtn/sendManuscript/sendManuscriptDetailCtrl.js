@@ -90,7 +90,7 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 		},
 		callback: {
 			// onClick: treeClick,
-			onCheck: treeCheckEvent,
+			//onCheck: treeCheckEvent,
 			//add by xiayunan@2017-09-24 
         	beforeCheck: zTreeBeforeCheck
 		}
