@@ -75,7 +75,7 @@
 			AND g.REMARK LIKE CONCAT('%',#{remark},'%')
 		</if>
 		<if test="properties !=null">
-			AND g.PROPERTIES = properties 
+			AND g.PROPERTIES = #{properties} 
 		</if>
 		<if test="beginSginTime !=null and endSginTime !=null">
 			AND g.SGIN_TIME  BETWEEN  #{beginSginTime} and #{endSginTime}

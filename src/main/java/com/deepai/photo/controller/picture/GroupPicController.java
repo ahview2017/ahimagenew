@@ -2129,6 +2129,7 @@ public class GroupPicController {
 			if(properties!=null){
 				param.put("properties",properties);
 			}
+			System.out.println("<<<<<<<<<<<<<<<<<<properties:"+properties);
 			if(beginSginTime!=null && StringUtil.isNotBlank(beginSginTime)){
 				param.put("beginSginTime",DateUtils.getDateFromString(beginSginTime+" 00:00:00"));
 			}

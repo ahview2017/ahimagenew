@@ -531,7 +531,7 @@
 				and g.CREATE_TIME &gt;=#{query.beginTime}
 			</if>
 			<if test="query.paramStr !=null">
-				and (g.ID LIKE CONCAT('%',#{query.paramStr},'%') or g.TITLE LIKE CONCAT('%',#{query.paramStr},'%') or g.AUTHOR LIKE CONCAT('%',#{query.paramStr},'%') )
+				and (g.ID LIKE CONCAT('%',#{query.paramStr},'%') or g.TITLE LIKE CONCAT('%',#{query.paramStr},'%') or g.AUTHOR LIKE CONCAT('%',#{query.paramStr},'%') or g.PLACE LIKE CONCAT('%',#{query.paramStr},'%') or g.MEMO LIKE CONCAT('%',#{query.paramStr},'%') or g.KEYWORDS LIKE CONCAT('%',#{query.paramStr},'%') or g.REMARK LIKE CONCAT('%',#{query.paramStr},'%'))
 			</if>
 		</if>
 		
@@ -599,7 +599,7 @@
 				and g.CREATE_TIME &gt;=#{query.beginTime}
 			</if>
 			<if test="query.paramStr !=null">
-				and (g.ID LIKE CONCAT('%',#{query.paramStr},'%') or g.TITLE LIKE CONCAT('%',#{query.paramStr},'%') or g.AUTHOR LIKE CONCAT('%',#{query.paramStr},'%') )
+				and (g.ID LIKE CONCAT('%',#{query.paramStr},'%') or g.TITLE LIKE CONCAT('%',#{query.paramStr},'%') or g.AUTHOR LIKE CONCAT('%',#{query.paramStr},'%') or g.PLACE LIKE CONCAT('%',#{query.paramStr},'%') or g.MEMO LIKE CONCAT('%',#{query.paramStr},'%') or g.KEYWORDS LIKE CONCAT('%',#{query.paramStr},'%') or g.REMARK LIKE CONCAT('%',#{query.paramStr},'%') )
 			</if>
 		</if>		
 		<if test="orderby !=null">
