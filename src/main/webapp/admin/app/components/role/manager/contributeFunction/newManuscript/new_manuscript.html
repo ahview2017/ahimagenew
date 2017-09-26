@@ -160,13 +160,13 @@
 							<span class="dib cursor draft-home-abroad-btn" ng-class="{'selDraftBtnBg':newManuscript.locationType == 1}" ng-click="newManuscript.homeAbroadToggle(1)" translate>100028</span>
 						</div>
 						<div class="draft-home-abroad-box clear" ng-if="newManuscript.locationType == 0">
-							<select class="draft-procity-select" ng-change="newManuscript.changeProv(newManuscript.newManuscriptManuscript.selProv)"
+							<select id="proSel" class="draft-procity-select" ng-change="newManuscript.changeProv(newManuscript.newManuscriptManuscript.selProv)"
 							 		ng-model="newManuscript.newManuscriptManuscript.selProv" ng-options="prov.p as prov.p for prov in newManuscript.msCityList">
-								<option value="" translate>100084</option>
+								<option id="defaultProOpt" value="" translate>100084</option>
 							</select>
-							<select class="draft-procity-select" 
+							<select  class="draft-procity-select" 
 									ng-model="newManuscript.newManuscriptManuscript.selCity" ng-options="city.n as city.n for city in newManuscript.cities">
-								<option value="" translate>100085</option>
+								<option  value="" translate>100029</option>
 							</select>
 						</div>
 						<div class="draft-aborad-item clear" ng-if="newManuscript.locationType == 1">

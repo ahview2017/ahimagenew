@@ -13,6 +13,8 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
         vm.selManuscript = 1;
         //省市县联动数据
         vm.msCityList = cityList.citylist;
+        //初始化城市为安徽省
+        vm.cities = vm.msCityList[11].c;
         //上传图片列表
         vm.upMenuscriptPicArr = [];
         //从cookie里取得作者id
@@ -567,11 +569,13 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
 
     //改变省的时候
     vm.changeProv = function (prov) {
+    	$("#proSel").find("#defaultProOpt").remove();
         for(var i = 0; i < vm.msCityList.length; i++){
             if(prov == vm.msCityList[i].p){
                 vm.cities = vm.msCityList[i].c;
             }
         }
+        
     };
 
 
