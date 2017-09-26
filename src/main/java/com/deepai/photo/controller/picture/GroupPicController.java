@@ -250,7 +250,6 @@ public class GroupPicController {
 	@LogInfo(content="保存或提交英文稿件",opeType=2,logTypeCode=CommonConstant.PicGroupOperation)
 	public Object saveGroupPicForEn(HttpServletRequest request,String picData,CpPicGroup group,Integer isIpTc,Integer isFlash,String fTime,Integer type,Integer roleId){
 		request.getSession(true).setAttribute("session_langType",group.getLangType());
-		System.out.println("=====controller====="+request.getSession(true).getAttribute("session_langType"));
 		ResponseMessage result=new ResponseMessage();
 		try {
 			CommonValidation.checkParamBlank(group.getTitle(), "稿件标题");
@@ -1604,7 +1603,9 @@ public class GroupPicController {
 			param.put("orderBy", " g.SGIN_TIME desc");
 			param.put("query", query);
 			int count = aboutPictureMapper.selectCountGroups(param);//总条数
-			int p = (int)Math.ceil(count/rows);//总页数
+			//add by xiayunan@2017-09-26
+			int p = (count+rows-1)/rows;//总页数
+//			int p = (int)Math.ceil(count/rows);//总页数
 			List<Map<String,Object>> list=aboutPictureMapper.selectGroups(param);
 			for (Map<String,Object> map:list) {
 				if(map.containsKey("FILENAME")){
@@ -2129,7 +2130,6 @@ public class GroupPicController {
 			if(properties!=null){
 				param.put("properties",properties);
 			}
-			System.out.println("<<<<<<<<<<<<<<<<<<properties:"+properties);
 			if(beginSginTime!=null && StringUtil.isNotBlank(beginSginTime)){
 				param.put("beginSginTime",DateUtils.getDateFromString(beginSginTime+" 00:00:00"));
 			}
