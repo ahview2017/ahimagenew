@@ -675,10 +675,10 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
             layer.alert('请选择稿件类别');
             return;
         }
-       /* if((!vm.newManuscriptManuscript.selProv &&  !vm.newManuscriptManuscript.selCity) && (!vm.newManuscriptManuscript.abroadPlace)){
+        if((!vm.newManuscriptManuscript.selProv||!vm.newManuscriptManuscript.selCity) && (!vm.newManuscriptManuscript.abroadPlace)){
             layer.alert('请填写地点');
             return;
-        }*/
+        }
         if(vm.newManuscriptManuscript.abroadPlace && vm.newManuscriptManuscript.abroadPlace.length > 200){
             layer.alert('地点要少于200字');
             return;

@@ -78,7 +78,7 @@
 						<!--<img ng-repeat="image in images" ng-src="{{ image }}" width="100" height="100"/>-->
 						<!--<img ng-src="{{filepreview}}" width="100" height="100" class="img-responsive" ng-show="filepreview"/>-->
 					</div>
-					
+					<!-- 添加视频  -->
 					<div class="fll manuscript-add-video">
 						<input id="selmasvideo" class="draft-sign-input clear" ng-model="newManuscript.newManuscriptManuscript.videoid" type="hidden" name="videoFile"  />
 						<label for="videoFile" class="dib cursor newManuscript-add-video" ng-click="newManuscript.selectMasVideo()"  >
@@ -86,7 +86,7 @@
                         	<span  translate >100083</span>
                         </label>
 					</div>
-					
+						
 				</div>
 				<div class="n-manuscript-middle">
 					<p class='new_infor'>请输入稿件说明（必填，少于4000汉字的简单说明）</p>
@@ -164,7 +164,7 @@
 							 		ng-model="newManuscript.newManuscriptManuscript.selProv" ng-options="prov.p as prov.p for prov in newManuscript.msCityList">
 								<option id="defaultProOpt" value="" translate>100084</option>
 							</select>
-							<select  class="draft-procity-select" 
+							<select id="citySel" class="draft-procity-select" 
 									ng-model="newManuscript.newManuscriptManuscript.selCity" ng-options="city.n as city.n for city in newManuscript.cities">
 								<option  value="" translate>100029</option>
 							</select>
