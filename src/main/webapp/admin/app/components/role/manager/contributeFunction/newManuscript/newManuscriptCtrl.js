@@ -41,8 +41,8 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
             memo:'',
             remark:'',
             abroadPlace:'',
-            selProv:'',
-            selCity:''
+            selProv:'安徽',
+            selCity:'合肥'
         }
         //初始化图片相关信息
         vm.manuscriptPic = {
