@@ -725,6 +725,25 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 			}
 		}
 	};
+	
+	/**
+     * 获取网站公告
+     */
+    function getWebPublishData() {
+        req.post('notice/showToHomePage.do', {}).success(function (resp) {
+            if (resp.code == '211') {
+                vm.webPublishArray = resp.data;
+                if (vm.webPublishArray.length > 2) {
+                    vm.webPublishArray = vm.webPublishArray.slice(0, 2);
+                }
+            }else if(resp.msg != '未登录'){
+                layer.alert(resp.msg);
+            }
+        });
+    }
+	
+	// 请求
+    getWebPublishData();
 
 	// 请求
 	getAdFirstShowImageData();

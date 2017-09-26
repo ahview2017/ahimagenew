@@ -295,7 +295,12 @@
 </div>
 <div class="marquee_box">
     <div class="marquee">
-	    <marquee behavior="scroll" scrollamount="5" direction="left" loop="-1" onMouseOut="this.start()" onMouseOver="this.stop()">通知：<a href="">视觉安徽图片新闻网滚动通知。</a></marquee>
+	    <marquee behavior="scroll" scrollamount="5" direction="left" loop="-1" onMouseOut="this.start()" onMouseOver="this.stop()">
+			通知：
+			<span ng-repeat="wpItem in header.webPublishArray  track by $index">
+				<a ui-sref="root.webInfoView({id:wpItem.id,name:wpItem.noticeTitle,type:1})" target="_blank">{{wpItem.noticeTitle}}</a>
+			</span>
+		</marquee>
 	</div>
 </div>
 <div class="clear"></div>
