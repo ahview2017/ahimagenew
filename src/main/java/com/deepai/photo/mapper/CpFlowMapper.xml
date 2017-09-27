@@ -171,4 +171,9 @@
   <update id="updateCateBleak" parameterType="map">
   	update cp_pic_group_category c set POSITION=null where c.TYPE=1 and c.POSITION=#{position} and c.CATEGORY_ID=#{signId}
   </update>
+  
+  <!-- 修改签发类型位置 add by xiayunan@2017-09-27 -->
+  <update id="updateCatePosition" parameterType="map">
+  	update cp_pic_group_category c set POSITION=#{position} where c.TYPE=1 and c.CATEGORY_ID=#{signId}
+  </update>
 </mapper>

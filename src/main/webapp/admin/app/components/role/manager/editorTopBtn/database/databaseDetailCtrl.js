@@ -547,12 +547,9 @@ adminModule.controller('mDatabaseDetailCtrl', function ($scope, $cookies, req, m
             "userName": vm.uName
         }).success(function(resp) {
             if(resp.code == '211') {
-                console.log('success');
                 layer.msg('操作成功');
                 getHadSignData(vm.dataBankId);
                 vm.projectModalHide('fillSignModalId');
-            } else if(resp.code == '100'){
-            	layer.alert(resp.msg);
             }else if(resp.msg != '未登录') {
                 layer.alert(resp.msg);
             }

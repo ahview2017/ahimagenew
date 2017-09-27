@@ -917,13 +917,7 @@ public class GroupPicController {
 					result.setMsg("该稿件不在待三审状态，不可进行三审提交");
 					return result;
 				}
-				//判断是否签发过
-	            String msg = flowService.checkSignClnum(groupId, cates);
-	            if(msg!=null){
-	                result.setCode(100);//自定义code，方便前端取值
-	                result.setMsg("稿件在栏目【"+msg+"】上已经签发过，请重新选择栏目");
-	                return result;
-	            }
+				
 				CpUser user=SessionUtils.getUser(request);
 				flowService.examByProofread(oldGroup,user , 3,cates);
 			}
@@ -997,13 +991,6 @@ public class GroupPicController {
 				result.setMsg("该稿件不在已签发状态，不可进行补签");
 				return result;
 			}
-			//判断是否签发过
-            String msg = flowService.checkSignClnum(groupId, cates);
-            if(msg!=null){
-                result.setCode(100);//自定义code，方便前端取值
-                result.setMsg("稿件在栏目【"+msg+"】上已经签发过，请重新选择栏目");
-                return result;
-            }
 			flowService.signAgainGroup(oldGroup, user, cates);
 			}
 			result.setCode(CommonConstant.SUCCESSCODE);
@@ -2381,7 +2368,6 @@ public class GroupPicController {
             List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
             if (sGroupIds.length() > 1) {
                 sGroupIds = sGroupIds.substring(1, sGroupIds.length() - 1);
-                log.info ("group ids is :" + sGroupIds);
                 Map<String, Object> param = new HashMap<String, Object>();
                 param.put("groupIds", sGroupIds);
                 param.put("query", query);

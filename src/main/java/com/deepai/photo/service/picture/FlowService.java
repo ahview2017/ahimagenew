@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -918,7 +919,9 @@ public class FlowService {
 		map.put("cates", cates);
 		boolean isCate=false;//签发分类
 		boolean isTopic=false;//签发专题
-		for(Map<String,Object> m : cates){
+		Iterator<Map<String,Object>> it = cates.iterator();
+		while(it.hasNext()){
+			Map<String,Object> m = it.next();
 			if(m.get("type").toString().equals("0")){
 				isCate=true;
 				//如果签发选择位置，则将之前相应位置的稿件位置设为空
@@ -927,25 +930,36 @@ public class FlowService {
 				}else{
 					m.put("position", null);
 				}
+				//add by xiayunan@2017-09-27
+				String signStr = m.get("signId").toString();
+				int signId = Integer.valueOf(signStr.substring(0,signStr.indexOf(".")));
+				if(isSign(groupId,signId)){//如果稿件在该栏目下已经签发，则将该栏目从cates中移除
+					logger.info("ID为"+groupId+"的稿件在ID为："+signId+"的栏目下已经签过,不可重复签发！");
+					cpFlowMapper.updateCatePosition(m);
+					it.remove();
+				}
 			}
 			if(m.get("type").toString().equals("1")){
 				isTopic=true;
 			}
-			
 		}
 		//map.put("type", type);
 		if(isCate){
 			//删除已有签发分类
 			//2017-07-21 del
 			//cpFlowMapper.delGroupCategory(groupId);
-			//添加签发分类
-			cpFlowMapper.insertGroupCategroy1(map);
+			
+			//如果栏目已经签发过则更新栏目签发位 add by xiayunan@20170927
+			if(cates.size()>0){
+				cpFlowMapper.insertGroupCategroy1(map);
+			}
 		}
 		if(isTopic){
 			//添加专题稿件
-			cpFlowMapper.insertGroupTopic(map);
+			if(cates.size()>0){
+				cpFlowMapper.insertGroupTopic(map);
+			}
 		}
-		
 	}
 	
 	/**
@@ -1231,7 +1245,7 @@ public class FlowService {
      * @return
      * @throws Exception 
      */
-    private boolean checkUser(CpUser user, int siteId, int... status)
+    private boolean checkUser(CpUser user, int siteId, int[] status)
             throws Exception {
         boolean exist = false;
         for (int nStatus : status) {
@@ -1756,6 +1770,12 @@ public class FlowService {
 		return res==null?null:res.toString();
 	}
 	
+	
+	
+	
+	
+	
+	
 	 /**
      * @Description: 签发时校验栏目是否签发过 <BR>
      * @author liu.jinfeng
@@ -1763,7 +1783,7 @@ public class FlowService {
      * @param cates
      * @return
      */
-    public String checkSignClnum(Integer groupId,
+    public String checkSignColumn(Integer groupId,
             List<Map<String, Object>> cates) {
         StringBuffer sb = new StringBuffer(50);
         StringBuffer sbIds = new StringBuffer(",");
@@ -1795,4 +1815,23 @@ public class FlowService {
         }
         return null;
     }
+    
+    /**
+     * @Description: 判断稿件是否在所传栏目下签发过
+     * @author xiayunan
+     * @date 2017-09-27
+     * @param groupId:稿件ID	signId：签发栏目ID
+     * @return
+     */
+	public boolean  isSign(Integer groupId,int signId){
+		 boolean flag = false;
+		 CpPicGroupCategoryExample e = new CpPicGroupCategoryExample();
+         e.createCriteria().andGroupIdEqualTo(groupId).andTypeEqualTo(1)
+                 .andCategoryIdEqualTo(signId);
+         int nCount = cpPicGroupCategoryMapper.countByExample(e);
+         if (nCount > 0) {// 表示这个栏目之前已经签过
+        	 flag =  true;
+         }
+         return flag;
+	}
 }

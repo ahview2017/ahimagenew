@@ -46,6 +46,9 @@ public interface CpFlowMapper {
     
     //修改签发类型位置为空
     public void updateCateBleak(Map map)throws Exception;
+    
+    //修改栏目签发位置
+    public void updateCatePosition(Map map)throws Exception;
 
 	public List<CpProofread> proofreadSearch(Map map)throws Exception;
 }
