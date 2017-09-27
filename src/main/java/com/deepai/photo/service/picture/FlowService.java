@@ -1188,11 +1188,11 @@ public class FlowService {
                         throw new InvalidHttpArgumentException(CommonConstant.NORIGHT,String.format(CommonConstant.CNTEDITMSG, "待一审"));
                     }
                     
-                    /*if(user.getUserName().equals(oldGroup.getFristPfdUser())){
-                        break;
-                    }else{
-                        throw new InvalidHttpArgumentException(CommonConstant.NORIGHT,String.format(CommonConstant.CNTEDITMSG, "待一审"));
-                    }*/
+//                    if(user.getUserName().equals(oldGroup.getFristPfdUser())){
+//                        break;
+//                    }else{
+//                        throw new InvalidHttpArgumentException(CommonConstant.NORIGHT,String.format(CommonConstant.CNTEDITMSG, "待一审"));
+//                    }
 					
 				}else{
 					throw new InvalidHttpArgumentException(CommonConstant.NORIGHT,String.format(CommonConstant.NOTCNTEDITMSG, "待一审","一审"));

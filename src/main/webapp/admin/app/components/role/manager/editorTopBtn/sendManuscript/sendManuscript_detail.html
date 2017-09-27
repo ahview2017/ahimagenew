@@ -19,12 +19,12 @@
     <div>
         <div class="smt-detail-operate">
             <span ui-sref="role.manager.sendManuscript()">返回</span>
-            <span ng-hide="(detail.manuscriptDetail.deleteFlag == 1) || ((detail.manuscriptDetail.isLocked == 1) || (detail.dtType != detail.manuscriptDetail.groupStatus)) || ((detail.fristPfdUser != detail.uName) && (detail.dtType == 1))" ng-click="detail.editSendManuscript()">编辑</span>
+            <span ng-hide="(detail.manuscriptDetail.deleteFlag == 1) || ((detail.manuscriptDetail.isLocked == 1) || (detail.dtType < detail.manuscriptDetail.groupStatus)) || ((detail.fristPfdUser != detail.uName) && (detail.dtType == 1))" ng-click="detail.editSendManuscript()">编辑</span>
             <span  ng-if="(detail.manuscriptDetail.deleteFlag == 0) && (detail.dtType == 1) && (detail.manuscriptDetail.groupStatus == 1) && (detail.manuscriptDetail.isLocked != 1) && (detail.fristPfdUser == detail.uName)"  ng-click="detail.commitModalShow('commit-confirm-modal', 1)">提交</span>
-            <span  ng-if="(detail.manuscriptDetail.deleteFlag == 0) && (detail.dtType == 2) && (detail.manuscriptDetail.groupStatus == 2) && (detail.manuscriptDetail.isLocked != 1)"  ng-click="detail.commitModalShow('commit-confirm-modal', 2)">提交</span>
+             <span  ng-if="(detail.manuscriptDetail.deleteFlag == 0) && ((detail.dtType == 2)||(detail.dtType == 3)) && (detail.manuscriptDetail.groupStatus <= 2) && (detail.manuscriptDetail.isLocked != 1)"  ng-click="detail.commitModalShow('commit-confirm-modal', detail.manuscriptDetail.groupStatus)">提交</span>
             <span ng-if="(detail.manuscriptDetail.deleteFlag == 0) && (detail.dtType == 3) && (detail.manuscriptDetail.groupStatus == 3) && (detail.manuscriptDetail.isLocked != 1)" ng-click="detail.signModalShow('sign-manuscript-modal')">签发</span>
             <span ng-if="(detail.manuscriptDetail.deleteFlag == 0) && (detail.dtType == 3) && (detail.manuscriptDetail.groupStatus == 3) && (detail.manuscriptDetail.isLocked != 1)" ng-click="detail.signModalShow2('sign-manuscript-modal2')">签报</span>
-            <span ng-hide="(detail.manuscriptDetail.deleteFlag == 1) || ((detail.manuscriptDetail.isLocked == 1) || (detail.dtType != detail.manuscriptDetail.groupStatus)) || ((detail.fristPfdUser != detail.uName) && (detail.dtType == 1))" ng-click="detail.delModalShow('commit-del-modal')">删除</span>
+            <span ng-hide="(detail.manuscriptDetail.deleteFlag == 1) || ((detail.manuscriptDetail.isLocked == 1) || (detail.dtType < detail.manuscriptDetail.groupStatus)) || ((detail.fristPfdUser != detail.uName) && (detail.dtType == 1))" ng-click="detail.delModalShow('commit-del-modal')">删除</span>
             <div class="smt-manage-box">
                 <p class="smt-manage-operate-detail smt-spec-manage-operate" ng-click="detail.toggleMangeOperateCon()">管理</p>
                 <div class="smt-manage-con" ng-if="detail.mangeOperateFlag">
