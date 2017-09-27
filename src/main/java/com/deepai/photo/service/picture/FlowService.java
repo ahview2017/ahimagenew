@@ -922,6 +922,7 @@ public class FlowService {
 		Iterator<Map<String,Object>> it = cates.iterator();
 		while(it.hasNext()){
 			Map<String,Object> m = it.next();
+			m.put("groupId", groupId);
 			if(m.get("type").toString().equals("0")){
 				isCate=true;
 				//如果签发选择位置，则将之前相应位置的稿件位置设为空
@@ -951,6 +952,7 @@ public class FlowService {
 			
 			//如果栏目已经签发过则更新栏目签发位 add by xiayunan@20170927
 			if(cates.size()>0){
+//				logger.info(message);
 				cpFlowMapper.insertGroupCategroy1(map);
 			}
 		}

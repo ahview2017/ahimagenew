@@ -157,7 +157,7 @@ public class AhrbHistoryDataExchangeForTestController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping("/upPic")
+	@RequestMapping("/dataExchange")
 	@SkipLoginCheck
 	@SkipAuthCheck
 	public Object showQianFaTopic(HttpServletRequest request, HttpServletResponse response) {
