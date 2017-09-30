@@ -3,10 +3,10 @@ package com.deepai.photo.bean;
 import java.util.List;
 
 public class CpColumn {
-	
 	private Integer id;
 	private String name;
 	private Integer pid;
+	private String pname;
 	private Integer recommendId;
 	private Integer orderId;
 	private Integer position;
@@ -19,9 +19,12 @@ public class CpColumn {
 	private Integer type;
 	
 	
-	
-	
-	
+	public String getPname() {
+		return pname;
+	}
+	public void setPname(String pname) {
+		this.pname = pname;
+	}
 	public Integer getType() {
 		return type;
 	}

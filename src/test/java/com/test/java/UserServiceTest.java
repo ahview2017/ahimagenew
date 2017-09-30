@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.mongodb.util.JSON;
+import com.deepai.photo.common.util.date.DateUtils;
 import com.deepai.photo.common.util.mailOrPhone.mail.MailUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)     //表示继承了SpringJUnit4ClassRunner类  
@@ -43,5 +44,8 @@ public class UserServiceTest {
 		}
 	}
 
+	public static void main(String[] args) {
+		DateUtils.sdfLongTimePlus.format(null);
+	}
 
 }

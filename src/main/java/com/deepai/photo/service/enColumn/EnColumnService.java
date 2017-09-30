@@ -30,6 +30,9 @@ public class EnColumnService  {
 	public CpColumn selectEnUpColumnList(Integer columnId) {
 		
 		CpColumn cpColumn = enColumnMapper.selectBykey(columnId);
+		if(cpColumn==null){
+			cpColumn = enColumnMapper.selectBykeyNoPname(columnId);
+		}
 		return cpColumn;
 	}
 	/**

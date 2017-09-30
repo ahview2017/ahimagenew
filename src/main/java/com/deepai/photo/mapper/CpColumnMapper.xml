@@ -66,6 +66,12 @@
   </select>
   <select id="selectBykey" resultType="com.deepai.photo.bean.CpColumn">
 	    select
+	    t1.id, t1.name,  t1.pid, t1.recommend_id recommendId, t1.order_id orderId, t1.position,  t1.state, t1.max_configurable_sign_position signPosition,t2.name as pname 
+	    from cp_column t1,cp_column t2 where t1.pid =  t2.id and t1.id=#{columnId}  
+    	order by t1.order_id
+  </select>
+   <select id="selectBykeyNoPname" resultType="com.deepai.photo.bean.CpColumn">
+	     select
 	    id, name,  pid, recommend_id recommendId, order_id orderId, position,  state, max_configurable_sign_position signPosition
 	    from cp_column where id=#{columnId}    
     	order by order_id

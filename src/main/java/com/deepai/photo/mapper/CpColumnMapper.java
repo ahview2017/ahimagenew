@@ -15,6 +15,8 @@ public interface CpColumnMapper {
 	
 	CpColumn selectBykey(Integer columnId);
 	
+	CpColumn selectBykeyNoPname(Integer columnId);
+	
 	List<CpColumn> selectUpColumnAll(Integer langType);
 	
 	List<CpColumn> selectNextColumn(Integer pid);

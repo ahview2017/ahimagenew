@@ -1,7 +1,12 @@
 <div class="gailan_content">
         <div class="gailan_title">
             <div class="title_box">
-                <span>当前位置：<a href="/photo/index.html">首页</a> >  <a href="">{{moreSortList.pColumnName}}</a>>  <a href="">{{moreSortList.columnName}}</a></span>
+                <span ng-if="moreSortList.pColumnName">
+                	当前位置：<a href="/photo/index.html">首页</a> >  <a href="">{{moreSortList.pColumnName}}</a>>  <a href="">{{moreSortList.columnName}}</a>
+                </span>
+                <span ng-if="!moreSortList.pColumnName">
+                	当前位置：<a href="/photo/index.html">首页</a> >  <a href="">{{moreSortList.columnName}}</a>
+                </span>
                 
                 <!--<div class="gailan_curpage">
                     <span><a href=""><</a></span>
