@@ -3,6 +3,7 @@
  */
 clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, md5, $state, $rootScope, $stateParams, getFullText, $timeout,jugeGroupPos) {
     var vm = this;
+    
     //从路由取得稿件id
     vm.groupId = $stateParams.groupId;
 
@@ -16,6 +17,8 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
         vm.selPicIds = {};
         //默认页
         $scope.page = 1;
+        
+        getMasBaseUrl();
     }
 
 
@@ -31,15 +34,16 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
             if (resp.code == '211') {
                 vm.clientPictureDetail = resp.data;
                 vm.groupKeyWords = resp.data.keywords;
-
+                
 				var videoId = resp.data.videoId;
 				//console.log("videoId:"+videoId);
 				vm.videoId = videoId;
 				vm.masUrl = '';
-				if(videoId!=0){
+				
+				if(videoId!=0&&vm.masBaseUrl!=''){
 					vm.masUrl = vm.masBaseUrl+"&method=exPlay&type=vod&id="+videoId;
+					vm.masUrl = $sce.trustAsResourceUrl(vm.masUrl);
 				}
-				vm.masUrl = $sce.trustAsResourceUrl(vm.masUrl);
 				//console.log("vm.masUrl:"+vm.masUrl);
 
                 if(callback) callback();
@@ -70,10 +74,10 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
     //页面初始化
     function init() {
         initSetting();
-		getMasBaseUrl();
         getClientGroupPics(function(){
             req_getFullText(1);
         });
+        
 		
 
     }
@@ -84,6 +88,21 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
 
 	//获取Mas视频基础URL add by xiayunan 20170907
 	function getMasBaseUrl(){
+		/*
+	    $.ajax({ 
+              type : "get", 
+              url : "groupPicCtro/getMasBaseUrl.do", 
+              async : false, 
+              success : function(resp){ 
+            	  if(resp.code == '211') {
+      				vm.masBaseUrl = resp.data.masBaseUrl;
+	      		  }else if(resp.msg != '未登录') {
+	      			layer.alert(resp.msg);
+	      		  }
+              } 
+        });  
+	    */
+		
 		req.get('groupPicCtro/getMasBaseUrl.do').success(function(resp) {
 			if(resp.code == '211') {
 				vm.masBaseUrl = resp.data.masBaseUrl;
@@ -91,6 +110,7 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
 				layer.alert(resp.msg);
 			}
 		});
+		
 	}
 
     // 切换相似稿件图片

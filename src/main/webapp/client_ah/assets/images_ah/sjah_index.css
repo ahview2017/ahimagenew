@@ -11,7 +11,7 @@ a:hover,.login_left span a:hover,.hd_content_1 p a:hover,.slide_x .list p a:hove
 input[rel="index_submit"]{width:74px;height:42px;background: url("search_pic_03.jpg") no-repeat center center;border:none;color:#fff;font-size:16px;float:left;margin-left:-8px;cursor:pointer;}
 
 
-.login{width:235px;height:30px;margin:40px 0 33px 0;color:#a3a3a3;}
+.login{width:235px;height:30px;margin: 48px 0 33px 0;color:#a3a3a3;}
 .login_left span{height:30px;line-height: 30px;font-size: 16px;}
 .login_left span a{height:30px;width:40px;line-height: 30px;color:#a3a3a3;}
 .login_right span{height:30px;line-height: 30px;background:url("sjah_index_10.png") no-repeat center left;}
@@ -20,7 +20,7 @@ input[rel="index_submit"]{width:74px;height:42px;background: url("search_pic_03.
 .nav_content{width:1200px;margin:0 auto;height:50px;line-height:50px;position:relative;}
 .nav_content li.tab_li{float:left;width:106px;height:50px;}
 .nav_content li.tab_li img{margin-right:10px;margin-bottom:8px;}
-.nav_content li.tab_li a{width:106px;height:24px;font-size: 16px;line-height:12px;margin:13px auto;color:#fff;text-align:center;display:inline-block;}
+.nav_content li.tab_li a{width:106px;height:24px;font-size: 16px;line-height:24px;margin:13px auto;color:#fff;text-align:center;display:inline-block;}
 .nav_content li.right_border>a{border-right:1px solid #999;}
 .nav_content li.hover{background:#fff;border-top:4px solid #ee1d23;color:#ee1c22;}
 .nav_content li.hover>a{color:#ee1c22;}
@@ -33,47 +33,42 @@ input[rel="index_submit"]{width:74px;height:42px;background: url("search_pic_03.
 
 /*å¯¼èˆªä¸‹æ‹‰æ•ˆæžœ*/
 .rel_pad{
-	width:1200px;
-	height:30px;
+	width:1150px;
+	height:80px;
 	float:left;
-	position:absolute;	
+	position:absolute;
+	bottom:-80px;
+	padding-left: 50px;	
 }
 .news_pic_alert{
-	bottom:-30px;
+	
 	left:106px;
 }
 .news_pic_alert1{
-	bottom:-30px;
 	left:212px;
 }
 .news_pic_alert2{
-	bottom:-30px;
 	left:308px;
 }
 .news_pic_alert3{
-	bottom:-30px;
 	left:414px;
 }
 .news_pic_alert4{
-	bottom:-30px;
 	left:248px;
 }
 .news_pic_alert5{
-	bottom:-30px;
 	left:626px;
 }
 .news_pic_alert6{
-	bottom:-30px;
 	left:732px;
 }
 .news_pic_alert7{
-	bottom:-30px;
 	left:838px;
 }
 .rel_pad li.tab_li1{
 	float:left;
-	height:30px;
-	line-height: 30px;
+	height:80px;
+	line-height: 50px;
 	margin-right:10px;
 	border:none;
 }

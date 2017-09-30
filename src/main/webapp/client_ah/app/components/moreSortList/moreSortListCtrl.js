@@ -68,6 +68,7 @@ clientModule.controller('moreSortListCtrl',function($scope, $cookies, req, md5, 
         }).success(function(resp){
             if(resp.code == '211'){
                 vm.columnName = resp.data.name;
+                vm.pColumnName = resp.data.pName;
             }else if(resp.msg != '未登录'){
                 layer.alert(resp.msg);
             }
