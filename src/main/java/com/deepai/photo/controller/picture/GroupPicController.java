@@ -1112,6 +1112,62 @@ public class GroupPicController {
 		}
 		return result;
 	}
+	
+	
+	
+	/**
+	 * 资料库一键撤稿
+	 * @param request
+	 * @param groupId 稿件ID
+	 * @param content 撤稿原因
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/downAllGroupPic")
+	@LogInfo(content="撤稿",opeType=2,logTypeCode=CommonConstant.PicGroupOperation)
+	public Object downAllGroupPic(HttpServletRequest request,Integer groupId,String content,Integer langType){
+		ResponseMessage result=new ResponseMessage();
+		try {
+			CommonValidation.checkParamBlank(groupId+"", "稿件ID");
+			CpPicGroup oldGroup=cpPicGroupMapper.selectByPrimaryKey(groupId);
+			//校验稿件是否正在编辑
+			CommonValidation.checkGroupBeginEdit(oldGroup,groupId);
+			if(oldGroup.getGroupStatus()!=4){
+				result.setCode(CommonConstant.FAILURECODE);
+				result.setMsg("该稿件不在已签发状态，不可进行撤稿");
+				return result;
+			}
+			CpUser user=SessionUtils.getUser(request);
+			
+			//add by xiayunan@20171009
+			Map<String,Object> map = new HashMap<String,Object>();
+			map.put("type", 1);
+			map.put("groupId", groupId);
+			List<CpPicGroupCategory> cates=categoryMapper.selectHasSignColumn(map);
+			if(cates.size()>0){
+				for(int i=0;i<cates.size();i++){
+					CpPicGroupCategory cpCategory = (CpPicGroupCategory)cates.get(i);
+					int categoryId = cpCategory.getCategoryId();
+					//撤稿
+					flowService.changeGroupStatus(groupId, user, 6,6,content,categoryId, langType);
+				}
+			}
+			result.setCode(CommonConstant.SUCCESSCODE);
+			result.setMsg(CommonConstant.SUCCESSSTRING);
+			result.setOther(String.format("撤稿稿件【id=%s】",groupId));
+		} catch (InvalidHttpArgumentException e) {
+			result.setCode(e.getCode());
+			result.setMsg(e.getMsg());
+		}catch(Exception e1){
+			e1.printStackTrace();
+			log.error("撤稿稿件，"+e1.getMessage());
+			result.setCode(CommonConstant.EXCEPTIONCODE);
+			result.setMsg(CommonConstant.EXCEPTIONMSG);
+		}
+		return result;
+	}
+	
+	
 	/**
 	 * 被撤稿件上架
 	 * @param request

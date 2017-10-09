@@ -184,6 +184,28 @@ adminModule.controller('mDatabaseDetailCtrl', function ($scope, $cookies, req, m
             }
         });
     };
+    
+    
+    
+    /**
+     * 一键撤稿  add by xiayunan@20171009
+     */
+    vm.onAllRetractionClick = function () {
+        req.post("groupPicCtro/downAllGroupPic.do", {
+            groupId: vm.dataBankId,
+            content: vm.retractionContent,
+            langType:vm.langType
+        }).success(function (resp) {
+            if (resp.code == '211' && resp.data != []) {
+                vm.projectModalHide('retractionModalId');
+                layer.alert("一键撤稿成功，该签发位为空，请及时签发新的稿件哦",function(){
+                	window.location.reload();
+                });
+            }else if(resp.msg != '未登录'){
+                layer.alert(resp.msg);
+            }
+        });
+    };
 
     //存储签发参数的数组
     vm.signReqParamData = [];

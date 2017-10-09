@@ -166,10 +166,19 @@ input[type=checkbox], input[type=radio]{ zoom:1.5;}
                 <span class="flr curp tit-close"
                       ng-click="detail.projectModalHide('hadSignModalId')">×</span>
             </div>
+            
+           
             <!-- 内容 -->
+           
             <div class="user-info-item">
                 <div class="role-modal-con user-recharge-manage">
                     <div class="table-responsive user-login-log-box overflow_y">
+                     	 <!-- 一键撤稿 start  add by xiayunan@20171009 -->
+			             <div class="tac">
+			                    <span class="dib cursor group-all-cancel-btn"
+			                         ng-click="detail.onAllRetractionClick()">一键撤稿</span>
+			            </div>
+			            <!-- 一键撤稿end -->
                         <table class="table table-bordered uInfo-table">
                             <thead>
                             <tr>
@@ -370,6 +379,39 @@ input[type=checkbox], input[type=radio]{ zoom:1.5;}
         </div>
     </div>
 </div>
+
+<!--一键撤稿弹框 add by xiayunan@20171009-->
+    <div class="common-modal-style" id="retractionAllModalId"
+         ng-mousemove="detail.moveModal('retractionModalId-tit','retractionAllModalId')"
+         style="display:none">
+        <div class="role-add-con">
+            <div id="retractionModalId-tit" class="role-add-tit oH">
+                <span class="fll">一键撤稿
+                    <span class="error_col">&nbsp;&nbsp;请先使用新的稿件替换签发位上的该稿件，再撤稿，否则页面上的签发位将显示为空白</span>
+                </span>
+
+                <span class="flr curp tit-close"
+                      ng-click="detail.projectModalHide('retractionAllModalId')">×</span>
+            </div>
+            <div class="role-add-main">
+                <div class="role-add-form-info">
+                    <div class="role-form-info-bottom clear">
+                        <div class="w15p fll">一键撤稿原因</div>
+                        <textarea class="w70p fll" style="height: 120px"
+                                  ng-model="detail.retractionContent"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="tac">
+                <span class="dib cursor user-add-btn" ng-click="detail.onAllRetractionClick()">一键撤稿</span>
+                <span class="dib cursor user-add-btn cancel-btn-color"
+                      ng-click="detail.projectModalHide('retractionAllModalId')">取消</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <!--下载类别弹框-->
 <div class="common-modal-style" id="detail-type-modal"  style="display:none">
     <div class="role-add-con">

@@ -472,6 +472,20 @@
     margin-left: 34px;
     border: 1px solid #E26569;
 }
+
+
+.group-all-cancel-btn{
+    width: 68px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    color: #24A3A8;
+    border-radius: 16px;
+    margin-left: 600px;
+    border: 1px solid #24A3A8; 
+}
+
+
 /*sort-manage css*/
 .user-sort-con{
     margin: 24px;
