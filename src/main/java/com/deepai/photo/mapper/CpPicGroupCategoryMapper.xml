@@ -83,6 +83,23 @@
       order by ${orderByClause}
     </if>
   </select>
+  
+  
+   <!-- 获取已签栏目列表  add by xiayunan@20171009-->
+  <select id="selectHasSignColumn" parameterType="map" resultType="com.deepai.photo.bean.CpPicGroupCategory">
+  	select a.ID as id,a.GROUP_ID as groupId,a.CATEGORY_ID as categoryId,a.TYPE as type,a.POSITION as position 
+  	from cp_pic_group_category a , cp_pic_group b where 
+  	a.GROUP_ID = b.ID 
+  	<if test="type != null">
+		and a.TYPE=#{type} 
+	</if>
+	<if test="groupId != null">
+		and a.GROUP_ID=#{groupId} 
+	</if>
+  	and b.GROUP_STATUS = 4
+  </select>
+  
+  
   <select id="selectByGroupId" resultMap="BaseResultMap"
 	parameterType="java.lang.Integer">
 		select

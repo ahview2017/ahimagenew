@@ -1853,9 +1853,14 @@ public class GroupPicController {
 				result.setMsg(CommonConstant.SUCCESSSTRING);
 				result.setData(groupColumnList);
 			}else{
-				CpPicGroupCategoryExample e=new CpPicGroupCategoryExample();
-				e.createCriteria().andTypeEqualTo(1).andGroupIdEqualTo(groupId);
-				List<CpPicGroupCategory> cates=categoryMapper.selectByExample(e);
+//				CpPicGroupCategoryExample e=new CpPicGroupCategoryExample();
+//				e.createCriteria().andTypeEqualTo(1).andGroupIdEqualTo(groupId);
+				//add by xiayunan@20171009
+				Map<String,Object> map = new HashMap<String,Object>();
+				map.put("type", 1);
+				map.put("groupId", groupId);
+				List<CpPicGroupCategory> cates=categoryMapper.selectHasSignColumn(map);
+//				List<CpPicGroupCategory> cates=categoryMapper.selectByExample(e);
 				result.setCode(CommonConstant.SUCCESSCODE);
 				result.setMsg(CommonConstant.SUCCESSSTRING);
 				result.setData(cates);
