@@ -36,6 +36,7 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 		// 从service里取得我的值班级别的数据，实现数据持久化
 		getMyDuty.req_getMyDuty(function(type) {
 			vm.mydutyType = type;
+			console.log("vm.mydutyType:"+vm.mydutyType);
 			console.log(typeof vm.mydutyType);
 		})
 	}
@@ -491,7 +492,12 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 				modalOperate.modalHide(modalId);
 				return;
 			}
-			fristSubmitGroupPic(modalId);
+			if(vm.mydutyType==1){
+				fristSubmitGroupPic(modalId);
+			//如果值班级别是二审或三审直接将待一审稿件进行二审提交
+			}else if(vm.mydutyType==2||vm.mydutyType==3){
+				firstAndSecondSubmitGroupPic(modalId);
+			}
 		}
 		if(vm.groupStatus == 2) {
 			secondSubmitGroupPic(modalId);
@@ -529,6 +535,21 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 			}
 		});
 	}
+	
+	// 一审和二审提交 add by xiayunan@20171010
+	function firstAndSecondSubmitGroupPic(modalId) {
+		req.post('groupPicCtro/fristSubmitGroupPic.do', {
+			groupId: vm.groupId
+		}).success(function(resp) {
+			if(resp.code == '211') {
+				secondSubmitGroupPic(modalId);
+			} else if(resp.msg != '未登录') {
+				layer.alert(resp.msg);
+				modalOperate.modalHide(modalId);
+			}
+		});
+	}
+	
 
 	// 点击管理控制下面详情div切换
 	vm.toggleMangeOperateCon = function() {

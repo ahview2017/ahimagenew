@@ -864,6 +864,7 @@ public class GroupPicController {
 		}
 		return result;
 	}
+	
 	/**
 	 * 三审签发
 	 * @param request
