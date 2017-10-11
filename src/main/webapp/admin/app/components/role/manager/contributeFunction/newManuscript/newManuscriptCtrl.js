@@ -85,6 +85,114 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
         });
     }
     init();
+    
+    
+    
+    //人物、关键词、稿件说明快速复制 add by xiayunan@20171011
+    vm.copyPeople = function(){
+    	if(!vm.newManuscriptManuscript.people){
+    		layer.alert("人物为空，请输入后再进行复制！");
+    		return;
+    	}
+    	
+    	 if(vm.upMenuscriptPicArr.length == 0){
+             layer.alert('未选择图片，请上传后再进行复制!');
+             return;
+         }
+    	var flag = $("#people-toggle-flag").hasClass("people-toggle");
+    	if(flag){
+    		$(".pic-people").val(vm.newManuscriptManuscript.people);
+    		$("#people-toggle-flag").removeClass("people-toggle");
+    		angular.forEach(vm.upMenuscriptPicArr,function(item,index){
+    			vm.upMenuscriptPicArr[index].people = vm.newManuscriptManuscript.people;
+    		});
+    		alert("复制人物成功！");
+    	}else{
+    		$(".pic-people").val("");
+    		$("#people-toggle-flag").addClass("people-toggle");
+    		angular.forEach(vm.upMenuscriptPicArr,function(item,index){
+    			vm.upMenuscriptPicArr[index].people = vm.newManuscriptManuscript.people;
+    		});
+    		alert("清空人物成功！");
+    	}
+    }
+    
+    
+    vm.copyKeyword = function(){
+    	if(!vm.newManuscriptManuscript.keywords){
+    		layer.alert("关键词为空，请输入后再进行复制！");
+    		return;
+    	}
+    	if(vm.upMenuscriptPicArr.length == 0){
+             layer.alert('未选择图片，请上传后再进行复制!');
+             return;
+        }
+    	var flag = $("#keyword-toggle-flag").hasClass("keyword-toggle");
+    	if(flag){
+    		$(".pic-keyword").val(vm.newManuscriptManuscript.keywords);
+    		$("#keyword-toggle-flag").removeClass("keyword-toggle");
+    		angular.forEach(vm.upMenuscriptPicArr,function(item,index){
+    			vm.upMenuscriptPicArr[index].keywords = vm.newManuscriptManuscript.keywords;
+    		});
+    		alert("复制关键词成功！");
+    	}else{
+    		$(".pic-keyword").val("");
+    		$("#keyword-toggle-flag").addClass("keyword-toggle");
+    		angular.forEach(vm.upMenuscriptPicArr,function(item,index){
+    			vm.upMenuscriptPicArr[index].keywords = '';
+    		});
+    		alert("清空关键词成功！");
+    	}
+    	
+    	
+    	//$(".pic-keyword").val(vm.newManuscriptManuscript.keywords);
+    }
+    
+    vm.copyMemo = function(){
+    	
+    	if(vm.upMenuscriptPicArr.length == 0){
+             layer.alert('未选择图片，请上传后再进行复制!');
+             return;
+        }
+    	var memo = '';
+    	angular.forEach(vm.upMenuscriptPicArr,function(item,index){
+    		memo = vm.upMenuscriptPicArr[0].memo ;
+		});
+    	if(!memo){
+    		layer.alert("图片说明为空，请输入后再进行复制！");
+    		return;
+    	}
+    	
+    	var flag = $("#memo-toggle-flag").hasClass("memo-toggle");
+    	if(flag){
+    		$(".pic-memo").val(memo);
+    		$("#memo-toggle-flag").removeClass("memo-toggle");
+    		angular.forEach(vm.upMenuscriptPicArr,function(item,index){
+    			if(index>0){
+    				vm.upMenuscriptPicArr[index].memo = memo;
+    			}
+    		});
+    		alert("复制图片说明成功！");
+    	}else{
+    		$(".pic-memo").each(function(index,element){
+    			if(index>0){
+    				$(this).val("");
+    			}			
+    		});
+    		
+    		$("#memo-toggle-flag").addClass("memo-toggle");
+    		angular.forEach(vm.upMenuscriptPicArr,function(item,index){
+    			if(index>0){
+    				vm.upMenuscriptPicArr[index].memo = '';
+    			}
+    		});
+    		alert("清空图片说明成功！");
+    	}
+    	
+    	//$(".pic-memo").val(vm.newManuscriptManuscript.memo);
+    }
+    
+    
  // 编辑稿件分类模态框显示
     vm.editMsSortsModalShow = function(){
          $('#edit-sort-modal').modal('show');
@@ -145,6 +253,11 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
             }
         });
     }
+    
+    
+    
+    
+    
     // 选中已经编辑完的分类
     function selectedEverSorts(){
         var treeObj = $.fn.zTree.getZTreeObj("edit_sort_tree");

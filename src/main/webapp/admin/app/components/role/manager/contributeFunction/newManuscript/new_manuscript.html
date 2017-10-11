@@ -89,7 +89,7 @@
 						
 				</div>
 				<div class="n-manuscript-middle">
-					<p class='new_infor'>请输入稿件说明（必填，少于4000汉字的简单说明）</p>
+					<p class='new_infor  memo-toggle'  id ="memo-toggle-flag" >请输入稿件说明（必填，少于4000汉字的简单说明）</p>
 					<!--<textarea class="n-manuscript-explain" placeholder="请输入稿件说明（必填，少于600汉字的简单说明）"
                               ng-model="newManuscript.newManuscriptManuscript.memo"></textarea>-->
                     <div class="n-manuscript-explain"  id="new_ms_memo" ng-bind-html="newManuscript.newManuscriptManuscript.memo | trustHtml"
@@ -121,7 +121,7 @@
 					<div class="draft-signed-bd">
 						<div class="draft-signed-hd-item clear">
 							<div class="fll draft-signed-hd-left">
-								<span class="draft-sign-txt" translate>100024</span>
+								<span ng-click="newManuscript.copyPeople()" id ="people-toggle-flag" class="draft-sign-txt cursor people-toggle" translate >100024</span>
 							</div>
 							<div class="fll draft-signed-hd-right">
 								<input placeholder="选填，少于200字" class="draft-sign-input" ng-model="newManuscript.newManuscriptManuscript.people" />
@@ -129,7 +129,7 @@
 						</div>
 						<div class="draft-signed-hd-item clear">
 							<div class="fll draft-signed-hd-left">
-								<span class="draft-sign-txt" translate>100025</span>
+								<span ng-click="newManuscript.copyKeyword()" id ="keyword-toggle-flag" class="draft-sign-txt cursor keyword-toggle" translate>100025</span>
 							</div>
 							<div class="fll draft-signed-hd-right">
 								<input placeholder="必填，少于200字" class="draft-sign-input" ng-model="newManuscript.newManuscriptManuscript.keywords" />
@@ -195,7 +195,7 @@
 			<!--上传信息盒子-->
 			<div class="ms-upinfo-box"></div>
 			<!--上传图片-->
-			<div ui-sortable ng-model="newManuscript.upMenuscriptPicArr">
+			<div ui-sortable ng-model="newManuscript.upMenuscriptPicArr" id="picContent">
 				<div class="ms-pic-item clear" ng-repeat="item in newManuscript.upMenuscriptPicArr">
 					<div>
 						<div class="clear">
@@ -229,7 +229,7 @@
 									<span translate>100024</span>
 								</div>
 								<div class="ms-addpic-right fll">
-									<input placeholder="选填" class="draft-sign-input" ng-model="item.people" />
+									<input placeholder="选填" class="draft-sign-input pic-people" ng-model="item.people" />
 								</div>
 							</div>
 							<div class="ms-addpic-item clear">
@@ -237,7 +237,7 @@
 									<span translate>100025</span>
 								</div>
 								<div class="ms-addpic-right fll">
-									<input placeholder="必填" class="draft-sign-input" ng-model="item.keywords" />
+									<input placeholder="必填" class="draft-sign-input pic-keyword" ng-model="item.keywords" />
 								</div>
 							</div>
 							<div class="ms-addpic-item clear">
@@ -250,8 +250,8 @@
 							</div>
 						</div>
 						<div class="ms-editDet-state fll">
-							<h5 class="ms-pic-txt" translate>100033</h5>
-							<textarea class="ms-pic-textarea" placeholder="请输入图片说明" ng-model="item.memo"></textarea>
+							<h5 class="ms-pic-txt cursor " ng-click="newManuscript.copyMemo()" translate >100033</h5>
+							<textarea class="ms-pic-textarea pic-memo" placeholder="请输入图片说明" ng-model="item.memo"></textarea>
 						</div>
 					</div>
 				</div>
