@@ -19,6 +19,7 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
         vm.type = $stateParams.type;
         //获得城市列表
         vm.msCityList = cityList.citylist;
+        vm.cities = [];
         //默认激活的导航项为全部稿件
         vm.acitiveSlideTit = 1;
         //默认选中境内稿签
@@ -52,6 +53,7 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
             remark:'',
             selProv:'',
             selCity:'',
+            selCounty:'',
             abroadPlace:'',
             price:'',
             editor:''
@@ -93,11 +95,23 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
             }
         }
     };
+    
+    //改变市的时候
+    vm.changeCity = function (city) {
+    	//$("#proSel").find("#defaultProOpt").remove();
+    	
+        for(var i = 0; i < vm.cities.length; i++){
+            if(city == vm.cities[i].n){
+                vm.counties = vm.cities[i].a;
+            }
+        }
+    };
 
     //初始化时展示详情
     function showMenuscriptDetail(){
         //初始化地点信息
         vm.changeProv(vm.manuscriptPlaceArr[0]);
+        vm.changeCity(vm.manuscriptPlaceArr[1]);
         //存储编辑稿件信息
         vm.editManuscript = {
             fTime:  $filter('date')(vm.manuscriptDetail.fileTime,'yyyy-MM-dd'),
@@ -109,7 +123,8 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
             remark: vm.manuscriptDetail.remark,
             selProv: vm.manuscriptPlaceArr[0] || '',
             selCity: vm.manuscriptPlaceArr[1] || '',
-            abroadPlace: vm.manuscriptDetail.place
+            selCounty: vm.manuscriptPlaceArr[2] || '',
+            abroadPlace: vm.manuscriptDetail.abroadPlace
         };
         //初始化展示地点（从详情获取）
         vm.locationType = vm.manuscriptDetail.locationType;
@@ -200,6 +215,10 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
 				//console.log(resp.data);
                 vm.groupStatus = resp.data.groupStatus;
                 vm.manuscriptPlaceArr = resp.data.place.split(' ');
+                console.log("<<<<<<vm.manuscriptPlaceArr:"+vm.manuscriptPlaceArr);
+                if(vm.manuscriptPlaceArr.length==1){
+                	vm.manuscriptDetail.abroadPlace = resp.data.place;
+                }
                 vm.manuscriptPicResult = resp.data.pics;
                 vm.manuscriptProperties = resp.data.properties;
                 vm.manuscriptPros = resp.data.pros;
@@ -728,7 +747,12 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
     //获取地点参数
     function getPlaceParams(){
         if(vm.locationType == 0){
-            vm.editManuscript.place = vm.editManuscript.selProv + ' ' + vm.editManuscript.selCity;
+        	if(!vm.editManuscript.selCounty){
+       		 	vm.editManuscript.place = vm.editManuscript.selProv + ' ' + vm.editManuscript.selCity;
+	       	}else{
+	       		vm.editManuscript.place = vm.editManuscript.selProv + ' ' + vm.editManuscript.selCity+ ' ' + vm.editManuscript.selCounty;
+	       	}
+
         }
         if(vm.locationType == 1){
             vm.editManuscript.place = vm.editManuscript.abroadPlace;
@@ -778,6 +802,13 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
             layer.alert('关键词要少于200字');
             return;
         }
+        console.log("<<<vm.editManuscript.selProv:"+vm.editManuscript.selProv);
+        console.log("<<<vm.editManuscript.selCity:"+vm.editManuscript.selCity);
+        if((!vm.editManuscript.selProv||!vm.editManuscript.selCity) && (!vm.editManuscript.abroadPlace)){
+            layer.alert('请填写地点');
+            return;
+        }
+        
         if(vm.editManuscript.abroadPlace && vm.editManuscript.abroadPlace.length > 200){
             layer.alert('地点要少于200字');
             return;
@@ -791,6 +822,8 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
             layer.alert('请选择稿件类别');
             return;
         }
+        
+        
         //验证价格参数
         if(vm.editManuscript.price && !(/^\d+$/.test(vm.editManuscript.price))){
             layer.alert('定价必须为整数!');

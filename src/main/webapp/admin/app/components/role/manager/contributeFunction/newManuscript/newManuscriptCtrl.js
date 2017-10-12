@@ -15,9 +15,8 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
         vm.msCityList = cityList.citylist;
         //初始化城市为安徽省
         vm.cities = vm.msCityList[11].c;
-        console.log("<<<<<<<<<cities:"+vm.cities);
+        //初始化城市为合肥
         vm.counties = vm.cities[0].a;
-        console.log("<<<<<<<<<counties:"+vm.counties);
         //上传图片列表
         vm.upMenuscriptPicArr = [];
         //从cookie里取得作者id
