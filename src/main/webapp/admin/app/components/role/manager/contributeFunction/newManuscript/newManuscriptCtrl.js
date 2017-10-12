@@ -15,6 +15,9 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
         vm.msCityList = cityList.citylist;
         //初始化城市为安徽省
         vm.cities = vm.msCityList[11].c;
+        console.log("<<<<<<<<<cities:"+vm.cities);
+        vm.counties = vm.cities[0].a;
+        console.log("<<<<<<<<<counties:"+vm.counties);
         //上传图片列表
         vm.upMenuscriptPicArr = [];
         //从cookie里取得作者id
@@ -690,6 +693,16 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
         }
         
     };
+    
+    //改变市的时候
+    vm.changeCity = function (city) {
+    	//$("#proSel").find("#defaultProOpt").remove();
+        for(var i = 0; i < vm.cities.length; i++){
+            if(city == vm.cities[i].n){
+                vm.counties = vm.cities[i].a;
+            }
+        }
+    };
 
 
     //提交
@@ -802,7 +815,13 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
         }
         //获取地点参数
         if(vm.locationType == 0){
-            vm.newManuscriptManuscript.place = vm.newManuscriptManuscript.selProv + ' ' + vm.newManuscriptManuscript.selCity;
+        	if(!vm.newManuscriptManuscript.selCounty){
+        		 vm.newManuscriptManuscript.place = vm.newManuscriptManuscript.selProv + ' ' + vm.newManuscriptManuscript.selCity;
+        	}else{
+        		vm.newManuscriptManuscript.place = vm.newManuscriptManuscript.selProv + ' ' + vm.newManuscriptManuscript.selCity+ ' ' + vm.newManuscriptManuscript.selCounty;
+        	}
+        	
+           
         }
         if(vm.locationType == 1){
             vm.newManuscriptManuscript.place = vm.newManuscriptManuscript.abroadPlace;

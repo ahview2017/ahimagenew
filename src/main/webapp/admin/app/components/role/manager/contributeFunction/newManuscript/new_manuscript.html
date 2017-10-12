@@ -164,8 +164,13 @@
 							 		ng-model="newManuscript.newManuscriptManuscript.selProv" ng-options="prov.p as prov.p for prov in newManuscript.msCityList">
 								<option id="defaultProOpt" value="" translate>100084</option>
 							</select>
-							<select id="citySel" class="draft-procity-select" 
+							<select id="citySel" class="draft-procity-select" ng-change="newManuscript.changeCity(newManuscript.newManuscriptManuscript.selCity)"
 									ng-model="newManuscript.newManuscriptManuscript.selCity" ng-options="city.n as city.n for city in newManuscript.cities">
+								<option  value="" translate>100029</option>
+							</select>
+							<!--境内地区添加 县 -->
+							<select id="countySel" class="draft-procity-select" 
+									ng-model="newManuscript.newManuscriptManuscript.selCounty" ng-options="county.s as county.s for county in newManuscript.counties">
 								<option  value="" translate>100029</option>
 							</select>
 						</div>
