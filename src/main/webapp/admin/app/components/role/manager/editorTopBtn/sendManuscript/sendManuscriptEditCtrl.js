@@ -215,7 +215,6 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
 				//console.log(resp.data);
                 vm.groupStatus = resp.data.groupStatus;
                 vm.manuscriptPlaceArr = resp.data.place.split(' ');
-                console.log("<<<<<<vm.manuscriptPlaceArr:"+vm.manuscriptPlaceArr);
                 if(vm.manuscriptPlaceArr.length==1){
                 	vm.manuscriptDetail.abroadPlace = resp.data.place;
                 }
@@ -228,7 +227,6 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
                     vm.manuscriptCates = resp.data.cates;
                 }
                 if(callback) callback();
-                //console.log('success');
             }else if(resp.msg != '未登录'){
                 layer.alert(resp.msg);
             }
@@ -312,8 +310,6 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
                categoryNameArr.push(nodes[i].categoryName);
                cateIdParamStr = cateIdParamArr.join();
                vm.categoryNameStr = categoryNameArr.join();
-              // console.log(cateIdParamStr);
-               //console.log(vm.categoryNameStr);
            //}
        }
        return cateIdParamStr;
@@ -802,8 +798,6 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
             layer.alert('关键词要少于200字');
             return;
         }
-        console.log("<<<vm.editManuscript.selProv:"+vm.editManuscript.selProv);
-        console.log("<<<vm.editManuscript.selCity:"+vm.editManuscript.selCity);
         if((!vm.editManuscript.selProv||!vm.editManuscript.selCity) && (!vm.editManuscript.abroadPlace)){
             layer.alert('请填写地点');
             return;
