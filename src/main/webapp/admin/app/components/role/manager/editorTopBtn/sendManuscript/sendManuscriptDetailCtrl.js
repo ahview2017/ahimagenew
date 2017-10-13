@@ -408,8 +408,6 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 					vm.masUrl = vm.masBaseUrl+"&method=exPlay&type=vod&id="+vm.manuscriptDetail.videoId;
 				}
 				vm.masUrl =  $sce.trustAsResourceUrl(vm.masUrl);
-				console.log("<<<<<<<<<<<masUrl:"+vm.masUrl);
-				console.log(resp.data);
 				vm.manuscriptProperties = resp.data.properties;
 				vm.manuscriptCates = resp.data.cates;
 				vm.fristPfdUser = resp.data.fristPfdUser;
@@ -492,11 +490,23 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 				modalOperate.modalHide(modalId);
 				return;
 			}
-			if(vm.mydutyType==1){
-				fristSubmitGroupPic(modalId);
-			//如果值班级别是二审或三审直接将待一审稿件进行二审提交
-			}else if(vm.mydutyType==2||vm.mydutyType==3){
-				firstAndSecondSubmitGroupPic(modalId);
+			//add by xiayunan@20171013
+			if(vm.mydutyType.length==1){
+				if(vm.mydutyType==1){
+					fristSubmitGroupPic(modalId);
+				//如果值班级别是二审或三审直接将待一审稿件进行二审提交
+				}else if(vm.mydutyType==2||vm.mydutyType==3){
+					firstAndSecondSubmitGroupPic(modalId);
+				}
+			}else if(vm.mydutyType.length>1){
+				vm.mydutyType = vm.mydutyType[vm.mydutyType.length-1];
+				if(vm.mydutyType==1){
+					fristSubmitGroupPic(modalId);
+				//如果值班级别是二审或三审直接将待一审稿件进行二审提交
+				}else if(vm.mydutyType==2||vm.mydutyType==3){
+					firstAndSecondSubmitGroupPic(modalId);
+				}
+			
 			}
 		}
 		if(vm.groupStatus == 2) {
