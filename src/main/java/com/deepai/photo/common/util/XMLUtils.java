@@ -6,7 +6,6 @@ package com.deepai.photo.common.util;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
@@ -94,7 +93,7 @@ public class XMLUtils {
         of.setIndent(true);
         of.setNewlines(true);
         org.dom4j.io.XMLWriter xw = new org.dom4j.io.XMLWriter(
-        		new FileOutputStream(targetFile), of);
+        		new  FileOutputStream(targetFile), of);
         xw.write(doc);
         xw.flush();
     }
