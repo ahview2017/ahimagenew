@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.Writer;
@@ -27,8 +28,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.dom4j.Document;
 import org.dom4j.io.OutputFormat;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 
 import com.deepai.photo.common.constant.CommonConstant;
 import com.deepai.photo.common.util.SessionUtils;
@@ -271,6 +270,41 @@ public class ImgFileUtils {
 				new FileOutputStream(outName));
 		copyFile(is, os, true);
 	}
+	
+	
+	/**
+	 * 将一个文件inName拷贝到另外一个文件outName中
+	 * 
+	 * @author xiayunan
+	 * @date 2017-10-13
+	 * @param inName
+	 *            源文件路径
+	 * @param outName
+	 *            目标文件路径
+	 * @param outName
+	 *            目标文件编码
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
+	public static void copyFile(String inName, String outName,String charset)throws FileNotFoundException, IOException {
+		
+		BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(inName),charset));
+		PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outName),charset)));
+		String str;
+		while ( (str = in.readLine())!=null) {
+			out.println(str);
+			//将数组内容写入；
+			out.flush(); //刷新； 
+		}
+		if(in!=null){
+			in.close();
+		}
+		if(out!=null){
+			out.close();
+		}
+	}
+	
+	
 	
 	/**
 	 * 拷贝网络文件至本地

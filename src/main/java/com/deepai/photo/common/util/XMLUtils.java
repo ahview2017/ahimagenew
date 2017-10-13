@@ -4,8 +4,9 @@
  */
 package com.deepai.photo.common.util;
 
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
@@ -55,7 +56,7 @@ public class XMLUtils {
         eTitle.setText(group.getTitle());
         Element eType = DocumentHelper.createElement("Type");
         if(type==1){
-            eType.setText("报社图片");
+            eType.setText("报社TRS图片");
         }else{
             eType.setText("新华社图片");
         }
@@ -93,9 +94,11 @@ public class XMLUtils {
         of.setIndent(true);
         of.setNewlines(true);
         org.dom4j.io.XMLWriter xw = new org.dom4j.io.XMLWriter(
-                new FileWriter(targetFile), of);
+        		new FileOutputStream(targetFile), of);
         xw.write(doc);
         xw.flush();
     }
+    
+    
 
 }

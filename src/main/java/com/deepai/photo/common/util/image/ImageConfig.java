@@ -248,11 +248,12 @@ public class ImageConfig {
             return null;
         }
 
-        String sYear = DateUtils.getNowYear();//filename.substring(0, 4);
-        String sMonth = DateUtils.getNowYear()+DateUtils.getNowMonth()+DateUtils.getNowDay();//filename.substring(0, 8);
+//        String sYear = DateUtils.getNowYear();//filename.substring(0, 4);
+//        String sMonth = DateUtils.getNowYear()+DateUtils.getNowMonth()+DateUtils.getNowDay();//filename.substring(0, 8);
 
-        return sQanBaoPath + File.separator + sYear + File.separator
-                + sMonth+File.separator;
+//        return sQanBaoPath + File.separator + sYear + File.separator
+//                + sMonth+File.separator;
+        return sQanBaoPath;
     }
 	
 	
