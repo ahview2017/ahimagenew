@@ -38,8 +38,8 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
 				var videoId = resp.data.videoId;
 				//console.log("videoId:"+videoId);
 				vm.videoId = videoId;
-				
 				if(videoId!=0&&vm.masBaseUrl){
+					console.log("vm.masBaseUrl:"+vm.masBaseUrl);
 					vm.masUrl = vm.masBaseUrl+"&method=exPlay&type=vod&id="+videoId;
 					vm.masUrl = $sce.trustAsResourceUrl(vm.masUrl);
 				}
