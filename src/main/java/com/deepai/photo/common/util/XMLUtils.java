@@ -85,7 +85,13 @@ public class XMLUtils {
         document.add(root);
         return document;
     }
-
+    
+    /**
+     * 生成XMl文件
+     * @param doc
+     * @param targetFile
+     * @throws IOException
+     */
     public static void writeXML(Document doc, String targetFile)
             throws IOException {
         OutputFormat of = OutputFormat.createPrettyPrint();
