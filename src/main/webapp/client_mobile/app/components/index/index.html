@@ -1,0 +1,248 @@
+        <div class="header_title">
+            <a href="/photo/index_m.html"></a>
+			
+        </div>
+		<div class="header_contributions" style="cursor:pointer;width:100px;height:40px;line-height:40px;font-size:18px;position:absolute;top:0;right:10px;color:#fff;text-align:center;">
+			<a href="/photo/index_m.html#/newArticle/" target="_blank">我要投稿</a>
+		</div>
+        <div class="swiper-container" id="swiper-container2">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide swiper-slide-visible active-nav">新闻图片</div>
+                <div class="swiper-slide">专题图片</div>
+                <div class="swiper-slide">皖风徽韵</div>
+                <div class="swiper-slide">历史资料</div>
+                <div class="swiper-slide">各市图库</div>
+                <div class="swiper-slide">视频VR</div>
+                <div class="swiper-slide">艺苑菁华</div>
+                <div class="swiper-slide">互动空间</div>
+                <div class="swiper-slide">掌上图库</div>
+            </div>
+        </div>
+    <div class="swiper-container" id="swiper-container1">
+        <div class="swiper-wrapper">
+            <!-- 新闻图片 -->
+            <div class="swiper-slide subBtn" ng-init="index.getselChildColumn(3064)">
+                <div class="swiper-container" id="subnavs1">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide" ng-repeat="item in index.newsPhoto1">{{item.name}}</div>
+                    </div>
+                </div>
+            </div>
+            <!-- 专题图片 -->
+            <div class="swiper-slide subBtn" ng-init="index.getselChildColumn(3077)">
+                <div class="swiper-container" id="subnavs2">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide" ng-repeat="item in index.topicPhoto1">{{item.name}}</div>
+                    </div>
+                </div>
+            </div>
+            <!-- 皖风徽韵 -->
+            <div class="swiper-slide subBtn" ng-init="index.getselChildColumn(3078)">
+                <div class="swiper-container" id="subnavs3">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide" ng-repeat="item in index.anhuiStyle1">{{item.name}}</div>
+                    </div>
+                </div>
+            </div>
+            <!-- 历史资料 -->
+            <div class="swiper-slide subBtn" ng-init="index.getselChildColumn(3079)">
+                <div class="swiper-container" id="subnavs4">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide" ng-repeat="item in index.anhuiHistory1">{{item.name}}</div>
+                    </div>
+                </div>
+            </div>
+            <!-- 各市图库 -->
+            <div class="swiper-slide subBtn" ng-init="index.getselChildColumn(3080)">
+                <div class="swiper-container" id="subnavs5">
+                    <div class="swiper-wrapper" >
+                        <div class="swiper-slide" ng-repeat="item in index.anhuiCitys1">{{item.name}}</div>
+                    </div>
+                </div>
+            </div>
+            <!-- 视频VR -->
+            <div class="swiper-slide subBtn"  ng-init="index.getselChildColumn(3081)">
+                <div class="swiper-container" id="subnavs6">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide" ng-repeat="item in index.anhuiVideo1">{{item.name}}</div>
+                    </div>
+                </div>
+            </div>
+            <!-- 艺苑菁华 -->
+            <div class="swiper-slide subBtn"  ng-init="index.getselChildColumn(3082)">
+                <div class="swiper-container" id="subnavs7">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide" ng-repeat="item in index.artEssence1">{{item.name}}</div>
+                    </div>
+                </div>
+            </div>
+            <!-- 互动空间 -->
+            <div class="swiper-slide subBtn" ng-init="index.getselChildColumn(3083)">
+                <div class="swiper-container" id="subnavs8">
+                    <div class="swiper-wrapper" >
+                        <div class="swiper-slide" ng-repeat="item in index.interactiveSpace1">{{item.name}}</div>
+                    </div>
+                </div>
+            </div>
+            <!-- 掌上图库 -->
+            <div class="swiper-slide subBtn" ng-init="index.getselChildColumn(3084)">
+                <div class="swiper-container" id="subnavs9">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide" ng-repeat="item in index.handPics1"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="swiper-container swiper-container-horizontal" id="swiper-container3">
+        <div class="swiper-wrapper">
+
+		
+		
+
+        <!-- 新闻图片 -->
+            <div class="swiper-slide swiper-slide-visible active-nav">
+                <div class="conLists" ng-init="index.getClientGroups(3064,4,0,2)">
+                    <ul>
+                        <li ng-repeat="item in index.newsPhoto track by $index">
+                            <a ui-sref="root.newDetailList({groupId: item.ID})">
+                                <img ng-src="{{item.filePath}}" />
+                                <p>{{item.TITLE}}</p>
+                            </a>
+                            <!-- <i>{{picsDetail.clientPictureDetail.pictureCount}}图</i> -->
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 专题图片 -->
+            <div class="swiper-slide">
+                <div class="conLists" ng-init="index.getClientGroups(3077,4,0,2)">
+                    <ul>
+                        <li ng-repeat="item in index.topicPhoto track by $index">
+                            <a ui-sref="root.newDetailList({groupId: item.ID})">
+                                <img ng-src="{{item.filePath}}" />
+                                <p>{{item.TITLE}}</p>
+                            </a>
+                            <!-- <i>{{picsDetail.clientPictureDetail.pictureCount}}图</i> -->
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 皖风徽韵 -->
+            <div class="swiper-slide">
+                <div class="conLists" ng-init="index.getClientGroups(3078,4,0,2)">
+                    <ul>
+                        <li ng-repeat="item in index.anhuiStyle track by $index">
+                            <a ui-sref="root.newDetailList({groupId: item.ID})">
+                                <img ng-src="{{item.filePath}}" />
+                                <p>{{item.TITLE}}</p>
+                            </a>
+                            <!-- <i>{{picsDetail.clientPictureDetail.pictureCount}}图</i> -->
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 历史资料 -->
+            <div class="swiper-slide">
+                <div class="conLists" ng-init="index.getClientGroups(3079,4,0,2)">
+                    <ul>
+                        <li ng-repeat="item in index.anhuiHistory track by $index">
+                            <a ui-sref="root.newDetailList({groupId: item.ID})">
+                                <img ng-src="{{item.filePath}}" />
+                                <p>{{item.TITLE}}</p>
+                            </a>
+                            <!-- <i>{{picsDetail.clientPictureDetail.pictureCount}}图</i> -->
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 各市图库 -->
+            <div class="swiper-slide">
+                <div class="conLists" ng-init="index.getClientGroups(3080,4,0,2)">
+                    <ul>
+                        <li ng-repeat="item in index.anhuiCitys track by $index">
+                            <a ui-sref="root.newDetailList({groupId: item.ID})">
+                                <img ng-src="{{item.filePath}}" />
+                                <p>{{item.TITLE}}</p>
+                            </a>
+                            <!-- <i>{{picsDetail.clientPictureDetail.pictureCount}}图</i> -->
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 视频VR -->
+            <div class="swiper-slide">
+                <div class="conLists" ng-init="index.getClientGroups(3081,4,0,2)">
+                    <ul>
+                        <li ng-repeat="item in index.anhuiVideo track by $index">
+                            <a ui-sref="root.newDetailList({groupId: item.ID})">
+                                <img ng-src="{{item.filePath}}" />
+                                <p>{{item.TITLE}}</p>
+                            </a>
+                            <!-- <i>{{picsDetail.clientPictureDetail.pictureCount}}图</i> -->
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 艺苑菁华 -->
+            <div class="swiper-slide">
+                <div class="conLists" ng-init="index.getClientGroups(3082,4,0,2)">
+                    <ul>
+                        <li ng-repeat="item in index.artEssence track by $index">
+                            <a ui-sref="root.newDetailList({groupId: item.ID})">
+                                <img ng-src="{{item.filePath}}" />
+                                <p>{{item.TITLE}}</p>
+                            </a>
+                            <!-- <i>{{picsDetail.clientPictureDetail.pictureCount}}图</i> -->
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 互动空间 -->
+            <div class="swiper-slide">
+                <div class="conLists" ng-init="index.getClientGroups(3083,4,0,2)">
+                    <ul>
+                        <li ng-repeat="item in index.interactiveSpace track by $index">
+                            <a ui-sref="root.newDetailList({groupId: item.ID})">
+                                <img ng-src="{{item.filePath}}" />
+                                <p>{{item.TITLE}}</p>
+                            </a>
+                            <!-- <i>{{picsDetail.clientPictureDetail.pictureCount}}图</i> -->
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 掌上图库 -->
+            <div class="swiper-slide">
+                <div class="conLists" ng-init="index.getClientGroups(3084,4,0,2)">
+                    <ul>
+                        <li ng-repeat="item in index.artEssence track by $index">
+                            <a ui-sref="root.newDetailList({groupId: item.ID})">
+                                <img ng-src="{{item.filePath}}" />
+                                <p>{{item.TITLE}}</p>
+                            </a>
+                            <!-- <i>{{picsDetail.clientPictureDetail.pictureCount}}图</i> -->
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="back_top" id="back-to-top"></div>
+
+	
+	
+	
+
+	
+
+	
+	

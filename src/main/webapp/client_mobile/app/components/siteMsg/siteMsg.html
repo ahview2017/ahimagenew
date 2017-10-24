@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div class="webinfo-view-container">
+    <h6 class="webinfo-view-tit">
+        网站留言
+    </h6>
+    <div class="webinfo-view-con">
+        <div class="site-msg-contents">
+           <!-- <h4 class="site-msg-tit">
+                网站留言
+            </h4>-->
+            <div class="site-hint-txt">
+                <p>
+                    您喜欢新版网站吗？我们倾听您的建议。
+                </p>
+                <p>
+                    如果提交有关浏览速度、系统BUG、视觉显示等问题，请注意您使用的操作系统、浏览器，以便我们尽快对应查找问题解决。
+                </p>
+            </div>
+            <div class="site-msg-form">
+                <div>
+                    <span class="f-content-tit">内容</span>
+                    <textarea  class="site-msg-content" ng-model="siteMsg.siteMsg.content">
+                    </textarea>
+                </div>
+                <div class="mt15">
+                    <span  class="f-content-tit">联系方式</span>
+                    <input type="text"    class="site-msg-phone" ng-model="siteMsg.siteMsg.contactWay" placeholder="请输入您的邮箱或者电话"/>
+                </div>
+                <div class="site-submit-btn">
+                    <button type="button" class="btn btn-info site-msg-submit-btn"
+                            ng-click="siteMsg.submitSiteMsg()">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--<div class="site-msg-container">
+    <div class="site-msg-contents">
+        <h4 class="site-msg-tit">
+            网站留言
+        </h4>
+        <div class="site-hint-txt">
+            <p>
+                您喜欢新版网站吗？我们倾听您的建议。
+            </p>
+            <p>
+                如果提交有关浏览速度、系统BUG、视觉显示等问题，请注意您使用的操作系统、浏览器，以便我们尽快对应查找问题解决。
+            </p>
+        </div>
+        <div class="site-msg-form">
+            <div>
+                <span class="f-content-tit">内容</span>
+            <textarea  class="site-msg-content" ng-model="siteMsg.siteMsg.content">
+            </textarea>
+            </div>
+            <div>
+                <span  class="f-content-tit">联系方式</span>
+                <input type="text"    class="site-msg-phone" ng-model="siteMsg.siteMsg.contactWay" placeholder="请输入您的邮箱或者电话"/>
+            </div>
+            <div class="site-submit-btn">
+                <button type="button" class="btn btn-info" ng-click="siteMsg.submitSiteMsg()">提交</button>
+            </div>
+        </div>
+    </div>
+</div>-->
+</body>
+</html>

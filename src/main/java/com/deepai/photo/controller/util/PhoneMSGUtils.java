@@ -59,6 +59,9 @@ public class PhoneMSGUtils {
 
     /** 注册成功后发送短信 */
     public static final String TYPE_SUCCESS_CODE = "4";
+    
+    /** 手机版投稿发送验证码 */
+    public static final String TYPE_PHONE_CODE = "5";
 
     /**
      * 发送短信通知
@@ -119,6 +122,9 @@ public class PhoneMSGUtils {
         case TYPE_FORGET_CODE:
             result = sendPhoneCode(phone, TYPE_FORGET_CODE);
             break;
+        case TYPE_PHONE_CODE:
+            result = sendPhoneCode(phone, TYPE_PHONE_CODE);
+            break;
         default:
             break;
         }
@@ -152,7 +158,10 @@ public class PhoneMSGUtils {
             sContent = sysConfigService
                     .getDbSysConfig(SysConfigConstant.MSG_FORGET_CODE, 1);
             break;
-
+        case TYPE_PHONE_CODE:
+            sContent = sysConfigService
+                    .getDbSysConfig(SysConfigConstant.MSG_PHONE_CODE, 1);
+            break;
         default:
             break;
         }
@@ -161,7 +170,7 @@ public class PhoneMSGUtils {
         // 6位随机验证码
         Integer vilidate = (int) ((Math.random() * 9 + 1) * 100000);
         sContent = String.format(sContent, vilidate);
-//        logger.info("发送内容是：" + sContent);
+        logger.info("发送内容是：" + sContent);
         // 发送信息
         String code = send(phone, sContent);
 

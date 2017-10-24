@@ -1,0 +1,549 @@
+<div class="fashion-pic-container">
+    <div class="fashion-hd-bg">
+        <div class="fashion-hd-tit">
+            <a class="change-hover-color fashion-tit-link cursor" target="_blank" ui-sref="root.moreSortList({sginId: [223,224,225]})">电 影</a>
+            <span class="foot-part-line">|</span>
+            <a class="change-hover-color fashion-tit-link cursor"  target="_blank" ui-sref="root.moreSortList({sginId: [226,227,229]})">电视</a>
+            <span class="foot-part-line">|</span>
+            <a class="change-hover-color fashion-tit-link cursor"  target="_blank" ui-sref="root.moreSortList({sginId: [230,231,232]})">音 乐</a>
+            <span class="foot-part-line">|</span>
+            <a class="change-hover-color fashion-tit-link cursor"  target="_blank" ui-sref="root.moreSortList({sginId: 233})">戏 剧</a>
+            <span class="foot-part-line">|</span>
+            <a class="change-hover-color fashion-tit-link cursor">大型活动</a>
+            <span class="foot-part-line">|</span>
+            <a class="change-hover-color fashion-tit-link cursor"  target="_blank" ui-sref="root.moreSortList({sginId: [235,236,237]})">星 闻</a>
+            <span class="foot-part-line">|</span>
+            <a class="change-hover-color fashion-tit-link cursor"  target="_blank" ui-sref="root.moreSortList({sginId: 238})">时 装</a>
+            <span class="foot-part-line">|</span>
+            <a class="change-hover-color fashion-tit-link cursor"  target="_blank" ui-sref="root.moreSortList({sginId: [239,240]})">选 美</a>
+            <span class="foot-part-line">|</span>
+            <a class="change-hover-color fashion-tit-link cursor"  target="_blank" ui-sref="root.moreSortList({sginId: 241})">精彩回顾</a>
+        </div>
+        <div class="fashion-hd-desc">
+            <a class="change-hover-color fashion-hd-star">·&nbsp;内地明星</a>
+            <a class="change-hover-color fashion-hd-star">·&nbsp;港台明星</a>
+            <a class="change-hover-color fashion-hd-star">·&nbsp;日韩明星</a>
+            <a class="change-hover-color fashion-hd-star">·&nbsp;导 演</a>
+            <a class="change-hover-color fashion-hd-star">·&nbsp;综 艺</a>
+        </div>
+    </div>
+    <!-- 精彩推荐 -->
+    <div back-img="client/assets/img/fashion-hot-rec.gif" size="393">
+        <div class="finance-focus-item fashion-focus-banner">
+            <!--左边大头条-->
+            <div id="fashion-focus-lb" class="slideBox">
+                <ul class="items" ng-init="fashionPic.getFashionGroups(513)">
+                    <li ng-repeat="item in fashionPic.fashionHeadlineGroups track by $index" class="cursor">
+                        <a  class="cursor" title="{{item.TITLE}}" alt="{{item.TITLE}}"  ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})"  target="_blank">
+                            <img ng-src="{{item.wmPath}}" class="finance-big-foucs-bpic"/>
+                        </a>
+                        <a  class="cursor" title="{{item.TITLE}}" alt="{{item.TITLE}}"   ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})"  target="_blank">
+                            <img ng-src="{{item.wmPath}}" class="finance-big-foucs-bpic"/>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="finance-focus-item fashion-focus-con"   ng-init="fashionPic.getFashionGroups(132)">
+            <div style="height:59px;"></div>
+            <div class="finance-move-txt-right">
+                <div class="dtbr">
+                    <div class="finance-move-txt-item" ng-if="$index < 2" ng-repeat="item in fashionPic.goodRecommendGroups track by $index">
+                        <a ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})"  target="_blank">
+                            <img ng-src="{{item.samllPath}}" class="img-responsive finance-movie-pic"/>
+                        </a>
+                        <a ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})"  target="_blank">
+                            <img ng-src="{{item.samllPath}}" class="img-responsive finance-movie-pic"/>
+                        </a>
+                        <p class="fashion-move-txt">
+                            {{item.TITLE}}
+                        </p>
+                    </div>
+                </div>
+                <img src="client/assets/img/fiance-focus-line-bg.gif"/>
+            </div>
+            <div class="daily-focus-bottom-box">
+                <div class="daily-focus-bottom-con daily-focus-bottom-pic">
+                    <a ng-if="$index >= 2" ng-repeat="item in fashionPic.goodRecommendGroups track by $index"   target="_blank"  ui-sref="root.newDetailList({groupId: item.ID})">
+                        <img ng-src="{{item.samllPath}}"  class="fashion-pic-link"  ng-if="item.PICTURE_COUNT > 1"/>
+                    </a>
+                    <a ng-if="$index >= 2" ng-repeat="item in fashionPic.goodRecommendGroups track by $index"   target="_blank"   ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})" >
+                        <img ng-src="{{item.samllPath}}"  class="fashion-pic-link"  ng-if="item.PICTURE_COUNT == 1"/>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--最新滚动-->
+    <div class="fashion-new-scroll-con">
+        <div class="new-scroll-more-div">
+            <a class="cursor fasion-latest-roll-icon" target="_blank" ui-sref="root.moreSortList({sginId: 373})">
+                <img src="client/assets/img/new-scroll-more.gif"/>
+            </a>
+        </div>
+        <div ng-init="fashionPic.getFashionGroups(222)" class="clear">
+            <div class="new-scroll-right-div"  ng-repeat="item in fashionPic.latestRollingGroups track by $index">
+                <div class="new-scroll-list-item new-scroll-pic-item">
+                    <div class="new-scroll-item">
+                        <a  ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})"  target="_blank">
+                            <img ng-src="{{item.samllPath}}" class="new-scroll-pic"/>
+                        </a>
+                        <a ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})"  target="_blank">
+                            <img ng-src="{{item.samllPath}}" class="new-scroll-pic"/>
+                        </a>
+                    </div>
+                </div>
+                <div class="new-scroll-list-item new-scroll-txt-item">
+                    <div class="new-scroll-item">
+                        <p class="new-scroll-txt">{{item.TITLE}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--------------------------------------电影-------------------------------------------------->
+    <div class="fashion-classify-cotainer">
+        <!--现场-->
+        <div class="fashion-move-box">
+            <a class="cursor finance-bg-container-link"  target="_blank" ui-sref="root.moreSortList({sginId: [223,224,225]})">
+                <div class="fashion-move-hd-box cursor"></div>
+            </a>
+            <div class="fashion-move-detail-con" ng-init="fashionPic.getFashionGroups(223)">
+                <div class="fashion-move-pic-left"  ng-if="$first" ng-repeat="item in fashionPic.liveCinemaGroups track by $index">
+                    <div class="fashion-move-pic-item">
+                        <a  ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})"  target="_blank">
+                            <img ng-src="{{item.samllPath}}" class="img-responsive fashion-movie-pic"/>
+                        </a>
+                        <a  ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})"  target="_blank">
+                            <img ng-src="{{item.samllPath}}" class="img-responsive fashion-movie-pic"/>
+                        </a>
+                        <p class="fashion-move-txt spec-fashion-txt-bg">
+                            {{item.TITLE}}
+                        </p>
+                    </div>
+                </div>
+                <div class="fashion-move-txt-right">
+                    <div class="dtbr">
+                        <div class="fashion-move-txt-item"  ng-if="!$first" ng-repeat="item in fashionPic.liveCinemaGroups track by $index">
+                            <a  ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive fashion-movie-pic"/>
+                            </a>
+                            <a  ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive fashion-movie-pic"/>
+                            </a>
+                            <p class="fashion-move-txt">
+                                {{item.TITLE}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--剧照-->
+        <div class="fashion-state-photo-container">
+            <div class="fashion-stage-box">
+            </div>
+            <div class="fashion-move-detail-con">
+                <div class="fashion-percet-txt-right" ng-init="fashionPic.getFashionGroups(224)">
+                    <div class="dtbr">
+                        <div class="fashion-move-txt-item" ng-repeat="item in fashionPic.actionStillGroups track by $index">
+                            <a  ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive fashion-movie-pic"/>
+                            </a>
+                            <a  ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive fashion-movie-pic"/>
+                            </a>
+                            <p class="fashion-move-txt">
+                                {{item.TITLE}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--宣传-->
+        <div class="fashion-state-photo-container">
+            <div class="fashion-publicity-hd-bg">
+            </div>
+            <div class="fashion-move-detail-con">
+                <div class="fashion-percet-txt-right" ng-init="fashionPic.getFashionGroups(225)">
+                    <div class="dtbr">
+                        <div class="fashion-move-txt-item" ng-repeat="item in fashionPic.filmPromotionGroups track by $index">
+                            <a  ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive fashion-movie-pic"/>
+                            </a>
+                            <a  ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive fashion-movie-pic"/>
+                            </a>
+                            <p class="fashion-move-txt">
+                                {{item.TITLE}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="fashion-movie-bottom-bg">
+        </div>
+    </div>
+
+    <!------------------------------------------电视---------------------------------------------->
+    <div class="fashion-classify-cotainer">
+        <!--现场-->
+        <div class="fashion-move-box">
+            <a class="cursor finance-bg-container-link"  target="_blank" ui-sref="root.moreSortList({sginId: [378,400,401]})">
+                <div class="fashion-tv-hd-box"></div>
+            </a>
+            <div class="fashion-tv-detail-con" ng-init="fashionPic.getFashionGroups(226)">
+                <div class="fashion-move-pic-left"  ng-if="$first" ng-repeat="item in fashionPic.tvliveGroups track by $index">
+                    <div class="fashion-tv-pic-item">
+                        <a  ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})"  target="_blank">
+                            <img ng-src="{{item.samllPath}}" class="img-responsive fashion-movie-pic"/>
+                        </a>
+                        <a  ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})"  target="_blank">
+                            <img ng-src="{{item.samllPath}}" class="img-responsive fashion-movie-pic"/>
+                        </a>
+                        <p class="fashion-move-txt spec-fashion-txt-bg">
+                            {{item.TITLE}}
+                        </p>
+                    </div>
+                </div>
+                <div class="fashion-move-txt-right">
+                    <div class="dtbr">
+                        <div class="fashion-tv-txt-item"  ng-if="!$first" ng-repeat="item in fashionPic.tvliveGroups track by $index">
+                            <a  ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive fashion-movie-pic"/>
+                            </a>
+                            <a  ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive fashion-movie-pic"/>
+                            </a>
+                            <p class="fashion-move-txt fashion-tv-txt">
+                                {{item.TITLE}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--剧照-->
+        <div class="fashion-state-photo-container">
+            <div class="fashion-tv-stage-box">
+            </div>
+            <div class="fashion-tv-detail-con">
+                <div class="fashion-percet-txt-right">
+                    <div class="dtbr" ng-init="fashionPic.getFashionGroups(227)">
+                        <div class="fashion-tv-txt-item" ng-repeat="item in fashionPic.tvstillsGroups track by $index">
+                            <a  ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive fashion-movie-pic"/>
+                            </a>
+                            <a  ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive fashion-movie-pic"/>
+                            </a>
+                            <p class="fashion-move-txt fashion-tv-txt">
+                                {{item.TITLE}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--宣传-->
+        <div class="fashion-state-photo-container">
+            <div class="fashion-tv-publicity-hd-bg">
+            </div>
+            <div class="fashion-tv-detail-con">
+                <div class="fashion-percet-txt-right">
+                    <div class="dtbr" ng-init="fashionPic.getFashionGroups(229)">
+                        <div class="fashion-tv-txt-item" ng-repeat="item in fashionPic.tvpropagandaGroups track by $index">
+                            <a  ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive fashion-movie-pic"/>
+                            </a>
+                            <a  ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive fashion-movie-pic"/>
+                            </a>
+                            <p class="fashion-move-txt fashion-tv-txt">
+                                {{item.TITLE}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><div class="fashion-tv-bottom-bg">
+        </div>
+    </div>
+    <!------------------------------------------音乐----------------------------------------------->
+    <div class="fashion-classify-cotainer">
+        <!--现场-->
+        <div class="fashion-move-box">
+            <a class="cursor finance-bg-container-link"  target="_blank" ui-sref="root.moreSortList({sginId: [230,231,232]})">
+                 <div back-img="client/assets/img/fashion-music-bg.gif" size="91"></div>
+            </a>
+            <div class="fashion-move-detail-con">
+                <div class="fashion-percet-txt-right">
+                    <div class="dtbr" ng-init="fashionPic.getFashionGroups(230)">
+                        <div class="fashion-move-txt-item" ng-repeat="item in fashionPic.liveMusicGroups track by $index">
+                            <a  ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive fashion-movie-pic"/>
+                            </a>
+                            <a  ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive fashion-movie-pic"/>
+                            </a>
+                            <p class="fashion-move-txt fashion-music-txt">
+                                {{item.TITLE}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--海报-->
+        <div class="fashion-state-photo-container">
+            <div back-img="client/assets/img/fashion-poster-photo-bg.gif" size="46"></div>
+            <div class="fashion-move-detail-con">
+                <div class="fashion-percet-txt-right">
+                    <div class="dtbr" ng-init="fashionPic.getFashionGroups(231)">
+                        <div class="fashion-move-txt-item" ng-repeat="item in fashionPic.musicPosterGroups track by $index">
+                            <a  ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive fashion-movie-pic"/>
+                            </a>
+                            <a  ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive fashion-movie-pic"/>
+                            </a>
+                            <p class="fashion-move-txt fashion-music-txt">
+                                {{item.TITLE}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--宣传-->
+        <div class="fashion-state-photo-container">
+            <div back-img="client/assets/img/fashion-publicity-music-hd-bg.gif" size="46"></div>
+            <div class="fashion-move-detail-con">
+                <div class="fashion-percet-txt-right">
+                    <div class="dtbr" ng-init="fashionPic.getFashionGroups(232)">
+                        <div class="fashion-move-txt-item" ng-repeat="item in fashionPic.musicPropagandaGroups track by $index">
+                            <a  ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive fashion-movie-pic"/>
+                            </a>
+                            <a  ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive fashion-movie-pic"/>
+                            </a>
+                            <p class="fashion-move-txt fashion-music-txt">
+                                {{item.TITLE}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="fashion-movie-bottom-bg">
+        </div>
+    </div>
+    <!-----------------------------------------戏剧------------------------------------------------>
+    <div class="fashion-classify-cotainer">
+        <div class="fashion-move-box">
+            <a class="cursor finance-bg-container-link"  target="_blank" ui-sref="root.moreSortList({sginId: 233})">
+                <div back-img="client/assets/img/fashion-drama-bg.gif" size="91"></div>
+            </a>
+            <div class="fashion-move-detail-con" ng-style="{'background':'url(client/assets/img/fashion-drama-line-bg.gif)','background-size':'100% 100%'}">
+                <div class="fashion-percet-txt-right">
+                    <div class="dtbr" ng-init="fashionPic.getFashionGroups(233)">
+                        <div class="fashion-move-txt-item fashion-drama-txt-item" ng-repeat="item in fashionPic.dramaGroups track by $index">
+                            <a  ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive fashion-movie-pic"/>
+                            </a>
+                            <a  ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive fashion-movie-pic"/>
+                            </a>
+                            <p class="fashion-move-txt fashion-drama-txt">
+                                {{item.TITLE}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div back-img="client/assets/img/fashion-bottom-drama-bg.gif" size="23"></div>
+    </div>
+    <!--奥斯卡-->
+    <div>
+        <img src="client/assets/img/fashion-Oscar-Award.gif" class="fashion-oscar-pic"/>
+    </div>
+    <!-----------------------------------------星闻------------------------------------------------>
+    <div class="fashion-classify-cotainer">
+        <!--明星写真-->
+        <div class="fashion-move-box">
+            <a class="cursor finance-bg-container-link"  target="_blank" ui-sref="root.moreSortList({sginId: [235,236,237]})">
+                <div back-img="client/assets/img/fashion-star-bg.gif" size="91"></div>
+            </a>
+            <div class="star-news-bgline">
+                <div class="fashion-percet-txt-right">
+                    <div class="dtbr" ng-init="fashionPic.getFashionGroups(235)">
+                        <div class="fashion-move-txt-item star-news-item-line" ng-repeat="item in fashionPic.starPhotoGroups track by $index">
+                            <a  ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive fashion-movie-pic"/>
+                            </a>
+                            <a  ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive fashion-movie-pic"/>
+                            </a>
+                            <p class="fashion-move-txt star-news-txt">
+                                {{item.TITLE}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--明星秀场-->
+        <div class="fashion-state-photo-container">
+            <div back-img="client/assets/img/fashion-star-show-bg.gif" size="46"></div>
+            <div class="star-news-bgline">
+                <div class="fashion-percet-txt-right">
+                    <div class="dtbr" ng-init="fashionPic.getFashionGroups(236)">
+                        <div class="fashion-move-txt-item star-news-item-line" ng-repeat="item in fashionPic.starShowGroups track by $index">
+                            <a  ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive fashion-movie-pic"/>
+                            </a>
+                            <a  ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive fashion-movie-pic"/>
+                            </a>
+                            <p class="fashion-move-txt star-news-txt">
+                                {{item.TITLE}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--明星街拍-->
+        <div class="fashion-state-photo-container">
+            <div back-img="client/assets/img/fashion-street-snap-bg.gif" size="46"></div>
+            <div class="star-news-bgline">
+                <div class="fashion-percet-txt-right">
+                    <div class="dtbr" ng-init="fashionPic.getFashionGroups(237)">
+                        <div class="fashion-move-txt-item star-news-item-line" ng-repeat="item in fashionPic.starStreetSnapGroups track by $index">
+                            <a  ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive fashion-movie-pic"/>
+                            </a>
+                            <a  ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive fashion-movie-pic"/>
+                            </a>
+                            <p class="fashion-move-txt star-news-txt">
+                                {{item.TITLE}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="star-news-bottom-bg">
+        </div>
+    </div>
+    <!-----------------------------------------时装------------------------------------------------>
+    <div class="fashion-classify-cotainer">
+        <div class="fashion-move-box">
+            <a class="cursor finance-bg-container-link"  target="_blank" ui-sref="root.moreSortList({sginId: 238})">
+                <div back-img="client/assets/img/fashion-dress-bg.gif" size="91"></div>
+            </a>
+            <div class="fashion-dress-line-con">
+                <div class="fashion-percet-txt-right">
+                    <div class="dtbr" ng-init="fashionPic.getFashionGroups(238)">
+                        <div class="fashion-move-txt-item fashion-dress-txt-item" ng-repeat="item in fashionPic.fashionableDressGroups track by $index">
+                            <a  ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive fashion-movie-pic"/>
+                            </a>
+                            <a  ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive fashion-movie-pic"/>
+                            </a>
+                            <p class="fashion-move-txt fashion-dress-txt">
+                                {{item.TITLE}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div back-img="client/assets/img/fashion-dress-bottom-bg.gif" size="23"></div>
+    </div>
+    <!--纺织盛会-->
+    <div>
+        <img src="client/assets/img/fashion-CIGF.gif" class="fashion-oscar-pic"/>
+    </div>
+    <!-----------------------------------------选美----------------------------------------------->
+    <div class="fashion-classify-cotainer">
+        <!--室内秀-->
+        <div class="fashion-move-box">
+            <a class="cursor finance-bg-container-link"  target="_blank" ui-sref="root.moreSortList({sginId: [239,240]})">
+                <div back-img="client/assets/img/fashion-beauty-bg.gif" size="91"></div>
+            </a>
+            <div class="fashion-beauty-contest">
+                <div class="fashion-percet-txt-right">
+                    <div class="dtbr" ng-init="fashionPic.getFashionGroups(239)">
+                        <div class="fashion-move-txt-item star-news-item-line" ng-repeat="item in fashionPic.beautyIndoorShowGroups track by $index">
+                            <a  ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive fashion-movie-pic"/>
+                            </a>
+                            <a  ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive fashion-movie-pic"/>
+                            </a>
+                            <p class="fashion-move-txt star-news-txt">
+                                {{item.TITLE}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--室外秀-->
+        <div class="fashion-state-photo-container">
+            <div back-img="client/assets/img/fashion-indoor-show-bg.gif" size="46"></div>
+            <div class="fashion-beauty-contest">
+                <div class="fashion-percet-txt-right">
+                    <div class="dtbr" ng-init="fashionPic.getFashionGroups(240)">
+                        <div class="fashion-move-txt-item star-news-item-line" ng-repeat="item in fashionPic.beautyOutdoorShowGroups track by $index">
+                            <a  ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive fashion-movie-pic"/>
+                            </a>
+                            <a  ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive fashion-movie-pic"/>
+                            </a>
+                            <p class="fashion-move-txt star-news-txt">
+                                {{item.TITLE}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="star-news-bottom-bg">
+        </div>
+    </div>
+    <!-----------------------------------------精彩回顾------------------------------------------------>
+    <div class="fashion-classify-cotainer">
+        <div class="fashion-move-box">
+            <a class="cursor finance-bg-container-link"  target="_blank" ui-sref="root.moreSortList({sginId: 241})">
+            <div back-img="client/assets/img/fashion-review-bg.gif" size="91"></div>
+            <div class="fashion-review-line-con">
+                <div class="fashion-percet-txt-right">
+                    <div class="dtbr" ng-init="fashionPic.getFashionGroups(241)">
+                        <div class="fashion-move-txt-item fashion-review-txt-item" ng-repeat="item in fashionPic.wonderfulReviewGroups track by $index">
+                            <a  ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive fashion-movie-pic"/>
+                            </a>
+                            <a  ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive fashion-movie-pic"/>
+                            </a>
+                            <p class="fashion-move-txt fashion-review-txt">
+                                {{item.TITLE}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div back-img="client/assets/img/fashion-review-bottom-bg.gif" size="23"></div>
+    </div>
+
+</div>

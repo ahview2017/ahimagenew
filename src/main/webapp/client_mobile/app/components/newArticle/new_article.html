@@ -1,0 +1,238 @@
+<div class="newArticle_box" id="newArticle_div"
+	style="width:90%;max-width: 700px; background-color: rgb(255, 255, 255); z-newArticle: 100;margin: 0px auto;padding-bottom:50px;">
+
+
+		
+	<div class="register_content" style="margin: 0 auto">
+	<form id="register_form" name="register_form" novalidate>
+			<div class="infor_name clear">
+				<div class="infor_time">
+					<span >稿件标题：</span>
+				</div>
+				<div class="infor_date">
+					<input placeholder="必填"  type="text" name="title" ng-model="newArticle.title"/>
+				</div>
+				<div class="clear"></div>
+			</div>
+			
+			<div class="infor_name">
+				<h5 class="infor_time cursor "   >稿件说明：</h5>
+				<div class="infor_date">
+					<textarea placeholder="必填" ng-model="newArticle.memo"></textarea>
+				</div>
+				<div class="clear"></div>
+			</div>
+			
+	
+			<div class="infor_name clear">
+				<div class="infor_time">
+					<span >稿件作者：</span>
+				</div>
+				<div class="infor_date">
+					<input  ng-model="newArticle.author" type="text" name="author" />
+				</div>
+				<div class="clear"></div>
+			</div>
+			
+	
+			<div class="infor_name">
+				<h5 class="infor_time cursor " >稿件备注：</h5>
+				<div class="infor_date">
+					<textarea ng-model="newArticle.remark"></textarea>
+				</div>
+				
+				<div class="clear"></div>
+			</div>
+			
+			<div class="infor_name">
+				<h5 class="infor_time cursor " >稿件类别：</h5>
+				<div class="infor_date">
+					<textarea type="text" style="width:50%;" data-toggle="modal" readonly ng-model="newArticle.categoryNameStr"></textarea>
+					<span class="edit-sort-sel-btn"   ng-click="newArticle.editMsSortsModalShow()">选择</span>
+				</div>
+				<div class="clear"></div>
+			</div>
+
+			<div class="infor_name">
+				<div class="infor_time">
+					<span >日期：</span>
+				</div>
+				<div class="infor_date">
+					<input type="text" class="Wdate proof-date-input" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" class="Wdate" ng-model="newArticle.nowfTime" datepicker/>
+				</div>
+				<div class="clear"></div>
+			</div>
+			
+			<div class="infor_name clear">
+				<div class="infor_time">
+					<span >人物：</span>
+				</div>
+				<div class="infor_date">
+					<input type="text" rel="register" name="people" ng-model="newArticle.people">
+				</div>
+				<div class="clear"></div>
+			</div>
+			
+			<div class="infor_name clear">
+				<div class="infor_time">
+					<span >关键字：</span>
+				</div>
+				<div class="infor_date">
+					<input placeholder="必填" type="text" rel="register" name="keywords"
+				ng-model="newArticle.keywords">
+				</div>
+				<div class="clear"></div>
+			</div>
+			
+			<div class="infor_name clear">
+				<div class="infor_time">
+					<span >所属省市：</span>
+				</div>
+				<div class="infor_date">
+					<select  style="width: 30%;" name="locationProv" ng-change="newArticle.changeProv(newArticle.selProv)" ng-model="newArticle.selProv" ng-options="prov.p as prov.p for prov in newArticle.msCityList">
+					<option value="">请选择</option></select>
+					<select  style="width: 30%;" name="locationCity" ng-model="newArticle.selCity" ng-options="city.n as city.n for city in newArticle.cities">
+					<option value="">请选择</option></select> 
+				</div>
+				<div class="clear"></div>
+			</div>
+			
+			
+			
+			
+			<div style="width:100%;height:auto;padding:10px 0;"> 
+				<div class="pics_Box" ng-repeat="item in newArticle.upMenuscriptPicArr">
+						<div class="clear" style="float:right">
+							<a class="cursor" ng-click="newArticle.removePicItem($index)">x</a>
+						</div>
+						<div class="online_imgs" >
+							<img ng-src="{{item.img}}" class="ms-detail-picture">
+						</div>
+						<div class="infor_name">
+							<div class="infor_time">
+								<span >拍摄时间：</span>
+							</div>
+							<div class="infor_date">
+								<input type="text" class="Wdate proof-date-input" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" class="Wdate" ng-model="item.filmTime" datepicker/>
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="infor_name clear">
+							<div class="infor_time">
+								<span >人物：</span>
+							</div>
+							<div class="infor_date">
+								<input placeholder="选填" class="draft-sign-input pic-people" ng-model="item.people" />
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="infor_name clear">
+							<div class="infor_time">
+								<span >关键词：</span>
+							</div>
+							<div class="infor_date">
+								<input placeholder="必填" class="pic-keyword" ng-model="item.keywords" />
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="infor_name clear">
+							<div class="infor_time">
+								<span >作者名：</span>
+							</div>
+							<div class="infor_date">
+								<input placeholder="选填" ng-model="item.authorName" />
+							</div>
+							<div class="clear"></div>
+						</div>
+						
+						<div class="infor_name">
+							<h5 class="infor_time cursor " ng-click="newManuscript.copyMemo()"  >图片说明：</h5>
+							<div class="infor_date">
+								<textarea placeholder="请输入图片说明" ng-model="item.memo"></textarea>
+							</div>
+							
+							<div class="clear"></div>
+						</div>
+						<div class="clear"></div>
+					</div>
+			</div>
+			
+			<div class="manuscript-add-pic">
+				<form id="uploadDraftForm" method="post">
+					<input type="file" name="picFiles" multiple id="picFile"
+					       accept="image/jpg, image/jpeg" 
+					       onchange="angular.element(this).scope().uploadManuscript(this)" 
+						   style="opacity:0;" class="dib cursor newManuscript-add-btn" />
+					<label for="picFile" class="dib cursor newManuscript-add-btn">
+		                            <span class="icon-plus">上传图片</span>
+		                        </label>
+				</form>
+			</div>
+			
+			<div class="infor_name clear">
+				<div class="infor_time">
+					<span >手机号：</span>
+				</div>
+				<div class="infor_date">
+					<input placeholder="必填" type="text" name="phone_code" id="phone_code" ng-model="newArticle.phoneNum">
+				</div>
+				<div class="clear"></div>
+			</div>
+			
+			<div class="infor_name clear">
+				<div class="infor_time">
+					<span >验证码：</span>
+				</div>
+				<div class="infor_date">
+					<input style="width:50%;" placeholder="必填" type="text" name="vali_code" id="vali_code" ng-model="newArticle.valicode"> 
+						<span class="send_code">
+							<a href="javascript:void(0);" id="code" ng-click="newArticle.sendmsg()">发送验证码</a>
+						</span>
+				</div>
+				<div class="clear"></div>
+			</div>
+		
+			<div class="infor_name clear">
+				<input type="submit" name="register_submit" value="提交"
+				ng-click="newArticle.commitManuscript()" style="max-width: initial;margin: 0 auto;display: block;">
+			</div>
+		
+	</form>	
+		
+	</div>
+	
+	
+</div>
+
+	<!--编辑分类模态框-->
+<div class="modal fade" id="edit-sort-modal" tabnewArticle="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="role-add-con">
+                    <div class="role-add-tit clear" id="role-add-tit">
+                        <span class="fll">稿件类别</span>
+                        <span class="flr curp tit-close" data-dismiss="modal">×</span>
+                    </div>
+                    <div class="role-modal-con">
+                        <!--稿件类别-->
+                        <ul id="edit_sort_tree" class="ztree" style="overflow: auto;height: 500px;"></ul>
+                    </div>
+                    <div class="tac mt10">
+                        <span class="dib cursor user-add-btn"   ng-click="newArticle.confirmEditMsSorts()">确定</span>
+                        <span class="dib cursor user-add-btn cancel-btn-color"  data-dismiss="modal">取消</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+	
+	
+
+	
+
+	
+	

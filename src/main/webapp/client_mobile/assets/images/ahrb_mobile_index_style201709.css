@@ -1,0 +1,64 @@
+@charset "UTF-8";
+html{font-size: 10px;font-family: '微软雅黑';}
+#swiper-container1 .swiper-slide{height: 4rem;line-height:4rem;font-size: 1.6rem;color: #5d5d5d;text-align: center;background: #f1f1f1;}
+#swiper-container1 .Lastheight{height: 0;}
+#swiper-container2 .swiper-slide{height: 4rem;line-height:4rem;font-size: 1.8rem;color: #5d5d5d;text-align: center;}
+#swiper-container2 .active-nav{border-bottom:2px solid #ee1d23;box-sizing:border-box;}
+
+.header_title{height: 4rem;background: #ee1d23 url(ahrb_mobile_indexpics201709-02.png) no-repeat center center;}
+.header_title a{display: block;text-decoration: none;width:20%;height: 4rem;background: url(ahrb_mobile_indexpics201709-01.png) no-repeat center center;}
+
+.conLists li{position: relative;}
+.conLists li a{cdisplay: block;block;text-decoration: none;color: #333;}
+.conLists li img{width: 100%;}
+.conLists li p{height: 4rem;line-height: 4rem;padding-left: 2%;font-size: 1.8rem;}
+.conLists li i{display: block;width: 3.5rem;height: 2rem;font-style: normal;font-size: 1.3rem;color: #fff;position: absolute;right: 1%;bottom: 4.5rem;
+text-align: center;line-height: 2rem;border-radius: 2px;
+filter:progid:DXImageTransform.Microsoft.gradient(enabled='true',startColorstr='#99000000',endColorstr='#99000000');background:rgba(0,0,0,0.5);}
+
+
+.back_top{width:4rem;height:4rem; background:url(jxw_mobile_photo_201609-04.png) no-repeat;position:fixed;right:1rem;bottom:10%;background-size:95%;
+z-index: 10000;}
+
+
+
+.swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction
+{text-align: left;width: 96%;padding-left: 4%;font-size: 1.4rem;color: #fff;}
+.swiper-pagination-current{font-size: 1.8rem;color: #fff;}
+
+
+.bgDetail{background: #eee;}
+.detailCon{line-height:2.5rem;font-size: 1.8rem;color: #333;text-align: center;padding: 1rem 2%;}
+
+.conLists_Detail img{width: 100%;}
+.conLists_Detail p{line-height: 2.6rem;padding:4% 2%;font-size: 1.4rem;color: #666;}
+
+.abs_words{line-height: 2.6rem;padding:4% 2%;font-size: 1.4rem;color: #666;}
+
+.picsBox img{width: 100%;}
+
+
+@media screen and (max-width: 768px){
+	.header_title,.header_title a{background-size: 30%;}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

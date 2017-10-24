@@ -1,0 +1,15 @@
+<div class="webinfo-view-container">
+
+    <h5 class="client-user-reg">恭喜 , 已注册成功！</h5>
+    <div class="login-suceess-center">
+        <div class="login-success-bottom">
+            您的登录名为：<a><span ng-bind="registerSuccess.loginName"></span></a>&nbsp;手机号为：<a> <span ng-bind="registerSuccess.telBind"></span> </a>
+        </div>
+        <div class="login-success-bottom">
+            详细信息已发送到<a> <span ng-bind="registerSuccess.emailBind"></span> </a>邮箱中
+        </div>
+        <div>
+            <span id="countPage"></span>s &nbsp; 后自动跳转到首页,您也可以点击&nbsp; <a class="login-suceess-cursor" ng-click="registerSuccess.jumpToIndex()">立即跳转到首页&gt;</a>
+        </div>
+    </div>
+</div>

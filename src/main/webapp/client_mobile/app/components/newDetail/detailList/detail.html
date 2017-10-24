@@ -1,0 +1,16 @@
+<div class="bgDetail">
+	<div class="detailCon">
+		{{picsDetail.clientPictureDetail.title}}
+	</div>
+	<div class="picsBox">
+		<ul id="auto-loop" class="gallery" ng-init="picsDetail.clientPictureDetail({groupId: picsDetail.single.id})">
+			<li ng-repeat="item in picsDetail.clientPictureDetail.pics" data-src="{{item.filePath}}">
+				<img ng-src="{{item.filePath}}"/>
+				<div class="abs_words">
+					{{item.memo}}
+				</div>
+			</li>
+		</ul>
+	</div>
+	<div class="back_top" id="back-to-top"></div>
+</div>

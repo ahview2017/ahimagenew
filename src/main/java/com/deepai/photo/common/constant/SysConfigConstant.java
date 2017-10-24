@@ -105,6 +105,8 @@ public class SysConfigConstant {
    public static final String MSG_LOGIN_CODE = "MSG_LOGIN_SEND";
    /** 注册成功后发送短信模版 */
    public static final String MSG_SUCCESS_CODE = "MSG_SUCCESS_SEND";
+   /** 投稿发送验证码模版 */
+   public static final String MSG_PHONE_CODE = "MSG_PHONE_SEND";
    /**注册成功后发送邮件内容模版*/
    public static final String MAIL_SUCCESS_CODE = "MAIL_SUCCESS_SEND";
    /**注册成功后发送邮件标题模版*/
@@ -115,5 +117,8 @@ public class SysConfigConstant {
    public static final String MAIL_GET_CODE = "MAIL_GET_SEND";
    /**找回密码邮件标题*/
    public static final String MAIL_FORGETTITLE_CODE = "MAIL_FORGETTITLE_SEND";
+   
+   /**手机版投稿专用通讯员用户名*/
+   public static final String MOBILE_SEND_USERNAME = "MOBILE_SEND_USERNAME";
    
 }

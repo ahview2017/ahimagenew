@@ -1,0 +1,466 @@
+<div class="myInfo oH">
+    <div class="fll myInfo-menu">
+        <div class="myInfo-menu-item">
+            <img src="client/assets/img/myInfo/myInfo-icon.gif"/>
+            <a ng-click="myInfo.myInfoMenuClick(1)" ng-class="myInfo.activeTabClass1">基本信息</a>
+        </div>
+        <div class="myInfo-menu-item">
+            <img src="client/assets/img/myInfo/myInfo-icon.gif"/>
+            <a ng-click="myInfo.myInfoMenuClick(2)"  ng-class="myInfo.activeTabClass2">下载信息</a>
+        </div>
+        <div class="myInfo-menu-item">
+            <img src="client/assets/img/myInfo/myInfo-icon.gif"/>
+            <a ng-click="myInfo.myInfoMenuClick(3)"  ng-class="myInfo.activeTabClass3">登录日志</a>
+        </div>
+        <div class="myInfo-menu-item">
+            <img src="client/assets/img/myInfo/myInfo-icon.gif"/>
+            <a  ng-click="myInfo.myInfoMenuClick(8)" ng-class="myInfo.activeTabClass8">我的订单</a>
+        </div>
+        <div class="myInfo-menu-item">
+            <img src="client/assets/img/myInfo/myInfo-icon.gif"/>
+            <a  ng-click="myInfo.myInfoMenuClick(9)" ng-class="myInfo.activeTabClass9">需求通道</a>
+        </div>
+        <div class="myInfo-menu-item">
+            <img src="client/assets/img/myInfo/myInfo-icon.gif"/>
+            <a ng-click="myInfo.myInfoMenuClick(4)"   ng-class="myInfo.activeTabClass4">修改资料</a>
+        </div>
+        <div class="myInfo-menu-item">
+            <img src="client/assets/img/myInfo/myInfo-icon.gif"/>
+            <a ng-click="myInfo.myInfoMenuClick(5)"   ng-class="myInfo.activeTabClass5">修改密码</a>
+        </div>
+        <div class="myInfo-menu-item">
+            <img src="client/assets/img/myInfo/myInfo-icon.gif"/>
+            <a ng-click="myInfo.myInfoMenuClick(6)"   ng-class="myInfo.activeTabClass6">一周下载</a>
+        </div>
+        <div class="myInfo-menu-item">
+            <img src="client/assets/img/myInfo/myInfo-icon.gif"/>
+            <a ng-click="myInfo.myInfoMenuClick(7)"   ng-class="myInfo.activeTabClass7">全部下载</a>
+        </div>
+    </div>
+    <div class="fll myInfo-detail">
+        <!--基本信息-->
+        <div class="myInfo-detail-item myInfo-detail-base" ng-if="myInfo.tab == 1">
+            <table>
+                <tr>
+                    <td width="20%">用户名：</td>
+                    <td width="30%" class="bgcfff">{{myInfo.mineInformObj['userName']}}</td>
+                    <td width="20%">个人信息：</td>
+                    <td width="30%" class="bgcfff">{{myInfo.mineInformObj['authorName']}}</td>
+                </tr>
+                <tr>
+                    <td width="20%">用户类别：</td>
+                    <td width="30%" class="bgcfff">{{myInfo.mineInformObj['roleName']}}</td>
+                    <td width="20%">当前状态：</td>
+                    <td width="30%" class="bgcfff">{{myInfo.mineInformObj['userStatus'] | userStatusFilter}}</td>
+                </tr>
+                <tr>
+                    <td width="20%">真实姓名：</td>
+                    <td width="30%" class="bgcfff">{{myInfo.mineInformObj['tureName']}}</td>
+                    <td width="20%">身份证号：</td>
+                    <td width="30%" class="bgcfff">{{myInfo.mineInformObj['idCard']}}</td>
+                </tr>
+                <tr>
+                    <td width="20%">所属省市：</td>
+                    <td width="30%" class="bgcfff">
+                        {{myInfo.mineInformObj['province']}}/{{myInfo.mineInformObj['city']}}
+                    </td>
+                    <td width="20%">单位名称：</td>
+                    <td width="30%" class="bgcfff">{{myInfo.mineInformObj['unitName']}}</td>
+                </tr>
+                <tr>
+                    <td width="20%">详细地址：</td>
+                    <td width="30%" class="bgcfff">{{myInfo.mineInformObj['address']}}</td>
+                    <td width="20%">邮政编码：</td>
+                    <td width="30%" class="bgcfff">
+                        <span ng-if="myInfo.mineInformObj['zipcode']">{{myInfo.mineInformObj['zipcode']}}</span>
+                        <span ng-if="!myInfo.mineInformObj['zipcode']">------</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%">联系电话：</td>
+                    <td width="30%" class="bgcfff">{{myInfo.mineInformObj['telBind']}}</td>
+                    <td width="20%">联系信箱：</td>
+                    <td width="30%" class="bgcfff">
+                        <span ng-if="myInfo.mineInformObj['emailBind']">{{myInfo.mineInformObj['emailBind']}}</span>
+                        <span ng-if="!myInfo.mineInformObj['emailBind']">------</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%">访问次数：</td>
+                    <td width="30%" class="bgcfff">{{myInfo.mineInformObj['logincount']}}</td>
+                    <td width="20%">注册时间：</td>
+                    <td width="30%" class="bgcfff">{{myInfo.mineInformObj['regDate']|date:'yyyy-MM-dd'}}</td>
+                </tr>
+                <tr>
+                    <td width="20%">上次登录：</td>
+                    <td width="30%" class="bgcfff">{{myInfo.mineInformObj['lastLoginTime']|date:'yyyy-MM-dd'}}</td>
+                    <td width="20%">
+                        <span  ng-if="myInfo.mineInformObj.account">账户余额：</span>
+                    </td>
+                    <td width="30%" class="bgcfff">{{myInfo.mineInformObj.account || ''}}</td>
+                </tr>
+            </table>
+        </div>
+        <!--下载信息-->
+        <div class="myInfo-detail-item myInfo-detail-downloadInfo" ng-if="myInfo.tab == 2">
+            <table>
+                <tr>
+                    <td width="25%">图片下载限制：</td>
+                    <td width="75%" class="bgcfff">
+                        {{myInfo.mineInformObj['contractLimitNum']==null?0+"张":myInfo.mineInformObj['contractLimitNum']+"张/"}}{{myInfo.mineInformObj['contractLimitNum']==null?"":myInfo.mineInformObj['balanceLimitType'] | balanceLimitTypeFilter}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>本合同期可下载数量：</td>
+                    <td class="bgcfff">{{myInfo.mineInformObj['contractBuyNum']==null?0:myInfo.mineInformObj['contractBuyNum']}}张</td>
+                </tr>
+                <tr>
+                    <td>本合同期已下载数量：</td>
+                    <td class="bgcfff">{{myInfo.mineInformObj['contractNum']==null?0:myInfo.mineInformObj['contractNum']}}张</td>
+                </tr>
+                <tr>
+                    <td>合同期下载时间限制：</td>
+                    <td class="bgcfff">
+                        <span>{{myInfo.mineInformObj['contractStartTime']|date:'yyyy-MM-dd'}}</span>
+                        <span>--</span>
+                        <span>{{myInfo.mineInformObj['contractEndTime']|date:'yyyy-MM-dd'}}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>总共下载图片：</td>
+                    <td class="bgcfff">
+                        {{myInfo.mineInformObj['allDownloadNum']==null?0:myInfo.mineInformObj['allDownloadNum']}}张，
+                        <span class="cred curp" ng-click="myInfo.myInfoMenuClick(7)">浏览已下载图片</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!--登录日志-->
+        <div class="myInfo-detail-item myInfo-detail-loginLog" ng-if="myInfo.tab == 3">
+            <table     class="tac">
+                <tr>
+                    <th width="20%">用户</th>
+                    <th width="20%">登录时间</th>
+                    <th width="20%">登录是否成功</th>
+                    <th width="20%">登录信息</th>
+                    <th width="20%">IP</th>
+                </tr>
+                <tr dir-paginate="item in myInfo.loginLogInfo | itemsPerPage: myInfo.itemsPerPage"
+                        total-items="myInfo.loginInfo_total"
+                        current-page="myInfo.pagination.logCurrent">
+                    <td>{{item.OPE_USER}}</td>
+                    <td>
+                        <p>{{item.OPE_TIME | date:'yyyy-MM-dd'}}</p>
+                        <p>{{item.OPE_TIME | date:'HH:mm:ss'}}</p>
+                    </td>
+                    <td>登录成功</td>
+                    <td></td>
+                    <td>{{item.OPE_IP}}</td>
+                </tr>
+            </table>
+            <!--photolist paging-->
+            <div class="hd-photo-paging mt10 clear">
+                <div class="photo-record-page fll">
+                    <span>共找到</span>
+                    <span class="color_red">{{myInfo.loginInfo_total}}</span>
+                    <span>条记录</span>
+                </div>
+                <div class="photo-now-page fll">
+                    <span>第 </span>
+                    <span>{{myInfo.pagination.logCurrent}}</span>
+                    <span>/</span>
+                    <span>{{myInfo.loginLogtotalPages}}</span>
+                    <span>页</span>
+                </div>
+                <!--分页-->
+                <div class="photo-jump-page flr">
+                    <dir-pagination-controls on-page-change="myInfo.pageChanged(newPageNumber)"
+                                             template-url="client/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+                    </dir-pagination-controls>
+                </div>
+            </div>
+        </div>
+        <!--修改资料-->
+        <div class="myInfo-detail-item myInfo-detail-data" ng-if="myInfo.tab == 4">
+            <table>
+                <tr>
+                    <td width="30%" class="fwb tar">用户名：</td>
+                    <td width="70%" class="bgcfff">{{myInfo.mineInformObj['userName']}}</td>
+                </tr>
+                <tr>
+                    <td class="fwb tar">真实姓名：</td>
+                    <td class="bgcfff">
+                        <input type="text" ng-model="myInfo.editInformObj.tureName"/>
+                        <span class="cred">*</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="fwb tar">身份证号：</td>
+                    <td class="bgcfff">
+                        <input type="text" ng-model="myInfo.editInformObj.idCard"/>
+                        <span class="cred">*</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="fwb tar">所属省市：</td>
+                    <td class="bgcfff">
+                        <input type="text" ng-model="myInfo.editInformObj.province"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="fwb tar">单位名称：</td>
+                    <td class="bgcfff">
+                        <input type="text" ng-model="myInfo.editInformObj.unitName"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="fwb tar">作者名：</td>
+                    <td class="bgcfff">
+                        <input type="text" ng-model="myInfo.editInformObj.authorName"/>
+                        <span class="cred">*</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="fwb tar">详细地址：</td>
+                    <td class="bgcfff">
+                        <input type="text" ng-model="myInfo.editInformObj.address"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="fwb tar">邮政编码：</td>
+                    <td class="bgcfff">
+                        <input type="text" ng-model="myInfo.editInformObj.zipcode"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="fwb tar">电子邮箱：</td>
+                    <td class="bgcfff">
+                        <input type="text" ng-model="myInfo.editInformObj.emailBind"/>
+                        <span class="cred">*</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="fwb tar">联系电话：</td>
+                    <td class="bgcfff">
+                        <input type="text" ng-model="myInfo.editInformObj.telBind"/>
+                        <span class="cred">*</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="fwb tar">是否公开个人信息：</td>
+                    <td class="bgcfff">
+                        <input type="radio" value="0" name="open" ng-model="myInfo.editInformObj.isPublish"/>公开
+                        <input type="radio" value="1" name="open" ng-model="myInfo.editInformObj.isPublish"/>不公开
+                    </td>
+                </tr>
+                <tr>
+                    <td class="bgcfff br0"></td>
+                    <td class="bgcfff bl0">
+                        <button class="myInfo-detail-data-btn"
+                                ng-click="myInfo.onEditMineInformClick()">保存
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!--修改密码-->
+        <div class="myInfo-detail-item" ng-if="myInfo.tab == 5">
+            <table>
+                <tr>
+                    <td width="30%" class="fwb tar">登录名：</td>
+                    <td width="70%" class="bgcfff">{{myInfo.mineInformObj['userName']}}</td>
+                </tr>
+                <tr>
+                    <td class="fwb tar">邮箱：</td>
+                    <td class="bgcfff">{{myInfo.mineInformObj['emailBind']}}</td>
+                </tr>
+                <tr>
+                    <td class="fwb tar">请输入原密码：</td>
+                    <td class="bgcfff">
+                        <input type="password" ng-model="myInfo.editMiPwdOld"/>
+                        <span class="cred">*</span>
+                        <span>（8-16个字符）</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="fwb tar">请输入新密码：</td>
+                    <td class="bgcfff">
+                        <input type="password" ng-model="myInfo.editMiPwdNew"/>
+                        <span class="cred">*</span>
+                        <span>（8-16个字符）</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="fwb tar">请确认新密码：</td>
+                    <td class="bgcfff">
+                        <input type="password" ng-model="myInfo.editMiPwdCon"/>
+                        <span class="cred">*</span>
+                        <span>（8-16个字符）</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="bgcfff br0"></td>
+                    <td class="bgcfff bl0">
+                        <button class="myInfo-detail-data-btn"
+                                ng-click="myInfo.onEditPwdClick()">保存
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!--一周下载-->
+        <div class="myInfo-detail-item myInfo-detail-download" ng-if="myInfo.tab == 6">
+            <div class="myInfo-detail-download-retrieval">
+                <span>
+                    作者：
+                    <input type="text" ng-model="myInfo.picAuthor"/>
+                </span>
+                <span>
+                    文件名：
+                    <input type="text" ng-model="myInfo.picFileName"/>
+                </span>
+                <span>
+                    标题：
+                    <input type="text" ng-model="myInfo.picTitle"/>
+                </span>
+                <span>
+                    下载时间：
+                    <input id="picStartId" type="text"
+                           onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});"/>
+                    至<input id="picEndId" type="text"
+                            onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});"/>
+                </span>
+                <span>
+                    <button class="ml15 p3" ng-click="myInfo.onPicDownSearchClick(0)">
+                        <img src="client/assets/img/myInfo/search.png" width="16"/>检索
+                    </button>
+                </span>
+            </div>
+            <div>
+                <table>
+                    <tr>
+                        <th></th>
+                        <th>标题</th>
+                        <th>作者</th>
+                        <th>文件名</th>
+                        <th>下载时间</th>
+                        <th>操作</th>
+                        <!--<th>订户类型</th>-->
+                    </tr>
+                    <tr      dir-paginate="picItem in myInfo.picDownArray | itemsPerPage: myInfo.itemsPerPage"
+                             total-items="myInfo.allDown_total"
+                             current-page="myInfo.pagination.allDownCurrent"
+                             class="bgcfff">
+                        <td>{{picItem.id}}</td>
+                        <td>{{picItem.groupTitle}}</td>
+                        <td>{{picItem.uploader}}</td>
+                        <td>{{picItem.filename}}</td>
+                        <td>{{picItem.downloadTime|date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td class="tac">
+                            <a ui-sref="root.newSingleDetail({groupId:picItem.pictureGroupId,pictureId:picItem.pictureId})" target="_blank">查看已下载图片</a>
+                        </td>
+                        <!--<td>{{picItem.pictureGroupId}}</td>-->
+                    </tr>
+                </table>
+            </div>
+            <!-- 分页 -->
+            <div class="hd-photo-paging mt10 clear" ng-if="myInfo.picDownArray.length > 0">
+                <div class="photo-record-page fll">
+                    <span>共找到</span>
+                    <span class="color_red">{{myInfo.allDown_total}}</span>
+                    <span>条记录</span>
+                </div>
+                <div class="photo-now-page fll">
+                    <span>第 </span>
+                    <span>{{myInfo.pagination.allDownCurrent}}</span>
+                    <span>/</span>
+                    <span>{{myInfo.allDownTotalPages}}</span>
+                    <span>页</span>
+                </div>
+                <!--分页-->
+                <div class="photo-jump-page flr">
+                    <dir-pagination-controls on-page-change="myInfo.pageChanged(newPageNumber)"
+                                             template-url="client/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+                    </dir-pagination-controls>
+                </div>
+            </div>
+        </div>
+        <!--全部下载-->
+        <div class="myInfo-detail-item myInfo-detail-download" ng-if="myInfo.tab == 7">
+            <div class="myInfo-detail-download-retrieval">
+                <span>
+                    作者：
+                    <input type="text" ng-model="myInfo.picAllAuthor"/>
+                </span>
+                <span>
+                    文件名：
+                    <input type="text" ng-model="myInfo.picAllFileName"/>
+                </span>
+                <span>
+                    标题：
+                    <input type="text" ng-model="myInfo.picAllTitle"/>
+                </span>
+               <span>
+                    下载时间：
+                    <input id="picAllStartId" type="text"
+                           onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});"/>
+                    至<input id="picAllEndId" type="text"
+                            onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});"/>
+                </span>
+                <span>
+                    <button class="ml15 p3" ng-click="myInfo.onPicDownSearchClick(1)">
+                        <img src="client/assets/img/myInfo/search.png" width="16"/>检索
+                    </button>
+                </span>
+            </div>
+            <div>
+                <table>
+                    <tr>
+                        <th></th>
+                        <th>标题</th>
+                        <th>作者</th>
+                        <th>文件名</th>
+                        <th>下载时间</th>
+                        <th>操作</th>
+                        <!--<th>订户类型</th>-->
+                    </tr>
+                    <tr      dir-paginate="picItem in myInfo.picDownArray | itemsPerPage: myInfo.itemsPerPage"
+                             total-items="myInfo.allDown_total"
+                             current-page="myInfo.pagination.allDownCurrent"
+                             class="bgcfff">
+                        <td class="tac">{{picItem.id}}</td>
+                        <td class="tac">{{picItem.groupTitle}}</td>
+                        <td class="tac">{{picItem.uploader}}</td>
+                        <td class="tac">{{picItem.filename}}</td>
+                        <td class="tac">{{picItem.downloadTime|date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td class="tac">
+                            <a ui-sref="root.newSingleDetail({groupId:picItem.pictureGroupId,pictureId:picItem.pictureId})" target="_blank">查看已下载图片</a>
+                        </td>
+                        <!--<td>{{picItem.pictureGroupId}}</td>-->
+                    </tr>
+                </table>
+            </div>
+            <!--photolist paging-->
+            <div class="hd-photo-paging mt10 clear" ng-if="myInfo.picDownArray">
+                <div class="photo-record-page fll">
+                    <span>共找到</span>
+                    <span class="color_red">{{myInfo.allDown_total}}</span>
+                    <span>条记录</span>
+                </div>
+                <div class="photo-now-page fll">
+                    <span>第 </span>
+                    <span>{{myInfo.pagination.allDownCurrent}}</span>
+                    <span>/</span>
+                    <span>{{myInfo.allDownTotalPages}}</span>
+                    <span>页</span>
+                </div>
+                <!--分页-->
+                <div class="photo-jump-page flr">
+                    <dir-pagination-controls on-page-change="myInfo.pageChanged(newPageNumber)"
+                                             template-url="client/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+                    </dir-pagination-controls>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -635,6 +635,8 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
         for(var i = 0,len = vm.upMsTotalLen;i < len;i++){
             //验证上传图片是否是jpg/jpeg格式
             if(validUpMsPic(vm.upMsFiles[i].name)){
+            	console.log("vm.upMsFiles:"+vm.upMsFiles);
+            	console.log("vm.upMsFiles[i].size:"+vm.upMsFiles[i].size);
                 if(vm.upMsFiles && vm.upMsFiles[i].size){
                     vm.msFileSize = $filter('Filesize')(vm.upMsFiles[i].size);
                 }

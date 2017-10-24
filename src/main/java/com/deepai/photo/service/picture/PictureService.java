@@ -517,7 +517,6 @@ public class PictureService {
 			Directory IPTCInfo = ImageAnalyseUtil.extratIPTCFromFile(temp
 					.getAbsolutePath());
 			Boolean isnull = true;
-			System.out.println(IPTCInfo.getString(IptcDirectory.TAG_CAPTION));
 			isnull = shiftCase(isnull, IPTCInfo
 					.getString(IptcDirectory.TAG_CAPTION));
 			isnull = shiftCase(isnull, IPTCInfo

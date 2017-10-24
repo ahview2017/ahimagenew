@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -756,12 +758,32 @@ public class StringUtil extends StringUtils {
 		}
 	}
 	
+	/**
+	 * 获取指定字符串出现的次数
+	 * 
+	 * @param srcText 源字符串
+	 * @param findText 要查找的字符串
+	 * @return
+	 */
+	public static int appearNumber(String srcText, String findText) {
+	    int count = 0;
+	    Pattern p = Pattern.compile(findText);
+	    Matcher m = p.matcher(srcText);
+	    while (m.find()) {
+	        count++;
+	    }
+	    return count;
+	}
+	
 	public static void main(String[] args) {
-		System.out.println(getAnonymous("syh"));
-		System.out.println(decimalFormatComma(11));
-		System.out.println(decimalFormatComma(1));
+//		System.out.println(getAnonymous("syh"));
+//		System.out.println(decimalFormatComma(11));
+//		System.out.println(decimalFormatComma(1));
+//		
+//		List<String> a = new ArrayList<String>();
+//		a.toArray(new String[a.size()]);
 		
-		List<String> a = new ArrayList<String>();
-		a.toArray(new String[a.size()]);
+		System.out.println(appearNumber("管理员,值班编辑,签约摄影师,销售,订户,",","));
+		
 	}
 }

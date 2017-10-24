@@ -1,0 +1,127 @@
+.client-login-container{
+    border: 1px solid #ccc;
+}
+.client-login-con{
+    width: 86%;
+    margin: 0 auto;
+}
+.client-hd-login-tit{
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+}
+.cuser-login-tit{
+    padding:20px 0;
+    font-size: 16px;
+    font-weight: bold;
+}
+.client-bd-login-detail{
+    width: 405px;
+    margin:20px auto 20px;
+    border: 1px solid #ccc;
+    padding:20px;
+}
+.c-login-item{
+
+}
+.c-login-item-txt{
+    width: 79px;
+    font-weight: bold;
+}
+.c-login-item-input{
+    
+}
+.c-login-info-input{
+    width: 160px;
+}
+.pwd-spec-item{
+    margin: 10px 0;
+}
+.client-login-go-btn{
+    border: 1px solid #9B9B9B;
+    padding: 0 10px;
+    outline: none!important;
+}
+.forget-register-box{
+    text-align: center;
+    margin-top: 12px;
+}
+.login-suceess-center{
+    text-align: center;
+}
+.login-success-bottom{
+    margin-bottom: 5px;
+}
+.login-suceess-cursor{
+    cursor:pointer;
+}
+
+
+
+// add by mengwei@20170910
+.login_box{
+	width:700px;
+	height:247px;
+	border-radius: 6px;
+	margin:0 auto;
+	/*background:#ccc;*/
+}
+.close_login{
+	width:15px;
+	height:15px;
+	position: absolute;
+	right:0;
+	top:-15px;
+}
+.login_title{
+	width:100%;
+	height:49px;
+	line-height: 49px;
+	background: #f6f6f6;
+	color:#f95f53;
+	font-size: 21px;
+	text-align: center;
+	position:relative;
+}
+.login_content{
+	width:450px;
+	height:155px;
+	margin:20px auto ;
+}
+.login_name,.login_psd,.login_code{
+	width:450px;
+	height:20px;
+	line-height: 20px;
+	margin-bottom:14px;
+	font-family: "宋体";
+}
+input[rel="text"]{
+	border:1px solid #b2b2b3;
+	width:270px;
+}
+.send_code{
+	color:#368c02;
+}
+a{
+	text-decoration: none;
+}
+
+input[name="submit"]{
+	width:101px;
+	height:24px;
+	line-height: 24px;
+	background: #f95f53;
+	border:none;
+	color:#fff;
+	font-size: 16px;
+	text-align:center;
+	margin: 0 auto;
+	cursor:pointer;
+}
+.submit_reset_box{
+	width:185px;
+	height:24px;
+	margin:0 auto;
+}
+.forget_psd a{
+    font-size: 14px;
+}

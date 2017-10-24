@@ -1,0 +1,51 @@
+<div class="gailan_content">
+        <div class="gailan_title">
+            <div class="title_box">
+                <!--<span>当前位置：<a href="">首页</a> > <a href="">	新闻图片</a> > <a href="">时政</a></span>-->
+                
+                <!--<div class="gailan_curpage">
+                    <span><a href=""><</a></span>
+                    <ul style="display: inline-block;">
+                        <li class="gailan_hover"><a href="">1</a></li>
+                        <li><a href="">2</a></li>
+                        <li><a href="">3</a></li>
+                        <li><a href="">4</a></li>
+                        <li><a href="">5</a></li>
+                        <li>...</li>
+                        <li><a href="">10</a></li>
+                        <li><a href="">11</a></li>
+                    </ul>
+                    <span><a href="" class="gailan_plus">></a></span>
+                    共11页
+                </div>-->
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="gailan_mainPic">
+                <ul>
+                    <li ng-repeat="item in fullText.photoList">
+                        <a ui-sref="root.newDetailList({groupId: item.groupid})" target="_blank">
+							<img ng-src="{{item.coverPic}}"></a>
+                        <p><a title="{{item.gtitle}}" href="">{{item.gtitle}}</a></p>
+                    </li>
+                </ul>
+        </div>
+
+        <div class="gailan_curpage_bottom clear">
+                <div class="photo-record-page left">
+                    <span>共找到</span>
+                    <span class="color_red ng-binding">{{fullText.totalNum}}</span>
+                    <span>条记录</span>
+                </div>
+                <div class="photo-now-page left">
+                    <span>第 </span>
+                    <span class="ng-binding">{{fullText.pageNum | pageHandle}}</span>
+                    <span>/</span>
+                    <span class="ng-binding">{{fullText.totalPage}}</span>
+                    <span>页</span>
+                </div>
+                <div class="photo-jump-page right">
+					<div id="jq-page"></div>
+                </div>
+            </div>
+    </div>

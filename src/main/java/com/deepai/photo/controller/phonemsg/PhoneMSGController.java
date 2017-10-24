@@ -881,5 +881,60 @@ public class PhoneMSGController {
         result.setMsg(CommonConstant.SUCCESSSTRING);
         return result;
     }
+    
+    /**
+     * 前台登录获取验证码
+     * 
+     * @Description: TODO <BR>
+     * @author xia.yunan
+     * @date 2017年10月17日 下午10:18:58
+     * @param request
+     * @param userName
+     *            用户名
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/getVilidateCodeForMobile")
+    @SkipLoginCheck
+    @SkipAuthCheck
+    public Object getVilidateCodeForMobile(HttpServletRequest request,
+            String phoneNum) {
+        ResponseMessage result = new ResponseMessage();
+        CommonValidation.checkParamBlank(phoneNum, "手机号");
+        // 生成六位验证码发送到手机
+        Integer vilidate = (int) ((Math.random() * 9 + 1) * 100000);
+        log.info("vilidate:"+vilidate);
+        
+        log.info("key:"+"MOBILE"+phoneNum + vilidate);
+        
+        redisClientTemplate.set("MOBILE" + phoneNum + vilidate, vilidate + "");
+        redisClientTemplate.expire("MOBILE" + phoneNum + vilidate, 60 );
+        
+        
+
+        log.info("<<<<<<手机号："+phoneNum);
+        JSONObject resultObj = null;
+        try {
+            resultObj = phoneMSGUtils.sendMsg(phoneNum,
+                    PhoneMSGUtils.TYPE_LOGIN_CODE);
+            log.info("<<<<<<resultObj："+resultObj);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("获取验证码失败", e);
+            result.setCode(CommonConstant.EXCEPTIONCODE);
+            result.setMsg("获取验证码失败");
+            return result;
+        }
+
+        if (null == resultObj || resultObj.getString("code").equals("0")) {
+            result.setCode(CommonConstant.EXCEPTIONCODE);
+            result.setMsg("获取验证码失败");
+            return result;
+        }
+
+        result.setCode(CommonConstant.SUCCESSCODE);
+        result.setMsg(CommonConstant.SUCCESSSTRING);
+        return result;
+    }
 
 }

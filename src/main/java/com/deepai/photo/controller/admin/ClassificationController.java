@@ -20,6 +20,7 @@ import com.deepai.photo.bean.CpCategory;
 import com.deepai.photo.bean.CpRight;
 import com.deepai.photo.bean.CpUser;
 import com.deepai.photo.common.annotation.LogInfo;
+import com.deepai.photo.common.annotation.SkipAuthCheck;
 import com.deepai.photo.common.annotation.SkipLoginCheck;
 import com.deepai.photo.common.constant.CommonConstant;
 import com.deepai.photo.common.pojo.ResponseMessage;
@@ -53,6 +54,41 @@ public class ClassificationController {
 	@SkipLoginCheck
 	@RequestMapping("/selCpCategories")
 	public void selCpCategories(HttpServletRequest request,
+			HttpServletResponse response,Integer langType) {
+		ResponseMessage result = new ResponseMessage();
+		try {
+			//老照片权限控制 add by xiayunan 20170907
+			CpUser user = SessionUtils.getUser(request);
+			CpRight cpRight = cpRightMapper.selectByRightName("老照片管理");
+			boolean hasRight = false;
+			if(user!=null&&cpRight!=null){
+				hasRight = userRoleRightService.checkUserRightByRightId(user.getId(),cpRight.getId());
+			}
+			Integer siteId = SessionUtils.getSiteId(request);
+			List<Map<String, Object>> categorys = classificationService
+					.selCpCategorys(siteId,langType);
+			//返回信息添加老照片权限标识
+			for(Map<String, Object> map:categorys){
+				map.put("hasRight", hasRight?1:0);
+			}
+			result.setCode(CommonConstant.SUCCESSCODE);
+			result.setMsg(CommonConstant.SUCCESSSTRING);
+			result.setData(categorys);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			log.error("查询分类配置信息出错，" + e1.getMessage());
+			result.setCode(CommonConstant.EXCEPTIONCODE);
+			result.setMsg(CommonConstant.EXCEPTIONMSG);
+		}
+		HtmlUtil.writerJson(response, request, result);
+		return;
+	}
+	
+	
+	@RequestMapping("/selCpCategoriesNoLogin")
+	@SkipLoginCheck
+	@SkipAuthCheck
+	public void selCpCategoriesNoLogin(HttpServletRequest request,
 			HttpServletResponse response,Integer langType) {
 		ResponseMessage result = new ResponseMessage();
 		try {

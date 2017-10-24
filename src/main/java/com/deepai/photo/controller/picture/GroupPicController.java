@@ -12,7 +12,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.beanutils.BeanMap;
 import org.apache.log4j.Logger;
 import org.dom4j.Document;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +26,13 @@ import com.deepai.photo.bean.CpGroupPush;
 import com.deepai.photo.bean.CpPicAllpath;
 import com.deepai.photo.bean.CpPicGroup;
 import com.deepai.photo.bean.CpPicGroupCategory;
-import com.deepai.photo.bean.CpPicGroupCategoryExample;
 import com.deepai.photo.bean.CpPicGroupProcess;
 import com.deepai.photo.bean.CpPicGroupProcessExample;
 import com.deepai.photo.bean.CpPicGroupProcessExample.Criteria;
 import com.deepai.photo.bean.CpPicture;
 import com.deepai.photo.bean.CpPictureExample;
+import com.deepai.photo.bean.CpRole;
+import com.deepai.photo.bean.CpRoleExample;
 import com.deepai.photo.bean.CpTopic;
 import com.deepai.photo.bean.CpUser;
 import com.deepai.photo.bean.GroupQuery;
@@ -62,6 +62,7 @@ import com.deepai.photo.mapper.CpPicGroupColumnMapper;
 import com.deepai.photo.mapper.CpPicGroupMapper;
 import com.deepai.photo.mapper.CpPicGroupProcessMapper;
 import com.deepai.photo.mapper.CpPictureMapper;
+import com.deepai.photo.mapper.CpRoleMapper;
 import com.deepai.photo.mapper.CpUserMapper;
 import com.deepai.photo.mapper.OtherMapper;
 import com.deepai.photo.service.admin.SysConfigService;
@@ -123,6 +124,8 @@ public class GroupPicController {
 	private UserRoleRightService userRoleRightService;
 	@Autowired
 	private CpColumnMapper columnMapper;
+	@Autowired
+	private CpRoleMapper cpRoleMapper;
 	public static final String SESSION_LANGTYPE = "session_langType";
 	/** 
 	 * 上传稿件图片，显示缩略图
@@ -152,7 +155,7 @@ public class GroupPicController {
 		} catch (InvalidHttpArgumentException e) {
 			result.setCode(e.getCode());
 			result.setMsg(e.getMsg());
-		}catch(Exception e1){
+		} catch(Exception e1){
 			e1.printStackTrace();
 			log.error("上传图片出错，"+e1.getMessage());
 			result.setCode(CommonConstant.EXCEPTIONCODE);
@@ -160,6 +163,48 @@ public class GroupPicController {
 		}
 		return result;
 	}
+	
+	/** 
+	 * 手机版上传稿件图片，显示缩略图
+	 * @param request
+	 * @param Integer groupId
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/upPicForPhone")
+	@SkipAuthCheck
+	@SkipLoginCheck
+	@LogInfo(content="上传图片",opeType=0,logTypeCode=CommonConstant.Picture)
+	public ResponseMessage upPicForPhoneGroup(HttpServletRequest request,HttpServletResponse response,@RequestParam(required = false, value = "picFiles")MultipartFile[]  picFiles,Integer langType){
+		ResponseMessage result=new ResponseMessage();
+		try {
+			if(picFiles==null||picFiles.length==0){
+				result.setCode(CommonConstant.FAILURECODE);
+				result.setMsg("请上传图片");
+				return result;
+			}
+			String username=sysConfigService.getDbSysConfig(SysConfigConstant.MOBILE_SEND_USERNAME, 1);
+			CpUser user =  cpUserMapper.findUserByUserName(username);
+//			CpUser user = SessionUtils.getUser(request);
+			List<CpPicture> resData=pictureService.uploadMorePic(picFiles,  SessionUtils.getSiteId(request), user.getId());
+			
+			result.setCode(CommonConstant.SUCCESSCODE);
+			result.setMsg(CommonConstant.SUCCESSSTRING);
+			result.setData(resData);
+			result.setOther(String.format("上传图片=%s", resData));
+		} catch (InvalidHttpArgumentException e) {
+			result.setCode(e.getCode());
+			result.setMsg(e.getMsg());
+		} catch(Exception e1){
+			e1.printStackTrace();
+			log.error("上传图片出错，"+e1.getMessage());
+			result.setCode(CommonConstant.EXCEPTIONCODE);
+			result.setMsg(CommonConstant.EXCEPTIONMSG);
+		}
+		return result;
+	}
+	
+	
 
 	/**
 	 * 保存或提交稿件：稿件不存在
@@ -2461,4 +2506,100 @@ public class GroupPicController {
         return result;
     }
 
+    /**
+	 * 手机版提交稿件：稿件不存在
+	 * @param request
+	 * @param picData 多张图片信息；json
+	 * @param group 稿件信息
+	 * @param isIpTc 是否为iptc图
+	 * @param isFlash 是否为flash上传
+	 * @param fTime 拍摄时间
+	 * @param type 0保存，1提交
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/saveGroupPicForPhone")
+	@SkipLoginCheck
+	@SkipAuthCheck
+	@LogInfo(content="保存或提交中文稿件",opeType=2,logTypeCode=CommonConstant.PicGroupOperation)
+	public Object saveGroupPicForPhone(HttpServletRequest request,String picData,CpPicGroup group,Integer isIpTc,Integer isFlash,String fTime,Integer type,Integer roleId,String cateIds,String phoneNum,String valicode){
+		ResponseMessage result=new ResponseMessage();
+		try {
+			 String username=sysConfigService.getDbSysConfig(SysConfigConstant.MOBILE_SEND_USERNAME, 1);
+			 CpUser cpUser = cpUserMapper.findUserByUserName(username);
+			 String redisCode = redisClientTemplate.get("MOBILE"+phoneNum+valicode);
+			 
+           if(redisCode==null||!redisCode.equals(valicode)){
+               result.setCode(CommonConstant.EXCEPTIONCODE);
+               result.setMsg("验证码无效，请重新输入验证码");
+               return result;
+           }
+           	String roleNames = cpUser.getRolenames();
+           	if(StringUtil.notBlank(roleNames)&&StringUtil.appearNumber(roleNames, ",")==1){
+           		CpRoleExample ex=new CpRoleExample();
+           		roleNames = roleNames.replaceAll(",","");
+    			ex.createCriteria().andRoleNameEqualTo(roleNames);
+    			List<CpRole> list=cpRoleMapper.selectByExample(ex);
+    			if(list.size()>0){
+    				CpRole role = list.get(0);
+        			roleId = role.getId();
+    			}
+    			
+           	}
+			CommonValidation.checkParamBlank(group.getTitle(), "稿件标题");
+			CommonValidation.checkParamBlank(group.getKeywords(), "关键字");
+			CommonValidation.checkParamBlank(group.getAuthor(), "稿件作者");
+//			CommonValidation.checkParamBlank(group.getAuthorId()+"", "稿件作者Id");
+			CommonValidation.checkParamBlank(group.getMemo(), "稿件说明");
+			CommonValidation.checkParamBlank(fTime, "拍摄时间");
+//			CommonValidation.checkParamBlank(roleId+"", "用户角色ID");
+			CommonValidation.checkParamBlank(Integer.toString(group.getLangType()), "稿件语种");
+			if(StringUtil.isEmpty(picData)){
+				result.setCode(CommonConstant.FAILURECODE);
+				result.setMsg("请上传图片");
+				return result;
+			}
+			Gson gson = new Gson();  
+			List<CpPicture> pics = gson.fromJson(picData, new TypeToken<List<CpPicture>>(){}.getType());
+			if(pics==null||pics.size()==0){
+				result.setCode(CommonConstant.FAILURECODE);
+				result.setMsg("请上传图片");
+				return result;
+			}
+			if(StringUtil.isNotBlank(fTime)){
+				group.setFileTime(DateUtils.sdfLong.parse(fTime));
+			}
+//			boolean isIpTcB=isIpTc==null||isIpTc==0?false:true;//默认不iptc
+			boolean isIpTcB=true;
+			boolean isFlashB=isFlash==null||isFlash==0?false:true;//默认不是flash组件上传
+			type=type==null?0:type;
+			String typeName=type==0?"保存":"提交";
+			group.setGoodsType(0);//普通图
+			if(group.getLangType() == null){
+				group.setLangType(0);//中文稿件
+			}
+			int a=flowService.makePicGroup(pics, group, isIpTcB,cpUser,SessionUtils.getSiteId(request),type,roleId,cateIds);
+			StringBuffer ids= new StringBuffer();
+			for (CpPicture pic : pics) {
+				ids.append(pic.getId()).append(",");
+			}
+			if(a>0){
+				result.setCode(CommonConstant.SUCCESSCODE);
+				result.setMsg(CommonConstant.SUCCESSSTRING);
+				result.setOther(String.format("%s稿件groupId=%s成功，包含图片picIds=%s",typeName,group.getId(), ids));
+			}else{
+				result.setCode(CommonConstant.FAILURECODE);
+				result.setMsg(CommonConstant.FILEERRORMSG);
+			}			
+		} catch (InvalidHttpArgumentException e) {
+			result.setCode(e.getCode());
+			result.setMsg(e.getMsg());
+		}catch(Exception e1){
+			e1.printStackTrace();
+			log.error("保存或提交稿件出错，"+e1.getMessage());
+			result.setCode(CommonConstant.EXCEPTIONCODE);
+			result.setMsg(CommonConstant.EXCEPTIONMSG+e1.getMessage());
+		}
+		return result;
+	}
 }

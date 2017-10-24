@@ -114,6 +114,7 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 			req_login();
 		});
 	}
+	
 	// 验证用户信息
 	function valid_info() {
 		var valid = true;

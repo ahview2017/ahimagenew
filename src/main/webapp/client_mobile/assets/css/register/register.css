@@ -1,0 +1,260 @@
+.client-user-reg{
+
+    text-align: center;
+
+    margin-bottom: 10px;
+
+    font-weight: bold;
+
+    font-size: 16px;
+
+    border-bottom: 1px solid #ccc;
+
+    padding-bottom: 16px;
+
+}
+
+.client-view-attend{
+
+    color:#c00000;
+
+    text-align: center;
+
+    margin-bottom: 6px;
+
+}
+
+.client-reg-operate{
+
+    text-align: center;
+
+    border-top: 1px solid #ccc;
+
+    padding-top: 10px;
+
+}
+
+.client-accept-option{
+
+    padding-bottom: 10px;
+
+}
+
+.client-accept-option label{
+
+    font-weight: 400;
+
+}
+
+.user-agreement-con{
+
+    color:#000;
+
+}
+
+.user-agreement-con p{
+
+    margin-top: 16px;
+
+    text-indent:2em;
+
+}
+
+.spec-register-conp{
+
+    text-indent:4em!important;
+
+}
+
+.client-user-fill-rule{
+
+    color:#c00000;
+
+}
+
+.c-register-tit{
+
+    max-width: 110px;
+
+    display:inline-block;
+
+    font-weight: bold;
+
+}
+
+.c-register-two-tit{
+
+    max-width: 150px;
+
+    display:inline-block;
+
+    font-weight: bold;
+
+    margin-bottom: 10px;
+
+}
+
+.telegraphic-transfer-tit{
+
+    max-width: 236px;
+
+}
+
+.c-register-input{
+
+    max-width: 360px;
+
+}
+
+.color-spec-red{
+
+    color:#c00000;
+
+}
+
+.u-reg-fill-info-con{
+
+    margin-left: 102px;
+
+}
+
+.c-register-info-item label{
+
+    font-weight:400;
+
+}
+
+.draft-way-details{
+
+    border:1px solid #6C6C6C;
+
+    padding: 18px 15px;
+
+}
+
+
+
+
+
+//add by mengwei@20170910
+
+.register_box{
+
+	max-width:700px;
+
+	max-height:898px;
+
+	border-radius: 6px;
+
+	margin:0 auto;
+
+	/*background:#ccc;*/
+
+}
+
+.register_title{
+	width:100%;
+	max-width:100%;
+
+	max-height:49px;
+
+	line-height: 49px;
+
+	background: #f6f6f6;
+
+	color:#f95f53;
+
+	font-size: 21px;
+
+	text-align:center;
+
+}
+
+.register_content{
+	width:100%;
+	max-width:600px;
+
+	max-height:800px;
+
+	margin:20px auto;
+
+}
+
+.register_table{
+	width:100%;
+	font-size: 12px;
+
+}
+
+.register_table tr td:nth-child(1){
+
+	text-align: right;
+	width:25%;
+	max-width:110px;
+
+	height:30px;
+
+}
+
+.register_table tr td:nth-child(2){
+	width:100%;
+	max-width:400px;
+
+	height:30px;
+
+}
+
+.register_table tr td:nth-child(2) input[rel="register"]{
+	width:90%;
+	max-width:400px;
+
+	border: 1px solid #b2b2b3;
+
+}
+
+input[name="register_submit"]{
+	width:100%;
+	max-width:101px;
+
+	height:24px;
+
+	font-size: 16px;
+
+	background: #f95f53;
+
+	border:none;
+
+	color:#fff;
+
+}
+
+.register_code span a{
+
+	color:#3680c2;
+
+	text-decoration: none;
+
+}
+.register_textarea{
+	width:90%;
+    max-width:400px;
+}
+
+
+
+.pics_Box{width:100%;margin-top:20px;}
+.pics_Box img{width:100%;max-height: 300px;}
+.infor_name{margin-top:10px;}
+.infor_time{width:20%;float:left;font-size:12px;text-align:right;}
+.infor_date{width:75%;float:right;position:relative;}
+.infor_date textarea{width:90%;}
+.infor_date input{width:90%;}
+.edit-sort-sel-btn{position:absolute;right:30%;top:10px;}
+
+.manuscript-add-pic{width:100px;height:100px;margin:0 auto;line-height:100px;overflow:hidden;
+font-size:18px;border:1px solid #666;position:relative;}
+
+.manuscript-add-pic label{position:absolute;right:4%;top:-4px;}
+
+
+

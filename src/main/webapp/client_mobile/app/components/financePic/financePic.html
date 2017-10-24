@@ -1,0 +1,418 @@
+<div class="finace-pic-container">
+    <!-- 财经导航 -->
+    <div back-img="client/assets/img/finance-channel-bg.gif" size="69" class="clear">
+          <div class="fashion-hd-tit finance-hd-tit">
+            <a class="change-hover-color fashion-tit-link cursor" target="_blank" ui-sref="root.moreSortList({sginId: 242})"> 每日关注</a>
+            <span class="foot-part-line">|</span>
+            <a class="change-hover-color fashion-tit-link cursor"  target="_blank" ui-sref="root.moreSortList({sginId: 243})">财经人物</a>
+            <span class="foot-part-line">|</span>
+            <a class="change-hover-color fashion-tit-link cursor"  target="_blank" ui-sref="root.moreSortList({sginId: 244})">金融证券</a>
+            <span class="foot-part-line">|</span>
+            <a class="change-hover-color fashion-tit-link cursor"  target="_blank" ui-sref="root.moreSortList({sginId: 245})">商业消费</a>
+            <span class="foot-part-line">|</span>
+            <a class="change-hover-color fashion-tit-link cursor"  target="_blank" ui-sref="root.moreSortList({sginId: 246})">房产建筑</a>
+            <span class="foot-part-line">|</span>
+            <a class="change-hover-color fashion-tit-link cursor"  target="_blank" ui-sref="root.moreSortList({sginId: 247})">会议会展</a>
+            <span class="foot-part-line">|</span>
+            <a class="change-hover-color fashion-tit-link cursor" target="_blank" ui-sref="root.moreSortList({sginId: 248})">公司企业</a>
+            <span class="foot-part-line">|</span>
+            <a class="change-hover-color fashion-tit-link cursor" target="_blank" ui-sref="root.moreSortList({sginId: 249})">ＩＴ通讯</a>
+            <span class="foot-part-line">|</span>
+            <a class="change-hover-color fashion-tit-link cursor" target="_blank" ui-sref="root.moreSortList({sginId: 250})"> 汽　　车</a>
+            <span class="foot-part-line">|</span>
+            <a class="change-hover-color fashion-tit-link cursor" target="_blank" ui-sref="root.moreSortList({sginId: 251})">重大工程</a>
+            <span class="foot-part-line">|</span>
+            <a class="change-hover-color fashion-tit-link cursor" target="_blank" ui-sref="root.moreSortList({sginId: 252})">科技新品</a>
+            <span class="foot-part-line">|</span>
+            <a class="change-hover-color fashion-tit-link cursor" target="_blank" ui-sref="root.moreSortList({sginId: 253})">财经图表</a>
+            <span class="foot-part-line">|</span>
+            <a class="change-hover-color fashion-tit-link cursor" target="_blank" ui-sref="root.moreSortList({sginId: 254})">财经漫画</a>
+            <span class="foot-part-line">|</span>
+            <a class="change-hover-color fashion-tit-link cursor"> 财经插画</a>
+        </div>
+    </div>
+   <!-- 今日关注 -->
+    <div back-img="client/assets/img/finance-today-focus-bg.gif" size="393">
+        <div class="finance-focus-item finance-focus-banner">
+            <!--左边大头条-->
+            <div id="finance-focus-lb" class="slideBox">
+                <ul class="items" ng-init="financePic.getClientFinanceGroups(133)">
+                    <li ng-repeat="item in financePic.financeHeadlineGroups track by $index" class="cursor">
+                        <a  class="cursor" title="{{item.TITLE}}" alt="{{item.TITLE}}"  ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})"  target="_blank">
+                            <img ng-src="{{item.wmPath}}" class="finance-big-foucs-bpic"/>
+                        </a>
+                        <a  class="cursor" title="{{item.TITLE}}" alt="{{item.TITLE}}" ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})"  target="_blank">
+                            <img ng-src="{{item.wmPath}}" class="finance-big-foucs-bpic"/>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--每日关注-->
+        <div class="finance-focus-item finance-focus-con"   ng-init="financePic.getClientFinanceGroups(242)">
+                <div style="height:59px;"></div>
+                <div class="finance-move-txt-right">
+                    <div class="dtbr">
+                        <div class="finance-move-txt-item" ng-if="$index < 2" ng-repeat="item in financePic.dailyFocusGroups track by $index">
+                            <a ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive finance-movie-pic"/>
+                            </a>
+                            <a  ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive finance-movie-pic"/>
+                            </a>
+                            <p class="fashion-move-txt">
+                                {{item.TITLE}}
+                            </p>
+                        </div>
+                    </div>
+                    <img src="client/assets/img/fiance-focus-line-bg.gif"/>
+                </div>
+                <div class="daily-focus-bottom-box">
+                    <div class="daily-focus-bottom-con daily-focus-bottom-pic">
+                        <a ng-if="$index == 2" ng-repeat="item in financePic.dailyFocusGroups track by $index">
+                            <a ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive finance-movie-pic"/>
+                            </a>
+                            <a  ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive finance-movie-pic"/>
+                            </a>
+                        </a>
+                    </div>
+                    <div class="daily-focus-bottom-con daily-focus-bottom-txt">
+                        <p class="mb5" ng-if="$index > 2" ng-repeat="item in financePic.dailyFocusGroups track by $index">
+                            <a class="change-hover-color"  ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})"  target="_blank"> {{item.TITLE}}</a>
+                            <a class="change-hover-color" ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})"  target="_blank"> {{item.TITLE}}</a>
+                        </p>
+                    </div>
+                </div>
+        </div>
+    </div>
+    <!--财经人物-->
+    <div class="fashion-move-box">
+            <a class="cursor finance-bg-container-link"  target="_blank" ui-sref="root.moreSortList({sginId: 243})">
+                <div class="finace-person-bg"></div>
+            </a>
+            <div class="finace-person-linebg">
+                <div class="finance-category-box">
+                    <div  class="clear finace-category-container" ng-init="financePic.getClientFinanceGroups(243)">
+                        <div class="finance-category-item"   ng-repeat="item in financePic.finalPersonPosGroups track by $index"
+                             style="border:1px solid #ccc;">
+                            <a ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive finance-movie-pic"/>
+                            </a>
+                            <a ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive finance-movie-pic"/>
+                            </a>
+                            <p class="fashion-move-txt"  style="background:#ccc;">
+                               {{item.TITLE}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--金融证券-->
+    <div class="fashion-move-box">
+        <div>
+            <a class="cursor finance-bg-container-link"  target="_blank"   ui-sref="root.moreSortList({sginId: 244})">
+                <div class="finace-financial-bg"></div>
+           </a>
+            <div class="finace-person-linebg">
+                <div class="finance-category-box">
+                    <div  class="clear finace-category-container" ng-init="financePic.getClientFinanceGroups(244)">
+                        <div class="finance-category-item"  ng-repeat="item in financePic.finalFinancialPosGroups track by $index"
+                             style="border:1px solid #ccc;">
+                            <a ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive finance-movie-pic"/>
+                            </a>
+                            <a ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive finance-movie-pic"/>
+                            </a>
+                            <p class="fashion-move-txt"  style="background:#ccc;">
+                                {{item.TITLE}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--商业消费-->
+    <div class="fashion-move-box">
+        <div>
+            <a class="cursor finance-bg-container-link"  target="_blank"   ui-sref="root.moreSortList({sginId: 245})">
+                <div class="finace-commercial-consume-bg"  ng-init="financePic.getClientFinanceGroups(245)"></div>
+            </a>
+            <div class="finace-person-linebg">
+                <div class="finance-category-box">
+                    <div  class="clear finace-category-container" ng-init="financePic.getClientFinanceGroups(254)">
+                        <div class="finance-category-item"  ng-repeat="item in financePic.finalBConsumePosGroups track by $index"
+                             style="border:1px solid #ccc;">
+                            <a ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive finance-movie-pic"/>
+                            </a>
+                            <a ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive finance-movie-pic"/>
+                            </a>
+                            <p class="fashion-move-txt"  style="background:#ccc;">
+                                {{item.TITLE}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--房产建筑-->
+    <div class="fashion-move-box">
+        <div>
+            <a class="cursor finance-bg-container-link"  target="_blank"   ui-sref="root.moreSortList({sginId: 246})">
+                <div class="finance-house-build-bg"  ng-init="financePic.getClientFinanceGroups(246)"></div>
+            </a>
+            <div class="finace-person-linebg">
+                <div class="finance-category-box">
+                    <div  class="clear finace-category-container" ng-init="financePic.getClientFinanceGroups(246)">
+                        <div class="finance-category-item"  ng-repeat="item in financePic.finalFinaceHouseBuildGroups track by $index"
+                             style="border:1px solid #ccc;">
+                            <a  ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive finance-movie-pic"/>
+                            </a>
+                            <a ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive finance-movie-pic"/>
+                            </a>
+                            <p class="fashion-move-txt"  style="background:#ccc;">
+                                {{item.TITLE}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--会议会展-->
+    <div class="fashion-move-box">
+        <div>
+            <a class="cursor finance-bg-container-link"  target="_blank"   ui-sref="root.moreSortList({sginId: 247})">
+                <div class="finance-meeting-exhibition-bg"  ng-init="financePic.getClientFinanceGroups(247)"></div>
+            </a>
+            <div class="finace-person-linebg">
+                <div class="finance-category-box">
+                    <div  class="clear finace-category-container" ng-init="financePic.getClientFinanceGroups(247)">
+                        <div class="finance-category-item"  ng-repeat="item in financePic.finaceMeetinExhibitionGroups track by $index"
+                             style="border:1px solid #ccc;">
+                            <a  ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive finance-movie-pic"/>
+                            </a>
+                            <a ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive finance-movie-pic"/>
+                            </a>
+                            <p class="fashion-move-txt"  style="background:#ccc;">
+                                {{item.TITLE}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--公司企业-->
+    <div class="fashion-move-box">
+        <div>
+            <a class="cursor finance-bg-container-link"  target="_blank"   ui-sref="root.moreSortList({sginId: 248})">
+                <div class="finance-company-enterprise-bg"   ng-init="financePic.getClientFinanceGroups(248)"></div>
+            </a>
+            <div class="finace-person-linebg">
+                <div class="finance-category-box">
+                    <div  class="clear finace-category-container" ng-init="financePic.getClientFinanceGroups(248)">
+                        <div class="finance-category-item"  ng-repeat="item in financePic.companyEnterpriseGroups track by $index"
+                             style="border:1px solid #ccc;">
+                            <a   ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive finance-movie-pic"/>
+                            </a>
+                            <a ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive finance-movie-pic"/>
+                            </a>
+                            <p class="fashion-move-txt"  style="background:#ccc;">
+                                {{item.TITLE}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--IT通讯-->
+    <div class="fashion-move-box">
+        <div>
+            <a class="cursor finance-bg-container-link"  target="_blank"   ui-sref="root.moreSortList({sginId: 249})">
+                <div class="finance-IT-communication-bg"    ng-init="financePic.getClientFinanceGroups(249)"></div>
+            </a>
+            <div class="finace-person-linebg">
+                <div class="finance-category-box">
+                    <div  class="clear finace-category-container" ng-init="financePic.getClientFinanceGroups(249)">
+                        <div class="finance-category-item"  ng-repeat="item in financePic.ITCommunicationGroups track by $index"
+                             style="border:1px solid #ccc;">
+                            <a   ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive finance-movie-pic"/>
+                            </a>
+                            <a  ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive finance-movie-pic"/>
+                            </a>
+                            <p class="fashion-move-txt"  style="background:#ccc;">
+                                {{item.TITLE}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--汽车工业-->
+    <div class="fashion-move-box">
+        <div>
+            <a class="cursor finance-bg-container-link"  target="_blank"   ui-sref="root.moreSortList({sginId: 250})">
+                <div class="finance-automobile-industry-bg"   ng-init="financePic.getClientFinanceGroups(250)"></div>
+            </a>
+            <div class="finace-person-linebg">
+                <div class="finance-category-box">
+                    <div  class="clear finace-category-container" ng-init="financePic.getClientFinanceGroups(250)">
+                        <div class="finance-category-item"  ng-repeat="item in financePic.automobileIndustryGroups track by $index"
+                             style="border:1px solid #ccc;">
+                            <a ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive finance-movie-pic"/>
+                            </a>
+                            <a ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive finance-movie-pic"/>
+                            </a>
+                            <p class="fashion-move-txt"  style="background:#ccc;">
+                                {{item.TITLE}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--重大工程-->
+    <div class="fashion-move-box">
+        <div>
+            <a class="cursor finance-bg-container-link"  target="_blank"   ui-sref="root.moreSortList({sginId: 251})">
+                <div class="finance-key-project-bg"   ng-init="financePic.getClientFinanceGroups(251)"></div>
+            </a>
+            <div class="finace-person-linebg">
+                <div class="finance-category-box">
+                    <div  class="clear finace-category-container" ng-init="financePic.getClientFinanceGroups(251)">
+                        <div class="finance-category-item"  ng-repeat="item in financePic.keyProjectGroups track by $index"
+                             style="border:1px solid #ccc;">
+                            <a  ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive finance-movie-pic"/>
+                            </a>
+                            <a ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive finance-movie-pic"/>
+                            </a>
+                            <p class="fashion-move-txt"  style="background:#ccc;">
+                                {{item.TITLE}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--科技新品-->
+    <div class="fashion-move-box">
+        <div>
+            <a class="cursor finance-bg-container-link"  target="_blank"   ui-sref="root.moreSortList({sginId: 252})">
+                <div class="finance-science-nproduct-bg"  ng-init="financePic.getClientFinanceGroups(252)"></div>
+            </a>
+            <div class="finace-person-linebg">
+                <div class="finance-category-box">
+                    <div  class="clear finace-category-container" ng-init="financePic.getClientFinanceGroups(252)">
+                        <div class="finance-category-item"  ng-repeat="item in financePic.scienceNproductGroups track by $index"
+                             style="border:1px solid #ccc;">
+                            <a ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive finance-movie-pic"/>
+                            </a>
+                            <a ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive finance-movie-pic"/>
+                            </a>
+                            <p class="fashion-move-txt"  style="background:#ccc;">
+                                {{item.TITLE}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--财经图表-->
+    <div class="fashion-move-box">
+        <div>
+            <a class="cursor finance-bg-container-link"  target="_blank"   ui-sref="root.moreSortList({sginId: 253})">
+                <div class="finance-chart-bg"  ng-init="financePic.getClientFinanceGroups(253)"></div>
+            </a>
+            <div class="finace-person-linebg">
+                <div class="finance-category-box">
+                    <div  class="clear finace-category-container" ng-init="financePic.getClientFinanceGroups(253)">
+                        <div class="finance-category-item"  ng-repeat="item in financePic.financeChartGroups track by $index"
+                             style="border:1px solid #ccc;">
+                            <a ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive finance-movie-pic"/>
+                            </a>
+                            <a  ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive finance-movie-pic"/>
+                            </a>
+                            <p class="fashion-move-txt"  style="background:#ccc;">
+                                {{item.TITLE}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--财经漫画-->
+    <div class="fashion-move-box">
+        <div>
+            <a class="cursor finance-bg-container-link"  target="_blank"   ui-sref="root.moreSortList({sginId: 254})">
+                <div class="finance-cartoons-bg"  ng-init="financePic.getClientFinanceGroups(254)"></div>
+            </a>
+            <div class="finace-person-linebg">
+                <div class="finance-category-box">
+                    <div  class="clear finace-category-container" ng-init="financePic.getClientFinanceGroups(254)">
+                        <div class="finance-category-item"  ng-repeat="item in financePic.financeCartoonsGroups track by $index"
+                             style="border:1px solid #ccc;">
+                            <a  ng-if="item.PICTURE_COUNT > 1" ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive finance-movie-pic"/>
+                            </a>
+                            <a  ng-if="item.PICTURE_COUNT == 1" ui-sref="root.newSingleDetail({groupId: item.ID, pictureId: item.picId})"  target="_blank">
+                                <img ng-src="{{item.samllPath}}" class="img-responsive finance-movie-pic"/>
+                            </a>
+                            <p class="fashion-move-txt"  style="background:#ccc;">
+                                {{item.TITLE}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="client.module">
+<head>
+    <title>视觉安徽</title>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <meta content="no-cache" http-equiv="Cache-Control">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!-- <meta name='format-detection' content=telephone=no> -->
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <!--<meta name="viewport" content="width=device-width,initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />-->
+    <!--<meta name="apple-mobile-web-app-capable" content="yes" />-->
+    <!--<meta name="full-screen" content="true" />-->
+    <!--<meta name="screen-orientation" content="portrait" />-->
+    <!--<meta name="x5-fullscreen" content="true" />-->
+    <!--<meta name="360-fullscreen" content="true" />-->
+    <!--<meta content="telephone=no" name="format-detection" />-->
+
+    <link href="client_mobile/assets/images/trs_web_style.css" rel="stylesheet" type="text/css">
+    <link href="client_mobile/assets/images/swiper-3.4.2.min.css" rel="stylesheet" type="text/css">
+    <link href="client_mobile/assets/images/ahrb_mobile_index_style201709.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="client_mobile/assets/images/lightGallery.css" />
+
+    <!--css libs-->
+    <link rel="stylesheet" href="client_mobile/assets/libs/font-awesome/font-awesome.min.css">
+    <link rel="stylesheet" href="client_mobile/assets/libs/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="client_mobile/assets/libs/angular-bootstrap-datetimepicker/datetimepicker.css">
+    <link rel="stylesheet" href="client_mobile/assets/libs/flexslider/flexslider.css">
+    <link rel="stylesheet" href="client_mobile/assets/libs/jq-slidebox/jquery.slideBox.css">
+    <link rel="stylesheet" href="client_mobile/assets/libs/css/jquery/pagination.css">
+
+
+    <!------------------manager css------------------->
+    <link rel="stylesheet" href="client_mobile/assets/css/base.css">
+    <link rel="stylesheet" href="client_mobile/assets/css/common.css">
+    <link rel="stylesheet" href="client_mobile/assets/css/root.css">
+    <link rel="stylesheet" href="client_mobile/assets/css/media.css">
+    <!--index css-->
+    <link rel="stylesheet" href="client_mobile/assets/css/index/index.css">
+    <!--photolist css-->
+    <link rel="stylesheet" href="client_mobile/assets/css/photolist/photolist.css">
+    <!--detail css-->
+    <link rel="stylesheet" href="client_mobile/assets/css/detail/detailList.css"/>
+    <!--newDetail css-->
+    <link rel="stylesheet" href="client_mobile/assets/css/newDetail/newDetail.css"/>
+    <!--specPic css-->
+    <link rel="stylesheet" href="client_mobile/assets/css/specPic/specpic.css">
+    <!--oldPic css-->
+    <link rel="stylesheet" href="client_mobile/assets/css/oldPic/oldpic.css">
+    <!--acadepic css-->
+    <link rel="stylesheet" href="client_mobile/assets/css/acadePic/acadepic.css">
+    <!--personpic css-->
+    <link rel="stylesheet" href="client_mobile/assets/css/personPic/personpic.css">
+    <!--chartList css-->
+    <link rel="stylesheet" href="client_mobile/assets/css/chartList/chartList.css">
+    <!--fashionpic css-->
+    <link rel="stylesheet" href="client_mobile/assets/css/fashionPic/fashionpic.css">
+    <!--financePic css-->
+    <link rel="stylesheet" href="client_mobile/assets/css/financePic/financepic.css">
+    <!--webInfoView css-->
+    <link rel="stylesheet" href="client_mobile/assets/css/webInfoView/web_info_view.css">
+    <!--topicPlayBack css-->
+    <link rel="stylesheet" href="client_mobile/assets/css/topicPlayBack/topic_play_back.css">
+    <!--monthDraft css-->
+    <link rel="stylesheet" href="client_mobile/assets/css/monthDraft/month_draft.css">
+    <!--famousLecture css-->
+    <link rel="stylesheet" href="client_mobile/assets/css/famousLecture/famous_lecture.css">
+    <!--login css-->
+    <link rel="stylesheet" href="client_mobile/assets/css/login/login.css">
+    <!--register css-->
+    <link rel="stylesheet" href="client_mobile/assets/css/register/register.css">
+    <!--forgetPwd css-->
+    <link rel="stylesheet" href="client_mobile/assets/css/forgetPwd/forgetPwd.css">
+    <!--register css-->
+    <link rel="stylesheet" href="client_mobile/assets/css/currentDoctor/current_doctor.css">
+    <!--needChannel css-->
+    <link rel="stylesheet" href="client_mobile/assets/css/needChannel/need_channel.css"/>
+    <!--favorite css-->
+    <link rel="stylesheet" href="client_mobile/assets/css/favorite/favorite.css"/>
+    <!--myInfo css-->
+    <link rel="stylesheet" href="client_mobile/assets/css/myInfo/myInfo.css"/>
+    <!--shoppingCart-->
+    <link rel="stylesheet" href="client_mobile/assets/css/shoppingCart/shoppingCart.css"/>
+    <!--special-->
+    <link rel="stylesheet" href="client_mobile/assets/css/special/special.css"/>
+    <!--advSearch-->
+    <link rel="stylesheet" href="client_mobile/assets/css/advSearch/advSearch.css"/>
+	<link rel="stylesheet" href="admin/assets/libs/zTree/css/zTreeStyle.css">
+    <!--JS libs-->
+    <script src="client_mobile/assets/libs/jquery/jquery-1.11.3.min.js"></script>
+    <script src="client_mobile/assets/libs/angular/angular1.5.min.js"></script>
+
+    <script src="client_mobile/assets/libs/moment/moment-with-locales.min.js"></script>
+    <script src="client_mobile/assets/libs/angular-bootstrap-datetimepicker/datetimepicker.js"></script>
+    <script src="client_mobile/assets/libs/angular-bootstrap-datetimepicker/datetimepicker.templates.js"></script>
+    <script src="client_mobile/assets/libs/angular/angular-ui-router.js"></script>
+    <script src="client_mobile/assets/libs/angular/angular-md5.js"></script>
+    <script src="client_mobile/assets/libs/angular-cookies/angular-cookies.min.js"></script>
+    <script src="client_mobile/assets/libs/ng-file-upload/ng-file-upload-all.min.js"></script>
+
+
+    <script src="client_mobile/assets/libs/jquery/jquery.qrcode.min.js"></script>
+    <script src="client_mobile/assets/libs/jquery/pingpp-pc.js"></script>
+    <script src="client_mobile/assets/libs/My97DatePicker/WdatePicker.js"></script>
+    <script src="client_mobile/assets/libs/jquery/layer.js"></script>
+    <script src="client_mobile/assets/libs/jquery/jqPaginator.js"></script>
+    <script src="client_mobile/assets/libs/bootstrap/bootstrap.min.js"></script>
+    <script src="client_mobile/assets/libs/angular-dirPagination/dirPagination.js"></script>
+    <script src="client_mobile/assets/libs/angular-bootstrap-datetimepicker/bootstrap-datepicker.js"></script>
+    <script src="client_mobile/assets/libs/flexslider/jquery.flexslider-min.js"></script>
+    <script src="client_mobile/assets/libs/jq-slidebox/jquery.slideBox.js"></script>
+    <script src="client_mobile/assets/libs/jquery/jquery.SuperSlide.2.1.1.js"></script>
+    <script src="client_mobile/assets/libs/jquery/jquery.pagination.min.js"></script>
+    <script src="admin/assets/libs/My97DatePicker/WdatePicker.js"></script>
+    <script src="client_mobile/assets/images/swiper-3.4.2.min.js"></script>
+    <script src="client_mobile/assets/images/lightGallery.min.js"></script>
+    <script src="admin/assets/libs/zTree/js/jquery.ztree.all.js"></script>
+	<script src="admin/assets/libs/zTree/js/jquery.ztree.core.js"></script>
+	<script src="admin/assets/libs/zTree/js/jquery.ztree.excheck.min.js"></script>
+	<script src="admin/assets/libs/zTree/js/jquery.ztree.exedit.js"></script>
+    
+
+    <!---------------------------------------- Javascript ---------------------------------->
+    <script src="client_mobile/app/client.services.js"></script>
+    <script src="client_mobile/app/client.filter.js"></script>
+    <script src="client_mobile/app/client.directive.js"></script>
+    <script src="client_mobile/app/client.module.js"></script>
+    <script src="client_mobile/app/client.value.js"></script>
+    <script src="client_mobile/app/shared/header/headCtrl.js"></script>
+    <script src="client_mobile/app/shared/footer/footerCtrl.js"></script>
+    <script src="client_mobile/app/components/login/loginCtrl.js"></script>
+    <script src="client_mobile/app/components/index/indexCtrl.js"></script>
+    <script src="client_mobile/app/components/newArticle/newArticleCtrl.js"></script>
+    <script src="client_mobile/app/components/photoList/photoListCtrl.js"></script>
+    <script src="client_mobile/app/components/moreSortList/moreSortListCtrl.js"></script>
+    <script src="client_mobile/app/components/detail/detailList/detailListCtrl.js"></script>
+    <script src="client_mobile/app/components/newDetail/detailList/picsDetailCtrl.js"></script>
+    <script src="client_mobile/app/components/newDetail/singleDetail/singleDetailCtrl.js"></script>
+    <script src="client_mobile/app/components/specPic/specPicCtrl.js"></script>
+    <script src="client_mobile/app/components/oldPic/oldPicCtrl.js"></script>
+    <script src="client_mobile/app/components/acadePic/acadePicCtrl.js"></script>
+    <script src="client_mobile/app/components/personPic/personPicCtrl.js"></script>
+    <script src="client_mobile/app/components/personPic/personList/personListCtrl.js"></script>
+    <script src="client_mobile/app/components/fashionPic/fashionPicCtrl.js"></script>
+    <script src="client_mobile/app/components/financePic/financePicCtrl.js"></script>
+    <script src="client_mobile/app/components/chartList/chartListCtrl.js"></script>
+    <script src="client_mobile/app/components/webInfoView/webInfoViewCtrl.js"></script>
+    <script src="client_mobile/app/components/webInfoView/webInfoAllViewCtrl.js"></script>
+    <script src="client_mobile/app/components/topicPlayback/topicPlayBackCtrl.js"></script>
+    <script src="client_mobile/app/components/monthDraft/monthDraftCtrl.js"></script>
+    <script src="client_mobile/app/components/famousLecture/famousLectureCtrl.js"></script>
+    <script src="client_mobile/app/components/register/registerCtrl.js"></script>
+    <script src="client_mobile/app/components/register/registerStepOneCtrl.js"></script>
+    <script src="client_mobile/app/components/register/registerStepTwoCtrl.js"></script>
+    <script src="client_mobile/app/components/register/registerSuccessCtrl.js"></script>
+    <script src="client_mobile/app/components/forgetPwd/forgetPwdCtrl.js"></script>
+    <script src="client_mobile/app/components/forgetPwd/forgetPasswordCtrl.js"></script>
+    <script src="client_mobile/app/components/forgetPwd/forgetPasswordStepOneCtrl.js"></script>
+    <script src="client_mobile/app/components/forgetPwd/forgetPasswordStepTwoCtrl.js"></script>
+    <script src="client_mobile/app/components/forgetPwd/forgetPasswordSuccessCtrl.js"></script>
+    <script src="client_mobile/app/components/currentDoctor/currentDoctorCtrl.js"></script>
+    <script src="client_mobile/app/components/currentDoctor/currentDoctorClassifyCtrl.js"></script>
+    <script src="client_mobile/app/components/needChannel/needChannelCtrl.js"></script>
+    <script src="client_mobile/app/components/needChannel/releaseNeedCtrl.js"></script>
+    <script src="client_mobile/app/components/needChannel/providePicCtrl.js"></script>
+    <script src="client_mobile/app/components/favorite/favoriteCtrl.js"></script>
+    <script src="client_mobile/app/components/favorite/detailCtrl.js"></script>
+    <script src="client_mobile/app/components/shoppingCart/shoppingCartCtrl.js"></script>
+    <script src="client_mobile/app/components/myInfo/myInfoCtrl.js"></script>
+    <script src="client_mobile/app/components/myOrder/myOrderCtrl.js"></script>
+    <script src="client_mobile/app/components/fullRetrieval/fulltext.js"></script>
+    <script src="client_mobile/app/components/advSearch/advSearchCtrl.js"></script>
+    <script src="client_mobile/app/components/special/special.js"></script>
+    <script src="client_mobile/app/components/notice/ggDisplay.js"></script>
+    <script src="client_mobile/app/components/notice/ggList.js"></script>
+    <script src="client_mobile/app/components/special/moreContribute.js"></script>
+    <script src="client_mobile/app/components/myOrder/lookPicsCtrl.js"></script>
+    <script src="client_mobile/app/components/siteMsg/siteMsg.js"></script>
+</head>
+<body>
+    <div ui-view="main"></div>
+</body>
+</html>
