@@ -242,9 +242,22 @@ input[name="register_submit"]{
 
 
 
-.pics_Box{width:100%;margin-top:20px;}
-.pics_Box img{width:100%;max-height: 300px;}
+.pics_Box{width:100%;margin-top:20px; position: relative;}
+.pics_Box img{width:100%;}
 .infor_name{margin-top:10px;}
+.pic_close{ 
+	position: absolute;
+    right: 10px;
+    top: 10px;
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    color: #fff;
+    text-align: center;
+    line-height: 20px;
+    opacity: .5;
+    font-weight: bold;
+ }
 .infor_time{width:20%;float:left;font-size:12px;text-align:right;}
 .infor_date{width:75%;float:right;position:relative;}
 .infor_date textarea{width:90%;}

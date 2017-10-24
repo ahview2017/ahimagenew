@@ -102,7 +102,7 @@
 			
 			<div style="width:100%;height:auto;padding:10px 0;"> 
 				<div class="pics_Box" ng-repeat="item in newArticle.upMenuscriptPicArr">
-						<div class="clear" style="float:right">
+						<div class="pic_close" >
 							<a class="cursor" ng-click="newArticle.removePicItem($index)">x</a>
 						</div>
 						<div class="online_imgs" >
@@ -192,9 +192,9 @@
 				<div class="clear"></div>
 			</div>
 		
-			<div class="infor_name clear">
+			<div class="infor_name clear" style="padding-bottom: 30px;">
 				<input type="submit" name="register_submit" value="提交"
-				ng-click="newArticle.commitManuscript()" style="max-width: initial;margin: 0 auto;display: block;">
+				ng-click="newArticle.commitManuscript()" style="max-width: initial;padding: 10px 0;display: block;height: auto;">
 			</div>
 		
 	</form>	
