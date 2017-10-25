@@ -3,8 +3,8 @@
             <a href="/photo/index_m.html"></a>
 			
         </div>
-		<div class="header_contributions" style="cursor:pointer;width:100px;height:40px;line-height:40px;font-size:18px;position:absolute;top:0;right:10px;color:#fff;text-align:center;">
-			<a href="/photo/index_m.html#/newArticle/" target="_blank">我要投稿</a>
+		<div class="header_contributions" style="cursor:pointer;width:100px;height:40px;line-height:40px;font-size:18px;position:absolute;top:2px;right:10px;color:#fff;text-align:center;">
+			<a href="/photo/index_m.html#/newArticle/"  style="color: #fff;">我要投稿</a>
 		</div>
         <div class="swiper-container" id="swiper-container2">
             <div class="swiper-wrapper">
@@ -25,7 +25,9 @@
             <div class="swiper-slide subBtn" ng-init="index.getselChildColumn(3064)">
                 <div class="swiper-container" id="subnavs1">
                     <div class="swiper-wrapper" >
-                        <div class="swiper-slide" ng-repeat="item in index.newsPhoto1">{{item.name}}</div>
+                        <div class="swiper-slide" ng-repeat="item in index.newsPhoto1">
+                        	<a ui-sref="root.moreSortList({sginId:item.id})" >{{item.name}}</a>
+                        </div>
                       
                         
                         
@@ -36,7 +38,9 @@
             <div class="swiper-slide subBtn" ng-init="index.getselChildColumn(3077)">
                 <div class="swiper-container" id="subnavs2">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide" ng-repeat="item in index.topicPhoto1">{{item.name}}</div>
+                        <div class="swiper-slide" ng-repeat="item in index.topicPhoto1">
+                        	<a ui-sref="root.moreSortList({sginId:item.id})" >{{item.name}}</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -44,7 +48,9 @@
             <div class="swiper-slide subBtn" ng-init="index.getselChildColumn(3078)">
                 <div class="swiper-container" id="subnavs3">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide" ng-repeat="item in index.anhuiStyle1">{{item.name}}</div>
+                        <div class="swiper-slide" ng-repeat="item in index.anhuiStyle1">
+                        	<a ui-sref="root.moreSortList({sginId:item.id})" >{{item.name}}</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -52,7 +58,9 @@
             <div class="swiper-slide subBtn" ng-init="index.getselChildColumn(3079)">
                 <div class="swiper-container" id="subnavs4">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide" ng-repeat="item in index.anhuiHistory1">{{item.name}}</div>
+                        <div class="swiper-slide" ng-repeat="item in index.anhuiHistory1">
+                        	<a ui-sref="root.moreSortList({sginId:item.id})" >{{item.name}}</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -60,7 +68,9 @@
             <div class="swiper-slide subBtn" ng-init="index.getselChildColumn(3080)">
                 <div class="swiper-container" id="subnavs5">
                     <div class="swiper-wrapper" >
-                        <div class="swiper-slide" ng-repeat="item in index.anhuiCitys1">{{item.name}}</div>
+                        <div class="swiper-slide" ng-repeat="item in index.anhuiCitys1">
+                        	<a ui-sref="root.moreSortList({sginId:item.id})" >{{item.name}}</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -76,7 +86,9 @@
             <div class="swiper-slide subBtn"  ng-init="index.getselChildColumn(3082)">
                 <div class="swiper-container" id="subnavs7">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide" ng-repeat="item in index.artEssence1">{{item.name}}</div>
+                        <div class="swiper-slide" ng-repeat="item in index.artEssence1">
+                        	<a ui-sref="root.moreSortList({sginId:item.id})" >{{item.name}}</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -84,7 +96,9 @@
             <div class="swiper-slide subBtn" ng-init="index.getselChildColumn(3083)">
                 <div class="swiper-container" id="subnavs8">
                     <div class="swiper-wrapper" >
-                        <div class="swiper-slide" ng-repeat="item in index.interactiveSpace1">{{item.name}}</div>
+                        <div class="swiper-slide" ng-repeat="item in index.interactiveSpace1">
+                        	<a ui-sref="root.moreSortList({sginId:item.id})" >{{item.name}}</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -112,8 +126,9 @@
                             <a ui-sref="root.newDetailList({groupId: item.ID})">
                                 <img ng-src="{{item.filePath}}" />
                                 <p>{{item.TITLE}}</p>
+                                <p>{{item.AUTHOR}}摄</p>
                             </a>
-                            <!-- <i>{{picsDetail.clientPictureDetail.pictureCount}}图</i> -->
+                            <i>{{item.PICTURE_COUNT}}图</i>
                         </li>
                     </ul>
                 </div>
@@ -127,8 +142,9 @@
                             <a ui-sref="root.newDetailList({groupId: item.ID})">
                                 <img ng-src="{{item.filePath}}" />
                                 <p>{{item.TITLE}}</p>
+                                <p>{{item.AUTHOR}}摄</p>
                             </a>
-                            <!-- <i>{{picsDetail.clientPictureDetail.pictureCount}}图</i> -->
+                            <i>{{item.PICTURE_COUNT}}图</i>
                         </li>
                     </ul>
                 </div>
@@ -142,8 +158,9 @@
                             <a ui-sref="root.newDetailList({groupId: item.ID})">
                                 <img ng-src="{{item.filePath}}" />
                                 <p>{{item.TITLE}}</p>
+                                <p>{{item.AUTHOR}}摄</p>
                             </a>
-                            <!-- <i>{{picsDetail.clientPictureDetail.pictureCount}}图</i> -->
+                            <i>{{item.PICTURE_COUNT}}图</i>
                         </li>
                     </ul>
                 </div>
@@ -157,8 +174,9 @@
                             <a ui-sref="root.newDetailList({groupId: item.ID})">
                                 <img ng-src="{{item.filePath}}" />
                                 <p>{{item.TITLE}}</p>
+                                <p>{{item.AUTHOR}}摄</p>
                             </a>
-                            <!-- <i>{{picsDetail.clientPictureDetail.pictureCount}}图</i> -->
+                            <i>{{item.PICTURE_COUNT}}图</i>
                         </li>
                     </ul>
                 </div>
@@ -172,8 +190,9 @@
                             <a ui-sref="root.newDetailList({groupId: item.ID})">
                                 <img ng-src="{{item.filePath}}" />
                                 <p>{{item.TITLE}}</p>
+                                <p>{{item.AUTHOR}}摄</p>
                             </a>
-                            <!-- <i>{{picsDetail.clientPictureDetail.pictureCount}}图</i> -->
+                            <i>{{item.PICTURE_COUNT}}图</i>
                         </li>
                     </ul>
                 </div>
@@ -187,8 +206,9 @@
                             <a ui-sref="root.newDetailList({groupId: item.ID})">
                                 <img ng-src="{{item.filePath}}" />
                                 <p>{{item.TITLE}}</p>
+                                <p>{{item.AUTHOR}}摄</p>
                             </a>
-                            <!-- <i>{{picsDetail.clientPictureDetail.pictureCount}}图</i> -->
+                            <i>{{item.PICTURE_COUNT}}图</i>
                         </li>
                     </ul>
                 </div>
@@ -202,8 +222,9 @@
                             <a ui-sref="root.newDetailList({groupId: item.ID})">
                                 <img ng-src="{{item.filePath}}" />
                                 <p>{{item.TITLE}}</p>
+                                <p>{{item.AUTHOR}}摄</p>
                             </a>
-                            <!-- <i>{{picsDetail.clientPictureDetail.pictureCount}}图</i> -->
+                            <i>{{item.PICTURE_COUNT}}图</i>
                         </li>
                     </ul>
                 </div>
@@ -217,8 +238,9 @@
                             <a ui-sref="root.newDetailList({groupId: item.ID})">
                                 <img ng-src="{{item.filePath}}" />
                                 <p>{{item.TITLE}}</p>
+                                <p>{{item.AUTHOR}}摄</p>
                             </a>
-                            <!-- <i>{{picsDetail.clientPictureDetail.pictureCount}}图</i> -->
+                            <i>{{item.PICTURE_COUNT}}图</i>
                         </li>
                     </ul>
                 </div>
@@ -232,8 +254,9 @@
                             <a ui-sref="root.newDetailList({groupId: item.ID})">
                                 <img ng-src="{{item.filePath}}" />
                                 <p>{{item.TITLE}}</p>
+                                <p>{{item.AUTHOR}}摄</p>
                             </a>
-                            <!-- <i>{{picsDetail.clientPictureDetail.pictureCount}}图</i> -->
+                            <i>{{item.PICTURE_COUNT}}图</i>
                         </li>
                     </ul>
                 </div>

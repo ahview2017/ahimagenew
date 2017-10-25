@@ -12,8 +12,9 @@ html{font-size: 10px;font-family: '微软雅黑';}
 .conLists li a{cdisplay: block;block;text-decoration: none;color: #333;}
 .conLists li img{width: 100%;}
 .conLists li p{height: 4rem;line-height: 4rem;padding-left: 2%;font-size: 1.8rem;}
-.conLists li i{display: block;width: 3.5rem;height: 2rem;font-style: normal;font-size: 1.3rem;color: #fff;position: absolute;right: 1%;bottom: 4.5rem;
-text-align: center;line-height: 2rem;border-radius: 2px;
+.conLists li p:nth-child(3){font-size:1.4rem;color:#ccc;height:3rem;line-height:3rem;margin-bottom:2rem;}
+.conLists li i{display: block;width: 3.5rem;height: 2rem;font-style: normal;font-size: 1.3rem;color: #fff;position: absolute;right: 1%;bottom: 8rem;
+text-align: center;line-height: 2rem;border-radius: 9px;
 filter:progid:DXImageTransform.Microsoft.gradient(enabled='true',startColorstr='#99000000',endColorstr='#99000000');background:rgba(0,0,0,0.5);}
 
 
@@ -37,10 +38,14 @@ z-index: 10000;}
 
 .picsBox img{width: 100%;}
 
+.pswp__caption small{display: none;}
+.pswp__caption__center small{display: none;}
 
 @media screen and (max-width: 768px){
 	.header_title,.header_title a{background-size: 30%;}
 }
+.picdemo{padding-top: 10px;padding-bottom: 20px;text-indent: 2em;}
+
 
 
 

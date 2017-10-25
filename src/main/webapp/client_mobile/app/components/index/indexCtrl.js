@@ -464,6 +464,8 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
                     vm.newsPhoto1 = resp.data;
                     // console.log('success');
                 }
+                var mysubNavs1 = new Swiper('#subnavs1',{slidesPerView : 4});
+                
                 //专题图片
                 if (pColumnId == 3077) {
                     vm.topicPhoto1 = resp.data;
