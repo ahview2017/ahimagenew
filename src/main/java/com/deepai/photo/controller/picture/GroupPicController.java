@@ -29,6 +29,7 @@ import com.deepai.photo.bean.CpPicGroupCategory;
 import com.deepai.photo.bean.CpPicGroupProcess;
 import com.deepai.photo.bean.CpPicGroupProcessExample;
 import com.deepai.photo.bean.CpPicGroupProcessExample.Criteria;
+import com.deepai.photo.bean.CpPicGroupThumbsUp;
 import com.deepai.photo.bean.CpPicture;
 import com.deepai.photo.bean.CpPictureExample;
 import com.deepai.photo.bean.CpRole;
@@ -46,6 +47,7 @@ import com.deepai.photo.common.exception.InvalidHttpArgumentException;
 import com.deepai.photo.common.pagehelper.PageHelper;
 import com.deepai.photo.common.pojo.ResponseMessage;
 import com.deepai.photo.common.redis.RedisClientTemplate;
+import com.deepai.photo.common.util.IPUtil;
 import com.deepai.photo.common.util.SessionUtils;
 import com.deepai.photo.common.util.XMLUtils;
 import com.deepai.photo.common.util.date.DateUtils;
@@ -61,6 +63,7 @@ import com.deepai.photo.mapper.CpPicGroupCategoryMapper;
 import com.deepai.photo.mapper.CpPicGroupColumnMapper;
 import com.deepai.photo.mapper.CpPicGroupMapper;
 import com.deepai.photo.mapper.CpPicGroupProcessMapper;
+import com.deepai.photo.mapper.CpPicGroupThumbsUpMapper;
 import com.deepai.photo.mapper.CpPictureMapper;
 import com.deepai.photo.mapper.CpRoleMapper;
 import com.deepai.photo.mapper.CpUserMapper;
@@ -102,6 +105,8 @@ public class GroupPicController {
 	private CpPicGroupProcessMapper processMapper;
 	@Autowired
 	private ClientPictureMapper clientPictureMapper;
+	@Autowired
+	private CpPicGroupThumbsUpMapper cpPicGroupThumbsUpMapper;
 	@Autowired
 	private OtherMapper otherMapper;
 	@Autowired
@@ -2527,13 +2532,17 @@ public class GroupPicController {
 		try {
 			 String username=sysConfigService.getDbSysConfig(SysConfigConstant.MOBILE_SEND_USERNAME, 1);
 			 CpUser cpUser = cpUserMapper.findUserByUserName(username);
+			 log.info("<<phoneNum2:"+phoneNum);
+			 log.info("<<key2:"+("MOBILE"+phoneNum+valicode));
 			 String redisCode = redisClientTemplate.get("MOBILE"+phoneNum+valicode);
 			 
-           if(redisCode==null||!redisCode.equals(valicode)){
-               result.setCode(CommonConstant.EXCEPTIONCODE);
-               result.setMsg("验证码无效，请重新输入验证码");
-               return result;
-           }
+			 log.info("<<redisCode:"+redisCode);
+			 log.info("<<valicode:"+valicode);
+             if(redisCode==null||!redisCode.equals(valicode)){
+                 result.setCode(CommonConstant.EXCEPTIONCODE);
+                 result.setMsg("验证码无效，请重新输入验证码");
+                 return result;
+            }
            	String roleNames = cpUser.getRolenames();
            	if(StringUtil.notBlank(roleNames)&&StringUtil.appearNumber(roleNames, ",")==1){
            		CpRoleExample ex=new CpRoleExample();
@@ -2602,4 +2611,134 @@ public class GroupPicController {
 		}
 		return result;
 	}
+	
+	
+	
+	/**
+	 * 获取稿件点赞总数
+	 * @author xiayunan
+	 * @date 2017-10-26
+	 * @param request
+	 * @param groupId 稿件id
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/getThumbsUpCount")
+	@SkipAuthCheck
+	@SkipLoginCheck
+	public Object getThumbsUpCount(HttpServletRequest request,Integer groupId){
+		ResponseMessage result=new ResponseMessage();
+		try {
+			CommonValidation.checkParamBlank(groupId+"", "稿件id");
+			int count=cpPicGroupThumbsUpMapper.getGroupThumbsUpCount(groupId);
+			result.setCode(CommonConstant.SUCCESSCODE);
+			result.setMsg(CommonConstant.SUCCESSSTRING);
+			result.setData(count);
+		} catch (InvalidHttpArgumentException e) {
+			result.setCode(e.getCode());
+			result.setMsg(e.getMsg());
+		}catch(Exception e1){
+			e1.printStackTrace();
+			log.error("不能显示稿件点赞量，" + e1.getMessage());
+			result.setCode(CommonConstant.EXCEPTIONCODE);
+			result.setMsg(CommonConstant.EXCEPTIONMSG);
+		}
+		return result;
+	}
+	
+	
+	/**
+	 * 保存稿件点赞记录
+	 * @author xiayunan
+	 * @date 2017-10-26
+	 * @param request
+	 * @param groupId 稿件id
+	 * @param ip 点赞者ip
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/saveGroupPicThumbsUp")
+	@SkipAuthCheck
+	@SkipLoginCheck
+	public Object saveGroupPicThumbsUp(HttpServletRequest request,Integer groupId){
+		ResponseMessage result=new ResponseMessage();
+		try {
+			String ip = IPUtil.getRemoteAddr(request);
+			CommonValidation.checkParamBlank(groupId+"", "稿件id");
+			CommonValidation.checkParamBlank(ip, "点赞者ip");
+			
+			Map<Object,Object> sParamMap = new HashMap<Object,Object>();
+			sParamMap.put("groupId", groupId);
+			sParamMap.put("ip", ip);
+			int judgeCount = cpPicGroupThumbsUpMapper.getThumbsUpCountByIpAndGroupId(sParamMap);
+			Map<Object,Object> resultMap = new HashMap<Object,Object>();
+			if(judgeCount>0){
+				resultMap.put("status", 1);//1表示当前稿件已经点赞过，0表示未点赞
+				result.setCode(CommonConstant.SUCCESSCODE);
+				result.setMsg(CommonConstant.SUCCESSSTRING);
+				result.setData(resultMap);
+				return result;
+			}
+			CpPicGroupThumbsUp cpPicGroupThumbsUp = new CpPicGroupThumbsUp();
+			cpPicGroupThumbsUp.setIp(ip);
+			cpPicGroupThumbsUp.setGroupId(groupId);
+			cpPicGroupThumbsUp.setCrtime(new Date());
+			cpPicGroupThumbsUp.setStatus(0);//todo 0表示正常状态,1表示取消点赞
+			cpPicGroupThumbsUpMapper.insertSelective(cpPicGroupThumbsUp);
+			resultMap.put("status", 0);
+			result.setCode(CommonConstant.SUCCESSCODE);
+			result.setMsg(CommonConstant.SUCCESSSTRING);
+			result.setData(resultMap);
+		} catch (InvalidHttpArgumentException e) {
+			result.setCode(e.getCode());
+			result.setMsg(e.getMsg());
+		} catch(Exception e1){
+			e1.printStackTrace();
+			log.error("保存稿件点赞记录失败，" + e1.getMessage());
+			result.setCode(CommonConstant.EXCEPTIONCODE);
+			result.setMsg(CommonConstant.EXCEPTIONMSG);
+		}
+		return result;
+	}
+	
+	
+	/**
+	 * 更新稿件点赞状态
+	 * @author xiayunan
+	 * @date 2017-10-26
+	 * @param request
+	 * @param groupId 稿件id
+	 * @param ip 点赞者ip
+	 * @return
+	 */
+	//todo
+	@ResponseBody
+	@RequestMapping("/updateGroupPicThumbsUpStatus")
+	@SkipAuthCheck
+	@SkipLoginCheck
+	public Object updateGroupPicThumbsUpStatus(HttpServletRequest request,Integer groupid){
+		ResponseMessage result=new ResponseMessage();
+		try {
+			String ip = IPUtil.getRemoteAddr(request);
+			CommonValidation.checkParamBlank(groupid+"", "稿件id");
+			CommonValidation.checkParamBlank(ip, "点赞者ip");
+			Map<Object,Object> map = new HashMap<Object,Object>();
+			map.put("ip", ip);
+			map.put("groupid", groupid);
+			cpPicGroupThumbsUpMapper.updateThumbsUpStatus(map);
+			result.setCode(CommonConstant.SUCCESSCODE);
+			result.setMsg(CommonConstant.SUCCESSSTRING);
+		} catch (InvalidHttpArgumentException e) {
+			result.setCode(e.getCode());
+			result.setMsg(e.getMsg());
+		}catch(Exception e1){
+			e1.printStackTrace();
+			log.error("更新稿件点赞记录失败，" + e1.getMessage());
+			result.setCode(CommonConstant.EXCEPTIONCODE);
+			result.setMsg(CommonConstant.EXCEPTIONMSG);
+		}
+		return result;
+	}
+	
+	
 }

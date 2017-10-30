@@ -15,6 +15,10 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
     function initSetting() {
         //选中图片id
         vm.selPicIds = {};
+        
+        //点赞数
+        vm.thumbsUpCount = 0;
+        
         //默认页
         $scope.page = 1;
         
@@ -23,9 +27,46 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
         getMasBaseUrl();
     }
 
+    
+    vm.thumbsUp = function(){
+    	saveGroupPicThumbsUp();
+    };
+    
+    //稿件点赞
+    function saveGroupPicThumbsUp(){
+    	 req.post('groupPicCtro/saveGroupPicThumbsUp.do', {
+             groupId: vm.groupId,
+          }).success(function (resp) {
+              if (resp.code == '211') {
+            	  if(resp.data.status==1){
+            		  alert("您已经赞过了！");
+            	  }else if(resp.data.status==0){
+            		  alert("太棒了，赞一个！"); 
+            	  }
+            	  getThumbsUpCount();
+              }else if(resp.msg != '未登录'){
+                  layer.alert(resp.msg);
+              }
+          });
+    }
+    
+    
+    
 
-
-
+    //获取稿件点赞数 add by xiayunan@20171030
+    function getThumbsUpCount(){
+    	 req.post('groupPicCtro/getThumbsUpCount.do', {
+            groupId: vm.groupId,
+         }).success(function (resp) {
+             if (resp.code == '211') {
+            	 vm.thumbsUpCount = resp.data;
+             }else if(resp.msg != '未登录'){
+                 layer.alert(resp.msg);
+             }
+         });
+    }
+    
+    
     //获取客户端稿件详情
     function getClientGroupPics(callback) {
         req.post('getPicture/getClientGroupPics.do', {
@@ -72,6 +113,7 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
     //页面初始化
     function init() {
         initSetting();
+        getThumbsUpCount();
         getClientGroupPics(function(){
             req_getFullText(1);
         });
@@ -157,10 +199,8 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
         for (var key in vm.selPicIds) {
             if (vm.selPicIds[key]) {
                 vm.selKeyArr.push(key);
-               // console.log(vm.selKeyArr.length);
             }
         }
-       // console.log(vm.selKeyArr.length);
     }
 
     //获取选中图片ID
@@ -460,7 +500,6 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
                 if (signId == 25) {
                     vm.bestUse = jugeGroupPos.jugeGroupPos(25,resp.data);
                 }
-              //  console.log(vm.bestUse);
             }else if(resp.msg != '未登录'){
                 layer.alert(resp.msg);
             }

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deepai.photo.mapper.CpPicGroupThumbsUpMapper" >
+	<resultMap id="CpPicGroupThumbsUp" type="com.deepai.photo.bean.CpPicGroupThumbsUp" >
+	    <id column="ID" property="id" jdbcType="INTEGER" />
+	    <result column="CRTIME" property="crtime" jdbcType="TIMESTAMP" />
+	    <result column="IP" property="ip" jdbcType="VARCHAR" />
+	    <result column="GROUPID" property="groupid" jdbcType="INTEGER" />
+	    <result column="STATUS" property="status" jdbcType="INTEGER" />
+	    <result column="APPEND" property="append" jdbcType="VARCHAR" />
+ 	 </resultMap>
+  	 <sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	 <!-- 插入稿件点赞记录-->
+	 <insert id="insertSelective" parameterType="com.deepai.photo.bean.CpPicGroupThumbsUp">
+			<selectKey resultType="java.lang.Integer" keyProperty="id"
+				order="AFTER">
+				SELECT LAST_INSERT_ID()
+			</selectKey>
+			insert into cp_pic_group_thumbsup
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+				<if test="crtime != null">
+					CRTIME,
+				</if>
+				<if test="ip != null">
+					IP,
+				</if>
+				<if test="groupId != null">
+					GROUPID,
+				</if>
+				<if test="status != null">
+					STATUS,
+				</if>
+				<if test="append != null">
+					APPEND,
+				</if>
+			</trim>
+			<trim prefix="values (" suffix=")" suffixOverrides=",">
+				<if test="crtime != null">
+					#{crtime,jdbcType=TIMESTAMP},
+				</if>
+				<if test="ip != null">
+					#{ip,jdbcType=VARCHAR},
+				</if>
+				<if test="groupId != null">
+					#{groupId,jdbcType=INTEGER},
+				</if>
+				<if test="status != null">
+					#{status,jdbcType=INTEGER},
+				</if>
+				<if test="append != null">
+					#{append,jdbcType=VARCHAR},
+				</if>
+			</trim>
+	  </insert>
+  
+	  <!-- 查询稿件点赞数 -->
+	  <select id="getGroupThumbsUpCount" parameterType="map" resultType="java.lang.Integer">
+	  	select count(*) from cp_pic_group_thumbsup 
+	  		<if test="groupId !=null">
+	  			where GROUPID =#{groupId} 
+	  		</if>
+	  </select>
+	  
+	  
+	  <!-- 查询特定IP和稿件的点赞数 -->
+	  <select id="getThumbsUpCountByIpAndGroupId" parameterType="map" resultType="java.lang.Integer">
+	  	select count(*) from cp_pic_group_thumbsup 
+	  		where GROUPID =#{groupId} 
+	  		<if test="ip !=null">
+	  			and IP =#{ip} 
+	  		</if>
+	  </select>
+	  
+	  
+	  
+	  <!-- 更改当前IP稿件点赞状态-->
+	  <update id="updateThumbsUpStatus" parameterType="map">
+	  	update cp_pic_group_thumbsup set 
+	  	<if test="status !=null">
+  			 STATUS =#{status} 
+  		</if>
+	  	where GROUPID =#{groupid} 
+  		<if test="ip !=null">
+  			and IP =#{ip} 
+  		</if>
+	  </update> 
+</mapper>

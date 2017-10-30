@@ -110,7 +110,7 @@ public class PhoneMSGUtils {
      * @return {"code":"1","msg":"内容"} code:0失败，1成功
      * @throws Exception
      */
-    public JSONObject sendMsg(String phone, String type) throws Exception {
+    public JSONObject sendMsg(String phone,String type) throws Exception {
         JSONObject result = null;
         switch (type) {
         case TYPE_SEND_CODE:
@@ -122,14 +122,40 @@ public class PhoneMSGUtils {
         case TYPE_FORGET_CODE:
             result = sendPhoneCode(phone, TYPE_FORGET_CODE);
             break;
-        case TYPE_PHONE_CODE:
-            result = sendPhoneCode(phone, TYPE_PHONE_CODE);
-            break;
         default:
             break;
         }
         return result;
     }
+    
+    /**
+     * 发送手机短信
+     * 
+     * @Description: TODO <BR>
+     * @author liu.jinfeng
+     * @date 2017年9月6日 下午9:50:58
+     * @param phone
+     *            手机号码
+     * @param type
+     *            短信类型 1:注册获取验证码
+     * @return {"code":"1","msg":"内容"} code:0失败，1成功
+     * @throws Exception
+     */
+    public JSONObject sendMsgForNewArticle(String phone, int valicode,String type) throws Exception {
+    	String sContent = sysConfigService.getDbSysConfig(SysConfigConstant.MSG_PHONE_CODE, 1);
+        // 6位随机验证码
+        sContent = String.format(sContent, valicode);
+        logger.info("发送内容是：" + sContent);
+        // 发送信息
+        String code = send(phone, sContent);
+        JSONObject result = new JSONObject();
+        result.put("code", code);
+        result.put("msg", code.equals("1") ? String.valueOf(valicode) : "发送失败");
+        return result;
+    }
+    
+    
+    
 
     /**
      * @Description: 发送手机验证码 <BR>

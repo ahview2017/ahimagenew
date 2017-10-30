@@ -915,8 +915,7 @@ public class PhoneMSGController {
         log.info("<<<<<<手机号："+phoneNum);
         JSONObject resultObj = null;
         try {
-            resultObj = phoneMSGUtils.sendMsg(phoneNum,
-                    PhoneMSGUtils.TYPE_LOGIN_CODE);
+            resultObj = phoneMSGUtils.sendMsgForNewArticle(phoneNum,vilidate,PhoneMSGUtils.TYPE_LOGIN_CODE);
             log.info("<<<<<<resultObj："+resultObj);
         } catch (Exception e) {
             e.printStackTrace();

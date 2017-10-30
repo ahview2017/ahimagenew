@@ -12,3 +12,17 @@ INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`D
 INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(415,0,'老照片管理','老照片管理',NULL,NULL,0,'admin',now(),1,'',0);
 INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(416,0,'EXIF图片控制','EXIF图片控制','uploadpic',NULL,0,'admin',now(),2,'',0);
 INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(417,1,'一键撤稿','一键撤稿','groupPicCtro/downAllGroupPic',245,0,'admin',now(),NULL,'',0);
+
+
+
+DROP TABLE IF EXISTS `cp_pic_group_thumbsup`;
+
+CREATE TABLE `cp_pic_group_thumbsup` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT COMMENT '稿件点赞记录ID',
+  `CRTIME` timestamp NULL DEFAULT NULL COMMENT '编辑时间',
+  `IP` varchar(255) DEFAULT NULL COMMENT '来源IP',
+  `GROUPID` int(11) DEFAULT NULL COMMENT '稿件ID',
+  `STATUS` tinyint(4) DEFAULT '0' COMMENT '点赞状态，0：正常，1：取消',
+  `APPEND` varchar(255) DEFAULT NULL COMMENT '预留字段',
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='稿件点赞记录表';
