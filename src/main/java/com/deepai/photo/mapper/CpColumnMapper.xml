@@ -70,6 +70,13 @@
 	    from cp_column t1,cp_column t2 where t1.pid =  t2.id and t1.id=#{columnId}  
     	order by t1.order_id
   </select>
+  
+  <select id="selectById" resultType="com.deepai.photo.bean.CpColumn">
+	    select b.name from  cp_pic_group_category a LEFT JOIN cp_column  b  
+		on a.CATEGORY_ID = b.id  
+		where a.TYPE =1 and  b.pid = #{columnId}  and a.GROUP_ID = #{groupId}   ;
+  </select>
+  
    <select id="selectBykeyNoPname" resultType="com.deepai.photo.bean.CpColumn">
 	     select
 	    id, name,  pid, recommend_id recommendId, order_id orderId, position,  state, max_configurable_sign_position signPosition

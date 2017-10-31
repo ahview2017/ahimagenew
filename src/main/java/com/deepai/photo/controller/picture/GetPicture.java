@@ -19,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.deepai.photo.bean.CpColumn;
 import com.deepai.photo.bean.CpPicGroup;
 import com.deepai.photo.bean.CpPicture;
 import com.deepai.photo.bean.GroupQuery;
@@ -32,6 +33,7 @@ import com.deepai.photo.common.util.image.ImgFileUtils;
 import com.deepai.photo.common.validation.CommonValidation;
 import com.deepai.photo.mapper.AboutPictureMapper;
 import com.deepai.photo.mapper.ClientPictureMapper;
+import com.deepai.photo.mapper.CpColumnMapper;
 import com.deepai.photo.mapper.CpWaterMarkPictureMapper;
 
 /**
@@ -51,6 +53,9 @@ public class GetPicture {
 	private AboutPictureMapper aboutPictureMapper;
 	@Autowired
 	private ClientPictureMapper clientPictureMapper;
+	@Autowired
+	private CpColumnMapper cpColumnMapper;
+	
 	/**
 	 * 缺省的读文件的缓冲区大小
 	 */
@@ -270,10 +275,22 @@ public class GetPicture {
 			PageHelper.startPage(request);
 			List<Map<String,Object>> list=clientPictureMapper.selectMoreGroup(param);
 			PageHelper.addPagesAndTotal(result, list);
+			
 			for (Map<String,Object> map:list) {
 				if(map.containsKey("FILENAME")){
 //					map.put("samllPath", CommonConstant.SMALLHTTPPath+ImgFileUtils.getSamllPathByName(map.get("FILENAME").toString(),request));
                     map.put("filePath", CommonConstant.SMALLHTTPPath+ImgFileUtils.getPathByNameAndSize(map.get("FILENAME").toString(),request,2));
+				}
+				int columnId = (Integer)map.get("CATEGORY_ID");
+				int groupId = (Integer)map.get("ID");
+				Map<Object,Object> queryMap = new HashMap<Object,Object>();
+				queryMap.put("columnId", columnId);
+				queryMap.put("groupId", groupId);
+				List<CpColumn> cpColumnList = cpColumnMapper.selectById(queryMap);
+				if(cpColumnList.size()>0){
+					map.put("columnName",cpColumnList.get(0).getName());
+				}else{
+					map.put("columnName",cpColumnMapper.selectBykeyNoPname(columnId).getName());
 				}
 			}
 			result.setCode(CommonConstant.SUCCESSCODE);

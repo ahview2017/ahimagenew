@@ -2,7 +2,7 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
     var vm = this;
     //初始化页面相关配置
     function initSetting() {
-    	vm.currpage = 0;
+    	vm.currpage = 1;
 	    vm.currchnl = 3064;
 	    vm.chnlArr = [3064,3077,3078,3079,3080,3081,3082,3083,3084];
 	    vm.pageHeight = Math.max(document.body.scrollHeight,document.body.offsetHeight);
@@ -419,7 +419,7 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
     function req_appendMoreGroups(signId,page){
         req.post('getPicture/getMoreGroups.do',{
             sginId: signId, //栏目id
-            //cateId: cateId,
+           // cateId: cateId,
             rows: 3, //每页条数
             page: page,  //当前页码
             //parameter: vm.tempSortsData.keyWord,
@@ -484,7 +484,8 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
 				 FILENAME: item.FILENAME|| '',
 				 picId: item.picId|| '',
 				 POSITION: item.POSITION|| '',
-				 TITLE: item.TITLE|| ''
+				 TITLE: item.TITLE|| '',
+				 columnName: item.columnName|| ''
 			 });
 		 });
     }

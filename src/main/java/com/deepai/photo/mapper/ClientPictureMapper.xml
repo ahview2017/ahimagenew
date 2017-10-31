@@ -248,7 +248,7 @@
  
   <!-- 查询客户端稿件-更多 -->
   <select id="selectMoreGroup" resultType="map">
-  select g.ID,g.TITLE,p.ID picId ,p.FILENAME,g.PICTURE_COUNT,g.SGIN_TIME,g.AUTHOR,g.AUTHOR_ID,c.POSITION from cp_pic_group g 
+  select g.ID,g.TITLE,p.ID picId ,p.FILENAME,g.PICTURE_COUNT,g.SGIN_TIME,g.AUTHOR,g.AUTHOR_ID,c.POSITION,c.CATEGORY_ID from cp_pic_group g 
 	LEFT JOIN cp_picture p on g.COVER_PICTURE_ID=p.ID
 	LEFT JOIN cp_pic_group_category c on c.GROUP_ID=g.ID 
 	where g.SOURCE_ID=0 and g.GROUP_STATUS=4 

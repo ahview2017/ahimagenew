@@ -1,12 +1,11 @@
 package com.deepai.photo.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
 import com.deepai.photo.bean.CpColumn;
-import com.deepai.photo.bean.CpPicGroup;
-import com.deepai.photo.bean.CpPicGroupColumn;
 import com.deepai.photo.bean.EnPicGroupColumn;
 
 public interface CpColumnMapper {
@@ -14,6 +13,8 @@ public interface CpColumnMapper {
 	List<CpColumn> selectByExample(CpColumn cpColumn);
 	
 	CpColumn selectBykey(Integer columnId);
+	
+	List<CpColumn> selectById(Map<Object,Object> map);
 	
 	CpColumn selectBykeyNoPname(Integer columnId);
 	

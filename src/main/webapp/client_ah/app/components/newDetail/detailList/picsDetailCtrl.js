@@ -39,9 +39,9 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
           }).success(function (resp) {
               if (resp.code == '211') {
             	  if(resp.data.status==1){
-            		  alert("您已经赞过了！");
+            		  //alert("您已经赞过了！");
             	  }else if(resp.data.status==0){
-            		  alert("太棒了，赞一个！"); 
+            		  //alert("太棒了，赞一个！"); 
             	  }
             	  getThumbsUpCount();
               }else if(resp.msg != '未登录'){
