@@ -229,13 +229,11 @@ clientModule.controller('newArticleCtrl', function ($scope, $cookies, req, md5, 
     var displayed = [];
     //上传图片请求
     function req_upMs(j){
-    	console.log("<<<<<<<<<<vm.upMenuscriptPicArr.length:"+vm.upMenuscriptPicArr.length);
     	if(vm.upMenuscriptPicArr.length>=5){
     		alert("最多只能上传5张图片");
     		return;
     	}
         var formdata = new FormData();
-        console.log(vm.upMsFiles[j]);
         formdata.append('picFiles', vm.upMsFiles[j]);
         formdata.append("langType",0);
       
@@ -551,8 +549,8 @@ clientModule.controller('newArticleCtrl', function ($scope, $cookies, req, md5, 
         }).success(function(resp){
             layer.close(vm.loadUpMs);
             if(resp && resp.code == '211'){
-               //console.log('success');
-                layer.msg('操作成功');
+                layer.msg('提交成功');
+                /*
                 if(type == '0'){
                     $state.go('role.manager.draftbox');
                 }
@@ -563,6 +561,8 @@ clientModule.controller('newArticleCtrl', function ($scope, $cookies, req, md5, 
                         $state.go('role.manager.myManuscript');
                     }
                 }
+                */
+                window.location.href = "/photo/index_m.html#/";
             }else if(resp && resp.msg != '未登录'){
                 layer.alert(resp.msg);
             }

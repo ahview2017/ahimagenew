@@ -909,14 +909,9 @@ public class PhoneMSGController {
         
         redisClientTemplate.set("MOBILE" + phoneNum + vilidate, vilidate + "");
         redisClientTemplate.expire("MOBILE" + phoneNum + vilidate, 60 );
-        
-        
-
-        log.info("<<<<<<手机号："+phoneNum);
         JSONObject resultObj = null;
         try {
             resultObj = phoneMSGUtils.sendMsgForNewArticle(phoneNum,vilidate,PhoneMSGUtils.TYPE_LOGIN_CODE);
-            log.info("<<<<<<resultObj："+resultObj);
         } catch (Exception e) {
             e.printStackTrace();
             log.error("获取验证码失败", e);

@@ -2532,12 +2532,7 @@ public class GroupPicController {
 		try {
 			 String username=sysConfigService.getDbSysConfig(SysConfigConstant.MOBILE_SEND_USERNAME, 1);
 			 CpUser cpUser = cpUserMapper.findUserByUserName(username);
-			 log.info("<<phoneNum2:"+phoneNum);
-			 log.info("<<key2:"+("MOBILE"+phoneNum+valicode));
 			 String redisCode = redisClientTemplate.get("MOBILE"+phoneNum+valicode);
-			 
-			 log.info("<<redisCode:"+redisCode);
-			 log.info("<<valicode:"+valicode);
              if(redisCode==null||!redisCode.equals(valicode)){
                  result.setCode(CommonConstant.EXCEPTIONCODE);
                  result.setMsg("验证码无效，请重新输入验证码");
@@ -2553,7 +2548,6 @@ public class GroupPicController {
     				CpRole role = list.get(0);
         			roleId = role.getId();
     			}
-    			
            	}
 			CommonValidation.checkParamBlank(group.getTitle(), "稿件标题");
 			CommonValidation.checkParamBlank(group.getKeywords(), "关键字");
@@ -2596,6 +2590,7 @@ public class GroupPicController {
 				result.setCode(CommonConstant.SUCCESSCODE);
 				result.setMsg(CommonConstant.SUCCESSSTRING);
 				result.setOther(String.format("%s稿件groupId=%s成功，包含图片picIds=%s",typeName,group.getId(), ids));
+				redisClientTemplate.expire("MOBILE" + phoneNum + valicode, 1);//提交成功使验证码失效
 			}else{
 				result.setCode(CommonConstant.FAILURECODE);
 				result.setMsg(CommonConstant.FILEERRORMSG);
