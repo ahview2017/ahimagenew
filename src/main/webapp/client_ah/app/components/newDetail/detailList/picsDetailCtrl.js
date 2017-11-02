@@ -11,6 +11,11 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
     vm.pictureId = $stateParams.pictureId;
 
 
+    //从路由取得签发栏目ID add by xiayunan@20171101
+    vm.sginId = $stateParams.sginId;
+   
+    
+    
     //初始化页面相关配置
     function initSetting() {
         //选中图片id
@@ -72,7 +77,8 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
         req.post('getPicture/getClientGroupPics.do', {
             groupId: vm.groupId,
 			picType: 1,
-			size: 2
+			size: 2,
+			signId:vm.sginId
         }).success(function (resp) {
             if (resp.code == '211') {
                 vm.clientPictureDetail = resp.data;

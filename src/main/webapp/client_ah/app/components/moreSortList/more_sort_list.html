@@ -31,7 +31,7 @@
                     <li dir-paginate="item in moreSortList.getMoreGroupsList | itemsPerPage: moreSortList.itemsPerPage"
                      total-items="moreSortList.moreSortList_total"
                      current-page="moreSortList.pagination.current">
-                        <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
+                        <a ui-sref="root.newDetailList({groupId: item.ID,sginId:item.CATEGORY_ID})" target="_blank">
 							<img ng-src="{{item.filePath}}"></a><!--width:285px;max-height:179px-->
                         <p><a title="{{item.TITLE}}（{{item.PICTURE_COUNT}}张）" href="">{{item.TITLE}}（{{item.PICTURE_COUNT}}张）</a></p>
                     </li>

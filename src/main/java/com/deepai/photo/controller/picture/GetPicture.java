@@ -23,9 +23,11 @@ import com.deepai.photo.bean.CpColumn;
 import com.deepai.photo.bean.CpPicGroup;
 import com.deepai.photo.bean.CpPicture;
 import com.deepai.photo.bean.GroupQuery;
+import com.deepai.photo.common.StringUtil;
 import com.deepai.photo.common.annotation.SkipAuthCheck;
 import com.deepai.photo.common.annotation.SkipLoginCheck;
 import com.deepai.photo.common.constant.CommonConstant;
+import com.deepai.photo.common.constant.SysConfigConstant;
 import com.deepai.photo.common.exception.InvalidHttpArgumentException;
 import com.deepai.photo.common.pagehelper.PageHelper;
 import com.deepai.photo.common.pojo.ResponseMessage;
@@ -35,6 +37,7 @@ import com.deepai.photo.mapper.AboutPictureMapper;
 import com.deepai.photo.mapper.ClientPictureMapper;
 import com.deepai.photo.mapper.CpColumnMapper;
 import com.deepai.photo.mapper.CpWaterMarkPictureMapper;
+import com.deepai.photo.service.admin.SysConfigService;
 
 /**
  * @Title 获取图片大小类型并显示；下载图片
@@ -55,7 +58,8 @@ public class GetPicture {
 	private ClientPictureMapper clientPictureMapper;
 	@Autowired
 	private CpColumnMapper cpColumnMapper;
-	
+	@Autowired
+	private SysConfigService sysConfigService;
 	/**
 	 * 缺省的读文件的缓冲区大小
 	 */
@@ -363,30 +367,53 @@ public class GetPicture {
 	 * 获取client稿件详情
 	 * @param request
 	 * @param groupId 稿件id
+	 * @param picType 0:非水印，最小图  1：水印大图 2：非水印大图
 	 * @return
 	 */
 	@ResponseBody
 	@RequestMapping("/getClientGroupPics")
 	@SkipLoginCheck
-	public Object getClientGroupPics(HttpServletRequest request,Integer groupId,Integer picType,Integer size){
+	public Object getClientGroupPics(HttpServletRequest request,Integer groupId,Integer picType,Integer size,Integer signId){
 		ResponseMessage result=new ResponseMessage();
 		try {
 			CommonValidation.checkParamBlank(groupId+"", "稿件id");
-			
+			CommonValidation.checkParamBlank(groupId+"", "稿件id");
 //			//设置默认值 默认非水印，最小图
             picType = picType==null?0:picType;
             size = size==null?1:size;
-			
+            //判断当前签发栏目Id是否为禁止打水印栏目
+            String forbitSignIdStr = sysConfigService.getDbSysConfig(SysConfigConstant.FORBIT_WATERMARK_COLUMN, 1);
+			if(StringUtil.notBlank(forbitSignIdStr)){
+				if(forbitSignIdStr.indexOf(",")!=-1){
+					String[] forbitColumIdsStr = forbitSignIdStr.split(",");
+					for(int i=0;i<forbitColumIdsStr.length;i++){
+						if(Integer.valueOf(forbitColumIdsStr[i]).equals(signId)){
+							picType = 2;
+							size = 4;
+							break;
+						}
+					}
+				}else{
+					if(Integer.valueOf(forbitSignIdStr).equals(signId)){
+						picType = 2;
+						size = 4;//取中图原图
+					}
+				}
+			}
+            
+            
 			CpPicGroup group= clientPictureMapper.selectClientGroupPics(groupId);
 			if(group==null){
 				throw new InvalidHttpArgumentException(CommonConstant.NULLCODE, String.format("不存在稿件Id=%s的稿子", groupId));
 			}
 			int videoid = group.getVideoId();
-			logger.info("<<<<<<<<<<<videoid:"+videoid);
 			if(group.getPics()!=null){
 				for (CpPicture pic:group.getPics()) {
 					if(pic.getFilename()!=null){
 						//add by xiayunan20170917
+						logger.info("<<<<<<<<<<<size:"+size);
+						logger.info("<<<<<<<<<<<type:"+picType);
+						logger.info("<<<<<<<<<<<path:"+ImgFileUtils.getPathByNameAndSize(pic.getFilename(),request,size));
 						if(picType == 1){
 							pic.setFilePath(CommonConstant.SMALLHTTPPath+ImgFileUtils.getWMPathByNameAndSize(pic.getFilename(),request,size));
 						}else{

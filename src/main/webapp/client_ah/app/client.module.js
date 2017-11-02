@@ -87,7 +87,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
         })
         //新详情页列表
         .state('root.newDetailList', {
-            url:'/newDetail/list/:groupId',
+            url:'/newDetail/list/:groupId?/:sginId?',
             views:{
                 'main@':{
                     templateUrl: 'client_ah/app/components/newDetail/detailList/pics_detail.html',

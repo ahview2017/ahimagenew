@@ -115,7 +115,7 @@ public class OldPicDataExchangeController {
                         traverseFolder(file2.getAbsolutePath(),result);
                     } else {
                     	log.info("迁移文件:" + file2.getName());
-                    	String author = "安徽日报";//作者
+                    	String author = "视觉新闻中心";//作者
     					String dateStr = "";//日期
     					String title = "";//标题
     					String keyWordsStr = "";//关键词
@@ -184,11 +184,11 @@ public class OldPicDataExchangeController {
     						CpUser firstEditUser = cpUserMapper.selectByPrimaryKey(FIRST_EDIT_ID);
     						CpUser secondEditUser = cpUserMapper.selectByPrimaryKey(SECOND_EDIT_ID);
     						CpUser thirdEditUser = cpUserMapper.selectByPrimaryKey(THIRD_EDIT_ID);
-    						String res=flowService.checkAndEditGroup(picData, group, firstEditUser ,DateUtil.getDate(new Date()), siteid, 1,cateIdsStr,type);
-    						if(res!=null){
-    							result.setCode(CommonConstant.SUCCESSCODE212);
-    							result.setMsg("存在敏感词："+res);
-    						}else{
+//    						String res=flowService.checkAndEditGroup(picData, group, firstEditUser ,DateUtil.getDate(new Date()), siteid, 1,cateIdsStr,type);
+//    						if(res!=null){
+//    							result.setCode(CommonConstant.SUCCESSCODE212);
+//    							result.setMsg("存在敏感词："+res);
+//    						}else{
     							flowService.examByProofread(cpPicGroupMapper.selectByPrimaryKey(group.getId()),firstEditUser , 1,null);//一审
     							flowService.examByProofread(cpPicGroupMapper.selectByPrimaryKey(group.getId()),secondEditUser , 2,null);//二审
     							
@@ -197,12 +197,11 @@ public class OldPicDataExchangeController {
     							cpPicGroupCategory.setPosition(0);
     							cpPicGroupCategory.setCategoryId(DATA_EXCHANGE_CHNL_ID);
     							
-    							CpPicGroupCategory cpPicGroupCategory1 = new CpPicGroupCategory();
-    							cpPicGroupCategory1.setType(0);
-    							cpPicGroupCategory1.setCategoryId(HISTORY_LAYOUT_COLUMN_ID);
+//    							CpPicGroupCategory cpPicGroupCategory1 = new CpPicGroupCategory();
+//    							cpPicGroupCategory1.setType(0);
+//    							cpPicGroupCategory1.setCategoryId(HISTORY_LAYOUT_COLUMN_ID);
     							List<CpPicGroupCategory> list = new ArrayList<CpPicGroupCategory>();
     							list.add(cpPicGroupCategory);
-    							list.add(cpPicGroupCategory1);
     							String cateData = gson.toJson(list);
     							System.out.println("cateData:"+cateData);
     							List<Map<String,Object>> cates = gson.fromJson(cateData, new TypeToken<List<Map<String,Object>>>(){}.getType());
@@ -215,7 +214,7 @@ public class OldPicDataExchangeController {
     							result.setMsg(CommonConstant.SUCCESSSTRING);
     							result.setOther(String.format("三审审核提交稿件groupid=【%s】",group.getId()));
     							log.info("第"+(++SUCCESS_PIC_NUM)+"篇稿件迁移成功,稿件标题："+title+"！");
-    						}
+//    						}
     					} catch (Exception e) {
     						System.out.println("==================出错啦=================");
     						++FAILED_PIC_NUM;

@@ -121,4 +121,9 @@ public class SysConfigConstant {
    /**手机版投稿专用通讯员用户名*/
    public static final String MOBILE_SEND_USERNAME = "MOBILE_SEND_USERNAME";
    
+   /**禁止打水印栏目ID*/
+   public static final String FORBIT_WATERMARK_COLUMN = "FORBIT_WATERMARK_COLUMN";
+   
+   
+   
 }
