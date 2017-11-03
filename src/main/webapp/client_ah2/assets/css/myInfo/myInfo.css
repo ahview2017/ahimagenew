@@ -1,0 +1,74 @@
+.myInfo{
+    border: 1px solid #CCC;
+}
+.myInfo .myInfo-menu{
+    width: 20%;
+    border-right: 1px solid #ccc;
+    padding: 10px 0 200px;
+    text-align: center;
+}
+.myInfo .myInfo-detail{
+    width: 80%;
+}
+.myInfo-menu .myInfo-menu-item{
+    padding: 7px 0;
+}
+.myInfo-menu .myInfo-menu-item a{
+    color: #000;
+    text-decoration: underline;
+    cursor: pointer;
+}
+.myInfo-detail-item{
+    padding: 10px;
+}
+.myInfo-detail-item table{
+    width: 100%;
+    border: 1px solid #CCC;
+}
+.myInfo-detail-item table th{
+    text-align: center;
+}
+.myInfo-detail-item table th,.myInfo-detail-item table td{
+    border: 1px solid #CCC;
+    padding: 5px 10px 5px 10px;
+}
+.myInfo-detail-data-btn{
+    border: 1px solid #7EABCD;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    background: #DEE8F4;
+    padding: 5px 15px;
+    margin-left: 15%;
+}
+.myInfo-detail-download input[type='text']{
+    width: 10%;
+}
+.myInfo-detail-download-retrieval{
+    /*background: #F6FAFE;*/
+    padding: 10px;
+}
+.w20p{
+    width: 20%;
+}
+.w30p{
+    width: 30%;
+}
+.bgcfff{
+    background: #fff;
+}
+.cred{
+    color: red;
+}
+.tar{
+    text-align: right;
+}
+.pr10{
+    padding-right: 10px;
+}
+.myInfo-detail-item table td.br0{
+    border-right: 0;
+}
+.myInfo-detail-item table td.bl0{
+    border-left: 0;
+}

@@ -185,6 +185,7 @@ public class OldPicDataExchangeController {
     						CpUser secondEditUser = cpUserMapper.selectByPrimaryKey(SECOND_EDIT_ID);
     						CpUser thirdEditUser = cpUserMapper.selectByPrimaryKey(THIRD_EDIT_ID);
 //    						String res=flowService.checkAndEditGroup(picData, group, firstEditUser ,DateUtil.getDate(new Date()), siteid, 1,cateIdsStr,type);
+    						flowService.addCategoryForGroup(group.getId(),cateIdsStr);
 //    						if(res!=null){
 //    							result.setCode(CommonConstant.SUCCESSCODE212);
 //    							result.setMsg("存在敏感词："+res);

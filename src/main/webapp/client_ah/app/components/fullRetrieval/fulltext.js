@@ -13,7 +13,7 @@ clientModule.controller('fullTextCtrl',function($scope,$cookies,req,md5,$state,$
     vm.req_fullText = function (page) {
         var fullParams = {
             page: page,
-            rows: 30,
+            rows: 20,
             strWhere: vm.searchName
         }
         if(vm.willSearchObj && vm.willSearchObj.people){

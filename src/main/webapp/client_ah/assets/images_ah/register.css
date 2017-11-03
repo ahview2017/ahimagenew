@@ -4,6 +4,7 @@
 	height:898px;
 	border-radius: 6px;
 	margin:0 auto;
+	overflow-y:scroll;
 	/*background:#ccc;*/
 }
 .register_title{

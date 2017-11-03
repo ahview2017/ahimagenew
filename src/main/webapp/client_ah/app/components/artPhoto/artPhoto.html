@@ -1,0 +1,57 @@
+
+    <!-- 主体部分 -->
+    <div class="newsPic_content">
+
+      
+		<!--安徽画坛-->
+        <div class="newsPic_content_bottom" ng-init="artPhoto.getClientGroups(3101,3,0,2)">
+            <div class="newsPic_politics_title">
+                <div class="newsPic_politics_title_box">
+                    安徽画坛
+                    <span><a ui-sref="root.moreSortList({sginId: 3101})">更多</a></span>
+                </div>
+            </div>
+            <div class="newsPic_business" ng-repeat="item in artPhoto.anhuiPaint track by $index" style="text-align:center">
+                <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
+					<img ng-src="{{item.filePath}}" alt="" style="max-height:233px;max-width:370px">
+				</a>
+                <p class="newsPic_business_p1"><a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">{{item.TITLE}}</a></p>
+            </div>
+        </div>
+        <div class="clear"></div>
+		<!--网上展厅-->
+        <div class="newsPic_content_bottom" ng-init="artPhoto.getClientGroups(3102,3,0,2)">
+            <div class="newsPic_politics_title">
+                <div class="newsPic_politics_title_box">
+                    网上展厅
+                    <span><a ui-sref="root.moreSortList({sginId: 3102})">更多</a></span>
+                </div>
+            </div>
+            <div class="newsPic_business" ng-repeat="item in artPhoto.onlineExhibition track by $index" style="text-align:center">
+                <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
+					<img ng-src="{{item.filePath}}" alt="" style="max-height:233px;max-width:370px">
+				</a>
+                <p class="newsPic_business_p1"><a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">{{item.TITLE}}</a></p>
+            </div>
+            
+        </div>
+        <div class="clear"></div>
+		<!--漫画天地-->
+        <div class="newsPic_content_bottom" ng-init="artPhoto.getClientGroups(3103,3,0,2)">
+            <div class="newsPic_politics_title">
+                <div class="newsPic_politics_title_box">
+                    漫画天地
+                    <span><a ui-sref="root.moreSortList({sginId: 3103})">更多</a></span>
+                </div>
+            </div>
+            <div class="newsPic_business" ng-repeat="item in artPhoto.comicWorld track by $index" style="text-align:center">
+                <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
+					<img ng-src="{{item.filePath}}" alt="" style="max-height:233px;max-width:370px">
+				</a>
+                <p class="newsPic_business_p1"><a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">{{item.TITLE}}</a></p>
+            </div>
+            
+        </div>
+        <div class="clear"></div>
+
+    </div>

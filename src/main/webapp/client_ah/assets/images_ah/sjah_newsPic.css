@@ -1,0 +1,160 @@
+@charset utf-8;
+.newsPic_content{
+	width:1200px;
+	height:auto;
+	margin:20px auto 35px auto;
+}
+
+.news_slideBox{
+	width:1200px;
+	position:relative;
+	height:419px;
+}
+.news_bd{
+	width:1200px;
+	height:419px;
+}
+.news_bd ul{
+	overflow:hidden;
+	width:100%;
+	height:100%;
+}
+.news_bd li{
+	width:1200px;
+	height:419px;
+}
+.news_slideBox_right{
+	width:362px;
+	height:100%;
+	float:right;
+	background: #f0f0f0;
+	position:relative;
+}
+.news_slideBox_right p{
+	width:75%;
+	margin:80px auto 0 auto;
+	font-size:22px;
+}
+.newsPic_ico{
+	background: url("sjah_newsPic_gxl_05.png") no-repeat center center;
+	width:70px;
+	height:70px;
+	position:absolute;
+	top:0;
+	right:0;
+}
+.news_btn{
+	width:150px;
+	height:12px;
+	position:absolute;
+	bottom:26px;
+	right:170px;
+}
+.news_btn li{
+	width:12px;
+	height:12px;
+	float:left;
+	border-radius: 50%;
+	background: #c5c5c5;
+	margin-left:15px;
+	cursor:pointer;
+}
+.news_btn li.on{
+	background: #ef2127;
+}
+.newsPic_politics{
+	width:100%;
+	height:468px;
+	margin:35px 0 10px 0;
+}
+.newsPic_politics_title{
+	width:100%;
+	border-bottom:1px solid #e6e6e6;
+	height:36px;
+	margin-bottom:20px;
+}
+.newsPic_politics_title_box{
+	height:25px;
+	width: 100%;
+	line-height: 25px;
+	font-size: 22px;
+	border-left:4px solid #fb6053;
+	text-indent:1em;
+	
+}
+.newsPic_politics_title_box span{
+	float:right;
+	display:inline-block;
+	height:25px;
+	line-height: 25px;
+	font-size: 14px;
+	margin-right:5px;
+	padding-right:25px;
+	text-align: center;
+	background: url("addmore_btn_03.png") no-repeat right center;
+}
+.newsPic_politics_title_box span a{
+	color:#747474;
+}
+.newsPic_politics_title_box span a:hover{
+	color:#ee1c22;
+}
+.newsPic_politics_cntent{
+	height:380px;width:100%;
+}
+.newsPic_politics_cntent_lt{
+	float:left;
+	width:471px;
+	height:100%;
+}
+.newsPic_politics_cntent_lt p,.newsPic_politics_cntent_rt li p{
+	height:45px;
+	line-height: 45px;
+	width:100%;
+	text-align:center;
+	font-size:15px;
+}
+.newsPic_politics_cntent_lt p a,.newsPic_politics_cntent_rt li p a{
+	font-size:15px;
+}
+.newsPic_politics_cntent_rt{
+	width:714px;
+	float:right;
+	height:100%;
+}
+.newsPic_politics_cntent_rt li{
+	float:left;
+	height:191px;
+	width:228px;
+}
+.newsPic_politics_cntent_rt li:nth-child(2),.newsPic_politics_cntent_rt li:nth-child(5){
+	margin:0 15px;
+}
+.newsPic_content_bottom{
+	width:100%;
+	margin-top:20px;
+}
+
+.newsPic_content_bottom_center_box{
+	width:370px;
+	height:100%;
+	margin:0 auto;
+}
+.newsPic_content_bottom div.newsPic_business:nth-child(3){
+	margin:0 35px;
+}
+
+.newsPic_business{
+	border:1px solid #e6e6e6;
+	float:left;
+	width:372px;
+    height:285px;
+}
+.newsPic_business_p1{
+	height:50px;
+	line-height: 50px;
+	font-size: 16px;
+	width:330px;
+	margin:0 auto;
+	text-align: center;
+}

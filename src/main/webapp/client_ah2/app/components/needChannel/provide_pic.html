@@ -1,0 +1,28 @@
+<div class="release_need">
+    <div class="releaseNeed-cont">
+        <div class="oH aRow">
+            <div class="fll w10p fwb">&emsp;&emsp;姓名：</div>
+            <div class="fll w40p">
+                <input type="text" ng-model="providePic.tempProviderData.name"/>
+            </div>
+        </div>
+        <div class="oH aRow">
+            <div class="fll w10p fwb">联系方式：</div>
+            <div class="fll w40p">
+                <input type="text" ng-model="providePic.tempProviderData.phone"/>
+            </div>
+            <div class="fll w50p">
+                （请注明可以找到您的联系方式）
+            </div>
+        </div>
+        <div class="oH aRow">
+            <div class="fll w10p mt15 fwb">图片说明：</div>
+            <div class="fll w40p">
+                <textarea ng-model="providePic.tempProviderData.picDesc"></textarea>
+            </div>
+        </div>
+        <div class="releaseNeed-btn">
+            <button ng-click="providePic.submitProviderInfo()">提交</button>
+        </div>
+    </div>
+</div>

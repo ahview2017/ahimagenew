@@ -46,7 +46,7 @@
                 <div class="news_title">
                    <div class="line"></div>
                    <div class="news_title_pic"></div>
-                   <div class="refresh right"><span><a target="_blank" ui-sref="root.moreSortList({sginId: 3064})">更多</a></span></div>
+                   <div class="refresh right"><span><a target="_blank" ui-sref="root.newsPhoto">更多</a></span></div>
                 </div>
                 <div class="clear"></div>
                 <div class="news_content" ng-init="index.getClientGroups(3064,3,0,2)">
@@ -80,7 +80,7 @@
                     <div class="hfwy">
                         <div class="hfwy_title_box">
                             <div class="hfwy_title">
-                                <a ui-sref="root.moreSortList({sginId:3078})" target="_blank">皖风徽韵</a>
+                                <a ui-sref="root.anhuiPhoto" target="_blank">皖风徽韵</a>
                                 <div class="hfwy_title_right right" ng-init="index.getselChildColumn(3078)">
                                     <span ng-repeat="item in index.style">
 										<a ui-sref="root.moreSortList({sginId:item.id})">{{item.name}}</a>
@@ -112,7 +112,7 @@
                     <div class="yyjh">
                         <div class="yyjh_title_box">
                             <div class="yyjh_title">
-                                <a ui-sref="root.moreSortList({sginId:3082})" target="_blank">艺苑菁华</a>
+                                <a ui-sref="root.artPhoto" target="_blank">艺苑菁华</a>
                                 <div class="yyjh_title_right right" ng-init="index.getselChildColumn(3082)">
                                     <span ng-repeat="item in index.essence">
 										<a ui-sref="root.moreSortList({sginId:item.id})">{{item.name}}</a>
@@ -134,7 +134,7 @@
                     <div class="gstk">
                         <div class="yyjh_title_box">
                             <div class="yyjh_title">
-                                <a ui-sref="root.moreSortList({sginId:3080})" target="_blank">各市图库</a>
+                                <a href="javascript:void(0);">各市图库</a>
                             </div>     
                         </div>
                         <div class="gstk_nav" ng-init="index.getselChildColumn(3080)">
@@ -172,7 +172,7 @@
                     <div class="yyjh_sp" ng-init="index.getClientGroups(3081,1,0,2)">
                         <div class="zt_title_box">
                             <div class="zt_title">
-                                <a ui-sref="root.moreSortList({sginId:3081})" target="_blank">视频</a>
+                                <a ui-sref="root.videoVR" target="_blank">视频</a>
                             </div>     
                         </div>
                         <div class="sp_content" ng-repeat="item in index.anhuiVideo track by $index">
@@ -188,7 +188,7 @@
                     <div class="hfwy_zt">
                         <div class="zt_title_box">
                             <div class="zt_title">
-                                <a ui-sref="root.moreSortList({sginId:3077})" target="_blank">专题</a>
+                                <a ui-sref="root.specPhoto" target="_blank">专题</a>
                             </div>     
                         </div>
                         <div class="zt_content_box" ng-init="index.getClientGroups(3077,7,0,2)">
@@ -235,7 +235,7 @@
                 <div class="history_title">
                    <div class="line"></div>
                    <div class="history_title_pic"></div>
-                   <div class="refresh right"><span><a ui-sref="root.moreSortList({sginId:3079})" target="_blank">更多</a></span></div>
+                   <div class="refresh right"><span><a ui-sref="root.historyPhoto" target="_blank">更多</a></span></div>
                 </div>
                 <div class="clear"></div>
                 <div class="history_content" ng-init="index.getClientGroups(3079,3,0,2)">

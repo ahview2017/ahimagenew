@@ -1,0 +1,106 @@
+.current-doctor-bd-con{
+    background:#e8e0d0;
+}
+.current-doctor-hd-bg{
+    width: 100%;
+    background:url('../../img/current-doctor-bg.jpg') no-repeat center;
+    height:509px;
+}
+.current-doctor-main{
+    width: 980px;
+    margin:0 auto;
+}
+.hd-spec-center-box{
+    width: 85rem;
+    margin:0 auto;
+}
+.hd-spec-pic-box{
+    width: 80rem;
+    margin:0 auto;
+}
+.doctor-hd-logo-left{
+    width: 25%;
+    display:table-cell;
+    vertical-align: middle;
+}
+.doctor-hd-logo-right{
+    width: 75%;
+    display:table-cell;
+    vertical-align: middle;
+}
+.current-doctor-footer{ 
+    text-align: center;
+    background:#e8e0d0;
+    margin:0 auto;
+}
+.current-doctor-footer-con{
+    width: 83rem;
+    margin: 0 auto;
+    background:#e8e0d0;
+}
+.color-black{
+    color:#000;
+}
+.color-white{
+    color:#FFF;
+}
+.current-doctor-footer-con span,.current-doctor-footer-con a{
+    color:#000;
+}
+.current-doctor-footer-con a:hover{
+    color:#000;
+}
+.current-doctor-main-banner{
+    width: 100%;
+    background:url('../../img/current-doctor-main-bg_01.png') no-repeat center;
+    height:691px;
+}
+.current-doctor-main-detail{
+    width: 100%;
+    background:url('../../img/current-doctor-main-bg_02.png') no-repeat center;
+    height:413px;
+    padding: 132px 46px 0 46px;
+    border-spacing: 6px 6px;
+}
+.doctor-spec-subject-list{
+    display: table-row;
+}
+.doctor-spec-subject-li{
+    background:#BEB2A6;
+    padding: 13px 10px;
+    cursor: pointer;
+    display: table-cell;
+    text-align: center;
+}
+.doctor-spec-subject-li:hover{
+    background:url('../../img/current-doctor-hover-bg.png') no-repeat;
+    background-size:100% 100%;
+    color: #ffd130;
+    font-weight: bold;
+}
+.current-doctor-color01{
+    background:#BEB2A6;
+}
+.current-doctor-color02{
+    background:#AB7F66;
+}
+.current-doctor-color03{
+    background:#BEB2A6;
+}
+.current-doctor-color04{
+    background:#CBAC97;
+}
+.current-doctor-color05{
+    background:#BEB2A6;
+}
+.current-doctor-color06{
+    background:#BEB2A6;
+}
+.current-doctor-color07{
+    background:#D5C297;
+}
+
+
+
+
+

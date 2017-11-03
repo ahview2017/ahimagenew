@@ -72,7 +72,7 @@ public class OldPicDataExchangeForProductController {
 	private static final int AUTHOR_ID = 409;
 	private static final int DATA_EXCHANGE_CHNL_ID = 3063;
 	private static final String FILE_SEP = File.separator;
-	private static final int HISTORY_LAYOUT_COLUMN_ID = 100182646;//老照片分类ID   农业：100182646  政治：1761	 工业：
+	private static final int HISTORY_LAYOUT_COLUMN_ID = 100182646;//老照片分类ID   农业：100182646    政治：1761	 工业：
 	private static int SUCCESS_PIC_NUM = 0;
 	private static int FAILED_PIC_NUM = 0;
 	
@@ -127,7 +127,7 @@ public class OldPicDataExchangeForProductController {
 //    						layoutIndex = fileName.substring(8,10);
 //    						System.out.println("<<<<<<<<<<<<<<<<<<layoutIndex:"+layoutIndex);
 //    						dateStr = fileName.substring(0,8);
-    						dateStr = "2017-09-29";
+    						dateStr = "2017-11-03";
     						title = fileName;
     						keyWordsStr = fileName;
     						content = title;
@@ -184,6 +184,7 @@ public class OldPicDataExchangeForProductController {
     						CpUser firstEditUser = cpUserMapper.selectByPrimaryKey(FIRST_EDIT_ID);
     						CpUser secondEditUser = cpUserMapper.selectByPrimaryKey(SECOND_EDIT_ID);
     						CpUser thirdEditUser = cpUserMapper.selectByPrimaryKey(THIRD_EDIT_ID);
+    						flowService.addCategoryForGroup(group.getId(),cateIdsStr);
 //    						String res=flowService.checkAndEditGroup(picData, group, firstEditUser ,DateUtil.getDate(new Date()), siteid, 1,cateIdsStr,type);
 //    						if(res!=null){
 //    							result.setCode(CommonConstant.SUCCESSCODE212);

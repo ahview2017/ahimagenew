@@ -81,7 +81,7 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 			top : _top,
 			left : _left
 		});
-		var _top1 = ($(window).height() - $("#register_div").height()) / 2;
+		var _top1 = 0;
 		var _left1 = ($(window).width() - $("#register_div").width()) / 2;
 		$("#register_div").css({
 			top : _top1,
@@ -114,7 +114,6 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 			req_login();
 		});
 	}
-	
 	// 验证用户信息
 	function valid_info() {
 		var valid = true;

@@ -105,6 +105,75 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
                 }
             }
         })
+		
+		
+		//视觉安徽新闻图片
+        .state('root.newsPhoto', {
+            url:'/newsPhoto',
+            views:{
+                'main@':{
+                    templateUrl: 'client_ah/app/components/newsPhoto/newsPhoto.html',
+                    controller: 'newsPhotoCtrl as newsPhoto'
+                }
+            }
+        })
+		
+		//视觉安徽专题图片
+        .state('root.specPhoto', {
+            url:'/specPhoto',
+            views:{
+                'main@':{
+                    templateUrl: 'client_ah/app/components/specPhoto/specPhoto.html',
+                    controller: 'specPhotoCtrl as specPhoto'
+                }
+            }
+        })
+		
+		//视觉安徽大美安徽
+        .state('root.anhuiPhoto', {
+            url:'/anhuiPhoto',
+            views:{
+                'main@':{
+                    templateUrl: 'client_ah/app/components/anhuiPhoto/anhuiPhoto.html',
+                    controller: 'anhuiPhotoCtrl as anhuiPhoto'
+                }
+            }
+        })
+		
+		//视觉安徽历史资料
+        .state('root.historyPhoto', {
+            url:'/historyPhoto',
+            views:{
+                'main@':{
+                    templateUrl: 'client_ah/app/components/historyPhoto/historyPhoto.html',
+                    controller: 'historyPhotoCtrl as historyPhoto'
+                }
+            }
+        })
+		
+		//视觉安徽视频VR
+        .state('root.videoVR', {
+            url:'/videoVR',
+            views:{
+                'main@':{
+                    templateUrl: 'client_ah/app/components/videoVR/videoVR.html',
+                    controller: 'videoVRCtrl as videoVR'
+                }
+            }
+        })
+		
+		//视觉安徽艺苑菁华
+        .state('root.artPhoto', {
+            url:'/artPhoto',
+            views:{
+                'main@':{
+                    templateUrl: 'client_ah/app/components/artPhoto/artPhoto.html',
+                    controller: 'artPhotoCtrl as artPhoto'
+                }
+            }
+        })
+		
+		
         //专题图片页
         .state('root.specPic', {
             url:'/specPic',

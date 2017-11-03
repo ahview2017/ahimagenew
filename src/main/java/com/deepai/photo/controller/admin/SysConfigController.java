@@ -107,7 +107,7 @@ public class SysConfigController {
 				return res;
 			}
 			CpSystemConfigExample example = new CpSystemConfigExample();
-			example.createCriteria().andConfigNameEqualTo(config.getConfigCode()).andSiteIdEqualTo(siteId).andDeleteFlagEqualTo(CommonConstant.BYTE0);
+			example.createCriteria().andConfigCodeEqualTo(config.getConfigCode()).andSiteIdEqualTo(siteId).andDeleteFlagEqualTo(CommonConstant.BYTE0);
 			List<CpSystemConfig> list=configMapper.selectByExample(example);
 			if(list!=null&&list.size()>0){
 				res.setCode(CommonConstant.FAILURECODE);

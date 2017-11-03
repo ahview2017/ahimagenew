@@ -1,0 +1,68 @@
+
+    <!-- 主体部分 -->
+    <div class="newsPic_content">
+
+        <!-- 热点聚焦 -->
+        <div class="newsPic_politics">
+            <div class="newsPic_politics_title">
+                <div class="newsPic_politics_title_box">
+                    热点聚焦
+                    <span><a ui-sref="root.moreSortList({sginId: 3086})">更多</a></span>
+                </div>
+            </div>
+            <div class="newsPic_politics_cntent" ng-init="specPhoto.getClientGroups(3086,7,0,2)">
+                <div class="newsPic_politics_cntent_lt" ng-repeat="item in specPhoto.spotlight track by $index" ng-if="$first">
+                    <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
+						<img ng-src="{{item.filePath}}" alt="" width="471" height="337">
+					</a>
+                    <p class="split_string"><a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">{{item.TITLE}}</a></p>
+                </div>
+                <div class="newsPic_politics_cntent_rt">
+                    <ul>
+                        <li ng-repeat="item in specPhoto.spotlight track by $index" ng-if="!$first">
+                            <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
+								<img ng-src="{{item.filePath}}" alt="" width="228" height="146">
+							</a>
+                            <p class="split_string"><a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">{{item.TITLE}}</a></p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+		
+		<!--江淮影像-->
+        <div class="newsPic_content_bottom" ng-init="specPhoto.getClientGroups(3087,3,0,2)">
+            <div class="newsPic_politics_title">
+                <div class="newsPic_politics_title_box">
+                    江淮影像
+                    <span><a ui-sref="root.moreSortList({sginId: 3087})">更多</a></span>
+                </div>
+            </div>
+            <div class="newsPic_business" ng-repeat="item in specPhoto.jianghuaiImage track by $index">
+                <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
+					<img ng-src="{{item.filePath}}" alt="" width="370" height="233">
+				</a>
+                <p class="newsPic_business_p1"><a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">{{item.TITLE}}</a></p>
+            </div>
+        </div>
+        <div class="clear"></div>
+		<!--多彩生活-->
+        <div class="newsPic_content_bottom" ng-init="specPhoto.getClientGroups(3088,3,0,2)">
+            <div class="newsPic_politics_title">
+                <div class="newsPic_politics_title_box">
+                    多彩生活
+                    <span><a ui-sref="root.moreSortList({sginId: 3088})">更多</a></span>
+                </div>
+            </div>
+            <div class="newsPic_business" ng-repeat="item in specPhoto.colorfulLife track by $index">
+                <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
+					<img ng-src="{{item.filePath}}" alt="" width="370" height="233">
+				</a>
+                <p class="newsPic_business_p1"><a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">{{item.TITLE}}</a></p>
+            </div>
+            
+        </div>
+        <div class="clear"></div>
+
+    </div>

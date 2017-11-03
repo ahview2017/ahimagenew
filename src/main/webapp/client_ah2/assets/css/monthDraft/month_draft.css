@@ -1,0 +1,74 @@
+.month-draft-pic{
+    width: 100%;
+}
+.month-draft-item-titi{
+    background:url('../../img/month-draft-item.png');
+    height:50px;
+    line-height: 50px;
+    padding-left: 25px;
+    color: #C00;
+    font-size: 16px;
+    font-style: italic;
+}
+.month-other-draft-item-titi{
+    background:url('../../img/month-draft-item.png');
+    height:50px;
+    line-height: 50px;
+    padding-left: 25px;
+    color: #C00;
+    font-size: 16px;
+    font-style: italic;
+}
+.mdraft-pic-left{
+    width: 30%;
+    /*width: 336px;*/
+    height: 380px;
+    position:relative;
+    float:left;
+}
+.mdraft-pic-middle{
+    width: 40%;
+    float:left;
+}
+.mdraft-pic-right{
+    width: 30%;
+    /*width: 336px;*/
+    height: 380px;
+    position:relative;
+    float:right;
+}
+.month-draft-item-img{
+    width: 100%;
+    height: 380px;
+}
+.mdraft-item-txt{
+    height:40px;
+    line-height: 40px;
+    background:rgba(0,0,0,0.6);
+    color:#FFF;
+    text-align: center;
+    font-size: 16px;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    bottom: 0;
+}
+.mdraft-spec-item{
+    height: 180px;
+    position: relative;
+    width: 80%;
+    margin: 0 auto;
+}
+.month-draft-spec-img{
+    width: 100%;
+    height: 180px;
+}
+.spec-draftpic-mtop{
+    margin-top: 17px;
+}
+.month-draft-li{
+    cursor:pointer;
+}
+.month-draft-li:hover{
+    border:1px solid #000;
+}

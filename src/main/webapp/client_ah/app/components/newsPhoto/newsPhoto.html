@@ -1,0 +1,123 @@
+
+    <!-- 主体部分 -->
+    <div class="newsPic_content">
+
+     <!-- 头条轮播 -->
+        <div class="news_slideBox" id="news_slideBox">
+                <div class="news_bd">
+                    <ul ng-init="newsPhoto.getClientGroups(3067,5,1,2)">
+                        <li ng-repeat="item in newsPhoto.toddayNews track by $index">
+                            <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
+								<img ng-src="{{item.filePath}}" width="838" height="419">
+							</a>
+                            <div class="news_slideBox_right">
+                                <p><a ui-sref="root.newDetailList({groupId: item.ID})">{{item.TITLE || '尚未签发'}}</a></p>
+                                <div class="newsPic_ico"></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <ul class="news_btn">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            
+        </div>
+        <div class="clear"></div>
+
+        <!-- 时政 -->
+        <div class="newsPic_politics">
+            <div class="newsPic_politics_title">
+                <div class="newsPic_politics_title_box">
+                    时政
+                    <span><a ui-sref="root.moreSortList({sginId: 3068})">更多</a></span>
+                </div>
+            </div>
+            <div class="newsPic_politics_cntent" ng-init="newsPhoto.getClientGroups(3068,7,0,2)">
+                <div class="newsPic_politics_cntent_lt" ng-repeat="item in newsPhoto.politics track by $index" ng-if="$first">
+                    <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
+						<img ng-src="{{item.filePath}}" alt="" width="471" height="337">
+					</a>
+                    <p class="split_string"><a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">{{item.TITLE}}</a></p>
+                </div>
+                <div class="newsPic_politics_cntent_rt">
+                    <ul>
+                        <li ng-repeat="item in newsPhoto.politics track by $index" ng-if="!$first">
+                            <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
+								<img ng-src="{{item.filePath}}" alt="" width="228" height="146">
+							</a>
+                            <p class="split_string"><a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">{{item.TITLE}}</a></p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+
+        <!-- 经济、社会、 科教文卫-->
+        <div class="newsPic_content_bottom" ng-init="newsPhoto.getClientGroups(3069,3,0,2)">
+            <div class="newsPic_politics_title">
+                <div class="newsPic_politics_title_box">
+                    经济
+                    <span><a ui-sref="root.moreSortList({sginId: 3069})">更多</a></span>
+                </div>
+            </div>
+            <div class="newsPic_business" ng-repeat="item in newsPhoto.economic track by $index">
+                <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
+					<img ng-src="{{item.filePath}}" alt="" width="370" height="233">
+				</a>
+                <p class="newsPic_business_p1"><a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">{{item.TITLE}}</a></p>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div class="newsPic_content_bottom" ng-init="newsPhoto.getClientGroups(3070,3,0,2)">
+            <div class="newsPic_politics_title">
+                <div class="newsPic_politics_title_box">
+                    社会
+                    <span><a ui-sref="root.moreSortList({sginId: 3070})">更多</a></span>
+                </div>
+            </div>
+            <div class="newsPic_business" ng-repeat="item in newsPhoto.society track by $index">
+                <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
+					<img ng-src="{{item.filePath}}" alt="" width="370" height="233">
+				</a>
+                <p class="newsPic_business_p1"><a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">{{item.TITLE}}</a></p>
+            </div>
+            
+        </div>
+        <div class="clear"></div>
+        <div class="newsPic_content_bottom" ng-init="newsPhoto.getClientGroups(3072,3,0,2)">
+            <div class="newsPic_politics_title">
+                <div class="newsPic_politics_title_box">
+                    科教文卫
+                    <span><a ui-sref="root.moreSortList({sginId: 3072})">更多</a></span>
+                </div>
+            </div>
+            <div class="newsPic_business" ng-repeat="item in newsPhoto.scienceEducation track by $index">
+                <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
+					<img ng-src="{{item.filePath}}" alt="" width="370" height="233">
+				</a>
+                <p class="newsPic_business_p1"><a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">{{item.TITLE}}</a></p>
+            </div>
+        </div>
+        <div class="clear"></div>
+		<div class="newsPic_content_bottom" ng-init="newsPhoto.getClientGroups(3124,3,0,2)">
+            <div class="newsPic_politics_title">
+                <div class="newsPic_politics_title_box">
+                    生态
+                    <span><a ui-sref="root.moreSortList({sginId: 3124})">更多</a></span>
+                </div>
+            </div>
+            <div class="newsPic_business" ng-repeat="item in newsPhoto.ecosystem track by $index">
+                <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
+					<img ng-src="{{item.filePath}}" alt="" width="370" height="233">
+				</a>
+                <p class="newsPic_business_p1"><a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">{{item.TITLE}}</a></p>
+            </div>
+        </div>
+        <div class="clear"></div>
+
+    </div>
