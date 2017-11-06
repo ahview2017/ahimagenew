@@ -11,11 +11,10 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
     vm.pictureId = $stateParams.pictureId;
 
 
-    //从路由取得签发栏目ID add by xiayunan@20171101
+
+	//从路由取得签发栏目ID add by xiayunan@20171101
     vm.sginId = $stateParams.sginId;
-   
-    
-    
+
     //初始化页面相关配置
     function initSetting() {
         //选中图片id
@@ -23,6 +22,10 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
         
         //点赞数
         vm.thumbsUpCount = 0;
+        
+        //是否显示购物车
+        vm.showStatus = 0;
+        
         
         //默认页
         $scope.page = 1;
@@ -36,6 +39,9 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
     vm.thumbsUp = function(){
     	saveGroupPicThumbsUp();
     };
+
+
+
     
     //稿件点赞
     function saveGroupPicThumbsUp(){
@@ -83,13 +89,14 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
             if (resp.code == '211') {
                 vm.clientPictureDetail = resp.data;
                 vm.groupKeyWords = resp.data.keywords;
-                
 				var videoId = resp.data.videoId;
 				vm.videoId = videoId;
 				if(videoId!=0&&vm.masBaseUrl){
 					vm.masUrl = vm.masBaseUrl+"&method=exPlay&type=vod&id="+videoId;
 					vm.masUrl = $sce.trustAsResourceUrl(vm.masUrl);
 				}
+				
+				vm.showStatus = resp.data.showStatus;
 
                 if(callback) callback();
             }else if(resp.msg != '未登录'){
@@ -184,19 +191,33 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
 
 
     // 细览图片轮播控制
+    // $(function () {
+    //     $timeout(function () {
+    //         $('.detial_content_pic').slide({
+    //            mainCell:".pic_show ul",effect:"leftLoop",autoPlay:false,nextCell:".detail_prev",prevCell:".detail_next",events:"click"
+    //         });
+    //     }, 1000);
+    // });
     $(function () {
         $timeout(function () {
-            $('.detial_content_pic').slide({
-               mainCell:".pic_show ul",effect:"leftLoop",autoPlay:false,nextCell:".detail_prev",prevCell:".detail_next",events:"click"
+            $(".detial_content_pic").slide({
+                mainCell:".picDetails_bd ul",
+                effect:"fold",
+                autoPlay:false 
+            });
+            $(".detial_content_pic").slide({
+                titCell:".tit ul",
+                mainCell:".hd ul",
+                prevCell:".next1",
+                nextCell:".prev1",
+                autoPage:true,
+                effect:"left",
+                autoPlay:false,
+                scroll:6,
+                vis:6
             });
         }, 1000);
     });
-
-
-    // $(function(){
-    //     vm.picCount=$("#picCount").html();
-    //     $(".span_color_red").html=vm.picCount;
-    // })
 
 
     //判断是否选择了数据
@@ -219,6 +240,34 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
         }
         vm.picIds = vm.finalPicIds.slice(0, vm.finalPicIds.length - 1);
     }
+
+    //弹出微信
+    
+        //alert("太棒了，赞一个！");
+        var qrcode = new QRCode(document.getElementById("qrcode"), {
+            width : 100,
+            height : 100
+        });
+
+        function makeCode2() {      
+            var locurl = document.location.href;
+            qrcode.makeCode(locurl);
+        }
+
+        vm.popwin = function(){
+        // alert("太棒了，赞一个！");
+            makeCode2();
+            $("#codeoutr").css("display","block");
+        };
+        vm.popclose = function(){
+
+            $("#codeoutr").css("display","none");
+        }
+
+        
+
+    
+
 
     //下载图片
    /* vm.downPic = function() {

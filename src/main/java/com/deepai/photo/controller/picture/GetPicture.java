@@ -378,6 +378,10 @@ public class GetPicture {
 		try {
 			CommonValidation.checkParamBlank(groupId+"", "稿件id");
 			CommonValidation.checkParamBlank(groupId+"", "稿件id");
+			CpPicGroup group= clientPictureMapper.selectClientGroupPics(groupId);
+			if(group==null){
+				throw new InvalidHttpArgumentException(CommonConstant.NULLCODE, String.format("不存在稿件Id=%s的稿子", groupId));
+			}
 //			//设置默认值 默认非水印，最小图
             picType = picType==null?0:picType;
             size = size==null?1:size;
@@ -390,6 +394,8 @@ public class GetPicture {
 						if(Integer.valueOf(forbitColumIdsStr[i]).equals(signId)){
 							picType = 2;
 							size = 4;
+							group.setShowStatus(1);
+//							group.set
 							break;
 						}
 					}
@@ -397,15 +403,13 @@ public class GetPicture {
 					if(Integer.valueOf(forbitSignIdStr).equals(signId)){
 						picType = 2;
 						size = 4;//取中图原图
+						group.setShowStatus(1);
 					}
 				}
 			}
             
             
-			CpPicGroup group= clientPictureMapper.selectClientGroupPics(groupId);
-			if(group==null){
-				throw new InvalidHttpArgumentException(CommonConstant.NULLCODE, String.format("不存在稿件Id=%s的稿子", groupId));
-			}
+			
 			int videoid = group.getVideoId();
 			if(group.getPics()!=null){
 				for (CpPicture pic:group.getPics()) {

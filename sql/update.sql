@@ -4,6 +4,7 @@ alter table cp_pic_group add  VIDEO_ID int(11) default '0' COMMENT '视频ID';
 
 # add by liu.jinfeng@20170904
 alter table cp_pic_group add  QBSTATUS int(11) default '0' COMMENT '是否签报，0没签，1签过';
+alter table cp_pic_group add  SHOWSTATUS int(11) default '0' COMMENT '是否显示购物车，0不显示，1显示';
 #新增签报权限
 INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(412,0,'签报','签报','groupPicCtro/signPic',NULL,0,'admin',now(),2,'',0);
 

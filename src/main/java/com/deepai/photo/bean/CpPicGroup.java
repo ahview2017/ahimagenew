@@ -107,8 +107,9 @@ public class CpPicGroup {
 	private Integer masvideoSign;
 	private Integer videoId;
    
-
 	private Integer qbStatus;
+	
+	private Integer showStatus;//是否显示购物车
 	    
     public Integer getQbStatus() {
         return qbStatus;
@@ -118,6 +119,14 @@ public class CpPicGroup {
         this.qbStatus = qbStatus;
     }
 	    
+	public Integer getShowStatus() {
+		return showStatus;
+	}
+
+	public void setShowStatus(Integer showStatus) {
+		this.showStatus = showStatus;
+	}
+
 	public Integer getMasvideoSign() {
 		return masvideoSign;
 	}
