@@ -166,10 +166,13 @@ public class SysConfigController {
 			int siteId=SessionUtils.getSiteId(request);
 			CpSystemConfigExample example = new CpSystemConfigExample();
 			if(config.getConfigCode()!=null){
-				example.createCriteria().andConfigNameEqualTo(config.getConfigName())
+				example.createCriteria().andConfigCodeEqualTo(config.getConfigCode())
 				.andSiteIdEqualTo(siteId).andDeleteFlagEqualTo(CommonConstant.BYTE0);
 				List<CpSystemConfig> list=configMapper.selectByExample(example);
-				if(list!=null&&list.size()>0&&list.get(0).getId()!=config.getId()){
+				log.info("<<<<list.size:"+list.size());
+				log.info("list.get(0).getId():"+list.get(0).getId());
+				log.info("config.getId():"+config.getId());
+				if(list!=null&&list.size()>0&&!list.get(0).getId().equals(config.getId())){
 					res.setCode(CommonConstant.FAILURECODE);
 					res.setMsg("配置名已存在");
 					return res;
@@ -180,7 +183,7 @@ public class SysConfigController {
 				example.createCriteria().andConfigNameEqualTo(config.getConfigName())
 				.andSiteIdEqualTo(siteId).andDeleteFlagEqualTo(CommonConstant.BYTE0);
 				List<CpSystemConfig> list1=configMapper.selectByExample(example);
-				if(list1!=null&&list1.size()>0&&list1.get(0).getId()!=config.getId()){
+				if(list1!=null&&list1.size()>0&&!list1.get(0).getId().equals(config.getId())){
 					res.setCode(CommonConstant.FAILURECODE);
 					res.setMsg("配置名称已存在");
 					return res;
