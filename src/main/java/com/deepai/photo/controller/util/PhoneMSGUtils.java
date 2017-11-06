@@ -110,17 +110,17 @@ public class PhoneMSGUtils {
      * @return {"code":"1","msg":"内容"} code:0失败，1成功
      * @throws Exception
      */
-    public JSONObject sendMsg(String phone,String type) throws Exception {
+    public JSONObject sendMsg(String phone,String type,Integer valicode) throws Exception {
         JSONObject result = null;
         switch (type) {
         case TYPE_SEND_CODE:
-            result = sendPhoneCode(phone, TYPE_SEND_CODE);
+            result = sendPhoneCode(phone, TYPE_SEND_CODE,null);
             break;
         case TYPE_LOGIN_CODE:
-            result = sendPhoneCode(phone, TYPE_LOGIN_CODE);
+            result = sendPhoneCode(phone, TYPE_LOGIN_CODE,valicode);
             break;
         case TYPE_FORGET_CODE:
-            result = sendPhoneCode(phone, TYPE_FORGET_CODE);
+            result = sendPhoneCode(phone, TYPE_FORGET_CODE,valicode);
             break;
         default:
             break;
@@ -168,7 +168,7 @@ public class PhoneMSGUtils {
      * @return
      * @throws Exception
      */
-    private JSONObject sendPhoneCode(String phone, String type)
+    private JSONObject sendPhoneCode(String phone, String type,Integer valicode)
             throws Exception {
         String sContent = "";
         switch (type) {
@@ -193,16 +193,20 @@ public class PhoneMSGUtils {
         }
         // sysConfigService.
 
-        // 6位随机验证码
-        Integer vilidate = (int) ((Math.random() * 9 + 1) * 100000);
-        sContent = String.format(sContent, vilidate);
+        if(valicode==null){
+        	valicode = (int) ((Math.random() * 9 + 1) * 100000);
+        }
+        
+//        // 6位随机验证码
+//        Integer vilidate = (int) ((Math.random() * 9 + 1) * 100000);
+        sContent = String.format(sContent, valicode);
         logger.info("发送内容是：" + sContent);
         // 发送信息
         String code = send(phone, sContent);
 
         JSONObject result = new JSONObject();
         result.put("code", code);
-        result.put("msg", code.equals("1") ? String.valueOf(vilidate) : "发送失败");
+        result.put("msg", code.equals("1") ? String.valueOf(valicode) : "发送失败");
         return result;
     }
 

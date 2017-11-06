@@ -686,7 +686,7 @@ public class PhoneMSGController {
             // String resultCode = phoneMSGUtils.sendSMSMsg(user.getTelBind(),
             // content);
             JSONObject resultObj = phoneMSGUtils.sendMsg(user.getTelBind(),
-                    PhoneMSGUtils.TYPE_FORGET_CODE);
+                    PhoneMSGUtils.TYPE_FORGET_CODE,vilidate);
             if (null == resultObj || resultObj.getString("code").equals("0")) {// 失败
                 result.setCode(CommonConstant.EXCEPTIONCODE);
                 result.setMsg(CommonConstant.EXCEPTIONMSG);
@@ -727,7 +727,7 @@ public class PhoneMSGController {
 //            String content = "您正在执行中新社密码找回，验证码是: " + vilidate
 //                    + "。请按页面提示提交验证码，切记请勿将验证码泄露给他人。";
 
-            JSONObject resultCode = phoneMSGUtils.sendMsg(phoneNum, PhoneMSGUtils.TYPE_FORGET_CODE);
+            JSONObject resultCode = phoneMSGUtils.sendMsg(phoneNum, PhoneMSGUtils.TYPE_FORGET_CODE,Integer.valueOf(vilidate));
             if (resultCode == null||resultCode.getString("code").equals("0")) {// 失败
                 result.setCode(CommonConstant.EXCEPTIONCODE);
                 result.setMsg(CommonConstant.EXCEPTIONMSG);
@@ -785,7 +785,7 @@ public class PhoneMSGController {
         JSONObject resultObj = null;
         try {
             resultObj = phoneMSGUtils.sendMsg(phoneNum,
-                    PhoneMSGUtils.TYPE_SEND_CODE);
+                    PhoneMSGUtils.TYPE_SEND_CODE,null);
         } catch (Exception e) {
             cpPhoneMsg.setStatus(2); // 发送失败
             phoneMSGService.add(cpPhoneMsg);
@@ -862,7 +862,7 @@ public class PhoneMSGController {
         JSONObject resultObj = null;
         try {
             resultObj = phoneMSGUtils.sendMsg(user.getTelBind(),
-                    PhoneMSGUtils.TYPE_LOGIN_CODE);
+                    PhoneMSGUtils.TYPE_LOGIN_CODE,vilidate);
         } catch (Exception e) {
             e.printStackTrace();
             log.error("获取验证码失败", e);
@@ -877,13 +877,18 @@ public class PhoneMSGController {
             return result;
         }
 
+         // 验证码有效期 3分钟
+//        String vilidata = resultObj.getString("msg");
+//        redisClientTemplate.set("USERNAME" + userName + vilidata,vilidata );
+//        redisClientTemplate.expire("USERNAME" + userName + vilidata, 60 * 3);
+        
         result.setCode(CommonConstant.SUCCESSCODE);
         result.setMsg(CommonConstant.SUCCESSSTRING);
         return result;
     }
     
     /**
-     * 前台登录获取验证码
+     * 手机端前台登录获取验证码
      * 
      * @Description: TODO <BR>
      * @author xia.yunan
@@ -903,9 +908,6 @@ public class PhoneMSGController {
         CommonValidation.checkParamBlank(phoneNum, "手机号");
         // 生成六位验证码发送到手机
         Integer vilidate = (int) ((Math.random() * 9 + 1) * 100000);
-        log.info("vilidate:"+vilidate);
-        
-        log.info("key:"+"MOBILE"+phoneNum + vilidate);
         
         redisClientTemplate.set("MOBILE" + phoneNum + vilidate, vilidate + "");
         redisClientTemplate.expire("MOBILE" + phoneNum + vilidate, 60 );

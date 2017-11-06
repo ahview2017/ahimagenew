@@ -149,6 +149,7 @@ public class LoginController {
 		CommonValidation.checkParamBlank(password, "密码");
 		CommonValidation.checkParamBlank(vilidate, "验证码");
 		ResponseMessage res = new ResponseMessage();
+		
 		try {
 		    String scode = "";
             if (type == 0) {
