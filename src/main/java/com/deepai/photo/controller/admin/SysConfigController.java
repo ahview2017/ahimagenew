@@ -169,9 +169,6 @@ public class SysConfigController {
 				example.createCriteria().andConfigCodeEqualTo(config.getConfigCode())
 				.andSiteIdEqualTo(siteId).andDeleteFlagEqualTo(CommonConstant.BYTE0);
 				List<CpSystemConfig> list=configMapper.selectByExample(example);
-				log.info("<<<<list.size:"+list.size());
-				log.info("list.get(0).getId():"+list.get(0).getId());
-				log.info("config.getId():"+config.getId());
 				if(list!=null&&list.size()>0&&!list.get(0).getId().equals(config.getId())){
 					res.setCode(CommonConstant.FAILURECODE);
 					res.setMsg("配置名已存在");
