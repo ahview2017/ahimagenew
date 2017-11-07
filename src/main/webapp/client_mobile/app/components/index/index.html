@@ -129,7 +129,12 @@
                                 <i>{{item.PICTURE_COUNT}}图</i>
                             </a>
                             <p>{{item.TITLE}}</p>
-                            <p><span style="margin-right:20px;">{{item.columnName}}</span>{{item.AUTHOR}}摄</p>
+                            <p class="li_second_p">
+                                <span>{{item.columnName}}</span>{{item.AUTHOR}}摄
+                                <b class="noThumbsUp" ng-if="!item.isThumbsUp" ng-click="index.thumbsUp(item.ID,$index)">{{item.thumbsUpCount||0}}</b>
+                                <b class="thumbsUp" ng-if="item.isThumbsUp||vm.isThumbUp" ng-click="index.thumbsUp(item.ID,$index)">{{item.thumbsUpCount||0}}</b>
+                                <div class="clear"></div>
+                            </p>
                         </li>
                     </ul>
                 </div>
@@ -162,9 +167,15 @@
                             <a ui-sref="root.newDetailList({groupId: item.ID})">
                                 <img ng-src="{{item.filePath}}" />
                                 <i>{{item.PICTURE_COUNT}}图</i>
+                                <div class="clear"></div>
                             </a>
                             <p>{{item.TITLE}}</p>
-                            <p><span style="margin-right:60px;">{{item.columnName}}</span>{{item.AUTHOR}}摄</p>
+                            <p class="li_second_p">
+                                <span>{{item.columnName}}</span>{{item.AUTHOR}}摄
+                                 <b class="noThumbsUp" ng-if="!item.isThumbsUp" ng-click="index.thumbsUp(item.ID,$index)">{{item.thumbsUpCount||0}}</b>
+                                <b class="thumbsUp" ng-if="item.isThumbsUp" ng-click="index.thumbsUp(item.ID,$index)">{{item.thumbsUpCount||0}}</b>
+                                <div class="clear"></div>
+                            </p>
                             
                         </li>
                     </ul>
@@ -180,9 +191,15 @@
                             <a ui-sref="root.newDetailList({groupId: item.ID})">
                                 <img ng-src="{{item.filePath}}" />
                                 <i>{{item.PICTURE_COUNT}}图</i>
+                                <div class="clear"></div>
                             </a>
                             <p>{{item.TITLE}}</p>
-                            <p><span style="margin-right:60px;">{{item.columnName}}</span>{{item.AUTHOR}}摄</p>
+                           <p class="li_second_p">
+                                <span>{{item.columnName}}</span>{{item.AUTHOR}}摄
+                                 <b class="noThumbsUp" ng-if="!item.isThumbsUp" ng-click="index.thumbsUp(item.ID,$index)">{{item.thumbsUpCount||0}}</b>
+                                <b class="thumbsUp" ng-if="item.isThumbsUp" ng-click="index.thumbsUp(item.ID,$index)">{{item.thumbsUpCount||0}}</b>
+                                <div class="clear"></div>
+                            </p>
                             
                         </li>
                     </ul>
@@ -197,9 +214,15 @@
                             <a ui-sref="root.newDetailList({groupId: item.ID})">
                                 <img ng-src="{{item.filePath}}" />
                                 <i>{{item.PICTURE_COUNT}}图</i>
+                                <div class="clear"></div>
                             </a>
                             <p>{{item.TITLE}}</p>
-                            <p><span style="margin-right:60px;">{{item.columnName}}</span>{{item.AUTHOR}}摄</p>
+                            <p class="li_second_p">
+                                <span>{{item.columnName}}</span>{{item.AUTHOR}}摄
+                                 <b class="noThumbsUp" ng-if="!item.isThumbsUp" ng-click="index.thumbsUp(item.ID,$index)">{{item.thumbsUpCount||0}}</b>
+                                <b class="thumbsUp" ng-if="item.isThumbsUp" ng-click="index.thumbsUp(item.ID,$index)">{{item.thumbsUpCount||0}}</b>
+                                <div class="clear"></div>
+                            </p>
                         </li>
                     </ul>
                 </div>
@@ -212,10 +235,16 @@
                         <li ng-repeat="item in index.anhuiCitys track by $index">
                             <a ui-sref="root.newDetailList({groupId: item.ID})">
                                 <img ng-src="{{item.filePath}}" />
-                                 <i>{{item.PICTURE_COUNT}}图</i>
+                                <i>{{item.PICTURE_COUNT}}图</i>
+                                <div class="clear"></div>
                             </a>
                             <p>{{item.TITLE}}</p>
-                            <p><span style="margin-right:60px;">{{item.columnName}}</span>{{item.AUTHOR}}摄</p>
+                            <p class="li_second_p">
+                                <span>{{item.columnName}}</span>{{item.AUTHOR}}摄
+                                 <b class="noThumbsUp" ng-if="!item.isThumbsUp" ng-click="index.thumbsUp(item.ID,$index)">{{item.thumbsUpCount||0}}</b>
+                                <b class="thumbsUp" ng-if="item.isThumbsUp" ng-click="index.thumbsUp(item.ID,$index)">{{item.thumbsUpCount||0}}</b>
+                                <div class="clear"></div>
+                            </p>
                            
                         </li>
                     </ul>
@@ -229,10 +258,19 @@
                         <li ng-repeat="item in index.anhuiVideo track by $index">
                             <a ui-sref="root.newDetailList({groupId: item.ID})">
                                 <img ng-src="{{item.filePath}}" />
-                                <i>{{item.PICTURE_COUNT}}图</i>
+                                <span>
+                                    <b></b>
+                                    <i>{{item.PICTURE_COUNT}}图</i>
+                                </span>
+                                <div class="clear"></div>
                             </a>
                             <p>{{item.TITLE}}</p>
-                            <p><span style="margin-right:60px;">{{item.columnName}}</span>{{item.AUTHOR}}摄</p>
+                            <p class="li_second_p">
+                                <span>{{item.columnName}}</span>{{item.AUTHOR}}摄
+                                 <b class="noThumbsUp" ng-if="!item.isThumbsUp" ng-click="index.thumbsUp(item.ID,$index)">{{item.thumbsUpCount||0}}</b>
+                                <b class="thumbsUp" ng-if="item.isThumbsUp" ng-click="index.thumbsUp(item.ID,$index)">{{item.thumbsUpCount||0}}</b>
+                                <div class="clear"></div>
+                            </p>
                             
                         </li>
                     </ul>
@@ -247,9 +285,15 @@
                             <a ui-sref="root.newDetailList({groupId: item.ID})">
                                 <img ng-src="{{item.filePath}}" />
                                 <i>{{item.PICTURE_COUNT}}图</i>
+                                <div class="clear"></div>
                             </a>
                             <p>{{item.TITLE}}</p>
-                            <p><span style="margin-right:60px;">{{item.columnName}}</span>{{item.AUTHOR}}摄</p>
+                            <p class="li_second_p">
+                                <span>{{item.columnName}}</span>{{item.AUTHOR}}摄
+                                 <b class="noThumbsUp" ng-if="!item.isThumbsUp" ng-click="index.thumbsUp(item.ID,$index)">{{item.thumbsUpCount||0}}</b>
+                                <b class="thumbsUp" ng-if="item.isThumbsUp" ng-click="index.thumbsUp(item.ID,$index)">{{item.thumbsUpCount||0}}</b>
+                                <div class="clear"></div>
+                            </p>
                             
                         </li>
                     </ul>
@@ -264,9 +308,15 @@
                             <a ui-sref="root.newDetailList({groupId: item.ID})">
                                 <img ng-src="{{item.filePath}}" />
                                 <i>{{item.PICTURE_COUNT}}图</i>
+                                <div class="clear"></div>
                             </a>
                             <p>{{item.TITLE}}</p>
-                            <p><span style="margin-right:60px;">{{item.columnName}}</span>{{item.AUTHOR}}摄</p>
+                            <p class="li_second_p">
+                                <span>{{item.columnName}}</span>{{item.AUTHOR}}摄
+                                 <b class="noThumbsUp" ng-if="!item.isThumbsUp" ng-click="index.thumbsUp(item.ID,$index)">{{item.thumbsUpCount||0}}</b>
+                                <b class="thumbsUp" ng-if="item.isThumbsUp" ng-click="index.thumbsUp(item.ID,$index)">{{item.thumbsUpCount||0}}</b>
+                                <div class="clear"></div>
+                            </p>
                             
                         </li>
                     </ul>
@@ -281,9 +331,15 @@
                             <a ui-sref="root.newDetailList({groupId: item.ID})">
                                 <img ng-src="{{item.filePath}}" />
                                 <i>{{item.PICTURE_COUNT}}图</i>
+                                <div class="clear"></div>
                             </a>
                             <p>{{item.TITLE}}</p>
-                            <p><span style="margin-right:60px;">{{item.columnName}}</span>{{item.AUTHOR}}摄</p>
+                            <p class="li_second_p">
+                                <span>{{item.columnName}}</span>{{item.AUTHOR}}摄
+                                <b class="noThumbsUp" ng-if="!item.isThumbsUp" ng-click="index.thumbsUp(item.ID,$index)">{{item.thumbsUpCount||0}}</b>
+                                <b class="thumbsUp" ng-if="item.isThumbsUp" ng-click="index.thumbsUp(item.ID,$index)">{{item.thumbsUpCount||0}}</b>
+                                <div class="clear"></div>
+                            </p>
                             
                         </li>
                     </ul>

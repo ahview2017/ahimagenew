@@ -31,11 +31,13 @@ import com.deepai.photo.common.constant.SysConfigConstant;
 import com.deepai.photo.common.exception.InvalidHttpArgumentException;
 import com.deepai.photo.common.pagehelper.PageHelper;
 import com.deepai.photo.common.pojo.ResponseMessage;
+import com.deepai.photo.common.util.IPUtil;
 import com.deepai.photo.common.util.image.ImgFileUtils;
 import com.deepai.photo.common.validation.CommonValidation;
 import com.deepai.photo.mapper.AboutPictureMapper;
 import com.deepai.photo.mapper.ClientPictureMapper;
 import com.deepai.photo.mapper.CpColumnMapper;
+import com.deepai.photo.mapper.CpPicGroupThumbsUpMapper;
 import com.deepai.photo.mapper.CpWaterMarkPictureMapper;
 import com.deepai.photo.service.admin.SysConfigService;
 
@@ -49,7 +51,8 @@ public class GetPicture {
 	
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());
-	
+	@Autowired
+	private CpPicGroupThumbsUpMapper cpPicGroupThumbsUpMapper;
 	@Autowired
 	private CpWaterMarkPictureMapper waterMarkMapper;
 	@Autowired
@@ -279,7 +282,8 @@ public class GetPicture {
 			PageHelper.startPage(request);
 			List<Map<String,Object>> list=clientPictureMapper.selectMoreGroup(param);
 			PageHelper.addPagesAndTotal(result, list);
-			
+			String ip = IPUtil.getRemoteAddr(request);
+			CommonValidation.checkParamBlank(ip, "点赞者ip");
 			for (Map<String,Object> map:list) {
 				if(map.containsKey("FILENAME")){
 //					map.put("samllPath", CommonConstant.SMALLHTTPPath+ImgFileUtils.getSamllPathByName(map.get("FILENAME").toString(),request));
@@ -296,7 +300,26 @@ public class GetPicture {
 				}else{
 					map.put("columnName",cpColumnMapper.selectBykeyNoPname(columnId).getName());
 				}
+				//获取点赞数  add by xiayunan@20171107
+				int thumbsUpCount = cpPicGroupThumbsUpMapper.getGroupThumbsUpCount(groupId);
+				map.put("thumbsUpCount",thumbsUpCount);
+				
+				//判断当前IP对当前稿件是否点过赞
+				Map<Object,Object> sParamMap = new HashMap<Object,Object>();
+				sParamMap.put("groupId", groupId);
+				sParamMap.put("ip", ip);
+				int judgeCount = cpPicGroupThumbsUpMapper.getThumbsUpCountByIpAndGroupId(sParamMap);
+				if(judgeCount>0){
+					map.put("isThumbsUp",true);
+				}else{
+					map.put("isThumbsUp",false);
+				}
+				
 			}
+			
+			
+			
+			
 			result.setCode(CommonConstant.SUCCESSCODE);
 			result.setMsg(CommonConstant.SUCCESSSTRING);
 			result.setData(list);

@@ -5,6 +5,8 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
     	vm.currpage = 1;
 	    vm.currchnl = 3064;
 	    vm.chnlArr = [3064,3077,3078,3079,3080,3081,3082,3083,3084];
+	    //点赞数
+        vm.thumbsUpCount = 0;
 	    vm.pageHeight = Math.max(document.body.scrollHeight,document.body.offsetHeight);
 	    vm.viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 0;
 	    vm.scrollHeight = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
@@ -39,7 +41,190 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
     	vm.getMoreGroups(3084,1);
     }
 
-   
+    vm.thumbsUp = function(groupId,index){
+    	saveGroupPicThumbsUp(groupId,index);
+    };
+
+
+
+    
+    //稿件点赞
+    function saveGroupPicThumbsUp(groupId,oIndex){
+    	console.log("groupId:"+groupId);
+    	 req.post('groupPicCtro/saveGroupPicThumbsUp.do', {
+             groupId: groupId,
+          }).success(function (resp) {
+              if (resp.code == '211') {
+            	  if(resp.data.status==1){
+            		  //alert("您已经赞过了！");
+            	  }else if(resp.data.status==0){
+            		  //alert("太棒了，赞一个！");
+            		//新闻图片
+       				if ( vm.currchnl == 3064) {
+       					angular.forEach(vm.newsPhotoMobile,function(item,index){
+       	            		 if(oIndex==index){
+       	            			 item.isThumbsUp = true;
+       	            		 }
+       	         		 });
+                       }
+       				//专题图片
+       				if ( vm.currchnl == 3077) {
+       					angular.forEach(vm.topicPhoto,function(item,index){
+       	            		 if(oIndex==index){
+       	            			item.isThumbsUp = true;
+       	            		 }
+       	         		 });;
+                       }
+       				//皖风徽韵
+       				if ( vm.currchnl == 3078) {
+       					angular.forEach(vm.anhuiStyle,function(item,index){
+       	            		 if(oIndex==index){
+       	            			item.isThumbsUp = true;
+       	            		 }
+       	         		 });
+                       }
+       				//历史资料
+       				if ( vm.currchnl == 3079) {
+       					angular.forEach(vm.anhuiHistory,function(item,index){
+       	            		 if(oIndex==index){
+       	            			item.isThumbsUp = true;
+       	            		 }
+       	         		 });
+                       }
+       				//各市图库
+       				if ( vm.currchnl == 3080) {
+       					angular.forEach(vm.anhuiCitys,function(item,index){
+       	            		 if(oIndex==index){
+       	            			item.isThumbsUp = true;
+       	            		 }
+       	         		 });
+                       }
+       				//视频
+       				if ( vm.currchnl == 3081) {
+       					angular.forEach(vm.anhuiVideo,function(item,index){
+       	            		 if(oIndex==index){
+       	            			item.isThumbsUp = true;
+       	            		 }
+       	         		 });
+                       }
+       				//艺苑菁华artEssence
+       				if ( vm.currchnl == 3082) {
+       					angular.forEach(vm.artEssence,function(item,index){
+       	            		 if(oIndex==index){
+       	            			item.isThumbsUp = true;
+       	            		 }
+       	         		 });
+                       }
+       				//互动空间
+       				if ( vm.currchnl == 3083) {
+       					angular.forEach(vm.interactiveSpace,function(item,index){
+       	            		 if(oIndex==index){
+       	            			item.isThumbsUp = true;
+       	            		 }
+       	         		 });
+                       }
+       				//掌上图库
+      				if ( vm.currchnl == 3084) {
+      					angular.forEach(vm.artEssence,function(item,index){
+      	            		 if(oIndex==index){
+      	            			item.isThumbsUp = true;
+      	            		 }
+      	         		 });
+                      }
+            	  }
+            	  getThumbsUpCount(groupId,oIndex);
+              }else if(resp.msg != '未登录'){
+                  layer.alert(resp.msg);
+              }
+          });
+    }
+    
+    //获取稿件点赞数 add by xiayunan@20171030
+    function getThumbsUpCount(groupId,oIndex){
+    	 req.post('groupPicCtro/getThumbsUpCount.do', {
+            groupId: groupId,
+         }).success(function (resp) {
+             if (resp.code == '211') {
+            	//新闻图片
+ 				if ( vm.currchnl == 3064) {
+ 					angular.forEach(vm.newsPhotoMobile,function(item,index){
+ 	            		 if(oIndex==index){
+ 	            			 item.thumbsUpCount = resp.data;
+ 	            		 }
+ 	         		 });
+                 }
+ 				//专题图片
+ 				if ( vm.currchnl == 3077) {
+ 					angular.forEach(vm.topicPhoto,function(item,index){
+ 	            		 if(oIndex==index){
+ 	            			 item.thumbsUpCount = resp.data;
+ 	            		 }
+ 	         		 });;
+                 }
+ 				//皖风徽韵
+ 				if ( vm.currchnl == 3078) {
+ 					angular.forEach(vm.anhuiStyle,function(item,index){
+ 	            		 if(oIndex==index){
+ 	            			 item.thumbsUpCount = resp.data;
+ 	            		 }
+ 	         		 });
+                 }
+ 				//历史资料
+ 				if ( vm.currchnl == 3079) {
+ 					angular.forEach(vm.anhuiHistory,function(item,index){
+ 	            		 if(oIndex==index){
+ 	            			 item.thumbsUpCount = resp.data;
+ 	            		 }
+ 	         		 });
+                 }
+ 				//各市图库
+ 				if ( vm.currchnl == 3080) {
+ 					angular.forEach(vm.anhuiCitys,function(item,index){
+ 	            		 if(oIndex==index){
+ 	            			 item.thumbsUpCount = resp.data;
+ 	            		 }
+ 	         		 });
+                 }
+ 				//视频
+ 				if ( vm.currchnl == 3081) {
+ 					angular.forEach(vm.anhuiVideo,function(item,index){
+ 	            		 if(oIndex==index){
+ 	            			 item.thumbsUpCount = resp.data;
+ 	            		 }
+ 	         		 });
+                 }
+ 				//艺苑菁华artEssence
+ 				if ( vm.currchnl == 3082) {
+ 					angular.forEach(vm.artEssence,function(item,index){
+ 	            		 if(oIndex==index){
+ 	            			 item.thumbsUpCount = resp.data;
+ 	            		 }
+ 	         		 });
+                 }
+ 				//互动空间
+ 				if ( vm.currchnl == 3083) {
+ 					angular.forEach(vm.interactiveSpace,function(item,index){
+ 	            		 if(oIndex==index){
+ 	            			 item.thumbsUpCount = resp.data;
+ 	            		 }
+ 	         		 });
+                 }
+ 				//掌上图库
+				if ( vm.currchnl == 3084) {
+					angular.forEach(vm.artEssence,function(item,index){
+	            		 if(oIndex==index){
+	            			 item.thumbsUpCount = resp.data;
+	            		 }
+	         		 });
+                }
+            	 
+             }else if(resp.msg != '未登录'){
+                 layer.alert(resp.msg);
+             }
+         });
+    }
+    
+    
     /*
     function updateNavPosition1(){
         var activeNav = $('#swiper-container1 .subBtn').eq(mySwiper3.activeIndex).addClass('active-nav');
@@ -275,7 +460,7 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
         req_getselChildColumn(pColumnId);
     };
     
-    // 获取栏目信息
+    //获取栏目信息
     function req_getselChildColumn(pColumnId) {
         req.post('enColumn/selChildColumn.do', {
             pColumnId : pColumnId
@@ -485,7 +670,9 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
 				 picId: item.picId|| '',
 				 POSITION: item.POSITION|| '',
 				 TITLE: item.TITLE|| '',
-				 columnName: item.columnName|| ''
+				 columnName: item.columnName|| '',
+				 thumbsUpCount: item.thumbsUpCount|| '',
+				 isThumbsUp: item.isThumbsUp|| ''
 			 });
 		 });
     }
