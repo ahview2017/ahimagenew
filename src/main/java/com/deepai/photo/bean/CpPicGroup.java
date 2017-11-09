@@ -110,8 +110,19 @@ public class CpPicGroup {
 	private Integer qbStatus;
 	
 	private Integer showStatus;//是否显示购物车
+	
+	private boolean isThumbsUp;//该稿件是否点过赞
 	    
-    public Integer getQbStatus() {
+	
+    public boolean getIsThumbsUp() {
+		return isThumbsUp;
+	}
+
+	public void setIsThumbsUp(boolean isThumbsUp) {
+		this.isThumbsUp = isThumbsUp;
+	}
+
+	public Integer getQbStatus() {
         return qbStatus;
     }
 

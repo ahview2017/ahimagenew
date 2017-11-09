@@ -399,8 +399,10 @@ public class GetPicture {
 	public Object getClientGroupPics(HttpServletRequest request,Integer groupId,Integer picType,Integer size,Integer signId){
 		ResponseMessage result=new ResponseMessage();
 		try {
+			String ip = IPUtil.getRemoteAddr(request);
 			CommonValidation.checkParamBlank(groupId+"", "稿件id");
 			CommonValidation.checkParamBlank(groupId+"", "稿件id");
+			CommonValidation.checkParamBlank(ip, "点赞者ip");
 			CpPicGroup group= clientPictureMapper.selectClientGroupPics(groupId);
 			if(group==null){
 				throw new InvalidHttpArgumentException(CommonConstant.NULLCODE, String.format("不存在稿件Id=%s的稿子", groupId));
@@ -431,7 +433,17 @@ public class GetPicture {
 				}
 			}
             
-            
+			//判断当前IP对当前稿件是否点过赞
+			Map<Object,Object> sParamMap = new HashMap<Object,Object>();
+			sParamMap.put("groupId", groupId);
+			sParamMap.put("ip", ip);
+			int judgeCount = cpPicGroupThumbsUpMapper.getThumbsUpCountByIpAndGroupId(sParamMap);
+			if(judgeCount>0){
+				group.setIsThumbsUp(true);
+			}else{
+				group.setIsThumbsUp(false);
+			}
+			
 			
 			int videoid = group.getVideoId();
 			if(group.getPics()!=null){
@@ -464,6 +476,8 @@ public class GetPicture {
 						
 //						pic.setSmallPath(CommonConstant.SMALLHTTPPath+ImgFileUtils.getSamllPathByName(pic.getFilename(),request));
 //						pic.setWmPath(CommonConstant.SMALLHTTPPath+ImgFileUtils.getWMPathByName(pic.getFilename(),request));
+						
+						
 					}
 				}
 			}

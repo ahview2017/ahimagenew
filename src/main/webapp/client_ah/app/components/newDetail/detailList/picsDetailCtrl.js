@@ -23,6 +23,9 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
         //点赞数
         vm.thumbsUpCount = 0;
         
+        //是否点过赞
+        vm.isThumbsUp = false;
+        
         //是否显示购物车
         vm.showStatus = 0;
         
@@ -53,6 +56,8 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
             		  //alert("您已经赞过了！");
             	  }else if(resp.data.status==0){
             		  //alert("太棒了，赞一个！"); 
+            		  vm.isThumbsUp = true;
+            		  
             	  }
             	  getThumbsUpCount();
               }else if(resp.msg != '未登录'){
@@ -97,7 +102,7 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
 				}
 				
 				vm.showStatus = resp.data.showStatus;
-
+				vm.isThumbsUp = resp.data.isThumbsUp;
                 if(callback) callback();
             }else if(resp.msg != '未登录'){
                 layer.alert(resp.msg);
