@@ -42,7 +42,7 @@
 							<th class="uinfo-hd-th" style="width:10%;">真实姓名</th>
 							<th class="uinfo-hd-th" style="width:10%;">作者名</th>
 							<th class="uinfo-hd-th" style="width:16%;">用户类型</th>
-							<th class="uinfo-hd-th white_space" style="width:6%;">语言</th>
+							<th class="uinfo-hd-th white_space" style="width:6%;">排序ID</th>
 							<th class="uinfo-hd-th" style="width:8%;">状态</th>
 							<th class="uinfo-hd-th" style="width:10%;">最近登录时间</th>
 							<th class="uinfo-hd-th" style="width:10%;">注册时间</th>
@@ -65,7 +65,7 @@
                                         {{item.roles|userShowArrayTypeFilter:true}}
 							</span>
 							</td>
-							<td class='langType_tog langtype_color wbba' value='{{item.LANG_TYPE}}' style="width:6%;"></td>
+							<td class='langType_tog langtype_color wbba' value='' style="width:6%;">{{item.USER_ORDER}}</td>
 							<td class='user_status_color wbba' style="width:8%;">{{item.USER_STATUS|userManageTypeFilter}}</td>
 							<td class='last_login_time_color wbba' style="width:10%;">
 								<p>{{item.LAST_LOGIN_TIME|date:'yyyy-MM-dd'}}</p>
@@ -1081,6 +1081,75 @@
 									</div>
 								</div>
 							</div>
+							
+							<!-- 添加用户简介、栏目ID、排序ID add by xiayunan@20171110 -->
+							<div class="clear user-info-stage-item">
+								<div class="user-user-each-item">
+									<!--用户简介-->
+									<div class="user-add-spec-part clear">
+										<div class="user-add-spec-tit">
+											用户简介
+										</div>
+										<div class="user-add-spec-input">
+											<input type="textarea" ng-model="userManage.editUserDetail" class="user-border-gray" limit-to="4000">
+											<div style="display:none;" class="invalid-length-hint color_red">备注要少于4000个字符</div>
+										</div>
+									</div>
+								</div>
+								<div class="user-user-each-item">
+									<!--栏目ID-->
+									<div class="user-add-spec-part clear">
+										<div class="user-add-spec-tit">
+											栏目ID
+										</div>
+										<div class="user-add-spec-input">
+											<input type="text" ng-model="userManage.editUserColumnId" class="user-border-gray" limit-to="255">
+											<div style="display:none;" class="invalid-length-hint color_red">栏目ID要少于255个字符</div>
+										</div>
+									</div>
+								</div>
+								<div class="user-user-each-item">
+									<!--排序ID-->
+									<div class="user-add-spec-part clear">
+										<div class="user-add-spec-tit">
+											排序ID
+										</div>
+										<div class="user-add-spec-input">
+											<input type="text" ng-model="userManage.editUserOrderId" class="user-border-gray" limit-to="255">
+											<div style="display:none;" class="invalid-length-hint color_red">排序ID要少于255个字符</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							
+							
+							
+							
+							<!-- 添加用户分类 0:摄影名家 1：艺术家：2：其它  add by xiayunan@20171117 -->
+							<div class="clear user-info-stage-item">
+								<div class="user-user-each-item">
+									<!--用户简介-->
+									<div class="user-add-spec-part clear">
+										<div class="user-add-spec-tit">
+											用户分类<span class="color_red">*</span>
+										</div>
+										<div class="user-add-spec-input">
+											<select ng-model="userManage.editUserClass" class="user-border-gray">
+												<option value="">请选择</option>
+												<option value="1">摄影名家</option>
+												<option value="2">艺术家</option>
+												<option value="0">其它</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								
+							</div>
+							
+							
+							
+							
 						</div>
 					</div>
 					<div class="tac mt10">

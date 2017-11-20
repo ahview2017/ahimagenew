@@ -28,6 +28,7 @@ import com.deepai.photo.bean.CpUserExample;
 import com.deepai.photo.common.StringUtil;
 import com.deepai.photo.common.annotation.LogInfo;
 import com.deepai.photo.common.annotation.SkipAuthCheck;
+import com.deepai.photo.common.annotation.SkipLoginCheck;
 import com.deepai.photo.common.constant.CommonConstant;
 import com.deepai.photo.common.constant.SysConfigConstant;
 import com.deepai.photo.common.exception.InvalidHttpArgumentException;
@@ -64,7 +65,6 @@ import net.sf.json.JSONObject;
 @RequestMapping("/userCtro")
 public class UserController {
 	private Logger log = Logger.getLogger(UserController.class);
-
 	@Autowired
 	private CpUserMapper cpUserMapper;
 	@Autowired
@@ -181,6 +181,7 @@ public class UserController {
 		ResponseMessage result = new ResponseMessage();
 		try {
 
+			log.info("<<<<<<<<<<<<<<<<orderTime:"+orderTime);
 			List<Map<String, Object>> userList = getAdvancedSearchData(request, userName, userId, roleId, userStatus,
 					direction, zone, province, langType, city, telContact, emailBind, telBind, standBy1, standBy2,
 					trueName, subScriberType, userType, unitFlax, unitTel, authorName, address, unitName, unitAddress,
@@ -330,7 +331,9 @@ public class UserController {
 			userList = basicMapper.selectUserByCreate(param);
 		} else if (StringUtil.isNotBlank(orderTime) && "1".equals(orderTime)) {
 			userList = basicMapper.selectUserByLogin(param);
-		} else {
+		} else if (StringUtil.isNotBlank(orderTime) && "2".equals(orderTime)) {
+			userList = basicMapper.selectUserByOrderId(param);
+		}else {
 			userList = basicMapper.selectUserByCreate(param);
 		}
 		if (userList != null && userList.size() > 0) {
@@ -1442,6 +1445,114 @@ public class UserController {
 		}
 		return result;
 	}
+	
+	
+	
+	
+	/**
+	 * 查询签约摄影家
+	 * 
+	 * @param request
+	 * @param uName
+	 *            搜索条件
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/getPhotographerList")
+	@SkipAuthCheck
+	@SkipLoginCheck
+	public Object getPhotographerList(HttpServletRequest request) {
+		ResponseMessage result = new ResponseMessage();
+		try {
+			PageHelper.startPage(request);
+			List<Map<String, Object>> list = otherMapper.selectPhotographer();
+			PageHelper.addPagesAndTotal(result, list);
+			result.setCode(CommonConstant.SUCCESSCODE);
+			result.setMsg(CommonConstant.SUCCESSSTRING);
+//			result.setPage(list.size());
+			result.setData(list);
+		} catch (InvalidHttpArgumentException e) {
+			e.printStackTrace();
+			result.setCode(e.getCode());
+			result.setMsg(e.getMsg());
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			log.error("查询签约摄影师出错，" + e1.getMessage());
+			result.setCode(CommonConstant.EXCEPTIONCODE);
+			result.setMsg(CommonConstant.EXCEPTIONMSG);
+		}
+		return result;
+	}
+	
+	/**
+	 * 查询签约摄影家
+	 * 
+	 * @param request
+	 * @param uName
+	 *            搜索条件
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/getArtistList")
+	@SkipAuthCheck
+	@SkipLoginCheck
+	public Object getArtistList(HttpServletRequest request) {
+		ResponseMessage result = new ResponseMessage();
+		try {
+			PageHelper.startPage(request);
+			List<Map<String, Object>> list = otherMapper.selectArtist();
+			PageHelper.addPagesAndTotal(result, list);
+			result.setCode(CommonConstant.SUCCESSCODE);
+			result.setMsg(CommonConstant.SUCCESSSTRING);
+//			result.setPage(list.size());
+			result.setData(list);
+		} catch (InvalidHttpArgumentException e) {
+			e.printStackTrace();
+			result.setCode(e.getCode());
+			result.setMsg(e.getMsg());
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			log.error("查询签约摄影师出错，" + e1.getMessage());
+			result.setCode(CommonConstant.EXCEPTIONCODE);
+			result.setMsg(CommonConstant.EXCEPTIONMSG);
+		}
+		return result;
+	}
+	
+	
+	/**
+	 * 查询用户详情
+	 * 
+	 * @param request
+	 * @param uName
+	 *            搜索条件
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/getPhotographerByUserId")
+	@SkipAuthCheck
+	@SkipLoginCheck
+	public Object getPhotographerByUserId(HttpServletRequest request,Integer userId) {
+		ResponseMessage result = new ResponseMessage();
+		try {
+			Map<String,Object> map = otherMapper.selectPhotographerByUserId(userId);
+			result.setCode(CommonConstant.SUCCESSCODE);
+			result.setMsg(CommonConstant.SUCCESSSTRING);
+			result.setData(map);
+		} catch (InvalidHttpArgumentException e) {
+			e.printStackTrace();
+			result.setCode(e.getCode());
+			result.setMsg(e.getMsg());
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			log.error("查询用户信息出错，" + e1.getMessage());
+			result.setCode(CommonConstant.EXCEPTIONCODE);
+			result.setMsg(CommonConstant.EXCEPTIONMSG);
+		}
+		return result;
+	}
+	
+	
 
 	/**
 	 * 导出用户信息
@@ -1494,4 +1605,7 @@ public class UserController {
 		}
 		return result;
 	}
+	
+	
+	
 }

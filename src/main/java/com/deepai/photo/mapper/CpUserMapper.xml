@@ -97,6 +97,9 @@
     <result column="STANDBY4" property="standby4" jdbcType="VARCHAR" />
     <result column="STANDBY5" property="standby5" jdbcType="VARCHAR" />
     <result column="LANG_TYPE" property="langType" jdbcType="INTEGER" />
+    <result column="HOMEPAGE_COLUMNID" property="homepageColumnId" jdbcType="INTEGER" />
+    <result column="USER_DETAIL" property="userDetail" jdbcType="VARCHAR" />
+    <result column="USER_CLASS" property="userClass" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -1521,6 +1524,19 @@
       <if test="langType != null" >
         LANG_TYPE = #{langType,jdbcType=VARCHAR},
       </if>
+      
+      <if test="homepageColumnId != null" >
+        HOMEPAGE_COLUMNID = #{homepageColumnId,jdbcType=INTEGER},
+      </if>
+      <if test="userDetail != null" >
+        USER_DETAIL = #{userDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="userClass!= null" >
+        USER_CLASS = #{userClass,jdbcType=INTEGER},
+      </if>
+      
+      
+      
     </set>
     where ID = #{id,jdbcType=INTEGER}
   </update>

@@ -99,6 +99,8 @@ public interface CpBasicMapper {
 	public List<Map<String, Object>> selectUserByLogin(Map map);
 
 	public List<Map<String, Object>> selectUserByCreate(Map map);
+	
+	public List<Map<String, Object>> selectUserByOrderId(Map map);//add by xiayunan@20171116 根据ID号排序
 
 	public List<Map<String, Object>> getUserAll(Map map)throws Exception;
 }

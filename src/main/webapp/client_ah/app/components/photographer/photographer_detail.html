@@ -1,0 +1,59 @@
+
+	<div class="wrapper">
+
+	    <!-- 主体内容部分 -->
+	    <div class="sjah_photographer_detail_content">
+	    	<div class="photographer_detail">
+	    		<div class="photographer_detail_left left">
+	    			<img ng-src="{{photographerDetail.photoPath}}" height="245px" width="163px" style="margin-top: 7px;">
+	    		</div>
+	    		<div class="photographer_detail_right right">
+	    			<p>
+	    				<span>{{photographerDetail.trueName}}</span>
+	    				{{photographerDetail.userDetail}}
+	    			</p>
+	    		</div>
+	    		<div class="clear"></div>
+	    	</div>
+	    	<div class="photographer_detail_Pics">
+	    		<div class="photographer_first_li">
+	    			<ul>
+	    				<li ng-repeat="item in photographerDetail.firstData track by $index">
+	    					<a ui-sref="root.newDetailList({groupId: item.ID})"><img  width="386px" height="240px"  ng-src="{{item.filePath}}"></a>
+	    				</li>
+	    				<!--  
+	    				<li><a href=""><img src="client_ah/assets/images_ah/sjah_photographer_index_09.png"></a></li>
+	    				<li><a href=""><img src="client_ah/assets/images_ah/sjah_photographer_index_09.png"></a></li>
+	    				-->
+	    			</ul>
+	    		</div>
+	    		<div class="clear"></div>
+	    		<div class="photographer_second_li">
+	    			<ul>
+	    				<li ng-repeat="item in photographerDetail.secondData track by $index">
+	    					<a ui-sref="root.newDetailList({groupId: item.ID})"><img width="585px" height="365px" ng-src="{{item.filePath}}"></a>
+	    				</li>
+	    				<!-- 
+	    				<li><a href=""><img src="client_ah/assets/images_ah/sjah_photographer_index_19.png"></a></li>
+	    				 -->
+	    			</ul>
+	    		</div>
+	    		<div class="clear"></div>
+	    		<div class="photographer_first_li">
+	    			<ul>
+	    				<li ng-repeat="item in photographerDetail.thirdData track by $index">
+	    					<a ui-sref="root.newDetailList({groupId: item.ID})"><img width="386px" height="240px" ng-src="{{item.filePath}}"></a>
+	    				</li>
+	    				<!--  
+	    				<li><a href=""><img src="client_ah/assets/images_ah/sjah_photographer_index_09.png"></a></li>
+	    				<li><a href=""><img src="client_ah/assets/images_ah/sjah_photographer_index_09.png"></a></li>
+	    				-->
+	    			</ul>
+	    		</div>
+	    		<div class="clear"></div>
+	    	</div>
+
+	    	<div class="click_more_a " style="width:100%;height:30px;line-height: 30px;text-align:center;"><a href="" ng-click= "photographerDetail.showMoreSortList();" style="font-family: Microsoft YaHei;font-size: 18px;color: #747474;">更多+</a></div>
+	    	<div class="clear"></div>
+	    </div>
+	</div>

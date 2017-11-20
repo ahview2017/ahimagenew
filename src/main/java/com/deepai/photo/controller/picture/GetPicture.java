@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.deepai.photo.bean.CpColumn;
 import com.deepai.photo.bean.CpPicGroup;
+import com.deepai.photo.bean.CpPicGroupCategory;
 import com.deepai.photo.bean.CpPicture;
-import com.deepai.photo.bean.GroupQuery;
 import com.deepai.photo.common.StringUtil;
 import com.deepai.photo.common.annotation.SkipAuthCheck;
 import com.deepai.photo.common.annotation.SkipLoginCheck;
@@ -37,6 +37,7 @@ import com.deepai.photo.common.validation.CommonValidation;
 import com.deepai.photo.mapper.AboutPictureMapper;
 import com.deepai.photo.mapper.ClientPictureMapper;
 import com.deepai.photo.mapper.CpColumnMapper;
+import com.deepai.photo.mapper.CpPicGroupCategoryMapper;
 import com.deepai.photo.mapper.CpPicGroupThumbsUpMapper;
 import com.deepai.photo.mapper.CpWaterMarkPictureMapper;
 import com.deepai.photo.service.admin.SysConfigService;
@@ -63,6 +64,9 @@ public class GetPicture {
 	private CpColumnMapper cpColumnMapper;
 	@Autowired
 	private SysConfigService sysConfigService;
+	@Autowired
+	private CpPicGroupCategoryMapper cpPicGroupCategoryMapper;
+	
 	/**
 	 * 缺省的读文件的缓冲区大小
 	 */
@@ -410,26 +414,60 @@ public class GetPicture {
 //			//设置默认值 默认非水印，最小图
             picType = picType==null?0:picType;
             size = size==null?1:size;
-            //判断当前签发栏目Id是否为禁止打水印栏目
+            //判断当前签发栏目Id是否为禁止打水印栏目 
             String forbitSignIdStr = sysConfigService.getDbSysConfig(SysConfigConstant.FORBIT_WATERMARK_COLUMN, 1);
 			if(StringUtil.notBlank(forbitSignIdStr)){
 				if(forbitSignIdStr.indexOf(",")!=-1){
 					String[] forbitColumIdsStr = forbitSignIdStr.split(",");
-					for(int i=0;i<forbitColumIdsStr.length;i++){
-						if(Integer.valueOf(forbitColumIdsStr[i]).equals(signId)){
-							picType = 2;
-							size = 4;
-							group.setShowStatus(1);
-//							group.set
-							break;
+					
+					if(signId!=null&&signId!=0){
+						logger.info("signId is not  null!!");
+						for(int i=0;i<forbitColumIdsStr.length;i++){
+							if(Integer.valueOf(forbitColumIdsStr[i]).equals(signId)){
+								picType = 2;
+								size = 4;
+								group.setShowStatus(1);
+								break;
+							}
+						}
+					}else{
+						logger.info("signId is  null!!");
+						logger.info("groupId:"+groupId);
+						List<CpPicGroupCategory> CpPicGroupCategorys =  cpPicGroupCategoryMapper.selectByGroupId(groupId);
+						logger.info("cpColumns.size:"+CpPicGroupCategorys.size());
+						for(int i=0;i<forbitColumIdsStr.length;i++){
+							for(int j=0;j<CpPicGroupCategorys.size();j++){
+								logger.info("forbitColumIdsStr["+i+"]:"+forbitColumIdsStr[i]);
+								logger.info("CpPicGroupCategorys["+j+"]:"+CpPicGroupCategorys.get(j).getId());
+								if(Integer.valueOf(forbitColumIdsStr[i]).equals(CpPicGroupCategorys.get(j).getCategoryId())){
+									picType = 2;
+									size = 4;
+									group.setShowStatus(1);
+									break;
+								}
+							}
 						}
 					}
+					
 				}else{
-					if(Integer.valueOf(forbitSignIdStr).equals(signId)){
-						picType = 2;
-						size = 4;//取中图原图
-						group.setShowStatus(1);
+					if(signId!=null&&signId!=0){
+						if(Integer.valueOf(forbitSignIdStr).equals(signId)){
+							picType = 2;
+							size = 4;//取中图原图
+							group.setShowStatus(1);
+						}
+					}else{
+						List<CpPicGroupCategory> CpPicGroupCategorys =  cpPicGroupCategoryMapper.selectByGroupId(groupId);
+						for(int j=0;j<CpPicGroupCategorys.size();j++){
+							if(Integer.valueOf(forbitSignIdStr).equals(CpPicGroupCategorys.get(j).getCategoryId())){
+								picType = 2;
+								size = 4;
+								group.setShowStatus(1);
+								break;
+							}
+						}
 					}
+					
 				}
 			}
             

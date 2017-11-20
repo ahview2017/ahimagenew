@@ -364,6 +364,11 @@
   	ORDER BY t.CREATE_TIME DESC
   </select>
   
+  <select id="selectUserByOrderId" parameterType="map" resultType="map">
+  	<include refid="base_select_user"/> 
+  	ORDER BY t.USER_ORDER 
+  </select>
+  
   <!-- 根据条件查询用户 -->
   <select id="selectUserByQuery" parameterType="map" resultType="map">
   	<include refid="base_select_user"/>  	

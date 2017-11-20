@@ -195,7 +195,38 @@ public class CpUser {
     
     private Integer langType;
     
-    public Integer getLangType() {
+    private String userDetail;
+    
+    private int homepageColumnId;
+    
+    private int userClass;
+    
+    
+    public int getUserClass() {
+		return userClass;
+	}
+
+	public void setUserClass(int userClass) {
+		this.userClass = userClass;
+	}
+
+	public String getUserDetail() {
+		return userDetail;
+	}
+
+	public void setUserDetail(String userDetail) {
+		this.userDetail = userDetail;
+	}
+
+	public int getHomepageColumnId() {
+		return homepageColumnId;
+	}
+
+	public void setHomepageColumnId(int homepageColumnId) {
+		this.homepageColumnId = homepageColumnId;
+	}
+
+	public Integer getLangType() {
 		return langType;
 	}
 

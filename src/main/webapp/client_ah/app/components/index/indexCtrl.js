@@ -171,7 +171,7 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
             sginId: signId,
             limit: limit,
 			picType: picType,
-			size: size
+			size: size,
         }).success(function (resp) {
             if (resp.code == '211') {
                 //3头条

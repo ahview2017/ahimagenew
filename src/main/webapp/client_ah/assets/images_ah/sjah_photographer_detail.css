@@ -1,0 +1,169 @@
+@charset utf-8;
+
+.sjah_photographer_content{
+	width:1200px;
+	margin:0 auto;
+	height:auto;
+}
+.sjah_photographer_content_pic{
+	width:1200px;
+	height:300px;
+	background: url("sjah_photographer_detail_03.png") no-repeat center;
+	margin-top:20px;
+}
+
+.sjah_artist_content_pic{
+	width:1200px;
+	height:300px;
+	background: url("sjah_photographer_detail_04.png") no-repeat center;
+	margin-top:20px;
+}
+
+
+.sjah_photographer_content_box{
+	width:100%;
+	margin-top:24px;
+}
+.sjah_photographer_content_detail{
+	width:1160px;
+	margin:0 auto;
+	margin-top:10px;
+}
+.sjah_photographer_content_detail_lt{
+	width:152px;
+	height:223px;
+	background: url("sjah_photographer_detail_07.png") no-repeat center;
+}
+.sjah_photographer_content_detail_lt_box{
+	width:142px;
+	height:212px;
+	text-align: center;
+	margin:5px auto;
+}
+.sjah_photographer_content_detail_lt_box img{
+	max-width:142px;
+	height:212px;
+	text-align: center;
+}
+.sjah_photographer_content_detail_rt{
+	width:985px;
+}
+.sjah_photographer_name{
+	width:100%;
+	height:50px;
+	line-height: 50px;
+}
+.sjah_photographer_name span{
+	font-size:32px;
+	font-weight: bolder;
+	padding:0 2px;
+}
+.sjah_photographer_name_line{
+	height: 0px;
+	width:870px;
+	border-bottom:1px dashed #000;
+	margin:25px auto;
+}
+.sjah_photographer_intru{
+	width:100%;
+	height:auto;
+}
+.sjah_photographer_intru p{
+	width:100%;
+	line-height: 32px;
+	height:auto;
+	font-size: 16px;
+}
+
+
+
+
+/* 细览页 */
+.sjah_photographer_detail_content{
+	width:1200px;
+	margin:0 auto;
+	height:auto;
+	margin-top: 10px;
+}
+.photographer_detail{
+	background:url("sjah_photographer_index_1113.png") no-repeat center top;
+	width:100%;
+	height:310px;
+	margin:0 auto;
+}
+.photographer_detail_left{
+	width:163px;
+	height:245px;
+	margin-top:22px;
+	margin-left:18px;
+}
+.photographer_detail_right{
+	width:970px;
+	height:170px;
+	padding-right:30px;
+	padding-top:50px;
+}
+.photographer_detail_right p{
+	font-size: 16px;
+	line-height: 32px;
+	height: 200px;
+	overflow-Y: auto;
+}
+.photographer_detail_right p span{
+	font-size: 42px;
+    font-weight: normal;
+    line-height:42px;
+}
+.photographer_detail_Pics{
+	width:100%;
+	height:auto;
+	margin-top:20px;
+}
+.photographer_first_li{
+	width:1200px;
+	height:240px;
+}
+.photographer_first_li li{
+	float:left;
+	width:386px;
+	height:240px;
+	display: table-cell;     
+	vertical-align: middle;
+    text-align: center;
+}
+.photographer_first_li li:nth-child(2){
+	margin:0 20px;
+}
+.photographer_first_li li img{
+	display: table-cell;     
+	vertical-align: middle;
+    text-align: center;
+}
+.photographer_second_li{
+	width:1200px;
+	height:365px;
+	margin:20px auto 12px;
+}
+.photographer_second_li li{
+	width:585px;
+	height:365px;
+	float:left;
+	display: table-cell;     
+	vertical-align: middle;
+    text-align: center;
+}
+.photographer_second_li li:nth-child(1){
+	margin-right:20px;
+}
+.photographer_second_li li img{
+	display: table-cell;     
+	vertical-align: middle;
+    text-align: center;
+}
+.click_more_a{
+	height:30px;
+	line-height: 30px;
+	font-size: 14px;
+	padding:0 10px;
+	margin-top:15px;
+}

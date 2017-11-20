@@ -515,7 +515,10 @@ adminModule.controller('userManageCtrl', function($scope, $cookies, req, md5, $s
 			//userRightId为用户权限id,用户管理:206,摄影师：276，订户管理：277
 			if(vm.userRightId == 276) {
 				//当摄影师管理下搜索的是摄影师
-				paramsObj['roleId'] = 3;
+				//paramsObj['roleId'] = 3;
+				paramsObj['roleId'] = 98;//add by xiayunan@20171110  摄影师管理下搜索的是签约摄影家
+				paramsObj['userStatus'] = 0;//摄影师管理下搜索的为用户状态为已开通的摄影名家和艺术家
+				paramsObj['orderTime'] = 2;
 			}
 			if(vm.userRightId == 277) {
 				//当订户管理时搜索的订户
@@ -1089,6 +1092,12 @@ adminModule.controller('userManageCtrl', function($scope, $cookies, req, md5, $s
 		vm.editUnitFax = editItemData['UNIT_FAX'];
 		vm.editUserQQNum = editItemData['STANDBY1'];
 		vm.editUserWxNum = editItemData['STANDBY2'];
+		
+		//add by xiayunan@20171110 编辑框显示用户描述、栏目ID，排序ID
+		vm.editUserDetail = editItemData['USER_DETAIL'];
+		vm.editUserColumnId = editItemData['HOMEPAGE_COLUMNID'];
+		vm.editUserOrderId = editItemData['USER_ORDER'];
+		vm.editUserClass = editItemData['USER_CLASS']+'';
 
 		// 下载管理
 		vm.editDownLevelId = editItemData['DOWNLOAD_LEVEL'];
@@ -1421,7 +1430,13 @@ adminModule.controller('userManageCtrl', function($scope, $cookies, req, md5, $s
 			standby1: vm.editUserQQNum,
 			standby2: vm.editUserWxNum,
 			langType: vm.editlangType,
-			userToken: vm.userToken
+			userToken: vm.userToken,
+			
+			userDetail: vm.editUserDetail,
+			homepageColumnId: vm.editUserColumnId,
+			userOrder: vm.editUserOrderId,
+			userClass: vm.editUserClass
+			
 		}).success(function(resp) {
 			if(resp.code == '211') {
 				

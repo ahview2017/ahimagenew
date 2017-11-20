@@ -274,7 +274,11 @@
 					<a ui-sref="root.artPhoto">艺苑菁华</a>
 					<div class="news_pic_alert6 rel_pad" style="display: none;">
 						<ul >
-							<li class="tab_li1" ng-repeat="item in header.artEssence"><a ui-sref="root.moreSortList({sginId:item.id})" target="_blank">{{item.name}}</a></li>
+							<li class="tab_li1" ng-repeat="item in header.artEssence">
+								<a ui-sref="root.photographerList" target="_blank" ng-if="item.showFlag==0">{{item.name}}</a>
+								<a ui-sref="root.artistList" target="_blank" ng-if="item.showFlag==1">{{item.name}}</a>
+								<a ui-sref="root.moreSortList({sginId:item.id})" target="_blank" ng-if="item.showFlag==2">{{item.name}}</a>
+							</li>
 						</ul>
 					</div></li>
 				<li class="right_border tab_li" ng-init="header.getselChildColumn(3083)">

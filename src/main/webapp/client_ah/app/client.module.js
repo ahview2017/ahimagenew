@@ -65,6 +65,55 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
                 }
             }
         })
+        
+        
+        //摄影名家列表页
+        .state('root.photographerList', {
+            url:'/photographerList',
+            views:{
+                'main@':{
+                    templateUrl: 'client_ah/app/components/photographer/photographer_list.html',
+                    controller: 'photographerListCtrl as photographerList'
+                }
+            }
+        })
+        
+         //摄影名家详情页
+        .state('root.photographerdetail', {
+            url:'/photographerDetail/:userId?:sginId?',
+            views:{
+                'main@':{
+                    templateUrl: 'client_ah/app/components/photographer/photographer_detail.html',
+                    controller: 'photographerDetailCtrl as photographerDetail'
+                }
+            }
+        })
+        
+        //艺术家列表页
+        .state('root.artistList', {
+            url:'/artistList',
+            views:{
+                'main@':{
+                    templateUrl: 'client_ah/app/components/artist/artist_list.html',
+                    controller: 'artistListCtrl as artistList'
+                }
+            }
+        })
+        
+         //摄影师之家详情页
+        .state('root.artistdetail', {
+            url:'/artistDetail/:userId?:sginId?',
+            views:{
+                'main@':{
+                    templateUrl: 'client_ah/app/components/artist/artist_detail.html',
+                    controller: 'artistDetailCtrl as artistDetail'
+                }
+            }
+        })
+        
+       
+         
+        
         //详情列表页
         .state('root.detailList', {
             url:'/detailList',
@@ -634,7 +683,7 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
 clientModule.run(function($rootScope, req, $cookies){
     $rootScope.layerIfShow = false;
     $rootScope.$on('$stateChangeSuccess',function(event, toState, toParams, fromState, fromParams){
-        console.log('Enter state: ' + toState.name);
+       // console.log('Enter state: ' + toState.name);
         //日期选择器设置为中文
         moment.locale('zh-cn');
         //重新获取用户名看用户是否处于登录状态

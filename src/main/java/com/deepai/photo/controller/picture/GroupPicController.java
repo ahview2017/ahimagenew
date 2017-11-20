@@ -2052,7 +2052,6 @@ public class GroupPicController {
 					group.setInnerRemark(logs.get(0).getOperateMemo());
 					group.setOperateUserName(logs.get(0).getOperateUsername());
 					group.setOperateTime(logs.get(0).getOperateTime());
-					
 				}
 			}
 			CpPicGroupProcessExample e=new CpPicGroupProcessExample();

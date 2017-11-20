@@ -611,6 +611,7 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 				//皖风徽韵
 				if (pColumnId == 3078) {
                     vm.anhuiStyle = resp.data;
+                    
                 }
 				//历史资料
 				if (pColumnId == 3079) {
@@ -627,6 +628,17 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 				//艺苑菁华
 				if (pColumnId == 3082) {
                     vm.artEssence = resp.data;
+                    angular.forEach(vm.artEssence,function(item,index){
+                    	//if(item.name == '摄影师之家'){
+                    	if(item.name == '摄影名家'){
+                    		item.showFlag = 0;
+                    	}else if(item.name == '艺术家'){
+                    		item.showFlag = 1;
+                    	}else{
+                    		item.showFlag = 2;
+                    	}
+                    	
+              		 });
                 }
 				//互动空间
 				if (pColumnId == 3083) {

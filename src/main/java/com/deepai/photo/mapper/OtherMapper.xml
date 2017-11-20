@@ -47,6 +47,28 @@
 		or u.AUTHOR_NAME like CONCAT('%',#{uName},'%'))
 	</if>
   </select>
+  
+  <!-- 查询摄影师之家签约摄影师 -->
+  <select id="selectPhotographer"  resultType="map">
+  SELECT u.ID,u.USER_NAME,u.TURE_NAME,u.AUTHOR_NAME,u.USER_ORDER,u.HOMEPAGE_COLUMNID,u.USER_DETAIL,u.STANDBY3 from cp_user u 
+  LEFT JOIN cp_user_role ur on u.ID=ur.USER_ID 
+  where ur.ROLE_ID=98 and u.USER_STATUS=0 and u.USER_CLASS = 1 order by u.USER_ORDER
+  </select>
+  
+  <!-- 查询艺术家 -->
+  <select id="selectArtist"  resultType="map">
+  SELECT u.ID,u.USER_NAME,u.TURE_NAME,u.AUTHOR_NAME,u.USER_ORDER,u.HOMEPAGE_COLUMNID,u.USER_DETAIL,u.STANDBY3 from cp_user u 
+  LEFT JOIN cp_user_role ur on u.ID=ur.USER_ID 
+  where ur.ROLE_ID=98 and u.USER_STATUS=0 and u.USER_CLASS = 2 order by u.USER_ORDER
+  </select>
+  
+  <!-- 查询用户-->
+  <select id="selectPhotographerByUserId" parameterType="int" resultType="map">
+  SELECT u.ID,u.USER_NAME,u.TURE_NAME,u.AUTHOR_NAME,u.USER_ORDER,u.HOMEPAGE_COLUMNID,u.USER_DETAIL,u.STANDBY3 from cp_user u 
+  where u.ID=#{userId} 
+  </select>
+  
+  
  
   <!-- 稿件综合高级查询 -->
   <select id="selectGroupComplex" parameterType="map" resultType="map">

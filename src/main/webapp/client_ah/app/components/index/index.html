@@ -95,14 +95,14 @@
 								<a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
 									<img ng-src="{{item.filePath}}" width="254" height="348">
 								</a>
-                                <p class="split_string"><a href="">{{item.TITLE}}</a></p>
+                                <p class="split_string"><a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">{{item.TITLE}}</a></p>
                             </div>
                             <div class="hfwy_content_2 right">
                                 <div class="hfwy_content_2_1" ng-repeat="item in index.anhuiStyle track by $index" ng-if="!$first">
 									<a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
 										<img ng-src="{{item.filePath}}" width="255" height="164">
 									</a>
-                                    <p class="split_string"><a href="">{{item.TITLE}}</a></p>
+                                    <p class="split_string"><a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">{{item.TITLE}}</a></p>
                                 </div>
                              
                             </div>
@@ -125,7 +125,7 @@
 								<a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
 									<img ng-src="{{item.filePath}}" height="170" width="254">
 								</a>
-                                <p class="split_string"><a href="">{{item.TITLE}}</a></p>
+                                <p class="split_string"><a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">{{item.TITLE}}</a></p>
                             </div>
                             
                         </div>
@@ -147,7 +147,7 @@
 								<a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
 									<img ng-src="{{item.filePath}}" height="165" width="254">
 								</a>
-                                <p class="split_string"><span></span><a href="">{{item.TITLE}}</a></p>
+                                <p class="split_string"><span></span><a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">{{item.TITLE}}</a></p>
                             </div>
 							<!--
                             <div class="gstk_content_2 gstk_content_1 left" ng-repeat="item in index.anhuiCitys track by $index" ng-if="$middle">
@@ -245,7 +245,7 @@
 								<img ng-src="{{item.filePath}}" width="387" height="245">
 							</a>
                             <div class="history_subtitle">
-                                <p class="split_string"><a href="">{{item.TITLE}}</a></p>
+                                <p class="split_string"><a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">{{item.TITLE}}</a></p>
                                 <p class="split_string">{{item.TITLE}}</p>
                             </div>
                         </li>

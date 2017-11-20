@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.deepai.photo.bean.CpPicture;
 import com.deepai.photo.bean.CpProofread;
+import com.deepai.photo.bean.CpUser;
 
 
 public interface OtherMapper {
@@ -20,6 +21,13 @@ public interface OtherMapper {
     public void updatePicGroupId(@Param("pics")List<CpPicture> pics)throws Exception;
     
     public List<Map<String,Object>> selectPhotoUser(@Param("uName")String uName)throws Exception;
+    
+    public List<Map<String,Object>> selectPhotographer()throws Exception;
+    
+    public List<Map<String,Object>> selectArtist()throws Exception;
+    
+    public Map<String,Object> selectPhotographerByUserId(@Param("userId")Integer userId)throws Exception;
+    
     public List<Map<String,Object>> selectGroupComplex(Map map)throws Exception;
     public Integer selectGoodsPrice(Integer goodsType)throws Exception;   
     public Integer checkIdCard(@Param("idCard")String idCard,@Param("id")Integer id)throws Exception; 
