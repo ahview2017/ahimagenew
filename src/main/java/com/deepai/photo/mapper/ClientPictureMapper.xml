@@ -317,6 +317,7 @@
 	WHERE
 		g.SOURCE_ID = 0
 	AND g.GROUP_STATUS = 4
+	AND p.DELETE_FLAG = 0
 	AND g.ID = #{0}
 	ORDER BY p.IS_COVER DESC,p.id
   </select>
