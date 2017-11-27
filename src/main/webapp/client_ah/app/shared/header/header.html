@@ -48,9 +48,19 @@
 			</div>
 			<div class="login_code">
 				<span>验证码：</span> <input rel="text" type="text" name="login_code"
-					id="login_code"> <span class="send_code"><a
+					id="login_code"> 
+					<!--  
+					<span class="send_code"><a
 					class="cursor change-hover-color" href="javascript:void(0);"
 					id="code" ng-click="header.sendmsg()">发送验证码</a></span>
+					-->
+					<img ng-src="{{header.validCodeImg}}"
+                                     ng-click="header.changeValidCodeImg()"
+                                     id="vCodeId"/>
+                                <a class="cursor change-hover-color" href="javascript:void(0);"
+                                    ng-click="header.changeValidCodeImg()">
+                                    换一张</a>
+					
 			</div>
 			<div class="submit_reset_box">
 				<input type="submit" value="登录" name="submit" id="login_in"

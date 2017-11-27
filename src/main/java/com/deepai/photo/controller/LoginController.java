@@ -155,13 +155,15 @@ public class LoginController {
             if (type == 0) {
                 scode = (String) request.getSession().getAttribute("scode");
             } else if (type == 1) {
-                scode = redisClientTemplate
-                        .get("USERNAME" + userName + vilidate);
-                if(scode==null){
-                    res.setCode(CommonConstant.EXCEPTIONCODE);
-                    res.setMsg("验证码无效");
-                    return res;
-                }
+            	//将前台登录方式改为验证码登录  add by xiayunan@20171127
+            	scode = (String) request.getSession().getAttribute("scodeClient");
+//                scode = redisClientTemplate
+//                        .get("USERNAME" + userName + vilidate);
+//                if(scode==null){
+//                    res.setCode(CommonConstant.EXCEPTIONCODE);
+//                    res.setMsg("验证码无效");
+//                    return res;
+//                }
             }
 			String lowerCase = scode.toLowerCase();
 			if (lowerCase.equalsIgnoreCase(vilidate) || scode.equalsIgnoreCase(vilidate)) {

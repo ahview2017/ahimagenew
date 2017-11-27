@@ -26,6 +26,8 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 		$rootScope.client_logined = $cookies.get('client_logined');
 		//省市县联动数据
 		vm.msCityList = cityList.citylist;
+		//初始化验证码  add by xiayunan@20171127
+		vm.validCodeImg ='/photo/yanzhengForClient.do?tm='+Math.random();
 	}
 	//改变省的时候
 	vm.changeProv = function(prov) {
@@ -35,6 +37,11 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 			}
 		}
 	};
+	
+	//改变验证码图片 add by xiayunan@20171127
+    vm.changeValidCodeImg = function(){
+        vm.validCodeImg ='/photo/yanzhengForClient.do?tm='+Math.random();
+    }
 	
 
 	/**导航切换效果*/
@@ -149,7 +156,6 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 			$("#code").attr('disabled', "true");
 			$("#code").html(nums + '秒后可重新获取');
 			clock = setInterval(doLoop, 1000); // 一秒执行一次
-			console.log("发送短信");
 			req.post('phonemsg/getPhoneVilidate.do', {
 				userName : $("#login_user").val()
 			}).success(function(resp) {

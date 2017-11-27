@@ -79,15 +79,58 @@ public class VilidateUtil {
 			OutputStream ops = response.getOutputStream();
 			ImageIO.write(image, "jpeg", ops);
 			ops.close();
-		}
-		
-		private String getNumber(int size){
-			String str = "qwertyuipkjhgfdsazxcvbnmABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-			String number = "";
+	}
+	
+	
+	/**
+	 * 验证码生成  add by xiayunan@20171127
+	 * @param response
+	 * @param session
+	 * @throws Exception
+	 */
+	@RequestMapping("yanzhengForClient")
+	@SkipLoginCheck
+	@SkipAuthCheck
+	public void executeForClient(
+			HttpServletResponse response,
+			HttpSession session) throws Exception{
+			//0.创建空白图片
+			BufferedImage image = new BufferedImage(60,26,BufferedImage.TYPE_INT_RGB);
+			//1.获取图片画笔
+			Graphics g = image.getGraphics();
 			Random r = new Random();
-			for(int i=0;i<size;i++){
-				number+=str.charAt(r.nextInt(str.length()));
+			//2.设置画笔颜色
+			g.setColor(Color.WHITE);
+			//3.绘制矩形的背景
+			g.fillRect(0, 0, 60, 26);
+			//4.调用自定义的方法，获取长度为5的字母数字组合的字符串
+			String number = getNumber(4);	
+			//将图片字符存入session,用于验证码检查使用
+			
+			session.setAttribute("scodeClient", number);
+			g.setColor(new Color(0,0,0));
+			g.setFont(new Font(null,Font.BOLD,18));
+			//5.设置颜色字体后，绘制字符串
+			g.drawString(number, 7, 19);
+			//6.绘制8条干扰线
+			for(int i=0;i<10;i++){
+				g.setColor(new Color(r.nextInt(255),r.nextInt(255),r.nextInt(255),r.nextInt(255)));
+				g.drawLine(r.nextInt(100), r.nextInt(30), r.nextInt(100), r.nextInt(30));
 			}
-			return number;
+			response.setContentType("image/jpeg");
+			OutputStream ops = response.getOutputStream();
+			ImageIO.write(image, "jpeg", ops);
+			ops.close();
+	}
+	
+	private String getNumber(int size){
+		String str = "qwertyuipkjhgfdsazxcvbnmABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+		String number = "";
+		Random r = new Random();
+		for(int i=0;i<size;i++){
+			number+=str.charAt(r.nextInt(str.length()));
 		}
+		return number;
+	}
+	
 }
