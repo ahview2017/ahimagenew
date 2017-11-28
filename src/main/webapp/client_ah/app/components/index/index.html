@@ -109,27 +109,6 @@
                         </div>
                     </div>
                     <div class="clear"></div>
-		    <div class="gstk">
-                        <div class="yyjh_title_box">
-                            <div class="yyjh_title">
-                                <a href="javascript:void(0);">各市图库</a>
-                            </div>     
-                        </div>
-                        <div class="gstk_nav" ng-init="index.getselChildColumn(3080)">
-                            <span ng-repeat="item in index.citys">
-								<a ui-sref="root.moreSortList({sginId:item.id})">{{item.name}}</a>
-							</span>
-                        </div>
-                        <div class="gstk_content" ng-init="index.getClientGroups(3080,3,0,2)">
-                            <div class="gstk_content_1 left" ng-repeat="item in index.anhuiCitys track by $index">
-								<a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
-									<img ng-src="{{item.filePath}}" height="165" width="254">
-								</a>
-                                <p class="split_string"><span></span><a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">{{item.TITLE}}</a></p>
-                            </div>							
-                        </div>
-                    </div>
-		    <div class="clear"></div>
                     <div class="yyjh">
                         <div class="yyjh_title_box">
                             <div class="yyjh_title">
@@ -150,9 +129,41 @@
                             </div>
                             
                         </div>
-                    </div>  
-                    
-                    
+                    </div>
+                    <div class="clear"></div>
+                    <div class="gstk">
+                        <div class="yyjh_title_box">
+                            <div class="yyjh_title">
+                                <a href="javascript:void(0);">各市图库</a>
+                            </div>     
+                        </div>
+                        <div class="gstk_nav" ng-init="index.getselChildColumn(3080)">
+                            <span ng-repeat="item in index.citys">
+								<a ui-sref="root.moreSortList({sginId:item.id})">{{item.name}}</a>
+							</span>
+                        </div>
+                        <div class="gstk_content" ng-init="index.getClientGroups(3080,3,0,2)">
+                            <div class="gstk_content_1 left" ng-repeat="item in index.anhuiCitys track by $index">
+								<a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
+									<img ng-src="{{item.filePath}}" height="165" width="254">
+								</a>
+                                <p class="split_string"><span></span><a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">{{item.TITLE}}</a></p>
+                            </div>
+							<!--
+                            <div class="gstk_content_2 gstk_content_1 left" ng-repeat="item in index.anhuiCitys track by $index" ng-if="$middle">
+								<a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
+									<img ng-src="{{item.filePath}}" height="165" width="254">
+								</a>
+                                <p class="split_string"><span></span><a href="">{{item.TITLE}}</a></p>
+                            </div>
+                            <div class="gstk_content_1 right" ng-repeat="item in index.anhuiCitys track by $index" ng-if="$last">
+								<a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
+									<img ng-src="{{item.filePath}}" height="165" width="254">
+								</a>
+                                <p class="split_string"><span></span><a href="">{{item.TITLE}}</a></p>
+                            </div>-->
+                        </div>
+                    </div>
                 </div>
 
                 <div class="main_pic_right right">
@@ -172,24 +183,6 @@
                         </div>
                     </div>
 
-		    <div class="gstk_hd" ng-init="index.getClientGroups(3083,1,0,2)">
-                        <div class="zt_title_box">
-                            <div class="zt_title">
-                                <a ui-sref="root.moreSortList({sginId:3083})" target="_blank">互动</a>
-                            </div>     
-                        </div>
-                        <div class="hd_content" ng-repeat="item in index.interactiveSpace track by $index">
-                            <div class="hd_nav">
-                                <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">{{item.TITLE}}</a>
-                            </div>
-                            <div class="hd_content_1">
-                                <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
-									<img ng-src="{{item.filePath}}" alt="" width="329" height="164">
-								</a>
-                                <p><a href="">{{item.TITLE}}</a></p>
-                            </div>
-                        </div>
-                    </div>
                     <!-- 专题 -->
 
                     <div class="hfwy_zt">
@@ -215,7 +208,24 @@
                     </div>
                     
 
-
+                    <div class="gstk_hd" ng-init="index.getClientGroups(3083,1,0,2)">
+                        <div class="zt_title_box">
+                            <div class="zt_title">
+                                <a ui-sref="root.moreSortList({sginId:3083})" target="_blank">互动</a>
+                            </div>     
+                        </div>
+                        <div class="hd_content" ng-repeat="item in index.interactiveSpace track by $index">
+                            <div class="hd_nav">
+                                <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">{{item.TITLE}}</a>
+                            </div>
+                            <div class="hd_content_1">
+                                <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
+									<img ng-src="{{item.filePath}}" alt="" width="329" height="164">
+								</a>
+                                <p><a href="">{{item.TITLE}}</a></p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
