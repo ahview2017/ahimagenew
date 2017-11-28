@@ -154,10 +154,6 @@ clientModule.controller('newArticleCtrl', function ($scope, $cookies, req, md5, 
 
     init();
 	
-
-
-    
-
    
     /**
      * 向数组指定位置插入数据
@@ -169,8 +165,7 @@ clientModule.controller('newArticleCtrl', function ($scope, $cookies, req, md5, 
         return array.splice(index, 0, item);
     }
 
-    
-   
+
     
     getOnlineUserList();
     // 获取在线用户列表
@@ -327,6 +322,19 @@ clientModule.controller('newArticleCtrl', function ($scope, $cookies, req, md5, 
                 if(vm.upMsFiles && vm.upMsFiles[i].size){
                     vm.msFileSize = $filter('Filesize')(vm.upMsFiles[i].size);
                 }
+                //上传图片进度条 add by xiayunan@20171128
+                var msSpeedHtml = '<div class="ms-up-content-box">'
+                    + '<p class="ms-up-progress-desc">'
+                    + '<span>' + vm.upMsFiles[i].name + "（" + vm.msFileSize + "）- "+ '</span>'
+                    + '<span class="ms-up-progress-bar">0%</span>'
+                    +'</p>'
+                    + '<div class="ms-up-progress-bg-box">'
+                    + '<div class="ms-up-progress-bg">'
+                    + '</div>'
+                    + '</div>'
+                    + '</div>';
+                $('.ms-upinfo-box').append(msSpeedHtml);
+                
                 
                 (function(j){
                     if(j == 0 || displayed[j-1]){
