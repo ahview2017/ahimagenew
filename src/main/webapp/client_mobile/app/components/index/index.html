@@ -235,7 +235,7 @@
                         <li ng-repeat="item in index.anhuiCitys track by $index">
                             <a ui-sref="root.newDetailList({groupId: item.ID})">
                                 <img ng-src="{{item.filePath}}" />
-                                <i>{{item.PICTURE_COUNT}}图</i>
+                                <i >{{item.PICTURE_COUNT}}图</i>
                                 <div class="clear"></div>
                             </a>
                             <p>{{item.TITLE}}</p>
@@ -260,7 +260,7 @@
                                 <img ng-src="{{item.filePath}}" />
                                 <span>
                                     <b></b>
-                                    <i>{{item.PICTURE_COUNT}}图</i>
+                                    <i ng-if="!item.VIDEO_ID">{{item.PICTURE_COUNT}}图</i>
                                 </span>
                                 <div class="clear"></div>
                             </a>

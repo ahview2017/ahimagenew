@@ -674,7 +674,8 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
 				 TITLE: item.TITLE|| '',
 				 columnName: item.columnName|| '',
 				 thumbsUpCount: item.thumbsUpCount|| '',
-				 isThumbsUp: item.isThumbsUp|| ''
+				 isThumbsUp: item.isThumbsUp|| '',
+				 VIDEO_ID:item.VIDEO_ID|| ''
 			 });
 		 });
     }
