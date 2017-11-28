@@ -342,14 +342,16 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
 	  	vm.pageHeight = Math.max(document.body.scrollHeight,document.body.offsetHeight);
 	    vm.viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 0;
 	    vm.scrollHeight = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-	    
+	    //console.log("vm.pageHeight:"+vm.pageHeight);
+	    //console.log("vm.viewportHeight:"+vm.viewportHeight);
+	    //console.log("vm.scrollHeight:"+vm.scrollHeight);
     	//真实内容的高度
     	//var pageHeight = Math.max(document.body.scrollHeight,document.body.offsetHeight);
     	//视窗的高度
     	//var viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 0;
     	//隐藏的高度
     	//var scrollHeight = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-    	if(vm.pageHeight - vm.viewportHeight - vm.scrollHeight < 20){//如果满足触发条件，执行
+    	if(vm.pageHeight - vm.viewportHeight - vm.scrollHeight < 650){//如果满足触发条件，执行
     		vm.currpage++;
     		req_appendMoreGroups(vm.currchnl,vm.currpage);
     	}
