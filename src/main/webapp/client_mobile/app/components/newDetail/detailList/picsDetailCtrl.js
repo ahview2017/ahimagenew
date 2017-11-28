@@ -657,6 +657,7 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
 
 	//获取Mas视频基础URL add by xiayunan 20170907
 	function getMasBaseUrl(){
+		vm.masBaseUrl = 'http://192.168.81.2/mas/openapi/pages.do?appKey=TRSPMS123';
 		req.get('groupPicCtro/getMasBaseUrl.do').success(function(resp) {
 			if(resp.code == '211') {
 				vm.masBaseUrl = resp.data.masBaseUrl;
