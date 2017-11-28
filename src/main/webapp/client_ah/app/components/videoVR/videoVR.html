@@ -13,7 +13,7 @@
             </div>
             <div class="newsPic_business" ng-repeat="item in videoVR.aerialVideo track by $index" style="text-align:center">
                 <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
-					<img ng-src="{{item.filePath}}" alt="" style="max-height:233px;max-width:370px">
+					<img ng-src="{{item.filePath}}" alt="" width="370" height="233">
 				</a>
                 <p class="newsPic_business_p1"><a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">{{item.TITLE}}</a></p>
             </div>
@@ -29,7 +29,7 @@
             </div>
             <div class="newsPic_business" ng-repeat="item in videoVR.microVideo track by $index" style="text-align:center">
                 <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
-					<img ng-src="{{item.filePath}}" alt="" style="max-height:233px;max-width:370px">
+					<img ng-src="{{item.filePath}}" alt="" width="370" height="233">
 				</a>
                 <p class="newsPic_business_p1"><a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">{{item.TITLE}}</a></p>
             </div>
@@ -46,7 +46,7 @@
             </div>
             <div class="newsPic_business" ng-repeat="item in videoVR.VR track by $index" style="text-align:center">
                 <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
-					<img ng-src="{{item.filePath}}" alt="" style="max-height:233px;max-width:370px">
+					<img ng-src="{{item.filePath}}" alt="" width="370" height="233">
 				</a>
                 <p class="newsPic_business_p1"><a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">{{item.TITLE}}</a></p>
             </div>
