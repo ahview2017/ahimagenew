@@ -14,7 +14,7 @@ html{font-size: 10px;font-family: '微软雅黑';}
 
 .header_title{height: 4rem;background: #ee1d23 url(ahrb_mobile_indexpics201709-02.png) no-repeat center center;}
 
-.header_title a{display: block;text-decoration: none;width:20%;height: 4rem;background: url(ahrb_mobile_indexpics201709-01.png) no-repeat center center;}
+.header_title a{display: block;text-decoration: none;width:14%;height: 4rem;background: url(ahrb_mobile_indexpics201709-01.png) no-repeat center center;}
 
 .conLists li a{display: block;text-decoration: none;color: #333;position:relative;}
 
@@ -117,7 +117,7 @@ z-index: 10000;}
 
 @media screen and (max-width: 768px){
 
-	.header_title,.header_title a{background-size: 30%;}
+	.header_title,.header_title a{background-size: 50%;}
 
 }
 
@@ -426,6 +426,7 @@ z-index: 10000;}
         background-size: cover;  
 
     }  
+    .header_contributions a{display: block;text-decoration: none;height: 4rem;background: url(ahrb_wytg_20171128.png) no-repeat center center;background-size: 4%;}
 
 
 

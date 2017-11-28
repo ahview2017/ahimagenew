@@ -70,7 +70,7 @@ public class OldPicDataExchangeForProductController {
 	private static final int THIRD_EDIT_ID = 352;
 	private static final String AUTHOR_NAME = "吴文兵";
 	private static final int AUTHOR_ID = 409;
-	private static final int DATA_EXCHANGE_CHNL_ID = 3063;
+	private static final int DATA_EXCHANGE_CHNL_ID = 3066;
 	private static final String FILE_SEP = File.separator;
 	private static final int HISTORY_LAYOUT_COLUMN_ID = 100182646;//老照片分类ID   农业：100182646    政治：1761	 工业：
 	private static int SUCCESS_PIC_NUM = 0;
