@@ -83,13 +83,13 @@
 	            </div>
 	            <div class="footer_1">
 	                <p>安徽日报报业集团 版权所有@2017 主办：安徽日报报业集团 皖ICP备14018042号</p>
-	                <p>任何文字与图片未经授权禁止转载、摘编、复制或建立影像，侵权必究！</p>
-	                <p>如有任何版权问题 请联系：shyb@VIP.163.com 电话：0551-65179191 0551-65179237</p>
+	                <p>任何文字与图片未经授权禁止转载、摘编、复制或建立影像，侵权必究！　<span ng-repeat="wmItem in footer.webMsgArray"><a ui-sref="root.webInfoView({id:wmItem.id,name:wmItem.title,type:2})" target="">{{wmItem.title}}</a></span></p>
+	                <p>如有任何版权问题 请联系：12345678@163.com 电话：0551-88888888</p>
 	            </div>
 	            <div class="weibo_weixin">
-	                <ul>	                 
-	                    <li class="right">
-	                        <img src="client_ah/assets/images_ah/mobile_03.png" alt="" width="75" height="75">
+	                <ul>
+	                    <li>
+	                        <img src="client_ah/assets/images_ah/mobile_03.png" width="75" height="75">
 	                        <p>手机版</p>
 	                    </li>
 	                </ul>
