@@ -65,7 +65,7 @@ clientModule.controller('fullTextCtrl',function($scope,$cookies,req,md5,$state,$
                         endPage:'末页',
                         prevContent:'上一页',
                         nextContent:'下一页',
-                        showData:30,
+                        showData:20,
                         jumpIptCls: 'toPageNum',
                         jumpBtnCls: 'toPageBtn',
                         callback: function (num) {

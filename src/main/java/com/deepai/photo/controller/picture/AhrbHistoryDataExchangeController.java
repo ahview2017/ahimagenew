@@ -170,7 +170,7 @@ public class AhrbHistoryDataExchangeController {
 		try {
 			log.info("============================信件迁移开始！===========================");
 			conn =  getConnection();
-			String sql = "SELECT * FROM uninews_Product a WHERE UP_SignDate_DT BETWEEN '2004-01-01' AND '2005-12-31'";
+			String sql = "SELECT * FROM uninews_Product a WHERE UP_SignDate_DT BETWEEN '2017-01-01' AND '2017-08-31'";
 	        pstmt = (PreparedStatement)conn.prepareStatement(sql);
 	        log.info("获取数据库连接成功！");
 	        rs = pstmt.executeQuery();
@@ -270,6 +270,7 @@ public class AhrbHistoryDataExchangeController {
 					CpUser firstEditUser = cpUserMapper.selectByPrimaryKey(FIRST_EDIT_ID);
 					CpUser secondEditUser = cpUserMapper.selectByPrimaryKey(SECOND_EDIT_ID);
 					CpUser thirdEditUser = cpUserMapper.selectByPrimaryKey(THIRD_EDIT_ID);
+					flowService.addCategoryForGroup(group.getId(),cateIdsStr);
 //					String res=flowService.checkAndEditGroup(picData, group, firstEditUser ,DateUtil.getDate(new Date()), siteid, 1,cateIdsStr,type);
 //					if(res!=null){
 //						result.setCode(CommonConstant.SUCCESSCODE212);
