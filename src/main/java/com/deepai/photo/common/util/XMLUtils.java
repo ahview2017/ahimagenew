@@ -71,7 +71,7 @@ public class XMLUtils {
         eTime.setText(sNow);
         
         Element eBody = DocumentHelper.createElement("Body");
-        eBody.setText(pic.getMemo());
+        eBody.setText(deleteAllHTMLTag(group.getTitle())+"\r\n    "+deleteAllHTMLTag(group.getMemo())+"\r\n    "+deleteAllHTMLTag(pic.getMemo())+"\r\n    "+deleteAllHTMLTag(group.getRemark()));//add by xiayunan@20171201
         Element eSender = DocumentHelper.createElement("Sender");
         eSender.setText(user.getUserName());
 
@@ -97,6 +97,7 @@ public class XMLUtils {
         OutputFormat of = OutputFormat.createPrettyPrint();
         of.setEncoding("GB2312");
         of.setIndent(true);
+        of.setTrimText(false);//add by xiayunan@20171201
         of.setNewlines(true);
         org.dom4j.io.XMLWriter xw = new org.dom4j.io.XMLWriter(
         		new  FileOutputStream(targetFile), of);
@@ -104,6 +105,23 @@ public class XMLUtils {
         xw.flush();
     }
     
+    /**
+	  * 删除所有的HTML标签
+	  *
+	  * @param source 需要进行除HTML的文本
+	  * @return
+	  */
+	 public static String deleteAllHTMLTag(String source) {
+		  if(source == null) {
+		       return "";
+		  }
+		  String s = source;
+		  /** 删除普通标签  */
+		  s = s.replaceAll("<(S*?)[^>]*>.*?|<.*? />", "");
+		  /** 删除转义字符 */
+		  s = s.replaceAll("&.{2,6}?;", "");
+		  return s;
+	 }
     
 
 }
