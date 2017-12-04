@@ -307,7 +307,7 @@ adminModule.controller('mSendManuscriptCtrl', function($scope, $cookies, req, md
             langType: window.localStorage.lang
         }).success(function(resp){
             if(resp.code == '211'){
-                vm.waitManuscriptList = resp.data;console.log(resp.data);
+                vm.waitManuscriptList = resp.data;
                 modalOperate.modalHide(modalId);
                 vm.totalPages = resp.page;
                 vm.sendMsList_total = resp.other;

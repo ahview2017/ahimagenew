@@ -116,7 +116,8 @@
                                     <p>{{item.UPDATE_TIME | date : 'yyyy-MM-dd'}}</p>
                                     <p>{{item.UPDATE_TIME | date : 'HH:mm:ss'}}</p>
                                 </td>
-                                <td>{{item.GROUP_STATUS | grouppStatusFilter}}</td>
+                                <td ng-if="item.QBSTATUS==1" style="color:red;">{{item.GROUP_STATUS | grouppStatusFilter}}</td>
+                                <td ng-if="item.QBSTATUS==0">{{item.GROUP_STATUS | grouppStatusFilter}}</td>
                                 <td>{{item.IS_LOCKED | isLockFilter}}</td>
                                 <td ng-if="sendManuscript.reMyRoleId!=1 && sendManuscript.reMyRoleId!=26">{{item.FRIST_PFD_USER}}</td>
                                 <td ng-if="sendManuscript.reMyRoleId==1 || sendManuscript.reMyRoleId==26">
@@ -216,7 +217,8 @@
                                     <p>{{item.UPDATE_TIME | date : 'yyyy-MM-dd'}}</p>
                                     <p>{{item.UPDATE_TIME | date : 'HH:mm:ss'}}</p>
                                 </td>
-                                <td>{{item.GROUP_STATUS | grouppStatusFilter}}</td>
+                                <td ng-if="item.QBSTATUS==1" style="color:red;">{{item.GROUP_STATUS | grouppStatusFilter}}</td>
+                                <td ng-if="item.QBSTATUS==0">{{item.GROUP_STATUS | grouppStatusFilter}}</td>
                                 <td>{{item.IS_LOCKED | isLockFilter}}</td>
                                 <td ng-if="sendManuscript.reMyRoleId!=1 && sendManuscript.reMyRoleId!=26">{{item.FRIST_PFD_USER}}</td>
                                 <td ng-if="sendManuscript.reMyRoleId==1 || sendManuscript.reMyRoleId==26">
@@ -323,7 +325,8 @@
                                         --------
                                     </span>
                                 </td>
-                                <td>{{item.GROUP_STATUS | grouppStatusFilter}}</td>
+                                <td ng-if="item.QBSTATUS==1" style="color:red;">{{item.GROUP_STATUS | grouppStatusFilter}}</td>
+                                <td ng-if="item.QBSTATUS==0">{{item.GROUP_STATUS | grouppStatusFilter}}</td>
                                 <td>{{item.IS_LOCKED | isLockFilter}}</td>
                                 <td ng-if="sendManuscript.reMyRoleId!=1 && sendManuscript.reMyRoleId!=26">{{item.FRIST_PFD_USER}}</td>
                                 <td ng-if="sendManuscript.reMyRoleId==1 || sendManuscript.reMyRoleId==26">
