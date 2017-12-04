@@ -690,4 +690,38 @@ adminModule.controller('mDatabaseDetailCtrl', function ($scope, $cookies, req, m
             }
         });
     }
+    
+    //	add by liu.jinfeng@20170904
+	vm.signModalShow2 = function(modalId) {
+		modalOperate.modalShow(modalId);
+	}
+    
+	// 稿件详情模态框隐藏
+	vm.manuscriptDetailModalHide = function(modalId) {
+		modalOperate.modalHide(modalId);
+	}
+	
+	// 签报
+	vm.signManuscript2 = function(modalId) {
+		 var v = $(":radio[name='checkpic']:checked").val();  
+		 if(typeof(v)=="undefined"){
+			 layer.alert("请选择要签报的类型");
+			return;
+		 }
+		signManuscript2(modalId,v);
+	}
+    
+	function signManuscript2(modalId,v){
+		req.post('groupPicCtro/signPic.do ', {
+			groupId: vm.dataBankId,
+			type: v
+		}).success(function(resp) {
+			if(resp.code == '211') {
+				layer.alert("签报成功");
+				modalOperate.modalHide("sign-manuscript-modal2");
+				return;
+			}
+			layer.alert(resp.msg);
+		});
+	}
 });

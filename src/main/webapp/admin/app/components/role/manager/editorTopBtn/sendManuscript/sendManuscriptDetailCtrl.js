@@ -473,6 +473,7 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 		}).success(function(resp) {
 			if(resp.code == '211') {
 				layer.alert("签报成功");
+				modalOperate.modalHide("sign-manuscript-modal2");//add by xiayunan@20171204 签报成功，隐藏弹框 
 				return;
 			}
 			layer.alert(resp.msg);

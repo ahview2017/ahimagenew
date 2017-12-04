@@ -41,6 +41,7 @@ input[type=checkbox], input[type=radio]{ zoom:1.5;}
                     <span class="spanDatabaseBtn" ng-show="detail.langType==0" ng-click="detail.projectModalShow('hadSignModalId')">已签栏目</span>
                      <span class="spanDatabaseBtn" ng-show="detail.langType==1" ng-click="detail.projectModalShow('hadSignModalIdEn')">已签栏目</span>
                     <span class="spanDatabaseBtn ml10 mr10" ng-click="detail.onFillSignShowModalClick()">补签</span>
+                    <span class="spanDatabaseBtn ml10 mr10" ng-click="detail.signModalShow2('sign-manuscript-modal2')">签报</span>
                    <!-- <span class="spanDatabaseBtn" ng-click="detail.projectModalShow('retractionModalId')">撤稿</span>-->
                     <span class="spanDatabaseBtn" ng-click="detail.editSendManuscript()">在线修改</span>
                 </span>
@@ -348,6 +349,30 @@ input[type=checkbox], input[type=radio]{ zoom:1.5;}
             </div>
         </div>
     </div>
+
+	 <!--签报弹框 add by xiayunan@20171204-->
+    <div class="common-modal-style2" id="sign-manuscript-modal2"
+         ng-mousemove="detail.moveModal('role-add-tit','sign-manuscript-modal2')"
+         style="display:none">
+        <div class="role-add-con">
+            <div class="role-add-tit clear" id="role-add-tit">
+                <span class="fll">签报稿件</span>
+                <span class="flr curp tit-close" ng-click="detail.manuscriptDetailModalHide('sign-manuscript-modal2')">×</span>
+            </div>
+            <div text-align="left">
+              	报社图片 <input type="radio" name="checkpic" value="1" checked="true"/>
+                 &nbsp;&nbsp;&nbsp;&nbsp;
+                新华社图片<input type="radio" name="checkpic" value="0"/>
+                
+            </div>
+            <div class="tac mt10">
+                <span class="dib cursor user-add-btn"   ng-click="detail.signManuscript2('sign-manuscript-modal2')">确定</span>
+                <span class="dib cursor user-add-btn cancel-btn-color"   ng-click="detail.manuscriptDetailModalHide('sign-manuscript-modal2')">取消</span>
+            </div>
+        </div>
+    </div>
+
+
 
     <!--撤稿弹框-->
     <div class="common-modal-style" id="retractionModalId"

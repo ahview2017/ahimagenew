@@ -170,12 +170,12 @@ public class AhrbHistoryDataExchangeController {
 		try {
 			log.info("============================信件迁移开始！===========================");
 			conn =  getConnection();
-			String sql = "SELECT * FROM uninews_Product a WHERE UP_SignDate_DT BETWEEN '2017-01-01' AND '2017-08-31'";
+			String sql = "SELECT * FROM uninews_Product a WHERE UP_SignDate_DT BETWEEN '2005-01-01 00:00:00'  AND '2005-06-30 23:59:59'  ORDER BY UP_SignDate_DT";
 	        pstmt = (PreparedStatement)conn.prepareStatement(sql);
 	        log.info("获取数据库连接成功！");
 	        rs = pstmt.executeQuery();
-	        int col = rs.getMetaData().getColumnCount();
-	        log.info("<<<<<<<<<总记录数："+col);
+//	        int col = rs.getMetaData().getColumnCount();
+//	        log.info("<<<<<<<<<总字段数："+col);
 	        while (rs.next()) {
 	        	String dateStr = "";//日期
 				String title = "";//标题
@@ -183,7 +183,7 @@ public class AhrbHistoryDataExchangeController {
 				String keyWordsStr = "";//关键词
 				String content = "";//内容
 				String cateIdsStr = "";
-	        	try {
+//	        	try {
 	        		String fileName = rs.getString("UP_File_Vc");
 		        	String filePath = rs.getString("UP_PhotoPath_Vc");
 		        	if(filePath!=null&&!"".equals(filePath)){
@@ -201,7 +201,7 @@ public class AhrbHistoryDataExchangeController {
 		        	log.info("<<<<<<<<<<fileFullPath:"+fileFullPath);
 //		        	String filePath = "D:\\xinhuaphoto\\20170820\\XxjpsgC000668_20170820_TPPFN1A001.jpg";
 		        	
-					dateStr = rs.getString("UP_PhotoDate_Dt");//日期
+					dateStr = rs.getString("UP_SignDate_DT");//日期
 		        	if(dateStr!=null && dateStr.length()>=19 ){
 		        		dateStr = dateStr.substring(0, 19);
 		        	}
@@ -223,8 +223,14 @@ public class AhrbHistoryDataExchangeController {
 					map.put("strMemo", content);
 					map.put("authorName", author);
 					int siteid = 1;
-					List<CpPicture> pics = pictureService.uploadMorePicForAhrbHistoyData(picFile, siteid,map,dateStr);
-					log.info("====================上传 图片成功======================");
+					List<CpPicture> pics = null;
+					try {
+						 pics = pictureService.uploadMorePicForAhrbHistoyData(picFile, siteid,map,dateStr);
+						 log.info("====================上传 图片成功======================");
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					
 					result.setCode(CommonConstant.SUCCESSCODE);
 					result.setMsg(CommonConstant.SUCCESSSTRING);
 					result.setData(pics);
@@ -249,64 +255,126 @@ public class AhrbHistoryDataExchangeController {
 					CpUser user = cpUserMapper.selectByPrimaryKey(1);
 					int type = 1;//1是提交，0是保存
 					int roleid = 1;
-					int a = flowService.makePicGroupForDataExchange(pics, group, isIpTc, user, siteid, type, roleid);
-					StringBuffer ids= new StringBuffer();
-					String typeName=type==0?"保存":"提交";
-					for (CpPicture pic : pics) {
-						ids.append(pic.getId()).append(",");
-					}
-					if(a>0){
-						result.setCode(CommonConstant.SUCCESSCODE);
-						result.setMsg(CommonConstant.SUCCESSSTRING);
-						result.setOther(String.format("%s稿件groupId=%s成功，包含图片picIds=%s",typeName,group.getId(), ids));
-					}else{
-						result.setCode(CommonConstant.FAILURECODE);
-						result.setMsg(CommonConstant.FILEERRORMSG);
-					}
-					
-					//一审编辑稿件					
-					Gson gson = new Gson();
-					String picData = gson.toJson(pics);
-					CpUser firstEditUser = cpUserMapper.selectByPrimaryKey(FIRST_EDIT_ID);
-					CpUser secondEditUser = cpUserMapper.selectByPrimaryKey(SECOND_EDIT_ID);
-					CpUser thirdEditUser = cpUserMapper.selectByPrimaryKey(THIRD_EDIT_ID);
-					flowService.addCategoryForGroup(group.getId(),cateIdsStr);
-//					String res=flowService.checkAndEditGroup(picData, group, firstEditUser ,DateUtil.getDate(new Date()), siteid, 1,cateIdsStr,type);
-//					if(res!=null){
-//						result.setCode(CommonConstant.SUCCESSCODE212);
-//						result.setMsg("存在敏感词："+res);
-//					}else{
-						flowService.examByProofread(cpPicGroupMapper.selectByPrimaryKey(group.getId()),firstEditUser , 1,null);//一审
-						flowService.examByProofread(cpPicGroupMapper.selectByPrimaryKey(group.getId()),secondEditUser , 2,null);//二审
-						CpPicGroupCategory cpPicGroupCategory = new CpPicGroupCategory();
-						cpPicGroupCategory.setType(0);
-						cpPicGroupCategory.setPosition(0);
-						cpPicGroupCategory.setCategoryId(DATA_EXCHANGE_CHNL_ID);
+					if(pics!=null){
+						int a = 0;
+						try {
+							a = flowService.makePicGroupForDataExchange(pics, group, isIpTc, user, siteid, type, roleid);
+							StringBuffer ids= new StringBuffer();
+							String typeName=type==0?"保存":"提交";
+							for (CpPicture pic : pics) {
+								ids.append(pic.getId()).append(",");
+							}
+							if(a>0){
+								result.setCode(CommonConstant.SUCCESSCODE);
+								result.setMsg(CommonConstant.SUCCESSSTRING);
+								result.setOther(String.format("%s稿件groupId=%s成功，包含图片picIds=%s",typeName,group.getId(), ids));
+							}else{
+								result.setCode(CommonConstant.FAILURECODE);
+								result.setMsg(CommonConstant.FILEERRORMSG);
+							}
+							
+							//一审编辑稿件					
+							Gson gson = new Gson();
+							String picData = gson.toJson(pics);
+							CpUser firstEditUser = cpUserMapper.selectByPrimaryKey(FIRST_EDIT_ID);
+							CpUser secondEditUser = cpUserMapper.selectByPrimaryKey(SECOND_EDIT_ID);
+							CpUser thirdEditUser = cpUserMapper.selectByPrimaryKey(THIRD_EDIT_ID);
+							flowService.addCategoryForGroup(group.getId(),cateIdsStr);
+//							String res=flowService.checkAndEditGroup(picData, group, firstEditUser ,DateUtil.getDate(new Date()), siteid, 1,cateIdsStr,type);
+//							if(res!=null){
+//								result.setCode(CommonConstant.SUCCESSCODE212);
+//								result.setMsg("存在敏感词："+res);
+//							}else{
+								flowService.examByProofread(cpPicGroupMapper.selectByPrimaryKey(group.getId()),firstEditUser , 1,null);//一审
+								flowService.examByProofread(cpPicGroupMapper.selectByPrimaryKey(group.getId()),secondEditUser , 2,null);//二审
+								CpPicGroupCategory cpPicGroupCategory = new CpPicGroupCategory();
+								cpPicGroupCategory.setType(0);
+								cpPicGroupCategory.setPosition(0);
+								cpPicGroupCategory.setCategoryId(DATA_EXCHANGE_CHNL_ID);
+								
+//								CpPicGroupCategory cpPicGroupCategory1 = new CpPicGroupCategory();
+//								cpPicGroupCategory1.setType(0);
+//								cpPicGroupCategory1.setCategoryId(3094);//前台签发栏目  历史资料》历史图片
+								List<CpPicGroupCategory> list = new ArrayList<CpPicGroupCategory>();
+								list.add(cpPicGroupCategory);
+//								list.add(cpPicGroupCategory1);
+								String cateData = gson.toJson(list);
+								System.out.println("cateData:"+cateData);
+								List<Map<String,Object>> cates = gson.fromJson(cateData, new TypeToken<List<Map<String,Object>>>(){}.getType());
+								flowService.examByProofread(cpPicGroupMapper.selectByPrimaryKey(group.getId()),thirdEditUser, 3,cates);
+								result.setCode(CommonConstant.SUCCESSCODE);
+								result.setMsg(CommonConstant.SUCCESSSTRING);
+								result.setOther(String.format("三审审核提交稿件groupid=【%s】",group.getId()));
+//							}
+							log.info("第"+(++SUCCESS_PIC_NUM)+"篇稿件迁移成功,稿件标题："+title+"！");
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 						
-//						CpPicGroupCategory cpPicGroupCategory1 = new CpPicGroupCategory();
-//						cpPicGroupCategory1.setType(0);
-//						cpPicGroupCategory1.setCategoryId(3094);//前台签发栏目  历史资料》历史图片
-						List<CpPicGroupCategory> list = new ArrayList<CpPicGroupCategory>();
-						list.add(cpPicGroupCategory);
-//						list.add(cpPicGroupCategory1);
-						String cateData = gson.toJson(list);
-						System.out.println("cateData:"+cateData);
-						List<Map<String,Object>> cates = gson.fromJson(cateData, new TypeToken<List<Map<String,Object>>>(){}.getType());
-						flowService.examByProofread(cpPicGroupMapper.selectByPrimaryKey(group.getId()),thirdEditUser, 3,cates);
-						result.setCode(CommonConstant.SUCCESSCODE);
-						result.setMsg(CommonConstant.SUCCESSSTRING);
-						result.setOther(String.format("三审审核提交稿件groupid=【%s】",group.getId()));
+					}
+					//int a = flowService.makePicGroupForDataExchange(pics, group, isIpTc, user, siteid, type, roleid);
+//					StringBuffer ids= new StringBuffer();
+//					String typeName=type==0?"保存":"提交";
+//					for (CpPicture pic : pics) {
+//						ids.append(pic.getId()).append(",");
 //					}
-					log.info("第"+(++SUCCESS_PIC_NUM)+"篇稿件迁移成功,稿件标题："+title+"！");
-			} catch (Exception e) {
-				log.error("==================出错啦=================");
-				++FAILED_PIC_NUM;
-				e.printStackTrace();
-				log.error("迁移稿件失败，"+e.getMessage());
-			}
-	        
+//					if(a>0){
+//						result.setCode(CommonConstant.SUCCESSCODE);
+//						result.setMsg(CommonConstant.SUCCESSSTRING);
+//						result.setOther(String.format("%s稿件groupId=%s成功，包含图片picIds=%s",typeName,group.getId(), ids));
+//					}else{
+//						result.setCode(CommonConstant.FAILURECODE);
+//						result.setMsg(CommonConstant.FILEERRORMSG);
+//					}
+//					
+//					//一审编辑稿件					
+//					Gson gson = new Gson();
+//					String picData = gson.toJson(pics);
+//					CpUser firstEditUser = cpUserMapper.selectByPrimaryKey(FIRST_EDIT_ID);
+//					CpUser secondEditUser = cpUserMapper.selectByPrimaryKey(SECOND_EDIT_ID);
+//					CpUser thirdEditUser = cpUserMapper.selectByPrimaryKey(THIRD_EDIT_ID);
+//					log.info("group is null"+group==null);
+//					log.info("cateIdsStr is null"+cateIdsStr==null);
+//					flowService.addCategoryForGroup(group.getId(),cateIdsStr);
+////					String res=flowService.checkAndEditGroup(picData, group, firstEditUser ,DateUtil.getDate(new Date()), siteid, 1,cateIdsStr,type);
+////					if(res!=null){
+////						result.setCode(CommonConstant.SUCCESSCODE212);
+////						result.setMsg("存在敏感词："+res);
+////					}else{
+//						flowService.examByProofread(cpPicGroupMapper.selectByPrimaryKey(group.getId()),firstEditUser , 1,null);//一审
+//						flowService.examByProofread(cpPicGroupMapper.selectByPrimaryKey(group.getId()),secondEditUser , 2,null);//二审
+//						CpPicGroupCategory cpPicGroupCategory = new CpPicGroupCategory();
+//						cpPicGroupCategory.setType(0);
+//						cpPicGroupCategory.setPosition(0);
+//						cpPicGroupCategory.setCategoryId(DATA_EXCHANGE_CHNL_ID);
+//						
+////						CpPicGroupCategory cpPicGroupCategory1 = new CpPicGroupCategory();
+////						cpPicGroupCategory1.setType(0);
+////						cpPicGroupCategory1.setCategoryId(3094);//前台签发栏目  历史资料》历史图片
+//						List<CpPicGroupCategory> list = new ArrayList<CpPicGroupCategory>();
+//						list.add(cpPicGroupCategory);
+////						list.add(cpPicGroupCategory1);
+//						String cateData = gson.toJson(list);
+//						System.out.println("cateData:"+cateData);
+//						List<Map<String,Object>> cates = gson.fromJson(cateData, new TypeToken<List<Map<String,Object>>>(){}.getType());
+//						flowService.examByProofread(cpPicGroupMapper.selectByPrimaryKey(group.getId()),thirdEditUser, 3,cates);
+//						result.setCode(CommonConstant.SUCCESSCODE);
+//						result.setMsg(CommonConstant.SUCCESSSTRING);
+//						result.setOther(String.format("三审审核提交稿件groupid=【%s】",group.getId()));
+////					}
+//					log.info("第"+(++SUCCESS_PIC_NUM)+"篇稿件迁移成功,稿件标题："+title+"！");
+//			} catch (Exception e) {
+//				log.error("==================出错啦=================");
+//				++FAILED_PIC_NUM;
+//				e.printStackTrace();
+//				log.error("迁移稿件失败，"+e.getMessage());
+//			}
+//	        
 	      }  
 		}catch(Exception e1){
+			log.error("==================出错啦=================");
+			++FAILED_PIC_NUM;
+			log.error("迁移稿件失败，"+e1.getMessage());
 			e1.printStackTrace();
 			result.setCode(CommonConstant.EXCEPTIONCODE);
 			result.setMsg(CommonConstant.EXCEPTIONMSG);
