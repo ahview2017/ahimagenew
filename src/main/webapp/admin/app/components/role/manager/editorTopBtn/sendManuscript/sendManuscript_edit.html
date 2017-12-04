@@ -72,7 +72,7 @@
                    <!-- <textarea class="n-manuscript-explain" placeholder="请输入稿件说明（必填，少于600汉字的简单说明）"
                               ng-model="edit.editManuscript.memo"></textarea>-->
                         <!--稿件合并时需要展示html，故用div代替textarea-->
-                        <p class='new_infor'>请输入稿件说明（必填，少于4000汉字的简单说明）</p>
+                        <p class='new_infor memo-toggle' id ="memo-toggle-flag">请输入稿件说明（必填，少于4000汉字的简单说明）</p>
                          <div class="n-manuscript-explain"  ng-bind-html="edit.editManuscript.memo | trustHtml"
                                    contenteditable = "true" style='-webkit-user-select:text'
                                    ng-model="edit.editManuscript.memo"></div>
@@ -100,7 +100,7 @@
                         <div class="draft-signed-bd">
                             <div class="draft-signed-hd-item clear">
                                 <div class="fll draft-signed-hd-left">
-                                    <span class="draft-sign-txt">人物</span>
+                                    <span class="draft-sign-txt people-toggle" ng-click="edit.copyPeople()" id ="people-toggle-flag">人物</span>
                                 </div>
                                 <div class="fll draft-signed-hd-right">
                                     <input placeholder="选填，少于200字" class="draft-sign-input" ng-model="edit.editManuscript.people"/>
@@ -108,7 +108,7 @@
                             </div>
                             <div class="draft-signed-hd-item clear">
                                 <div class="fll draft-signed-hd-left">
-                                    <span class="draft-sign-txt">关键字</span>
+                                    <span class="draft-sign-txt keyword-toggle" ng-click="edit.copyKeyword()" id ="keyword-toggle-flag" >关键字</span>
                                 </div>
                                 <div class="fll draft-signed-hd-right">
                                     <input placeholder="选填，少于200字" class="draft-sign-input" ng-model="edit.editManuscript.keywords"/>
@@ -233,7 +233,7 @@
                                         <span>人物</span>
                                     </div>
                                     <div class="ms-addpic-right fll">
-                                        <input placeholder="选填" class="draft-sign-input" ng-model="item.people"/>
+                                        <input placeholder="选填" class="draft-sign-input pic-people" ng-model="item.people"/>
                                     </div>
                                 </div>
                                 <div class="ms-addpic-item clear">
@@ -241,7 +241,7 @@
                                         <span>关键词</span>
                                     </div>
                                     <div class="ms-addpic-right fll">
-                                        <input placeholder="选填" class="draft-sign-input" ng-model="item.keywords"/>
+                                        <input placeholder="选填" class="draft-sign-input pic-keyword" ng-model="item.keywords"/>
                                     </div>
                                 </div>
                                 <div class="ms-addpic-item clear">
@@ -254,8 +254,8 @@
                                 </div>
                             </div>
                             <div class="ms-editDet-state fll">
-                                <h5 class="ms-pic-txt">图片说明</h5>
-                                <textarea class="ms-pic-textarea" placeholder="请输入图片说明" ng-model="item.memo"></textarea>
+                                <h5 class="ms-pic-txt" ng-click="edit.copyMemo()">图片说明</h5>
+                                <textarea class="ms-pic-textarea pic-memo" placeholder="请输入图片说明" ng-model="item.memo"></textarea>
                             </div>
                         </div>
                     </div>
