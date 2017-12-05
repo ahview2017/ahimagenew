@@ -73,15 +73,16 @@ public class HtmlUtil {
 	 * @return
 	 */
 	public static String parseHtml(String _content) {
-		String[] tags = { "a", "div", "ul", "i", "thead", "p", "b", "table",
-				"blockquote", "dd", "pre", "em", "tfoot", "cite", "tbody",
-				"strong", "q", "u", "sub", "col", "small", "li", "th", "tr",
-				"img", "sup", "caption", "br", "code", "dl", "colgroup",
-				"strike", "ol", "td", "h6", "h5", "dt", "h4", "h3", "h2", "h1",
-				"span" };
-
-		Whitelist wList = new Whitelist();
-		wList.addTags(tags);
-		return Jsoup.clean(_content, wList);
+//		String[] tags = { "a", "div", "ul", "i", "thead", "p", "b", "table",
+//				"blockquote", "dd", "pre", "em", "tfoot", "cite", "tbody",
+//				"strong", "q", "u", "sub", "col", "small", "li", "th", "tr",
+//				"img", "sup", "caption", "br", "code", "dl", "colgroup",
+//				"strike", "ol", "td", "h6", "h5", "dt", "h4", "h3", "h2", "h1",
+//				"span" };
+//
+//		Whitelist wList = new Whitelist();
+//		wList.addTags(tags);
+//		return Jsoup.clean(_content, wList);
+		return Jsoup.clean(_content, Whitelist.none());
 	}
 }
