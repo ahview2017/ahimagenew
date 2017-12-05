@@ -2769,4 +2769,81 @@ public class GroupPicController {
 	
 	
 	
+	/**
+	 * 稿件一键签报
+	 * @Description: TODO <BR>
+	 * @author xia.yunan
+	 * @date 2017年12月5日 下午16:01:31
+	 * @param request
+	 * @param response
+	 * @param groupIds 稿件ID
+	 * @return
+	 */
+    @ResponseBody
+    @RequestMapping("/signGroups")
+    public Object signGroups(HttpServletRequest request,
+            HttpServletResponse response, String signIds,Integer type) {
+        ResponseMessage result = new ResponseMessage();
+        CpUser user = SessionUtils.getUser(request);
+        CommonValidation.checkParamBlank(signIds + "", "稿件ids");
+        CommonValidation.checkParamBlank(type + "", "签报类型");
+        try {
+        	String[] ids=signIds.split(",");
+        	if(ids.length==0){
+    			throw new InvalidHttpArgumentException(CommonConstant.FAILURECODE, "请至少选择一条稿件");
+        	}
+        	for(String groupIdStr:ids){
+        		Integer groupId = Integer.valueOf(groupIdStr);
+        		CpPicGroup group = aboutPictureMapper.selectGroupPics(groupId);
+                if(group.getQbStatus()==1){
+                    log.error("不能签报");
+                    result.setCode(CommonConstant.EXCEPTIONCODE);
+                    result.setMsg("稿件id为"+groupId+"的稿件已经签报过不能再次签报");
+                    return result;
+                }
+                
+                List<CpPicture> list = group.getPics();//pictureService.selectByGroupId(groupId);
+                String sQbPath = ImageConfig.getQbPath(1, sysConfigService);
+                for (CpPicture pic : list) {
+                    String fileName = pic.getFilename();
+                    String filePath = ImageConfig.getFilePath(fileName, "B", 1,
+                            sysConfigService);
+                    // 判断附件是否存在
+                    if (ImgFileUtils.isFileExist(filePath)) {
+                        // 目录不存在则新建
+                        if (!ImgFileUtils.isFileExist(sQbPath)) {
+                            File file = new File(sQbPath);
+                            file.mkdirs();
+                        }
+                        // 复制图片到签报地址
+                        ImgFileUtils.copyFile(filePath,
+                                sQbPath + File.separator + fileName);
+
+                        //写入xml文件
+                        Document doc = XMLUtils.createDoc(group,pic,type,user);
+                        XMLUtils.writeXML(doc, sQbPath+fileName.substring(0, fileName.lastIndexOf("."))+".xml");
+                    }
+                }
+                
+                // 签过了更新状态
+                cpPicGroupMapper.updateByGroupId(groupId);
+                
+                //记录流程日志
+                flowService.addFlowLog(groupId, 19, "签报", null, user);
+        	}
+            
+            result.setCode(CommonConstant.SUCCESSCODE);
+            result.setMsg(CommonConstant.SUCCESSSTRING);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("不能签报，" + e.getMessage());
+            result.setCode(CommonConstant.EXCEPTIONCODE);
+            result.setMsg(CommonConstant.EXCEPTIONMSG);
+        }
+        
+        return result;
+
+    }
+	
+	
 }

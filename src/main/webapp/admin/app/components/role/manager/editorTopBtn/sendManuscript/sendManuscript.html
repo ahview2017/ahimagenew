@@ -43,6 +43,7 @@
                     <span class="user-check-txt">全选</span>
                     <span class="dib cursor edt-merge-btn" ng-click="sendManuscript.mergeManuscriptModalShow('wait-manuscript-merge-modal')">稿件合并</span>
                     <span class="dib cursor edt-merge-btn" ng-click="sendManuscript.downLoadPic()">下载原图</span>
+                    <span ng-if="sendManuscript.variedtypeArr[0] ==3" class="dib cursor edt-merge-btn" ng-click="sendManuscript.signModalShow2('sign-manuscript-modal2')">一键签报</span>
                 </div>
                 <div class="user-hd-right flr">
                     <input class="user-search-input" placeholder="可根据稿件ID、标题、作者名 检索" ng-model="sendManuscript.search.paramStr"
@@ -145,6 +146,7 @@
                     </label>
                     <span class="dib cursor edt-merge-btn"  ng-click="sendManuscript.mergeManuscriptModalShow('wait-manuscript-merge-modal')">稿件合并</span>
                     <span class="dib cursor edt-merge-btn" ng-click="sendManuscript.downLoadPic()">下载原图</span>
+                    <span ng-if="sendManuscript.variedtypeArr[0] ==3" class="dib cursor edt-merge-btn" ng-click="sendManuscript.signModalShow2('sign-manuscript-modal2')">一键签报</span>
                 </div>
                 <div class="user-hd-right flr">
                     <input class="user-search-input" placeholder="可根据稿件ID、标题、作者名 检索" ng-model="sendManuscript.search.paramStr"/>
@@ -515,6 +517,27 @@
                 </div>
             </div>
             
+        </div>
+    </div>
+    <!--签报弹框 add by xiayunan@20171205-->
+    <div class="common-modal-style2" id="sign-manuscript-modal2"
+         ng-mousemove="detail.moveModal('role-add-tit','sign-manuscript-modal2')"
+         style="display:none;" >
+        <div class="role-add-con">
+            <div class="role-add-tit clear" id="role-add-tit">
+                <span class="fll">签报稿件</span>
+                <span class="flr curp tit-close" ng-click="sendManuscript.manuscriptDetailModalHide('sign-manuscript-modal2')">×</span>
+            </div>
+            <div text-align="left">
+              	报社图片 <input type="radio" name="checkpic" value="1" checked="true"/>
+                 &nbsp;&nbsp;&nbsp;&nbsp;
+                新华社图片<input type="radio" name="checkpic" value="0"/>
+                
+            </div>
+            <div class="tac mt10">
+                <span class="dib cursor user-add-btn"   ng-click="sendManuscript.signGroups('sign-manuscript-modal2')">确定</span>
+                <span class="dib cursor user-add-btn cancel-btn-color"   ng-click="sendManuscript.manuscriptDetailModalHide('sign-manuscript-modal2')">取消</span>
+            </div>
         </div>
     </div>
     <!--高级检索弹框-->

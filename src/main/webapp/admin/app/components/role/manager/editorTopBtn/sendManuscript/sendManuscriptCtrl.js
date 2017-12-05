@@ -49,13 +49,14 @@ adminModule.controller('mSendManuscriptCtrl', function($scope, $cookies, req, md
         console.log(vm.variedtypeArr);
         //从service里取得我的值班级别的数据，实现数据持久化
         getMyDuty.req_getMyDuty(function(type){
-            console.log(type);
             //存储角色拥有的值班级别
             if($window.localStorage['lang'] == 0) {
                 if(!$window.localStorage['userDutyLevelZh']){
                     $window.localStorage['userDutyLevelZh']=JSON.stringify(type);
                 }
                 vm.variedtypeArr = JSON.parse($window.localStorage['userDutyLevelZh'] || '[]');
+                
+                
             } else if($window.localStorage['lang'] == 1){
                 if(!$window.localStorage['userDutyLevelEn']){
                     $window.localStorage['userDutyLevelEn']=JSON.stringify(type);
@@ -163,6 +164,63 @@ adminModule.controller('mSendManuscriptCtrl', function($scope, $cookies, req, md
         	document.location = "/photo/enGroupPicDown/downSinglePic.do?picIds=" + picIds+"&type="+type;
         }        
     }
+    
+    //一键签报  add by xiayunan@20171205
+    vm.signGroups = function (modalId){
+    	 var v = $(":radio[name='checkpic']:checked").val();  
+		 if(typeof(v)=="undefined"){
+			 layer.alert("请选择要签报的类型");
+			return;
+		 }
+		 signGroups(modalId,v);
+    }
+    
+    function signGroups(modalId,v){
+		req.post('groupPicCtro/signGroups.do ', {
+			signIds: vm.signIds,
+			type: v
+		}).success(function(resp) {
+			if(resp.code == '211') {
+				layer.alert("签报成功");
+				modalOperate.modalHide("sign-manuscript-modal2");//add by xiayunan@20171204 签报成功，隐藏弹框 
+				return;
+			}else if(resp.msg != '未登录'){
+                layer.alert(resp.msg);
+             }
+		});
+	}
+    
+    // 稿件详情模态框隐藏
+	vm.manuscriptDetailModalHide = function(modalId) {
+		modalOperate.modalHide(modalId);
+	}
+    
+    
+    
+    //	add by xia.yunan@20171205
+	vm.signModalShow2 = function(modalId) {
+		vm.selKeyArr = [];
+    	vm.signIds = '';
+        for(var key in vm.selWaitMsIds){
+            if(vm.selWaitMsIds[key]){
+                vm.selKeyArr.push(key);
+            }
+        }
+        if(!vm.selKeyArr.length){
+            layer.alert('请至少选中一个稿件');
+            return;
+        }
+        for(var key in vm.selKeyArr){
+            if((key != vm.selKeyArr.length-1)){
+            	vm.signIds += vm.selKeyArr[key] + ',';
+            }else{
+            	vm.signIds += vm.selKeyArr[key];
+            }
+        }
+		modalOperate.modalShow(modalId);
+	}
+    
+    
     //自动分配 or 显示全部
     vm.chooseEdtAllot = function(edtAllot){
         vm.edtAllot = edtAllot;
@@ -432,7 +490,6 @@ adminModule.controller('mSendManuscriptCtrl', function($scope, $cookies, req, md
     }
     //稿件合并
     vm.comfirmMergeManuscript = function(modalId){
-        console.log(vm.selMergeWaitMsIds);
         req_mergeManuscript(modalId);
     }
     //获取稿件合并的稿件ID
@@ -452,9 +509,7 @@ adminModule.controller('mSendManuscriptCtrl', function($scope, $cookies, req, md
             layer.alert('请至少选中一个稿件');
             return;
         }
-        console.log(vm.selWaitMsIds);
         getNeedMergeMsIds();
-        console.log(vm.finalGIds);
         var reqData = {
             groupId: vm.selMergeWaitMsIds,
             gIds:  vm.finalGIds
