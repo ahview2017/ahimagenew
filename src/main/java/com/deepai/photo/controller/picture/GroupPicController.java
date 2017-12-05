@@ -51,6 +51,7 @@ import com.deepai.photo.common.util.IPUtil;
 import com.deepai.photo.common.util.SessionUtils;
 import com.deepai.photo.common.util.XMLUtils;
 import com.deepai.photo.common.util.date.DateUtils;
+import com.deepai.photo.common.util.html.HtmlUtil;
 import com.deepai.photo.common.util.image.ImageConfig;
 import com.deepai.photo.common.util.image.ImgFileUtils;
 import com.deepai.photo.common.util.json.JsonUtil;
@@ -2733,6 +2734,39 @@ public class GroupPicController {
 		}
 		return result;
 	}
+	
+	/** 
+	 * 清除样式
+	 * add by xiayunan@20171204
+	 * @param request
+	 * @param String remark
+	 * @param String memo
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/cleanWord")
+	@SkipAuthCheck
+	@SkipLoginCheck
+	public ResponseMessage cleanWord(HttpServletRequest request,HttpServletResponse response,String memo,String remark){
+		ResponseMessage result=new ResponseMessage();
+		try {
+			Map<String,String> map = new HashMap<String,String>();
+			memo = HtmlUtil.parseHtml(memo);
+			remark = HtmlUtil.parseHtml(remark);
+			map.put("memo", memo);
+			map.put("remark", remark);
+			result.setCode(CommonConstant.SUCCESSCODE);
+			result.setMsg(CommonConstant.SUCCESSSTRING);
+			result.setData(map);
+		}catch(Exception e1){
+			e1.printStackTrace();
+			log.error("清除稿件说明样式出错，"+e1.getMessage());
+			result.setCode(CommonConstant.EXCEPTIONCODE);
+			result.setMsg(CommonConstant.EXCEPTIONMSG);
+		}
+		return result;
+	}
+	
 	
 	
 }

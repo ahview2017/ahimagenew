@@ -2054,6 +2054,11 @@
 .user-add-btn-add-red{
 	background: #E15F63;
 }
+
+.user-add-btn-add-purple{
+	background: #B12EA6;
+}
+
 .help-main{
 	padding:0 20px 20px 20px;
 	height:480px;

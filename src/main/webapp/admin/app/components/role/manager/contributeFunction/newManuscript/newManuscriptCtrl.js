@@ -934,5 +934,21 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
 
         });
     }
+    
+    
+  //一键清除样式 add by xiayunan@20171204
+    vm.cleanWord=function(){
+    	req.post('groupPicCtro/cleanWord.do',{
+    		memo: vm.newManuscriptManuscript.memo,
+    		remark: vm.newManuscriptManuscript.remark
+        }).success(function(resp){
+            if(resp.code == 211){
+            	vm.newManuscriptManuscript.memo = resp.data.memo;
+            	vm.newManuscriptManuscript.remark = resp.data.remark;
+            }else if(resp.msg != '未登录'){
+                layer.alert(resp.msg);
+            }
+        });
+    }
 
 });

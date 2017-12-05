@@ -7,6 +7,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.safety.Whitelist;
+import org.jsoup.select.Elements;
 
 import com.deepai.photo.common.util.json.GsonUtil;
 
@@ -58,5 +63,25 @@ public class HtmlUtil {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	
+	/**
+	 * 过滤HTML字符串
+	 * add by xiayunan@20171204
+	 * @param _content
+	 * @return
+	 */
+	public static String parseHtml(String _content) {
+		String[] tags = { "a", "div", "ul", "i", "thead", "p", "b", "table",
+				"blockquote", "dd", "pre", "em", "tfoot", "cite", "tbody",
+				"strong", "q", "u", "sub", "col", "small", "li", "th", "tr",
+				"img", "sup", "caption", "br", "code", "dl", "colgroup",
+				"strike", "ol", "td", "h6", "h5", "dt", "h4", "h3", "h2", "h1",
+				"span" };
+
+		Whitelist wList = new Whitelist();
+		wList.addTags(tags);
+		return Jsoup.clean(_content, wList);
 	}
 }
