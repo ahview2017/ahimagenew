@@ -671,7 +671,7 @@ adminModule.config(['$translateProvider',function($translateProvider){
 adminModule.config(['$provide', function ($provide) {
     $provide.decorator('ngClickDirective',['$delegate','$timeout', function ($delegate,$timeout) {
         var original = $delegate[0].compile;
-              var delay = 3000;//设置间隔时间
+              var delay = 1200;//设置间隔时间
         $delegate[0].compile = function (element, attrs, transclude) {
             var disabled = false;
             function onClick(evt) {

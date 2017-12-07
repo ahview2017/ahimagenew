@@ -12,6 +12,7 @@
 			<!--<span ui-sref="role.manager.sendManuscriptDetail({id: edit.groupId})">返回</span>-->
 			<span ng-click="edit.returnSendManuscript()">返回</span>
 			<span ng-click="edit.saveEditManuscript()">保存</span>
+			<!-- <span ng-click="edit.cleanWord()" style="width: 100px;">一键清除样式</span> -->
 		</div>
 		<div class="c-new-manuscript-con clear">
 			<div class="n-manuscript-container-top clear">
@@ -43,7 +44,7 @@
 						</div>
 					</div>
 					<div class="n-manuscript-middle">
-                        <p class='new_infor'>请输入稿件说明（必填，少于4000汉字的简单说明）</p>
+                        <p class='new_infor memo-toggle' id ="memo-toggle-flag">请输入稿件说明（必填，少于4000汉字的简单说明）</p>
 						<textarea class="n-manuscript-explain" placeholder="请输入稿件说明（必填，少于4000汉字的简单说明）" ng-model="edit.editManuscript.memo"></textarea>
 					</div>
 					<div class="n-manuscript-bottom">
@@ -64,7 +65,7 @@
 						<div class="draft-signed-bd">
 							<div class="draft-signed-hd-item clear">
 								<div class="fll draft-signed-hd-left">
-									<span class="draft-sign-txt">人物</span>
+									<span class="draft-sign-txt people-toggle cursor" ng-click="edit.copyPeople()" id ="people-toggle-flag">人物</span>
 								</div>
 								<div class="fll draft-signed-hd-right">
 									<input placeholder="选填，少于200字" class="draft-sign-input" ng-model="edit.editManuscript.people" />
@@ -72,7 +73,7 @@
 							</div>
 							<div class="draft-signed-hd-item clear">
 								<div class="fll draft-signed-hd-left">
-									<span class="draft-sign-txt">关键字</span>
+									<span class="draft-sign-txt keyword-toggle cursor" ng-click="edit.copyKeyword()" id ="keyword-toggle-flag">关键字</span>
 								</div>
 								<div class="fll draft-signed-hd-right">
 									<input placeholder="选填，少于200字" class="draft-sign-input" ng-model="edit.editManuscript.keywords" />
@@ -208,8 +209,8 @@
 								</div>
 							</div>
 							<div class="ms-editDet-state fll">
-								<h5 class="ms-pic-txt">图片说明</h5>
-								<textarea class="ms-pic-textarea" placeholder="请输入图片说明" ng-model="item.memo"></textarea>
+								<h5 class="ms-pic-txt cursor" ng-click="edit.copyMemo()">图片说明</h5>
+								<textarea class="ms-pic-textarea pic-memo" placeholder="请输入图片说明" ng-model="item.memo"></textarea>
 							</div>
 						</div>
 					</div>

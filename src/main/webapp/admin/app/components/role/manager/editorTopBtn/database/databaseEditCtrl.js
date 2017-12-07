@@ -149,7 +149,6 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
             angular.forEach(category,function(item,index){
                 if(item.categoryName == '新闻类别'){
                     vm.categories = item.categories;
-                    console.log(vm.categories);
                     loadEditSortZTree();
                 }
             });
@@ -161,6 +160,111 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
 
     }
     init();
+    
+    
+    //人物、关键词、稿件说明快速复制 add by xiayunan@20171011
+    vm.copyPeople = function(){
+    	if(!vm.editManuscript.people){
+    		layer.alert("人物为空，请输入后再进行复制！");
+    		return;
+    	}
+    	
+    	 if(vm.upMenuscriptPicArr.length == 0){
+             layer.alert('未选择图片，请上传后再进行复制!');
+             return;
+         }
+    	var flag = $("#people-toggle-flag").hasClass("people-toggle");
+    	if(flag){
+    		$(".pic-people").val(vm.editManuscript.people);
+    		$("#people-toggle-flag").removeClass("people-toggle");
+    		angular.forEach(vm.upMenuscriptPicArr,function(item,index){
+    			vm.upMenuscriptPicArr[index].people = vm.editManuscript.people;
+    		});
+    		alert("复制人物成功！");
+    	}else{
+    		$(".pic-people").val("");
+    		$("#people-toggle-flag").addClass("people-toggle");
+    		angular.forEach(vm.upMenuscriptPicArr,function(item,index){
+    			vm.upMenuscriptPicArr[index].people = vm.editManuscript.people;
+    		});
+    		alert("清空人物成功！");
+    	}
+    }
+    
+    
+    vm.copyKeyword = function(){
+    	if(!vm.editManuscript.keywords){
+    		layer.alert("关键词为空，请输入后再进行复制！");
+    		return;
+    	}
+    	if(vm.upMenuscriptPicArr.length == 0){
+             layer.alert('未选择图片，请上传后再进行复制!');
+             return;
+        }
+    	var flag = $("#keyword-toggle-flag").hasClass("keyword-toggle");
+    	if(flag){
+    		$(".pic-keyword").val(vm.editManuscript.keywords);
+    		$("#keyword-toggle-flag").removeClass("keyword-toggle");
+    		angular.forEach(vm.upMenuscriptPicArr,function(item,index){
+    			vm.upMenuscriptPicArr[index].keywords = vm.editManuscript.keywords;
+    		});
+    		alert("复制关键词成功！");
+    	}else{
+    		$(".pic-keyword").val("");
+    		$("#keyword-toggle-flag").addClass("keyword-toggle");
+    		angular.forEach(vm.upMenuscriptPicArr,function(item,index){
+    			vm.upMenuscriptPicArr[index].keywords = '';
+    		});
+    		alert("清空关键词成功！");
+    	}
+    	
+    	
+    	//$(".pic-keyword").val(vm.newManuscriptManuscript.keywords);
+    }
+    
+    vm.copyMemo = function(){
+    	
+    	if(vm.upMenuscriptPicArr.length == 0){
+             layer.alert('未选择图片，请上传后再进行复制!');
+             return;
+        }
+    	var memo = '';
+    	angular.forEach(vm.upMenuscriptPicArr,function(item,index){
+    		memo = vm.upMenuscriptPicArr[0].memo ;
+		});
+    	if(!memo){
+    		layer.alert("图片说明为空，请输入后再进行复制！");
+    		return;
+    	}
+    	
+    	var flag = $("#memo-toggle-flag").hasClass("memo-toggle");
+    	if(flag){
+    		$(".pic-memo").val(memo);
+    		$("#memo-toggle-flag").removeClass("memo-toggle");
+    		angular.forEach(vm.upMenuscriptPicArr,function(item,index){
+    			if(index>0){
+    				vm.upMenuscriptPicArr[index].memo = memo;
+    			}
+    		});
+    		alert("复制图片说明成功！");
+    	}else{
+    		$(".pic-memo").each(function(index,element){
+    			if(index>0){
+    				$(this).val("");
+    			}			
+    		});
+    		
+    		$("#memo-toggle-flag").addClass("memo-toggle");
+    		angular.forEach(vm.upMenuscriptPicArr,function(item,index){
+    			if(index>0){
+    				vm.upMenuscriptPicArr[index].memo = '';
+    			}
+    		});
+    		alert("清空图片说明成功！");
+    	}
+    	
+    	//$(".pic-memo").val(vm.newManuscriptManuscript.memo);
+    }
 
 
 
@@ -182,7 +286,6 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
                     vm.manuscriptCates = resp.data.cates;
                 }
                 if(callback) callback();
-                console.log('success');
             }else if(resp.msg != '未登录'){
                 layer.alert(resp.msg);
             }
@@ -231,7 +334,6 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
     }
     //选择用户展示方式
     vm.choseUnameShowWay = function(){
-        console.log(vm.photoUNameWay);
         //如果是默认的作者名，没有修改过
         if(!vm.hasSeledUNameFlag && !vm.addAuthorItemFlag){
             if((vm.photoUNameWay == '0')){
@@ -404,8 +506,6 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
                 categoryNameArr.push(nodes[i].categoryName);
                 cateIdParamStr = cateIdParamArr.join();
                 vm.categoryNameStr = categoryNameArr.join();
-                console.log(cateIdParamStr);
-                console.log(vm.categoryNameStr);
             }
         }
         return cateIdParamStr;
@@ -413,7 +513,6 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
 
     // 确定编辑稿件分类
     vm.confirmEditMsSorts = function(){
-        console.log(getChildNodesSortId());
         if(getChildNodesSortId() == ''){
             layer.alert('请选择稿件类别');
             return;
@@ -430,11 +529,9 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
                 angular.forEach(category, function (item, index) {
                     if (item.categoryName == '新闻类别') {
                         vm.selCpCategories  = item.categories;
-                        console.log(vm.selCpCategories);
                     }
                 });
                 if (callback) callback(resp.data);
-                console.log('success');
             }else if(resp.msg != '未登录'){
                 layer.alert(resp.msg);
             }
@@ -472,7 +569,6 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
     //上传稿件请求
     function req_upMs(j){
         var formdata = new FormData();
-        console.log(vm.upMsFiles[j]);
         formdata.append('picFiles', vm.upMsFiles[j]);
         formdata.append("langType",lang);
         $.ajax({
@@ -504,11 +600,9 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
         }).success(function (resp) {
             if(resp.code && resp.code == '211'){
                 vm.uploadEditPicList = resp.data;
-                console.log(vm.uploadEditPicList);
                 uploadedPicCallback(j);
                 displayed[j] = true;
                 if(j === vm.upMsTotalLen -1){
-                    console.log('显示完毕');
                     //操作结束清空input中的内容，解决input file表单无法重复上传同一个图片的问题
                     $('#picFile').val('');
                 }else if(j < vm.upMsTotalLen){
@@ -524,7 +618,6 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
                 }
             }
         }).error(function (resp) {
-            console.log(resp);
         });
     }
 
@@ -604,8 +697,6 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
                 vm.upMsFiles = Array.prototype.slice.call(element.files,0);
                 vm.upMsFiles.splice(i,1);
                 vm.upMsTotalLen = vm.upMsFiles.length;
-                console.log(vm.upMsFiles);
-                console.log(vm.upMsTotalLen);
             }
         }
         return false; // 必须返回false，否则表单会自己再做一次提交操作，并且页面跳转
@@ -629,13 +720,11 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
             vm.manuscriptCategoryId[i] = parseInt(vm.manuscriptCategoryId[i],10);
         }
         vm.manuscriptStr = angular.toJson(vm.manuscriptCategoryId);
-        console.log(vm.manuscriptStr.substring(1,vm.manuscriptStr.length -1))
         vm.manscriptCateId = vm.manuscriptStr.substring(1,vm.manuscriptStr.length -1);
     }
     //获取图片的相关参数
     function getPicDataParams(){
         //获取picData参数
-        console.log(typeof angular.toJson(vm.upMenuscriptPicArr,true));
         angular.forEach(vm.upMenuscriptPicArr,function(item,index){
             vm.manuscriptPicData.push({
                 id: item.id + '',
@@ -649,7 +738,6 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
                 filmTime: vm.upMenuscriptPicArr[index].filmTime + ' 00:00:00'
             })
         });
-        console.log(vm.manuscriptPicData);
     }
     // 验证编辑相关参数
     function valid_editPramas(callback){
@@ -747,7 +835,6 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
             priceType: vm.selDraftPriceBtn,
             price: vm.editManuscript.price
         }).success(function(resp){
-            console.log(resp);
             if(resp.code == '211'){
                 layer.alert(resp.msg);
                 $state.go('role.manager.databaseDetail',{id: vm.groupId,isHadOut:0});
@@ -757,14 +844,12 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
                 if(resp.msg){
                     $rootscope.msSensitiveWord = resp.msg;
                     localStorageService.set('msSensitiveWord',resp.msg);
-                    console.log(localStorageService.get('msSensitiveWord'));
                     layer.msg(resp.msg);
                 }
             }else if(resp.msg != '未登录'){
                layer.alert(resp.msg);
             }
         }).error(function(resp){
-            console.log('error');
             //todo 因为net::ERR_INCOMPLETE_CHUNKED_ENCODING错误暂时这么处理
             $state.go('role.manager.databaseDetail',{id: vm.groupId,isHadOut:0});
         });
@@ -780,7 +865,6 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
             groupId: vm.groupId
         }).success(function(resp){
             if(resp.code == '211'){
-                console.log('success');
                 $state.go('role.manager.databaseDetail',{id: vm.groupId,isHadOut:0});
             }else if(resp.msg != '未登录'){
                 layer.alert(resp.msg);
@@ -788,6 +872,22 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
         });
     }
 
+    //一键清除样式 add by xiayunan@20171204
+    /*
+    vm.cleanWord=function(){
+    	req.post('groupPicCtro/cleanWord.do',{
+    		memo: vm.manuscriptDetail.memo,
+    		remark: vm.manuscriptDetail.remark
+        }).success(function(resp){
+            if(resp.code == 211){
+            	vm.manuscriptDetail.memo = resp.data.memo;
+            	vm.manuscriptDetail.remark = resp.data.remark;
+            }else if(resp.msg != '未登录'){
+                layer.alert(resp.msg);
+            }
+        });
+    }
+    */
 
 
 });
