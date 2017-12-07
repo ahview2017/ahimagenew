@@ -666,3 +666,29 @@ adminModule.config(['$translateProvider',function($translateProvider){
         suffix: '.json'
     })
 }]);
+
+//ng-click重写,再次点击延迟，复制重复提交 add by xiayunan @20171207
+adminModule.config(['$provide', function ($provide) {
+    $provide.decorator('ngClickDirective',['$delegate','$timeout', function ($delegate,$timeout) {
+        var original = $delegate[0].compile;
+              var delay = 3000;//设置间隔时间
+        $delegate[0].compile = function (element, attrs, transclude) {
+            var disabled = false;
+            function onClick(evt) {
+                if (disabled) {
+                    evt.preventDefault();
+                    evt.stopImmediatePropagation();
+                } else {
+                    disabled = true;
+                    $timeout(function () { disabled = false; }, delay, false);
+                }
+            }
+            //   scope.$on('$destroy', function () { iElement.off('click', onClick); });
+            element.on('click', onClick);
+
+            return original(element, attrs, transclude);
+        };
+        return $delegate;
+    }]);
+}]);
+
