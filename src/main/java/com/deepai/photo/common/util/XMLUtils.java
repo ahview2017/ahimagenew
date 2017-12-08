@@ -45,7 +45,6 @@ public class XMLUtils {
     public static Document createDoc(CpPicGroup group, CpPicture pic,
             Integer type, CpUser user) {
         Document document = DocumentHelper.createDocument();
-        document.setXMLEncoding("GB2312");
         Element root = DocumentHelper.createElement("News");
 
         Element eAuthor = DocumentHelper.createElement("Author");
@@ -95,7 +94,7 @@ public class XMLUtils {
     public static void writeXML(Document doc, String targetFile)
             throws IOException {
         OutputFormat of = OutputFormat.createPrettyPrint();
-        of.setEncoding("GB2312");
+        of.setEncoding("GBK");
         of.setIndent(true);
         of.setTrimText(false);//add by xiayunan@20171201
         of.setNewlines(true);
