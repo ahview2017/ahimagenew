@@ -957,22 +957,34 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
      *       密码或单行、多行文本框除外 
      */  
     function forbidBackSpace(e) {  
-        var ev = e || window.event; //获取event对象   
-        var obj = ev.target || ev.srcElement; //获取事件源   
-        var t = obj.type || obj.getAttribute('type'); //获取事件源类型   
-        //获取作为判断条件的事件类型   
-        var vReadOnly = obj.readOnly;  
-        var vDisabled = obj.disabled;  
-        //处理undefined值情况   
-        vReadOnly = (vReadOnly == undefined) ? false : vReadOnly;  
-        vDisabled = (vDisabled == undefined) ? false : vDisabled;  
-        //当敲Backspace键时，事件源类型为密码或单行、多行文本的，   
-        //并且readOnly属性为true或disabled属性为true的，则退格键失效   
-        var flag1 = ev.keyCode == 8 && (t == "password" || t == "text" || t == "textarea") && (vReadOnly == true || vDisabled == true);  
-        //当敲Backspace键时，事件源类型非密码或单行、多行文本的，则退格键失效   
-        var flag2 = ev.keyCode == 8 && t != "password" && t != "text" && t != "textarea";  
-        //判断   
-        if (flag2 || flag1) return false;  
+    	var ev = e|| window.event;//获取event对象 
+	    var obj = ev.target || ev.srcElement;//获取事件源
+
+	    var t = obj.type||obj.getAttribute('type') ||obj.tagName.toLocaleLowerCase();//获取事件源类型     
+
+	    //获取作为判断条件的事件类型   
+	    var vReadOnly = obj.getAttribute('readonly');  
+	    var vEnabled = obj.getAttribute('enabled');  
+	    //处理null值情况   
+	    vReadOnly = (vReadOnly == null) ? false : vReadOnly;  
+	    vEnabled = (vEnabled == null) ? true : vEnabled;  
+
+	    //当敲Backspace键时，事件源类型为密码或单行、多行文本的，
+	    //div是指演变的textarea，如editor编辑器
+	    //并且readonly属性为true或enabled属性为false的，则退格键失效   
+	    var flag1=(ev.keyCode == 8 && (t=="password" || t=="text" || t=="textarea"||t=="div") 
+	                && (vReadOnly==true || vEnabled!=true))?true:false;  
+
+	    //当敲Backspace键时，事件源类型非密码或单行、多行文本的，则退格键失效   
+	    var flag2=(ev.keyCode == 8 && t != "password" && t != "text" && t != "textarea"&&t != "div") ?true:false;
+
+	    //判断   
+	    if(flag2){  
+	        return false;  
+	    }  
+	    if(flag1){     
+	        return false;     
+	    }    
     }  
     //禁止后退键 作用于Firefox、Opera  
     document.onkeypress = forbidBackSpace;  
