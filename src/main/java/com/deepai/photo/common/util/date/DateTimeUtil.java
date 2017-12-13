@@ -689,6 +689,29 @@ public class DateTimeUtil {
 		return input.substring(0, 4)+"-"+month+"-"+day;
 	}
 	
+	
+	/**
+	 * 获取时间差
+	 * @date 2017年12月13日
+	 * @author xiayunan
+	 * @param fromTime
+	 * @param toTime
+	 * @return
+	 */
+	public static long getTimeDifference(String fromTime,String toTime){
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		long  days = 0;
+		try {
+			Date d1 = sdf.parse(fromTime);
+		    Date d2 = sdf.parse(toTime);
+			days = (d1.getTime() - d2.getTime())/(1000 * 60 * 60 * 24); 
+		} catch (ParseException e) {
+			throw new IllegalArgumentException(
+					"Date or Time String is invalid.");
+		}  
+		return days;
+	}
+	
 	public static void main(String[] args) {
 		try{
 			System.out.println(getLastDayOfMonth(getNowDateNormalString()));

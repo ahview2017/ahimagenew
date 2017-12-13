@@ -34,5 +34,8 @@ alter table cp_user add  HOMEPAGE_COLUMNID int(11) default '0' COMMENT '摄影�
 alter table cp_user add  USER_DETAIL varchar(8000) DEFAULT NULL COMMENT '用户简介';
 alter table cp_user add  USER_CLASS int(11) default '0' NULL COMMENT '用户分类 0：其它 1：摄影名家 2：艺术家';
 
+alter table cp_pic_group add  QB_TIME timestamp NULL DEFAULT NULL COMMENT '签报时间';
+
+
 
 

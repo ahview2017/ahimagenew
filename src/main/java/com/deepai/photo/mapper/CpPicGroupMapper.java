@@ -71,7 +71,7 @@ public interface CpPicGroupMapper {
 
 	void insertGroupPush(CpGroupPush gPush);
 
-//	ch add by liu.jinfeng@2017年9月4日 下午3:59:07
-	void updateByGroupId(Integer gId);
+//	add by xia.yunan@2017年12月13日 下午21:47:07
+	void updateByGroupId(CpPicGroup cpPicGroup);
 
 }

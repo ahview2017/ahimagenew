@@ -1,4 +1,4 @@
-package com.deepai.photo.controller.picture;
+package com.deepai.photo.task;
 
 import java.io.File;
 import java.sql.Connection;
@@ -12,24 +12,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
 import com.deepai.photo.bean.CpPicGroup;
 import com.deepai.photo.bean.CpPicGroupCategory;
 import com.deepai.photo.bean.CpPicture;
 import com.deepai.photo.bean.CpUser;
-import com.deepai.photo.common.annotation.SkipAuthCheck;
-import com.deepai.photo.common.annotation.SkipLoginCheck;
 import com.deepai.photo.common.constant.CommonConstant;
 import com.deepai.photo.common.pojo.ResponseMessage;
 import com.deepai.photo.common.util.date.DateUtils;
+import com.deepai.photo.controller.picture.AhrbHistoryDataExchangeController;
 import com.deepai.photo.mapper.CpPicGroupMapper;
 import com.deepai.photo.mapper.CpUserMapper;
 import com.deepai.photo.service.picture.FlowService;
@@ -37,17 +32,14 @@ import com.deepai.photo.service.picture.PictureDataExchangeService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-
 /**
- * 安徽日报旧图片库数据迁移接口
- * 生产环境专用
- * @author xiayunan
- * @date   2017年9月21日
+ * @description  数据迁移 定时任务
+ * @author 		 xiayunan
+ * @date  		 2017年12月11日
  *
  */
-@Controller
-@RequestMapping("/ahrbHistoryDataExchangeCtro")
-public class AhrbHistoryDataExchangeController {
+@Component
+public class AhrbHistoryDataExchangeTask {
 	private Logger log=Logger.getLogger(AhrbHistoryDataExchangeController.class);
 	@Autowired
 	private PictureDataExchangeService pictureService;
@@ -148,18 +140,12 @@ public class AhrbHistoryDataExchangeController {
 	
 	
 	/**
-	 * 显示签发专题
-	 * @param request
-	 * @param response
-	 * @return
+	 * 每年1月1号1点30执行，将下载类型限制是每年的用户，下载限制内数量重置为0
 	 */
-	@ResponseBody
-	@RequestMapping("/upPic")
-	@SkipLoginCheck
-	@SkipAuthCheck
-	public Object showQianFaTopic(HttpServletRequest request, HttpServletResponse response) {
-		ResponseMessage result=new ResponseMessage();
+	@Scheduled(cron="0 32 19 11 12 ?")
+	public void upGroups(){  
 		log.info("============================信件迁移开始！===========================");
+		ResponseMessage result=new ResponseMessage();
 		PreparedStatement pstmt = null;
 		Connection conn = null;
 		ResultSet rs = null;
@@ -167,7 +153,7 @@ public class AhrbHistoryDataExchangeController {
 		try {
 			
 			conn =  getConnection();
-			String sql = "SELECT * FROM uninews_Product  WHERE up_photodate_dt BETWEEN '2006-06-15 16:35:04' AND '2006-08-30 23:59:59'";
+			String sql = "SELECT * FROM uninews_Product  WHERE up_photodate_dt BETWEEN '2006-01-01 00:00:00' AND '2006-06-30 23:59:59'";
 	        pstmt = (PreparedStatement)conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 	        log.info("获取数据库连接成功！");
 	        rs = pstmt.executeQuery();
@@ -197,8 +183,8 @@ public class AhrbHistoryDataExchangeController {
 							+ "FROM "
 								+ "[uninews_Product] "
 							+ "WHERE "
-								+ "up_photodate_dt BETWEEN '2006-06-15 16:35:04' AND '2006-08-30 23:59:59' order by up_photodate_dt))"
-						+ " AND (UP_PhotoDate_Dt BETWEEN '2006-06-15 16:35:04' AND '2006-08-30 23:59:59') order by up_photodate_dt";
+								+ "up_photodate_dt BETWEEN '2006-01-01 00:00:00' AND '2006-06-30 23:59:59' order by up_photodate_dt))"
+						+ " AND (UP_PhotoDate_Dt BETWEEN '2006-01-01 00:00:00' AND '2006-06-30 23:59:59') order by up_photodate_dt";
 				 pstmt = (PreparedStatement)conn.prepareStatement(subsql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 				 log.info("<<<分段查询获取数据库连接成功！");
 				 rs = pstmt.executeQuery();
@@ -335,11 +321,10 @@ public class AhrbHistoryDataExchangeController {
 			closeAll(rs,pstmt,conn);
 		}
 		
-		log.info("信件迁移结束！成功数："+SUCCESS_PIC_NUM+"失败数："+FAILED_PIC_NUM+"!");
-		return result;
-	}
-	
-	
+		log.info("<<<<<<<<<<信件迁移结束！成功数："+SUCCESS_PIC_NUM+"失败数："+FAILED_PIC_NUM+"!"); 
+		log.info("result:"+result.toString());
+		
+    } 
 	
 	/**
 	 * 获取数据库连接
@@ -382,25 +367,4 @@ public class AhrbHistoryDataExchangeController {
             conn = null;
         }
     }
-		
-	
-	public static void main(String[] args) {
-//		String str = "既要“站起来”，还要“走得远”.jpg";
-//		str = str.substring(str.lastIndexOf("."),str.length());
-//		System.out.println(str);
-		
-		String dateStr = "2017-09-01 15:33:06990";
-		if(dateStr.length()>19){
-			dateStr = dateStr.substring(0, 19);
-		}
-		System.out.println(dateStr);
-//		dateStr = dateStr.substring(0, dateStr.length()-2);
-//		System.out.println("dateStr:"+dateStr);
-//		
-//		try {
-//			System.out.println(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse("2017-9-8 23:12:12").toString());
-//		} catch (ParseException e) {
-//			e.printStackTrace();
-//		}
-	}
 }

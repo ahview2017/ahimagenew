@@ -112,9 +112,19 @@ public class CpPicGroup {
 	private Integer showStatus;//是否显示购物车
 	
 	private boolean isThumbsUp;//该稿件是否点过赞
+	
+	private Date qbTime;//签报时间
 	    
 	
-    public boolean getIsThumbsUp() {
+    public Date getQbTime() {
+		return qbTime;
+	}
+
+	public void setQbTime(Date qbTime) {
+		this.qbTime = qbTime;
+	}
+
+	public boolean getIsThumbsUp() {
 		return isThumbsUp;
 	}
 

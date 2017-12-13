@@ -52,6 +52,7 @@
     <result column="MASVIDEO_SIGN" property="masvideoSign" jdbcType="INTEGER" />
     <result column="VIDEO_ID" property="videoId" jdbcType="INTEGER" />
     <result column="QBSTATUS" property="qbStatus" jdbcType="INTEGER" />
+    <result column="QB_TIME" property="qbTime" jdbcType="TIMESTAMP" />
     <collection property="cates" ofType="com.deepai.photo.bean.CpCategory">
     	<id column="cid" property="id" jdbcType="INTEGER" />
 		<result column="CATEGORY_NAME" property="categoryName" jdbcType="VARCHAR" />

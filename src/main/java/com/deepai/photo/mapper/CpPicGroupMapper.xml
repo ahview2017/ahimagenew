@@ -60,6 +60,7 @@
 		<result column="SGIN_TIME" property="sginTime" jdbcType="TIMESTAMP" />
 		<result column="LOCATION_TYPE" property="locationType"
 			jdbcType="INTEGER" />
+		<result column="QB_TIME" property="qbTime" jdbcType="TIMESTAMP" />
 	</resultMap>
 	<sql id="Example_Where_Clause">
 		<where>
@@ -1038,8 +1039,8 @@
 	</insert>
 	
 	<!-- add by liu.jinfeng@20170904 -->
-	<update id="updateByGroupId" parameterType="Integer">
-		update cp_pic_group a set a.QBSTATUS=1 where
-		a.id=#{gId}
+	<update id="updateByGroupId" parameterType="com.deepai.photo.bean.CpPicGroup">
+		update cp_pic_group a set a.QBSTATUS=1  and a.qbTime = #{qbTime,jdbcType=TIMESTAMP} where
+		a.id=#{id,jdbcType=INTEGER}
 	</update>
 </mapper>

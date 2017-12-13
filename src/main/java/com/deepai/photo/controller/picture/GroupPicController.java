@@ -50,6 +50,7 @@ import com.deepai.photo.common.redis.RedisClientTemplate;
 import com.deepai.photo.common.util.IPUtil;
 import com.deepai.photo.common.util.SessionUtils;
 import com.deepai.photo.common.util.XMLUtils;
+import com.deepai.photo.common.util.date.DateTimeUtil;
 import com.deepai.photo.common.util.date.DateUtils;
 import com.deepai.photo.common.util.html.HtmlUtil;
 import com.deepai.photo.common.util.image.ImageConfig;
@@ -2396,12 +2397,19 @@ public class GroupPicController {
         try {
             CpPicGroup group = aboutPictureMapper.selectGroupPics(groupId);
             if(group.getQbStatus()==1){
-                log.error("不能签报");
-                result.setCode(CommonConstant.EXCEPTIONCODE);
-                result.setMsg("已经签报过不能再次签报");
-                return result;
+            	//一个月内不能重复签报 add by xiayunan@20171213
+            	SimpleDateFormat sdfTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            	String fromTime = sdfTime.format(group.getQbTime());
+            	String toTime = sdfTime.format(new Date());
+            	long timeDiffer = DateTimeUtil.getTimeDifference(fromTime, toTime);
+            	if(timeDiffer<=30){
+            		 log.error("您上次的签报时间为"+fromTime+"，一个月内不能重复签报");
+                     result.setCode(CommonConstant.EXCEPTIONCODE);
+                     result.setMsg("您上次的签报时间为"+fromTime+"，一个月内不能重复签报!");
+                     return result;
+            	}
             }
-            
+            group.setQbTime(new Date());
             List<CpPicture> list = group.getPics();//pictureService.selectByGroupId(groupId);
             String sQbPath = ImageConfig.getQbPath(1, sysConfigService);
             for (CpPicture pic : list) {
@@ -2426,8 +2434,7 @@ public class GroupPicController {
             }
             
             // 签过了更新状态
-            cpPicGroupMapper.updateByGroupId(groupId);
-            
+            cpPicGroupMapper.updateByGroupId(group);
             //记录流程日志
             flowService.addFlowLog(groupId, 19, "签报", null, user);
             
@@ -2796,12 +2803,23 @@ public class GroupPicController {
         		Integer groupId = Integer.valueOf(groupIdStr);
         		CpPicGroup group = aboutPictureMapper.selectGroupPics(groupId);
                 if(group.getQbStatus()==1){
-                    log.error("不能签报");
-                    result.setCode(CommonConstant.EXCEPTIONCODE);
-                    result.setMsg("稿件id为"+groupId+"的稿件已经签报过不能再次签报");
-                    return result;
+                	//一个月内不能重复签报 add by xiayunan@20171213
+                	SimpleDateFormat sdfTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                	String fromTime = sdfTime.format(group.getQbTime());
+                	String toTime = sdfTime.format(new Date());
+                	long timeDiffer = DateTimeUtil.getTimeDifference(fromTime, toTime);
+                	if(timeDiffer<=30){
+                		 log.error("您上次的签报时间为"+fromTime+"，一个月内不能重复签报!");
+                         result.setCode(CommonConstant.EXCEPTIONCODE);
+                         result.setMsg("您上次的签报时间为"+fromTime+"，一个月内不能重复签报!");
+                         return result;
+                	}
+//                    log.error("不能签报");
+//                    result.setCode(CommonConstant.EXCEPTIONCODE);
+//                    result.setMsg("稿件id为"+groupId+"的稿件已经签报过不能再次签报");
+//                    return result;
                 }
-                
+                group.setQbTime(new Date());
                 List<CpPicture> list = group.getPics();//pictureService.selectByGroupId(groupId);
                 String sQbPath = ImageConfig.getQbPath(1, sysConfigService);
                 for (CpPicture pic : list) {
@@ -2826,7 +2844,7 @@ public class GroupPicController {
                 }
                 
                 // 签过了更新状态
-                cpPicGroupMapper.updateByGroupId(groupId);
+                cpPicGroupMapper.updateByGroupId(group);
                 
                 //记录流程日志
                 flowService.addFlowLog(groupId, 19, "签报", null, user);
