@@ -465,7 +465,7 @@
 			ORDER BY  ${orderby}
 		</if>
 		<if test="orderby ==null">
-			ORDER BY  g.GROUP_STATUS desc , g.APPLY_TIME desc
+			ORDER BY  g.GROUP_STATUS desc,g.QBSTATUS asc,g.APPLY_TIME desc
 		</if>
   </select>
    <select id="selectCountGroups" resultType="int" parameterType="map">
