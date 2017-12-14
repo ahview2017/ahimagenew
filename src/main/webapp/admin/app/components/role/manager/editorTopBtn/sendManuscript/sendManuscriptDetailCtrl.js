@@ -3,7 +3,6 @@
  */
 adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, req, md5, $state, $rootScope, $stateParams, modalOperate, getMyDuty, allModalMove, $window) {
 	var vm = this;
-	console.log('controllerccc');
 	$scope.langType = window.localStorage.lang;
 
 	// 获取用户名
@@ -464,6 +463,7 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 			 layer.alert("请选择要签报的类型");
 			return;
 		 }
+		vm.loadUpMs = layer.load(1);
 		signManuscript2(modalId,v);
 	}
 	function signManuscript2(modalId,v){
@@ -471,6 +471,7 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 			groupId: vm.groupId,
 			type: v
 		}).success(function(resp) {
+			layer.close(vm.loadUpMs);
 			if(resp.code == '211') {
 				layer.alert("签报成功");
 				modalOperate.modalHide("sign-manuscript-modal2");//add by xiayunan@20171204 签报成功，隐藏弹框 
@@ -683,6 +684,7 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 
 	// 签发
 	vm.signManuscript = function(modalId) {
+		vm.loadUpMs = layer.load(1);
 		getSignParams(function() {
 			req_signManuscript(modalId);
 		});
@@ -752,6 +754,7 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 			"langType": $scope.langType,
 			"userName": vm.uName
 		}).success(function(resp) {
+			layer.close(vm.loadUpMs);
 			if(resp.code == '211') {
 				console.log('success');
 				layer.msg('操作成功');
@@ -794,6 +797,7 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 				lanmuId: vm.signlanmu[i].lanmuId,
 				"langType": $scope.langType
 			}).success(function(resp) {
+				layer.close(vm.loadUpMs);
 				if(resp.code == '211') {
 					console.log('------success-----');
 					layer.msg('操作成功----');

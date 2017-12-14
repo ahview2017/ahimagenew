@@ -97,13 +97,42 @@ input[type=checkbox], input[type=radio]{ zoom:1.5;}
             </div>
         </div>-->
         <div class="db-detail-cont">
-            <div class="oH">
+            <div >
                 <div class="db-detail-cont-item w100p mt20 ml3p fll"
-                     ng-repeat="picItem in detail.dataBankObj.pics">
-                    <div class="dpicimg">
+                     ng-repeat="picItem in detail.dataBankObj.pics" detail-show-middle-pic>
+                    <div class="dpicimg smt-vm-parent" >
                         <input type="checkbox" name="check" class="check" value="{{picItem.id}}">
-                        <img class="ms-detail-picture" ng-src="{{picItem.smallPath}}"
+                        <img class="ms-detail-picture img-responsive parent_pic" ng-src="{{picItem.smallPath}}"
                              width="225" height="255"/>
+                         <!-- add by xiayunan@20171214 小图放大 -->
+                         <div class='smt-wm-box'>
+                        	<img ng-src="{{picItem.wmPath}}">
+                        	<div class='showMiddlepics'>                                    		                                          		
+                                <table border='1' width='100%' cellpadding="10">
+                                    	        <caption >EXIF信息</caption>
+                                    	        <tr>
+                                    	           	<td>光圈数</td>
+                                    	           	<td>{{picItem.exFnumber}}</td>
+                                    	        </tr>
+                                    	        <tr>
+                                    	           	<td>感光度</td>
+                                    	           	<td>{{picItem.exIso}}</td>
+                                    	        </tr>
+                                    	        <tr>
+                                    	           	<td>拍摄相机</td>
+                                    	           	<td>{{picItem.exModel}}</td>
+                                    	        </tr>
+                                    	        <tr>
+                                    	           	<td>拍摄时间</td>
+                                    	           	<td>{{picItem.exDatetime |date : 'yyyy-MM-dd HH:mm:ss'}}</td>
+                                    	        </tr>
+                                    	    </table>
+							</div>
+                        </div>
+                             
+                             
+                             
+                             
                     </div>
                     <div class="dpicdet">
                         <div class="mt10 clear">
@@ -150,8 +179,8 @@ input[type=checkbox], input[type=radio]{ zoom:1.5;}
                     <div class="clear"></div>
                 </div>
             </div>
-            <div class="db-detail-cont-txt" style="padding-left: 0">
-                <p class="db-txt-tit">稿件正文</p>
+            <div class="db-detail-cont-txt" style="padding-left: 0;border:none;">
+                <p class="db-txt-tit" style="margin-top:40px;">稿件正文</p>
 
                 <p class="db-txt-cont">{{detail.dataBankObj.memo}}</p>
             </div>
