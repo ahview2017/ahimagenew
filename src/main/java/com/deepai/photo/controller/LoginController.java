@@ -272,7 +272,8 @@ public class LoginController {
 								redisClientTemplate.lpush(CommonConstant.ONLINUSERLIST, redisId);
 								// 设置到cookie
 								Cookie cookie = new Cookie("userToken", userToken);
-								// cookie.setMaxAge(30 * 60);// 设置为30min
+//								cookie.setMaxAge(30 * 60);// 设置为30min
+								cookie.setMaxAge(3 * 60 *60);// 设置为180min
 								cookie.setPath("/");
 								response.addCookie(cookie);
 							} else {

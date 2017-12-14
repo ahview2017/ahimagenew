@@ -74,8 +74,7 @@ public  class CommonConstant {
 	
 	public static final int FAILUREMILLSSALT = 300;
 	//TODO
-	//public static final int FAILUREMILLSTOKEN = 1800;//半小时1800s
-	public static final int FAILUREMILLSTOKEN = 10800;//半小时1800s
+	public static final int FAILUREMILLSTOKEN = 1800;//半小时1800s
 	public static final Long HOURS72 = 259200000L;//72小时1800s
 	public static final String USERSALT = "userSalt_";
 	public static final String REDISID = "redisId_";
