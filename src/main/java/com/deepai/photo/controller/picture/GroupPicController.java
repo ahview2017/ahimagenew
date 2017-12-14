@@ -2397,6 +2397,10 @@ public class GroupPicController {
         try {
             CpPicGroup group = aboutPictureMapper.selectGroupPics(groupId);
             if(group.getQbStatus()==1){
+//            	log.error("不能签报");
+//                result.setCode(CommonConstant.EXCEPTIONCODE);
+//                result.setMsg("已经签报过不能再次签报!");
+//                return result;
             	//一个月内不能重复签报 add by xiayunan@20171213
             	SimpleDateFormat sdfTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             	String fromTime = sdfTime.format(group.getQbTime());
@@ -2432,6 +2436,7 @@ public class GroupPicController {
                     XMLUtils.writeXML(doc, sQbPath+fileName.substring(0, fileName.lastIndexOf("."))+".xml");
                 }
             }
+            
             
             // 签过了更新状态
             cpPicGroupMapper.updateByGroupId(group);

@@ -1040,7 +1040,7 @@
 	
 	<!-- add by liu.jinfeng@20170904 -->
 	<update id="updateByGroupId" parameterType="com.deepai.photo.bean.CpPicGroup">
-		update cp_pic_group a set a.QBSTATUS=1  and a.qbTime = #{qbTime,jdbcType=TIMESTAMP} where
-		a.id=#{id,jdbcType=INTEGER}
+		update cp_pic_group a set a.QBSTATUS=1,a.QB_TIME = #{qbTime,jdbcType=TIMESTAMP} where
+		a.ID=#{id,jdbcType=INTEGER}
 	</update>
 </mapper>
