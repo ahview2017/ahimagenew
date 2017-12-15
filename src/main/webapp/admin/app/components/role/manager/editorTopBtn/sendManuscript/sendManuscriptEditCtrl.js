@@ -401,6 +401,11 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
          $('#edit-sort-modal').modal('show');
         loadEditSortZTree();
     }
+    
+    
+    vm.returnSendModalShow = function(modalId){
+    	 modalOperate.modalShow(modalId);
+    }
 
 	
 
@@ -1023,6 +1028,20 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
         });
     }
 	
+    
+    //add by xiayunan@20171215
+    vm.confirmSave = function(modalId){
+    	modalOperate.modalHide(modalId);
+    	vm.saveEditManuscript();
+    }
+    
+    vm.cancelSave = function(modalId){
+    	modalOperate.modalHide(modalId);
+    	vm.returnSendManuscript();
+    	
+    }
 
+    
+    
 
 });

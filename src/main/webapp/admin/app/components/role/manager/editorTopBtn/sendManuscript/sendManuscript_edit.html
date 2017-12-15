@@ -12,7 +12,7 @@
     <div>
         <div class="smt-detail-operate">
             <!--<span ui-sref="role.editor.sendManuscriptDetail({id: edit.groupId})">返回</span>-->
-            <span ng-click="edit.returnSendManuscript()">返回</span>
+            <span ng-click="edit.returnSendModalShow('return-confirm-modal')">返回</span>
             <span ng-click="edit.saveEditManuscript()">保存</span>
         </div>
         <div class="c-new-manuscript-con clear">
@@ -330,6 +330,24 @@
             <div class="tac">
                 <span class="dib cursor user-add-btn" ng-click="edit.addForeignAuthor('edit-foreign-author-modal')">添加</span>
                 <span class="dib cursor user-add-btn role-del-btn" ng-click="edit.editMenuscriptModalHide('edit-foreign-author-modal')">取消</span>
+            </div>
+        </div>
+    </div>
+    
+    <!--返回确认弹框-->
+    <div class="common-modal-style" id="return-confirm-modal"
+         ng-mousemove="edit.moveModal('transfer-database-tit','return-confirm-modal')"
+         style="display:none">
+        <div class="role-add-con">
+            <div id="return-confirm-tit" class="role-add-tit">
+               保存稿件提醒
+            </div>
+            <div class="role-modal-con">
+                您是否保存修改的稿件内容？
+            </div>
+            <div class="tac mt10">
+                <span class="dib cursor user-add-btn" ng-click="edit.confirmSave('return-confirm-modal')">确定</span>
+                <span class="dib cursor user-add-btn" ng-click="edit.cancelSave('return-confirm-modal')">取消</span>
             </div>
         </div>
     </div>
