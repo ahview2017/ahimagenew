@@ -234,7 +234,7 @@ adminModule.controller('mSendManuscriptCtrl', function($scope, $cookies, req, md
 		vm.loadUpMs = layer.load(1);
 		vm.signReqParamData.push({
 			type: '0',
-			signId: 3119,
+			signId: 3130,
 			position: null
 		});
 		for(var key in vm.selKeyArr){

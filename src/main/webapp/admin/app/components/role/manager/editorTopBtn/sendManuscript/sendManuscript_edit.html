@@ -205,7 +205,7 @@
                             <div class="ms-editDet-checkbox fll">
                                 <input type="checkbox"/>
                             </div>
-                            <div class="ms-details-pic fll">
+                            <div class="ms-details-pic fll " detail-show-middle-pic>
                                 <div>
                                 	<span style="margin-right: 15px;">{{$index+1}}</span>
                                     <select  class="ms-pic-pictype" ng-model="item.isCover"  ng-change="edit.changePicIsCover(item.isCover,$index)">
@@ -213,11 +213,20 @@
                                         <option value="0">辅图</option>
                                     </select>
                                 </div>
-                                <div class="tac">
+                                <div class="tac smt-vm-parent">
                                     <!--<img ng-src="{{filepreview}}" width="190" height="118"-->
                                     <!--class="ms-detail-picture">-->
                                     <img ng-src="{{item.img}}"
-                                         class="ms-detail-picture">
+                                         class="ms-detail-picture img-responsive parent_pic">
+                                    <!-- add by xiayunan@20171214 小图放大 -->
+			                         <div class='smt-wm-box'>
+			                        	<img ng-src="{{item.wmImg}}">
+			                        	<div class='showMiddlepics'>                                    		                                          		
+			                                
+										</div>
+			                        </div>
+                                         
+                                         
                                 </div>
                             </div>
                             <div class="ms-details-desc fll">
