@@ -44,6 +44,7 @@
                     <span class="dib cursor edt-merge-btn" ng-click="sendManuscript.mergeManuscriptModalShow('wait-manuscript-merge-modal')">稿件合并</span>
                     <span class="dib cursor edt-merge-btn" ng-click="sendManuscript.downLoadPic()">下载原图</span>
                     <span ng-if="sendManuscript.variedtypeArr[0] ==3" class="dib cursor edt-merge-btn" ng-click="sendManuscript.signModalShow2('sign-manuscript-modal2')">一键签报</span>
+                    <span ng-if="sendManuscript.variedtypeArr[0] ==3" class="dib cursor edt-merge-btn" ng-click="sendManuscript.transferDatabaseModalShow('transfer-database-modal')">一键入库</span>
                 </div>
                 <div class="user-hd-right flr">
                     <input class="user-search-input" placeholder="可根据稿件ID、标题、作者名 检索" ng-model="sendManuscript.search.paramStr"
@@ -147,6 +148,7 @@
                     <span class="dib cursor edt-merge-btn"  ng-click="sendManuscript.mergeManuscriptModalShow('wait-manuscript-merge-modal')">稿件合并</span>
                     <span class="dib cursor edt-merge-btn" ng-click="sendManuscript.downLoadPic()">下载原图</span>
                     <span ng-if="sendManuscript.variedtypeArr[0] ==3" class="dib cursor edt-merge-btn" ng-click="sendManuscript.signModalShow2('sign-manuscript-modal2')">一键签报</span>
+                    <span ng-if="sendManuscript.variedtypeArr[0] ==3" class="dib cursor edt-merge-btn" ng-click="sendManuscript.transferDatabaseModalShow('transfer-database-modal')">一键入库</span>
                 </div>
                 <div class="user-hd-right flr">
                     <input class="user-search-input" placeholder="可根据稿件ID、标题、作者名 检索" ng-model="sendManuscript.search.paramStr"/>
@@ -519,7 +521,11 @@
             
         </div>
     </div>
-    <!--签报弹框 add by xiayunan@20171205-->
+    
+    
+    
+    
+    <!--一键签报弹框 add by xiayunan@20171205-->
     <div class="common-modal-style2" id="sign-manuscript-modal2"
          ng-mousemove="detail.moveModal('role-add-tit','sign-manuscript-modal2')"
          style="display:none;" >
@@ -540,6 +546,26 @@
             </div>
         </div>
     </div>
+    
+    
+	<!--一键入库弹框-->
+    <div class="common-modal-style" id="transfer-database-modal"
+         ng-mousemove="sendManuscript.moveModal('transfer-database-tit','ransfer-database-modal')"
+         style="display:none">
+        <div class="role-add-con">
+            <div id="transfer-database-tit" class="role-add-tit">
+               一键入库提醒
+            </div>
+            <div class="role-modal-con">
+                您确定将所选稿件签至资料库吗？
+            </div>
+            <div class="tac mt10">
+                <span class="dib cursor user-add-btn" ng-click="sendManuscript.transferDataBase('transfer-database-modal')">确定</span>
+                <span class="dib cursor user-add-btn" ng-click="sendManuscript.sendManuscriptModalHide('transfer-database-modal')">取消</span>
+            </div>
+        </div>
+    </div>
+    
     <!--高级检索弹框-->
     <div class="common-modal-style common-modal-style-width-s" id="wait-manuscript-search-modal"
          ng-mousemove="sendManuscript.moveModal('search-modal-tit','wait-manuscript-search-modal')"

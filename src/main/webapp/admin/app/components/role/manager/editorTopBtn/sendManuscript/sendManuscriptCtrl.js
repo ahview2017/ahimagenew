@@ -4,6 +4,9 @@
 adminModule.controller('mSendManuscriptCtrl', function($scope, $cookies, req, md5, $state, $rootScope, layerIfShow ,modalOperate, getMyDuty, allModalMove, $stateParams, $window, $document){
     var vm = this;
 
+    // 获取用户名
+	vm.uName = $cookies.get('admin_uname');
+	$scope.langType = window.localStorage.lang;
     //移动模态框
     vm.moveModal = function(dragDiv,tagDiv) {
         allModalMove.modalMove(dragDiv,tagDiv);
@@ -41,12 +44,17 @@ adminModule.controller('mSendManuscriptCtrl', function($scope, $cookies, req, md
         //从cookie获取角色id
         console.log($cookies.get('admin_roleId'));
         vm.reMyRoleId = $cookies.get('admin_roleId');
+        
+        
+        // 存储签发参数的数组	add by xiayunan@201711215
+		vm.signReqParamData = [];
+		vm.signlanmu = [];
+		vm.type = 0;
     }
     
     //初始化
     function init(){
         initSetting();
-        console.log(vm.variedtypeArr);
         //从service里取得我的值班级别的数据，实现数据持久化
         getMyDuty.req_getMyDuty(function(type){
             //存储角色拥有的值班级别
@@ -197,7 +205,7 @@ adminModule.controller('mSendManuscriptCtrl', function($scope, $cookies, req, md
     
     
     
-    //	add by xia.yunan@20171205
+    //一键签报	add by xia.yunan@20171205
 	vm.signModalShow2 = function(modalId) {
 		vm.selKeyArr = [];
     	vm.signIds = '';
@@ -219,7 +227,58 @@ adminModule.controller('mSendManuscriptCtrl', function($scope, $cookies, req, md
         }
 		modalOperate.modalShow(modalId);
 	}
-    
+	
+	
+	//一键签库  add by xiayunan@20171215
+	vm.transferDataBase = function(modalId){
+		vm.loadUpMs = layer.load(1);
+		vm.signReqParamData.push({
+			type: '0',
+			signId: 3119,
+			position: null
+		});
+		for(var key in vm.selKeyArr){
+			req.post('groupPicCtro/threeSubmitGroupPic.do', {
+				groupId: vm.selKeyArr[key],
+				cateData: angular.toJson(vm.signReqParamData),
+				"signColumn": null,
+				"langType": $scope.langType,
+				"userName": vm.uName
+			}).success(function(resp) {
+				layer.close(vm.loadUpMs);
+				if(resp.code == '211') {
+					modalOperate.modalHide(modalId);
+					req_getWaitManuscript(1);
+					layer.msg('操作成功');
+				} else if(resp.code == '100'){
+	            	layer.alert(resp.msg);
+	            }else if(resp.msg != '未登录') {
+					layer.alert(resp.msg);
+				}
+			});
+        }
+        
+	}
+	
+	
+	//一键签库模态框显示
+    vm.transferDatabaseModalShow = function(modalId){
+    	vm.selKeyArr = [];
+    	vm.signIds = '';
+        for(var key in vm.selWaitMsIds){
+            if(vm.selWaitMsIds[key]){
+                vm.selKeyArr.push(key);
+            }
+        }
+        if(!vm.selKeyArr.length){
+            layer.alert('请至少选中一个稿件');
+            return;
+        }
+       
+        modalOperate.modalShow(modalId);
+    }
+	
+	
     
     //自动分配 or 显示全部
     vm.chooseEdtAllot = function(edtAllot){
@@ -306,7 +365,6 @@ adminModule.controller('mSendManuscriptCtrl', function($scope, $cookies, req, md
         vm.dtTypeifShow = !vm.dtTypeifShow;
         vm.variedtypeArr.unshift(vm.variedtypeArr[index]);
         vm.variedtypeArr.splice(index + 1,1);
-        console.log('第二次'+ vm.variedtypeArr);
         if($window.localStorage['lang'] == 0) {
             $window.localStorage['userDutyLevelZh']=JSON.stringify(vm.variedtypeArr);
         } else if ($window.localStorage['lang'] == 1) {
@@ -315,7 +373,6 @@ adminModule.controller('mSendManuscriptCtrl', function($scope, $cookies, req, md
         req_getMyDuty(function(){
             req_getWaitManuscript(1);
         });
-        console.log(vm.variedtypeArr);
     }
     //获取我的值班级别
     function req_getMyDuty(callback){
@@ -527,6 +584,8 @@ adminModule.controller('mSendManuscriptCtrl', function($scope, $cookies, req, md
             }
         });
     }
+    
+ 
 
 
 });
