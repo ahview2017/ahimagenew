@@ -23,6 +23,7 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 		vm.signReqParamData = [];
 		vm.signlanmu = [];
 		vm.type = 0;
+		vm.delManuscriptReson = '废稿';
 	}
 
 	// 页面初始化

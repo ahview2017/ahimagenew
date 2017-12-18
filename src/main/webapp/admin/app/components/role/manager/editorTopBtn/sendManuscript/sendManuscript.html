@@ -45,6 +45,7 @@
                     <span class="dib cursor edt-merge-btn" ng-click="sendManuscript.downLoadPic()">下载原图</span>
                     <span ng-if="sendManuscript.variedtypeArr[0] ==3" class="dib cursor edt-merge-btn" ng-click="sendManuscript.signModalShow2('sign-manuscript-modal2')">一键签报</span>
                     <span ng-if="sendManuscript.variedtypeArr[0] ==3" class="dib cursor edt-merge-btn" ng-click="sendManuscript.transferDatabaseModalShow('transfer-database-modal')">一键入库</span>
+                    <span ng-if="sendManuscript.variedtypeArr[0] ==3" class="dib cursor edt-merge-btn" ng-click="sendManuscript.delGroupsModalShow('del-groups-modal')">删除</span>
                 </div>
                 <div class="user-hd-right flr">
                     <input class="user-search-input" placeholder="可根据稿件ID、标题、作者名 检索" ng-model="sendManuscript.search.paramStr"
@@ -149,6 +150,7 @@
                     <span class="dib cursor edt-merge-btn" ng-click="sendManuscript.downLoadPic()">下载原图</span>
                     <span ng-if="sendManuscript.variedtypeArr[0] ==3" class="dib cursor edt-merge-btn" ng-click="sendManuscript.signModalShow2('sign-manuscript-modal2')">一键签报</span>
                     <span ng-if="sendManuscript.variedtypeArr[0] ==3" class="dib cursor edt-merge-btn" ng-click="sendManuscript.transferDatabaseModalShow('transfer-database-modal')">一键入库</span>
+                    <span ng-if="sendManuscript.variedtypeArr[0] ==3" class="dib cursor edt-merge-btn" ng-click="sendManuscript.delGroupsModalShow('del-groups-modal')">删除</span>
                 </div>
                 <div class="user-hd-right flr">
                     <input class="user-search-input" placeholder="可根据稿件ID、标题、作者名 检索" ng-model="sendManuscript.search.paramStr"/>
@@ -452,7 +454,7 @@
             </div>
         </div>
     </div>
-    <!--删除弹框-->
+    <!--彻底删除弹框-->
     <div class="common-modal-style" id="wait-del-modal"
          ng-mousemove="sendManuscript.moveModal('del-modal-tit','wait-del-modal')"
          style="display:none">
@@ -629,4 +631,45 @@
             </div>
         </div>
     </div>
+    
+     <!--删除弹框   add by xiayunan@20171218-->
+      <!--删除弹框-->
+    <div class="common-modal-style" id="del-groups-modal" style="display:none">
+        <div class="role-add-con">
+            <div class="role-add-tit" id="del-groups-tit">
+                删除评语
+            </div>
+            <div class="role-modal-con">
+                <span class="back-draft-comments-tit">删除评语：</span>
+                <textarea class="back-draft-comments" placehoder="请输入删除评语" ng-model="sendManuscript.delManuscriptReson">
+                </textarea>
+            </div>
+            <div class="tac mt10">
+                <span class="dib cursor user-add-btn" ng-click="sendManuscript.delGroupsPic('del-groups-modal')">确定</span>
+                <span class="dib cursor user-add-btn cancel-btn-color"   ng-click="sendManuscript.sendManuscriptModalHide('del-groups-modal')">取消</span>
+            </div>
+        </div>
+    </div>
+     
+     
+     
+     
+    <div class="common-modal-style" id="del-groups-modal"
+         ng-mousemove="sendManuscript.moveModal('del-groups-tit','del-groups-modal')"
+         style="display:none">
+        <div class="role-add-con">
+            <div id="del-groups-tit" class="role-add-tit">
+                删除提醒
+            </div>
+            <div class="role-modal-con">
+                你确定要删除这些稿件吗？
+            </div>
+            <div class="tac mt10">
+                <span class="dib cursor user-add-btn" ng-click="sendManuscript.delGroupsPic('wait-del-modal')">确定</span>
+                <span class="dib cursor user-add-btn" ng-click="sendManuscript.sendManuscriptModalHide('del-groups-modal')">取消</span>
+            </div>
+        </div>
+    </div>
+    
+    
 </div>

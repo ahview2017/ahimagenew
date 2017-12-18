@@ -50,6 +50,9 @@ adminModule.controller('mSendManuscriptCtrl', function($scope, $cookies, req, md
 		vm.signReqParamData = [];
 		vm.signlanmu = [];
 		vm.type = 0;
+		
+		
+		vm.delManuscriptReson = '废稿';
     }
     
     //初始化
@@ -585,7 +588,52 @@ adminModule.controller('mSendManuscriptCtrl', function($scope, $cookies, req, md
         });
     }
     
+    
+    //删除模态框显示  add by xiayunan@20171218
+    vm.delGroupsModalShow = function(modalId){
+    	vm.selKeyArr = [];
+    	vm.signIds = '';
+        for(var key in vm.selWaitMsIds){
+            if(vm.selWaitMsIds[key]){
+                vm.selKeyArr.push(key);
+            }
+        }
+        if(!vm.selKeyArr.length){
+            layer.alert('请至少选中一个稿件');
+            return;
+        }
+        modalOperate.modalShow(modalId);
+    }
+    
  
+    
+    // 确认删除稿子
+	vm.delGroupsPic = function(modalId) {
+		req_delManuscript(modalId);
+	}
+
+	// 确认删除稿子请求
+	function req_delManuscript(modalId) {
+		if(!vm.delManuscriptReson) {
+			layer.alert('请填写删稿评语!');
+			return;
+		}
+		for(var key in vm.selKeyArr){
+			req.post('groupPicCtro/delGroupAndMemo.do', {
+				groupId: vm.selKeyArr[key],
+				memo: vm.delManuscriptReson
+			}).success(function(resp) {
+				if(resp.code == '211') {
+					modalOperate.modalHide(modalId);
+					req_getWaitManuscript(1);
+					layer.msg('操作成功');
+				} else if(resp.msg != '未登录') {
+					layer.alert(resp.msg);
+				}
+			});
+        }
+		
+	}
 
 
 });
