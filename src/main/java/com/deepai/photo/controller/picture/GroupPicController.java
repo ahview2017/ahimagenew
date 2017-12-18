@@ -2867,6 +2867,42 @@ public class GroupPicController {
         return result;
 
     }
+    
+    
+    
+    
+    /**
+	 * 获取一键入库栏目ID
+	 * @param request
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/getSignBaseColumn")
+	@SkipLoginCheck
+	@SkipAuthCheck
+	public Object getSignBaseColumn(HttpServletRequest request){
+		ResponseMessage result=new ResponseMessage();
+		try {
+			String signBasecolumnId = sysConfigService.getDbSysConfig(SysConfigConstant.SIGN_BASE_COLUMN,1);
+			Map<Object,Object> map = new HashMap<Object,Object>();
+			if(StringUtil.notBlank(signBasecolumnId)){
+				map.put("signBasecolumnId", signBasecolumnId);
+			}
+			result.setMsg("获取一键入库栏目成功");
+			result.setCode(CommonConstant.SUCCESSCODE);
+			result.setData(map);
+		} catch (InvalidHttpArgumentException e) {
+			result.setCode(e.getCode());
+			result.setMsg(e.getMsg());
+		}catch(Exception e1){
+			e1.printStackTrace();
+			log.error("获取一键入库栏目失败，"+e1.getMessage());
+			result.setCode(CommonConstant.EXCEPTIONCODE);
+			result.setMsg(CommonConstant.EXCEPTIONMSG);
+		}
+		return result;
+	}
+    
 	
 	
 }

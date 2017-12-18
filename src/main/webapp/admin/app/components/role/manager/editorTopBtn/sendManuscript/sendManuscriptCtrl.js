@@ -3,7 +3,6 @@
  */
 adminModule.controller('mSendManuscriptCtrl', function($scope, $cookies, req, md5, $state, $rootScope, layerIfShow ,modalOperate, getMyDuty, allModalMove, $stateParams, $window, $document){
     var vm = this;
-
     // 获取用户名
 	vm.uName = $cookies.get('admin_uname');
 	$scope.langType = window.localStorage.lang;
@@ -45,14 +44,12 @@ adminModule.controller('mSendManuscriptCtrl', function($scope, $cookies, req, md
         console.log($cookies.get('admin_roleId'));
         vm.reMyRoleId = $cookies.get('admin_roleId');
         
-        
         // 存储签发参数的数组	add by xiayunan@201711215
 		vm.signReqParamData = [];
 		vm.signlanmu = [];
 		vm.type = 0;
-		
-		
 		vm.delManuscriptReson = '废稿';
+		vm.signId = 0;
     }
     
     //初始化
@@ -76,8 +73,23 @@ adminModule.controller('mSendManuscriptCtrl', function($scope, $cookies, req, md
             }
             req_getWaitManuscript(1);
         })
+        
+        getSignBaseColum();
     }
     init();
+    
+    
+    function getSignBaseColum(){
+    	req.get('groupPicCtro/getSignBaseColumn.do').success(function(resp) {
+			if(resp.code == '211') {
+				vm.signId = resp.data.signBasecolumnId;
+			}else if(resp.msg != '未登录') {
+				layer.alert(resp.msg);
+			}
+    	});
+    }
+    
+    
     //切换值班级别
     vm.toggleProofGrade = function(){
         vm.finalGIds = '';
@@ -235,9 +247,13 @@ adminModule.controller('mSendManuscriptCtrl', function($scope, $cookies, req, md
 	//一键签库  add by xiayunan@20171215
 	vm.transferDataBase = function(modalId){
 		vm.loadUpMs = layer.load(1);
+		var signId = 0;
+		if(vm.signId!=null&&typeof(vm.signId)!="undefined"){
+			signId = vm.signId;
+		}
 		vm.signReqParamData.push({
 			type: '0',
-			signId: 3130,
+			signId: signId,
 			position: null
 		});
 		for(var key in vm.selKeyArr){
@@ -260,7 +276,6 @@ adminModule.controller('mSendManuscriptCtrl', function($scope, $cookies, req, md
 				}
 			});
         }
-        
 	}
 	
 	

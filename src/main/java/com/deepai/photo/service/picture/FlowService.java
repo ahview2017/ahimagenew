@@ -933,7 +933,10 @@ public class FlowService {
 				}
 				//add by xiayunan@2017-09-27
 				String signStr = m.get("signId").toString();
-				int signId = Integer.valueOf(signStr.substring(0,signStr.indexOf(".")));
+				if(signStr.indexOf(".")!=-1){
+					signStr = signStr.substring(0,signStr.indexOf("."));
+				}
+				int signId = Integer.valueOf(signStr);
 				if(isSign(groupId,signId)){//如果稿件在该栏目下已经签发，则将该栏目从cates中移除
 					logger.info("ID为"+groupId+"的稿件在ID为："+signId+"的栏目下已经签过,不可重复签发！");
 					cpFlowMapper.updateCatePosition(m);

@@ -95,6 +95,9 @@ public class SysConfigConstant {
     public static String WATERMAKER_TRANSPARENCY = "WATERMAKER_TRANSPARENCY";//100
     public static String WATERMAKER_POSITION = "WATERMAKER_POSITION";//0.6
     
+    // add by xia.yunan 2017-12-18
+    public static String SIGN_BASE_COLUMN = "SIGN_BASE_COLUMN";
+    
 	public static Map<String,String> config;
 	
     /** 注册发送短信模版 */
