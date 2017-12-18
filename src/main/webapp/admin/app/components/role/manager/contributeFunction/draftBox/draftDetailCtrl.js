@@ -54,7 +54,7 @@ adminModule.controller('mDraftDetailCtrl', function ($scope, $cookies, req, md5,
     }
     //删除模态框显示
     vm.delModalShow = function (modalId) {
-        modalOperate.modalShow(modalId);
+    	 modalOperate.modalShow(modalId);
     }
     //确认提交校审
     vm.confirmCommit = function (modalId) {
@@ -99,6 +99,7 @@ adminModule.controller('mDraftDetailCtrl', function ($scope, $cookies, req, md5,
                 layer.alert('操作成功');
                 modalOperate.modalHide(modalId);
                 getManuscriptDetails();
+                $state.go('role.manager.draftbox');
             }else if(resp.msg != '未登录'){
                 layer.alert(resp.msg);
             }
