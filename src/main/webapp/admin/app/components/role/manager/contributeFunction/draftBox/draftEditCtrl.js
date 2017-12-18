@@ -11,6 +11,12 @@ adminModule.controller('mDraftEditCtrl', function($scope, $cookies, req, md5, $s
     function initSetting(){
         //获得城市列表
         vm.msCityList = cityList.citylist;
+        
+        //初始化城市为安徽省
+        vm.cities = vm.msCityList[11].c;
+        //初始化城市为合肥
+        vm.counties = vm.cities[0].a;
+        
         //默认激活的导航项为全部稿件
         vm.acitiveSlideTit = 1;
         //默认选中境内稿签
@@ -60,11 +66,23 @@ adminModule.controller('mDraftEditCtrl', function($scope, $cookies, req, md5, $s
             }
         }
     };
+    
+  //改变市的时候
+    vm.changeCity = function (city) {
+    	//$("#proSel").find("#defaultProOpt").remove();
+        for(var i = 0; i < vm.cities.length; i++){
+            if(city == vm.cities[i].n){
+                vm.counties = vm.cities[i].a;
+            }
+        }
+    };
+    
 
     //初始化时展示详情
     function showMenuscriptDetail(){
         //初始化地点信息
         vm.changeProv(vm.manuscriptPlaceArr[0]);
+        vm.changeCity(vm.manuscriptPlaceArr[1]);
         //vm.manuscriptCategoryId
         //存储编辑稿件信息
         vm.editManuscript = {
@@ -77,6 +95,7 @@ adminModule.controller('mDraftEditCtrl', function($scope, $cookies, req, md5, $s
             remark: vm.manuscriptDetail.remark,
             selProv: vm.manuscriptPlaceArr[0] || '',
             selCity: vm.manuscriptPlaceArr[1]  || '',
+            selCounty: vm.manuscriptPlaceArr[2] || '',
             abroadPlace: vm.manuscriptDetail.place
         };
         //初始化展示地点（从详情获取）
@@ -106,6 +125,117 @@ adminModule.controller('mDraftEditCtrl', function($scope, $cookies, req, md5, $s
         });
     }
     init();
+    
+    
+    
+    //人物、关键词、稿件说明快速复制 add by xiayunan@20171218
+    vm.copyPeople = function(){
+    	if(!vm.editManuscript.people){
+    		layer.alert("人物为空，请输入后再进行复制！");
+    		return;
+    	}
+    	
+    	 if(vm.upMenuscriptPicArr.length == 0){
+             layer.alert('未选择图片，请上传后再进行复制!');
+             return;
+         }
+    	var flag = $("#people-toggle-flag").hasClass("people-toggle");
+    	if(flag){
+    		$(".pic-people").val(vm.editManuscript.people);
+    		$("#people-toggle-flag").removeClass("people-toggle");
+    		angular.forEach(vm.upMenuscriptPicArr,function(item,index){
+    			vm.upMenuscriptPicArr[index].people = vm.editManuscript.people;
+    		});
+    		alert("复制人物成功！");
+    	}else{
+    		$(".pic-people").val("");
+    		$("#people-toggle-flag").addClass("people-toggle");
+    		angular.forEach(vm.upMenuscriptPicArr,function(item,index){
+    			vm.upMenuscriptPicArr[index].people = vm.editManuscript.people;
+    		});
+    		alert("清空人物成功！");
+    	}
+    }
+    
+    
+    vm.copyKeyword = function(){
+    	if(!vm.editManuscript.keywords){
+    		layer.alert("关键词为空，请输入后再进行复制！");
+    		return;
+    	}
+    	if(vm.upMenuscriptPicArr.length == 0){
+             layer.alert('未选择图片，请上传后再进行复制!');
+             return;
+        }
+    	var flag = $("#keyword-toggle-flag").hasClass("keyword-toggle");
+    	if(flag){
+    		$(".pic-keyword").val(vm.editManuscript.keywords);
+    		$("#keyword-toggle-flag").removeClass("keyword-toggle");
+    		angular.forEach(vm.upMenuscriptPicArr,function(item,index){
+    			vm.upMenuscriptPicArr[index].keywords = vm.editManuscript.keywords;
+    		});
+    		alert("复制关键词成功！");
+    	}else{
+    		$(".pic-keyword").val("");
+    		$("#keyword-toggle-flag").addClass("keyword-toggle");
+    		angular.forEach(vm.upMenuscriptPicArr,function(item,index){
+    			vm.upMenuscriptPicArr[index].keywords = '';
+    		});
+    		alert("清空关键词成功！");
+    	}
+    	
+    	
+    	//$(".pic-keyword").val(vm.newManuscriptManuscript.keywords);
+    }
+    
+    vm.copyMemo = function(){
+    	
+    	if(vm.upMenuscriptPicArr.length == 0){
+             layer.alert('未选择图片，请上传后再进行复制!');
+             return;
+        }
+    	var memo = '';
+    	angular.forEach(vm.upMenuscriptPicArr,function(item,index){
+    		memo = vm.upMenuscriptPicArr[0].memo ;
+		});
+    	if(!memo){
+    		layer.alert("图片说明为空，请输入后再进行复制！");
+    		return;
+    	}
+    	
+    	var flag = $("#memo-toggle-flag").hasClass("memo-toggle");
+    	if(flag){
+    		$(".pic-memo").val(memo);
+    		$("#memo-toggle-flag").removeClass("memo-toggle");
+    		angular.forEach(vm.upMenuscriptPicArr,function(item,index){
+    			if(index>0){
+    				vm.upMenuscriptPicArr[index].memo = memo;
+    			}
+    		});
+    		alert("复制图片说明成功！");
+    	}else{
+    		$(".pic-memo").each(function(index,element){
+    			if(index>0){
+    				$(this).val("");
+    			}			
+    		});
+    		
+    		$("#memo-toggle-flag").addClass("memo-toggle");
+    		angular.forEach(vm.upMenuscriptPicArr,function(item,index){
+    			if(index>0){
+    				vm.upMenuscriptPicArr[index].memo = '';
+    			}
+    		});
+    		alert("清空图片说明成功！");
+    	}
+    	
+    	//$(".pic-memo").val(vm.newManuscriptManuscript.memo);
+    }
+    
+    
+    
+    
+    
 
     //获取稿件详情
     function getManuscriptDetails(callback){
@@ -363,20 +493,20 @@ adminModule.controller('mDraftEditCtrl', function($scope, $cookies, req, md5, $s
             layer.alert('请填写标题');
             return;
         }
-        if(vm.editManuscript.title && vm.editManuscript.title.length > 30){
-            layer.alert('标题要少于30个字');
+        if(vm.editManuscript.title && vm.editManuscript.title.length > 100){
+            layer.alert('标题要少于100个字');
             return;
         }
         if(!vm.editManuscript.memo){
             layer.alert('请填写新闻说明');
             return;
         }
-        if(vm.editManuscript.memo && vm.editManuscript.memo.length > 600){
-            layer.alert('新闻说明要少于600字');
+        if(vm.editManuscript.memo && vm.editManuscript.memo.length > 4000){
+            layer.alert('新闻说明要少于4000字');
             return;
         }
-        if(vm.editManuscript.remark && vm.editManuscript.remark.length > 255){
-            layer.alert('备注要少于255字');
+        if(vm.editManuscript.remark && vm.editManuscript.remark.length > 2000){
+            layer.alert('备注要少于2000字');
             return;
         }
         if(vm.editManuscript.people && vm.editManuscript.people.length > 200){
@@ -432,7 +562,16 @@ adminModule.controller('mDraftEditCtrl', function($scope, $cookies, req, md5, $s
     //获取地点参数
     function getPlaceParams(){
         if(vm.locationType == 0){
-            vm.editManuscript.place = vm.editManuscript.selProv + ' ' + vm.editManuscript.selCity;
+        	//add by xiayunan@20171218
+        	if(!vm.editManuscript.selCounty){
+        		vm.editManuscript.place = vm.editManuscript.selProv + ' ' + vm.editManuscript.selCity;
+	       	}else{
+	       		vm.editManuscript.place = vm.editManuscript.selProv + ' ' + vm.editManuscript.selCity+ ' ' + vm.editManuscript.selCounty;
+	       	}
+        	
+        	
+        	
+           // vm.editManuscript.place = vm.editManuscript.selProv + ' ' + vm.editManuscript.selCity;
         }
         if(vm.locationType == 1){
             vm.editManuscript.place = vm.editManuscript.abroadPlace;

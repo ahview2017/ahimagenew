@@ -19,7 +19,11 @@
                 <div class="n-manuscript-left fll">
                     <div class="n-manuscript-top clear">
                         <div class="fll manuscript-txt-import">
-                            <textarea class="n-manuscript-explain ms-headline-texarea" placeholder="请在这里输入标题（必填，需少于30个汉字）" ng-model="draftEdit.editManuscript.title"></textarea>
+                        	<p class='new_infor'>请在下面输入标题（必填，需少于100个汉字）</p>
+							<textarea class="n-manuscript-explain ms-headline-texarea" placeholder="请在这里输入标题（必填，需少于100个汉字）" ng-model="draftEdit.editManuscript.title"></textarea>
+                        	<!--  
+                            <textarea class="n-manuscript-explain ms-headline-texarea" placeholder="请在这里输入标题（必填，需少于100个汉字）" ng-model="draftEdit.editManuscript.title"></textarea>
+                            -->
                             <div>
                                 <input  class="draft-true-name-input draft-sign-input" ng-model="draftEdit.photoUserName"
                                         ng-keyup="draftEdit.getPhotoUser($event)"/>
@@ -46,12 +50,33 @@
                         </div>
                     </div>
                     <div class="n-manuscript-middle">
+                  
+                    <p class='new_infor  memo-toggle'  id ="memo-toggle-flag" >请输入稿件说明（必填，少于4000汉字的简单说明）</p>
+                    <div class="n-manuscript-explain"  id="new_ms_memo" ng-bind-html="draftEdit.editManuscript.memo | trustHtml"
+                         contenteditable = "true" style='-webkit-user-select:text'
+                         ng-model="draftEdit.editManuscript.memo"
+                         placeholder=""></div>
+                   
+                    
+                    <!--  
                     <textarea class="n-manuscript-explain" placeholder="请输入稿件说明（必填，少于600汉字的简单说明）"
                               ng-model="draftEdit.editManuscript.memo"></textarea>
+                     -->
+                              
+                              
                     </div>
                     <div class="n-manuscript-bottom">
+                    
+                    <p class='new_infor'>备注（选填，少于2000汉字的备注）</p>
+                    <div class="n-manuscript-explain ms-alternative-texarea"  id="new_ms_remark" ng-bind-html="draftEdit.editManuscript.remark | trustHtml"
+                         contenteditable = "true" style='-webkit-user-select:text'
+                         ng-model="draftEdit.editManuscript.remark"
+                         placeholder=""></div>
+                    
+                    <!--  
                     <textarea class="n-manuscript-explain ms-alternative-texarea" placeholder="备注（选填，少于255汉字的简单说明）"
                               ng-model="draftEdit.editManuscript.remark"></textarea>
+                    -->
                     </div>
                 </div>
                 <div class="n-manuscript-right fll">
@@ -67,15 +92,15 @@
                         <div class="draft-signed-bd">
                             <div class="draft-signed-hd-item clear">
                                 <div class="fll draft-signed-hd-left">
-                                    <span class="draft-sign-txt">人物</span>
+                                    <span class="draft-sign-txt people-toggle cursor" ng-click="draftEdit.copyPeople()" id ="people-toggle-flag">人物</span>
                                 </div>
                                 <div class="fll draft-signed-hd-right">
-                                    <input placeholder="选填，少于200字" class="draft-sign-input" ng-model="draftEdit.editManuscript.people"/>
+                                    <input placeholder="选填，少于200字" class="draft-sign-input " ng-model="draftEdit.editManuscript.people"/>
                                 </div>
                             </div>
                             <div class="draft-signed-hd-item clear">
                                 <div class="fll draft-signed-hd-left">
-                                    <span class="draft-sign-txt">关键字</span>
+                                    <span class="draft-sign-txt cursor keyword-toggle" ng-click="draftEdit.copyKeyword()" id ="keyword-toggle-flag">关键字</span>
                                 </div>
                                 <div class="fll draft-signed-hd-right">
                                     <input placeholder="选填，少于500字" class="draft-sign-input" ng-model="draftEdit.editManuscript.keywords"/>
@@ -99,9 +124,15 @@
                                     <option value="">请选择</option>
                                 </select>
                                 <select class="draft-procity-select"
-                                        ng-model="draftEdit.editManuscript.selCity" ng-options="city.n as city.n for city in draftEdit.cities">
+                                        ng-model="draftEdit.editManuscript.selCity" ng-change="draftEdit.changeCity(draftEdit.editManuscript.selCity)" ng-options="city.n as city.n for city in draftEdit.cities">
                                     <option value="">请选择</option>
                                 </select>
+                                <!--境内地区添加 县 add by xiayunan@20171218 -->
+								<select id="countySel" class="draft-procity-select" 
+										ng-model="draftEdit.editManuscript.selCounty" ng-options="county.s as county.s for county in draftEdit.counties">
+									<option  value="" translate>请选择</option>
+								</select>
+                                
                             </div>
                             <div class="draft-aborad-item clear" ng-if="draftEdit.locationType == 1">
                                 <input placeholder="请输入境外地区" class="draft-sign-input" ng-model="draftEdit.editManuscript.abroadPlace"/>
@@ -154,7 +185,7 @@
                                         <span>人物</span>
                                     </div>
                                     <div class="ms-addpic-right fll">
-                                        <input placeholder="选填" class="draft-sign-input" ng-model="item.people"/>
+                                        <input placeholder="选填" class="draft-sign-input pic-people" ng-model="item.people"/>
                                     </div>
                                 </div>
                                 <div class="ms-addpic-item clear">
@@ -162,7 +193,7 @@
                                         <span>关键词</span>
                                     </div>
                                     <div class="ms-addpic-right fll">
-                                        <input placeholder="选填" class="draft-sign-input" ng-model="item.keywords"/>
+                                        <input placeholder="选填" class="draft-sign-input pic-keyword" ng-model="item.keywords"/>
                                     </div>
                                 </div>
                                 <div class="ms-addpic-item clear">
@@ -175,8 +206,8 @@
                                 </div>
                             </div>
                             <div class="ms-editDet-state fll">
-                                <h5 class="ms-pic-txt">图片说明</h5>
-                                <textarea class="ms-pic-textarea" placeholder="请输入图片说明" ng-model="item.memo"></textarea>
+                                <h5 class="ms-pic-txt cursor" ng-click="draftEdit.copyMemo()">图片说明</h5>
+                                <textarea class="ms-pic-textarea pic-memo" placeholder="请输入图片说明" ng-model="item.memo"></textarea>
                             </div>
                         </div>
                     </div>
