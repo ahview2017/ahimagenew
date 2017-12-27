@@ -512,10 +512,10 @@
   </delete>
   <!-- 添加信息到另一张表 -->
    <insert id="insOther" parameterType="map">
-    INSERT into cp_user_delete SELECT * from cp_user where id in
+    INSERT into cp_user_delete SELECT * from cp_user where id in 
      <foreach collection="ids" item="id" open="(" close=")" separator=",">
-  	#{id}
-    </foreach>
+  		#{id}
+     </foreach>
   </insert>
   
   <select id="selectAuthRightIds" parameterType="map" resultType="int">
