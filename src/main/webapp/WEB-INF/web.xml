@@ -57,6 +57,7 @@
     <servlet-class>com.deepai.photo.common.listener.OnloadStart</servlet-class>
     <load-on-startup>3</load-on-startup>
   </servlet>
+  
   <welcome-file-list>
     <welcome-file>/index.jsp</welcome-file>
   </welcome-file-list>

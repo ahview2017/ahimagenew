@@ -152,7 +152,7 @@
 				<!--上传信息盒子-->
 				<div class="ms-upinfo-box"></div>
 				<!--上传图片-->
-				<div ui-sortable ng-model="edit.upMenuscriptPicArr" class="cursor">
+				<div ui-sortable ng-model="edit.upMenuscriptPicArr" class="cursor" style="margin-bottom: 300px;">
 					<div class="ms-pic-item clear cursor" ng-repeat="item in edit.upMenuscriptPicArr">
 						<div>
 							<div class="clear">
@@ -161,17 +161,22 @@
 							<div class="ms-editDet-checkbox fll">
 								<input type="checkbox" />
 							</div>
-							<div class="ms-details-pic fll">
+							<div class="ms-details-pic fll" detail-show-middle-pic>
 								<div>
 									<select class="ms-pic-pictype" ng-model="item.isCover" ng-change="edit.changePicIsCover(item.isCover,$index)">
 										<option value="1">主图</option>
 										<option value="0">辅图</option>
 									</select>
 								</div>
-								<div class="tac">
+								<div class="tac smt-vm-parent">
 									<!--<img ng-src="{{filepreview}}" width="190" height="118"-->
 									<!--class="ms-detail-picture">-->
-									<img ng-src="{{item.img}}" class="ms-detail-picture">
+									<img ng-src="{{item.img}}" class="ms-detail-picture img-responsive parent_pic">
+									<div class='smt-wm-box' style="width:580px;">
+			                        	<img ng-src="{{item.wmImg}}"  >
+			                        	<div class='showMiddlepics'>                                    		                                          		
+										</div>
+			                        </div>
 								</div>
 							</div>
 							<div class="ms-details-desc fll">

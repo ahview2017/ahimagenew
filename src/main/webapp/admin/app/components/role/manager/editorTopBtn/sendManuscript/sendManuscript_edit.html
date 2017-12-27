@@ -196,7 +196,7 @@
                 <!--上传信息盒子-->
                 <div class="ms-upinfo-box"></div>
                 <!--上传图片-->
-                <div ui-sortable ng-model="edit.upMenuscriptPicArr">
+                <div ui-sortable ng-model="edit.upMenuscriptPicArr" style="margin-bottom: 300px;">
                     <div class="ms-pic-item clear cursor"  ng-repeat="item in edit.upMenuscriptPicArr">
                         <div>
                             <div class="clear">
@@ -219,8 +219,8 @@
                                     <img ng-src="{{item.img}}"
                                          class="ms-detail-picture img-responsive parent_pic">
                                     <!-- add by xiayunan@20171214 小图放大 -->
-			                         <div class='smt-wm-box'>
-			                        	<img ng-src="{{item.wmImg}}">
+			                         <div class='smt-wm-box' style="width:680px;">
+			                        	<img ng-src="{{item.wmImg}}"  >
 			                        	<div class='showMiddlepics'>                                    		                                          		
 			                                
 										</div>

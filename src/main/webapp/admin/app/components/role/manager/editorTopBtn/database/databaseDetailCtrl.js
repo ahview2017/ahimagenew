@@ -179,6 +179,7 @@ adminModule.controller('mDatabaseDetailCtrl', function ($scope, $cookies, req, m
             if (resp.code == '211' && resp.data != []) {
                 vm.projectModalHide('retractionModalId');
                 layer.alert("撤稿成功，该签发位为空，请及时签发新的稿件哦");
+                getHadSignData(vm.dataBankId);
             }else if(resp.msg != '未登录'){
                 layer.alert(resp.msg);
             }

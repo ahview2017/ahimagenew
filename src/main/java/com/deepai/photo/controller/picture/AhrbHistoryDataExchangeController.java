@@ -61,7 +61,7 @@ public class AhrbHistoryDataExchangeController {
 	private static final int FIRST_EDIT_ID = 409;
 	private static final int SECOND_EDIT_ID = 406;
 	private static final int THIRD_EDIT_ID = 352;
-	private static final String AUTHOR_NAME = "吴文兵";
+	private static final String AUTHOR_NAME = "视觉新闻中心";
 	private static final int AUTHOR_ID = 409;
 	private static final int DATA_EXCHANGE_CHNL_ID = 3066;//数据迁移专用栏目
 	private static int SUCCESS_PIC_NUM = 0;
@@ -167,7 +167,7 @@ public class AhrbHistoryDataExchangeController {
 		try {
 			
 			conn =  getConnection();
-			String sql = "SELECT * FROM uninews_Product  WHERE up_photodate_dt BETWEEN '2006-11-27 00:00:00' AND '2008-06-30 23:59:59'";
+			String sql = "SELECT * FROM uninews_Product  WHERE up_photodate_dt BETWEEN '2009-06-08 17:16:45' AND '2009-09-30 23:59:59'";
 	        pstmt = (PreparedStatement)conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 	        log.info("获取数据库连接成功！");
 	        rs = pstmt.executeQuery();
@@ -197,8 +197,8 @@ public class AhrbHistoryDataExchangeController {
 							+ "FROM "
 								+ "[uninews_Product] "
 							+ "WHERE "
-								+ "up_photodate_dt BETWEEN '2006-11-27 00:00:00' AND '2008-06-30 23:59:59' order by up_photodate_dt))"
-						+ " AND (UP_PhotoDate_Dt BETWEEN  '2006-11-27 00:00:00' AND '2008-06-30 23:59:59') order by up_photodate_dt";
+								+ "up_photodate_dt BETWEEN '2009-06-08 17:16:45' AND '2009-09-30 23:59:59' order by up_photodate_dt))"
+						+ " AND (UP_PhotoDate_Dt BETWEEN '2009-06-08 17:16:45' AND '2009-09-30 23:59:59') order by up_photodate_dt";
 				 pstmt = (PreparedStatement)conn.prepareStatement(subsql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 				 log.info("<<<分段查询获取数据库连接成功！");
 				 

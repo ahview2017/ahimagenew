@@ -6,4 +6,5 @@ encoding//src/main/resources/database.properties=UTF-8
 encoding//src/main/webapp/admin/app/components/role/manager/editorTopBtn/sendManuscript/sendManuscriptCtrl.js=UTF-8
 encoding//src/main/webapp/admin/app/components/role/manager/editorTopBtn/sendManuscript/sendManuscriptDetailCtrl.js=UTF-8
 encoding//src/main/webapp/admin/app/components/role/manager/editorTopBtn/sendManuscript/sendManuscriptEditCtrl.js=UTF-8
+encoding//src/main/webapp/index.jsp=UTF-8
 encoding/<project>=UTF-8
