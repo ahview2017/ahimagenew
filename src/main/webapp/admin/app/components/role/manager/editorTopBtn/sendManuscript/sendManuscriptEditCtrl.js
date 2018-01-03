@@ -214,6 +214,22 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
         }
     };
 
+    
+    //一键清除样式 add by xiayunan@20171204
+    vm.cleanWord=function(){
+    	req.post('groupPicCtro/cleanWord.do',{
+    		memo: vm.editManuscript.memo,
+    		remark: vm.editManuscript.remark
+        }).success(function(resp){
+            if(resp.code == 211){
+            	vm.editManuscript.memo = resp.data.memo;
+            	vm.editManuscript.remark = resp.data.remark;
+            }else if(resp.msg != '未登录'){
+                layer.alert(resp.msg);
+            }
+        });
+    }
+    
     //初始化时展示详情
     function showMenuscriptDetail(){
         //初始化地点信息
