@@ -73,15 +73,49 @@
 			<div class="fll database-right-box">
 				<div ng-show="database.acitiveTwoSlideTit1 == 1">
 					<div class="clear">
-						<div class="database-cont div_box" 
+						<div class="database-cont div_box smt-vm-parent" 
 						dir-paginate="dbItem in database.hadPubRowDataArray | itemsPerPage: database.selPageRows" 
 							total-items="database.databaseList_total" 
-							current-page="database.pagination.current">
+							current-page="database.pagination.current" detail-show-middle-pic>
 							<p>
 								<a target='_blank' ui-sref="role.manager.databaseDetail({id:dbItem.ID,columnId:database.columnId,columnTemplate:database.columnTemplate,num:database.num,oldId:database.oldId,topicId:database.topicId,lanmuId:database.lanmuId,isHadOut:0})">
-									<img class="curp" ng-src="{{dbItem.samllPath}}" />
+									<img class="curp parent_pic" ng-src="{{dbItem.samllPath}}" />
 								</a>
 							</p>
+							
+							
+							
+						 <!-- add by xiayunan@20171214 小图放大 -->
+                         <div class='smt-wm-box' style="width:380px">
+                       		 <!-- 
+                        	<img ng-src="{{dbItem.samllPath}}">
+                        	 -->
+                        	<div class='showMiddlepics'>                                    		                                          		
+                                <table border='1' width='100%' cellpadding="10">
+                                				<!--  
+                                    	        <caption >EXIF信息</caption>
+                                    	        -->
+                                    	        <tr>
+                                    	           	<td width="20%">作者:</td>
+                                    	           	<td>{{dbItem.AUTHOR}}</td>
+                                    	        </tr>
+                                    	        <tr>
+                                    	           	<td>发布时间：</td>
+                                    	           	<td>{{dbItem.SGIN_TIME|date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                    	        </tr>
+                                    	        <tr>
+                                    	           	<td>稿件说明：</td>
+                                    	           	<td>{{dbItem.REMARK}}</td>
+                                    	        </tr>
+                                    	        <tr>
+                                    	           	<td>稿件备注：</td>
+                                    	           	<td>{{dbItem.MEMO}}</td>
+                                    	        </tr>
+                                    	    </table>
+							</div>
+                        </div>
+							
+							
 
 							<p><a class="curp uifi-title database-detail-ov" target="_blank" ui-sref="role.manager.databaseDetail({id:dbItem.ID,columnId:database.columnId,columnTemplate:database.columnTemplate,num:database.num,oldId:database.oldId,topicId:database.topicId,lanmuId:database.lanmuId,isHadOut:0})">{{dbItem.TITLE}}<span style="color:#3399CC"></a>({{dbItem.PICTURE_COUNT}}张)</span></p>
 
@@ -111,6 +145,8 @@
 							<!--更多稿件选择-->
 						</div>
 					</div>
+					
+					
 					<!-- 分页 -->
 					<div class="paging-con-box mt10 clear">
 						<div class="photo-record-page fll">
