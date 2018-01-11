@@ -142,7 +142,7 @@ public final class SessionUtils {
 	 */
 	public static void setUser(HttpServletRequest request, CpUser user) {
 		request.getSession(true).setAttribute(SESSION_USER, user);
-		request.getSession(true).setMaxInactiveInterval(1800);
+		request.getSession(true).setMaxInactiveInterval(10800);
 	}
 
 	/**

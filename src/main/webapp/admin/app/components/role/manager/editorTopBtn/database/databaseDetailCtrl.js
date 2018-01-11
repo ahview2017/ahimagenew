@@ -89,10 +89,12 @@ adminModule.controller('mDatabaseDetailCtrl', function ($scope, $cookies, req, m
      * 获取资料库详情
      */
     function getDataBankDetailData(groupId) {
+    	vm.loadUpMs = layer.load(1);
         req.post('groupPicCtro/getGroupPics.do', {
             groupId: groupId
         }).success(function (resp) {
             if (resp.code == '211') {
+            	layer.close(vm.loadUpMs);
                 vm.dataBankObj = resp.data;
                 var cateArray = vm.dataBankObj['cates'];
                 vm.dataBankType = "";

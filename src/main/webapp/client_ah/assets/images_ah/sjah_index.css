@@ -628,13 +628,13 @@ td a{color:#747474;padding:0 8px;}
 	line-height: 30px;
 }
 .weibo_weixin{
-	width:263px;
-	height:110px;
+	width:388px;
+	height:235px;
 	margin:0 auto;
 }
 .weibo_weixin li{
-	width:75px;
-	height:75px;
+	width:200px;
+	height:200px;
 	background:#ccc;
 	margin: 0 auto;
 }

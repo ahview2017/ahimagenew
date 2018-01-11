@@ -148,7 +148,7 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
               } 
         });  
 	    */
-		vm.masBaseUrl = 'http://192.168.81.2/mas/openapi/pages.do?appKey=TRSPMS123';
+		vm.masBaseUrl = 'http://vi.ahnews.com.cn/mas/openapi/pages.do?appKey=TRSPMS123';
 		req.get('groupPicCtro/getMasBaseUrl.do').success(function(resp) {
 			if(resp.code == '211') {
 				vm.masBaseUrl = resp.data.masBaseUrl;

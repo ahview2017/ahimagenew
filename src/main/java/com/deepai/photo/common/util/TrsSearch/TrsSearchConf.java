@@ -118,7 +118,7 @@ public class TrsSearchConf {
 				sb.append("PROPERTIES="+trsResult.getProperties()+" and ");
 			}
 			 String staTime = trsResult.getStaTime();
-			  String endTime = trsResult.getEndTime();
+			 String endTime = trsResult.getEndTime();
 			if (StringUtils.isNotBlank(staTime)&&StringUtils.isNotBlank(endTime)) {
 				staTime=DateTimeUtil.getIntervalDaysLater(staTime, -1);
 				endTime=DateTimeUtil.getIntervalDaysLater(endTime, 1);

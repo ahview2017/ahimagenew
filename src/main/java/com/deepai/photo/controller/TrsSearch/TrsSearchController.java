@@ -1,7 +1,5 @@
 package com.deepai.photo.controller.TrsSearch;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,12 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.deepai.photo.bean.CpUser;
 import com.deepai.photo.common.StringUtil;
 import com.deepai.photo.common.annotation.SkipAuthCheck;
 import com.deepai.photo.common.annotation.SkipLoginCheck;
 import com.deepai.photo.common.constant.CommonConstant;
-import com.deepai.photo.common.pagehelper.PageHelper;
 import com.deepai.photo.common.pojo.ResponseMessage;
 import com.deepai.photo.common.pojo.TRSResult;
 import com.deepai.photo.common.util.SessionUtils;

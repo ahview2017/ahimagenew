@@ -435,6 +435,7 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 		     	params['properties'] = vm.acitiveOneSlideTit;
 		     	params['cateId'] = cateId;
 		 }*/
+		vm.loadUpMs = layer.load(1);
 		req.post(reqUrl, params).success(function(resp) {
 			if(resp.code == '211' && resp.data != [] && resp.data.length > 0) {
 				if(gType === 1) {
@@ -460,6 +461,7 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 						vm.databaseList_total = resp.other;
 					}
 				}
+				layer.close(vm.loadUpMs);
 				modalOperate.modalHide('database-manuscript-search-modal');
 			} else {
 				if(gType === 1) {

@@ -2,6 +2,9 @@
  * Created by Admin on 2016/6/28.
  */
 angular.module('client.services', [])
+	
+
+
     .constant('baseUrl', '/photo/')
     //封装$http请求
     .factory('req', function ($http, baseUrl) {
@@ -241,6 +244,10 @@ angular.module('client.services', [])
         successSetter: success_setter,
         successGetter: success_getter
     };
+    
+    
+    
+    
 });
 
 

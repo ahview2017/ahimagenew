@@ -1,4 +1,8 @@
 package com.deepai.photo.task;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -92,4 +96,32 @@ public class ProofreadJob {
 			log.error("定时任务出错："+e.getMessage());
 		}
 	}  
+	
+	
+//	/**
+//	 * 定时推送新华社稿件
+//	 * 每一个小时跑一次
+//	 */
+//	@Scheduled(cron="0 0 0/2 * * ?")    
+//	public void pushXHPhoto() {  
+//		try {
+//			log.info("开始推送新华社稿件");
+//			String result = "";
+//			HttpGet request = new HttpGet("http://192.168.81.6/photo/xhDataMigrationCtro/dataMigration.do");
+//			HttpResponse response = HttpClients.createDefault().execute(request);
+//			if(response.getStatusLine().getStatusCode()==200){
+//				result = EntityUtils.toString(response.getEntity());
+//			}
+//			log.info("<<<result:"+result);
+//		} catch (Exception e) {
+//			log.error("定时任务出错："+e.getMessage());
+//		}
+//	}  
+	
+	
+	
+	
+	
+	
+	
 } 

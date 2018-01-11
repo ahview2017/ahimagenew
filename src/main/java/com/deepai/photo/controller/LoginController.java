@@ -271,9 +271,10 @@ public class LoginController {
 								// 将在线用户id，放在list中，为在线用户列表
 								redisClientTemplate.lpush(CommonConstant.ONLINUSERLIST, redisId);
 								// 设置到cookie
+								
+								log.info("userToken:"+userToken);
 								Cookie cookie = new Cookie("userToken", userToken);
 //								cookie.setMaxAge(30 * 60);// 设置为30min
-								cookie.setMaxAge(3 * 60 *60);// 设置为180min
 								cookie.setPath("/");
 								response.addCookie(cookie);
 							} else {

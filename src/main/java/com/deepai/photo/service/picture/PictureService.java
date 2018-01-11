@@ -444,13 +444,23 @@ public class PictureService {
 			param.put("picType", 3);
 			param.put("tragetId", cpPicture.getId());
 			//原图全路径
+			long startTime6 = System.currentTimeMillis();
 			String oriAllPath=aboutPictureMapper.selectPicPathByType(param);
+			long endTime6 = System.currentTimeMillis();
+			logger.info("查询原图全路径："+(endTime6-startTime6));
+			
+			long startTime7 = System.currentTimeMillis();
 			CpPicture oldPic=cpPictureMapper.selectByPrimaryKey(cpPicture.getId());
+			long endTime7 = System.currentTimeMillis();
+			logger.info("查询单图信息："+(endTime7-startTime7));
 			boolean synFlag=false;//默认不是异步处理，否则前端会发生不返回数据的情况
 			long st=System.currentTimeMillis();
 			cpPicture.setIsSourcePicture(CommonConstant.BYTE1);
 			//生成大、中、水印图
+			long startTime8 = System.currentTimeMillis();
 			opeMediumandSmall(oriAllPath, oldPic.getPictureWidth(),oldPic.getPictureHeight(),synFlag,siteId,cpPicture.getId());
+			long endTime8 = System.currentTimeMillis();
+			logger.info("生成大中图耗时："+(endTime8-startTime8));
 			long end=System.currentTimeMillis();
 			logger.debug("生成大中图耗时："+(end-st));
 			
@@ -601,24 +611,36 @@ public class PictureService {
 		Map<String,Object> param=new HashMap<String, Object>();
 		param.put("tragetId", picId);
 		//中图
+		
+		long startTime11 = System.currentTimeMillis();
+		
 		param.put("picType", 1);
 		//查询中图是否已存在
 		String medium=aboutPictureMapper.selectPicPathByType(param);
 		String mediumPath=sysConfigService.getDbSysConfig(SysConfigConstant.MEDIUM_PIC_PATH, siteId);
 		String mediumAllPath=initFullPathByOrder(mediumPath, fileName);
 		if(medium==null){
+			logger.info("555555555555555555");
 			int mediumSize=Integer.valueOf(sysConfigService.getDbSysConfig(SysConfigConstant.MEDIUM_PIC_SIZE, siteId));
 			if (mediumSize <= picSize) {
+				logger.info("333333333333333333");
 				ImageAnalyseUtil.gmAlterImg(mediumSize, Path, 
 						initFullPathByOrder(mediumPath,fileName), width,height,synFlag);
 			} else {
+				logger.info("4444444444444444");
 				ImgFileUtils.makeDirectory(mediumAllPath);
 				ImgFileUtils.copyFile(Path, mediumAllPath);
 			}
 			addPicAllPath(mediumAllPath, 1, picId);
 		}
+		logger.info("<<<medium:"+medium);
 		
+		long endTime11 = System.currentTimeMillis();
+		logger.info("<<<中图耗时："+(endTime11-startTime11));
+		 
+		 
 		//大图
+		long startTime12 = System.currentTimeMillis();
 		param.put("picType", 0);
 		//查询大图是否已存在
 		String big=aboutPictureMapper.selectPicPathByType(param);
@@ -626,17 +648,29 @@ public class PictureService {
 			int bigSize=Integer.valueOf(sysConfigService.getDbSysConfig(SysConfigConstant.BIG_PIC_SIZE, siteId));
 			String bigPath=sysConfigService.getDbSysConfig(SysConfigConstant.BIG_PIC_PATH, siteId);
 			String bigAllPath=initFullPathByOrder(bigPath, fileName);
-			if (bigSize<= picSize) {			
+			if (bigSize<= picSize) {	
+				logger.info("11111111111111111111");
+				long startTime66 = System.currentTimeMillis();
 				ImageAnalyseUtil.gmAlterImg(bigSize, Path,  initFullPathByOrder(bigPath,fileName), width,height,synFlag);
+				long endTime66 = System.currentTimeMillis();
+				logger.info("<<<修改大图耗时："+(endTime66-startTime66));
 			} else {
+				logger.info("2222222222222222222");
+				long startTime88 = System.currentTimeMillis();
 				ImgFileUtils.makeDirectory(bigAllPath);
 				ImgFileUtils.copyFile(Path, bigAllPath);
+				long endTime88 = System.currentTimeMillis();
+				logger.info("<<<复制大图耗时："+(endTime88-startTime88));
 			}
 			addPicAllPath(bigAllPath, 0, picId);
 		}
-		
+		long endTime12 = System.currentTimeMillis();
+		logger.info("<<<大图耗时："+(endTime12-startTime12));
 		//水印中图
 //		Thread.sleep(2000);
+		
+		
+		long startTime13 = System.currentTimeMillis();
 		param.put("picType", 4);
 		//查询水印中图是否已存在
 		String wmM=aboutPictureMapper.selectPicPathByType(param);
@@ -664,9 +698,14 @@ public class PictureService {
 //			logger.info("wmAllPath："+wmAllPath);
 			addPicAllPath(wmAllPath, 4, picId);
 		}
+		long endTime13 = System.currentTimeMillis();
+		logger.info("<<<水印中图耗时："+(endTime13-startTime13));
 		
 		// ch add by liu.jinfeng@2017年9月5日 下午9:05:35
         // 中图 1200
+		
+		
+		long startTime14 = System.currentTimeMillis();
         param.put("picType", 8);
         // 查询中图是否已存在
         String medium1200 = aboutPictureMapper.selectPicPathByType(param);
@@ -688,9 +727,13 @@ public class PictureService {
             }
             addPicAllPath(mediumAllPath1200, 8, picId);
         }
+        long endTime14 = System.currentTimeMillis();
+        logger.info("<<<中图1200耗时："+(endTime14-startTime14));
         
         // 水印中图 1200
         // Thread.sleep(2000);
+        
+        long startTime15 = System.currentTimeMillis();
         param.put("picType", 9);
         // 查询水印中图是否已存在
         String wmM1200 = aboutPictureMapper.selectPicPathByType(param);
@@ -718,8 +761,12 @@ public class PictureService {
             // logger.info ("wmAllPath："+wmAllPath);
             addPicAllPath(wmAllPath1200, 9, picId);
         }
+        long endTime15 = System.currentTimeMillis();
+        logger.info("<<<水印中图1200耗时："+(endTime15-startTime15));
         
-     // 小图 400
+        // 小图 400
+        
+        long startTime16 = System.currentTimeMillis();
         param.put("picType", 10);
         // 查询400小图是否已存在
         String small400 = aboutPictureMapper.selectPicPathByType(param);
@@ -741,6 +788,8 @@ public class PictureService {
             }
             addPicAllPath(smallAllPath400, 10, picId);
         }
+        long endTime16 = System.currentTimeMillis();
+        logger.info("<<<小图500耗时："+(endTime16-startTime16));
 
 	}
 	public CpPicture findById(Integer pid) {

@@ -583,7 +583,7 @@
 				and g.MEMO like CONCAT('%',#{query.memo},'%')
 			</if>
 			<if test="query.fileName !=null">
-				and p.FILENAME like CONCAT('%',#{query.fileName},'%')
+				and t.FILENAME like CONCAT('%',#{query.fileName},'%')
 			</if>
 			<if test="query.beginTime !=null">
 				and g.CREATE_TIME &gt;=#{query.beginTime}

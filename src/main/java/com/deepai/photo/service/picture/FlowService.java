@@ -323,21 +323,33 @@ public class FlowService {
             group.setGoodsType(0);//图片来源（即图片类型）分为：0普通图、1活动图、2老照片、3ta图和4fa图五种
             group.setPriceType(0);//默认普通图不特殊定价
             //查询普通图价格
+            long startTime1 = System.currentTimeMillis();
             Integer price=otherMapper.selectGoodsPrice(0);
+            long endTime1 = System.currentTimeMillis();
+            logger.info("查询普通图耗时："+(endTime1-startTime1));
             price=price==null?80:price;//TODO 没有设置的话默认为80
             group.setPrice(price);//价格为 价格管理中设置的普通图价格
             //记录组图基本信息
+            long startTime2 = System.currentTimeMillis();
             cpPicGroupMapper.insertSelective(group);
+            long endTime2 = System.currentTimeMillis();
+            logger.info("记录组图基本信息耗时："+(endTime2-startTime2));
             if(type==1){//提交，自动分配
                 submitGruop(siteId, group.getId(), user,roleId, group.getLangType(),0,cateIds);
             }else{
                 addFlowLog(group.getId(), -1, null, null, user);
             }
+            long startTime3 = System.currentTimeMillis();
             for (int i=0;i<pics.size();i++) {
                 CpPicture cpPicture=pics.get(i);
                 cpPicture.setSiteId(siteId);
                 //单图处理:大、中、水印图、IpTc信息
+                long startTime4 = System.currentTimeMillis();
+                
                 cpPicture=pictureService.loadSinglePicInfo(cpPicture,isIpTc,siteId);
+                long endTime4 = System.currentTimeMillis();
+                logger.info(i+"单图处理:大、中、水印图、IpTc信息："+(endTime4-startTime4));
+                
                 cpPicture.setUploader(user.getUserName());
                 cpPicture.setEditor(user.getUserName());
                 cpPicture.setGroupId(group.getId());
@@ -347,8 +359,13 @@ public class FlowService {
                 if("0002-11-30 00:00:00".equals(DateUtils.sdfLongTimePlus.format(cpPicture.getExDatetime()))){
                 	cpPicture.setExDatetime(new Date());
                 }
+                long startTime5 = System.currentTimeMillis();
                 cpPictureMapper.updateByPrimaryKeySelective(cpPicture);
+                long endTime5 = System.currentTimeMillis();
+                logger.info(i+"更新图片信息："+(endTime5-startTime5));
             }
+            long endTime3 = System.currentTimeMillis();
+            logger.info("处理图片信息耗时："+(endTime3-startTime3));
             return 1;
         } catch (Exception e) {
             throw e;

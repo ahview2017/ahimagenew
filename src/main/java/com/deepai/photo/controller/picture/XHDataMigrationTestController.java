@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -15,6 +16,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -63,8 +65,8 @@ import cnml.node.Titles;
  */
 @Controller
 @RequestMapping("/xhDataMigrationCtro")
-public class XHDataMigrationController {
-	private Logger log=Logger.getLogger(XHDataMigrationController.class);
+public class XHDataMigrationTestController {
+	private Logger log=Logger.getLogger(XHDataMigrationTestController.class);
 	@Autowired
 	private PictureDataExchangeService pictureService;
 	@Autowired
@@ -74,17 +76,17 @@ public class XHDataMigrationController {
 	@Autowired
 	private CpPicGroupMapper cpPicGroupMapper;
 	public static final String SESSION_LANGTYPE = "session_langType";
-	private static final int FIRST_EDIT_ID = 409;
-	private static final int SECOND_EDIT_ID = 406;
-	private static final int THIRD_EDIT_ID = 352;
+	private static final int FIRST_EDIT_ID = 339;
+	private static final int SECOND_EDIT_ID = 340;
+	private static final int THIRD_EDIT_ID = 341;
 	private static final String AUTHOR_NAME = "新华社图片";
-	private static final int AUTHOR_ID = 409;
-	private static final int DATA_EXCHANGE_CHNL_ID = 3131;//栏目管理-->数据迁移专用
+	private static final int AUTHOR_ID = 339;
+	private static final int DATA_EXCHANGE_CHNL_ID = 3120;//栏目管理-->新华社图片
 	private static final String FILE_SEP = File.separator;
 	private static int SUCCESS_PIC_NUM = 0;
 	private static int FAILED_PIC_NUM = 0;
 	private static Map<String,Integer> categoryMap = null;
-	private static String baseLogPath = "/trsphoto/xinhuashe/logs/";
+	private static String baseLogPath = "/trsphoto/xinhuashe/logs";
 	//private static String logFileName = new SimpleDateFormat("yyyyMMdd").format(new Date())+".log";
 	static{  
 		 categoryMap = new HashMap<String, Integer>();  
@@ -111,7 +113,7 @@ public class XHDataMigrationController {
 		 categoryMap.put("世界各地", 1770);
 		 categoryMap.put("新华社", 1771);
 		 categoryMap.put("历史资料", 1772);
-		 categoryMap.put("历史版面", 100182653);
+//		 categoryMap.put("历史版面", 1773);
 	}  
 	
 	
@@ -133,13 +135,12 @@ public class XHDataMigrationController {
         if(month.length()<2){  
             month=0+month;  
         }  
-        String savePath = baseLogPath+String.valueOf(cad.get(Calendar.YEAR))+File.separator+month; 
+        String savePath = baseLogPath+File.separator+String.valueOf(cad.get(Calendar.YEAR))+File.separator+month; 
         createYearMonthDir(savePath);//生成年月目录
-        String logTimeStamp =  new SimpleDateFormat("yyyyMMdd").format(new Date())+"";
-        String logFileName =logTimeStamp+".log";
+        String logFileName = new SimpleDateFormat("yyyyMMdd").format(new Date())+".log";
 		String logPath = savePath+File.separator+logFileName;
 		log.info("<<<logPath"+logPath);
-		String rootPicPath = FILE_SEP+"mnt"+FILE_SEP+"input"+FILE_SEP+"photo"+FILE_SEP+logTimeStamp;//新华社共享目录路径
+		String rootPicPath = FILE_SEP+"home"+FILE_SEP+"temp"+FILE_SEP+"xinhuapic";
 		result = traverseFolder(rootPicPath,result,logPath);
 		log.info("============================新华社图片迁移结束！===========================");
 		log.info("信件迁移结束！成功数："+SUCCESS_PIC_NUM+"失败数："+FAILED_PIC_NUM+"!");
@@ -223,12 +224,36 @@ public class XHDataMigrationController {
 	
 	
 	/**
+     * 函数功能描述:UTC时间转本地时间格式
+     * @param utcTime UTC时间
+     * @param utcTimePatten UTC时间格式
+     * @param localTimePatten   本地时间格式
+     * @return 本地时间格式的时间
+     * eg:utc2Local("2017-06-14 09:37:50.788+08:00", "yyyy-MM-dd HH:mm:ss.SSSXXX", "yyyy-MM-dd HH:mm:ss.SSS")
+     */
+    public static String utc2Local(String utcTime, String utcTimePatten, String localTimePatten) {
+        SimpleDateFormat utcFormater = new SimpleDateFormat(utcTimePatten);
+        utcFormater.setTimeZone(TimeZone.getTimeZone("UTC"));//时区定义并进行时间获取
+        Date gpsUTCDate = null;
+        try {
+            gpsUTCDate = utcFormater.parse(utcTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return utcTime;
+        }
+        SimpleDateFormat localFormater = new SimpleDateFormat(localTimePatten);
+        localFormater.setTimeZone(TimeZone.getDefault());
+        String localTime = localFormater.format(gpsUTCDate.getTime());
+        return localTime;
+    }
+	
+	/**
 	 * 递归获取文件夹内所有文件
 	 * @param path 要遍历的文件夹根目录
 	 * @param path 迁移日志目录
 	 */
 	public ResponseMessage traverseFolder(String path,ResponseMessage result,String logPath) {
-		writeXHLogs("",logPath);
+		writeXHLogs("",logPath);//避免首次判断文件为空
 		File file = new File(path);
         if (file.exists()) {
             File[] files = file.listFiles();
@@ -245,7 +270,6 @@ public class XHDataMigrationController {
                     }else {
                     	
                     	log.info("迁移文件:" + file2.getName());
-                    	
     					try {
     						/**
         					 * 1.解析新华CNML文件
@@ -256,11 +280,10 @@ public class XHDataMigrationController {
         					String keyWordsStr = "";//关键词
         					String content = "";//内容
         					String cateIdsStr = "";
-        					
-        					
         					boolean flag = IsFileContensStr(logPath,file2.getName());//判断当前文件是否已经迁移成功
         					if(!flag){//当前文件没有迁移过
         						if(file2.getName().endsWith("xml")){
+        							log.info("**========文件名==========**:"+file2.getName());
         							CNMLAPIImpl cnmlImpl = new CNMLAPIImpl();
         							CNML cnml = cnmlImpl.parse(file2.getPath());
         							Items items = cnml.getItems();
@@ -269,8 +292,10 @@ public class XHDataMigrationController {
         							AdministrationMetaGroup administrationMetaGroup =  metaInfo.getAdministrationMetaGroup();
         							FirstCreateTime firstCreateTime = administrationMetaGroup.getFirstCreateTime();
         							dateStr = firstCreateTime.getText();//日期
+        							
         							if(!"".equals(dateStr)&&dateStr!=null){
         								dateStr = dateStr.substring(0, 10);
+        								//utc2Local(dateStr,"yyyy-MM-dd HH:mm:ss.SSSXXX","yyyy-MM-dd HH:mm:ss");
         							}
         							
         							DescriptionMetaGroup descriptionMetaGroup = metaInfo.getDescriptionMetaGroup();
@@ -328,10 +353,7 @@ public class XHDataMigrationController {
         							map.put("authorName", author);
         							int siteid = 1;
         							List<CpPicture> pics = pictureService.uploadMorePicByPicFiles(picFile, siteid,map);
-//        							result.setCode(CommonConstant.SUCCESSCODE);
-//        							result.setMsg(CommonConstant.SUCCESSSTRING);
-//        							result.setData(pics);
-//        							result.setOther(String.format("上传图片=%s", pics));
+        							log.info("<<<<<<图片上传成功");
         							
         							CpPicGroup group = new CpPicGroup();
         							group.setAuthor(AUTHOR_NAME);
@@ -389,7 +411,6 @@ public class XHDataMigrationController {
     								flowService.examByProofread(cpPicGroupMapper.selectByPrimaryKey(group.getId()),thirdEditUser, 3,cates);
     								result.setCode(CommonConstant.SUCCESSCODE);
     								result.setMsg(CommonConstant.SUCCESSSTRING);
-//    								result.setOther(String.format("三审审核提交稿件groupid=【%s】",group.getId()));
     								log.info("第"+(++SUCCESS_PIC_NUM)+"篇稿件迁移成功,稿件标题："+title+"！");
     								writeXHLogs("第"+(SUCCESS_PIC_NUM)+"篇稿件迁移成功,稿件文件名："+file2.getName()+"！",logPath);
         						}

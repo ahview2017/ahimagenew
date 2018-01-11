@@ -1,6 +1,12 @@
 clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $state, $rootScope, $timeout, jugeGroupPos) {
     var vm = this;
 	
+    
+
+    
+    
+    
+    
     $(function () {
         $timeout(function () {
             $('#slideBox').slide({
