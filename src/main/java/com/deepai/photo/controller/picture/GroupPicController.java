@@ -1647,6 +1647,7 @@ public class GroupPicController {
 		}
 		return result;
 	}*/
+	
 	/**
 	 * 获取资料库稿件
 	 * @param request
@@ -1729,6 +1730,169 @@ public class GroupPicController {
 		return result;
 	}
 	
+	/**
+	 * 获取资料库稿件
+	 * @param request
+	 * @param gType  0全部，1已发布，2已撤稿件
+	 * @param query  高级检索
+	 * @param signId 签发分类id
+	 * @param cateId 稿件分类id
+	 * @return 
+	 */
+	@ResponseBody
+	@RequestMapping("/getSginGroupOnlySeach")
+	public Object getSginGroupOnlySeach(HttpServletRequest request,GroupQuery query, Integer gType,Integer signId,Integer cateId, Integer langType, Integer properties, Integer page, Integer rows){
+		ResponseMessage result=new ResponseMessage();
+		try {
+			Map<String,Object> param=new HashMap<String, Object>();
+			int siteId=SessionUtils.getSiteId(request);
+			if(siteId!=1){
+				param.put("siteId", siteId);
+			}
+			if(langType!=null){
+				param.put("langType", langType);
+			}
+			if(properties != null){
+				param.put("properties", properties);
+			}
+			param.put("deleteFlag", 0);
+			if(signId!=null){
+				param.put("signId", signId);
+			}
+			if(cateId!=null){
+				param.put("cateId", cateId);
+			}
+			gType=gType==null?0:gType;
+			switch (gType) {
+			case 0://全部稿件
+				param.put("statusS", "4,6");
+				break;
+			case 1://已发布
+				param.put("status", 4);
+				break;
+			case 2://被撤稿件
+				param.put("status", 6);
+				break;
+			default:
+				break;
+			}
+			Integer pageNo = (page-1)*rows;//起始条数
+			Integer pageSize = page*rows;//结束条数
+			param.put("pageNo", pageNo);
+			param.put("pageSize", pageSize);
+			param.put("orderBy", " g.SGIN_TIME desc");
+			param.put("query", query);
+			int count = aboutPictureMapper.selectCountGroupsOnlySeach(param);//总条数
+			//add by xiayunan@2017-09-26
+			int p = (count+rows-1)/rows;//总页数
+//			int p = (int)Math.ceil(count/rows);//总页数
+			List<Map<String,Object>> list=aboutPictureMapper.selectGroupsOnlySeach(param);
+			
+			for (Map<String,Object> map:list) {
+				if(map.containsKey("FILENAME")){
+					map.put("samllPath", CommonConstant.SMALLHTTPPath+ImgFileUtils.getSamllPathByName(map.get("FILENAME").toString(),request));
+				}
+				if(map.containsKey("FILENAME")){
+					map.put("watermarkedmediumPath",CommonConstant.SMALLHTTPPath + ImgFileUtils.getWMPathByName(map.get("FILENAME").toString(),request)); 
+				}
+			}
+			result.setCode(CommonConstant.SUCCESSCODE);
+			result.setMsg(CommonConstant.SUCCESSSTRING);
+			result.setPage(p);
+			result.setOther(count);
+			result.setData(list);
+		} catch (InvalidHttpArgumentException e) {
+			result.setCode(e.getCode());
+			result.setMsg(e.getMsg());
+		}catch(Exception e1){
+			e1.printStackTrace();
+			log.error("查询资料库稿件，"+e1.getMessage());
+			result.setCode(CommonConstant.EXCEPTIONCODE);
+			result.setMsg(CommonConstant.EXCEPTIONMSG);
+		}
+		return result;
+	}	
+	/**
+	 * 获取资料库子栏目稿件
+	 * @param request
+	 * @param gType  0全部，1已发布，2已撤稿件
+	 * @param query  高级检索
+	 * @param signId 签发分类id
+	 * @param cateId 稿件分类id
+	 * @return 
+	 */
+	@ResponseBody
+	@RequestMapping("/getSginSubGroup")
+	public Object getSginSubGroup(HttpServletRequest request,GroupQuery query, Integer gType,Integer signId,Integer cateId, Integer langType, Integer properties, Integer page, Integer rows){
+		ResponseMessage result=new ResponseMessage();
+		try {
+			Map<String,Object> param=new HashMap<String, Object>();
+			int siteId=SessionUtils.getSiteId(request);
+			if(siteId!=1){
+				param.put("siteId", siteId);
+			}
+			if(langType!=null){
+				param.put("langType", langType);
+			}
+			if(properties != null){
+				param.put("properties", properties);
+			}
+			param.put("deleteFlag", 0);
+			if(signId!=null){
+				param.put("signId", signId);
+			}
+			if(cateId!=null){
+				param.put("cateId", cateId);
+			}
+			gType=gType==null?0:gType;
+			switch (gType) {
+			case 0://全部稿件
+				param.put("statusS", "4,6");
+				break;
+			case 1://已发布
+				param.put("status", 4);
+				break;
+			case 2://被撤稿件
+				param.put("status", 6);
+				break;
+			default:
+				break;
+			}
+			Integer pageNo = (page-1)*rows;//起始条数
+			Integer pageSize = page*rows;//结束条数
+			param.put("pageNo", pageNo);
+			param.put("pageSize", pageSize);
+			param.put("orderBy", " g.SGIN_TIME desc");
+			param.put("query", query);
+			int count = aboutPictureMapper.selectCountSubGroups(param);//总条数
+			//add by xiayunan@2017-09-26
+			int p = (count+rows-1)/rows;//总页数
+//			int p = (int)Math.ceil(count/rows);//总页数
+			List<Map<String,Object>> list=aboutPictureMapper.selectGroups(param);
+			for (Map<String,Object> map:list) {
+				if(map.containsKey("FILENAME")){
+					map.put("samllPath", CommonConstant.SMALLHTTPPath+ImgFileUtils.getSamllPathByName(map.get("FILENAME").toString(),request));
+				}
+				if(map.containsKey("FILENAME")){
+					map.put("watermarkedmediumPath",CommonConstant.SMALLHTTPPath + ImgFileUtils.getWMPathByName(map.get("FILENAME").toString(),request)); 
+				}
+			}
+			result.setCode(CommonConstant.SUCCESSCODE);
+			result.setMsg(CommonConstant.SUCCESSSTRING);
+			result.setPage(p);
+			result.setOther(count);
+			result.setData(list);
+		} catch (InvalidHttpArgumentException e) {
+			result.setCode(e.getCode());
+			result.setMsg(e.getMsg());
+		}catch(Exception e1){
+			e1.printStackTrace();
+			log.error("查询资料库稿件，"+e1.getMessage());
+			result.setCode(CommonConstant.EXCEPTIONCODE);
+			result.setMsg(CommonConstant.EXCEPTIONMSG);
+		}
+		return result;
+	}
 	
 	
 	

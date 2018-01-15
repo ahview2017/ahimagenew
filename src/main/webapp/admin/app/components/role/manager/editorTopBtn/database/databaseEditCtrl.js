@@ -819,6 +819,7 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
         if(vm.locationType == 1){
             vm.editManuscript.place = vm.editManuscript.abroadPlace;
         }
+        vm.loadUpMs = layer.load(1);
         req.post('groupPicCtro/editOnLineGroupPic.do',{
             fTime: vm.editManuscript.fTime,
             picData:  angular.toJson(vm.manuscriptPicData,true),
@@ -838,10 +839,12 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
             price: vm.editManuscript.price
         }).success(function(resp){
             if(resp.code == '211'){
+            	layer.close(vm.loadUpMs);
                 layer.alert(resp.msg);
                 $state.go('role.manager.databaseDetail',{id: vm.groupId,isHadOut:0});
             }else if(resp.code == '212'){
                 //code为212时代表存在敏感词时
+            	layer.close(vm.loadUpMs);
                 $state.go('role.manager.databaseDetail',{id: vm.groupId,isHadOut:0});
                 if(resp.msg){
                     $rootscope.msSensitiveWord = resp.msg;
@@ -849,6 +852,7 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
                     layer.msg(resp.msg);
                 }
             }else if(resp.msg != '未登录'){
+               layer.close(vm.loadUpMs);
                layer.alert(resp.msg);
             }
         }).error(function(resp){

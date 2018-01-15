@@ -23,7 +23,7 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 	
 	// 自动跳转到手机版
 	//检测平台
-	/*
+	
 	var system ={
 		win : false,
 		mac : false,
@@ -46,7 +46,7 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 		tourl=url.replace(pcurl,moblieurl);
 		window.location.href=tourl;
 	}
-	*/
+	
 	
 
 

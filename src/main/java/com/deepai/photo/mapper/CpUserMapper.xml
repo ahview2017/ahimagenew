@@ -1524,19 +1524,16 @@
       <if test="langType != null" >
         LANG_TYPE = #{langType,jdbcType=VARCHAR},
       </if>
-      
-      <if test="homepageColumnId != null" >
+      <if test="homepageColumnId != 0" >
         HOMEPAGE_COLUMNID = #{homepageColumnId,jdbcType=INTEGER},
       </if>
       <if test="userDetail != null" >
         USER_DETAIL = #{userDetail,jdbcType=VARCHAR},
       </if>
-      <if test="userClass!= null" >
+      <if test="userClass!= 0" >
         USER_CLASS = #{userClass,jdbcType=INTEGER},
       </if>
-      
-      
-      
+        
     </set>
     where ID = #{id,jdbcType=INTEGER}
   </update>

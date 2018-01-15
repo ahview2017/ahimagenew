@@ -61,7 +61,8 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 		vm.selPageRows = '6';
 		vm.children = [];
 		//稿件的类别
-		vm.cateId = null;
+		//vm.cateId = null;edit by hexx   默认设置分类
+		vm.cateId = 1760;
 		vm.ifAdvanceSearchFlag = false;
 		vm.search.priceType = "";
 		vm.show = false;
@@ -87,11 +88,11 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 		});
 		lanmu();
 		if(vm.acitiveOneSlideTit == 1) {
-			getSignGroups(1, null, 1, 0, false);
-			getSignGroups(1, null, 1, 1, false);
+			getSignGroups(1, 1760, 1, 0, false);//列表方式展示 edit by hexx
+			getSignGroups(1, 1760, 1, 1, false);
 		} else if(vm.acitiveOneSlideTit == 2) {
-			getSignGroups(2, null, 1, 0, false);
-			getSignGroups(2, null, 1, 1, false);
+			getSignGroups(2, 1760, 1, 0, false);//列表方式展示 edit by hexx
+			getSignGroups(2, 1760, 1, 1, false);
 		}
 	}
 
@@ -386,7 +387,7 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 	function getSignGroups(gType, cateId, page, showType, isSearchFlag) {
 		vm.totalPages = "0";
 		vm.databaseList_total = "0";
-		vm.cateId = cateId;
+		vm.cateId = cateId;		
 		var params;
 		var reqUrl = '';
 		if(!isSearchFlag) {
@@ -481,11 +482,244 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 						//$('#pageHadBackTableId').jqPaginator('destroy');
 					}
 				}
+				layer.close(vm.loadUpMs);
 				modalOperate.modalHide('database-manuscript-search-modal');
 			}
 
 		});
 	}
+	
+
+	/**
+	 * 资料库获取稿件 检索专用
+	 * @param gType
+	 * @param cateId
+	 * @param page
+	 * @param showType
+	 * @param isSearchFlag
+	 * @param isOnlySearch
+	 * @returns
+	 */
+	function getSignGroups(gType, cateId, page, showType, isSearchFlag,isOnlySearch) {
+		vm.totalPages = "0";
+		vm.databaseList_total = "0";
+		vm.cateId = cateId;		
+		var params;
+		var reqUrl = '';
+		if(!isSearchFlag&&isOnlySearch) {
+			params = {
+				page: page,
+				rows: vm.selPageRows,
+				gType: gType,
+				paramStr: vm.searchDataModel,
+				properties: vm.properties,
+				cateId: cateId,
+				langType: window.localStorage.lang
+			};
+			reqUrl = 'groupPicCtro/getSginGroupOnlySeach.do';
+		} else {
+			params = {
+				page: page,
+				rows: vm.selPageRows,
+				gType: gType,
+				groupId: vm.search.groupId,
+				properties: vm.search.properties,
+				beginSginTime: vm.search.beginSginTime,
+				endSginTime: vm.search.endSginTime,
+				author: vm.search.author,
+				title: vm.search.title,
+				people: vm.search.people,
+				place: vm.search.place,
+				pAuthor: vm.search.pAuthor,
+				kewords: vm.search.kewords,
+				editor: vm.search.editor,
+				cateId: vm.search.cateId,
+				sginId: vm.search.sginId,
+				goodsType: vm.search.goodsType,
+				priceType: vm.search.priceType,
+				samllPrice: vm.search.samllPrice,
+				bigPrice: vm.search.bigPrice,
+				fileName: vm.search.fileName,
+				isPics: vm.search.isPics,
+				memo: vm.search.memo,
+				remark:vm.search.remark,
+				langType: window.localStorage.lang
+			};
+			vm.ifAdvanceSearchFlag = true;
+			reqUrl = 'groupPicCtro/getGroupComplex.do';
+		}
+		/* if (cateId != -100) {
+		     	params['properties'] = vm.acitiveOneSlideTit;
+		     	params['cateId'] = cateId;
+		 }*/
+		vm.loadUpMs = layer.load(1);
+		req.post(reqUrl, params).success(function(resp) {
+			if(resp.code == '211' && resp.data != [] && resp.data.length > 0) {
+				if(gType === 1) {
+					if(showType === 0) {
+						vm.hadPubRowDataArray = resp.data;
+						vm.totalPages = resp.page;
+						vm.databaseList_total = resp.other;
+
+					} else {
+						vm.hadPubTableDataArray = resp.data;
+						vm.totalPages = resp.page;
+						vm.databaseList_total = resp.other;
+					}
+				}
+				if(gType === 2) {
+					if(showType === 0) {
+						vm.hadBackRowDataArray = resp.data;
+						vm.totalPages = resp.page;
+						vm.databaseList_total = resp.other;
+					} else {
+						vm.hadBackTableDataArray = resp.data;
+						vm.totalPages = resp.page;
+						vm.databaseList_total = resp.other;
+					}
+				}
+				layer.close(vm.loadUpMs);
+				modalOperate.modalHide('database-manuscript-search-modal');
+			} else {
+				if(gType === 1) {
+					if(showType === 0) {
+						vm.hadPubRowDataArray = [];
+						//$('#pageHadPubRowId').jqPaginator('destroy');
+					} else {
+						vm.hadPubTableDataArray = [];
+						//$('#pageHadPubTableId').jqPaginator('destroy');
+					}
+				} else {
+					if(showType === 0) {
+						vm.hadBackRowDataArray = [];
+						//$('#pageHadBackRowId').jqPaginator('destroy');
+					} else {
+						vm.hadBackTableDataArray = [];
+						//$('#pageHadBackTableId').jqPaginator('destroy');
+					}
+				}
+				layer.close(vm.loadUpMs);
+				modalOperate.modalHide('database-manuscript-search-modal');
+			}
+
+		});
+	}
+	
+	
+	/**
+	 * 获取子栏目资料库列表
+	 * @param gType     1已发布，2已撤稿件
+	 * @param cateId    分类id:区分分类Id，如果为-100则表示搜索全部
+	 * @param page      第几页
+	 * @param showType  展示类型：0列展示，1表格展示
+	 * @param isSearchFlag true:高级搜素 false:普通搜索
+	 */
+	function getSignSubGroups(gType, cateId, page, showType, isSearchFlag) {
+		vm.totalPages = "0";
+		vm.databaseList_total = "0";
+		vm.cateId = cateId;		
+		var params;
+		var reqUrl = '';
+		if(!isSearchFlag) {
+			params = {
+				page: page,
+				rows: vm.selPageRows,
+				gType: gType,
+				paramStr: vm.searchDataModel,
+				properties: vm.properties,
+				cateId: cateId,
+				langType: window.localStorage.lang
+			};
+			reqUrl = 'groupPicCtro/getSginSubGroup.do';
+		} else {
+			params = {
+				page: page,
+				rows: vm.selPageRows,
+				gType: gType,
+				groupId: vm.search.groupId,
+				properties: vm.search.properties,
+				beginSginTime: vm.search.beginSginTime,
+				endSginTime: vm.search.endSginTime,
+				author: vm.search.author,
+				title: vm.search.title,
+				people: vm.search.people,
+				place: vm.search.place,
+				pAuthor: vm.search.pAuthor,
+				kewords: vm.search.kewords,
+				editor: vm.search.editor,
+				cateId: vm.search.cateId,
+				sginId: vm.search.sginId,
+				goodsType: vm.search.goodsType,
+				priceType: vm.search.priceType,
+				samllPrice: vm.search.samllPrice,
+				bigPrice: vm.search.bigPrice,
+				fileName: vm.search.fileName,
+				isPics: vm.search.isPics,
+				memo: vm.search.memo,
+				remark:vm.search.remark,
+				langType: window.localStorage.lang
+			};
+			vm.ifAdvanceSearchFlag = true;
+			reqUrl = 'groupPicCtro/getGroupComplex.do';
+		}
+		/* if (cateId != -100) {
+		     	params['properties'] = vm.acitiveOneSlideTit;
+		     	params['cateId'] = cateId;
+		 }*/
+		vm.loadUpMs = layer.load(1);
+		req.post(reqUrl, params).success(function(resp) {
+			if(resp.code == '211' && resp.data != [] && resp.data.length > 0) {
+				if(gType === 1) {
+					if(showType === 0) {
+						vm.hadPubRowDataArray = resp.data;
+						vm.totalPages = resp.page;
+						vm.databaseList_total = resp.other;
+
+					} else {
+						vm.hadPubTableDataArray = resp.data;
+						vm.totalPages = resp.page;
+						vm.databaseList_total = resp.other;
+					}
+				}
+				if(gType === 2) {
+					if(showType === 0) {
+						vm.hadBackRowDataArray = resp.data;
+						vm.totalPages = resp.page;
+						vm.databaseList_total = resp.other;
+					} else {
+						vm.hadBackTableDataArray = resp.data;
+						vm.totalPages = resp.page;
+						vm.databaseList_total = resp.other;
+					}
+				}
+				layer.close(vm.loadUpMs);
+				modalOperate.modalHide('database-manuscript-search-modal');
+			} else {
+				if(gType === 1) {
+					if(showType === 0) {
+						vm.hadPubRowDataArray = [];
+						//$('#pageHadPubRowId').jqPaginator('destroy');
+					} else {
+						vm.hadPubTableDataArray = [];
+						//$('#pageHadPubTableId').jqPaginator('destroy');
+					}
+				} else {
+					if(showType === 0) {
+						vm.hadBackRowDataArray = [];
+						//$('#pageHadBackRowId').jqPaginator('destroy');
+					} else {
+						vm.hadBackTableDataArray = [];
+						//$('#pageHadBackTableId').jqPaginator('destroy');
+					}
+				}
+				layer.close(vm.loadUpMs);
+				modalOperate.modalHide('database-manuscript-search-modal');
+			}
+
+		});
+	}
+	
+	
 
 	//页数变化
 	vm.pageChanged = function(pageNumber) {
@@ -503,11 +737,11 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 		vm.pagination.current = 1;
 		vm.ifAdvanceSearchFlag = false;
 		if(vm.acitiveOneSlideTit == 1) {
-			getSignGroups(1, vm.cateId, 1, 0, vm.ifAdvanceSearchFlag);
-			getSignGroups(1, vm.cateId, 1, 1, vm.ifAdvanceSearchFlag);
+			getSignGroups(1, vm.cateId, 1, 0, vm.ifAdvanceSearchFlag,true);
+			getSignGroups(1, vm.cateId, 1, 1, vm.ifAdvanceSearchFlag,true);
 		} else if(vm.acitiveOneSlideTit == 2) {
-			getSignGroups(2, vm.cateId, 1, 0, vm.ifAdvanceSearchFlag);
-			getSignGroups(2, vm.cateId, 1, 1, vm.ifAdvanceSearchFlag);
+			getSignGroups(2, vm.cateId, 1, 0, vm.ifAdvanceSearchFlag,true);
+			getSignGroups(2, vm.cateId, 1, 1, vm.ifAdvanceSearchFlag,true);
 		}
 	};
 
@@ -594,10 +828,12 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 	}
 
 	/**
-	 * 点击展开或收缩菜单
+	 * 点击展开或收缩菜单 
+	 * edit by 添加变量pcataid 属性值含义为父分类节点cataid的值
 	 */
 	var count = 0;
 	vm.navFunc = function(name) {
+		var pcataid = 1760;
 		if(count % 2 == 0) {
 			vm.navActiveMenu = name;
 		} else {
@@ -605,18 +841,21 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 		}
 		if(name == '新闻图片') {
 			vm.properties = 0;
+			pcataid = 1760;
 		} else if(name == '专题图片') {
 			vm.properties = 1;
+			pcataid = 188;
 		}else if(name == '老照片') {//add by xiayunan  2017-09-06
 			vm.properties = 2;
+			pcataid = 100182651;
 		}
 
 		if(vm.acitiveOneSlideTit == 1) {
-			getSignGroups(1, null, 1, 0, false);
-			getSignGroups(1, null, 1, 1, false);
-			getSignGroups(2, null, 1, 0, false);
+			getSignGroups(1, pcataid, 1, 0, false);//edit by hexx    修改默认为null的cataid 添加了cataid的值
+			getSignGroups(1, pcataid, 1, 1, false);			
 		} else if(vm.acitiveOneSlideTit == 2) {
-			getSignGroups(2, null, 1, 1, false);
+			getSignGroups(2, pcataid, 1, 1, false);
+			getSignGroups(2, pcataid, 1, 0, false);
 		}
 		count++;
 	};
@@ -682,8 +921,8 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 	vm.onShowHadPubDetailClick = function(itemId, position) {
 		vm.hadPubPosition = position;
 		vm.category = itemId;
-		getSignGroups(1, itemId, 1, 0, false);
-		getSignGroups(1, itemId, 1, 1, false);
+		getSignSubGroups(1, itemId, 1, 0, false);
+		getSignSubGroups(1, itemId, 1, 1, false);
 	};
 
 	/**
@@ -693,8 +932,8 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 	vm.onShowHadBackDetailClick = function(itemId, position) {
 		vm.hadBackPosition = position;
 		vm.category = itemId;
-		getSignGroups(2, itemId, 1, 0, false);
-		getSignGroups(2, itemId, 1, 1, false);
+		getSignSubGroups(2, itemId, 1, 0, false);
+		getSignSubGroups(2, itemId, 1, 1, false);
 	};
 
 	// 选择稿件-新

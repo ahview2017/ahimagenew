@@ -92,7 +92,7 @@
   <select id="selectNextColumn" resultType="com.deepai.photo.bean.CpColumn">
 	    select
 	    id, name,  pid, recommend_id recommendId, order_id orderId, position,  state
-	    from cp_column     where pid=#{pid}
+	    from cp_column     where pid=#{pid} and state = 1
     	order by order_id
   </select>
   <select id="selectChildrenListById" resultMap="BaseResultMap" parameterType="java.lang.Integer">

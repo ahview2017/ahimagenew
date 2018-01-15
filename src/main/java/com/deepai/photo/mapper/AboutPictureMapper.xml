@@ -473,7 +473,7 @@
  select  count(DISTINCT g.ID) from cp_pic_group g 
 	LEFT JOIN cp_picture p on g.COVER_PICTURE_ID=p.ID 
 	LEFT JOIN cp_pic_group_category c on c.GROUP_ID=g.ID
-	where g.SOURCE_ID=0  
+	where g.SOURCE_ID=0  and p.CREATE_TIME &gt;=date_sub(now(), INTERVAL 3 DAY) and  p.CREATE_TIME &lt; now()  
 		<if test="siteId != null">
 			and g.SITE_ID=#{siteId} 
 		</if>
@@ -533,11 +533,15 @@
 			<if test="query.paramStr !=null">
 				and (g.ID LIKE CONCAT('%',#{query.paramStr},'%') or g.TITLE LIKE CONCAT('%',#{query.paramStr},'%') or g.AUTHOR LIKE CONCAT('%',#{query.paramStr},'%') or g.PLACE LIKE CONCAT('%',#{query.paramStr},'%') or g.MEMO LIKE CONCAT('%',#{query.paramStr},'%') or g.KEYWORDS LIKE CONCAT('%',#{query.paramStr},'%') or g.REMARK LIKE CONCAT('%',#{query.paramStr},'%'))
 			</if>
+			
 		</if>
   </select>
+ 	
+   <!--  
    <select id="selectGroups"  parameterType="map" resultType="map">
-   select g.ID,g.AUTHOR,g.SGIN_TIME,g.REMARK,g.MEMO,g.PICTURE_COUNT,g.UPDATE_USER,g.TITLE,g.PLACE,g.APPLY_TIME,p.ID picId ,p.FILENAME,p.EX_DATETIME,p.EX_FNUMBER,p.EX_ISO,p.EX_MODEL from cp_pic_group g 
+   select DISTINCT g.ID,g.AUTHOR,g.SGIN_TIME,g.REMARK,g.MEMO,g.PICTURE_COUNT,g.UPDATE_USER,g.TITLE,g.PLACE,g.APPLY_TIME,p.ID picId ,p.FILENAME,p.EX_DATETIME,p.EX_FNUMBER,p.EX_ISO,p.EX_MODEL from cp_pic_group g 
 	LEFT JOIN cp_picture p on g.COVER_PICTURE_ID=p.ID 
+	LEFT JOIN cp_pic_group_category c on c.GROUP_ID=g.ID
 	where g.SOURCE_ID=0  
 		<if test="siteId != null">
 			and g.SITE_ID=#{siteId} 
@@ -560,6 +564,13 @@
 		<if test="properties != null">
 			and g.PROPERTIES=#{properties}
 		</if>		
+		<if test="signId != null">
+			and c.TYPE=1 and c.CATEGORY_ID=#{signId}
+		</if>	
+		<if test="cateId != null">
+			and c.CATEGORY_ID IN (select id FROM cp_category
+			where PARENT_ID=#{cateId} or id=#{cateId})
+		</if>	
 		<if test="query !=null">
 			<if test="query.id !=null">
 				and g.id=#{query.id}
@@ -591,7 +602,7 @@
 			<if test="query.paramStr !=null">
 				and (g.ID LIKE CONCAT('%',#{query.paramStr},'%') or g.TITLE LIKE CONCAT('%',#{query.paramStr},'%') or g.AUTHOR LIKE CONCAT('%',#{query.paramStr},'%') or g.PLACE LIKE CONCAT('%',#{query.paramStr},'%') or g.MEMO LIKE CONCAT('%',#{query.paramStr},'%') or g.KEYWORDS LIKE CONCAT('%',#{query.paramStr},'%') or g.REMARK LIKE CONCAT('%',#{query.paramStr},'%') )
 			</if>
-		</if>		
+		</if>			
 		<if test="orderby !=null">
 			ORDER BY  ${orderby}
 		</if>
@@ -600,15 +611,16 @@
 		</if> 
 		limit #{pageNo},#{pageSize}
   </select>
+  -->
   
   
-  <!--  
+
   <select id="selectGroups"  parameterType="map" resultType="map">
-   select DISTINCT g.*,p.ID picId ,p.FILENAME,p.EX_DATETIME,p.EX_FNUMBER,p.EX_ISO,p.EX_MODEL,gp.PUSH_SIGN from cp_pic_group g 
+   select DISTINCT g.ID,g.AUTHOR,g.SGIN_TIME,g.REMARK,g.MEMO,g.PICTURE_COUNT,g.UPDATE_USER,g.TITLE,g.PLACE,g.APPLY_TIME,p.ID picId ,p.FILENAME,p.EX_DATETIME,p.EX_FNUMBER,p.EX_ISO,p.EX_MODEL from cp_pic_group g 
 	LEFT JOIN cp_picture p on g.COVER_PICTURE_ID=p.ID 
-	LEFT JOIN cp_group_push gp on g.ID=gp.GROUP_ID 	
 	LEFT JOIN cp_pic_group_category c on c.GROUP_ID=g.ID
-	where g.SOURCE_ID=0  
+	where g.SOURCE_ID=0 and p.CREATE_TIME &gt;=date_sub(now(), INTERVAL 3 DAY) and  p.CREATE_TIME &lt; now()  
+	    
 		<if test="siteId != null">
 			and g.SITE_ID=#{siteId} 
 		</if>
@@ -668,7 +680,9 @@
 			<if test="query.paramStr !=null">
 				and (g.ID LIKE CONCAT('%',#{query.paramStr},'%') or g.TITLE LIKE CONCAT('%',#{query.paramStr},'%') or g.AUTHOR LIKE CONCAT('%',#{query.paramStr},'%') or g.PLACE LIKE CONCAT('%',#{query.paramStr},'%') or g.MEMO LIKE CONCAT('%',#{query.paramStr},'%') or g.KEYWORDS LIKE CONCAT('%',#{query.paramStr},'%') or g.REMARK LIKE CONCAT('%',#{query.paramStr},'%') )
 			</if>
-		</if>		
+			
+		</if>	
+		  	
 		<if test="orderby !=null">
 			ORDER BY  ${orderby}
 		</if>
@@ -677,7 +691,292 @@
 		</if> 
 		limit #{pageNo},#{pageSize}
   </select>
-  -->
+ 
+ <select id="selectGroupsOnlySeach"  parameterType="map" resultType="map">
+   select DISTINCT g.ID,g.AUTHOR,g.SGIN_TIME,g.REMARK,g.MEMO,g.PICTURE_COUNT,g.UPDATE_USER,g.TITLE,g.PLACE,g.APPLY_TIME,p.ID picId ,p.FILENAME,p.EX_DATETIME,p.EX_FNUMBER,p.EX_ISO,p.EX_MODEL from cp_pic_group g 
+	LEFT JOIN cp_picture p on g.COVER_PICTURE_ID=p.ID 
+	LEFT JOIN cp_pic_group_category c on c.GROUP_ID=g.ID
+	where g.SOURCE_ID=0    	
+	        
+	    
+		<if test="siteId != null">
+			and g.SITE_ID=#{siteId} 
+		</if>
+		<if test="langType != null">
+			and g.LANG_TYPE=#{langType} 
+		</if>
+		<if test="deleteFlag != null">
+			and g.DELETE_FLAG=#{deleteFlag} 
+		</if>
+		<if test="statusS != null">
+			and g.GROUP_STATUS in (${statusS})
+		</if>
+		<if test="notStatus != null">
+			and g.GROUP_STATUS !=#{notStatus}
+		</if>
+		<if test="status != null">
+			and g.GROUP_STATUS =#{status}
+		</if>	
+		<if test="properties != null">
+			and g.PROPERTIES=#{properties}
+		</if>	
+		<if test="signId != null">
+			and c.TYPE=1 and c.CATEGORY_ID=#{signId}
+		</if>	
+		<if test="cateId != null">
+			and c.CATEGORY_ID IN (select id FROM cp_category
+			where PARENT_ID=#{cateId} or id=#{cateId})
+		</if>	
+		<if test="query !=null">
+			<if test="query.id !=null">
+				and g.id=#{query.id}
+			</if>
+			<if test="query.langType !=null">
+				and g.LANG_TYPE=#{query.langType}
+			</if>
+			<if test="query.title !=null">
+				and g.TITLE like CONCAT('%',#{query.title},'%')
+			</if>
+			<if test="query.author !=null">
+				and g.AUTHOR like CONCAT('%',#{query.author},'%')
+			</if>
+			<if test="query.place !=null">
+				and g.PLACE like CONCAT('%',#{query.place},'%')
+			</if>
+			<if test="query.editor !=null">
+				and g.UPDATE_USER like CONCAT('%',#{query.editor},'%')
+			</if>
+			<if test="query.memo !=null">
+				and g.MEMO like CONCAT('%',#{query.memo},'%')
+			</if>
+			<if test="query.fileName !=null">
+				and t.FILENAME like CONCAT('%',#{query.fileName},'%')
+			</if>
+			<if test="query.beginTime !=null">
+				and g.CREATE_TIME &gt;=#{query.beginTime}
+			</if>
+			<if test="query.paramStr !=null">
+				and (g.ID LIKE CONCAT('%',#{query.paramStr},'%') or g.TITLE LIKE CONCAT('%',#{query.paramStr},'%') or g.AUTHOR LIKE CONCAT('%',#{query.paramStr},'%') or g.PLACE LIKE CONCAT('%',#{query.paramStr},'%') or g.MEMO LIKE CONCAT('%',#{query.paramStr},'%') or g.KEYWORDS LIKE CONCAT('%',#{query.paramStr},'%') or g.REMARK LIKE CONCAT('%',#{query.paramStr},'%') )
+			</if>
+
+		</if>	
+		  	
+		<if test="orderby !=null">
+			ORDER BY  ${orderby}
+		</if>
+		<if test="orderby ==null">
+			ORDER BY  g.GROUP_STATUS desc , g.APPLY_TIME desc
+		</if> 
+		limit #{pageNo},#{pageSize}
+  </select> 
+  <select id="selectCountGroupsOnlySeach" resultType="int" parameterType="map">
+ select  count(DISTINCT g.ID) from cp_pic_group g 
+	LEFT JOIN cp_picture p on g.COVER_PICTURE_ID=p.ID 
+	LEFT JOIN cp_pic_group_category c on c.GROUP_ID=g.ID
+	where g.SOURCE_ID=0  
+
+		<if test="siteId != null">
+			and g.SITE_ID=#{siteId} 
+		</if>
+		<if test="langType != null">
+			and g.LANG_TYPE=#{langType} 
+		</if>
+		<if test="deleteFlag != null">
+			and g.DELETE_FLAG=#{deleteFlag} 
+		</if>
+		<if test="statusS != null">
+			and g.GROUP_STATUS in (${statusS})
+		</if>
+		<if test="notStatus != null">
+			and g.GROUP_STATUS !=#{notStatus}
+		</if>
+		<if test="status != null">
+			and g.GROUP_STATUS =#{status}
+		</if>	
+		<if test="properties != null">
+			and g.PROPERTIES=#{properties}
+		</if>	
+		<if test="signId != null">
+			and c.TYPE=1 and c.CATEGORY_ID=#{signId}
+		</if>	
+		<if test="cateId != null">
+			and c.CATEGORY_ID IN (select id FROM cp_category
+			where PARENT_ID=#{cateId} or id=#{cateId})
+		</if>	
+		<if test="query !=null">
+			<if test="query.id !=null">
+				and g.id=#{query.id}
+			</if>
+			<if test="query.langType !=null">
+				and g.LANG_TYPE=#{query.langType}
+			</if>
+			<if test="query.title !=null">
+				and g.TITLE like CONCAT('%',#{query.title},'%')
+			</if>
+			<if test="query.author !=null">
+				and g.AUTHOR like CONCAT('%',#{query.author},'%')
+			</if>
+			<if test="query.place !=null">
+				and g.PLACE like CONCAT('%',#{query.place},'%')
+			</if>
+			<if test="query.editor !=null">
+				and g.UPDATE_USER like CONCAT('%',#{query.editor},'%')
+			</if>
+			<if test="query.memo !=null">
+				and g.MEMO like CONCAT('%',#{query.memo},'%')
+			</if>
+			<if test="query.fileName !=null">
+				and p.FILENAME like CONCAT('%',#{query.fileName},'%')
+			</if>
+			<if test="query.beginTime !=null">
+				and g.CREATE_TIME &gt;=#{query.beginTime}
+			</if>
+
+			
+		</if>
+  </select>
+   <select id="selectCountSubGroups" resultType="int" parameterType="map">
+ select  count(DISTINCT g.ID) from cp_pic_group g 
+	LEFT JOIN cp_picture p on g.COVER_PICTURE_ID=p.ID 
+	LEFT JOIN cp_pic_group_category c on c.GROUP_ID=g.ID
+	where g.SOURCE_ID=0  
+		<if test="siteId != null">
+			and g.SITE_ID=#{siteId} 
+		</if>
+		<if test="langType != null">
+			and g.LANG_TYPE=#{langType} 
+		</if>
+		<if test="deleteFlag != null">
+			and g.DELETE_FLAG=#{deleteFlag} 
+		</if>
+		<if test="statusS != null">
+			and g.GROUP_STATUS in (${statusS})
+		</if>
+		<if test="notStatus != null">
+			and g.GROUP_STATUS !=#{notStatus}
+		</if>
+		<if test="status != null">
+			and g.GROUP_STATUS =#{status}
+		</if>	
+		<if test="properties != null">
+			and g.PROPERTIES=#{properties}
+		</if>	
+		<if test="signId != null">
+			and c.TYPE=1 and c.CATEGORY_ID=#{signId}
+		</if>	
+		<if test="cateId != null">
+			and c.CATEGORY_ID = #{cateId}
+		</if>	
+		<if test="query !=null">
+			<if test="query.id !=null">
+				and g.id=#{query.id}
+			</if>
+			<if test="query.langType !=null">
+				and g.LANG_TYPE=#{query.langType}
+			</if>
+			<if test="query.title !=null">
+				and g.TITLE like CONCAT('%',#{query.title},'%')
+			</if>
+			<if test="query.author !=null">
+				and g.AUTHOR like CONCAT('%',#{query.author},'%')
+			</if>
+			<if test="query.place !=null">
+				and g.PLACE like CONCAT('%',#{query.place},'%')
+			</if>
+			<if test="query.editor !=null">
+				and g.UPDATE_USER like CONCAT('%',#{query.editor},'%')
+			</if>
+			<if test="query.memo !=null">
+				and g.MEMO like CONCAT('%',#{query.memo},'%')
+			</if>
+			<if test="query.fileName !=null">
+				and p.FILENAME like CONCAT('%',#{query.fileName},'%')
+			</if>
+			<if test="query.beginTime !=null">
+				and g.CREATE_TIME &gt;=#{query.beginTime}
+			</if>
+			<if test="query.paramStr !=null">
+				and (g.ID LIKE CONCAT('%',#{query.paramStr},'%') or g.TITLE LIKE CONCAT('%',#{query.paramStr},'%') or g.AUTHOR LIKE CONCAT('%',#{query.paramStr},'%') or g.PLACE LIKE CONCAT('%',#{query.paramStr},'%') or g.MEMO LIKE CONCAT('%',#{query.paramStr},'%') or g.KEYWORDS LIKE CONCAT('%',#{query.paramStr},'%') or g.REMARK LIKE CONCAT('%',#{query.paramStr},'%'))
+			</if>
+		</if>
+  </select>
+  
+  <select id="selectSubGroups"  parameterType="map" resultType="map">
+   select DISTINCT g.*,p.ID picId ,p.FILENAME,p.EX_DATETIME,p.EX_FNUMBER,p.EX_ISO,p.EX_MODEL from cp_pic_group g 
+	LEFT JOIN cp_picture p on g.COVER_PICTURE_ID=p.ID 
+	LEFT JOIN cp_pic_group_category c on c.GROUP_ID=g.ID
+	where g.SOURCE_ID=0  
+		<if test="siteId != null">
+			and g.SITE_ID=#{siteId} 
+		</if>
+		<if test="langType != null">
+			and g.LANG_TYPE=#{langType} 
+		</if>
+		<if test="deleteFlag != null">
+			and g.DELETE_FLAG=#{deleteFlag} 
+		</if>
+		<if test="statusS != null">
+			and g.GROUP_STATUS in (${statusS})
+		</if>
+		<if test="notStatus != null">
+			and g.GROUP_STATUS !=#{notStatus}
+		</if>
+		<if test="status != null">
+			and g.GROUP_STATUS =#{status}
+		</if>	
+		<if test="properties != null">
+			and g.PROPERTIES=#{properties}
+		</if>	
+		<if test="signId != null">
+			and c.TYPE=1 and c.CATEGORY_ID=#{signId}
+		</if>	
+		<if test="cateId != null">
+			and c.CATEGORY_ID  =#{cateId}
+		</if>	
+		<if test="query !=null">
+			<if test="query.id !=null">
+				and g.id=#{query.id}
+			</if>
+			<if test="query.langType !=null">
+				and g.LANG_TYPE=#{query.langType}
+			</if>
+			<if test="query.title !=null">
+				and g.TITLE like CONCAT('%',#{query.title},'%')
+			</if>
+			<if test="query.author !=null">
+				and g.AUTHOR like CONCAT('%',#{query.author},'%')
+			</if>
+			<if test="query.place !=null">
+				and g.PLACE like CONCAT('%',#{query.place},'%')
+			</if>
+			<if test="query.editor !=null">
+				and g.UPDATE_USER like CONCAT('%',#{query.editor},'%')
+			</if>
+			<if test="query.memo !=null">
+				and g.MEMO like CONCAT('%',#{query.memo},'%')
+			</if>
+			<if test="query.fileName !=null">
+				and t.FILENAME like CONCAT('%',#{query.fileName},'%')
+			</if>
+			<if test="query.beginTime !=null">
+				and g.CREATE_TIME &gt;=#{query.beginTime}
+			</if>
+			<if test="query.paramStr !=null">
+				and (g.ID LIKE CONCAT('%',#{query.paramStr},'%') or g.TITLE LIKE CONCAT('%',#{query.paramStr},'%') or g.AUTHOR LIKE CONCAT('%',#{query.paramStr},'%') or g.PLACE LIKE CONCAT('%',#{query.paramStr},'%') or g.MEMO LIKE CONCAT('%',#{query.paramStr},'%') or g.KEYWORDS LIKE CONCAT('%',#{query.paramStr},'%') or g.REMARK LIKE CONCAT('%',#{query.paramStr},'%') )
+			</if>
+		</if>	
+		  	
+		<if test="orderby !=null">
+			ORDER BY  ${orderby}
+		</if>
+		<if test="orderby ==null">
+			ORDER BY  g.GROUP_STATUS desc , g.APPLY_TIME desc
+		</if> 
+		limit #{pageNo},#{pageSize}
+  </select>
+  
+ 
+ 
   <select id="selectGroupsCountByQuery" resultType="int" parameterType="map">
   select COUNT(*) from cp_pic_group g ,cp_picture p WHERE
   g.COVER_PICTURE_ID=p.ID 

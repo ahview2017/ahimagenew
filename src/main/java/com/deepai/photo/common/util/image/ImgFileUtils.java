@@ -1316,7 +1316,6 @@ public class ImgFileUtils {
 	}
 	
 	public static String getReplacePathByName(String fileName,String replaceName,String ipAdd,String typeName,HttpServletRequest request){
-		
 		if(SessionUtils.geLangType(request)==1){
 			return fileName.replace(replaceName,ipAdd+CommonConstant.oneSprit+CommonConstant.EN+typeName);
 		}else{

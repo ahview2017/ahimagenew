@@ -158,7 +158,6 @@ public final class SessionUtils {
 		CpUser user = (CpUser) request.getSession(true).getAttribute(
 				SESSION_USER);
 		return user;
-
 	}
 
 	/**
@@ -178,7 +177,7 @@ public final class SessionUtils {
 	 */
 	public static void setSite(HttpServletRequest request, CpSite site) {
 		request.getSession(true).setAttribute(SESSION_SITE, site);
-		request.getSession(true).setMaxInactiveInterval(1800);
+		request.getSession(true).setMaxInactiveInterval(10800);
 	}
 	
 	/**
@@ -209,7 +208,7 @@ public final class SessionUtils {
 	 */
 	public static void setSiteId(HttpServletRequest request, int siteId) {
 		request.getSession(true).setAttribute(SESSION_SITE_ID, siteId);
-		request.getSession(true).setMaxInactiveInterval(1800);
+		request.getSession(true).setMaxInactiveInterval(10800);
 	}
 	
 	/**
@@ -230,7 +229,7 @@ public final class SessionUtils {
 	 */
 	public static void setLangType(HttpServletRequest request, int langType) {
 		request.getSession(true).setAttribute(SESSION_LANGTYPE, langType);
-		request.getSession(true).setMaxInactiveInterval(1800);
+		request.getSession(true).setMaxInactiveInterval(10800);
 	}
 	
 	/**
