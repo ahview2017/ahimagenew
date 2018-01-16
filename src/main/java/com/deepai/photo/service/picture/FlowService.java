@@ -807,6 +807,7 @@ public class FlowService {
 //			int coverPictureId=oldGroup.getCoverPictureId();
 			int count=0;
 			Set<Integer> set=new HashSet<Integer>();
+			long startTime2 = System.currentTimeMillis();
 			for (CpPicture cpPicture : pics) {
 				CommonValidation.checkParamBlank(cpPicture.getId()+"", "单图ID");
 				if(set.add(cpPicture.getId())){
@@ -826,6 +827,9 @@ public class FlowService {
 					res=res+"、"+res1;
 				}
 			}
+			long endTime2 = System.currentTimeMillis();
+			logger.info("1111选项耗时："+(endTime2-startTime2));
+			
 			if(coverPictureId==0){//默认第一个为主图
 				coverPictureId=pics.get(0).getId();
 				pics.get(0).setIsCover(1);						
@@ -844,7 +848,8 @@ public class FlowService {
 
 			//保存历史版本:稿件，及图片
 			addHistory(oldGroup, newGroup, type2);
-
+			
+			long startTime = System.currentTimeMillis();
 			for (int i=0;i<pics.size();i++) {
 				CpPicture cpPicture=pics.get(i);
 				//单图处理:大、中、水印图、IpTc信息
@@ -858,8 +863,13 @@ public class FlowService {
                 }
 				cpPictureMapper.updateByPrimaryKeySelective(cpPicture);
 			}
+			long endTime = System.currentTimeMillis();
+			logger.info("处理图片选项耗时："+(endTime-startTime));
 			//修改图片txt
+			long startTime1 = System.currentTimeMillis();
 			CpPicGroup pinfo=aboutPictureMapper.selectPicInfoByGroupId(sourceGroupId);
+			long endTime3 = System.currentTimeMillis();
+			logger.info("查询图片详情耗时："+(endTime3-startTime1));
 			String txtPicInfo = null;//txt文件名
 			String oriPicPath = null;//原图
 			for (int j = 0; j < pinfo.getPics().size(); j++) {
@@ -869,6 +879,8 @@ public class FlowService {
 				downloadService.createPictureInfoTxt(pinfo, picture, txtPicInfo);
 			}
 			addFlowLog(sourceGroupId, 10, null, null, user);
+			long endTime1 = System.currentTimeMillis();
+			logger.info("处理图片选项耗时："+(endTime1-startTime1));
 			return res;
 		} catch (Exception e) {
 			logger.error("编辑稿件出错");

@@ -239,6 +239,8 @@ public class GroupPicController {
 			CommonValidation.checkParamBlank(fTime, "拍摄时间");
 			CommonValidation.checkParamBlank(roleId+"", "用户角色ID");
 			CommonValidation.checkParamBlank(Integer.toString(group.getLangType()), "稿件语种");
+			
+			log.info("<<<cateids:"+cateIds);
 			if(StringUtil.isEmpty(picData)){
 				result.setCode(CommonConstant.FAILURECODE);
 				result.setMsg("请上传图片");
@@ -734,10 +736,17 @@ public class GroupPicController {
 		ResponseMessage result=new ResponseMessage();
 		try {
 			CommonValidation.checkParamBlank(group.getId()+"", "稿件id");
+			long startTime = System.currentTimeMillis();
 			CpPicGroup oldGroup=cpPicGroupMapper.selectByPrimaryKey(group.getId());
+			long endTime = System.currentTimeMillis();
+			log.info("执行查询稿件用时："+(endTime-startTime));
 			CpUser user= SessionUtils.getUser(request);
 			//校验稿件是否正在编辑
+			long startTime2 = System.currentTimeMillis();
 			CommonValidation.checkGroupSaveEdit(oldGroup,group.getId(),user);
+			long endTime2 = System.currentTimeMillis();
+			log.info("检验稿件是否正在编辑用时："+(endTime2-startTime2));
+			
 			if(oldGroup.getGroupStatus()!=4){
 				result.setCode(CommonConstant.FAILURECODE);
 				result.setMsg("该稿件不在已签发状态，不可进行在线编辑");
@@ -755,7 +764,12 @@ public class GroupPicController {
 				group.setFileTime(DateUtils.sdfLong.parse(fTime));
 			}
 			//编辑稿件
+			long startTime1 = System.currentTimeMillis();
 			String res=flowService.editGroup(oldGroup, group, pics,user,cateIds, 0);
+			long endTime1 = System.currentTimeMillis();
+			
+			
+			log.info("编辑稿件用时："+(endTime1-startTime1));
 			if(res!=null){
 				result.setCode(CommonConstant.SUCCESSCODE212);
 				result.setMsg("存在敏感词："+res);
@@ -1868,7 +1882,7 @@ public class GroupPicController {
 			//add by xiayunan@2017-09-26
 			int p = (count+rows-1)/rows;//总页数
 //			int p = (int)Math.ceil(count/rows);//总页数
-			List<Map<String,Object>> list=aboutPictureMapper.selectGroups(param);
+			List<Map<String,Object>> list=aboutPictureMapper.selectSubGroups(param);
 			for (Map<String,Object> map:list) {
 				if(map.containsKey("FILENAME")){
 					map.put("samllPath", CommonConstant.SMALLHTTPPath+ImgFileUtils.getSamllPathByName(map.get("FILENAME").toString(),request));
@@ -2726,6 +2740,19 @@ public class GroupPicController {
         			roleId = role.getId();
     			}
            	}
+           	String title = "手机投稿"+phoneNum;
+           	group.setTitle(title);
+           	String keyWords = "游客"+" "+phoneNum;
+           	group.setKeywords(keyWords);
+           	String place = "安徽 合肥";
+           	group.setPlace(place);
+           	String author = "游客"+phoneNum;
+           	group.setAuthor(author);
+           	log.info("<<<标题:"+title);
+           	log.info("<<<关键词:"+keyWords);
+           	log.info("<<<地点:"+place);
+           	log.info("<<<作者:"+author);
+           	
 			CommonValidation.checkParamBlank(group.getTitle(), "稿件标题");
 			CommonValidation.checkParamBlank(group.getKeywords(), "关键字");
 			CommonValidation.checkParamBlank(group.getAuthor(), "稿件作者");

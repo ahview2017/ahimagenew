@@ -668,7 +668,7 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
                     	//if(item.name == '摄影师之家'){
                     	if(item.name == '摄影名家'){
                     		item.showFlag = 0;
-                    	}else if(item.name == '艺术家'){
+                    	}else if(item.name == '网上展厅'){
                     		item.showFlag = 1;
                     	}else{
                     		item.showFlag = 2;

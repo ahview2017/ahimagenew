@@ -14,8 +14,8 @@ INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`D
 INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(416,0,'EXIF图片控制','EXIF图片控制','uploadpic',NULL,0,'admin',now(),2,'',0);
 INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(417,1,'一键撤稿','一键撤稿','groupPicCtro/downAllGroupPic',245,0,'admin',now(),NULL,'',0);
 INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(418,1,'一键签报','一键撤稿','groupPicCtro/signGroups',141,0,'admin',now(),NULL,'',0);
-INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(419,1,'资料库子栏目稿件列表','资料库子栏目稿件列表','groupPicCtro/signSubGroups',245,0,'admin',now(),NULL,'',0);
-
+INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(419,1,'资料库子栏目稿件列表','资料库子栏目稿件列表','groupPicCtro/getSginSubGroup',245,0,'admin',now(),NULL,'',0);
+INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(420,1,'资料库搜索稿件列表','资料库搜索稿件列表','groupPicCtro/getSginGroupOnlySeach',245,0,'admin',now(),NULL,'',0);
 
 
 DROP TABLE IF EXISTS `cp_pic_group_thumbsup`;
@@ -43,6 +43,8 @@ alter table cp_log modify OPE_PARAM VARCHAR(6000) DEFAULT NULL;
 alter table cp_user_delete add  HOMEPAGE_COLUMNID int(11) default '0' COMMENT '摄影师主页栏目ID';
 alter table cp_user_delete add  USER_DETAIL varchar(8000) DEFAULT NULL COMMENT '用户简介';
 alter table cp_user_delete add  USER_CLASS int(11) default '0' NULL COMMENT '用户分类 0：其它 1：摄影名家 2：艺术家';
+
+ALTER TABLE cp_picture ADD PRIMARY KEY cp_pictur_GROUP_ID_DELETE_FLAG (GROUP_ID,DELETE_FLAG) 
 
 
 

@@ -1,8 +1,5 @@
 clientModule.controller('newArticleCtrl', function ($scope, $cookies, req, md5, $state, $rootScope, $timeout, jugeGroupPos,cityList,$filter,modalOperate) {
     var vm = this;
-
- 
-
     //初始化页面相关配置
     function initSetting() {
     	//省市县联动数据

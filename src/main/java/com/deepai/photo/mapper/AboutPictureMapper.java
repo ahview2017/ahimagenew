@@ -81,7 +81,6 @@ public interface AboutPictureMapper {
 
 	public List<Map<String, Object>> selectGroups(Map map)throws Exception;
 	public List<Map<String, Object>> selectGroupsOnlySeach(Map map)throws Exception;
-	
 	public List<Map<String, Object>> selectSubGroups(Map map)throws Exception;
 
 	public int selectCountGroups(Map param);

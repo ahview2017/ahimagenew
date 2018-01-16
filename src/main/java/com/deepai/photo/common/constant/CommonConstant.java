@@ -70,7 +70,8 @@ public  class CommonConstant {
 	
 	
 	
-	public static final int FAILUREMILLSSALT = 300;
+	//public static final int FAILUREMILLSSALT = 300;
+	public static final int FAILUREMILLSSALT = 10800;
 	//TODO
 	public static final int FAILUREMILLSTOKEN = 10800;//半小时1800s
 	public static final Long HOURS72 = 259200000L;//72小时1800s

@@ -697,8 +697,6 @@
 	LEFT JOIN cp_picture p on g.COVER_PICTURE_ID=p.ID 
 	LEFT JOIN cp_pic_group_category c on c.GROUP_ID=g.ID
 	where g.SOURCE_ID=0    	
-	        
-	    
 		<if test="siteId != null">
 			and g.SITE_ID=#{siteId} 
 		</if>
@@ -831,7 +829,9 @@
 			<if test="query.beginTime !=null">
 				and g.CREATE_TIME &gt;=#{query.beginTime}
 			</if>
-
+			<if test="query.paramStr !=null">
+				and (g.ID LIKE CONCAT('%',#{query.paramStr},'%') or g.TITLE LIKE CONCAT('%',#{query.paramStr},'%') or g.AUTHOR LIKE CONCAT('%',#{query.paramStr},'%') or g.PLACE LIKE CONCAT('%',#{query.paramStr},'%') or g.MEMO LIKE CONCAT('%',#{query.paramStr},'%') or g.KEYWORDS LIKE CONCAT('%',#{query.paramStr},'%') or g.REMARK LIKE CONCAT('%',#{query.paramStr},'%') )
+			</if>
 			
 		</if>
   </select>

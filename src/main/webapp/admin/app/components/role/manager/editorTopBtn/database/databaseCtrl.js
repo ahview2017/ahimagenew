@@ -50,6 +50,12 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
         vm.groupIds = [];
 		//存放资料库数组
 		vm.hadPubRowDataArray = [];
+		
+		//add by xiayunan@20180115
+		vm.chnlSearchFlag = false;//主栏目标识
+		vm.subChnlSeaFlag = false;//子栏目标识 
+		vm.searchFlag = false;//检索标识
+		
 		//资料库总条数
 		vm.databaseList_total = 0;
 		//默认当前页1
@@ -401,6 +407,9 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 				langType: window.localStorage.lang
 			};
 			reqUrl = 'groupPicCtro/getSginGroup.do';
+			vm.chnlSearchFlag = true;//主栏目标识
+			vm.subChnlSeaFlag = false;//子栏目标识 
+			vm.searchFlag = false;//检索标识
 		} else {
 			params = {
 				page: page,
@@ -491,7 +500,7 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 	
 
 	/**
-	 * 资料库获取稿件 检索专用
+	 * 资料库获取稿件 
 	 * @param gType
 	 * @param cateId
 	 * @param page
@@ -506,7 +515,7 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 		vm.cateId = cateId;		
 		var params;
 		var reqUrl = '';
-		if(!isSearchFlag&&isOnlySearch) {
+		if(!isSearchFlag) {
 			params = {
 				page: page,
 				rows: vm.selPageRows,
@@ -516,7 +525,18 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 				cateId: cateId,
 				langType: window.localStorage.lang
 			};
-			reqUrl = 'groupPicCtro/getSginGroupOnlySeach.do';
+			// add by xiayunan@20180115 普通检索和资料库列表分开
+			if(isOnlySearch){
+				reqUrl = 'groupPicCtro/getSginGroupOnlySeach.do';//普通检索
+				vm.searchFlag = true;//检索标识
+				vm.chnlSearchFlag = false;//主栏目标识
+			}else{
+				reqUrl = 'groupPicCtro/getSginGroup.do';//资料库列表
+				vm.chnlSearchFlag = true;//主栏目标识
+				vm.searchFlag = false;//检索标识
+			}
+			vm.subChnlSeaFlag = false;//子栏目标识 
+			//vm.chnlSearchFlag = false;//主栏目标识
 		} else {
 			params = {
 				page: page,
@@ -620,6 +640,7 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 		vm.cateId = cateId;		
 		var params;
 		var reqUrl = '';
+		
 		if(!isSearchFlag) {
 			params = {
 				page: page,
@@ -631,6 +652,9 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 				langType: window.localStorage.lang
 			};
 			reqUrl = 'groupPicCtro/getSginSubGroup.do';
+			vm.chnlSearchFlag = false;//主栏目标识
+			vm.subChnlSeaFlag = true;//子栏目标识 
+			vm.searchFlag = false;//检索标识
 		} else {
 			params = {
 				page: page,
@@ -723,12 +747,36 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 
 	//页数变化
 	vm.pageChanged = function(pageNumber) {
+		//alert(vm.searchFlag);
 		if(vm.acitiveOneSlideTit == 1) {
-			getSignGroups(1, vm.cateId, pageNumber, 0, vm.ifAdvanceSearchFlag);
-			getSignGroups(1, vm.cateId, pageNumber, 1, vm.ifAdvanceSearchFlag);
+			//alert("vm.chnlSearchFlag:"+vm.chnlSearchFlag);
+			if(vm.chnlSearchFlag){
+				getSignGroups(1, vm.cateId, pageNumber, 0, vm.ifAdvanceSearchFlag);
+				getSignGroups(1, vm.cateId, pageNumber, 1, vm.ifAdvanceSearchFlag);
+			}else if(vm.subChnlSeaFlag){
+				getSignSubGroups(1, vm.cateId, pageNumber, 0, false);
+				getSignSubGroups(1, vm.cateId, pageNumber, 1, false);
+			}else if(vm.searchFlag){
+				getSignGroups(1, vm.cateId, pageNumber, 0, vm.ifAdvanceSearchFlag,true);
+				getSignGroups(1, vm.cateId, pageNumber, 1, vm.ifAdvanceSearchFlag,true);
+			}
+			
+//			getSignGroups(1, vm.cateId, pageNumber, 0, vm.ifAdvanceSearchFlag);
+//			getSignGroups(1, vm.cateId, pageNumber, 1, vm.ifAdvanceSearchFlag);
 		} else if(vm.acitiveOneSlideTit == 2) {
-			getSignGroups(2, vm.cateId, pageNumber, 0, vm.ifAdvanceSearchFlag);
-			getSignGroups(2, vm.cateId, pageNumber, 1, vm.ifAdvanceSearchFlag);
+			if(vm.chnlSearchFlag){
+				getSignGroups(2, vm.cateId, pageNumber, 0, vm.ifAdvanceSearchFlag);
+				getSignGroups(2, vm.cateId, pageNumber, 1, vm.ifAdvanceSearchFlag);
+			}else if(vm.subChnlSeaFlag){
+				getSignSubGroups(2, vm.cateId, pageNumber, 0, false);
+				getSignSubGroups(2, vm.cateId, pageNumber, 1, false);
+			}else if(vm.searchFlag){
+				getSignGroups(2, vm.cateId, pageNumber, 0, vm.ifAdvanceSearchFlag,true);
+				getSignGroups(2, vm.cateId, pageNumber, 1, vm.ifAdvanceSearchFlag,true);
+			}
+			
+//			getSignGroups(2, vm.cateId, pageNumber, 0, vm.ifAdvanceSearchFlag);
+//			getSignGroups(2, vm.cateId, pageNumber, 1, vm.ifAdvanceSearchFlag);
 		}
 	};
 
@@ -841,13 +889,13 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 		}
 		if(name == '新闻图片') {
 			vm.properties = 0;
-			pcataid = 1760;
+			//pcataid = 1760;
 		} else if(name == '专题图片') {
 			vm.properties = 1;
-			pcataid = 188;
+			//pcataid = 188;
 		}else if(name == '老照片') {//add by xiayunan  2017-09-06
 			vm.properties = 2;
-			pcataid = 100182651;
+			//pcataid = 100182651;
 		}
 
 		if(vm.acitiveOneSlideTit == 1) {
