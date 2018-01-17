@@ -15,7 +15,7 @@
 	    		</div>
 	    		<div class="clear"></div>
 	    	</div>
-	    	<div class="detial_main_box">
+	    	<div class="detial_main_box" style="position:relative;">
 				
                 <div class="detial_content_pic" ng-show="photographerDetail.videoId==0">
                     <div class="pic_show picDetails_bd left">
@@ -35,7 +35,6 @@
 	                                    </div>
 	                                    
 	                                    <div class="pic_share right">
-											
 	                                    	<div style="float:left;height:34px;line-height:34px;font-size:14px;cursor:pointer;" ng-if="photographerDetail.isThumbsUp">
 	                                    		<img src="client_ah/assets/images_ah/dz_ahrb201171026.png" style="margin-bottom:10px;" ng-click="photographerDetail.thumbsUp()" >
 	                                    		<span >{{photographerDetail.thumbsUpCount}}</span>
@@ -44,7 +43,6 @@
 	                                    		<img src="client_ah/assets/images_ah/dz_ahrb201171027.png" style="margin-bottom:10px;" ng-click="photographerDetail.thumbsUp()" >
 	                                    		<span style="color: #333;">{{photographerDetail.thumbsUpCount}}</span>
 	                                    	</div>
-											
 	                                    	
 	                                    	<div class="bshare-custom" style="float:right;">
 	                                    		<img ng-click="photographerDetail.popwin()" style="cursor: pointer; margin:-5px 35px 0 10px;" src="client_ah/assets/images_ah/he_xwpd_lby_pic_02.gif" height="20" width="20">
@@ -59,16 +57,19 @@
                                         <p>图片编号：<span>{{item.id}}</span></p>
                                         <p>尺　　寸：<span>{{item.pictureWidth}}*{{item.pictureHeight}}</span></p>
                                         <p>格　　式：<span>EXIF</span></p>
+                                        <!--  
                                         <p>署　　名：<span>{{photographerDetail.clientPictureDetail.author}}</span></p>
+                                        -->
+                                        <p>署　　名：<span>{{item.authorName}}</span></p>
                                         <p>上传时间：<span>{{photographerDetail.clientPictureDetail.sginTime | date:'yyyy-MM-dd HH:mm:ss'}}</span></p>
                                     </div>
                                     <div class="pic_state_exp">
                                         <p>图片说明：{{item.memo}}</p>
                                     </div>
-                                    <div class="buy_onload">
+                                    <!-- <div class="buy_onload">
                                         <a href="javascript:void(0);" class="buy_onload_a1 left" ng-click="photographerDetail.downPic(item.id)" ng-if="!photographerDetail.showStatus"><img src="client_ah/assets/images_ah/a_sjah_detail_03.png" width="136" height="84"></a>
                                         <a href="javascript:void(0);" class="buy_onload_a2 right" ng-click="photographerDetail.onCartPicClick(item.id)" ng-if="!photographerDetail.showStatus"><img src="client_ah/assets/images_ah/a_sjah_detail_05.png" height="84" width="136"></a>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </li>
                         </ul>
@@ -95,15 +96,15 @@
 						<div class="clear"></div>
 	            </div>
 
-            
+	            <!-- 微信弹出 -->
+				<div id="codeoutr" style="width:200px;display:none;position:absolute;right:0px;top:50px; border:1px solid #ccc;padding:20px;background-color:#fff;text-align:center;border-radius:10px; ">
+					<div style=" text-align: right;"><a style="cursor: pointer; color: #666; font-size: 12px;" ng-click="photographerDetail.popclose()">关闭</a></div>
+		        	<div id="qrcode" style="width:100px; height:100px; margin:0 auto;"></div>
+		        	<div style=" color: #666; font-size: 12px; line-height: 18px; padding:5px 5px;">打开微信或微博，使用 “扫一扫” 即可分享。 </div>
+		        </div>
             </div>
 
-            <!-- 微信弹出 -->
-			<div id="codeoutr" style="width:200px; display:none; position: absolute; right: 0px; top:145px; border: 1px solid #ccc; padding: 20px; background-color: #fff; text-align: center; border-radius: 10px; ">
-				<div style=" text-align: right;"><a style="cursor: pointer; color: #666; font-size: 12px;" ng-click="photographerDetail.popclose()">关闭</a></div>
-	        	<div id="qrcode" style="width:100px; height:100px; margin:0 auto;"></div>
-	        	<div style=" color: #666; font-size: 12px; line-height: 18px; padding:5px 5px;">打开微信或微博，使用 “扫一扫” 即可分享。 </div>
-	        </div>
+            
 	    </div>
 	</div>
 

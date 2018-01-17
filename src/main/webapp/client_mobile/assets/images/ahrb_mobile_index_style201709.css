@@ -92,7 +92,8 @@ z-index: 10000;}
 
 .bgDetail{background: #eee;}
 
-.detailCon{line-height:2.5rem;font-size: 1.8rem;color: #333;text-align: center;padding: 1rem 2%;}
+.detailCon{line-height:3.5rem;font-size: 1.8rem;color: #333;text-align: center;padding:0 2%;}
+.detailAuthor{font-size: 14px;text-align: right;margin-bottom: 5px;margin-right: 15%;color: #ccc;}
 
 
 

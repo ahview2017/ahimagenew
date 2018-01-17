@@ -84,16 +84,13 @@ public class LoginInterceptor implements HandlerInterceptor{
 					String token=null;
 					// 从公共获取用户信息
 					Cookie[] cookie = request.getCookies();
-					log.info("cookie数组长度："+cookie.length);
 					if(cookie!=null&&cookie.length>0){
 						for (int i = 0; i < cookie.length; i++) {
 							Cookie cook = cookie[i];
 							if (cook.getName().equalsIgnoreCase(userToken)) { // 获取键
 								token = cook.getValue().toString();
-								log.info("cookie tplen："+token);
 								if (StringUtil.isNotEmpty(token)) {
 									user = userRoleRightService.verify(token);//校验用户是否登录
-									log.info("user is null："+user);
 									break;
 								}
 							}

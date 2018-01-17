@@ -164,7 +164,7 @@ clientModule.controller('newArticleCtrl', function ($scope, $cookies, req, md5, 
 
 
     
-    getOnlineUserList();
+    //getOnlineUserList();
     // 获取在线用户列表
     function getOnlineUserList() {
         req.post('login/getOnLineUsers.do', {
@@ -184,7 +184,7 @@ clientModule.controller('newArticleCtrl', function ($scope, $cookies, req, md5, 
         window.location.href = "/photo/admin.html#/manager/newManuscript";
     }
 
-  //上传完图片向upMenuscriptPicArr数组推入图片的相关信息，让图片列表展示
+    //上传完图片向upMenuscriptPicArr数组推入图片的相关信息，让图片列表展示
     function uploadedPicCallback(j){
         //完成后对应的速度条消失
         if(j == 0 || displayed[j-1]){
@@ -205,7 +205,8 @@ clientModule.controller('newArticleCtrl', function ($scope, $cookies, req, md5, 
                     isCover: '0',
                     sortId: (index + 1) + '',
                     people: item.people,
-                    keywords: item.keywords,
+                    //keywords: item.keywords,
+                    keywords: '游客',
                     authorName: item.authorName,
                     memo: item.memo
                 })
@@ -384,7 +385,8 @@ clientModule.controller('newArticleCtrl', function ($scope, $cookies, req, md5, 
             vm.manuscriptPicData.push({
                 id: item.id + '',
                 people: vm.upMenuscriptPicArr[index].people || '',
-                keywords: vm.upMenuscriptPicArr[index].keywords || '',
+                //keywords: vm.upMenuscriptPicArr[index].keywords || '',
+                keywords: '游客',//修改每张图片关键词默认为游客  edit by xiayunan@20180117
                 /*authorId:  vm.authorId + '',*/
                 authorId:  '342',
                 authorName: vm.upMenuscriptPicArr[index].authorName || '',
@@ -654,6 +656,9 @@ clientModule.controller('newArticleCtrl', function ($scope, $cookies, req, md5, 
         //验证图片相关信息填写是否合格
         var validUpMsPicFlag = false;
         //验证图片列表相关信息
+        
+        //去掉 单张图片验证 edit by xiayunan@20180117
+        /*
         for(var i = 0, len = vm.upMenuscriptPicArr.length; i < len; i++) {
             if (vm.upMenuscriptPicArr[i].people && vm.upMenuscriptPicArr[i].people.length > 200) {
                 layer.alert('人物要少于200字');
@@ -675,8 +680,8 @@ clientModule.controller('newArticleCtrl', function ($scope, $cookies, req, md5, 
                 layer.alert('图片说明要少于4000字');
                 return;
             }
-            
         }
+        */
         if(!vm.phoneNum){
             layer.alert('请填写手机号');
             return;

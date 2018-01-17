@@ -593,6 +593,11 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
         }).success(function (resp) {
             if (resp.code == '211') {
                 vm.clientPictureDetail = resp.data;
+                if(!vm.clientPictureDetail.author||vm.clientPictureDetail.author=='匿名'){
+                	vm.clientPictureDetail.author = '匿名';
+                }else{
+                	vm.clientPictureDetail.author = vm.clientPictureDetail.author+" 摄";
+                }
                 //获取图片尺寸 add by xiayunan@20171025
                 angular.forEach(vm.clientPictureDetail.pics, function (item, index) {
                 	item.allSize = "1600x1600";

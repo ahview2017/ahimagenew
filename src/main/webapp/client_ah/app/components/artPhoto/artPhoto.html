@@ -15,11 +15,12 @@
                 <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
 					<img ng-src="{{item.filePath}}" alt="" style="max-height:233px;max-width:370px">
 				</a>
-                <p class="newsPic_business_p1"><a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">{{item.TITLE}}</a></p>
+                <p class="newsPic_business_p1 split_string"><a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">{{item.TITLE}}</a></p>
             </div>
         </div>
         <div class="clear"></div>
 		<!--网上展厅-->
+		<!--  
         <div class="newsPic_content_bottom" ng-init="artPhoto.getClientGroups(3102,3,0,2)">
             <div class="newsPic_politics_title">
                 <div class="newsPic_politics_title_box">
@@ -36,6 +37,7 @@
             
         </div>
         <div class="clear"></div>
+        -->
 		<!--漫画天地-->
         <div class="newsPic_content_bottom" ng-init="artPhoto.getClientGroups(3103,3,0,2)">
             <div class="newsPic_politics_title">
@@ -48,7 +50,7 @@
                 <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
 					<img ng-src="{{item.filePath}}" alt="" style="max-height:233px;max-width:370px">
 				</a>
-                <p class="newsPic_business_p1"><a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">{{item.TITLE}}</a></p>
+                <p class="newsPic_business_p1 split_string"><a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">{{item.TITLE}}</a></p>
             </div>
             
         </div>

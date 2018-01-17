@@ -327,7 +327,7 @@
             <div class="swiper-slide">
                 <div class="conLists" ng-init="index.getMoreGroups(3084,1)">
                     <ul>
-                        <li ng-repeat="item in index.artEssence track by $index">
+                        <li ng-repeat="item in index.handPics track by $index">
                             <a ui-sref="root.newDetailList({groupId: item.ID})">
                                 <img ng-src="{{item.filePath}}" />
                                 <i>{{item.PICTURE_COUNT}}图</i>

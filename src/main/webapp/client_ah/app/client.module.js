@@ -101,6 +101,29 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
         })
         
         
+        //404页面
+        .state('root.picnotfound', {
+            url:'/picnotfound',
+            views:{
+                'main@':{
+                    templateUrl: 'client_ah/app/components/picnotfound/notfound.html',
+                    controller: 'notfound as notfound'
+                }
+            }
+        })
+        
+         //栏目建设中页面
+        .state('root.columnConstruction', {
+            url:'/columnConstruction',
+            views:{
+                'main@':{
+                    templateUrl: 'client_ah/app/components/columnconstruction/constructionLoading.html',
+                    controller: 'columnConstructionCtrl as columnConstruction'
+                }
+            }
+        })
+        
+        
         //活动报道
         .state('root.activity', {
             url:'/activity',

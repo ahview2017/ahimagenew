@@ -20,7 +20,7 @@
 						ng-click="header.login_user()"> | 登录</a></span>
 				</div>
 				<div class="login_right right">
-					<span><a href="javascript:void(0);" ng-click="header.newManuscript()">我要投稿</a></span>
+					<span ng-show="(client_logined)"><a href="javascript:void(0);" ng-click="header.newManuscript()">我要投稿</a></span>
 				</div>
 			</div>
 		</div>
@@ -214,15 +214,15 @@
 
 					<!-- 注册须知 -->
 					<tr>
-						<td>账号注册须知：</td>
+						<td><font color="#f00">*账号注册须知：</font></td>
 						<td colspan=4>
 						请将附件中的申请表，按照注册信息如实填写，填写完整后打印表格、签字盖章并邮寄至安徽日报社。
 						</td>
 					</tr>
 					<tr>
-						<td>附件下载：</td>
-						<td colspan=3>
-							<a href="http://vi.ahnews.com.cn/zh/appley.zip">申请视觉安徽网账号信息.doc</a>
+						<td><font color="#f00">附件下载：</font></td>
+						<td colspan=3 >
+							<a href="http://vi.ahnews.com.cn/zh/apply.zip" style="padding-left:0;">申请视觉安徽网账号信息</a>
 						</td>
 					</tr>
 
@@ -302,7 +302,10 @@
 					<a href="javascript:void(0);">互动空间</a>
 					<div class="news_pic_alert7 rel_pad" style="display: none;">
 						<ul>
-							<li class="tab_li1" ng-repeat="item in header.interactiveSpace"><a ui-sref="root.moreSortList({sginId:item.id})" target="_blank">{{item.name}}</a></li>
+							<li class="tab_li1" ng-repeat="item in header.interactiveSpace">
+								<a ui-sref="root.moreSortList({sginId:item.id})" target="_blank" ng-if="item.hdShowFlag==0">{{item.name}}</a>
+								<a ui-sref="root.columnConstruction" target="_blank" ng-if="item.hdShowFlag==1">{{item.name}}</a>
+							</li>
 						</ul>
 					</div></li>
 				<li class="tab_li"><a ui-sref="root.moreSortList({sginId:3084})">掌上图库</a></li>
@@ -322,11 +325,7 @@
 				<!--  
 				<a ui-sref="root.webInfoView({id:wpItem.id,name:wpItem.noticeTitle,type:1})" target="_blank">{{wpItem.noticeTitle}}</a>
 				-->
-				<a ui-sref="http://vi.ahnews.com.cn/photo/index.html#/activity" target="_blank" href="http://vi.ahnews.com.cn/photo/index.html#/activity">{{wpItem.noticeTitle}}</a>
-				
-				
-				
-				
+				<a ui-sref="http://vi.ahnews.com.cn/photo/index.html#/activity" href="http://vi.ahnews.com.cn/photo/index.html#/activity" target="_blank">{{wpItem.noticeTitle}}</a>
 			</span>
 		</marquee>
 	</div>

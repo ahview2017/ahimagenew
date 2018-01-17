@@ -682,8 +682,14 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 				//互动空间
 				if (pColumnId == 3083) {
                     vm.interactiveSpace = resp.data;
+                    angular.forEach(vm.interactiveSpace,function(item,index){
+                    	if(item.name == '订制服务'){
+                    		item.hdShowFlag = 1;
+                    	}else{
+                    		item.hdShowFlag = 0;
+                    	}
+              		 });
                 }
-				
 			} else {
 				console.log(resp.msg);
 			}

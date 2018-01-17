@@ -17,6 +17,7 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
                 }
             });
         });
+
     }
     
     //页面初始化
@@ -125,7 +126,7 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
                        }
        				//掌上图库
       				if ( vm.currchnl == 3084) {
-      					angular.forEach(vm.artEssence,function(item,index){
+      					angular.forEach(vm.handPics,function(item,index){
       	            		 if(oIndex==index){
       	            			item.isThumbsUp = true;
       	            		 }
@@ -211,7 +212,7 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
                  }
  				//掌上图库
 				if ( vm.currchnl == 3084) {
-					angular.forEach(vm.artEssence,function(item,index){
+					angular.forEach(vm.handPics,function(item,index){
 	            		 if(oIndex==index){
 	            			 item.thumbsUpCount = resp.data;
 	            		 }
@@ -423,6 +424,11 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
                     vm.interactiveSpace = jugeGroupPos.jugeGroupPos(3097,resp.data);
                     vm.currchnl = 3083;
                 }
+				//掌上图库
+				if (signId == 3084) {
+                    vm.handPics = jugeGroupPos.jugeGroupPos(3084,resp.data);
+                    vm.currchnl = 3084;
+                }
             }else if(resp.msg != '未登录'){
                 layer.alert(resp.msg);
             }
@@ -585,7 +591,7 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
                 }
 				//掌上图库
 				if (signId == 3084) {
-                    vm.artEssence = resp.data;
+                    vm.handPics = resp.data;
                     //vm.currchnl = 3084;
                 }
 				
@@ -649,7 +655,7 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
                 }
 				//掌上图库
 				if (signId == 3084) {
-					appendData(resp.data,vm.artEssence);
+					appendData(resp.data,vm.handPics);
                 }
 				
             }else if(resp.msg != '未登录'){

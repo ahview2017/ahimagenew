@@ -122,7 +122,9 @@
 						<div class="online_imgs" >
 							<img ng-src="{{item.img}}" class="ms-detail-picture">
 						</div>
-						<div class="infor_name">
+						
+					
+						<div class="infor_name" style="display:none">
 							<div class="infor_time">
 								<span >拍摄时间：</span>
 							</div>
@@ -131,7 +133,7 @@
 							</div>
 							<div class="clear"></div>
 						</div>
-						<div class="infor_name clear">
+						<div class="infor_name clear" style="display:none">
 							<div class="infor_time">
 								<span >人物：</span>
 							</div>
@@ -140,7 +142,7 @@
 							</div>
 							<div class="clear"></div>
 						</div>
-						<div class="infor_name clear">
+						<div class="infor_name clear" style="display:none">
 							<div class="infor_time">
 								<span >关键词：</span>
 							</div>
@@ -149,7 +151,7 @@
 							</div>
 							<div class="clear"></div>
 						</div>
-						<div class="infor_name clear">
+						<div class="infor_name clear" style="display:none">
 							<div class="infor_time">
 								<span >作者名：</span>
 							</div>
@@ -159,7 +161,7 @@
 							<div class="clear"></div>
 						</div>
 						
-						<div class="infor_name">
+						<div class="infor_name" style="display:none">
 							<h5 class="infor_time cursor " ng-click="newManuscript.copyMemo()"  >图片说明：</h5>
 							<div class="infor_date">
 								<textarea placeholder="请输入图片说明" ng-model="item.memo"></textarea>
@@ -167,6 +169,7 @@
 							
 							<div class="clear"></div>
 						</div>
+						
 						<div class="clear"></div>
 					</div>
 			</div>
