@@ -780,14 +780,13 @@ public class UserController {
 						}else{
 							flag = false;
 						}
-						
 					}
 					if(!s.getIdCard().equals(user.getIdCard())){
 						content +="身份证号为："+user.getIdCard()+",";
 						opeContent +="身份证号,";
 						flag = true;
 					}
-					if(!s.getBankIdCard().equals(user.getBankIdCard())){
+					if(s.getBankIdCard()!=null&&!s.getBankIdCard().equals(user.getBankIdCard())){
 						content +="帐号或卡号为："+user.getBankIdCard()+",";
 						opeContent +="帐号或卡号,";
 						flag = true;

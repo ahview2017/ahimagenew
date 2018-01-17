@@ -20,25 +20,23 @@
 	    			
 	    			
 	    		<!-- 右侧姓名、简介 -->
-	    			<div class="sjah_photographer_content_detail_rt right" ng-if="item.showStatus==0" style="height: 200px;overflow-y: auto;">
+	    			<div class="sjah_photographer_content_detail_rt right" ng-if="item.showStatus==0">
 	    				<div class="sjah_photographer_name">
 	    					<span class="left"><a ui-sref="root.photographerdetail({userId: item.ID,sginId:item.HOMEPAGE_COLUMNID})" target="_blank">{{item.TURE_NAME}}</a></span>
-	    					<div class="sjah_photographer_name_line right"></div>
 	    				</div>
 	    				<div class="clear"></div>
-	    				<div class="sjah_photographer_intru" >
+	    				<div class="sjah_photographer_intru" style="height:160px;overflow-y:auto;">
 	    					<p>{{item.USER_DETAIL}}</p>
 	    				</div>
 	    			</div>
 	    			
 	    			
-	    			<div class="sjah_photographer_content_detail_rt left" ng-if="item.showStatus==1" style="height: 200px;overflow-y: auto;">
+	    			<div class="sjah_photographer_content_detail_rt left" ng-if="item.showStatus==1">
 	    				<div class="sjah_photographer_name">
 	    					<span class="right"><a ui-sref="root.photographerdetail({userId: item.ID,sginId:item.HOMEPAGE_COLUMNID})" target="_blank">{{item.TURE_NAME}}</a></span>
-	    					<div class="sjah_photographer_name_line left"></div>
 	    				</div>
 	    				<div class="clear"></div>
-	    				<div class="sjah_photographer_intru" >
+	    				<div class="sjah_photographer_intru" style="height:160px;overflow-y:auto;">
 	    					<p>{{item.USER_DETAIL}}</p>
 	    				</div>
 	    			</div>

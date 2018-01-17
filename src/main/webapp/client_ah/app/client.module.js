@@ -100,6 +100,19 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             }
         })
         
+        
+        //活动报道
+        .state('root.activity', {
+            url:'/activity',
+            views:{
+                'main@':{
+                    templateUrl: 'client_ah/app/components/activity/activity.html',
+                    controller: 'activityCtrl as activity'
+                }
+            }
+        })
+        
+        
          //摄影师之家详情页
         .state('root.artistdetail', {
             url:'/artistDetail/:userId?:sginId?',

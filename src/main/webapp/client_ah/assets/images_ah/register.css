@@ -1,10 +1,9 @@
-@charset utf-8;
+@charset:"utf-8";
 .register_box{
 	width:700px;
-	height:898px;
 	border-radius: 6px;
 	margin:0 auto;
-	overflow-y:scroll;
+	/*overflow-y:scroll;*/
 	/*background:#ccc;*/
 }
 .register_title{
@@ -18,7 +17,6 @@
 }
 .register_content{
 	width:600px;
-	height:800px;
 	margin:20px auto;
 }
 .register_table{
@@ -27,15 +25,28 @@
 .register_table tr td:nth-child(1){
 	text-align: right;
 	width:110px;
-	height:30px;
+	height:32px;
 }
 .register_table tr td:nth-child(2){
-	width:270px;
-	height:30px;
+	width:120px;
+	height:32px;
+}
+.register_table tr td:nth-child(3) {
+    width: 110px;
+    height: 32px;
+    text-align: right;
 }
 .register_table tr td:nth-child(2) input[rel="register"]{
-	width:270px;
+	width:120px;
 	border: 1px solid #b2b2b3;
+	height:27px;
+	line-height: 27px;
+}
+.register_table tr td:nth-child(4) input[rel="register"]{
+	width:135px;
+	border: 1px solid #b2b2b3;
+	height:27px;
+	line-height: 27px;
 }
 input[name="register_submit"]{
 	width:101px;

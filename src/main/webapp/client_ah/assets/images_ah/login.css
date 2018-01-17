@@ -10,8 +10,8 @@
 	width:15px;
 	height:15px;
 	position: absolute;
-	right:0;
-	top:-15px;
+	right:15px;
+	top:-5px;
 }
 .login_title{
 	width:100%;

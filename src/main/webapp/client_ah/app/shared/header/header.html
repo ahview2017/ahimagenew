@@ -71,7 +71,7 @@
 	</div>
 
 	<div class="register_box" id="register_div"
-		style="width: 700px; height: 680px; background-color: rgb(255, 255, 255); z-index: 100; position: fixed; display: none; top: 10px; left: 400px;">
+		style="width: 700px; height: 580px; background-color: rgb(255, 255, 255); z-index: 100; position: fixed; display: none; top: 30px; left: 400px;">
 		<div class="register_title" style="position: relative;">
 			我要注册
 			<div class="close_login">
@@ -84,145 +84,152 @@
 				<!--  -->
 				<table cellpadding="0" cellspacing="0" class="register_table">
 
+					<!-- 登录名、真实姓名 -->
 					<tr>
 						<td align="right">登录名：</td>
-						<td><input type="text" rel="register" name="loginName"
-							ng-model="header.loginName"
-							ng-blur="header.req_checkHoverUserExist()"></td>
-						<td ng-show="header.state == 2"><font color="#f00">用户名可用</font></td>
-						<td ng-show="header.state == 0"><font color="#f00">用户名已存在</font></td>
-						<td ng-show="header.state == 1"><font color="#f00">用户名格式不正确</font></td>
+						<td>
+							<input type="text" rel="register" name="loginName" ng-model="header.loginName" ng-blur="header.req_checkHoverUserExist()">
+						</td>
+						<td><font color="#f00">*</font>真实姓名：</td>
+						<td><input type="text" rel="register" name="realName"
+							ng-model="header.realName" required></td>
 					</tr>
 
-					<tr>
-						<td align="right">申请类别：</td>
-						<td><select name="" id="" ng-model="header.applyCategory">
-								<option value="">--请选择--</option>
-								<option value="5">订户</option>
-								<option value="3">签约摄影师</option>
-						</select></td>
-						<td></td>
-					</tr>
+					<!-- 输入密码、确认密码 -->
 					<tr>
 						<td><font color="#f00">*</font>请输入密码：</td>
-						<td><input type="password" rel="register" name="enterPwd"
-							ng-model="header.enterPwd"></td>
-						<td>8-16个字符</td>
-					</tr>
-
-					<tr>
+						<td>
+							<input type="password" rel="register" name="enterPwd"
+							ng-model="header.enterPwd" placeholder="8-16个字符">
+						</td>
 						<td><font color="#f00">*</font>确认密码：</td>
-						<td><input type="password" rel="register" name="confirmPwd"
-							ng-model="header.confirmPwd"></td>
-						<td>8-16个字符</td>
+						<td>
+							<input type="password" rel="register" name="confirmPwd"
+							ng-model="header.confirmPwd">
+						</td>
 					</tr>
 
+					<!-- 密码提示问题、答案 -->
 					<tr>
 						<td><font color="#f00">*</font>密码提示问题：</td>
 						<td><input type="text" rel="register" name="pwdHintQuestion"
-							ng-model="header.pwdQuestion" required></td>
-						<td>不多于20个字符</td>
-					</tr>
+							ng-model="header.pwdQuestion" required  placeholder="不多于20个字符"></td>
 
-					<tr>
 						<td><font color="#f00">*</font>密码提示答案：</td>
 						<td><input type="text" rel="register" name="pwdHintAnswer"
-							ng-model="header.pwdAnswer" required></td>
-						<td>8-16个字符</td>
+							ng-model="header.pwdAnswer" required placeholder="8-16个字符"></td>
 					</tr>
 
+					<!-- 用户功能、省市 -->
 					<tr>
+						<td align="right">用户功能：</td>
+						<td>
+							<select name="" id="" ng-model="header.applyCategory">
+								<option value="">--请选择--</option>
+								<option value="5">投稿</option>
+								<option value="3">购图</option>
+							</select>
+						</td>
+						
 						<td><font color="#f00">*</font>所属省市：</td>
 						<td><select  name="locationProv" ng-change="header.changeProv(header.province)" ng-model="header.province" ng-options="prov.p as prov.p for prov in header.msCityList">
 							<option value="">请选择</option></select>
 							<select  name="locationCity" ng-model="header.city" ng-options="city.n as city.n for city in header.cities">
 							<option value="">请选择</option></select> 
 						</td>
-						<td></td>
 					</tr>
 
-					<tr>
-						<td><font color="#f00">*</font>真实姓名：</td>
-						<td><input type="text" rel="register" name="realName"
-							ng-model="header.realName" required></td>
-						<td></td>
-					</tr>
-
+					<!-- 身份证号 -->
 					<tr>
 						<td><font color="#f00">*</font>身份证号：</td>
-						<td><input type="text" rel="register" ame="IdNumber"
-							ng-model="header.IdNumber"></td>
-						<td>如果用户类型是企业，可以不填</td>
+						<td colspan=3>
+							<input type="text" rel="register" ame="IdNumber"
+							ng-model="header.IdNumber" style="width:365px;">
+						</td>
 					</tr>
+
+					<!-- 通讯地址 -->
 					<tr>
 						<td>通讯地址：</td>
-						<td><input type="text" rel="register" name="register_address"
-							ng-model="header.contactAddress"></td>
-						<td></td>
+						<td colspan="3">
+							<input type="text" rel="register" name="register_address"
+							ng-model="header.contactAddress" style="width:365px;">
+						</td>
 					</tr>
+
+					<!-- 单位名称、邮编 -->
 					<tr>
 						<td><font color="#f00">*</font>单位名称：</td>
-						<td><input type="text" rel="register" name="unitName"
-							ng-model="header.unitName" required></td>
-						<td></td>
-					</tr>
-					<tr>
+						<td>
+							<input type="text" rel="register" name="unitName"
+							ng-model="header.unitName" required>
+						</td>
 						<td><font color="#f00">*</font>邮政编码：</td>
-						<td><input type="text" rel="register" name="postcode"
+						<td>
+							<input type="text" rel="register" name="postcode"
 							ng-pattern="header.regex.post" ng-model="header.postcode"
-							required></td>
-						<td></td>
+							required>
+						</td>
 					</tr>
+
+					<!-- 联系电话、邮箱 -->
 					<tr>
 						<td>联系电话：</td>
 						<td><input type="text" rel="register" name="contactPhone"
 							ng-pattern="/^\d{5,}$/" ng-model="header.contactPhone"></td>
-						<td></td>
+						<td><font color="#f00">*</font>联系邮箱：</td>
+						<td><input type="text" rel="register" name="mail"
+							ng-pattern="/\w@\w*\.\w/" ng-model="header.mail" required></td>
 					</tr>
+
+					<!-- 移动电话、验证码 -->
 					<tr>
 						<td><font color="#f00">*</font>移动电话：</td>
 						<td><input type="text" rel="register" name="mobilePhone"
 							ng-pattern="/^1[3,4,5,7,8]\d{9}$/" ng-model="header.mobilePhone"
 							required></td>
-						<td></td>
-					</tr>
-					<tr>
 						<td><font color="#f00">*</font>验证码：</td>
 						<td><input type="text" rel="register" name="register_code"
 							ng-model="header.register_code" ng-pattern="/^\d{6}$/" required></td>
 						<td class="register_code">6位数字 <span><a href="javascript:void(0);" ng-click="header.sendmsg2()" id="code2">获取验证码</a></span></td>
 					</tr>
-					<tr>
-						<td><font color="#f00">*</font>联系邮箱：</td>
-						<td><input type="text" rel="register" name="mail"
-							ng-pattern="/\w@\w*\.\w/" ng-model="header.mail" required></td>
-						<td></td>
-					</tr>
 
+					<!-- QQ号、微信号 -->
 					<tr>
 						<td>QQ号：</td>
 						<td><input type="text" rel="register" name="standby1"
 							ng-model="header.standby1"></td>
-						<td></td>
-					</tr>
-					<tr>
 						<td>微信号：</td>
 						<td><input type="text" rel="register" name="standby2"
 							ng-model="header.standby2"></td>
-						<td></td>
 					</tr>
+
+					<!-- 是否公布个人信息 -->
 					<tr>
 						<td>是否公布个人信息：</td>
 						<td><input type="radio" checked="checked" name="publishInfo"
 							value="1" /> 公开 <input type="radio" name="publishInfo"
 							value="0" /> 不公开</td>
-						<td></td>
+					</tr>
+
+					<!-- 注册须知 -->
+					<tr>
+						<td>账号注册须知：</td>
+						<td colspan=4>
+						请将附件中的申请表，按照注册信息如实填写，填写完整后打印表格、签字盖章并邮寄至安徽日报社。
+						</td>
 					</tr>
 					<tr>
-						<td></td>
-						<td><input type="submit" name="register_submit" value="提交"
+						<td>附件下载：</td>
+						<td colspan=3>
+							<a href="http://vi.ahnews.com.cn/zh/appley.zip">申请视觉安徽网账号信息.doc</a>
+						</td>
+					</tr>
+
+					<!-- 提交 -->
+					<tr>
+						<td colspan=5 style="text-align:center;"><input type="submit" name="register_submit" value="提交"
 							ng-click="header.confirmRegister(register_form)"></td>
-						<td></td>
 					</tr>
 				</table>
 			</form>
@@ -312,7 +319,14 @@
 	    <marquee behavior="scroll" scrollamount="5" direction="left" loop="-1" onMouseOut="this.start()" onMouseOver="this.stop()">
 			通知：
 			<span ng-repeat="wpItem in header.webPublishArray  track by $index">
+				<!--  
 				<a ui-sref="root.webInfoView({id:wpItem.id,name:wpItem.noticeTitle,type:1})" target="_blank">{{wpItem.noticeTitle}}</a>
+				-->
+				<a ui-sref="http://vi.ahnews.com.cn/photo/index.html#/activity" target="_blank" href="http://vi.ahnews.com.cn/photo/index.html#/activity">{{wpItem.noticeTitle}}</a>
+				
+				
+				
+				
 			</span>
 		</marquee>
 	</div>

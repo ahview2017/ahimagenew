@@ -2740,18 +2740,12 @@ public class GroupPicController {
         			roleId = role.getId();
     			}
            	}
-           	String title = "手机投稿"+phoneNum;
-           	group.setTitle(title);
-           	String keyWords = "游客"+" "+phoneNum;
+           	String keyWords = "游客";
            	group.setKeywords(keyWords);
            	String place = "安徽 合肥";
            	group.setPlace(place);
-           	String author = "游客"+phoneNum;
-           	group.setAuthor(author);
-           	log.info("<<<标题:"+title);
-           	log.info("<<<关键词:"+keyWords);
+           	log.info("<<<关键字:"+keyWords);
            	log.info("<<<地点:"+place);
-           	log.info("<<<作者:"+author);
            	
 			CommonValidation.checkParamBlank(group.getTitle(), "稿件标题");
 			CommonValidation.checkParamBlank(group.getKeywords(), "关键字");

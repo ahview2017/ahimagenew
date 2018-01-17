@@ -177,7 +177,7 @@ public final class SessionUtils {
 	 */
 	public static void setSite(HttpServletRequest request, CpSite site) {
 		request.getSession(true).setAttribute(SESSION_SITE, site);
-		request.getSession(true).setMaxInactiveInterval(10800);
+		request.getSession(true).setMaxInactiveInterval(60);
 	}
 	
 	/**

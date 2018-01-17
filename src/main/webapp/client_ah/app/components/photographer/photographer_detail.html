@@ -15,45 +15,171 @@
 	    		</div>
 	    		<div class="clear"></div>
 	    	</div>
-	    	<div class="photographer_detail_Pics">
-	    		<div class="photographer_first_li">
-	    			<ul>
-	    				<li ng-repeat="item in photographerDetail.firstData track by $index">
-	    					<a ui-sref="root.newDetailList({groupId: item.ID})"><img  width="386px" height="240px"  ng-src="{{item.filePath}}"></a>
-	    				</li>
-	    				<!--  
-	    				<li><a href=""><img src="client_ah/assets/images_ah/sjah_photographer_index_09.png"></a></li>
-	    				<li><a href=""><img src="client_ah/assets/images_ah/sjah_photographer_index_09.png"></a></li>
-	    				-->
-	    			</ul>
-	    		</div>
-	    		<div class="clear"></div>
-	    		<div class="photographer_second_li">
-	    			<ul>
-	    				<li ng-repeat="item in photographerDetail.secondData track by $index">
-	    					<a ui-sref="root.newDetailList({groupId: item.ID})"><img width="585px" height="365px" ng-src="{{item.filePath}}"></a>
-	    				</li>
-	    				<!-- 
-	    				<li><a href=""><img src="client_ah/assets/images_ah/sjah_photographer_index_19.png"></a></li>
-	    				 -->
-	    			</ul>
-	    		</div>
-	    		<div class="clear"></div>
-	    		<div class="photographer_first_li">
-	    			<ul>
-	    				<li ng-repeat="item in photographerDetail.thirdData track by $index">
-	    					<a ui-sref="root.newDetailList({groupId: item.ID})"><img width="386px" height="240px" ng-src="{{item.filePath}}"></a>
-	    				</li>
-	    				<!--  
-	    				<li><a href=""><img src="client_ah/assets/images_ah/sjah_photographer_index_09.png"></a></li>
-	    				<li><a href=""><img src="client_ah/assets/images_ah/sjah_photographer_index_09.png"></a></li>
-	    				-->
-	    			</ul>
-	    		</div>
-	    		<div class="clear"></div>
-	    	</div>
+	    	<div class="detial_main_box">
+				
+                <div class="detial_content_pic" ng-show="photographerDetail.videoId==0">
+                    <div class="pic_show picDetails_bd left">
+                        <ul  ng-init="photographerDetail.clientPictureDetail({groupId: photographerDetail.single.id})">
+                            <li ng-repeat="item in photographerDetail.clientPictureDetail.pics">
+							<div class="pics_img_box">
+								<div  class="imgBOX">
+									<a href="{{item.filePath}}" target="_blank"><img ng-src="{{item.filePath}}" style="max-width:800px;max-height:560px"></a><!--width="895" height="560"-->
+								</div>
+							</div>
 
-	    	<div class="click_more_a " style="width:100%;height:30px;line-height: 30px;text-align:center;"><a href="" ng-click= "photographerDetail.showMoreSortList();" style="font-family: Microsoft YaHei;font-size: 18px;color: #747474;">更多+</a></div>
-	    	<div class="clear"></div>
+                                <div class="pic_state right">
+                                    <div class="pic_state_title">
+	                                    <div class="pic_detail_info left">
+	                                        作品信息
+	                                        <span style="color:#000;">（</span><span class="span_color_red">{{$index + 1}}</span><span style="color:#000;">/</span><span style="color:#000;">{{photographerDetail.clientPictureDetail.pictureCount}}）</span>
+	                                    </div>
+	                                    
+	                                    <div class="pic_share right">
+											
+	                                    	<div style="float:left;height:34px;line-height:34px;font-size:14px;cursor:pointer;" ng-if="photographerDetail.isThumbsUp">
+	                                    		<img src="client_ah/assets/images_ah/dz_ahrb201171026.png" style="margin-bottom:10px;" ng-click="photographerDetail.thumbsUp()" >
+	                                    		<span >{{photographerDetail.thumbsUpCount}}</span>
+	                                    	</div>
+	                                    	<div style="float:left;height:34px;line-height:34px;font-size:14px;cursor:pointer;" ng-if="!photographerDetail.isThumbsUp">
+	                                    		<img src="client_ah/assets/images_ah/dz_ahrb201171027.png" style="margin-bottom:10px;" ng-click="photographerDetail.thumbsUp()" >
+	                                    		<span style="color: #333;">{{photographerDetail.thumbsUpCount}}</span>
+	                                    	</div>
+											
+	                                    	
+	                                    	<div class="bshare-custom" style="float:right;">
+	                                    		<img ng-click="photographerDetail.popwin()" style="cursor: pointer; margin:-5px 35px 0 10px;" src="client_ah/assets/images_ah/he_xwpd_lby_pic_02.gif" height="20" width="20">
+	                                    		<!-- <a ng-click="photographerDetail.popwin()" style="cursor: pointer; position: relative;"><img src="client_ah/assets/images_ah/jiathis_ico_24x24_04.png" height="20" width="20">
+	                                    		</a>
+	                                    		<a href=""><img src="client_ah/assets/images_ah/jiathis_ico_24x24_02.png" height="20" width="20"></a> -->
+	                                    	</div>
+
+	                                    </div>
+                                    </div>
+                                    <div class="pic_state_char">
+                                        <p>图片编号：<span>{{item.id}}</span></p>
+                                        <p>尺　　寸：<span>{{item.pictureWidth}}*{{item.pictureHeight}}</span></p>
+                                        <p>格　　式：<span>EXIF</span></p>
+                                        <p>署　　名：<span>{{photographerDetail.clientPictureDetail.author}}</span></p>
+                                        <p>上传时间：<span>{{photographerDetail.clientPictureDetail.sginTime | date:'yyyy-MM-dd HH:mm:ss'}}</span></p>
+                                    </div>
+                                    <div class="pic_state_exp">
+                                        <p>图片说明：{{item.memo}}</p>
+                                    </div>
+                                    <div class="buy_onload">
+                                        <a href="javascript:void(0);" class="buy_onload_a1 left" ng-click="photographerDetail.downPic(item.id)" ng-if="!photographerDetail.showStatus"><img src="client_ah/assets/images_ah/a_sjah_detail_03.png" width="136" height="84"></a>
+                                        <a href="javascript:void(0);" class="buy_onload_a2 right" ng-click="photographerDetail.onCartPicClick(item.id)" ng-if="!photographerDetail.showStatus"><img src="client_ah/assets/images_ah/a_sjah_detail_05.png" height="84" width="136"></a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="sql">
+						<div class="tit" style="display:none;">
+							<ul style="display:none;"></ul>
+						</div>
+	                    <div class="hd">
+							<ul ng-init="photographerDetail.clientPictureDetail({groupId: photographerDetail.single.id})">
+								<li class="on" ng-repeat="item in photographerDetail.clientPictureDetail.pics"><img ng-src="{{item.filePath}}" style="max-width:171px;max-height:121px;" /></li>
+							</ul>
+							<div class="next1"><img src="client_ah/assets/images_ah/left_right_03.png" width="42" height="69"></div>
+							<div class="prev1"><img src="client_ah/assets/images_ah/left_right_05.png"  width="42" height="69"></div>
+						</div>
+               		</div>
+               </div>
+
+	            <div class="clear"></div>
+	            <div class="detail_bottom_state ng-scope">
+	               <div class="detail_bottom_state_right left" style="margin-left:20px;font-size: 18px;width:90%;">
+							<div  ng-bind-html="photographerDetail.clientPictureDetail.memo | trustHtml"></div>
+						</div>
+						<div class="clear"></div>
+	            </div>
+
+            
+            </div>
+
+            <!-- 微信弹出 -->
+			<div id="codeoutr" style="width:200px; display:none; position: absolute; right: 0px; top:145px; border: 1px solid #ccc; padding: 20px; background-color: #fff; text-align: center; border-radius: 10px; ">
+				<div style=" text-align: right;"><a style="cursor: pointer; color: #666; font-size: 12px;" ng-click="photographerDetail.popclose()">关闭</a></div>
+	        	<div id="qrcode" style="width:100px; height:100px; margin:0 auto;"></div>
+	        	<div style=" color: #666; font-size: 12px; line-height: 18px; padding:5px 5px;">打开微信或微博，使用 “扫一扫” 即可分享。 </div>
+	        </div>
 	    </div>
 	</div>
+
+<!-- 下载图片生成的订单信息模态框 -->
+<div class="modal fade" id="down-pic-order-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog w100p">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+				<h4 class="modal-title" id="myModalLabel">
+                    订单信息
+                </h4>
+			</div>
+			<div class="modal-body">
+				<table class="table table-bordered uInfo-table" ng-if="photographerDetail.orderList.length != 0">
+					<thead>
+						<tr>
+							<th class="uinfo-hd-th bdbn tac">订单ID</th>
+							<th class="uinfo-hd-th bdbn tac">订单号</th>
+							<th class="uinfo-hd-th bdbn tac">用户名</th>
+							<th class="uinfo-hd-th bdbn tac">下单时间</th>
+							<th class="uinfo-hd-th bdbn tac">状态</th>
+							<th class="uinfo-hd-th bdbn tac">总价格</th>
+							<th class="uinfo-hd-th bdbn tac">图片张数</th>
+							<th class="uinfo-hd-th bdbn tac">用户结算方式</th>
+							<th class="uinfo-hd-th bdbn tac">下载方式</th>
+						</tr>
+					</thead>
+					<tbody class="tac">
+						<tr ng-repeat="item in photographerDetail.orderList">
+							<td>{{item.id}}</td>
+							<td>{{item.orderNo}}</td>
+							<td>{{item.userName}}</td>
+							<td>{{item.createTime}}</td>
+							<td>{{item.orderStatus | orderStatusFilter}}</td>
+							<td>{{item.totalPrice}}</td>
+							<td>{{item.picCount}}</td>
+							<td>{{item.payType | payWayFilter}}</td>
+							<td>
+								<!--<a class="cursor" ng-click="singleDetail.sureDownPic(item.id,0)">图片下载</a>-->
+								<a class="cursor ml10" ng-click="photographerDetail.sureDownPic(item.id,1)">图文下载</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<h5 class="modal-title text-danger" id="myRemark" ng-if="photographerDetail.pics.length != 0">
+                    <strong>以下图片已经结算过，本次下载不计入订单内</strong>
+                </h5>
+				<table class="table table-bordered uInfo-table" ng-if="photographerDetail.pics.length != 0">
+					<thead>
+						<tr>
+							<th class="uinfo-hd-th bdbn tac">作者ID</th>
+							<th class="uinfo-hd-th bdbn tac">图片名</th>
+							<th class="uinfo-hd-th bdbn tac">稿件ID</th>
+							<th class="uinfo-hd-th bdbn tac">图片ID</th>
+							<th class="uinfo-hd-th bdbn tac">下载</th>
+						</tr>
+					</thead>
+					<tbody class="tac">
+						<tr ng-repeat="item in photographerDetail.pics">
+							<td>{{item.AUTHOR_ID}}</td>
+							<td>{{item.FILENAME}}</td>
+							<td>{{item.GID}}</td>
+							<td>{{item.PID}}</td>
+							<td rowspan="photographerDetail.pics.length">
+								<a class="cursor ml10" ng-click="photographerDetail.sureDownPicByOrderDetail(singleDetail.orderDetailId,1)">图文下载</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			</div>
+		</div>
+	</div>
+</div>

@@ -101,6 +101,7 @@ public class LoginInterceptor implements HandlerInterceptor{
 					}
 					if (user == null) {
 						// 检测到登陆异常
+						//add by xiayunan@20180116
 						responseMessage.setCode(CommonConstant.NOTLOGINCODE);
 						responseMessage.setMsg(CommonConstant.NOTLOGINMSG);
 						RudderIOHandler.renderObject(responseMessage, response);

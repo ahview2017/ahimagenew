@@ -20,12 +20,44 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 		$state, $rootScope, layerIfShow, getFullText,cityList) {
 	var vm = this;
 
+	
+	// 自动跳转到手机版
+	//检测平台
+	
+	var system ={
+		win : false,
+		mac : false,
+		xll : false
+	};
+	var p = navigator.platform;
+	system.win = p.indexOf("Win") == 0;
+	system.mac = p.indexOf("Mac") == 0;
+	system.x11 = (p == "X11") || (p.indexOf("Linux") == 0);
+	//跳转语句
+	var url=document.location.href;
+	var pcurl="/index";
+	var moblieurl="/index_m";
+	var tourl="";
+
+	if(system.win||system.mac||system.xll){//跳转到pc
+		tourl=url.replace(moblieurl,pcurl);
+	}else{
+		//跳转到手机
+		tourl=url.replace(pcurl,moblieurl);
+		window.location.href=tourl;
+	}
+	
+	
+
+
 	function initSetting() {
 		// 从cookie获取客户端用户名
 		$rootScope.client_uName = $cookies.get('client_uname');
 		$rootScope.client_logined = $cookies.get('client_logined');
 		//省市县联动数据
 		vm.msCityList = cityList.citylist;
+		//初始化验证码  add by xiayunan@20171127
+		vm.validCodeImg ='/photo/yanzhengForClient.do?tm='+Math.random();
 	}
 	//改变省的时候
 	vm.changeProv = function(prov) {
@@ -35,6 +67,11 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 			}
 		}
 	};
+	
+	//改变验证码图片 add by xiayunan@20171127
+    vm.changeValidCodeImg = function(){
+        vm.validCodeImg ='/photo/yanzhengForClient.do?tm='+Math.random();
+    }
 	
 
 	/**导航切换效果*/
@@ -70,6 +107,9 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 		$("#login_div").css("display", 'block');
 	}
 	// 初始化样式
+	$(window).resize(function() {
+        tc_center();
+    });
 	function tc_center() {
 		var _top = ($(window).height() - $("#login_div").height()) / 2;
 		var _left = ($(window).width() - $("#login_div").width()) / 2;
@@ -149,7 +189,6 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 			$("#code").attr('disabled', "true");
 			$("#code").html(nums + '秒后可重新获取');
 			clock = setInterval(doLoop, 1000); // 一秒执行一次
-			console.log("发送短信");
 			req.post('phonemsg/getPhoneVilidate.do', {
 				userName : $("#login_user").val()
 			}).success(function(resp) {
@@ -464,7 +503,7 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
         }
         return valid;
     }
-    //确认注册请求
+  //确认注册请求
     function req_Register(){
         var reqData = {
             userName: vm.loginName,
@@ -611,6 +650,7 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 				//皖风徽韵
 				if (pColumnId == 3078) {
                     vm.anhuiStyle = resp.data;
+                    
                 }
 				//历史资料
 				if (pColumnId == 3079) {
@@ -627,6 +667,17 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 				//艺苑菁华
 				if (pColumnId == 3082) {
                     vm.artEssence = resp.data;
+                    angular.forEach(vm.artEssence,function(item,index){
+                    	//if(item.name == '摄影师之家'){
+                    	if(item.name == '摄影名家'){
+                    		item.showFlag = 0;
+                    	}else if(item.name == '网上展厅'){
+                    		item.showFlag = 1;
+                    	}else{
+                    		item.showFlag = 2;
+                    	}
+                    	
+              		 });
                 }
 				//互动空间
 				if (pColumnId == 3083) {

@@ -540,18 +540,15 @@ clientModule.controller('newArticleCtrl', function ($scope, $cookies, req, md5, 
             author: vm.phoneNum,
             title: vm.title,
             people: vm.people,
-//            keywords: vm.keywords,
-            keywords: '游客',
+            keywords: vm.keywords,
             locationType: vm.locationType,
-//            place: vm.place,
-            place:'安徽 合肥',
+            place: vm.place,
             memo: vm.memo,
             remark: vm.remark,
             langType: 0,
             properties: vm.acitiveSlideTit,
             roleId: vm.adminRoleId,
-            //cateIds: vm.finalSortParam,
-            cateIds: 1766,
+            cateIds: vm.finalSortParam,
             phoneNum:vm.phoneNum,
             valicode:vm.valicode
         }).success(function(resp){
@@ -608,45 +605,44 @@ clientModule.controller('newArticleCtrl', function ($scope, $cookies, req, md5, 
             return;
         }
         if(vm.memo && vm.memo.length > 4000){
-            layer.alert('稿件说明要少于4000字');
+            layer.alert('新闻说明要少于4000字');
             return;
         }
         //add by liu.jinfeng@20170912
+        vm.finalSortParam = getChildNodesSortId();
+        if(vm.finalSortParam == ''){
+            layer.alert('请选择稿件类别');
+            return;
+        }
+        if(vm.remark && vm.remark.length > 2000){
+            layer.alert('备注要少于2000字');
+            return;
+        }
+        if(vm.people && vm.people.length > 200){
+            layer.alert('人物要少于200字');
+            return;
+        }
+        if(!vm.keywords){
+            layer.alert('请填写关键词');
+            return;
+        }
+        if(vm.keywords && vm.keywords.length > 200){
+            layer.alert('关键词要少于200字');
+            return;
+        }
         
-//        vm.finalSortParam = getChildNodesSortId();
-//        if(vm.finalSortParam == ''){
-//            layer.alert('请选择稿件类别');
-//            return;
-//        }
-//        if(vm.remark && vm.remark.length > 2000){
-//            layer.alert('备注要少于2000字');
-//            return;
-//        }
-//        if(vm.people && vm.people.length > 200){
-//            layer.alert('人物要少于200字');
-//            return;
-//        }
-//        if(!vm.keywords){
-//            layer.alert('请填写关键词');
-//            return;
-//        }
-//        if(vm.keywords && vm.keywords.length > 200){
-//            layer.alert('关键词要少于200字');
-//            return;
-//        }
-        
-//        if((!vm.selProv||!vm.selCity)){
-//            layer.alert('请填写地点');
-//            return;
-//        }
+        if((!vm.selProv||!vm.selCity)){
+            layer.alert('请填写地点');
+            return;
+        }
         
         
         
         
         //获取地点参数
-//        if(vm.locationType == 0){
-//        		vm.place = vm.selProv + ' ' + vm.selCity;
-//        }
+        if(vm.locationType == 0){
+        		vm.place = vm.selProv + ' ' + vm.selCity;
+        }
         if(vm.upMenuscriptPicArr.length == 0){
             layer.alert('请上传图片!');
             return;

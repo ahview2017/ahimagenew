@@ -107,6 +107,9 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 		$("#login_div").css("display", 'block');
 	}
 	// 初始化样式
+	$(window).resize(function() {
+        tc_center();
+    });
 	function tc_center() {
 		var _top = ($(window).height() - $("#login_div").height()) / 2;
 		var _left = ($(window).width() - $("#login_div").width()) / 2;
@@ -118,7 +121,7 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 			top : _top,
 			left : _left
 		});
-		var _top1 = 0;
+		var _top1 = ($(window).height() - $("#register_div").height()) / 2;
 		var _left1 = ($(window).width() - $("#register_div").width()) / 2;
 		$("#register_div").css({
 			top : _top1,

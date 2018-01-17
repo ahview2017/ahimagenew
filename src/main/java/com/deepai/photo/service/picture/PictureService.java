@@ -98,6 +98,8 @@ public class PictureService {
 			}
 			CpPicture pic=uploadOnePic(picFiles[i], filename, siteId, userId);
 			pic.setSmallPath(CommonConstant.SMALLHTTPPath+ImgFileUtils.getSamllPathByName(filename,request));
+//			pic.setWmPath(CommonConstant.WATERMEDIUM+ImgFileUtils.getWMPathByName(filename, request));
+			pic.setWmPath(CommonConstant.SMALLHTTPPath+ImgFileUtils.getWMPathByName(filename,request));
 			/*Map<String,Object> map=new HashMap<String, Object>();
 			map.put("picId",pic.getId());
 			map.put("fileTime",pic.getFilmTime());

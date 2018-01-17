@@ -44,7 +44,52 @@ alter table cp_user_delete add  HOMEPAGE_COLUMNID int(11) default '0' COMMENT '�
 alter table cp_user_delete add  USER_DETAIL varchar(8000) DEFAULT NULL COMMENT '用户简介';
 alter table cp_user_delete add  USER_CLASS int(11) default '0' NULL COMMENT '用户分类 0：其它 1：摄影名家 2：艺术家';
 
-ALTER TABLE cp_picture ADD PRIMARY KEY cp_pictur_GROUP_ID_DELETE_FLAG (GROUP_ID,DELETE_FLAG) 
+ALTER TABLE cp_picture ADD PRIMARY KEY cp_pictur_GROUP_ID_DELETE_FLAG (GROUP_ID,DELETE_FLAG)
+
+
+/**************add by hexinxin@20180110************/
+CREATE INDEX cp_pic_group_ID_AUTHOR_ID
+  ON cp_pic_group (ID,AUTHOR_ID);
+
+CREATE INDEX cp_pic_group_ID
+  ON cp_pic_group (ID);
+
+CREATE INDEX cp_picture_GROUP_ID
+  ON cp_picture (GROUP_ID);
+
+CREATE INDEX cp_pic_group_category_GROUP_ID
+  ON cp_pic_group_category (GROUP_ID);
+
+CREATE INDEX cp_user_ID
+  ON cp_user (ID);
+
+
+CREATE INDEX cp_category_ID
+  ON cp_category (ID);
+
+CREATE INDEX cp_pic_group_process_PICGROUP_ID_FLOW_TYPE
+  ON cp_pic_group_process (PICGROUP_ID,FLOW_TYPE);
+
+CREATE INDEX cp_group_push_GROUP_ID
+  ON cp_group_push (GROUP_ID);
+
+CREATE INDEX cp_pic_group_category_CATEGORY_ID
+  ON cp_pic_group_category (CATEGORY_ID);
+
+CREATE INDEX cp_log_id
+  ON cp_log (id);
+
+CREATE INDEX cp_log_type_id
+  ON cp_log_type (id);
+  
+  
+/**************add by xiayunan@20180115************/
+ALTER TABLE cp_picture ADD INDEX cp_picture_GROUP_ID_DELETE_FLAG(GROUP_ID,DELETE_FLAG);	
+ALTER TABLE cp_pic_group_category ADD INDEX cp_pic_group_category_CATEGORY_ID_TYPE(CATEGORY_ID,TYPE);
+ALTER TABLE cp_pic_group_process ADD INDEX cp_pic_group_process_PICGROUP_ID_FLOW_TYPE(PICGROUP_ID,FLOW_TYPE);	
+ALTER TABLE cp_pic_allpath ADD INDEX cp_pic_allpath_TRAGET_ID_PIC_TYPE(PICGROUP_ID,PIC_TYPE);	
+  
+
 
 
 

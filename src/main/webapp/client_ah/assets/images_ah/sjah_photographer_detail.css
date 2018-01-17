@@ -1,9 +1,10 @@
-@charset utf-8;
+@charset:"utf-8";
 
 .sjah_photographer_content{
 	width:1200px;
 	margin:0 auto;
 	height:auto;
+	font-family:"Microsoft Yahei","微软雅黑";
 }
 .sjah_photographer_content_pic{
 	width:1200px;
@@ -53,11 +54,13 @@
 	width:100%;
 	height:50px;
 	line-height: 50px;
+	background:url(sjah_photographer_detail_0116.png) repeat-x center;
 }
 .sjah_photographer_name span{
 	font-size:32px;
 	font-weight: bolder;
-	padding:0 2px;
+	padding:0 5px;
+	background:#fff;
 }
 .sjah_photographer_name_line{
 	height: 0px;
@@ -167,4 +170,19 @@
 	font-size: 14px;
 	padding:0 10px;
 	margin-top:15px;
+}
+
+
+/*活动页面css*/
+
+.activity_header{
+	width: 1200px;
+    height: 300px;
+    background: url(activity_index_01.jpg) no-repeat center;
+    margin-top: 20px;
+    background-size: 100%;
+}
+.activity_content p{
+	line-height:32px;
+	font-size:16px;
 }
