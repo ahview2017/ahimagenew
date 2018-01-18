@@ -1439,10 +1439,9 @@ adminModule.controller('userManageCtrl', function($scope, $cookies, req, md5, $s
 			
 		}).success(function(resp) {
 			if(resp.code == '211') {
-				
 				$('#update-uinfo-save-btn').prop('disabled', false);
 				layer.alert('编辑用户成功');	
-				//modalOperate.modalHide('user-info-modal');
+				modalOperate.modalHide('user-info-modal');
 				getUserManageData(vm.isReMyRoleIdFlag, vm.searchType, false, vm.pagination.current, "");
 			    vm.editUserTypeArray = [];
 			    vm.editdirectionstr='';

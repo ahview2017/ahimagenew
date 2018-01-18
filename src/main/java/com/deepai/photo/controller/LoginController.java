@@ -159,11 +159,11 @@ public class LoginController {
             	scode = (String) request.getSession().getAttribute("scodeClient");
 //                scode = redisClientTemplate
 //                        .get("USERNAME" + userName + vilidate);
-//                if(scode==null){
-//                    res.setCode(CommonConstant.EXCEPTIONCODE);
-//                    res.setMsg("验证码无效");
-//                    return res;
-//                }
+                if(scode==null){
+                    res.setCode(CommonConstant.EXCEPTIONCODE);
+                    res.setMsg("验证码无效");
+                    return res;
+                }
             }
 			String lowerCase = scode.toLowerCase();
 			if (lowerCase.equalsIgnoreCase(vilidate) || scode.equalsIgnoreCase(vilidate)) {

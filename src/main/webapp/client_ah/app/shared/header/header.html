@@ -1,17 +1,17 @@
 <div class="main">
 	<div class="header">
 		<div class="header_left left"></div>
-		<div class="header_right right">
+		<div class="header_right right" style="width: 810px;">
 			<div class="search_box left">
 				<form action="">
 					<input ng-model="header.searchAllName" type="text" class="input_text"> 
 					<input ng-click="header.searchAll()" type="submit" value="搜索" rel="index_submit">
 				</form>
 			</div>
-			<div class="login right">
+			<div class="login right" style="width: 300px;">
 				<div class="login_left left">
 					<span ng-show="(client_logined)"><a
-						href="javascript:void(0);">{{client_uName}}</a></span> <span
+						href="javascript:void(0);">{{client_uTrueName}}，你好！</a></span> <span
 						ng-show="(client_logined)"><a href="javascript:void(0);"
 						ng-click="header.logOut()">【退出】</a></span> <span
 						ng-show="(!client_logined)"><a href="javascript:void(0);"
@@ -39,7 +39,7 @@
 
 		<div class="login_content">
 			<div class="login_name">
-				<span>登录名：</span> <input rel="text" type="text" name="login_name"
+				<span>用户名：</span> <input rel="text" type="text" name="login_name"
 					id="login_user">
 			</div>
 			<div class="login_psd">
@@ -86,7 +86,7 @@
 
 					<!-- 登录名、真实姓名 -->
 					<tr>
-						<td align="right">登录名：</td>
+						<td align="right"><font color="#f00">*</font>用户名：</td>
 						<td>
 							<input type="text" rel="register" name="loginName" ng-model="header.loginName" ng-blur="header.req_checkHoverUserExist()">
 						</td>
@@ -126,8 +126,8 @@
 						<td>
 							<select name="" id="" ng-model="header.applyCategory">
 								<option value="">--请选择--</option>
-								<option value="5">投稿</option>
-								<option value="3">购图</option>
+								<option value="96">投稿</option>
+								<option value="5">购图</option>
 							</select>
 						</td>
 						
@@ -150,7 +150,7 @@
 
 					<!-- 通讯地址 -->
 					<tr>
-						<td>通讯地址：</td>
+						<td><font color="#f00">*</font>通讯地址：</td>
 						<td colspan="3">
 							<input type="text" rel="register" name="register_address"
 							ng-model="header.contactAddress" style="width:365px;">

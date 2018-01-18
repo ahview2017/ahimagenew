@@ -181,7 +181,6 @@ public class UserController {
 		ResponseMessage result = new ResponseMessage();
 		try {
 
-			log.info("<<<<<<<<<<<<<<<<orderTime:"+orderTime);
 			List<Map<String, Object>> userList = getAdvancedSearchData(request, userName, userId, roleId, userStatus,
 					direction, zone, province, langType, city, telContact, emailBind, telBind, standBy1, standBy2,
 					trueName, subScriberType, userType, unitFlax, unitTel, authorName, address, unitName, unitAddress,
@@ -791,17 +790,17 @@ public class UserController {
 						opeContent +="帐号或卡号,";
 						flag = true;
 					}
-					if(!s.getMailAddress().equals(user.getMailAddress())){
+					if(s.getMailAddress()!=null&&!s.getMailAddress().equals(user.getMailAddress())){
 						content +="通信地址为："+user.getMailAddress()+",";
 						opeContent +="通信地址,";
 						flag = true;
 					}
-					if(!s.getMailUsername().equals(user.getMailUsername())){
+					if(s.getMailUsername()!=null&&!s.getMailUsername().equals(user.getMailUsername())){
 						content +="收稿费姓名："+user.getMailUsername()+",";
 						opeContent +="收稿费姓名,";
 						flag = true;
 					}
-					if(!s.getMailZipCode().equals(user.getMailZipCode())){
+					if(s.getMailZipCode()!=null&&!s.getMailZipCode().equals(user.getMailZipCode())){
 						content +="收稿费邮政编码："+user.getMailZipCode()+",";
 						opeContent +="收稿费邮政编码,";
 						flag = true;

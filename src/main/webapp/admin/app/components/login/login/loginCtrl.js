@@ -126,7 +126,8 @@ adminModule.controller('loginCtrl', function ($scope, $cookies, req, md5, $state
     function saveUserInfo(userInfo, roleInfo) {
         //设置过期日期
         var expireDate = new Date();
-        expireDate.setDate(expireDate.getDate() + 30);
+//        expireDate.setDate(expireDate.getDate() + 30);
+        expireDate.setDate(expireDate.getDate() + 180);
         roleInfoSt = angular.toJson(roleInfo, true);
         //设置cookies
         $cookies.put("client_uid", userInfo.id, {path: '/'});

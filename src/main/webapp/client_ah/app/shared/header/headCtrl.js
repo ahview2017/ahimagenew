@@ -52,7 +52,8 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 
 	function initSetting() {
 		// 从cookie获取客户端用户名
-		$rootScope.client_uName = $cookies.get('client_uname');
+		//$rootScope.client_uName = $cookies.get('client_uname');
+		$rootScope.client_uTrueName = $cookies.get('admin_tureName');
 		$rootScope.client_logined = $cookies.get('client_logined');
 		//省市县联动数据
 		vm.msCityList = cityList.citylist;
@@ -313,7 +314,8 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 	function saveUserInfo(userInfo, roleInfo) {
 		// 设置过期日期
 		var expireDate = new Date();
-		expireDate.setDate(expireDate.getDate() + 30);
+		//expireDate.setDate(expireDate.getDate() + 30);
+		expireDate.setDate(expireDate.getDate() + 180);
 		roleInfoStr = angular.toJson(roleInfo, true);
 		// 设置cookies
 		$cookies.put("client_uid", userInfo.id, {
@@ -338,10 +340,10 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 			expires : expireDate,
 			path : '/'
 		});
-		$cookies.put("admin_roleInfo", roleInfoStr, {
-			expires : expireDate,
-			path : '/'
-		});
+//		$cookies.put("admin_roleInfo", roleInfoStr, {
+//			expires : expireDate,
+//			path : '/'
+//		});
 		$cookies.put("admin_tureName", userInfo.tureName, {
 			expires : expireDate,
 			path : '/'
@@ -360,6 +362,27 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 		// JSON.stringify(vm.userRight);
 		// add by liu.jinfeng@20170910 定义变量区分是否登录
 		$cookies.put("client_logined", true);
+		
+		
+		//前台登录成功角色信息不显示Bug修复 add by xiayunan@20180118
+		var roleInfoStr0 = [];
+        var roleInfoStr1 = [];
+        var roleInfoSt = eval(roleInfoStr);
+        for(var i in roleInfoSt){
+        	if(roleInfoSt[i].langType == 0 || roleInfoSt[i].langType == null){
+        		roleInfoStr0.push(roleInfoSt[i]);
+        	}else if(roleInfoStr[i].langType == 1){
+        		roleInfoStr1.push(roleInfoSt[i]);
+        	}
+        }
+        
+        
+        var roleInfoStr_0 = angular.toJson(roleInfoStr0,true)
+        var roleInfoStr_1 = angular.toJson(roleInfoStr1,true)
+        $cookies.put("admin_roleInfo_0", roleInfoStr_0, {expires: expireDate, path: '/'});
+        $cookies.put("admin_roleInfo_1", roleInfoStr_1, {expires: expireDate, path: '/'});
+		
+		
 	}
 	/* setup(); */
 
@@ -409,9 +432,14 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
         var postCode = /^[1-9][0-9]{5}$/;
         var charLen = /^.{8,16}$/;
         var pwdHintQue = /^.{0,20}$/;
+        var regEmail = /^([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+(\.[a-zA-Z]{2,3})+$/;
         //验证用户信息
         if(!valid_Info()) return;
 
+        if(!vm.contactAddress){
+        	layer.alert('请输入通讯地址');
+            return;
+        }
         if(!vm.applyCategory){
         	layer.alert('请选择申请类别');
             return;
@@ -464,6 +492,10 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
             layer.alert('请填写正确格式的邮政编码');
             return;
         }
+        
+        
+        
+        
         if(form.contactPhone.$error.pattern){
             layer.alert('请输入正确格式的联系电话');
             return;
@@ -476,10 +508,16 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
         	layer.alert('请输入正确格式的验证码');
         	return;
         }
-        if(form.mail.$error.required || form.mail.$error.pattern){
-            layer.alert('请输入正确格式的邮箱');
+        
+        //add by xiayunan@20180118
+        if(!(regEmail.test(vm.mail))){
+            layer.alert('请填写正确格式的邮箱');
             return;
         }
+//        if(form.mail.$error.required || form.mail.$error.pattern){
+//            layer.alert('请输入正确格式的邮箱');
+//            return;
+//        }
         if(vm.standby1 && !(standby1.test(vm.standby1))){
             layer.alert('请输入正确格式的QQ号码');
             return;
@@ -531,7 +569,6 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
             isPublish: $('input[name="publishInfo"]:checked ').val()=='0'?0:1,
             langType:0
         };
-        console.log(reqData);
         req.post('login/registerOne.do',reqData).success(function(resp){
             if(resp.code == '211'){
             	$('#register_form')[0].reset();//清空表单
