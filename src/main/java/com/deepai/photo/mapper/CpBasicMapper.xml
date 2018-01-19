@@ -361,7 +361,7 @@
   </select>
   <select id="selectUserByCreate" parameterType="map" resultType="map">
   	<include refid="base_select_user"/> 
-  	ORDER BY t.CREATE_TIME DESC
+  	ORDER BY t.USER_STATUS DESC,t.CREATE_TIME DESC
   </select>
   
   <select id="selectUserByOrderId" parameterType="map" resultType="map">

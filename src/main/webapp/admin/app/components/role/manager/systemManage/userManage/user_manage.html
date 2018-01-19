@@ -66,7 +66,8 @@
 							</span>
 							</td>
 							<td class='langType_tog langtype_color wbba' value='' style="width:6%;">{{item.USER_ORDER}}</td>
-							<td class='user_status_color wbba' style="width:8%;">{{item.USER_STATUS|userManageTypeFilter}}</td>
+							<td class='user_status_color wbba' ng-show="item.USER_STATUS!=0"  style="width:8%;color: red;" >{{item.USER_STATUS|userManageTypeFilter}}</td>
+							<td class='user_status_color wbba' ng-show="item.USER_STATUS==0" style="width:8%;">{{item.USER_STATUS|userManageTypeFilter}}</td>
 							<td class='last_login_time_color wbba' style="width:10%;">
 								<p>{{item.LAST_LOGIN_TIME|date:'yyyy-MM-dd'}}</p>
 								<p>{{item.LAST_LOGIN_TIME|date:'HH:mm:ss'}}</p>
@@ -1123,9 +1124,6 @@
 							</div>
 							
 							
-							
-							
-							
 							<!-- 添加用户分类 0:摄影名家 1：艺术家：2：其它  add by xiayunan@20171117 -->
 							<div class="clear user-info-stage-item">
 								<div class="user-user-each-item">
@@ -1146,9 +1144,6 @@
 								</div>
 								
 							</div>
-							
-							
-							
 							
 						</div>
 					</div>

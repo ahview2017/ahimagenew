@@ -158,7 +158,6 @@ adminModule.controller('userManageCtrl', function($scope, $cookies, req, md5, $s
 		vm.updateBtnIfUseFlag = false;
 
 		//从cookie获取角色id
-		console.log($cookies.get('admin_roleId'));
 		vm.reMyRoleId = $cookies.get('admin_roleId');
 
 		//从路由里取得权限ID，区分不同权限：用户管理:206,摄影师：276，订户管理：277
@@ -220,7 +219,6 @@ adminModule.controller('userManageCtrl', function($scope, $cookies, req, md5, $s
 		}).success(function(resp) {
 			if(resp.code == '211') {
 				vm.userRoleList = resp.data;
-				console.log(vm.userRoleList);
 			} else if(resp.msg != '未登录') {
 				layer.alert(resp.msg);
 			}
@@ -426,10 +424,8 @@ adminModule.controller('userManageCtrl', function($scope, $cookies, req, md5, $s
 			layer.alert("请勾选需要导出的用户信息");
 			return;
 		}
-		console.log(exportResult);
 		var userInfo = angular.toJson(exportResult);
 		getUserManageData(vm.isReMyRoleIdFlag, vm.searchType, true, 1, userInfo);
-		console.log(exportResult);
 	}
 	//展开获取更多导出字段
 	$('.user-export-modal-ll').height(377);
@@ -555,7 +551,6 @@ adminModule.controller('userManageCtrl', function($scope, $cookies, req, md5, $s
 			req.post(searchUrl, paramsObj).success(function(resp) {
 				if(resp.code == '211') {
 					vm.userManageArray = resp.data;
-					console.log(resp.data);
 					$rootScope.user_namecolor = vm.userManageArray; //设置摄影师被禁用时样式
 					vm.userList_total = resp.other;
 					vm.pagination.current = pageNumber;
@@ -835,8 +830,6 @@ adminModule.controller('userManageCtrl', function($scope, $cookies, req, md5, $s
 						vm.adddirectionstr += 0;
 					};
 				}
-				console.log(vm.adddirectionArray);
-				console.log(vm.adddirectionstr+','+typeof(vm.adddirectionstr));
 			}else{
 				vm.adddirectionstr='00000000';
 			}
@@ -1006,7 +999,7 @@ adminModule.controller('userManageCtrl', function($scope, $cookies, req, md5, $s
 		vm.editUserName = editItemData['USER_NAME'];
 		vm.payUserName = vm.editUserName;
 		
-		var editRoleArray = editItemData['roles'];	console.log(editRoleArray);	
+		var editRoleArray = editItemData['roles'];	
 		vm.editUserTypeArray = [];
 		
 		if(editRoleArray != null && editRoleArray.length > 0) {
@@ -1032,7 +1025,6 @@ adminModule.controller('userManageCtrl', function($scope, $cookies, req, md5, $s
 		
 		var directionArray = editItemData['PHOTOGRAPHY_DIRECTION'];	
 		
-		console.log(directionArray);
 		var j=0;
 		vm.editdirectionArray=[];
         if(directionArray != null && directionArray.length > 0) {
@@ -1049,7 +1041,6 @@ adminModule.controller('userManageCtrl', function($scope, $cookies, req, md5, $s
 			}
 			
 		} 
-		console.log(vm.editdirectionArray);
 		vm.payMoney = editItemData['ACCOUNT'];
 		vm.editTrueName = editItemData['TURE_NAME'];
 		vm.editlangType = '' + editItemData['LANG_TYPE'] + '';
@@ -1296,7 +1287,6 @@ adminModule.controller('userManageCtrl', function($scope, $cookies, req, md5, $s
 		vm.editdirectionstr = '';	
 		if(vm.editphotodirection){
 			var selectedresults = '';
-			console.log(vm.editdirectionArray.length);
 			if(vm.editdirectionArray.length > 0) {
 				for(var j = 0; j < vm.editdirectionArray.length; j++) {
 					selectedresults += vm.editdirectionArray[j].id;
@@ -1308,8 +1298,6 @@ adminModule.controller('userManageCtrl', function($scope, $cookies, req, md5, $s
 						vm.editdirectionstr += 1;
 					};
 				}
-				console.log(selectedresults+','+typeof(selectedresults));
-				console.log(vm.editdirectionstr+'+'+typeof(vm.editdirectionstr));
 			}else{
 				vm.editdirectionstr='00000000';
 			}
@@ -1815,7 +1803,6 @@ adminModule.controller('userManageCtrl', function($scope, $cookies, req, md5, $s
 		}).success(function(resp) {
 			if(resp.code == '211') {
 				vm.addRoleArray = resp.data;
-				console.log(resp.data);
 				vm.editRoleArray = resp.data;
 			} else if(resp.msg != '未登录') {
 				layer.alert(resp.msg);

@@ -764,7 +764,7 @@ public class PhoneMSGController {
 
         CommonValidation.checkParamBlank(phoneNum, "手机号");
         // 正则验证手机号码是否合法
-        final String REGEX_MOBILE = "^((17[0-9])|(14[0-9])|(13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";
+        final String REGEX_MOBILE = "^((17[0-9])|(14[0-9])|(13[0-9])|(15[^4,\\D])|(18[0-9]))\\d{8}$";
         if (!Pattern.matches(REGEX_MOBILE, phoneNum)) {
             result.setCode(CommonConstant.EXCEPTIONCODE);
             result.setMsg(CommonConstant.EXCEPTIONMSG);
