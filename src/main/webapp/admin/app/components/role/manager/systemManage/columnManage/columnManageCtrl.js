@@ -58,7 +58,6 @@ adminModule.controller('columnManageCtrl', function ($scope, $cookies, req, md5,
 				"langType":$scope.langType
 	        }).success(function (resp) {
 	            if (resp.code == '211') {
-	            	console.log(resp.data);
 	                vm.sortDetailsArray = resp.data;
 	                jQuery.fn.zTree.destroy("tree");
 	                var setting = {
@@ -91,7 +90,6 @@ adminModule.controller('columnManageCtrl', function ($scope, $cookies, req, md5,
 	                zTreeOnClick(oneParentNode);
 	            } else {
 	                vm.sortDetailsArray = [];
-	                console.log(resp.msg);
 	            }
 	        });
 	    }
@@ -381,7 +379,6 @@ adminModule.controller('columnManageCtrl', function ($scope, $cookies, req, md5,
                 vm.totalPages = resp.page;
                 vm.specialList_total = resp.other;
             } else {
-                console.log(resp.msg);
             }
         });
     }
@@ -476,7 +473,6 @@ adminModule.controller('columnManageCtrl', function ($scope, $cookies, req, md5,
                     getSpecialTableData(vm.pagination.current,vm.specialSearchName);
                     layer.msg(resp.msg ? resp.msg : '删除成功', {time: 2000});
                 } else {
-                    console.log(resp.msg);
                 }
             });
         }, function () {
@@ -557,7 +553,6 @@ adminModule.controller('columnManageCtrl', function ($scope, $cookies, req, md5,
                 layer.alert(resp.data.msg ? resp.data.msg : '专题保存失败', {time: 2000});
             }
         }, function (resp) {
-            // console.log('Error status: ' + resp.status);
         }, function (evt) {
             // var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
         });
@@ -654,7 +649,6 @@ adminModule.controller('columnManageCtrl', function ($scope, $cookies, req, md5,
                 layer.alert(resp.data.msg ? resp.data.msg : '专题修改失败');
             }
         }, function (resp) {
-            // console.log('Error status: ' + resp.status);
         }, function (evt) {
             // var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
 

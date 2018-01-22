@@ -82,7 +82,6 @@ adminModule.controller('mDraftboxCtrl', function ($scope, $cookies, req, md5, $s
             langType:window.localStorage.lang
         }).success(function (resp) {
             if (resp.code == '211') {
-                console.log('success');
                 vm.draftboxList = resp.data;
                 vm.totalPages = resp.page;
                 vm.draftList_total = resp.other;
@@ -144,10 +143,8 @@ adminModule.controller('mDraftboxCtrl', function ($scope, $cookies, req, md5, $s
         for (var key in vm.selGroupIds) {
             if (vm.selGroupIds[key]) {
                 vm.selKeyArr.push(key);
-                console.log(vm.selKeyArr.length);
             }
         }
-        console.log(vm.selKeyArr.length);
     }
 
     //获取稿件id

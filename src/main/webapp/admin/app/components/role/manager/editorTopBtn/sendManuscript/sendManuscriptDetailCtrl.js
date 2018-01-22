@@ -28,7 +28,6 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 
 	// 页面初始化
 	function init() {
-		console.log('init');
 		initSetting();
 		getMasBaseUrl();
 		getManuscriptDetails();
@@ -36,8 +35,6 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 		// 从service里取得我的值班级别的数据，实现数据持久化
 		getMyDuty.req_getMyDuty(function(type) {
 			vm.mydutyType = type;
-			console.log("vm.mydutyType:"+vm.mydutyType);
-			console.log(typeof vm.mydutyType);
 		})
 	}
 
@@ -128,7 +125,6 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 
 	function treeCheckEvent(event, treeId, treeNode, clickFlag) {
 
-		console.log(treeNode.id);
         if(window.localStorage.lang==0){
         	var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
 		    var treeObj_node = treeObj.getNodes()[0].children;
@@ -139,18 +135,15 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 	}
 
 	function treeCheckEvents(event, treeId, treeNode, clickFlag) {
-		console.log(treeNode.id);
 	}
 
 	// 获取签发的参数
 	function getSignParams(callback) {
 		var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
 		var nodes = treeObj.getCheckedNodes(true);
-		console.log(nodes);
 
 		var treeObjs = $.fn.zTree.getZTreeObj("tree");
 		var nodess = treeObjs.getCheckedNodes(true);
-		console.log(nodess);
 		if(nodes.length == 0 && nodess.length == 0) {
 			layer.alert('请至少选中一个签发类型');
 			return;
@@ -174,7 +167,6 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 			}
 
 		}
-		console.log(vm.signReqParamData);
 		if(callback) callback();
 	}
 
@@ -184,7 +176,6 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 
 		var treeObj = $.fn.zTree.getZTreeObj("tree");
 		var nodes = treeObj.getCheckedNodes(true);
-		console.log(nodes);
 		if(nodes.length == 0 && nodess.length == 0) {
 			layer.alert('请至少选中一个签发类型');
 			return;
@@ -196,7 +187,6 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 				position: positions
 			});
 		}
-		console.log(vm.signlanmu);
 		if(callback) callback();
 	}
 
@@ -206,7 +196,6 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 		function(resp) {
 			if(resp.code == '211') {
 				$scope.zNodes = resp.data;
-				console.log(resp.data);
 			} else if(resp.msg != '未登录') {
 				layer.alert(resp.msg);
 			}
@@ -225,8 +214,6 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 					}
 				}
 				$scope.data = data_a;
-				console.log(resp.data);
-				console.log($scope.data);
 			} else if(resp.msg != '未登录') {
 				layer.alert(resp.msg);
 			}
@@ -413,7 +400,6 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 				vm.fristPfdUser = resp.data.fristPfdUser;
 				vm.msDelRemark = resp.data.delRemark;
 				vm.sensitiveWord = resp.msg;
-				console.log('success');
 			} else if(resp.msg != '未登录') {
 				layer.alert(resp.msg);
 			}
@@ -522,7 +508,6 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 			groupId: vm.groupId
 		}).success(function(resp) {
 			if(resp.code == '211') {
-				console.log('success');
 				layer.msg('操作成功');
 				modalOperate.modalHide(modalId);
 				getManuscriptDetails();
@@ -538,7 +523,6 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 			groupId: vm.groupId
 		}).success(function(resp) {
 			if(resp.code == '211') {
-				console.log('success');
 				modalOperate.modalHide(modalId);
 				layer.msg('操作成功');
 				getManuscriptDetails();
@@ -589,7 +573,6 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 			content: vm.backManuscriptReson
 		}).success(function(resp) {
 			if(resp.code == '211') {
-				console.log('success');
 				modalOperate.modalHide(modalId);
 				layer.alert('操作成功');
 				$state.go('role.manager.sendManuscript');
@@ -633,7 +616,6 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 			groupId: vm.groupId
 		}).success(function(resp) {
 			if(resp.code == '211') {
-				console.log('success');
 				layer.alert('操作成功');
 				vm.mangeOperateFlag = !vm.mangeOperateFlag;
 				getManuscriptDetails();
@@ -650,7 +632,6 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 			langType:$scope.langType
 		}).success(function(resp) {
 			if(resp.code == '211') {
-				console.log('success');
 				layer.alert('操作成功');
 				vm.mangeOperateFlag = !vm.mangeOperateFlag;
 				getManuscriptDetails();
@@ -671,7 +652,6 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 			groupId: vm.groupId
 		}).success(function(resp) {
 			if(resp.code == '211') {
-				console.log('success');
 				$state.go('role.manager.sendManuscriptEdit', {
 					id: vm.groupId,
 					dtType: vm.dtType,
@@ -718,7 +698,6 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 			"user": vm.uName
 		}).success(function(resp) {
 			if(resp.code == '211') {
-				console.log('success');
 				layer.msg('操作成功')
 				getManuscriptDetails();
 				modalOperate.modalHide(modalId);
@@ -757,7 +736,6 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 		}).success(function(resp) {
 			layer.close(vm.loadUpMs);
 			if(resp.code == '211') {
-				console.log('success');
 				layer.msg('操作成功');
 				getManuscriptDetails();
 				modalOperate.modalHide(modalId);
@@ -779,7 +757,6 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 			for(var i = 0; i < nodes.length; i++) {
 				lanmu.push(nodes[i].id);
 			}
-			console.log(lanmu);
 			var signlanmu = [] //定义一数组存放栏目id和显示的位置
 			for(var i = 0; i < lanmu.length; i++) {
 				var options = $("#diyBtn_" + lanmu[i] + " " + "option:selected"); //获取选中的项的value
@@ -789,7 +766,6 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 					lanmuId: lanmu[i]
 				});
 			}
-			console.log(signlanmu);
 		}
 		for(var i = 0; i < vm.signlanmu.length; i++) {
 			req.post('lanmu/addLanmuPic.do', {
@@ -800,7 +776,6 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 			}).success(function(resp) {
 				layer.close(vm.loadUpMs);
 				if(resp.code == '211') {
-					console.log('------success-----');
 					layer.msg('操作成功----');
 					getManuscriptDetails();
 					modalOperate.modalHide(modalId);

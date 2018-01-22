@@ -145,7 +145,6 @@ clientModule.controller('artPhotoCtrl', function ($scope, $cookies, req, md5, $s
                 }
 				
 			} else {
-				console.log(resp.msg);
 			}
 		});
 	}
@@ -190,22 +189,18 @@ clientModule.controller('artPhotoCtrl', function ($scope, $cookies, req, md5, $s
 				//视频
 				if (signId == 3081) {
                     vm.anhuiVideo = jugeGroupPos.jugeGroupPos(3081,resp.data);
-					console.log(vm.anhuiVideo);
                 }
 				//数字报刊
 				if (signId == 3097) {
                     vm.ericNewsPaper = jugeGroupPos.jugeGroupPos(3097,resp.data);
-					console.log(vm.ericNewsPaper);
                 }
 				//互动空间
 				if (signId == 3083) {
                     vm.interactiveSpace = jugeGroupPos.jugeGroupPos(3097,resp.data);
-					console.log(vm.interactiveSpace);
                 }
 				//专题图片
 				if (signId == 3077) {
                     vm.ahhuiTopics = jugeGroupPos.jugeGroupPos(3077,resp.data);
-					console.log(vm.ahhuiTopics);
                 }
 				
 				

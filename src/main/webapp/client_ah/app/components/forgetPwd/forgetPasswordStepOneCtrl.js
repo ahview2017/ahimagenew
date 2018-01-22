@@ -43,7 +43,6 @@ clientModule.controller('forgetPasswordStepOneCtrl',function($scope,$cookies,req
         var registerTimer = setInterval(function(){
             if(--valCount>0){
                 viliCount.innerHTML = valCount;
-                console.log("================"+valCount);
             }
             else
             {

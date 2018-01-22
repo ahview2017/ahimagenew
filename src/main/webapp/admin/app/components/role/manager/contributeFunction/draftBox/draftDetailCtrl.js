@@ -37,7 +37,6 @@ adminModule.controller('mDraftDetailCtrl', function ($scope, $cookies, req, md5,
                 vm.manuscriptProperties = resp.data.properties;
                 vm.manuscriptCates = resp.data.cates;
                 vm.groupStatus = resp.data.groupStatus;
-                console.log('success');
             }else if(resp.msg != '未登录'){
                 layer.alert(resp.msg);
             }
@@ -117,7 +116,6 @@ adminModule.controller('mDraftDetailCtrl', function ($scope, $cookies, req, md5,
             groupId: vm.groupId
         }).success(function (resp) {
             if (resp.code == '211') {
-                console.log('success');
                 $state.go('role.manager.draftEdit', {
                     id: vm.groupId
                 });

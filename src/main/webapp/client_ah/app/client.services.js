@@ -72,7 +72,6 @@ angular.module('client.services', [])
                 if(resp.code == '211'){
                     if (callback) callback(resp);
                 }else{
-                    console.log(resp.msg);
                 }
             });
         }
@@ -88,7 +87,6 @@ angular.module('client.services', [])
                 if(resp.code == '211'){
                     if (callback) callback(resp);
                 }else{
-                    console.log(resp.msg);
                 }
             });
         }

@@ -87,7 +87,6 @@ clientModule.controller('myOrderCtrl',function($scope,$cookies,req,md5,$state,$r
             createEndTime: vm.search.createEndTime,
         }).success(function(resp){
             if(resp.code == '211'){
-                console.log('success');
                 vm.myOrderList = resp.data;
                 vm.myOrder_total = resp.other;
                 vm.myOrderPages = resp.page;

@@ -1,6 +1,5 @@
 adminModule.controller('groupManageCtrl', function(req, $scope) {
 	var vm = this;
-	console.log("groupManageCtrl");
 	//初始化数据
 	vm.groupName = '';
 	vm.groupNames = '';
@@ -39,7 +38,6 @@ adminModule.controller('groupManageCtrl', function(req, $scope) {
 			})
 			.success(function(resp) {
 				if(resp.code == '211') {
-					console.log(resp);
 					vm.groupList = resp.data;
 					vm.totalPages = resp.page;
 					vm.userList_total = resp.other;
@@ -70,7 +68,6 @@ adminModule.controller('groupManageCtrl', function(req, $scope) {
 		$('.group_select:checked').each(function() {
 			deleteResult += this.value + ',';
 		});
-		console.log(deleteResult);
 		vm.deleteGroup(deleteResult);
 
 	};
@@ -149,7 +146,6 @@ adminModule.controller('groupManageCtrl', function(req, $scope) {
 			})
 			.success(function(resp) {
 				if(resp.code == '211') {
-					console.log(resp.data);
 					$('.goup_update_na').show();
 					for(var i = 0; i < resp.data.length; i++) {
 						if(resp.data[i].id == groupid) {
@@ -175,7 +171,6 @@ adminModule.controller('groupManageCtrl', function(req, $scope) {
 			rows: vm.selPageRows
 		}).success(function(resp) {
 			if(resp.code == '211') {
-				console.log(resp.msg);
 				layer.alert("修改成功！");
 				$('.goup_update_na').hide();
 				//getGroup(); //刷新数据

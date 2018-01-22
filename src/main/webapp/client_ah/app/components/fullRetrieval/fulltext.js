@@ -99,10 +99,8 @@ clientModule.controller('fullTextCtrl',function($scope,$cookies,req,md5,$state,$
         for (var key in vm.selPicIds) {
             if (vm.selPicIds[key]) {
                 vm.selKeyArr.push(key);
-                console.log(vm.selKeyArr.length);
             }
         }
-        console.log(vm.selKeyArr.length);
     }
 
     //获取选中图片ID

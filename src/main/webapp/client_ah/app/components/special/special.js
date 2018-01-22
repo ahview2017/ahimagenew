@@ -167,7 +167,6 @@ clientModule.controller('specialCtrl', function($scope, $cookies, req, md5, $sta
 				vm.banner = resp.data.banna;
 				vm.specialExplain = resp.data.desc || '';
 				vm.specialLanmu = angular.fromJson(resp.data.lanmu);
-				console.log(vm.specialLanmu);
 			}
 		})
 	}

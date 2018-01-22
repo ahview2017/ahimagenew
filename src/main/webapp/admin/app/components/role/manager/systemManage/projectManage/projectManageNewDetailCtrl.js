@@ -50,7 +50,7 @@ adminModule.controller('projectManageNewDetailCtrl',function($scope,$cookies,req
    
     
 
-    console.log($scope.items);
+     
     // 添加栏目
     $scope.add=function() {
         $scope.items.push({
@@ -69,7 +69,7 @@ adminModule.controller('projectManageNewDetailCtrl',function($scope,$cookies,req
             cpLanmuPictures:[],
             cpNoticesList:[]
         });
-        console.log($scope.items);
+         
     }
 
     // 添加子栏目
@@ -91,7 +91,7 @@ adminModule.controller('projectManageNewDetailCtrl',function($scope,$cookies,req
             cpLanmuPictures:[],
             cpNoticesList:[]
         });
-        console.log($scope.items);
+         
     }
     // 接受最后栏目id
     vm.finalLanmuIds = '';
@@ -161,12 +161,10 @@ adminModule.controller('projectManageNewDetailCtrl',function($scope,$cookies,req
         }
         // 中间过渡数组赋值给对应的cpLanmuPictures
         item.cpLanmuPictures = middleArr;
-        console.log(item);
     }
 
     // 添加公告
     $scope.addAnnocement = function(item){
-        console.log(item);
         $scope.WillAddNotices = item.cpNoticesList;
         $('#addAnnocementModal').modal('show');
     }
@@ -183,13 +181,12 @@ adminModule.controller('projectManageNewDetailCtrl',function($scope,$cookies,req
             position: vm.annocementOrderNum,
             langType: '0'
         });
-        console.log($scope.WillAddNotices);
-        console.log($scope.items);
+         
         $('#addAnnocementModal').modal('hide');
     }
     //  保存栏目设置
     $scope.saveColumnSetting = function(){
-        console.log($scope.items);
+         
         var finalParams = {
             id: $scope.topicId ,
             children:$scope.items
@@ -198,7 +195,6 @@ adminModule.controller('projectManageNewDetailCtrl',function($scope,$cookies,req
             cpTopic:  angular.toJson(finalParams, true),
             lanmuIds:  vm.finalLanmuIds,
         }).success(function(resp){
-            console.log(resp);
             // 清空最后栏目id
             vm.finalLanmuIds = '';
             init();
@@ -247,19 +243,15 @@ adminModule.controller('projectManageNewDetailCtrl',function($scope,$cookies,req
             url: '/photo/enTopicColum/upPic.do',
             data: {pic: file}
         }).then(function (resp) {
-            console.log('Success ');
             item.pic = resp.data.data;
         }, function (resp) {
-            console.log('Error status: ');
         }, function (evt) {
 
-            console.log('progress: ');
         });
     }
 
     function init(){
         req.post('enTopicColum/show.do',{id: $scope.topicId}).success(function(resp){
-            console.log(resp.data);
             // if(resp.data && resp.data.length > 0){
             //     $scope.items = resp.data;
             // }

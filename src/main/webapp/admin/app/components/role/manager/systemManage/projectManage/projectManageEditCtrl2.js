@@ -192,7 +192,6 @@ adminModule.controller('projectManageEditCtrl2',function($scope,$cookies,req,md5
                     });
                 }
             } else {
-                console.log(resp.msg);
             }
         });
     };

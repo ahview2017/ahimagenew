@@ -47,7 +47,6 @@ adminModule.controller('toPublishPicCtrl', function ($scope, $cookies, req, $sta
                 vm.totalPages = resp.page;
                 vm.topubPicList_total = resp.other;
             }else if(resp.msg != '未登录'){
-                console.log(resp.msg);
             }
         });
     }

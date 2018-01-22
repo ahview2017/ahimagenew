@@ -65,7 +65,6 @@ adminModule.controller('mInternalRetentionCtrl', function ($scope, $cookies, req
         //默认每页10条
         vm.selPageRows = '10';
         getMyDuty.req_getMyDuty(function(type){
-            console.log(type);
             //存储角色拥有的值班级别
             if($window.localStorage['lang'] == 0) {
                 if(!$window.localStorage['userDutyLevelZh']){

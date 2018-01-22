@@ -195,7 +195,6 @@ adminModule.controller('contributeStatisticsCtrl', function ($scope, $cookies, r
             } else {
                 initConArea();
                 canvasConBar('#divConAreaBarId', '投稿统计-地域', vm.xConAreaArray, vm.yConAreaArray);
-                console.log(resp.msg);
             }
         });
     }
@@ -227,7 +226,6 @@ adminModule.controller('contributeStatisticsCtrl', function ($scope, $cookies, r
             } else {
                 initConType();
                 canvasConBar('#divConTypeBarId', '投稿统计-类别', vm.xConTypeArray, vm.yConTypeArray);
-                console.log(resp.msg);
             }
         });
     }

@@ -714,7 +714,6 @@ adminModule.controller('userManageCtrl', function($scope, $cookies, req, md5, $s
 	//             vm.searchList.orderTime=vm.search.orderTime;
 	//             vm.searchList.province=vm.search.selProv;
 	//             vm.searchList.city=vm.search.selCity;
-	//             console.log(vm.searchList);
 	//         } else {
 	//             vm.userManageArray = [];
 	//             vm.totalPages = resp.page;

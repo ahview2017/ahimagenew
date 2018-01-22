@@ -1,6 +1,5 @@
 adminModule.controller('groupManageDetailCtrl', function(req, $scope, $stateParams,$state,modalOperate,$http) {
 	var vm = this;
-	console.log("groupManageCtrl");
 	
 	//初始化数据
 	vm.groupName = '';
@@ -40,7 +39,6 @@ adminModule.controller('groupManageDetailCtrl', function(req, $scope, $statePara
 			layer.alert("请勾选需要导出的用户信息");
 			return;
 		}
-		console.log(exportResult);
 		var userInfo = angular.toJson(exportResult);
 		var time = new Date().format("yyyyMMddhhmmss");
 		var fileName="用户信息_"+time+".xls";//文件名
@@ -112,7 +110,6 @@ adminModule.controller('groupManageDetailCtrl', function(req, $scope, $statePara
 			userName: vm.selectAllName //查询用户
 		}).success(function(resp) {
 			if(resp.code == '211') {
-				console.log(resp);
 				vm.groupUser = resp.data;
 				vm.totalPages = resp.page;
 				vm.userList_total = resp.other;
@@ -126,7 +123,6 @@ adminModule.controller('groupManageDetailCtrl', function(req, $scope, $statePara
 			userName: vm.selectGroupName //查询指定用户			
 		}).success(function(resp) {
 			if(resp.code == '211') {
-				console.log(resp.data);
 				vm.getGroupManagementUser = resp.data;
 				vm.totalPages_l = resp.page;
 				vm.userList_total_l = resp.other;
@@ -143,7 +139,6 @@ adminModule.controller('groupManageDetailCtrl', function(req, $scope, $statePara
 			userId: userId
 		}).success(function(resp) {
 			if(resp.code == '211') {
-				console.log(resp.data);
 				layer.alert('添加到组成功！');
 				update();
 			} else if(resp.msg != '未登录') {
@@ -159,7 +154,6 @@ adminModule.controller('groupManageDetailCtrl', function(req, $scope, $statePara
 			userName: vm.selectGroupName //查询指定用户
 		}).success(function(resp) {
 			if(resp.code == '211') {
-				console.log(resp.data);
 				vm.getGroupManagementUser = resp.data;
 			} else if(resp.msg != '未登录') {
 				layer.alert(resp.msg);
@@ -172,7 +166,6 @@ adminModule.controller('groupManageDetailCtrl', function(req, $scope, $statePara
 			userName: vm.selectAllName //查询用户
 		}).success(function(resp) {
 			if(resp.code == '211') {
-				console.log(resp.data);
 				vm.groupUser = resp.data;
 			} else if(resp.msg != '未登录') {
 				layer.alert(resp.msg);
@@ -186,7 +179,6 @@ adminModule.controller('groupManageDetailCtrl', function(req, $scope, $statePara
 			userId: userid
 		}).success(function(resp) {
 			if(resp.code == '211') {
-				console.log(resp.data);
 				layer.alert('移除成功！');
 				update();
 			} else if(resp.msg != '未登录') {

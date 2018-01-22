@@ -47,7 +47,7 @@ clientModule.controller('singleDetailCtrl', function ($scope, $cookies, req, md5
             pictureId: vm.pictureId
         }).success(function (resp) {
             if (resp.code == '211') {
-                vm.singlePic = resp.data;console.log(resp.data);
+                vm.singlePic = resp.data;
             }else if(resp.msg != '未登录'){
                 layer.alert(resp.msg);
             }
@@ -59,7 +59,7 @@ clientModule.controller('singleDetailCtrl', function ($scope, $cookies, req, md5
             groupId: $stateParams.groupId
         }).success(function (resp) {
             if (resp.code == '211') {
-                vm.clientPictureDetails = resp.data;console.log(resp.data);
+                vm.clientPictureDetails = resp.data;
                 if(callback) callback();
             }else if(resp.msg != '未登录'){
                 layer.alert(resp.msg);

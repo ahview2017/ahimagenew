@@ -64,7 +64,6 @@ adminModule.controller('headCtrl',function($translate, $scope, $cookies, req, md
             if(resp.code == '211'){
                 $rootScope.picGroupNum = resp.data.PicGroupNum;
             }else{
-                console.log(resp.msg);
             }
         });
     }
@@ -104,7 +103,6 @@ adminModule.controller('headCtrl',function($translate, $scope, $cookies, req, md
         vm.roleName = role.roleName;
         //存储角色ID
         $cookies.put("admin_roleId",vm.userRoleId, {expires: expireDate, path: '/'});
-        console.log($cookies.put("admin_roleId",vm.userRoleId, {expires: expireDate, path: '/'}));
         $cookies.put("admin_roleName", vm.roleName, {expires: expireDate, path: '/'});
         vm.variedRoleArr.unshift(vm.variedRoleArr[index]);
         vm.variedRoleArr.splice(index + 1,1);
@@ -137,10 +135,8 @@ adminModule.controller('headCtrl',function($translate, $scope, $cookies, req, md
                vm.userRoleRight = resp.data;
                 //存储角色拥有的权限
                $window.localStorage['userRoleRight']=JSON.stringify(vm.userRoleRight);
-               console.log(vm.userRoleRight);
                 if(callback) callback();
             }else{
-                console.log(resp.msg);
             }
         });
     }
@@ -148,7 +144,6 @@ adminModule.controller('headCtrl',function($translate, $scope, $cookies, req, md
     function getAccessList(){
         //从cookie里取得roleId
         $rootScope.admin_roleId = $cookies.get('admin_roleId');
-        console.log($rootScope.admin_roleId);
         //从localStorage里取得用户权限信息
         var accessList = JSON.parse($window.localStorage['userRoleRight'] || '{}');
 
@@ -187,7 +182,6 @@ adminModule.controller('headCtrl',function($translate, $scope, $cookies, req, md
         var photographerM = [110,113,121,'稿费统计',266,'使用指南',65,270];
         //数据统计数组
         var dataStatisticsArr = [313,397,398,399,402,403,404,405,406,407,408,'图片下载统计','用户下载统计','签稿统计','稿酬统计','用户信息统计'];
-        console.log(accessList);
         for(var i = 0; i < accessList.length; i++){
             //系统管理
             if((sysManageArr.indexOf(accessList[i].ID) != -1)){
@@ -326,7 +320,6 @@ adminModule.controller('headCtrl',function($translate, $scope, $cookies, req, md
                 $rootScope.accessObj.dataStatistics.push(accessList[i]);
             }
         }
-        console.log($rootScope.accessObj);
     }
     //重新登录前清除所有的cookie
     function removeAllCookies(){
@@ -343,7 +336,6 @@ adminModule.controller('headCtrl',function($translate, $scope, $cookies, req, md
                 $rootScope.user_online = false;
                 removeAllCookies();
             }else{
-                console.log(resp.msg);
             }
         });
     }

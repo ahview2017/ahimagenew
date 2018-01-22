@@ -73,11 +73,9 @@ adminModule.controller('downloaddataStatisticsCtrl', function(req, $state, $scop
 			signEndTime: vm.signEndTime
 		}).success(function(resp) {
 			if(resp && resp.code == '211') {
-				console.log('success');
 				vm.downloaddatalist = resp.data;
 				vm.downloaddatalist_total = resp.other;
 				vm.totalPages = resp.page;
-				console.log(vm.downloaddatalist);
 			} else if(resp && resp.msg != '未登录') {
 				layer.alert(resp.msg);
 			}
@@ -130,7 +128,6 @@ adminModule.controller('downloaddataStatisticsCtrl', function(req, $state, $scop
 			angular.forEach(category, function(item, index) {
 				if(item.categoryName == '新闻类别') {
 					vm.selCpCategories = item.categories;
-					console.log(vm.selCpCategories);
 				}
 			});
 		} else if(resp.msg != '未登录') {

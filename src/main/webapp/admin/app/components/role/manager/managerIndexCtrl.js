@@ -26,7 +26,6 @@ adminModule.controller('managerIndexCtrl',function($scope, $cookies, req, md5, $
             if(resp.code == '211'){
                 vm.showToHomePage = resp.data;
             }else{
-                console.log(resp.msg);
             }
         });
     }
@@ -38,7 +37,6 @@ adminModule.controller('managerIndexCtrl',function($scope, $cookies, req, md5, $
             if(resp.code == '211'){
                 vm.stationLetter = resp.data;
             }else{
-                console.log(resp.msg);
             }
         });
     }
@@ -50,7 +48,6 @@ adminModule.controller('managerIndexCtrl',function($scope, $cookies, req, md5, $
             if(resp.code == '211'){
                 vm.siteMsg = resp.data;
             }else{
-                console.log(resp.msg);
             }
         });
     }

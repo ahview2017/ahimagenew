@@ -61,7 +61,6 @@ angular.module('admin.services', [])
                 if(resp.code == '211'){
                     if (callback) callback(resp.data);
                 }else{
-                    console.log(resp.msg);
                 }
             });
         }
@@ -114,7 +113,6 @@ angular.module('admin.services', [])
                 if(resp.code == '211'){
                     if (callback) callback(resp.data);
                 }else{
-                    console.log(resp.msg);
                 }
             });
         }

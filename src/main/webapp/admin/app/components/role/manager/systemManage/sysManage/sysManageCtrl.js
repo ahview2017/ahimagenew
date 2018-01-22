@@ -27,7 +27,6 @@ adminModule.controller('sysManageCtrl', function ($scope, $cookies, req, md5, $s
     vm.sysUpdateModalShow = function (modalId) {
         vm.selKeyArr = [];
         judgeIfSelData();
-        console.log(typeof vm.selKeyArr);
         if (vm.selKeyArr.length != 1) {
             layer.alert('请选择一条数据进行操作');
             return;
@@ -36,7 +35,6 @@ adminModule.controller('sysManageCtrl', function ($scope, $cookies, req, md5, $s
             angular.forEach(vm.sysConfigList, function (item, index) {
                 if (item.id == vm.selKeyArr[0]) {
                     vm.willUpdateConfig = item;
-                    console.log(vm.willUpdateConfig);
                 }
             });
             vm.modify.configName = vm.willUpdateConfig.configName;
@@ -163,7 +161,6 @@ adminModule.controller('sysManageCtrl', function ($scope, $cookies, req, md5, $s
                 layer.alert(resp.msg);
             }
             else {
-                console.log(resp.msg);
             }
         });
     }

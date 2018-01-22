@@ -59,7 +59,6 @@ adminModule.controller('mOperateRecordCtrl',function($scope, $cookies, req, md5,
             if (resp.code == '211') {
                 vm.manuscriptDetail = resp.data;
                 vm.groupStatus = resp.data.groupStatus;
-                console.log('success');
             }else if(resp.msg != '未登录'){
                 layer.alert(resp.msg);
             }

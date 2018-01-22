@@ -65,7 +65,6 @@ clientModule.controller('loginCtrl', function ($scope, $cookies, req, md5, $stat
                 vm.loginSalt = resp.data;
                 if (callback) callback();
             } else {
-                console.log(resp.msg);
             }
         });
     }

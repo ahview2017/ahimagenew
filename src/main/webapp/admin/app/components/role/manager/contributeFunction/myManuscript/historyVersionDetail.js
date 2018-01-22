@@ -35,7 +35,6 @@ adminModule.controller('myHistoryVersionDetail', function ($scope, $cookies, req
                 vm.manuscriptDetail = resp.data;
                 vm.manuscriptProperties = resp.data.properties;
                 vm.manuscriptCates = resp.data.cates;
-                console.log('success');
             }else if(resp.msg != '未登录'){
                 layer.alert(resp.msg);
             }

@@ -12,9 +12,7 @@ clientModule.controller('artistDetailCtrl',function($scope,$sce,$cookies, req, m
     vm.type = $stateParams.type;
     
     vm.userId = $stateParams.userId;
-    console.log("userId:"+vm.userId);
     vm.sginId = $stateParams.sginId;
-    console.log("sginId:"+vm.sginId);
     //初始化页面相关配置
     function initSetting(){
         vm.photoList = [];

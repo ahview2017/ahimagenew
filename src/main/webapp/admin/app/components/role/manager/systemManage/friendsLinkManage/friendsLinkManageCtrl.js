@@ -49,7 +49,6 @@ adminModule.controller('friendsLinkManageCtrl', function($scope, $cookies, req, 
 		$('.select:checked').each(function() {
 			deleteResult += this.value + ',';
 		});
-		console.log(deleteResult);
 		vm.deleteFriendLink(deleteResult);
 	};
 
@@ -59,7 +58,6 @@ adminModule.controller('friendsLinkManageCtrl', function($scope, $cookies, req, 
 			langType: window.localStorage.lang
 		}).success(function(resp) {
 			if(resp.code == '211') {
-				console.log(resp.data);
 				vm.friendsLink = resp.data;
 				for(var i = 0; i < resp.data.length; i++) {
 					if(resp.data[i].state == 1) {
@@ -117,7 +115,6 @@ adminModule.controller('friendsLinkManageCtrl', function($scope, $cookies, req, 
 			langType: window.localStorage.lang
 		}).success(function(resp) {
 			if(resp.code == '211') {
-				console.log(resp.data);
 				vm.friendsLinkModalShow('friendsLink-modify-modal');
 				for(var i = 0; i < resp.data.length; i++) {
 					if(resp.data[i].id == id) {
@@ -145,7 +142,6 @@ adminModule.controller('friendsLinkManageCtrl', function($scope, $cookies, req, 
 			state: vm.editstate
 		}).success(function(resp) {
 			if(resp.code == '211') {
-				console.log(resp.data);
 				layer.alert('修改成功');
 				vm.friendsLinkModalHide('friendsLink-modify-modal');
 				selectFriendsLlink();
@@ -165,7 +161,6 @@ adminModule.controller('friendsLinkManageCtrl', function($scope, $cookies, req, 
 			langType: window.localStorage.lang,
 		}).success(function(resp) {
 			if(resp.code == '211') {
-				console.log(resp.data);
 				layer.alert('删除成功');
 				vm.friendsLinkModalHide('friendsLink-del-modal');
 				selectFriendsLlink();

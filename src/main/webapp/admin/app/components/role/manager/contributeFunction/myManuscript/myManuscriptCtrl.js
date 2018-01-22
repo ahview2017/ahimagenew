@@ -120,7 +120,7 @@ adminModule.controller('myManuscriptCtrl',function($scope,$cookies,req,md5,$stat
             langType:window.localStorage.lang
         }).success(function(resp){
             if(resp.code == '211'){
-                vm.mymanuscriptList = resp.data;console.log(resp.data);
+                vm.mymanuscriptList = resp.data;
                 modalOperate.modalHide('wait-manuscript-search-modal');
                 vm.totalPages = resp.page;
                 vm.myMsList_total = resp.other;
@@ -191,7 +191,6 @@ adminModule.controller('myManuscriptCtrl',function($scope,$cookies,req,md5,$stat
             groupId: groupId
         }).success(function (resp) {
             if (resp.code == '211') {
-                console.log('success');
                 $state.go('role.manager.myManuscriptEdit', {
                     id: groupId
                 });

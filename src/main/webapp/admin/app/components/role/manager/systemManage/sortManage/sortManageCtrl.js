@@ -87,7 +87,6 @@ adminModule.controller('sortManageCtrl', function ($scope, $cookies, req, md5, $
                 zTreeOnClick(oneParentNode);
             } else {
                 vm.sortDetailsArray = [];
-                console.log(resp.msg);
             }
         });
     }

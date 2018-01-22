@@ -63,9 +63,6 @@ clientModule.controller('registerStepOneCtrl',function($scope,$cookies,req,md5,$
     vm.regex = '\\d+';
     //下一步
     vm.signInNext = function(form){
-        console.log(form.$valid);
-        console.log(vm.user.userName);
-        console.log(vm.user.userCategory);
         //验证用户信息
         if(!valid_Info()) return;
         req_checkUserExist();

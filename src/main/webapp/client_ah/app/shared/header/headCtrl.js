@@ -212,7 +212,6 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 			$("#code2").attr('disabled', "true");
 			$("#code2").html(nums + '秒后可重新获取');
 			clock = setInterval(doLoop2, 1000); // 一秒执行一次
-			console.log("发送短信");
 			req.post('phonemsg/sendMsgCode.do', {
 				phoneNum : vm.mobilePhone
 			}).success(function(resp) {
@@ -259,7 +258,6 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 				if (callback)
 					callback();
 			} else {
-				console.log(resp.msg);
 			}
 		});
 	}
@@ -417,8 +415,6 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
         validRegisterInfo(form,function(){
             req_Register();
         });
-//        console.log(form);
-//        console.log(form.$valid);
 //        if(form.$valid){
 //            req_Register();
 //        }
@@ -435,7 +431,7 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
         var regEmail = /^([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+(\.[a-zA-Z]{2,3})+$/;
         //验证用户信息
         if(!valid_Info()) return;
-
+        console.log("vm.contactAddress:"+vm.contactAddress);
         if(!vm.contactAddress){
         	layer.alert('请输入通讯地址');
             return;
@@ -567,7 +563,8 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
             idCard: vm.IdNumber,
             code: vm.register_code,
             isPublish: $('input[name="publishInfo"]:checked ').val()=='0'?0:1,
-            langType:0
+            langType:0,
+            address:vm.contactAddress
         };
         req.post('login/registerOne.do',reqData).success(function(resp){
             if(resp.code == '211'){
@@ -586,13 +583,11 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
                 //发送邮件
                 req.post("/mail/sendEmailByName.do",sendData).success(function (response) {
                     if(response.code == '211'){
-                        console.log("邮件发送："+response.msg);
                     }
                 });
                 //发送短信
                 req.post("/phonemsg/sendMessageByUserName.do",sendData).success(function (response) {
                     if(response.code == '211'){
-                        console.log("短信发送："+response.msg);
                     }
                 });
                 $state.go('root.registerSuccess',{userName:vm.loginName,emailBind:vm.mail,telBind:vm.mobilePhone});
@@ -609,7 +604,6 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 			angular.forEach(category, function(item, index) {
 				if (item.categoryName == '新闻类别') {
 					vm.categories = item.categories;
-					// console.log(vm.categories);
 				}
 			});
 		});
@@ -631,7 +625,6 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 				initSetting();
 				removeAllCookies();
 			} else {
-				console.log(resp.msg);
 			}
 		});
 	}
@@ -656,9 +649,7 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 				vm.selCpCategories = resp.data;
 				if (callback)
 					callback(resp.data);
-				console.log('success');
 			} else {
-				console.log(resp.msg);
 			}
 		});
 	}
@@ -677,12 +668,10 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 				//新闻图片
 				if (pColumnId == 3064) {
                     vm.newsPhoto = resp.data;
-					console.log('success');
                 }
 				//专题图片
 				if (pColumnId == 3077) {
                     vm.topicPhoto = resp.data;
-					console.log('success');
                 }
 				//皖风徽韵
 				if (pColumnId == 3078) {
@@ -728,7 +717,6 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
               		 });
                 }
 			} else {
-				console.log(resp.msg);
 			}
 		});
 	}
@@ -744,7 +732,6 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 				vm.OnLineUsersList = resp.data;
 				vm.onlineList_total = resp.other;
 			} else if (resp.msg != '未登录') {
-				console.log(resp.msg);
 			}
 		});
 	}
@@ -794,7 +781,6 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 					}
 				}
 			} else {
-				console.log(resp.msg);
 			}
 		});
 	}

@@ -251,7 +251,6 @@ adminModule.controller('mDraftEditCtrl', function($scope, $cookies, req, md5, $s
                 vm.manuscriptAuthor = resp.data.author;
                 vm.authorId = resp.data.authorId;
                 if(callback) callback();
-                console.log('success');
             }else if(resp.msg != '未登录'){
                 layer.alert(resp.msg);
             }
@@ -310,7 +309,6 @@ adminModule.controller('mDraftEditCtrl', function($scope, $cookies, req, md5, $s
     }
     //选择用户展示方式
     vm.choseUnameShowWay = function(){
-        console.log(vm.photoUNameWay);
         //如果是默认的作者名，没有修改过
         if(!vm.hasSeledUNameFlag && !vm.addAuthorItemFlag){
             if((vm.photoUNameWay == '0')){
@@ -444,7 +442,6 @@ adminModule.controller('mDraftEditCtrl', function($scope, $cookies, req, md5, $s
         function req_uploadManuscript(callback){
             $("#uploadDraftForm").ajaxSubmit(function(resp) {
                 // 对于表单提交成功后处理，message为提交页面saveReport.htm的返回内容
-                console.log(resp);
                 vm.uploadEditPicList = resp.data;
                 if(resp.code == '211'){
                     if(callback) callback();
@@ -471,7 +468,6 @@ adminModule.controller('mDraftEditCtrl', function($scope, $cookies, req, md5, $s
     //获取图片的相关参数
     function getPicDataParams(){
         //获取picData参数
-        console.log(typeof angular.toJson(vm.upMenuscriptPicArr,true));
         angular.forEach(vm.upMenuscriptPicArr,function(item,index){
             vm.manuscriptPicData.push({
                 id: item.id + '',
@@ -485,7 +481,6 @@ adminModule.controller('mDraftEditCtrl', function($scope, $cookies, req, md5, $s
                 filmTime: vm.upMenuscriptPicArr[index].filmTime + ' 00:00:00'
             })
         });
-        console.log(vm.manuscriptPicData);
     }
 
     function valid_editPramas(callback){
@@ -594,7 +589,6 @@ adminModule.controller('mDraftEditCtrl', function($scope, $cookies, req, md5, $s
             remark: vm.editManuscript.remark,
             id: vm.groupId
         }).success(function(resp){
-            console.log(resp);
             if(resp.code == '211'){
                 layer.alert(resp.msg);
                 $state.go('role.manager.draftDetail',{id: vm.groupId});
@@ -604,7 +598,6 @@ adminModule.controller('mDraftEditCtrl', function($scope, $cookies, req, md5, $s
         }).error(function(resp){
             //todo 因为net::ERR_INCOMPLETE_CHUNKED_ENCODING，暂时让它无论都跳转
             $state.go('role.manager.draftDetail',{id: vm.groupId});
-            console.log(resp);
         });
     }
 
@@ -618,7 +611,6 @@ adminModule.controller('mDraftEditCtrl', function($scope, $cookies, req, md5, $s
             groupId: vm.groupId
         }).success(function(resp){
             if(resp.code == '211'){
-                console.log('success');
                 $state.go('role.manager.draftDetail',{id: vm.groupId});
             }else if(resp.msg != '未登录'){
                 layer.alert(resp.msg);

@@ -145,7 +145,6 @@ clientModule.controller('anhuiPhotoCtrl', function ($scope, $cookies, req, md5, 
                 }
 				
 			} else {
-				console.log(resp.msg);
 			}
 		});
 	}

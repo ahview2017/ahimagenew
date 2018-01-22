@@ -557,7 +557,6 @@ adminModule.run(function($rootScope, req, $window, $state, $cookies){
     $rootScope.$on('$stateChangeSuccess',function(event,toState,toParams,fromState,fromParams){
 
         scrollReturnTop();
-        console.log('Enter state: ' + toState.name);
         //当前路由状态名
         $rootScope.currentStateName = toState.name;
         //判断是否清除校审级别的本地存储（个别页面保留不清楚，如待发稿件，待发稿件详情，待发稿件编辑页等）

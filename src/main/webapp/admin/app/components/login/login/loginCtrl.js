@@ -72,7 +72,6 @@ adminModule.controller('loginCtrl', function ($scope, $cookies, req, md5, $state
                 vm.loginSalt = resp.data;
                 if (callback) callback();
             } else {
-                console.log(resp.msg);
             }
         });
     }

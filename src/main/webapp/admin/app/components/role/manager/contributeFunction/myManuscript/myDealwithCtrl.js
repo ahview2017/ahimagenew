@@ -121,7 +121,6 @@ adminModule.controller('myDealwithCtrl',function($scope,$cookies,req,md5,$state,
         }).success(function(resp){
             if(resp.code == '211'){
                 vm.mymanuscriptList = resp.data;
-                //console.log(resp.data);
                 modalOperate.modalHide('wait-manuscript-search-modal');
                 vm.totalPages = resp.page;
                 vm.myMsList_total = resp.other;
@@ -192,7 +191,6 @@ adminModule.controller('myDealwithCtrl',function($scope,$cookies,req,md5,$state,
             groupId: groupId
         }).success(function (resp) {
             if (resp.code == '211') {
-                console.log('success');
                 $state.go('role.manager.myManuscriptEdit', {
                     id: groupId
                 });

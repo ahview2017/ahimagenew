@@ -719,7 +719,6 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
 clientModule.run(function($rootScope, req, $cookies){
     $rootScope.layerIfShow = false;
     $rootScope.$on('$stateChangeSuccess',function(event, toState, toParams, fromState, fromParams){
-       // console.log('Enter state: ' + toState.name);
         //日期选择器设置为中文
         moment.locale('zh-cn');
         //重新获取用户名看用户是否处于登录状态
@@ -740,7 +739,6 @@ clientModule.factory('HttpInterceptor', ['$q', '$cookies', '$rootScope','$locati
     //未登录弹框提示并跳转到登录页面
     function handleLogOut() {
         $rootScope.user_online = false;
-        console.log($rootScope.user_online);
         removeAllCookies();
         //重新获取用户名看用户是否处于登录状态
         if(!$cookies.get('client_uname')){

@@ -84,7 +84,6 @@ adminModule.controller('projectManageDetailCtrl',function($scope,$cookies,req,md
                 vm.totalPages = resp.page;
                 vm.columnList_total = resp.other;
             } else {
-                console.log(resp.msg);
             }
         });
     }
@@ -394,7 +393,6 @@ adminModule.controller('projectManageDetailCtrl',function($scope,$cookies,req,md
      * */
     //todo 目前子栏目不让删
     vm.delSonColumn = function (id) {
-        console.log(id);
     }
 
 });

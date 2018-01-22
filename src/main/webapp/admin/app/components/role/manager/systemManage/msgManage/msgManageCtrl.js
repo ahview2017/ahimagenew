@@ -197,9 +197,7 @@ adminModule.controller('msgManageCtrl', function($scope, $cookies, req, md5, $st
 		req.post('groupManagementCtrl/getGroupManagementAll.do', {}).success(function(resp) {
 			if(resp.code == '211') {
 				vm.selCpCategories = resp.data;
-				console.log(resp.data);
 				if(callback) callback(resp.data);
-				console.log('success');
 			} else if(resp.msg != '未登录') {
 				layer.alert(resp.msg);
 			}
@@ -607,7 +605,6 @@ adminModule.controller('msgManageCtrl', function($scope, $cookies, req, md5, $st
 	//获取站内信消息未读数量
 	function req_getSendMsg() {
 		getsendMsg.req_getSendMsg(function(resp) {
-			console.log(resp[0].unRead);
 			$rootScope.unreadMsgNum = resp[0].unRead;
 		});
 	}
@@ -655,12 +652,10 @@ adminModule.controller('msgManageCtrl', function($scope, $cookies, req, md5, $st
 			rows: vm.selPageRows
 		};
 		if(vm.msgEmailSearchModel && isSearch == 0) {
-			console.log('电子邮件的搜索');
 			searchUrl = "mail/searchEmail.do";
 			paramsObj['title'] = vm.msgEmailSearchModel;
 			vm.searchType_t=0;
 		} else if(isSearch == 1) {
-			console.log('电子邮件的高级搜索');
 			searchUrl = "mail/searchEmail.do";
 			vm.searchType_t=1;
 			paramsObj['title'] = vm.title;
@@ -812,7 +807,6 @@ adminModule.controller('msgManageCtrl', function($scope, $cookies, req, md5, $st
 	 */
 	vm.isOnSendEmailClickFlag = false;
 	vm.onAddMsgEmailClick = function(status) {
-		console.log(getAcceptObjParams());
 		if (!vm.msgEmailTitleModel) {
 			layer.msg("请选择邮件标题");
 			return;
@@ -865,12 +859,10 @@ adminModule.controller('msgManageCtrl', function($scope, $cookies, req, md5, $st
 			rows: vm.selPageRows
 		};
 		if(vm.msgNetInSearchModel && issearch == 0) {
-			console.log('网站留言的搜索');
 			searchUrl = "leavingmsg/serchLeavingmsg.do";
 			paramsObj['content'] = vm.msgNetInSearchModel;
 			vm.searchType_th=0;
 		} else if(issearch == 1) {
-			console.log('网站留言的高级检索');
 			searchUrl = "leavingmsg/serchLeavingmsg.do";
 			paramsObj['content'] = vm.content;
 			paramsObj['smLink'] = vm.smLink;
@@ -1043,7 +1035,6 @@ adminModule.controller('msgManageCtrl', function($scope, $cookies, req, md5, $st
 			langType: window.localStorage.lang
 		};
 		if(vm.msgNetAdSearchModel && isSearch == 0) {
-			console.log('网站公告的搜索');
 			searchUrl = "notice/search.do";
 			vm.searchType_f=0;
 			paramsObj = {
@@ -1051,7 +1042,6 @@ adminModule.controller('msgManageCtrl', function($scope, $cookies, req, md5, $st
 				langType: window.localStorage.lang
 			}
 		} else if(isSearch == 1) {
-			console.log('网站公告的高级检索');
 			searchUrl = "notice/search.do";
 			vm.searchType_f=1;
 			paramsObj = {

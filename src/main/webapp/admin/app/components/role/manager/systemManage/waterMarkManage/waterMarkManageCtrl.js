@@ -195,7 +195,6 @@ adminModule.controller('waterMarkManageCtrl', function ($scope, $cookies, req, m
         //             modalOperate.modalHide(modalId);
         //             getWaterMarkList('');
         //         } else {
-        //             console.log(responseText.msg);
         //         }
         //     }
         // };
@@ -266,7 +265,6 @@ adminModule.controller('waterMarkManageCtrl', function ($scope, $cookies, req, m
         //             modalOperate.modalHide(modalId);
         //             getWaterMarkList('');
         //         } else {
-        //             console.log(resp.msg);
         //         }
         //     }
         // };

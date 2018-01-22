@@ -58,14 +58,12 @@ adminModule.controller('oldPhotoCtrl', function ($scope, $cookies, req, md5, $st
                 zipFile: file
             }
         }).then(function (resp) {
-            console.log('sucess');
             if(resp.data.code == 'success'){
                 layer.alert(resp.data.msg);
             }else if(resp.msg != '未登录'){
                 layer.alert(resp.data.msg);
             }
         }, function (resp) {
-            console.log('Error status: ' + resp.status);
         });
     }*/
 

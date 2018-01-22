@@ -145,7 +145,6 @@ clientModule.controller('videoVRCtrl', function ($scope, $cookies, req, md5, $st
                 }
 				
 			} else {
-				console.log(resp.msg);
 			}
 		});
 	}

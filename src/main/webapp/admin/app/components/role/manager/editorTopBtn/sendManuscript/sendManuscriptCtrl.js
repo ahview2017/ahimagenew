@@ -41,7 +41,6 @@ adminModule.controller('mSendManuscriptCtrl', function($scope, $cookies, req, md
         //默认每页6条
         vm.selPageRows = '6';
         //从cookie获取角色id
-        console.log($cookies.get('admin_roleId'));
         vm.reMyRoleId = $cookies.get('admin_roleId');
         
         // 存储签发参数的数组	add by xiayunan@201711215
@@ -503,10 +502,8 @@ adminModule.controller('mSendManuscriptCtrl', function($scope, $cookies, req, md
         for(var key in vm.selWaitMsIds){
             if(vm.selWaitMsIds[key]){
                 vm.selKeyArr.push(key);
-                console.log(vm.selKeyArr.length);
             }
         }
-        console.log(vm.selKeyArr.length);
     }
     //全选
     vm.checkAll = function(picSelect,picsType){

@@ -8,5 +8,4 @@ adminModule.controller('projectManageEditCtrl1',function($scope,$cookies,req,md5
     vm.tableShow1 = false;
     vm.tableShow2 = false;
 
-    console.log(vm);
 });

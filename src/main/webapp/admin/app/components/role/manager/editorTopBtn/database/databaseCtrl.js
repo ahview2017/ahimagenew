@@ -109,7 +109,6 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 			"langType": vm.langTypeFlag
 		}).success(function(resp) {
 			if(resp.code == '211') {
-				console.log(resp.data);
 				vm.sortDetailsArray = resp.data;
 				for(var i = 0; i < resp.data.length; i++) {
 					for(var s = 0; s < resp.data[i].children.length; s++) {
@@ -117,7 +116,6 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 					}
 				}
 
-				console.log(vm.children);
 			} else if(resp.msg != '未登录') {
 				layer.alert(resp.msg);
 			}
@@ -178,7 +176,6 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 	
   //稿件合并
   vm.comfirmMergeManuscript = function(modalId){
-    console.log(vm.selMergeWaitMsIds);
     req_mergeManuscript(modalId);
   }
 	
@@ -200,7 +197,6 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
             layer.alert('请至少选中一个稿件');
             return;
         }
-        console.log(vm.groupIds);
         getNeedMergeMsIds();
         var reqData = {
             groupId: vm.selMergeWaitMsIds,
@@ -259,7 +255,6 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 			}).success(function(resp) {
 				if(resp && resp.code == '211') {
 					layer.alert('推送数据成功！');
-					console.log('success');
 					vm.selPushGroup = [];
 				} else if(resp && resp.msg != '未登录') {
 					vm.selPushGroup = [];
@@ -988,7 +983,6 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 	vm.selectContribute1 = function(dbItem){
 		// 从服务中获取专题栏目数据，找出lanmuPics中falg为true的为其添加图片url，供专题栏目详情页展示
 		var lanmuData = lanmuShareDataService.lanmuData;
-		console.log(lanmuData);
 		for(var i = 0,lanmuLen = lanmuData.length; i < lanmuLen; i++){
 				var lanmuPics = lanmuData[i].cpLanmuPictures;
 				for(var j = 0,picsLen = lanmuPics.length; j < picsLen; j++){
@@ -1132,20 +1126,16 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
                 }
             }
             lanmuData[i].moreLanmuPictures = middleArr;
-            console.log(lanmuData[i].moreLanmuPictures);
         }
 	}
     // 添加更多稿件-新
 	vm.selectMoreContribute1 = function(dbItem){
-		console.log(vm.selConfigIds);
-		console.log(lanmuShareDataService.lanmuData);
         // 跳转回专题栏目详情页
         // $state.go('role.manager.projectManageNewDetail',{id: vm.topicId});
         $cookies.remove('columnFlag');
         $cookies.remove('columnMoreFlag');
       /*  // 从服务中获取专题栏目数据，找出lanmuPics中falg为true的为其添加图片url，供专题栏目详情页展示
         var lanmuData = lanmuShareDataService.lanmuData;
-        console.log(lanmuData);
         for(var i = 0,lanmuLen = lanmuData.length; i < lanmuLen; i++){
                 var lanmuPics = lanmuData[i].lanmuPics;
                 if(lanmuPics[i].flag){
@@ -1162,7 +1152,6 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
                     }
                 }
         }
-        console.log(lanmuData);
         // 跳转回专题栏目详情页
         $state.go('role.manager.projectManageNewDetail');*/
 	}

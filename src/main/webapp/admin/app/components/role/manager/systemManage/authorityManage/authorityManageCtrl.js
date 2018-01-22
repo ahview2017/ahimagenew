@@ -39,10 +39,8 @@ adminModule.controller('authorityManageCtrl',function($scope, $cookies, req, md5
         for(var key in vm.selRightIds){
             if(vm.selRightIds[key]){
                 vm.selKeyArr.push(key);
-                console.log(vm.selKeyArr.length);
             }
         }
-        console.log(vm.selKeyArr.length);
     }
     //获取选中权限ID
     function getSelRightId(){
@@ -70,7 +68,6 @@ adminModule.controller('authorityManageCtrl',function($scope, $cookies, req, md5
             angular.forEach(vm.rightList,function(item,index){
                 if(item.ID == vm.selKeyArr[0]){
                     vm.willUpdateRight = item;
-                    console.log(vm.willUpdateRight);
                 }
             });
             vm.right.rightName = vm.willUpdateRight.RIGHT_NAME;

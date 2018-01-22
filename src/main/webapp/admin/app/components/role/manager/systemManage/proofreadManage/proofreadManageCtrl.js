@@ -72,7 +72,6 @@ adminModule.controller('proofreadManageCtrl', function($scope, $cookies, req, $s
         vm.pagesecondGrade = '';
         vm.pagethreeGrade = '';
         judgeIfSelData();
-        console.log(typeof vm.selKeyArr);
         if(vm.selKeyArr.length != 1){
             layer.alert('请选择一条数据进行操作');
             return;
@@ -84,7 +83,6 @@ adminModule.controller('proofreadManageCtrl', function($scope, $cookies, req, $s
                     vm.modify.endtime = item.endTime;
                     vm.willUpdateDutys = item.dutys;
                     vm.add.ifProofEnable = item.isenable + '';
-                    console.log(vm.willUpdateDutys);
                 }
             });
             handleUpdateDutys(vm.willUpdateDutys);
@@ -281,7 +279,6 @@ adminModule.controller('proofreadManageCtrl', function($scope, $cookies, req, $s
     function getproofreadUname(){
         vm.finalProofUnames = '';
         vm.finalShowProofUnames = '';
-        console.log(vm.selProofUnames);
         for(var key in vm.selProofUnames){
             if(vm.selProofUnames[key]){
                 vm.finalShowProofUnames += key + '、';
@@ -312,7 +309,6 @@ adminModule.controller('proofreadManageCtrl', function($scope, $cookies, req, $s
         if(!vm.threeGrade){
             vm.threeGrade = vm.prevthreeGrade;
         }
-        console.log(vm.pageShowProofUnames);
     }
 
     //添加校审配置
@@ -365,10 +361,8 @@ adminModule.controller('proofreadManageCtrl', function($scope, $cookies, req, $s
         for(var key in vm.selProofIds){
             if(vm.selProofIds[key]){
                 vm.selKeyArr.push(key);
-                console.log(vm.selKeyArr.length);
             }
         }
-        console.log(vm.selKeyArr.length);
     }
     //获取校审配置id
     function getProofreadIds(){

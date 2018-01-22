@@ -128,7 +128,6 @@ adminModule.controller('logManageCtrl', function ($scope, $cookies, req, md5, $s
         req.post("logCtro/getAllLogType.do").success(function (resp) {
             if (resp.code == '211') {
                 vm.logTypeList = resp.data;
-                console.log(vm.logTypeList);
             }else if(resp.msg != '未登录'){
                 layer.alert(resp.msg);
             }

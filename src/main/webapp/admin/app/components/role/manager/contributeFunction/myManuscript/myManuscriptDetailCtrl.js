@@ -136,7 +136,6 @@ adminModule.controller('myManuscriptDetailCtrl', function ($scope, $cookies, req
         //从service里取得我的值班级别的数据，实现数据持久化
         getMyDuty.req_getMyDuty(function(type){
             vm.mydutyType = type;
-            console.log(typeof vm.mydutyType);
         })
     }
 
@@ -159,7 +158,6 @@ adminModule.controller('myManuscriptDetailCtrl', function ($scope, $cookies, req
     };
     //树复选框选中回调事件
     function treeCheckEvent(event, treeId, treeNode, clickFlag){
-        console.log(treeNode);
     }
     //获取签发的参数
     function getSignParams(){
@@ -183,7 +181,6 @@ adminModule.controller('myManuscriptDetailCtrl', function ($scope, $cookies, req
             }
 
         }
-        console.log(vm.signReqParamData);
 
     }
     //自定义签发的数据
@@ -310,8 +307,6 @@ adminModule.controller('myManuscriptDetailCtrl', function ($scope, $cookies, req
               //判断是否可以编辑（已提交过的不能编辑） add by liu.jinfeng@20170922
                 //fristPfdUser 只有一个的时候就是没有提交过，还能再次编辑
                 vm.canEdit = (resp.data.fristPfdUser).indexOf("、")==-1; 
-                //console.log('success'+ vm.canEdit);
-                //console.log('success');
             }else if(resp.msg != '未登录'){
                 layer.alert(resp.msg);
             }
@@ -389,7 +384,6 @@ adminModule.controller('myManuscriptDetailCtrl', function ($scope, $cookies, req
             content: vm.backManuscriptReson
         }).success(function (resp) {
             if (resp.code == '211') {
-                console.log('success');
                 modalOperate.modalHide(modalId);
                 layer.alert('操作成功');
                 $state.go('role.manager.sendManuscript');
@@ -431,7 +425,6 @@ adminModule.controller('myManuscriptDetailCtrl', function ($scope, $cookies, req
             groupId: vm.groupId
         }).success(function (resp) {
             if (resp.code == '211') {
-                console.log('success');
                 layer.alert('操作成功');
                 vm.mangeOperateFlag = !vm.mangeOperateFlag;
                 getManuscriptDetails();
@@ -451,7 +444,6 @@ adminModule.controller('myManuscriptDetailCtrl', function ($scope, $cookies, req
             groupId: vm.groupId
         }).success(function (resp) {
             if (resp.code == '211') {
-                console.log('success');
                 $state.go('role.manager.myManuscriptEdit',{
                     id: vm.groupId,
                     gType: vm.gType
@@ -474,7 +466,6 @@ adminModule.controller('myManuscriptDetailCtrl', function ($scope, $cookies, req
             cateData: angular.toJson(vm.signReqParamData)
         }).success(function (resp) {
             if (resp.code == '211') {
-                console.log('success');
                 layer.alert('操作成功');
                 getManuscriptDetails();
                 modalOperate.modalHide(modalId);

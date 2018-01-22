@@ -38,7 +38,6 @@ clientModule.controller('advSearchCtrl',function($scope,$cookies,req,md5,$state,
                 if(resp.code == '211'){
                     vm.selCpCategories = resp.data;
                     if (callback) callback(resp.data);
-                    console.log('success');
                 }else if(resp.msg != '未登录'){
                     layer.alert(resp.msg);
                 }

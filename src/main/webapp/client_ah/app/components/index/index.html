@@ -5,6 +5,15 @@
         </div> -->
 
 	    <div class="main_box">
+	        <!-- 通栏广告0 index.onToShowAdTopicClick(index.adShowImageArray[0])-->
+            <div class="special_pic">
+	            <!-- <a href="" target="_blank"><img src="client_ah/assets/images_ah/sjah_index_24.png"></a> -->
+				<a target="_blank">
+                    <img ng-src="{{index.adShowImageArray[0]['file']}}"
+                         width="1200" height="100">
+                </a>
+	        </div>
+	        <div class="clear"></div>
 	        
 	        <!-- 头条 焦点大图 -->
 	        <div class="slideBox" id="slideBox">
@@ -32,14 +41,8 @@
 
             <div class="clear"></div>
 
-            <!-- 通栏广告 -->
-            <div class="special_pic">
-	            <!-- <a href="" target="_blank"><img src="client_ah/assets/images_ah/sjah_index_24.png"></a> -->
-				<a target="_blank">
-                    <img ng-src="{{index.adShowImageArray[0]['file']}}"
-                         ng-click="index.onToShowAdTopicClick(index.adShowImageArray[0])" width="1200" height="100">
-                </a>
-	        </div>
+            <!-- 通栏广告1 -->
+
 
             <!-- 新闻 -->
             <div class="news_box">

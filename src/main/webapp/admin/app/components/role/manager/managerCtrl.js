@@ -342,7 +342,6 @@ adminModule.controller('managerCtrl',function($scope, $cookies, req, md5, $state
 
         //切换菜单导航背景
         vm.toggleMenuBg = function(state,rightIconUrl){
-            console.log(state);
             if(state == 'role.manager.sendManuscript'){
                 rightIconUrl = 'admin/assets/img/role/zxs_ld_but_picbn_03.png';
             }

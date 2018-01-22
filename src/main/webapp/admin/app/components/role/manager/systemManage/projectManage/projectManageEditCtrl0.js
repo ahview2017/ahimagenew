@@ -45,7 +45,6 @@ adminModule.controller('projectManageEditCtrl0',function($scope,$cookies,req,md5
             lanmuid: vm.columnId
         }).success(function(resp){
             if(resp.code == '211'){
-                console.log(resp.data);
                 vm.topicId = resp.data.topicId;
                 vm.specialName = resp.data.topicName;
                 vm.columnName = resp.data.name;
@@ -203,7 +202,6 @@ adminModule.controller('projectManageEditCtrl0',function($scope,$cookies,req,md5
                     });
                 }
             } else {
-                console.log(resp.msg);
             }
         });
     }

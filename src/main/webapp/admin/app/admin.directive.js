@@ -68,7 +68,6 @@ angular.module("admin.directive", [])
 				if(!ngModel) return;
 				element.on("focus", function() {
 					var val = this.value;
-					console.log(val);
 					scope.$apply(function() {
 						ngModel.$setViewValue(val);
 					});
@@ -187,9 +186,6 @@ angular.module("admin.directive", [])
 				var oParentleft=document.documentElement.clientWidth||document.body.offsetWidth;
 				var oParenttop=document.getElementById('tests').offsetTop;
 				
-				console.log(atd.length);
-				console.log(apic_children.length);
-				console.log('oParentleft:'+oParentleft+';oParenttop'+oParenttop);
 
 				for(var i=0;i<atd.length;i++){
 					atd[i].index=i;
@@ -360,7 +356,6 @@ angular.module("admin.directive", [])
 				if (scope.$last === true) {
 					$timeout(function() {
 						//权限被选中时改变样式
-						console.log($('.man_onclick').length);
 						for(var i=0;i<$('.man_onclick').length;i++){
 							$('.man_onclick').eq(i).click(function(){
 								$(this).addClass('manager_active');

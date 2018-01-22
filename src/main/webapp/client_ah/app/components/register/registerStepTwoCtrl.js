@@ -46,8 +46,6 @@ clientModule.controller('registerStepTwoCtrl',function($scope, $cookies, req, md
         validRegisterInfo(form,function(){
             req_Register();
         });
-        console.log(form);
-        console.log(form.$valid);
         if(form.$valid){
             req_Register();
         }
@@ -252,7 +250,6 @@ clientModule.controller('registerStepTwoCtrl',function($scope, $cookies, req, md
         var checkDerection = "";
 
         $(".checkboxModel").each(function () {
-            // console.log(this.checked);
             if(this.checked){
                 checkDerection+='1';
             }else{
@@ -307,13 +304,11 @@ clientModule.controller('registerStepTwoCtrl',function($scope, $cookies, req, md
                 //发送邮件
                 req.post("/mail/sendEmailByName.do",sendData).success(function (response) {
                     if(response.code == '211'){
-                        console.log("邮件发送："+response.msg);
                     }
                 });
                 //发送短信
                 req.post("/phonemsg/sendMessageByUserName.do",sendData).success(function (response) {
                     if(response.code == '211'){
-                        console.log("短信发送："+response.msg);
                     }
                 });
                 $state.go('root.registerSuccess',{userName:vm.loginName,emailBind:vm.registerInfo.mail,telBind:vm.registerInfo.mobilePhone});

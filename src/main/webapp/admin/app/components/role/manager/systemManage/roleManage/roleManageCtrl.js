@@ -94,7 +94,6 @@ adminModule.controller('roleManageCtrl', function ($scope, $cookies, req, md5, $
         vm.selKeyArr = [];
         vm.selRightIds = {};
         judgeIfSelData();
-        console.log(typeof vm.selKeyArr);
         if (vm.selKeyArr.length != 1) {
             layer.alert('请选择一条数据进行操作');
             return;
@@ -103,7 +102,6 @@ adminModule.controller('roleManageCtrl', function ($scope, $cookies, req, md5, $
             angular.forEach(vm.roleList, function (item, index) {
                 if (item.ID == vm.selKeyArr[0]) {
                     vm.willUpdateRole = item;
-                    console.log(vm.willUpdateRole);
                 }
             });
             vm.willUpdateRoleRights = vm.willUpdateRole.rights;
@@ -276,10 +274,8 @@ adminModule.controller('roleManageCtrl', function ($scope, $cookies, req, md5, $
         for (var key in vm.selRoleIds) {
             if (vm.selRoleIds[key]) {
                 vm.selKeyArr.push(key);
-                console.log(vm.selKeyArr.length);
             }
         }
-        console.log(vm.selKeyArr.length);
     }
 
     //添加角色请求
@@ -420,7 +416,6 @@ adminModule.controller('roleManageCtrl', function ($scope, $cookies, req, md5, $
 
     //删除角色
     vm.confirmDelRole = function (modalId) {
-        console.log(vm.roleIds);
         req_delRoleList(modalId);
     };
 

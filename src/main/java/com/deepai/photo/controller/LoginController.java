@@ -550,6 +550,9 @@ public class LoginController {
 			CommonValidation.checkParamBlank(roleId + "", "用户类别");
 			CommonValidation.checkParamBlank(user.getTureName(), "真实姓名");
 			// CommonValidation.checkParamBlank(user.getIdCard(), "身份证号");
+			log.info("user.getAddress():"+user.getAddress());
+			log.info("user.getMailAddress():"+user.getMailAddress());
+			//CommonValidation.checkParamBlank(user.getAddress(), "通讯地址");
 			CommonValidation.checkParamBlank(user.getPassword(), "密码");
 			CommonValidation.checkParamBlank(user.getQuestion(), "密码提示问题");
 			CommonValidation.checkParamBlank(user.getAnswer(), "密码提示答案");

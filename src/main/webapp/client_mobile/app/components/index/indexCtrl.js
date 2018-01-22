@@ -4,7 +4,8 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
     function initSetting() {
     	vm.currpage = 1;
 	    vm.currchnl = 3064;
-	    vm.chnlArr = [3064,3077,3078,3079,3080,3081,3082,3083,3084];
+	   // vm.chnlArr = [3064,3077,3078,3079,3080,3081,3082,3083,3084];
+	    vm.chnlArr = [3064,3077,3078,3079,3080,3081,3101,3126,3103,3125,3083,3084];//edit by xiayunan@20180119
 	    //点赞数
         vm.thumbsUpCount = 0;
 	    vm.pageHeight = Math.max(document.body.scrollHeight,document.body.offsetHeight);
@@ -37,9 +38,13 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
     	vm.getMoreGroups(3079,1);
     	vm.getMoreGroups(3080,1);
     	vm.getMoreGroups(3081,1);
-    	vm.getMoreGroups(3082,1);
+    	vm.getMoreGroups(3101,1);
+    	vm.getMoreGroups(3126,1);
+    	vm.getMoreGroups(3103,1);
+    	vm.getMoreGroups(3125,1);
     	vm.getMoreGroups(3083,1);
     	vm.getMoreGroups(3084,1);
+    	
     }
 
     vm.thumbsUp = function(groupId,index){
@@ -108,14 +113,39 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
        	            		 }
        	         		 });
                        }
-       				//艺苑菁华artEssence
-       				if ( vm.currchnl == 3082) {
+       				//艺苑菁华artEssence(安徽画坛)
+       				if ( vm.currchnl == 3101) {
        					angular.forEach(vm.artEssence,function(item,index){
        	            		 if(oIndex==index){
        	            			item.isThumbsUp = true;
        	            		 }
        	         		 });
                        }
+       				//网上展厅
+       				if ( vm.currchnl == 3126) {
+       					angular.forEach(vm.webDisplay,function(item,index){
+       	            		 if(oIndex==index){
+       	            			item.isThumbsUp = true;
+       	            		 }
+       	         		 });
+                       }
+       				//漫画天地
+       				if ( vm.currchnl == 3103) {
+       					angular.forEach(vm.comicWorld,function(item,index){
+       	            		 if(oIndex==index){
+       	            			item.isThumbsUp = true;
+       	            		 }
+       	         		 });
+                       }
+       				//摄影名家
+       				if ( vm.currchnl == 3125) {
+       					angular.forEach(vm.famousPhotographers,function(item,index){
+       	            		 if(oIndex==index){
+       	            			item.isThumbsUp = true;
+       	            		 }
+       	         		 });
+                       }
+       				
        				//互动空间
        				if ( vm.currchnl == 3083) {
        					angular.forEach(vm.interactiveSpace,function(item,index){
@@ -194,14 +224,40 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
  	            		 }
  	         		 });
                  }
- 				//艺苑菁华artEssence
- 				if ( vm.currchnl == 3082) {
+ 				//艺苑菁华artEssence(安徽画坛)
+ 				if ( vm.currchnl == 3101) {
  					angular.forEach(vm.artEssence,function(item,index){
  	            		 if(oIndex==index){
  	            			 item.thumbsUpCount = resp.data;
  	            		 }
  	         		 });
                  }
+ 				
+ 				//网上展厅
+ 				if ( vm.currchnl == 3126) {
+ 					angular.forEach(vm.webDisplay ,function(item,index){
+ 	            		 if(oIndex==index){
+ 	            			 item.thumbsUpCount = resp.data;
+ 	            		 }
+ 	         		 });
+                 }
+ 				//漫画天地
+ 				if ( vm.currchnl == 3103) {
+ 					angular.forEach(vm.comicWorld,function(item,index){
+ 	            		 if(oIndex==index){
+ 	            			 item.thumbsUpCount = resp.data;
+ 	            		 }
+ 	         		 });
+                 }
+ 				//摄影名家
+ 				if ( vm.currchnl == 3125) {
+ 					angular.forEach(vm.famousPhotographers,function(item,index){
+ 	            		 if(oIndex==index){
+ 	            			 item.thumbsUpCount = resp.data;
+ 	            		 }
+ 	         		 });
+                 }
+ 				
  				//互动空间
  				if ( vm.currchnl == 3083) {
  					angular.forEach(vm.interactiveSpace,function(item,index){
@@ -283,10 +339,19 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
 	        	vm.currchnl = vm.chnlArr[6];  //艺苑菁华
 	            break;
 	        case 7:
-	        	vm.currchnl = vm.chnlArr[7];  //互动空间
+	        	vm.currchnl = vm.chnlArr[7];  //网上展厅
 	            break;
 	        case 8:
-	        	vm.currchnl = vm.chnlArr[8];  //掌上图库
+	        	vm.currchnl = vm.chnlArr[8];  //漫画天地
+	            break;
+	        case 9:
+	        	vm.currchnl = vm.chnlArr[9];  //摄影名家
+	            break;
+	        case 10:
+	        	vm.currchnl = vm.chnlArr[10];  //互动空间
+	            break;
+	        case 11:
+	        	vm.currchnl = vm.chnlArr[11];  //掌上图库
 	            break;
     	}
     	
@@ -415,10 +480,30 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
                     vm.currchnl = 3081;
                 }
 				//艺苑菁华artEssence
-				if (signId == 3082) {
-                    vm.artEssence = jugeGroupPos.jugeGroupPos(3082,resp.data);
-                    vm.currchnl = 3082;
+				if (signId == 3101) {
+                    vm.artEssence = jugeGroupPos.jugeGroupPos(3101,resp.data);
+                    vm.currchnl = 3101;
                 }
+				
+				//网上展厅
+				if (signId == 3126) {
+                    vm.webDisplay = jugeGroupPos.jugeGroupPos(3126,resp.data);
+                    vm.currchnl = 3126;
+                }
+				
+				//漫画天地
+				if (signId == 3103) {
+                    vm.comicWorld = jugeGroupPos.jugeGroupPos(3103,resp.data);
+                    vm.currchnl = 3103;
+                }
+				
+				//摄影名家
+				if (signId == 3125) {
+                    vm.famousPhotographers = jugeGroupPos.jugeGroupPos(3125,resp.data);
+                    vm.currchnl = 3125;
+                }
+				
+				
 				//互动空间
 				if (signId == 3083) {
                     vm.interactiveSpace = jugeGroupPos.jugeGroupPos(3097,resp.data);
@@ -499,9 +584,23 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
                     vm.anhuiVideo1 = resp.data;
                 }
                 //艺苑菁华
-                if (pColumnId == 3082) {
+                if (pColumnId == 3101) {
                     vm.artEssence1 = resp.data;
                 }
+                
+                //网上展厅
+                if (pColumnId == 3126) {
+                    vm.webDisplay1 = resp.data;
+                }
+                //漫画天地
+                if (pColumnId == 3103) {
+                    vm.comicWorld1 = resp.data;
+                }
+                //摄影名家
+                if (pColumnId == 3125) {
+                    vm.famousPhotographers1 = resp.data;
+                }
+                
                 //互动空间
                 if (pColumnId == 3083) {
                     vm.interactiveSpace1 = resp.data;
@@ -580,8 +679,26 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
                     //vm.currchnl = 3081;
                 }
 				//艺苑菁华artEssence
-				if (signId == 3082) {
+				if (signId == 3101) {
                     vm.artEssence = resp.data;
+                    //vm.currchnl = 3082;
+                }
+				
+				//网上展厅
+				if (signId == 3126) {
+                    vm.webDisplay = resp.data;
+                    //vm.currchnl = 3082;
+                }
+				
+				//漫画天地
+				if (signId == 3103) {
+                    vm.comicWorld = resp.data;
+                    //vm.currchnl = 3082;
+                }
+				
+				//艺苑菁华artEssence
+				if (signId == 3125) {
+                    vm.famousPhotographers = resp.data;
                     //vm.currchnl = 3082;
                 }
 				//互动空间
@@ -646,8 +763,20 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
 					appendData(resp.data,vm.anhuiVideo);
                 }
 				//艺苑菁华artEssence
-				if (signId == 3082) {
+				if (signId == 3101) {
 					appendData(resp.data,vm.artEssence);
+                }
+				//网上展厅
+				if (signId == 3126) {
+					appendData(resp.data,vm.webDisplay);
+                }
+				//漫画天地
+				if (signId == 3103) {
+					appendData(resp.data,vm.comicWorld);
+                }
+				//摄影名家
+				if (signId == 3125) {
+					appendData(resp.data,vm.famousPhotographers);
                 }
 				//互动空间
 				if (signId == 3083) {

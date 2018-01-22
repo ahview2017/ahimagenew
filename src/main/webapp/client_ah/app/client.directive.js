@@ -33,7 +33,6 @@ angular.module("client.directive", [])
 			replace: true,
 			link: function(scope, element, attrs) {
 				var url = attrs.backImg;
-				console.log(url);
 				var height = attrs.size;
 				if(!url) {
 					return;
@@ -55,7 +54,6 @@ angular.module("client.directive", [])
 				if(!ngModel) return;
 				element.on("focus", function() {
 					var val = this.value;
-					console.log(val);
 					scope.$apply(function() {
 						ngModel.$setViewValue(val);
 					});
@@ -143,7 +141,6 @@ angular.module("client.directive", [])
 				if(scope.$last === true) {
 					$timeout(function() {
 						var ali = getClass('li', 'lanmu_li');
-						console.log(ali.length);
 						for(var i = 0; i < ali.length; i++) {
 							ali[i].onclick = function() {
 								var lanmu_top = document.getElementById('lanmu_' + this.value);

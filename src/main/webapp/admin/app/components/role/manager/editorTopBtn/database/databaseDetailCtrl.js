@@ -129,7 +129,6 @@ adminModule.controller('mDatabaseDetailCtrl', function ($scope, $cookies, req, m
             groupId: vm.dataBankId
         }).success(function (resp) {
             if (resp.code == '211') {
-                console.log('success');
                 $state.go('role.manager.databaseEdit', {
                     id: vm.dataBankId
                 });
@@ -258,10 +257,8 @@ adminModule.controller('mDatabaseDetailCtrl', function ($scope, $cookies, req, m
      * 树复选框选中回调事件
      */
     function treeCheckEvent(event, treeId, treeNode, clickFlag) {
-        console.log(treeNode);
     }
     function treeCheckEvents(event, treeId, treeNode, clickFlag) {
-        console.log(treeNode.id);
     }
     //add by xiayunan@2017-09-24 
     function zTreeBeforeCheck(treeId, treeNode) {
@@ -297,14 +294,6 @@ adminModule.controller('mDatabaseDetailCtrl', function ($scope, $cookies, req, m
         function(resp) {
             if(resp.code == '211') {
                 $scope.zNodes = resp.data;
-               /* vm.column = resp.data;
-                console.log(resp.data);
-                for(var i = 0; i < vm.column.length; i++) {
-                    for(var s = 0; s < vm.column[i].children.length; s++) {
-                        vm.column.push(resp.data[i].children[s]);
-                    }
-                }
-                console.log("栏目"+vm.column);*/
             } else if(resp.msg != '未登录') {
                 layer.alert(resp.msg);
             }
@@ -316,13 +305,11 @@ adminModule.controller('mDatabaseDetailCtrl', function ($scope, $cookies, req, m
             function(resp) {
                 if(resp.code == '211') {
                     vm.column = resp.data;
-                    console.log(resp.data);
                     for(var i = 0; i < resp.data.length; i++) {
                         for(var s = 0; s < resp.data[i].children.length; s++) {
                             vm.column.push(resp.data[i].children[s]);
                         }
                     }
-                    console.log("栏目"+vm.column);
                 } else if(resp.msg != '未登录') {
                     layer.alert(resp.msg);
                 }
@@ -601,7 +588,6 @@ adminModule.controller('mDatabaseDetailCtrl', function ($scope, $cookies, req, m
             for(var i = 0; i < nodes.length; i++) {
                 lanmu.push(nodes[i].id);
             }
-            console.log(lanmu);
             var signlanmu = [] //定义一数组存放栏目id和显示的位置
             for(var i = 0; i < lanmu.length; i++) {
                 var options = $("#diyBtn_" + lanmu[i] + " " + "option:selected"); //获取选中的项的value
@@ -611,7 +597,6 @@ adminModule.controller('mDatabaseDetailCtrl', function ($scope, $cookies, req, m
                     lanmuId: lanmu[i]
                 });
             }
-            console.log(signlanmu);
         }
         for(var i = 0; i < vm.signlanmu.length; i++) {
             req.post('lanmu/addLanmuPic.do', {
@@ -621,7 +606,6 @@ adminModule.controller('mDatabaseDetailCtrl', function ($scope, $cookies, req, m
                 "langType": vm.langType
             }).success(function(resp) {
                 if(resp.code == '211') {
-                    console.log('------success-----');
                     layer.msg('操作成功');
                     getHadSignData(vm.dataBankId);
                     vm.projectModalHide('fillSignModalId');
