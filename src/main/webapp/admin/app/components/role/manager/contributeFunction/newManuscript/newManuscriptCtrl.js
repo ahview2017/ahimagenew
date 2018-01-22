@@ -795,8 +795,8 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
             layer.alert('请填写新闻说明');
             return;
         }
-        if(vm.newManuscriptManuscript.memo && vm.newManuscriptManuscript.memo.length > 13200){
-            layer.alert('新闻说明要少于6600字');
+        if(vm.newManuscriptManuscript.memo && vm.newManuscriptManuscript.memo.length > 2000){
+            layer.alert('新闻说明要少于2000字');
             return;
         }
         if(vm.newManuscriptManuscript.remark && vm.newManuscriptManuscript.remark.length > 2000){

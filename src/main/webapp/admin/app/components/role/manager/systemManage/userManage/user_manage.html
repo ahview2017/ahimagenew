@@ -58,7 +58,8 @@
 							</td>
 							<td class='id_color wbba' style="width:6%;">{{item.ID}}</td>
 							<td class='username_color cursor wbba' style="width:10%;" ng-click="userManage.onShowEditModelClick(item.ID,$index)">{{item.USER_NAME}}</td>
-							<td class='truename_color wbba' style="width:10%;">{{item.TURE_NAME}}</td>
+							<td class='truename_color wbba' style="width:10%;" ng-show="item.MEMO!='已提交'" >{{item.TURE_NAME}}</td>
+							<td class='truename_color wbba' style="width:10%;" ng-show="item.MEMO=='已提交'"><font color="red">*</font>{{item.TURE_NAME}}</td>
 							<td class='authorname_color wbba' style="width:10%;">{{item.AUTHOR_NAME}}</td>
 							<td class='roles_color wbba' style="width:16%;">
 								<span title="{{item.roles|userShowArrayTypeFilter:false}}">

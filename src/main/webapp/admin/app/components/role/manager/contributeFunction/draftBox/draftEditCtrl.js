@@ -496,8 +496,8 @@ adminModule.controller('mDraftEditCtrl', function($scope, $cookies, req, md5, $s
             layer.alert('请填写新闻说明');
             return;
         }
-        if(vm.editManuscript.memo && vm.editManuscript.memo.length > 4000){
-            layer.alert('新闻说明要少于4000字');
+        if(vm.editManuscript.memo && vm.editManuscript.memo.length > 2000){
+            layer.alert('新闻说明要少于2000字');
             return;
         }
         if(vm.editManuscript.remark && vm.editManuscript.remark.length > 2000){

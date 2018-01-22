@@ -46,12 +46,14 @@
                         </div>
                     </div>
                     <div class="n-manuscript-middle">
+                    <p class='new_infor  memo-toggle'  id ="memo-toggle-flag" >请输入稿件说明（必填，少于2000汉字的简单说明）</p>
                     <textarea class="n-manuscript-explain" placeholder="请输入稿件说明（必填，少于600汉字的简单说明）"
-                              ng-model="edit.editManuscript.memo"></textarea>
+                              ng-model="edit.editManuscript.memo" maxlength="2000"></textarea>
                     </div>
                     <div class="n-manuscript-bottom">
+                    <p class='new_infor  memo-toggle'  id ="memo-toggle-flag" >请输入备注（必填，少于2000汉字的备注）</p>
                     <textarea class="n-manuscript-explain ms-alternative-texarea" placeholder="备注（选填）"
-                              ng-model="edit.editManuscript.remark"></textarea>
+                              ng-model="edit.editManuscript.remark" maxlength="2000"></textarea>
                     </div>
                 </div>
                 <div class="n-manuscript-right fll">

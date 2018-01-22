@@ -70,22 +70,28 @@
 						</div>
                     </div>
                     <div class="n-manuscript-middle">
-                   <!-- <textarea class="n-manuscript-explain" placeholder="请输入稿件说明（必填，少于600汉字的简单说明）"
-                              ng-model="edit.editManuscript.memo"></textarea>-->
+                   
                         <!--稿件合并时需要展示html，故用div代替textarea-->
-                        <p class='new_infor memo-toggle' id ="memo-toggle-flag">请输入稿件说明（必填，少于6600汉字的简单说明）</p>
+                        <p class='new_infor memo-toggle' id ="memo-toggle-flag">请输入稿件说明（必填，少于2000汉字的简单说明）</p>
+                        <textarea class="n-manuscript-explain" ng-model="edit.editManuscript.memo" maxlength="2000"></textarea>
+                        <!--  
                          <div class="n-manuscript-explain"  ng-bind-html="edit.editManuscript.memo | trustHtml"
                                    contenteditable = "true" style='-webkit-user-select:text'
                                    ng-model="edit.editManuscript.memo"></div>
+                        -->
                     </div>
                     <div class="n-manuscript-bottom">
                         <!--用div代替textarea-->
                         <p class='new_infor'>备注（选填，少于2000汉字的备注）</p>
+                        
+                       <textarea class="n-manuscript-explain ms-alternative-texarea" 
+                              ng-model="edit.editManuscript.remark"></textarea>
+                        
+                        <!--        
                         <div class="n-manuscript-explain ms-alternative-texarea"  ng-bind-html="edit.editManuscript.remark | trustHtml"
-                             contenteditable = "true" style='-webkit-user-select:text'
-                             ng-model="edit.editManuscript.remark"></div>
-                       <!-- <textarea class="n-manuscript-explain ms-alternative-texarea" placeholder="备注（选填，少于255汉字的备注）"
-                              ng-model="edit.editManuscript.remark"></textarea>-->
+                       contenteditable = "true" style='-webkit-user-select:text'
+                       ng-model="edit.editManuscript.remark"></div>
+                       -->
                     </div>
                 </div>
                 <div class="n-manuscript-right fll">
