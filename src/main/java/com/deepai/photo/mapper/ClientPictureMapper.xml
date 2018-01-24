@@ -319,7 +319,7 @@
 	AND g.GROUP_STATUS = 4
 	AND p.DELETE_FLAG = 0
 	AND g.ID = #{0}
-	ORDER BY p.IS_COVER DESC,p.id
+	ORDER BY p.IS_COVER DESC,p.SORT_ID
   </select>
   <!-- 查询client图片详情 -->
   <select id="selectClientPicture" resultMap="GroupPicMap">

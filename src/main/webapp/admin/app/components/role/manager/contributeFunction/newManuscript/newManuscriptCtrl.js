@@ -56,6 +56,8 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
         }
         //默认输入时显示选择作者的列表div
         vm.showNameFlag = false;
+        
+        vm.netFlag = false;//内外网标识，true表示外网，false表示内网,默认是内网
         //初始化涉外作者信息
         vm.newManuscript  = {
             loginName:'',
@@ -325,11 +327,21 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
 		req.get('groupPicCtro/getMasBaseUrl.do').success(function(resp) {
 			if(resp.code == '211') {
 				vm.masBaseUrl = resp.data.masBaseUrl;
+				//获取
+				var netFlag = window.location.href;
+				if(netFlag.indexOf("vi.ahnews.com.cn")>=0){
+					vm.netFlag = true;//外网标识
+				}
+				
 			}else if(resp.msg != '未登录') {
 				layer.alert(resp.msg);
 			}
 		});
 	}
+	
+	
+	
+	
 
     //拖拽弹框
     vm.modalMove = function(dragDiv,tagDiv){
@@ -523,7 +535,7 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
     
     //选择Mas视频
     vm.selectMasVideo =  function(){
-    	window.open(vm.masBaseUrl+"&method=list");
+    	window.open(vm.masBaseUrl+"&method=list&netFlag="+vm.netFlag);
     }
     
     

@@ -599,10 +599,10 @@
     position: absolute;
     z-index: 999;
     /*margin: auto;*/
-    left: 20%;
-    right: 0;
+    left: 35%;
+    right: 10%;
     /*top: 15%;*/
-    top: 15%;
+    top: 190px;
     /*bottom: 0;*/
     border: 1px solid #3399cc;
     background-color: #FFF;
@@ -614,7 +614,8 @@
     /*margin: auto;*/
     left: 20%;
     right: 20%;
-    top: 5%;
+    /*top: 15%;*/
+    top: 190px;
     /*bottom: 0;*/
     border: 1px solid #3399cc;
     background-color: #FFF;
@@ -1413,7 +1414,7 @@
 .template_ul p{
     margin-top:10px;
 }
-/* å­æ ç›® */
+/* Ã¥Â­ÂÃ¦Â ÂÃ§â€ºÂ® */
 .addSub_column_ul{
     width:95%;
     float:right;
@@ -1907,7 +1908,7 @@
 	height:528px;
 }*/
 
-/*æ·»åŠ */
+/*Ã¦Â·Â»Ã¥Å Â */
 .user-form-part_emaildate{
 	width:46%;
 }
@@ -1919,7 +1920,8 @@
     z-index: 999;
     left: 15%;
     right: 0;
-    top: 15%;
+   /* top: 15%;*/
+    top: 190px;
     bottom: 0;
     border: 1px solid #3399cc;
     background-color: #FFF;
@@ -2116,9 +2118,9 @@
 	width: 482px;
     height: 202px;
     border-radius: 16px;
-    left: 440px;
+    left: 40%;
     right: 0;
-    top: 260px;
+    top: 40%;
 }
 #internalRetention-type-modal{
 	width: 482px;

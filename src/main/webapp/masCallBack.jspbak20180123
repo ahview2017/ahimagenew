@@ -52,10 +52,12 @@
 			var masBaseUrl = resp.data.masBaseUrl;
 			var masPlayUrl = masBaseUrl+"&method=exPlay&type=vod&id="+masId;
 			var netFlag = GetQueryString("netFlag");
+			/*
 			if(!netFlag){
 				masPlayUrl = masPlayUrl.replace("vi.ahnews.com.cn","192.168.81.6");
 				console.log("masPlayUrl:"+masPlayUrl);
 			}
+			*/
 			//var masPlayUrl = masBaseUrl+"&method=exPlay&type=vod&id="+masId;
 			//var masPlayUrl = "/mas/openapi/pages.do?appKey=TRSPMS123&method=exPlay&type=vod&id="+masId;
 			

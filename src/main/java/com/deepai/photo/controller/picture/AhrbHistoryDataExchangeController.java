@@ -167,7 +167,7 @@ public class AhrbHistoryDataExchangeController {
 		try {
 			
 			conn =  getConnection();
-			String sql = "SELECT * FROM uninews_Product  WHERE up_photodate_dt BETWEEN '2012-06-02 00:00:00' AND '2013-06-30 23:59:59'";
+			String sql = "SELECT * FROM uninews_Product  WHERE up_photodate_dt BETWEEN '2012-07-26 00:00:00' AND '2014-06-30 23:59:59'";
 	        pstmt = (PreparedStatement)conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 	        log.info("获取数据库连接成功！");
 	        rs = pstmt.executeQuery();
@@ -197,8 +197,8 @@ public class AhrbHistoryDataExchangeController {
 							+ "FROM "
 								+ "[uninews_Product] "
 							+ "WHERE "
-								+ "up_photodate_dt BETWEEN '2012-06-02 00:00:00' AND '2013-06-30 23:59:59' order by up_photodate_dt))"
-						+ " AND (UP_PhotoDate_Dt BETWEEN '2012-06-02 00:00:00' AND '2013-06-30 23:59:59') order by up_photodate_dt";
+								+ "up_photodate_dt BETWEEN '2012-07-26 00:00:00' AND '2014-06-30 23:59:59' order by up_photodate_dt))"
+						+ " AND (UP_PhotoDate_Dt BETWEEN '2012-07-26 00:00:00' AND '2014-06-30 23:59:59') order by up_photodate_dt";
 				 pstmt = (PreparedStatement)conn.prepareStatement(subsql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 				 log.info("<<<分段查询获取数据库连接成功！");
 				 

@@ -23,6 +23,7 @@
                 
                 <div class="swiper-slide">互动空间</div>
                 <div class="swiper-slide">掌上图库</div>
+                <div class="swiper-slide">特别策划</div>
             </div>
         </div>
     <!-- 
@@ -421,6 +422,31 @@
                     </ul>
                 </div>
             </div>
+            
+            <!-- 特别策划-->
+            <div class="swiper-slide">
+                <div class="conLists" ng-init="index.getMoreGroups(3085,1)">
+                    <ul>
+                        <li ng-repeat="item in index.specialPlanning track by $index">
+                            <a ui-sref="root.newDetailList({groupId: item.ID})">
+                                <img ng-src="{{item.filePath}}" />
+                                <i>{{item.PICTURE_COUNT}}图</i>
+                                <div class="clear"></div>
+                            </a>
+                            <p>{{item.TITLE}}</p>
+                            <p class="li_second_p">
+                                <span>{{item.columnName}}</span>{{item.AUTHOR}}摄
+                                <b class="noThumbsUp" ng-if="!item.isThumbsUp" ng-click="index.thumbsUp(item.ID,$index)">{{item.thumbsUpCount||0}}</b>
+                                <b class="thumbsUp" ng-if="item.isThumbsUp" ng-click="index.thumbsUp(item.ID,$index)">{{item.thumbsUpCount||0}}</b>
+                                <div class="clear"></div>
+                            </p>
+                            
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            
         </div>
     </div>
     <div class="back_top" id="back-to-top"></div>

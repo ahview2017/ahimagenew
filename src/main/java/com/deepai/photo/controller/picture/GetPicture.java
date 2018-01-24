@@ -419,9 +419,7 @@ public class GetPicture {
 			if(StringUtil.notBlank(forbitSignIdStr)){
 				if(forbitSignIdStr.indexOf(",")!=-1){
 					String[] forbitColumIdsStr = forbitSignIdStr.split(",");
-					
 					if(signId!=null&&signId!=0){
-						logger.info("signId is not  null!!");
 						for(int i=0;i<forbitColumIdsStr.length;i++){
 							if(Integer.valueOf(forbitColumIdsStr[i]).equals(signId)){
 								picType = 2;
@@ -431,14 +429,9 @@ public class GetPicture {
 							}
 						}
 					}else{
-						logger.info("signId is  null!!");
-						logger.info("groupId:"+groupId);
 						List<CpPicGroupCategory> CpPicGroupCategorys =  cpPicGroupCategoryMapper.selectByGroupId(groupId);
-						logger.info("cpColumns.size:"+CpPicGroupCategorys.size());
 						for(int i=0;i<forbitColumIdsStr.length;i++){
 							for(int j=0;j<CpPicGroupCategorys.size();j++){
-								logger.info("forbitColumIdsStr["+i+"]:"+forbitColumIdsStr[i]);
-								logger.info("CpPicGroupCategorys["+j+"]:"+CpPicGroupCategorys.get(j).getId());
 								if(Integer.valueOf(forbitColumIdsStr[i]).equals(CpPicGroupCategorys.get(j).getCategoryId())){
 									picType = 2;
 									size = 4;
@@ -488,9 +481,6 @@ public class GetPicture {
 				for (CpPicture pic:group.getPics()) {
 					if(pic.getFilename()!=null){
 						//add by xiayunan20170917
-						logger.info("<<<<<<<<<<<size:"+size);
-						logger.info("<<<<<<<<<<<type:"+picType);
-						logger.info("<<<<<<<<<<<path:"+ImgFileUtils.getPathByNameAndSize(pic.getFilename(),request,size));
 						if(picType == 1){
 							pic.setFilePath(CommonConstant.SMALLHTTPPath+ImgFileUtils.getWMPathByNameAndSize(pic.getFilename(),request,size));
 						}else{

@@ -10,8 +10,6 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
 	//从路由取得图片id
     vm.pictureId = $stateParams.pictureId;
 
-
-
 	//从路由取得签发栏目ID add by xiayunan@20171101
     vm.sginId = $stateParams.sginId;
 

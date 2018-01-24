@@ -5,7 +5,7 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
     	vm.currpage = 1;
 	    vm.currchnl = 3064;
 	   // vm.chnlArr = [3064,3077,3078,3079,3080,3081,3082,3083,3084];
-	    vm.chnlArr = [3064,3077,3078,3079,3080,3081,3101,3126,3103,3125,3083,3084];//edit by xiayunan@20180119
+	    vm.chnlArr = [3064,3077,3078,3079,3080,3081,3101,3126,3103,3125,3083,3084,3085];//edit by xiayunan@20180119
 	    //点赞数
         vm.thumbsUpCount = 0;
 	    vm.pageHeight = Math.max(document.body.scrollHeight,document.body.offsetHeight);
@@ -44,6 +44,7 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
     	vm.getMoreGroups(3125,1);
     	vm.getMoreGroups(3083,1);
     	vm.getMoreGroups(3084,1);
+    	vm.getMoreGroups(3085,1);
     	
     }
 
@@ -162,6 +163,15 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
       	            		 }
       	         		 });
                       }
+      				//特别策划
+      				if ( vm.currchnl == 3085) {
+      					angular.forEach(vm.specialPlanning,function(item,index){
+      	            		 if(oIndex==index){
+      	            			item.isThumbsUp = true;
+      	            		 }
+      	         		 });
+                      }
+      				
             	  }
             	  getThumbsUpCount(groupId,oIndex);
               }else if(resp.msg != '未登录'){
@@ -274,6 +284,14 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
 	            		 }
 	         		 });
                 }
+				//特别策划
+				if ( vm.currchnl == 3085) {
+					angular.forEach(vm.specialPlanning,function(item,index){
+	            		 if(oIndex==index){
+	            			 item.thumbsUpCount = resp.data;
+	            		 }
+	         		 });
+                }
             	 
              }else if(resp.msg != '未登录'){
                  layer.alert(resp.msg);
@@ -352,6 +370,9 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
 	            break;
 	        case 11:
 	        	vm.currchnl = vm.chnlArr[11];  //掌上图库
+	            break;
+	        case 12:
+	        	vm.currchnl = vm.chnlArr[12];  //特别策划
 	            break;
     	}
     	
@@ -514,6 +535,11 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
                     vm.handPics = jugeGroupPos.jugeGroupPos(3084,resp.data);
                     vm.currchnl = 3084;
                 }
+				//特别策划
+				if (signId == 3085) {
+                    vm.specialPlanning = jugeGroupPos.jugeGroupPos(3085,resp.data);
+                    vm.currchnl = 3085;
+                }
             }else if(resp.msg != '未登录'){
                 layer.alert(resp.msg);
             }
@@ -608,6 +634,11 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
                 // 掌上图库
                 if (pColumnId == 3084) {
                     vm.handPics1 = resp.data;
+                }
+                
+                // 特别策划
+                if (pColumnId == 3085) {
+                    vm.specialPlanning1 = resp.data;
                 }
                 
                 /*
@@ -711,6 +742,11 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
                     vm.handPics = resp.data;
                     //vm.currchnl = 3084;
                 }
+				//特别策划
+				if (signId == 3085) {
+                    vm.specialPlanning = resp.data;
+                    //vm.currchnl = 3084;
+                }
 				
             }else if(resp.msg != '未登录'){
                 layer.alert(resp.msg);
@@ -785,6 +821,10 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
 				//掌上图库
 				if (signId == 3084) {
 					appendData(resp.data,vm.handPics);
+                }
+				//特别策划
+				if (signId == 3085) {
+					appendData(resp.data,vm.specialPlanning);
                 }
 				
             }else if(resp.msg != '未登录'){
