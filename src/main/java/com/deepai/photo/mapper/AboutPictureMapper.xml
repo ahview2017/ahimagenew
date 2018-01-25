@@ -387,6 +387,10 @@
 	<if test="signId != null or cateId !=null ">
 		LEFT JOIN cp_pic_group_category c on c.GROUP_ID=g.ID
 	</if>
+	
+	
+	
+	
 	where g.SOURCE_ID=0
 		<if test="userId != null">
 			and g.AUTHOR_ID=#{userId} 

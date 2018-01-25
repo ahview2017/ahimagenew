@@ -3,6 +3,9 @@
  */
 adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, $state, $rootScope, layerIfShow, cityList, Upload, $http, $filter,modalOperate,allModalMove, $window){
     var vm = this;
+   
+   
+
     //页面初始化相关配置
     function initSetting(){
         //默认激活的导航项为新闻图片
@@ -74,6 +77,7 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
     }
     //页面初始化
     function init(){
+    	getMasId();
         initSetting();
 		getMasBaseUrl();
         req_getPhotoUser();
@@ -100,6 +104,27 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
     init();
     
     
+    var onmessage = function (event) {
+	    //var data = event.data;
+	   // alert("data:"+data);
+	    //var origin = event.origin;
+	    //alert("origin:"+origin);
+	    //do someing
+	    console.log("<<<<data:"+event.data);
+	    
+	    
+    };
+    if (typeof window.addEventListener != 'undefined') {
+    	window.addEventListener('message', onmessage, false);
+    } else if (typeof window.attachEvent != 'undefined') {
+	    //for ie
+	    window.attachEvent('onmessage', onmessage);
+    }
+    
+    
+    function getMasId(){
+    	
+    }
     
     //人物、关键词、稿件说明快速复制 add by xiayunan@20171011
     vm.copyPeople = function(){
@@ -536,6 +561,11 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
     //选择Mas视频
     vm.selectMasVideo =  function(){
     	window.open(vm.masBaseUrl+"&method=list&netFlag="+vm.netFlag);
+    }
+    
+    
+    function masCallBack(masid){
+    	console.log("masid:"+masid);
     }
     
     

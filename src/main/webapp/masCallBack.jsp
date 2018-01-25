@@ -5,6 +5,17 @@
 <%@ page import="com.deepai.photo.common.listener.SpringContextUtil" %> 
 <%@ page import="com.deepai.photo.common.StringUtil" %> 
 <%@ page import="com.deepai.photo.service.admin.SysConfigService" %> 
+
+
+<html>  
+<head>  
+    <title>window.postMessage</title>  
+</head>  
+<body>  
+    <iframe id="proxy" src="http://192.168.81.6/photo/admin.html#/manager/newManuscript" onload = "postMsg()" style="display: none" ></iframe> 
+</body>
+</html>
+
 <%
 	request.setCharacterEncoding("utf-8");
 	String sQueryString = request.getParameter("queryString");
@@ -33,14 +44,32 @@
 %>
 <script src="admin/assets/libs/jquery/jquery-1.11.3.min.js"></script>
 <script language="javascript" >
+	//document.domain='192.168.81.6';
 	/**
 	 *截取页面url地址参数
 	 */
+	 
+	 
+	 
+	 var obj = {  
+         msg: 'this is come from client message!'  
+     }  
+
+     function postMsg (){  
+         var iframe = document.getElementById('proxy');  
+         var win = iframe.contentWindow;  
+         //win.postMessage(obj,"http://192.168.81.6"); 
+         win.postMessage("hahhahahha","http://192.168.81.6");
+     }  
+	 
+	/*
 	function GetQueryString(name){
 		 var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
 		 var r = window.location.search.substr(1).match(reg);
 		 if(r!=null)return  (decodeURI(r[2])); return null;
 	}
+	*/
+	
 
 
 
@@ -51,11 +80,14 @@
 		$.get(appBaseUrl+"/groupPicCtro/getMasBaseUrl.do",function(resp){
 			var masBaseUrl = resp.data.masBaseUrl;
 			var masPlayUrl = masBaseUrl+"&method=exPlay&type=vod&id="+masId;
+			/*
 			var netFlag = GetQueryString("netFlag");
 			if(!netFlag){
 				masPlayUrl = masPlayUrl.replace("vi.ahnews.com.cn","192.168.81.6");
 				console.log("masPlayUrl:"+masPlayUrl);
 			}
+			*/
+			
 			//var masPlayUrl = masBaseUrl+"&method=exPlay&type=vod&id="+masId;
 			//var masPlayUrl = "/mas/openapi/pages.do?appKey=TRSPMS123&method=exPlay&type=vod&id="+masId;
 			
@@ -67,10 +99,11 @@
 			window.opener.document.getElementById("mas-video-box").innerHTML = "<iframe id='mas-video-img' src='"+masPlayUrl+"'></iframe>";
 			//将视频ID赋值到INPUT标签
 			window.opener.document.getElementById("selmasvideo").value=masId;
+			//window.opener["masCallBack"]("5");
 			window.close();
 		});
 	}else{
-		window.opener.document.getElementById("mas-video-box").innerHTML ="";
+		//window.opener.document.getElementById("mas-video-box").innerHTML ="";
 		alert("请选择需要上传的视频！");
 		window.close();
 	}

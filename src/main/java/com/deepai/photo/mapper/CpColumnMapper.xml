@@ -77,6 +77,9 @@
 		where a.TYPE =1 and  b.pid = #{columnId}  and a.GROUP_ID = #{groupId}   ;
   </select>
   
+
+  
+  
    <select id="selectBykeyNoPname" resultType="com.deepai.photo.bean.CpColumn">
 	     select
 	    id, name,  pid, recommend_id recommendId, order_id orderId, position,  state, max_configurable_sign_position signPosition
@@ -118,6 +121,7 @@
  	where c.id=g.column_id and g.group_id =#{groupId} and g.langType = #{langType} and g.status = 0
     	order by c.order_id
  </select>
+ 
   <insert id="signColumn">
   	insert into cp_pic_group_column(group_id,column_id,sgin_show,langType) values(#{groupId}, #{columnId}, #{signShow}, #{langType}) 
   </insert>

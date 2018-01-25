@@ -48,6 +48,8 @@ angular.module('admin.filter', [])
                 return '撤稿';
             } else if (input == '7') {
                 return '被退稿件';
+            } else if (input == '8') {
+                return '已入库(资料库)）';
             }
         }
     })

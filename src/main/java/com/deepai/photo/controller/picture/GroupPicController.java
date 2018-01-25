@@ -1526,10 +1526,20 @@ public class GroupPicController {
 			for (Map<String,Object> map:list) {
 				if(map.containsKey("FILENAME")){
 					map.put("samllPath", CommonConstant.SMALLHTTPPath+ImgFileUtils.getSamllPathByName(map.get("FILENAME").toString(),request));
-				}
-				if(map.containsKey("FILENAME")){
 					map.put("wmPath", CommonConstant.SMALLHTTPPath+ImgFileUtils.getWMPathByName(map.get("FILENAME").toString(),request));
 				}
+				//判断我的稿件是否入库 add by xiayunan@20180124
+				log.info("1111111111111111");
+					String columnId = map.get("CATEGORY_ID").toString();
+					log.info("<<<columnId:"+columnId);
+					String signBasecolumnId = sysConfigService.getDbSysConfig(SysConfigConstant.SIGN_BASE_COLUMN,1);
+					log.info("<<<signBasecolumnId:"+signBasecolumnId);
+					if(columnId!=null&&columnId.equals(signBasecolumnId)){
+						map.put("GROUP_STATUS", "8");
+					}
+//				if(map.containsKey("FILENAME")){
+//					map.put("wmPath", CommonConstant.SMALLHTTPPath+ImgFileUtils.getWMPathByName(map.get("FILENAME").toString(),request));
+//				}
  			}
 			PageHelper.addPages(result, list);
 			result.setCode(CommonConstant.SUCCESSCODE);

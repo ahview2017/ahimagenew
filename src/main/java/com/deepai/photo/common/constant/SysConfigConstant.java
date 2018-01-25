@@ -127,6 +127,9 @@ public class SysConfigConstant {
    /**禁止打水印栏目ID*/
    public static final String FORBIT_WATERMARK_COLUMN = "FORBIT_WATERMARK_COLUMN";
    
+   /**禁止显示购物车栏目ID*/
+   public static final String FORBIT_SHOPPING_COLUMN = "FORBIT_SHOPPING_COLUMN";
+   
    
    
 }

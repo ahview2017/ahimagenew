@@ -424,7 +424,7 @@ public class GetPicture {
 							if(Integer.valueOf(forbitColumIdsStr[i]).equals(signId)){
 								picType = 2;
 								size = 4;
-								group.setShowStatus(1);
+								//group.setShowStatus(1);
 								break;
 							}
 						}
@@ -435,7 +435,7 @@ public class GetPicture {
 								if(Integer.valueOf(forbitColumIdsStr[i]).equals(CpPicGroupCategorys.get(j).getCategoryId())){
 									picType = 2;
 									size = 4;
-									group.setShowStatus(1);
+									//group.setShowStatus(1);
 									break;
 								}
 							}
@@ -447,7 +447,7 @@ public class GetPicture {
 						if(Integer.valueOf(forbitSignIdStr).equals(signId)){
 							picType = 2;
 							size = 4;//取中图原图
-							group.setShowStatus(1);
+							//group.setShowStatus(1);
 						}
 					}else{
 						List<CpPicGroupCategory> CpPicGroupCategorys =  cpPicGroupCategoryMapper.selectByGroupId(groupId);
@@ -455,6 +455,49 @@ public class GetPicture {
 							if(Integer.valueOf(forbitSignIdStr).equals(CpPicGroupCategorys.get(j).getCategoryId())){
 								picType = 2;
 								size = 4;
+								//group.setShowStatus(1);
+								break;
+							}
+						}
+					}
+					
+				}
+			}
+			
+			
+			//判断当前签发栏目Id是否显示止加入购物车栏目
+            String forbitShoppingSignIdStr = sysConfigService.getDbSysConfig(SysConfigConstant.FORBIT_SHOPPING_COLUMN, 1);
+			if(StringUtil.notBlank(forbitShoppingSignIdStr)){
+				if(forbitShoppingSignIdStr.indexOf(",")!=-1){
+					String[] forbitColumIdsStr = forbitShoppingSignIdStr.split(",");
+					if(signId!=null&&signId!=0){
+						for(int i=0;i<forbitColumIdsStr.length;i++){
+							if(Integer.valueOf(forbitColumIdsStr[i]).equals(signId)){
+								group.setShowStatus(1);
+								break;
+							}
+						}
+					}else{
+						List<CpPicGroupCategory> CpPicGroupCategorys =  cpPicGroupCategoryMapper.selectByGroupId(groupId);
+						for(int i=0;i<forbitColumIdsStr.length;i++){
+							for(int j=0;j<CpPicGroupCategorys.size();j++){
+								if(Integer.valueOf(forbitColumIdsStr[i]).equals(CpPicGroupCategorys.get(j).getCategoryId())){
+									group.setShowStatus(1);
+									break;
+								}
+							}
+						}
+					}
+					
+				}else{
+					if(signId!=null&&signId!=0){
+						if(Integer.valueOf(forbitShoppingSignIdStr).equals(signId)){
+							group.setShowStatus(1);
+						}
+					}else{
+						List<CpPicGroupCategory> CpPicGroupCategorys =  cpPicGroupCategoryMapper.selectByGroupId(groupId);
+						for(int j=0;j<CpPicGroupCategorys.size();j++){
+							if(Integer.valueOf(forbitShoppingSignIdStr).equals(CpPicGroupCategorys.get(j).getCategoryId())){
 								group.setShowStatus(1);
 								break;
 							}
@@ -463,6 +506,8 @@ public class GetPicture {
 					
 				}
 			}
+			
+			
             
 			//判断当前IP对当前稿件是否点过赞
 			Map<Object,Object> sParamMap = new HashMap<Object,Object>();
