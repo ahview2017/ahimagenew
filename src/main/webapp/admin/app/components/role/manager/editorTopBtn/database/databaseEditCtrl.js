@@ -100,7 +100,7 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
 
     
     function isChinese(temp) { 
-    	var re = /[^\u4e00-\u9fa5]/; 
+    	var re = /[^\u4e00-\u9fa5\u0020]/; 
     	if(re.test(temp)){
     		return false;
     	}
