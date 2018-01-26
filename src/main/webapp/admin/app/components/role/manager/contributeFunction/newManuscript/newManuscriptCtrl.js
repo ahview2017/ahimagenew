@@ -31,7 +31,8 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
         //摄影师名
         vm.photoUserName = vm.authorName;
         //作者展示默认采用真实名的方式
-        vm.photoUNameWay = '0';
+        //vm.photoUNameWay = '0';
+        vm.photoUNameWay = '1';
         //从cookie里取得角色id
         vm.adminRoleId = $cookies.get('admin_roleId');
         //存储picData数组
@@ -77,7 +78,6 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
     }
     //页面初始化
     function init(){
-    	getMasId();
         initSetting();
 		getMasBaseUrl();
         req_getPhotoUser();
@@ -104,27 +104,6 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
     init();
     
     
-    var onmessage = function (event) {
-	    //var data = event.data;
-	   // alert("data:"+data);
-	    //var origin = event.origin;
-	    //alert("origin:"+origin);
-	    //do someing
-	    console.log("<<<<data:"+event.data);
-	    
-	    
-    };
-    if (typeof window.addEventListener != 'undefined') {
-    	window.addEventListener('message', onmessage, false);
-    } else if (typeof window.attachEvent != 'undefined') {
-	    //for ie
-	    window.attachEvent('onmessage', onmessage);
-    }
-    
-    
-    function getMasId(){
-    	
-    }
     
     //人物、关键词、稿件说明快速复制 add by xiayunan@20171011
     vm.copyPeople = function(){
@@ -466,6 +445,16 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
     vm.addForeignAuthor = function(modalId){
         req_addForeignAuthor(modalId);
     }
+    
+    
+    function isChinese(temp) { 
+    	var re = /[^\u4e00-\u9fa5]/; 
+    	if(re.test(temp)){
+    		return false;
+    	}
+    	return true; 
+    } 
+    
     //确认添加涉外作者请求
     function req_addForeignAuthor(modalId){
         var pwdExp = /^(?![A-Z]+$)(?![a-z]+$)(?!\d+$)(?![\W_]+$)\S{8,16}$/;
@@ -561,11 +550,8 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
     //选择Mas视频
     vm.selectMasVideo =  function(){
     	window.open(vm.masBaseUrl+"&method=list&netFlag="+vm.netFlag);
-    }
-    
-    
-    function masCallBack(masid){
-    	console.log("masid:"+masid);
+    	
+    	
     }
     
     
@@ -871,6 +857,12 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
             layer.alert('地点要少于200字');
             return;
         }
+        
+        if(!isChinese(vm.photoUserName)){
+            layer.alert('作者名请填写中文');
+            return;
+        }
+        
         if(!vm.photoUserName){
             layer.alert('请填写作者');
             return;

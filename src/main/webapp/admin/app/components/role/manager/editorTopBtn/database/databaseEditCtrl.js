@@ -11,6 +11,7 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
         vm.dtType = $stateParams.dtType;
         //获得城市列表
         vm.msCityList = cityList.citylist;
+        vm.cities = [];
         //默认激活的导航项为全部稿件
         vm.acitiveSlideTit = 1;
         //默认选中境内稿签
@@ -26,7 +27,8 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
         //从cookie里取得真实名
         vm.trueName = $cookies.get('admin_tureName');
         //作者展示默认采用真实名的方式
-        vm.photoUNameWay = '0';
+        //vm.photoUNameWay = '0';
+        vm.photoUNameWay = '1';
         //从cookie里取得角色id
         vm.adminRoleId = $cookies.get('admin_roleId');
         //存储稿件图片信息
@@ -42,6 +44,7 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
             remark:'',
             selProv:'',
             selCity:'',
+            selCounty:'',
             abroadPlace:'',
             price:'',
             editor:''
@@ -85,11 +88,40 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
             }
         }
     };
+    
+    //改变市的时候
+    vm.changeCity = function (city) {
+        for(var i = 0; i < vm.cities.length; i++){
+            if(city == vm.cities[i].n){
+                vm.counties = vm.cities[i].a;
+            }
+        }
+    };
 
+    
+    function isChinese(temp) { 
+    	var re = /[^\u4e00-\u9fa5]/; 
+    	if(re.test(temp)){
+    		return false;
+    	}
+    	return true; 
+    } 
+    
+    
+    function isPhoneNum(temp){
+    	var reg = /^1[3|4|5|7|8][0-9]{9}$/;
+    	if(reg.test(temp)){
+    		return true;
+    	}
+    	return false;
+    }
+    
+    
     //初始化时展示详情
     function showMenuscriptDetail(){
         //初始化地点信息
         vm.changeProv(vm.manuscriptPlaceArr[0]);
+        vm.changeCity(vm.manuscriptPlaceArr[1]);
         $('#draftCategory').prop('222222');
         //vm.manuscriptCategoryId
         //存储编辑稿件信息
@@ -103,7 +135,8 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
             remark: vm.manuscriptDetail.remark,
             selProv: vm.manuscriptPlaceArr[0] || '',
             selCity: vm.manuscriptPlaceArr[1]  || '',
-            abroadPlace: vm.manuscriptDetail.place
+            selCounty: vm.manuscriptPlaceArr[2] || '',
+            abroadPlace: vm.manuscriptDetail.abroadPlace
         };
         //摄影师名(从详情里取得)
         vm.photoUserName = vm.manuscriptAuthor;
@@ -771,6 +804,13 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
             layer.alert('关键词要少于200字');
             return;
         }
+        
+        
+        if(!isChinese(vm.photoUserName)&&!isPhoneNum(vm.photoUserName)){
+            layer.alert('作者名请填写中文');
+            return;
+        }
+        
         if(!vm.authorName){
             layer.alert('请填写作者');
             return;
@@ -781,6 +821,12 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
             layer.alert('请选择稿件类别');
             return;
         }
+        
+        if((!vm.editManuscript.selProv||!vm.editManuscript.selCity) && (!vm.editManuscript.abroadPlace)){
+            layer.alert('请填写地点');
+            return;
+        }
+        
         // 验证价格参数
         if(vm.editManuscript.price && !(/^\d+$/.test(vm.editManuscript.price))){
             layer.alert('定价必须为整数!');
@@ -814,7 +860,12 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
     function req_saveEditManuscript(){
         //获取地点参数
         if(vm.locationType == 0){
-            vm.editManuscript.place = vm.editManuscript.selProv + ' ' + vm.editManuscript.selCity;
+            //vm.editManuscript.place = vm.editManuscript.selProv + ' ' + vm.editManuscript.selCity;
+        	if(!vm.editManuscript.selCounty){
+       		 	vm.editManuscript.place = vm.editManuscript.selProv + ' ' + vm.editManuscript.selCity;
+	       	}else{
+	       		vm.editManuscript.place = vm.editManuscript.selProv + ' ' + vm.editManuscript.selCity+ ' ' + vm.editManuscript.selCounty;
+	       	}
         }
         if(vm.locationType == 1){
             vm.editManuscript.place = vm.editManuscript.abroadPlace;

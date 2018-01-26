@@ -33,7 +33,8 @@ adminModule.controller('mDraftEditCtrl', function($scope, $cookies, req, md5, $s
         //从cookie里取得真实名
         vm.trueName = $cookies.get('admin_tureName');
         //作者展示默认采用真实名的方式
-        vm.photoUNameWay = '0';
+       // vm.photoUNameWay = '0';
+        vm.photoUNameWay = '1';
         //从cookie里取得角色id
         vm.adminRoleId = $cookies.get('admin_roleId');
 
@@ -463,6 +464,13 @@ adminModule.controller('mDraftEditCtrl', function($scope, $cookies, req, md5, $s
         });
     }
 
+    function isChinese(temp) { 
+    	var re = /[^\u4e00-\u9fa5]/; 
+    	if(re.test(temp)){
+    		return false;
+    	}
+    	return true; 
+    } 
 
 
     //获取图片的相关参数
@@ -520,6 +528,12 @@ adminModule.controller('mDraftEditCtrl', function($scope, $cookies, req, md5, $s
             layer.alert('地点要少于200字');
             return;
         }
+        
+        if(!isChinese(vm.photoUserName)){
+            layer.alert('作者名请填写中文');
+            return;
+        }
+        
         if(!vm.authorName){
             layer.alert('请填写作者');
             return;

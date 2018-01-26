@@ -24,7 +24,7 @@
 							<div>
 								<input class="draft-true-name-input draft-sign-input" ng-model="edit.photoUserName" ng-keyup="edit.getPhotoUser($event)" />
 								<select ng-model="edit.photoUNameWay" ng-change="edit.choseUnameShowWay()">
-									<option value="0">作者名</option>
+									<!--  <option value="0">作者名</option>-->
 									<option value="1">真实名</option>
 									<option value="2">匿名</option>
 								</select>
@@ -104,9 +104,16 @@
 								<select class="draft-procity-select" ng-change="edit.changeProv(edit.editManuscript.selProv)" ng-model="edit.editManuscript.selProv" ng-options="prov.p as prov.p for prov in edit.msCityList">
 									<option value="">请选择</option>
 								</select>
-								<select class="draft-procity-select" ng-model="edit.editManuscript.selCity" ng-options="city.n as city.n for city in edit.cities">
+								<select class="draft-procity-select" ng-change="edit.changeCity(edit.editManuscript.selCity)" ng-model="edit.editManuscript.selCity" ng-options="city.n as city.n for city in edit.cities">
 									<option value="">请选择</option>
 								</select>
+								
+								<!--境内地区添加 县  add by xiayunan@20180125-->
+								<select id="countySel" class="draft-procity-select" 
+										ng-model="edit.editManuscript.selCounty" ng-options="county.s as county.s for county in edit.counties">
+									<option  value="" >请选择</option>
+								</select>
+								
 							</div>
 							<div class="draft-aborad-item clear" ng-if="edit.locationType == 1">
 								<input placeholder="请输入境外地区" class="draft-sign-input" ng-model="edit.editManuscript.abroadPlace" />

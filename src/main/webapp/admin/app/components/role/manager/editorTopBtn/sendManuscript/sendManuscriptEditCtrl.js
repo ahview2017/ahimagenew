@@ -34,8 +34,11 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
         vm.authorName = $cookies.get('admin_authorName');
         //从cookie里取得真实名
         vm.trueName = $cookies.get('admin_tureName');
+        
         //作者展示默认采用真实名的方式
-        vm.photoUNameWay = '0';
+        //vm.photoUNameWay = '0';
+        vm.photoUNameWay = '1';
+        
         //从cookie里取得角色id
         vm.adminRoleId = $cookies.get('admin_roleId');
 		
@@ -70,6 +73,9 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
             mail:'',
             phone:''
         }
+        
+        vm.netFlag = false;//内外网标识，true表示外网，false表示内网,默认是内网
+        
         //是否采用搜索方式选择作者，默认无
         vm.hasSeledUNameFlag = false;
         //是否采用添加社外作者方式选择作者，默认无
@@ -230,6 +236,23 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
         });
     }
     
+    
+    function isChinese(temp) { 
+    	var re = /[^\u4e00-\u9fa5]/; 
+    	if(re.test(temp)){
+    		return false;
+    	}
+    	return true; 
+    } 
+    
+    
+    function isPhoneNum(temp){
+    	var reg = /^1[3|4|5|7|8][0-9]{9}$/;
+    	if(reg.test(temp)){
+    		return true;
+    	}
+    	return false;
+    }
     //初始化时展示详情
     function showMenuscriptDetail(){
         //初始化地点信息
@@ -287,7 +310,8 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
     }
 	// 编辑稿件分类模态框显示
     vm.selectMasVideo = function(){
-        window.open(vm.masBaseUrl+"&method=list");
+        //window.open(vm.masBaseUrl+"&method=list");
+    	window.open(vm.masBaseUrl+"&method=list&netFlag="+vm.netFlag);
     }
 
     //页面初始化
@@ -315,6 +339,11 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
 		req.get('groupPicCtro/getMasBaseUrl.do').success(function(resp) {
 			if(resp.code == '211') {
 				vm.masBaseUrl = resp.data.masBaseUrl;
+				//获取
+				var netFlag = window.location.href;
+				if(netFlag.indexOf("vi.ahnews.com.cn")>=0){
+					vm.netFlag = true;//外网标识
+				}
 			}else if(resp.msg != '未登录') {
 				layer.alert(resp.msg);
 			}
@@ -922,6 +951,13 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
             layer.alert('地点要少于200字');
             return;
         }
+        
+        if(!isChinese(vm.photoUserName)&&!isPhoneNum(vm.photoUserName)){
+            layer.alert('作者名请填写中文');
+            return;
+        }
+        
+        
         if(!vm.authorName){
             layer.alert('请填写作者');
             return;
