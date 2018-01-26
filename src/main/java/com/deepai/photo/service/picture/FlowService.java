@@ -337,6 +337,8 @@ public class FlowService {
             if(type==1){//提交，自动分配
                 submitGruop(siteId, group.getId(), user,roleId, group.getLangType(),0,cateIds);
             }else{
+            	//add by liu.jinfeng@20170912
+                addCategoryForGroup(group.getId(), cateIds);
                 addFlowLog(group.getId(), -1, null, null, user);
             }
             long startTime3 = System.currentTimeMillis();

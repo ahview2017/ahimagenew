@@ -76,17 +76,16 @@
 						<div class="database-cont div_box smt-vm-parent" 
 						dir-paginate="dbItem in database.hadPubRowDataArray | itemsPerPage: database.selPageRows" 
 							total-items="database.databaseList_total" 
-							current-page="database.pagination.current" detail-show-middle-pic>
+							current-page="database.pagination.current" database-show-middle-pic>
 							<p>
 								<a target='_blank' ui-sref="role.manager.databaseDetail({id:dbItem.ID,columnId:database.columnId,columnTemplate:database.columnTemplate,num:database.num,oldId:database.oldId,topicId:database.topicId,lanmuId:database.lanmuId,isHadOut:0})">
-									<img class="curp parent_pic" ng-src="{{dbItem.samllPath}}" />
+									<img class="curp database_pic" ng-src="{{dbItem.samllPath}}" />
 								</a>
 							</p>
 							
 							
-							
 						 <!-- add by xiayunan@20171214 小图放大 -->
-                         <div class='smt-wm-box' style="width:380px">
+                         <div class='database-wm-box' style="width:380px">
                        		 <!-- 
                         	<img ng-src="{{dbItem.samllPath}}">
                         	 -->

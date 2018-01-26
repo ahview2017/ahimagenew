@@ -386,7 +386,8 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
 
 	// 判断用户名是否已存在
 	// 匹配用户名正则
-	var uNameRegExp = /^[\.a-zA-Z\u4e00-\u9fa50-9_-]{3,16}$/;
+	//var uNameRegExp = /^[\.a-zA-Z\u4e00-\u9fa50-9_-]{3,16}$/;
+	var uNameRegExp = /^[a-zA-Z][a-zA-Z0-9_-]{4,16}$/;
 	vm.req_checkHoverUserExist = function() {
 		// layer.alert(vm.loginName);
 		if (!vm.loginName) {
@@ -489,9 +490,6 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
             return;
         }
         
-        
-        
-        
         if(form.contactPhone.$error.pattern){
             layer.alert('请输入正确格式的联系电话');
             return;
@@ -533,7 +531,7 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
             layer.alert("请输入用户名");
         }else if(!(uNameRegExp.test(vm.loginName))){
             valid = false;
-            layer.alert("请输入正确格式的用户名");
+            layer.alert("请输入4-16位以字母开头，数字，下划线，减号组成的用户名");
         }
         return valid;
     }

@@ -746,6 +746,22 @@ a.uifi-title:hover{
 .smt-wm-box img{
 	max-width:100%;
 }
+
+
+.database-wm-box{
+	position:absolute;
+	left:0;
+	border:solid #ccc 1px;
+	width:100%;
+	text-align: center;
+	background: #fff;
+	z-index:999;
+}
+.database-wm-box img{
+	max-width:100%;
+}
+
+
 .showMiddlepics{
 	text-align:left;
 	padding:10px;	

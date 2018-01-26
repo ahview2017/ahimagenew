@@ -723,14 +723,7 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
         vm.upMenuscriptPicArr.splice(index, 1);
     }
 
-    //保存
-    vm.saveManuscript = function(){
-        valid_manuscriptInfo(function(){
-            getPicDataParams();
-            vm.loadUpMs = layer.load(1);
-            req_saveManuscript('0');
-        });
-    }
+   
 
 
     //改变省的时候
@@ -753,6 +746,15 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
             }
         }
     };
+    
+    //保存 存为草稿箱
+    vm.saveManuscript = function(){
+        valid_manuscriptInfo(function(){
+            getPicDataParams();
+            vm.loadUpMs = layer.load(1);
+            req_saveManuscript('0');
+        });
+    }
 
 
     //提交

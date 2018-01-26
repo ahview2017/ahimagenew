@@ -483,7 +483,7 @@ input[rel="index_submit"]{width:74px;height:42px;background: url("search_pic_03.
 }
 .hd_content{
 	width:330px;
-	height:216px;
+	height:auto;
 	margin:15px 15px 0;
 }
 .hd_nav{
@@ -648,3 +648,7 @@ td a{color:#747474;padding:0 8px;}
 .weibo_weixin ul li:nth-child(2){margin:0 18px;}
 
 .split_string{white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}
+
+.special_pic a img,.middle_gg a img{
+	cursor:pointer;
+}

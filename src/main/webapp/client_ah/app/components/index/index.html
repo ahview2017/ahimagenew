@@ -9,8 +9,7 @@
             <div class="special_pic">
 	            <!-- <a href="" target="_blank"><img src="client_ah/assets/images_ah/sjah_index_24.png"></a> -->
 				<a target="_blank">
-                    <img ng-click="index.onToShowAdTopicClick(index.adShowImageArray[0])" ng-src="{{index.adShowImageArray[0]['file']}}"
-                         width="1200" height="100">
+                    <img ng-click="index.onToShowAdTopicClick(index.adShowImageArray[0])" ng-src="{{index.adShowImageArray[0]['file']}}" width="1200" height="100">
                 </a>
 	        </div>
 	        <div class="clear"></div>
@@ -68,9 +67,9 @@
             
             <!-- 通栏广告 -->
             <div class="middle_gg">
-				<a href="" target="_blank">
-					<!--<img src="client_ah/assets/images_ah/sjah_index_38.png" height="130" width="1200">-->
-					<a target="_blank">
+				<!--<a href="" target="_blank">
+					<img src="client_ah/assets/images_ah/sjah_index_38.png" height="130" width="1200">
+					<a target="_blank">-->
                     <img ng-src="{{index.adShowImageArray[1]['file']}}"
                          ng-click="index.onToShowAdTopicClick(index.adShowImageArray[1])" width="1200" height="100">
                 </a>
@@ -112,7 +111,7 @@
                         </div>
                     </div>
                     <div class="clear"></div>
-		    <div class="gstk">
+		            <div class="gstk">
                         <div class="yyjh_title_box">
                             <div class="yyjh_title">
                                 <a href="javascript:void(0);">各市图库</a>
@@ -132,7 +131,7 @@
                             </div>							
                         </div>
                     </div>
-		    <div class="clear"></div>
+		            <div class="clear"></div>
                     <div class="yyjh">
                         <div class="yyjh_title_box">
                             <div class="yyjh_title">
@@ -175,21 +174,21 @@
                         </div>
                     </div>
 
-		    <div class="gstk_hd" ng-init="index.getClientGroups(3083,1,0,2)">
+		            <div class="gstk_hd" ng-init="index.getClientGroups(3083,1,0,2)">
                         <div class="zt_title_box">
                             <div class="zt_title">
                                 <a ui-sref="root.moreSortList({sginId:3083})" target="_blank">互动</a>
                             </div>     
                         </div>
                         <div class="hd_content" ng-repeat="item in index.interactiveSpace track by $index">
-                            <div class="hd_nav">
+                            <!-- <div class="hd_nav">
                                 <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">{{item.TITLE}}</a>
-                            </div>
+                            </div> -->
                             <div class="hd_content_1">
                                 <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
-									<img ng-src="{{item.filePath}}" alt="" width="329" height="164">
+									<img ng-src="{{item.filePath}}" alt="" width="329" height="185">
 								</a>
-                                <p><a href="">{{item.TITLE}}</a></p>
+                                <p><a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">{{item.TITLE}}</a></p>
                             </div>
                         </div>
                     </div>
