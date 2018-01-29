@@ -598,6 +598,7 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
                 }else{
                 	vm.clientPictureDetail.author = vm.clientPictureDetail.author+" 摄";
                 }
+                document.title = vm.clientPictureDetail.title+"-安徽新闻网·视觉安徽";
                 //获取图片尺寸 add by xiayunan@20171025
                 angular.forEach(vm.clientPictureDetail.pics, function (item, index) {
                 	item.allSize = "1600x1600";

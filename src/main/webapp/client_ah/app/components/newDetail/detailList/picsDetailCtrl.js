@@ -99,6 +99,7 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
 					vm.masUrl = $sce.trustAsResourceUrl(vm.masUrl);
 				}
 				
+				document.title = vm.clientPictureDetail.title +"-安徽新闻网·视觉安徽";
 				vm.showStatus = resp.data.showStatus;
 				vm.isThumbsUp = resp.data.isThumbsUp;
                 if(callback) callback();
