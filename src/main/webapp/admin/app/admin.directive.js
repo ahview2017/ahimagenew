@@ -350,39 +350,24 @@ angular.module("admin.directive", [])
     })
     
     
-    //资料库-稿件详情显示中图
+    //资料库-稿件详情显示中图  add by xiayunan@20180129
    .directive('databaseShowMiddlePic', function () {
 	  return {
 		restrict: 'A',
 		link: function(scope, element) {
 			if (scope.$last === true) {
-				//var smt_vm_parent=$('.parent_pic');
 				var smt_vm_parent=$('.database_pic');
-				
-				
-				//var smt_wm_box=$('.smt-wm-box');
 				var smt_wm_box=$('.database-wm-box');
-				
-				
-				smt_wm_box.css('display','none');				
+				smt_wm_box.css('display','none');
 				for(let i=0;i<smt_vm_parent.length;i++){
 					smt_vm_parent.eq(i).mousemove(function(e){
 						smt_wm_box.eq(i).css('display','block');
 						var oEvent=e||event;
 						$('.parent_pic').eq(i).height();
-						if(smt_vm_parent.length>1){
-							if(i<smt_vm_parent.length-1){
-								smt_wm_box.eq(i).css('left',oEvent.clientX-smt_vm_parent.eq(i).offset().left+20+'px');
-						        smt_wm_box.eq(i).css('top',oEvent.clientY+$(window).scrollTop()-smt_vm_parent.eq(i).offset().top+20+'px');
-							}else{
-								smt_wm_box.eq(i).css('left',oEvent.clientX-smt_vm_parent.eq(i).offset().left+20+'px');
-						        smt_wm_box.eq(i).css('bottom',$('.parent_pic').eq(i).height()-(oEvent.clientY+$(window).scrollTop()-smt_vm_parent.eq(i).offset().top+20)+'px');
-							}
-						}else{
-							smt_wm_box.eq(i).css('left',oEvent.clientX-smt_vm_parent.eq(i).offset().left+20+'px');
-						    smt_wm_box.eq(i).css('top',oEvent.clientY+$(window).scrollTop()-smt_vm_parent.eq(i).offset().top+20+'px');
-						}						
+						smt_wm_box.eq(i).css('left',oEvent.clientX-smt_vm_parent.eq(i).offset().left-60+'px');
+				        smt_wm_box.eq(i).css('top',oEvent.clientY+$(window).scrollTop()-smt_vm_parent.eq(i).offset().top+20+'px');
 					});
+					
 					smt_vm_parent.eq(i).mouseout(function(){
 						smt_wm_box.eq(i).css('display','none');
 					});

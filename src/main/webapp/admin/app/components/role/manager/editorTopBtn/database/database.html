@@ -104,11 +104,11 @@
                                     	        </tr>
                                     	        <tr>
                                     	           	<td>稿件说明：</td>
-                                    	           	<td>{{dbItem.REMARK}}</td>
+                                    	           	<td>{{dbItem.REMARK|cut:true:180:' ...' }}</td>
                                     	        </tr>
                                     	        <tr>
                                     	           	<td>稿件备注：</td>
-                                    	           	<td>{{dbItem.MEMO}}</td>
+                                    	           	<td>{{dbItem.MEMO|cut:true:180:' ...' }}</td>
                                     	        </tr>
                                     	    </table>
 							</div>
