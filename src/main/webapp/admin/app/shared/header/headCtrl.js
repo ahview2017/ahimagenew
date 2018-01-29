@@ -75,7 +75,8 @@ adminModule.controller('headCtrl',function($translate, $scope, $cookies, req, md
 
     //从cookie获取用户名
     function getUserName(){
-        vm.uName = $cookies.get('admin_uname');
+        //vm.uName = $cookies.get('admin_uname');
+    	vm.uName = $cookies.get('admin_tureName');//获取用户真实信息姓名 add by xiayunan@20180129
     }
     //跳转到客户端首页
     vm.jumpClientIndex = function(){
