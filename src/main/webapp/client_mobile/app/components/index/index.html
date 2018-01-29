@@ -131,7 +131,7 @@
                 <div class="conLists" ng-init="index.getMoreGroups(3064,1)">
                     <ul>
                         <li ng-repeat="item in index.newsPhotoMobile track by $index">
-                            <a ui-sref="root.newDetailList({groupId: item.ID})">
+                            <a target="_blank" ui-sref="root.newDetailList({groupId: item.ID})">
                                 <img ng-src="{{item.filePath}}" />
                                 <i>{{item.PICTURE_COUNT}}图</i>
                             </a>
@@ -171,7 +171,7 @@
                 <div class="conLists" ng-init="index.getMoreGroups(3077,1)">
                     <ul>
                         <li ng-repeat="item in index.topicPhoto track by $index">
-                            <a ui-sref="root.newDetailList({groupId: item.ID})">
+                            <a target="_blank" ui-sref="root.newDetailList({groupId: item.ID})">
                                 <img ng-src="{{item.filePath}}" />
                                 <i>{{item.PICTURE_COUNT}}图</i>
                                 <div class="clear"></div>
@@ -450,6 +450,7 @@
         </div>
     </div>
     <div class="back_top" id="back-to-top"></div>
+	<script id="_trs_ta_js" src="//ta.trs.cn/c/js/ta.js?mpid=1727" async="async" defer="defer"></script>
 
 	
 	
