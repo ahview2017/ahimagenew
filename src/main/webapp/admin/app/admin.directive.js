@@ -378,12 +378,6 @@ angular.module("admin.directive", [])
     })
     
     
-    
-    
-    
-    
-    
-    
 	//左侧菜单栏权限被选中时改变样式
 	.directive('menuActiveChangeStyle', function ($timeout) {
 		return {
