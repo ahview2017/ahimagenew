@@ -589,7 +589,7 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
         req.post('getPicture/getClientGroupPics.do', {
             groupId: vm.groupId,
 			picType: 1,
-			size: 2
+			size: 1
         }).success(function (resp) {
             if (resp.code == '211') {
                 vm.clientPictureDetail = resp.data;
