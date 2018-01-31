@@ -930,16 +930,16 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
             layer.alert('新闻说明要少于2000字');
             return;
         }
-        if(vm.editManuscript.remark && vm.editManuscript.remark.length > 2000){
-            layer.alert('备注要少于2000字');
+        if(vm.editManuscript.remark && vm.editManuscript.remark.length > 500){
+            layer.alert('备注要少于500字');
             return;
         }
-        if(vm.editManuscript.people && vm.editManuscript.people.length > 200){
-            layer.alert('人物要少于200字');
+        if(vm.editManuscript.people && vm.editManuscript.people.length > 50){
+            layer.alert('人物要少于50字');
             return;
         }
-        if(vm.editManuscript.keywords && vm.editManuscript.keywords.length > 200){
-            layer.alert('关键词要少于200字');
+        if(vm.editManuscript.keywords && vm.editManuscript.keywords.length > 50){
+            layer.alert('关键词要少于50字');
             return;
         }
         if((!vm.editManuscript.selProv||!vm.editManuscript.selCity) && (!vm.editManuscript.abroadPlace)){
@@ -947,8 +947,8 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
             return;
         }
         
-        if(vm.editManuscript.abroadPlace && vm.editManuscript.abroadPlace.length > 200){
-            layer.alert('地点要少于200字');
+        if(vm.editManuscript.abroadPlace && vm.editManuscript.abroadPlace.length > 100){
+            layer.alert('地点要少于100字');
             return;
         }
         
@@ -978,20 +978,20 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
         var validUpMsPicFlag = false;
         //验证图片列表相关信息
         for(var i = 0, len = vm.upMenuscriptPicArr.length; i < len; i++) {
-            if (vm.upMenuscriptPicArr[i].people && vm.upMenuscriptPicArr[i].people.length > 200) {
-                layer.alert('人物要少于200字');
+            if (vm.upMenuscriptPicArr[i].people && vm.upMenuscriptPicArr[i].people.length > 50) {
+                layer.alert('人物要少于50字');
                 return;
             }
-            if (vm.upMenuscriptPicArr[i].keywords && vm.upMenuscriptPicArr[i].keywords.length > 200) {
-                layer.alert('关键词要少于200字');
+            if (vm.upMenuscriptPicArr[i].keywords && vm.upMenuscriptPicArr[i].keywords.length > 50) {
+                layer.alert('关键词要少于50字');
                 return;
             }
-            if (vm.upMenuscriptPicArr[i].authorName && vm.upMenuscriptPicArr[i].authorName.length > 200) {
-                layer.alert('作者要少于200字');
+            if (vm.upMenuscriptPicArr[i].authorName && vm.upMenuscriptPicArr[i].authorName.length > 50) {
+                layer.alert('作者要少于50字');
                 return;
             }
-            if (vm.upMenuscriptPicArr[i].memo && vm.upMenuscriptPicArr[i].memo.length > 4000) {
-                layer.alert('图片说明要少于4000字');
+            if (vm.upMenuscriptPicArr[i].memo && vm.upMenuscriptPicArr[i].memo.length > 500) {
+                layer.alert('图片说明要少于500字');
                 return;
             }
         }

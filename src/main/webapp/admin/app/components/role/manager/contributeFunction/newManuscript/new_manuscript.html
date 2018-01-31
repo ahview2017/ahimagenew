@@ -101,9 +101,9 @@
                      -->
 				</div>
 				<div class="n-manuscript-bottom">
-					<p class='new_infor'>备注（选填，少于2000汉字的备注）</p>
+					<p class='new_infor'>备注（选填，少于500汉字的备注）</p>
 					<textarea class="n-manuscript-explain ms-alternative-texarea" placeholder=""
-                              ng-model="newManuscript.newManuscriptManuscript.remark" maxlength="2000">
+                              ng-model="newManuscript.newManuscriptManuscript.remark" maxlength="500">
                     </textarea>
                               
                     <!--          
@@ -131,7 +131,7 @@
 								<span ng-click="newManuscript.copyPeople()" id ="people-toggle-flag" class="draft-sign-txt cursor people-toggle" translate >100024</span>
 							</div>
 							<div class="fll draft-signed-hd-right">
-								<input placeholder="选填，少于200字" class="draft-sign-input" ng-model="newManuscript.newManuscriptManuscript.people" />
+								<input placeholder="选填，少于50字" class="draft-sign-input" ng-model="newManuscript.newManuscriptManuscript.people" />
 							</div>
 						</div>
 						<div class="draft-signed-hd-item clear">
@@ -139,7 +139,7 @@
 								<span ng-click="newManuscript.copyKeyword()" id ="keyword-toggle-flag" class="draft-sign-txt cursor keyword-toggle" translate>100025</span>
 							</div>
 							<div class="fll draft-signed-hd-right">
-								<input placeholder="必填，少于200字" class="draft-sign-input" ng-model="newManuscript.newManuscriptManuscript.keywords" />
+								<input placeholder="必填，少于50字" class="draft-sign-input" ng-model="newManuscript.newManuscriptManuscript.keywords" />
 							</div>
 						</div>
 						<!-- 稿件类别模块 开始-->
@@ -283,9 +283,9 @@
 				<p class='help-tittle'>1.标题说明</p>
 				<p class='help-content'>标题为必填项，并且需少于100个汉字</p>
 				<p class='help-tittle'>2.稿件说明</p>
-				<p class='help-content'>标稿件说明为必填项，并且需少于4000个汉字</p>
+				<p class='help-content'>标稿件说明为必填项，并且需少于2000个汉字</p>
 				<p class='help-tittle'>3.备注</p>
-				<p class='help-content'>备注（选填，少于2000汉字的备注）</p>
+				<p class='help-content'>备注（选填，少于500汉字的备注）</p>
 			</div>
 	</div>
 	<!--社外作者添加弹框-->

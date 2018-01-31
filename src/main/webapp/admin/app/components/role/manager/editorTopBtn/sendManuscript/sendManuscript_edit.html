@@ -82,10 +82,10 @@
                     </div>
                     <div class="n-manuscript-bottom">
                         <!--用div代替textarea-->
-                        <p class='new_infor'>备注（选填，少于2000汉字的备注）</p>
+                        <p class='new_infor'>备注（选填，少于500汉字的备注）</p>
                         
                        <textarea class="n-manuscript-explain ms-alternative-texarea" 
-                              ng-model="edit.editManuscript.remark"></textarea>
+                              ng-model="edit.editManuscript.remark" maxlength="500"></textarea>
                         
                         <!--        
                         <div class="n-manuscript-explain ms-alternative-texarea"  ng-bind-html="edit.editManuscript.remark | trustHtml"
@@ -110,7 +110,7 @@
                                     <span class="draft-sign-txt people-toggle" ng-click="edit.copyPeople()" id ="people-toggle-flag">人物</span>
                                 </div>
                                 <div class="fll draft-signed-hd-right">
-                                    <input placeholder="选填，少于200字" class="draft-sign-input" ng-model="edit.editManuscript.people"/>
+                                    <input placeholder="选填，少于50字" class="draft-sign-input" ng-model="edit.editManuscript.people"/>
                                 </div>
                             </div>
                             <div class="draft-signed-hd-item clear">
@@ -118,7 +118,7 @@
                                     <span class="draft-sign-txt keyword-toggle" ng-click="edit.copyKeyword()" id ="keyword-toggle-flag" >关键字</span>
                                 </div>
                                 <div class="fll draft-signed-hd-right">
-                                    <input placeholder="选填，少于200字" class="draft-sign-input" ng-model="edit.editManuscript.keywords"/>
+                                    <input placeholder="选填，少于50字" class="draft-sign-input" ng-model="edit.editManuscript.keywords"/>
                                 </div>
                             </div>
                             <div class="draft-signed-hd-item clear">

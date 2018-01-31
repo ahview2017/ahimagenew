@@ -70,7 +70,7 @@
                     </div>
                     <div class="n-manuscript-bottom">
                     
-                    <p class='new_infor'>备注（选填，少于2000汉字的备注）</p>
+                    <p class='new_infor'>备注（选填，少于500汉字的备注）</p>
                     <!-- 
                     <div class="n-manuscript-explain ms-alternative-texarea"  id="new_ms_remark" ng-bind-html="draftEdit.editManuscript.remark | trustHtml"
                          contenteditable = "true" style='-webkit-user-select:text'
@@ -78,8 +78,8 @@
                          placeholder=""></div>
                      -->
                 
-                    <textarea class="n-manuscript-explain ms-alternative-texarea" placeholder="备注（选填，少于2000汉字的简单说明）"
-                              ng-model="draftEdit.editManuscript.remark" maxlength="2000"></textarea>
+                    <textarea class="n-manuscript-explain ms-alternative-texarea" placeholder="备注（选填，少于500汉字的简单说明）"
+                              ng-model="draftEdit.editManuscript.remark" maxlength="500"></textarea>
                    
                     </div>
                 </div>
@@ -99,7 +99,7 @@
                                     <span class="draft-sign-txt people-toggle cursor" ng-click="draftEdit.copyPeople()" id ="people-toggle-flag">人物</span>
                                 </div>
                                 <div class="fll draft-signed-hd-right">
-                                    <input placeholder="选填，少于200字" class="draft-sign-input " ng-model="draftEdit.editManuscript.people"/>
+                                    <input placeholder="选填，少于50字" class="draft-sign-input " ng-model="draftEdit.editManuscript.people"/>
                                 </div>
                             </div>
                             <div class="draft-signed-hd-item clear">
@@ -107,7 +107,7 @@
                                     <span class="draft-sign-txt cursor keyword-toggle" ng-click="draftEdit.copyKeyword()" id ="keyword-toggle-flag">关键字</span>
                                 </div>
                                 <div class="fll draft-signed-hd-right">
-                                    <input placeholder="选填，少于500字" class="draft-sign-input" ng-model="draftEdit.editManuscript.keywords"/>
+                                    <input placeholder="选填，少于50字" class="draft-sign-input" ng-model="draftEdit.editManuscript.keywords"/>
                                 </div>
                             </div>
                             <div class="draft-signed-hd-item clear">
