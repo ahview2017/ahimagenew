@@ -520,8 +520,17 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
             layer.alert('请输入正确格式的微信号');
             return;
         }
-
-        if(callback) callback();
+        //注册参数校验提示下载账号信息表 add by xiayunan@20180201 
+        layer.confirm('您已经下载回寄《申请视觉安徽网账号信息》表？', {
+            btn: ['是','否'] //钮
+        }, function(){
+        	 layer.closeAll('dialog');
+        	 if(callback) callback();
+        }, function(){
+        	layer.alert('请下载回寄《申请视觉安徽网账号信息》表！');
+        });
+        
+       
     }
   //校验信息
     function valid_Info(){
