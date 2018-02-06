@@ -23,13 +23,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.deepai.photo.bean.CpCategory;
 import com.deepai.photo.bean.CpPicGroup;
 import com.deepai.photo.bean.CpPicGroupCategory;
 import com.deepai.photo.bean.CpPicture;
 import com.deepai.photo.bean.CpPictureDownloadrecord;
-import com.deepai.photo.bean.CpPictureExample;
-import com.deepai.photo.bean.CpPictureExample.Criteria;
-import com.deepai.photo.bean.CpSensitiveWord;
 import com.deepai.photo.bean.CpUser;
 import com.deepai.photo.common.constant.CommonConstant;
 import com.deepai.photo.common.constant.SysConfigConstant;
@@ -41,6 +39,7 @@ import com.deepai.photo.common.util.image.ImgFileUtils;
 import com.deepai.photo.controller.util.UserUtils;
 import com.deepai.photo.mapper.AboutPictureMapper;
 import com.deepai.photo.mapper.ClientPictureMapper;
+import com.deepai.photo.mapper.CpCategoryMapper;
 import com.deepai.photo.mapper.CpPicGroupCategoryMapper;
 import com.deepai.photo.mapper.CpPicGroupMapper;
 import com.deepai.photo.mapper.CpPictureMapper;
@@ -76,7 +75,10 @@ public class EnGroupPicDownService {
 	@Autowired
 	private CpPicGroupCategoryMapper cpPicGroupCategoryMapper;
 	
-	public void downSinglePic(String picIds, HttpServletRequest request ,HttpServletResponse response,Integer type, Integer langType) throws Exception {
+	@Autowired
+	private CpCategoryMapper cpCategoryMapper;
+	
+	public void downSinglePic(String picIds, HttpServletRequest request ,HttpServletResponse response,Integer type, Integer langType,Integer groupId) throws Exception {
 		int siteId =SessionUtils.getSiteId(request);
 		CpUser user = SessionUtils.getUser(request);
 		//处理图片
@@ -113,6 +115,19 @@ public class EnGroupPicDownService {
 					}
 					// 根据对象filename找到原图复制到临时目录
 					ImgFileUtils.copyFile(oriPicPath, filePath+ File.separator + fileName);
+					//获取稿件及分类   edit by xiayunan@20180206
+					CpPicGroup picGroup = cpPicGroupMapper.selectByPrimaryKey(picture.getGroupId());//获取图片对应的稿件
+					String id = "";//稿件类别
+					String cateName = "";//稿件类别名称
+					List<CpPicGroupCategory> categoryList =cpPicGroupCategoryMapper.selectByGroupId(picGroup.getId());
+					for (CpPicGroupCategory cpPicGroupCategory : categoryList) {
+						Integer categoryId = cpPicGroupCategory.getCategoryId();
+						CpCategory cpCategory = cpCategoryMapper.selectByPrimaryKey(categoryId);
+						id +=" "+categoryId.toString();
+						if(cpCategory!=null){
+							cateName +=" "+cpCategory.getCategoryName();
+						}
+					}
 					//稿件文本文件
 					if(type==1){
 						String substring = fileName.substring(0, fileName.lastIndexOf('.'));
@@ -120,8 +135,9 @@ public class EnGroupPicDownService {
 						BufferedWriter inOut = null;
 						try {
 							inOut = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(txtPath, true)));
-							inOut.write("标题："+picture.getTitle()+ "\r\n"
-									+"稿件类别："+picture.getCategoryInfo()+ "\r\n"
+							inOut.write("稿件标题："+picGroup.getTitle()+ "\r\n"
+									+"稿件说明："+picGroup.getMemo()+ "\r\n"
+									+"稿件类别："+cateName+ "\r\n"
 									+"关键词："+picture.getKeywords()+ "\r\n"
 									+"编辑人员："+picture.getEditor()+ "\r\n"
 									+"文件名："+picture.getFilename()+ "\r\n"
@@ -137,16 +153,9 @@ public class EnGroupPicDownService {
 								e.printStackTrace();
 							}
 						}
-				}
-					//记录图片下载日志
-					CpPicGroup picGroup = cpPicGroupMapper.selectByPrimaryKey(picture.getGroupId());//获取图片对应的稿件
-					String id = "";//稿件类别
-					List<CpPicGroupCategory> categoryList =cpPicGroupCategoryMapper.selectByGroupId(picGroup.getId());
-					for (CpPicGroupCategory cpPicGroupCategory : categoryList) {
-						Integer categoryId = cpPicGroupCategory.getCategoryId();
-						id +=" "+categoryId.toString();
 					}
 					
+					//记录图片下载日志
 					String userName = cpUserMapper.findUserNameByUid(picGroup.getAuthorId());
 					CpPictureDownloadrecord record=new CpPictureDownloadrecord();
 					record.setDownloadTime(new Date());

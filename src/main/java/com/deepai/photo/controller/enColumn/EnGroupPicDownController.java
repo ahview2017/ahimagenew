@@ -30,12 +30,14 @@ public class EnGroupPicDownController {
 	 * @param request
 	 * @param response
 	 * @param type（0：单张原图，1：原图+图片说明）
+	 * @param langType
+	 * @param groupId
 	 */
 	@ResponseBody
 	@RequestMapping("downSinglePic")
-	public void downSinglePic(String picIds,HttpServletRequest request,HttpServletResponse response,Integer type,Integer langType){
+	public void downSinglePic(String picIds,HttpServletRequest request,HttpServletResponse response,Integer type,Integer langType,Integer groupId){
 		try {
-			enGroupPicDownService.downSinglePic(picIds,request, response, type, langType);
+			enGroupPicDownService.downSinglePic(picIds,request, response, type, langType,groupId);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
