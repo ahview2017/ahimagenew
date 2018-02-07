@@ -37,7 +37,17 @@ public class CpCategory {
     
     private Integer langType;
     
-    private List<CpCategory> categories = new ArrayList<CpCategory>();
+    private Integer allowSubmissions;//允许投稿标识 ,专题专用  add by xiayunan@20180130
+    
+    public Integer getAllowSubmissions() {
+		return allowSubmissions;
+	}
+
+	public void setAllowSubmissions(Integer allowSubmissions) {
+		this.allowSubmissions = allowSubmissions;
+	}
+
+	private List<CpCategory> categories = new ArrayList<CpCategory>();
     
 
     
