@@ -372,9 +372,12 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 			modalOperate.modalHide("database-type-modal");
 			return;
 		}
-		document.location = "/enGroupPicDown/downGrouplePic.do?groupIds=" + groupIds + "&type=" + type+"&langType="+vm.langTypeFlag;
-		modalOperate.modalHide("database-type-modal");
-
+		//document.location = "/enGroupPicDown/downGrouplePic.do?groupIds=" + groupIds + "&type=" + type+"&langType="+vm.langTypeFlag;
+		
+		
+		 document.location = "/photo/enGroupPicDown/downGrouplePic.do?groupIds=" + groupIds + "&type=" + type+"&langType="+vm.langTypeFlag;
+		 modalOperate.modalHide("database-type-modal");
+		
 	}
 
 	/**
