@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.deepai.photo.bean.CpCategory;
 import com.deepai.photo.bean.CpColumn;
 import com.deepai.photo.bean.CpDutyUser;
 import com.deepai.photo.bean.CpDutyUserExample;
@@ -307,7 +308,7 @@ public class FlowService {
 //                  checkSstvWord(data);
                 
             }
-            if(coverPictureId==0){//默认第一个为主图
+            if(coverPictureId==0&&pics.size()>0){//默认第一个为主图
                 coverPictureId=pics.get(0).getId();
                 pics.get(0).setIsCover(1);                      
             }
@@ -323,51 +324,40 @@ public class FlowService {
             group.setGoodsType(0);//图片来源（即图片类型）分为：0普通图、1活动图、2老照片、3ta图和4fa图五种
             group.setPriceType(0);//默认普通图不特殊定价
             //查询普通图价格
-            long startTime1 = System.currentTimeMillis();
             Integer price=otherMapper.selectGoodsPrice(0);
-            long endTime1 = System.currentTimeMillis();
-            logger.info("查询普通图耗时："+(endTime1-startTime1));
             price=price==null?80:price;//TODO 没有设置的话默认为80
             group.setPrice(price);//价格为 价格管理中设置的普通图价格
             //记录组图基本信息
-            long startTime2 = System.currentTimeMillis();
             cpPicGroupMapper.insertSelective(group);
-            long endTime2 = System.currentTimeMillis();
-            logger.info("记录组图基本信息耗时："+(endTime2-startTime2));
             if(type==1){//提交，自动分配
                 submitGruop(siteId, group.getId(), user,roleId, group.getLangType(),0,cateIds);
             }else{
             	//add by liu.jinfeng@20170912
-                addCategoryForGroup(group.getId(), cateIds);
+            	if(StringUtil.isNotBlank(cateIds)){
+            		addCategoryForGroup(group.getId(), cateIds);
+            	}
                 addFlowLog(group.getId(), -1, null, null, user);
             }
-            long startTime3 = System.currentTimeMillis();
-            for (int i=0;i<pics.size();i++) {
-                CpPicture cpPicture=pics.get(i);
-                cpPicture.setSiteId(siteId);
-                //单图处理:大、中、水印图、IpTc信息
-                long startTime4 = System.currentTimeMillis();
-                
-                cpPicture=pictureService.loadSinglePicInfo(cpPicture,isIpTc,siteId);
-                long endTime4 = System.currentTimeMillis();
-                logger.info(i+"单图处理:大、中、水印图、IpTc信息："+(endTime4-startTime4));
-                
-                cpPicture.setUploader(user.getUserName());
-                cpPicture.setEditor(user.getUserName());
-                cpPicture.setGroupId(group.getId());
-//              cpPicture.setSortId(i);
-                cpPicture.setCreateTime(new Date());
-                cpPicture.setDeleteFlag(CommonConstant.BYTE0);
-                if("0002-11-30 00:00:00".equals(DateUtils.sdfLongTimePlus.format(cpPicture.getExDatetime()))){
-                	cpPicture.setExDatetime(new Date());
+            if(pics.size()>0){
+            	for (int i=0;i<pics.size();i++) {
+                    CpPicture cpPicture=pics.get(i);
+                    cpPicture.setSiteId(siteId);
+                    //单图处理:大、中、水印图、IpTc信息
+                    
+                    cpPicture=pictureService.loadSinglePicInfo(cpPicture,isIpTc,siteId);
+                    
+                    cpPicture.setUploader(user.getUserName());
+                    cpPicture.setEditor(user.getUserName());
+                    cpPicture.setGroupId(group.getId());
+//                  cpPicture.setSortId(i);
+                    cpPicture.setCreateTime(new Date());
+                    cpPicture.setDeleteFlag(CommonConstant.BYTE0);
+                    if("0002-11-30 00:00:00".equals(DateUtils.sdfLongTimePlus.format(cpPicture.getExDatetime()))){
+                    	cpPicture.setExDatetime(new Date());
+                    }
+                    cpPictureMapper.updateByPrimaryKeySelective(cpPicture);
                 }
-                long startTime5 = System.currentTimeMillis();
-                cpPictureMapper.updateByPrimaryKeySelective(cpPicture);
-                long endTime5 = System.currentTimeMillis();
-                logger.info(i+"更新图片信息："+(endTime5-startTime5));
             }
-            long endTime3 = System.currentTimeMillis();
-            logger.info("处理图片信息耗时："+(endTime3-startTime3));
             return 1;
         } catch (Exception e) {
             throw e;
@@ -809,7 +799,6 @@ public class FlowService {
 //			int coverPictureId=oldGroup.getCoverPictureId();
 			int count=0;
 			Set<Integer> set=new HashSet<Integer>();
-			long startTime2 = System.currentTimeMillis();
 			for (CpPicture cpPicture : pics) {
 				CommonValidation.checkParamBlank(cpPicture.getId()+"", "单图ID");
 				if(set.add(cpPicture.getId())){
@@ -829,9 +818,6 @@ public class FlowService {
 					res=res+"、"+res1;
 				}
 			}
-			long endTime2 = System.currentTimeMillis();
-			logger.info("1111选项耗时："+(endTime2-startTime2));
-			
 			if(coverPictureId==0){//默认第一个为主图
 				coverPictureId=pics.get(0).getId();
 				pics.get(0).setIsCover(1);						
@@ -851,7 +837,6 @@ public class FlowService {
 			//保存历史版本:稿件，及图片
 			addHistory(oldGroup, newGroup, type2);
 			
-			long startTime = System.currentTimeMillis();
 			for (int i=0;i<pics.size();i++) {
 				CpPicture cpPicture=pics.get(i);
 				//单图处理:大、中、水印图、IpTc信息
@@ -865,13 +850,8 @@ public class FlowService {
                 }
 				cpPictureMapper.updateByPrimaryKeySelective(cpPicture);
 			}
-			long endTime = System.currentTimeMillis();
-			logger.info("处理图片选项耗时："+(endTime-startTime));
 			//修改图片txt
-			long startTime1 = System.currentTimeMillis();
 			CpPicGroup pinfo=aboutPictureMapper.selectPicInfoByGroupId(sourceGroupId);
-			long endTime3 = System.currentTimeMillis();
-			logger.info("查询图片详情耗时："+(endTime3-startTime1));
 			String txtPicInfo = null;//txt文件名
 			String oriPicPath = null;//原图
 			for (int j = 0; j < pinfo.getPics().size(); j++) {
@@ -881,8 +861,6 @@ public class FlowService {
 				downloadService.createPictureInfoTxt(pinfo, picture, txtPicInfo);
 			}
 			addFlowLog(sourceGroupId, 10, null, null, user);
-			long endTime1 = System.currentTimeMillis();
-			logger.info("处理图片选项耗时："+(endTime1-startTime1));
 			return res;
 		} catch (Exception e) {
 			logger.error("编辑稿件出错");
@@ -1189,13 +1167,18 @@ public class FlowService {
 			throw new InvalidHttpArgumentException(CommonConstant.FAILURECODE,CommonConstant.NOFILEERRORMSG);
 		}
 		Gson gson = new Gson();  
-		List<CpPicture> pics = gson.fromJson(picData, new TypeToken<List<CpPicture>>(){}.getType());
-		if(pics==null||pics.size()==0){
-			throw new InvalidHttpArgumentException(CommonConstant.FAILURECODE,CommonConstant.NOFILEERRORMSG);
+		//add by xiayunan@20180206
+		List<CpPicture> pics = null;
+		if(StringUtil.isNotBlank(picData)){
+			pics = gson.fromJson(picData, new TypeToken<List<CpPicture>>(){}.getType());
+			if(pics==null||pics.size()==0){
+				throw new InvalidHttpArgumentException(CommonConstant.FAILURECODE,CommonConstant.NOFILEERRORMSG);
+			}
 		}
 		if(StringUtil.isNotBlank(fTime)){
 			group.setFileTime(DateUtils.sdfLong.parse(fTime));
 		}
+		
 		//编辑稿件
 		return editGroup(oldGroup, group, pics, user,cateIds,type2);
 	}

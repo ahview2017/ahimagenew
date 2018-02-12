@@ -13,7 +13,7 @@ adminModule.controller('mDraftDetailCtrl', function ($scope, $cookies, req, md5,
     function initSetting() {
         //点击管理详情div是否展示的标识
         vm.mangeOperateFlag = false;
-
+        vm.picsFlag = false;
         //存储签发参数的数组
         vm.signReqParamData = [];
     }
@@ -22,6 +22,7 @@ adminModule.controller('mDraftDetailCtrl', function ($scope, $cookies, req, md5,
     function init() {
         initSetting();
         getManuscriptDetails();
+        
     }
 
     init();
@@ -35,6 +36,9 @@ adminModule.controller('mDraftDetailCtrl', function ($scope, $cookies, req, md5,
             if (resp.code == '211') {
                 vm.manuscriptDetail = resp.data;
                 vm.manuscriptProperties = resp.data.properties;
+                if(vm.manuscriptDetail.pics.length>0&&vm.manuscriptDetail.pics[0].filename!=null){
+                	vm.picsFlag = true;
+                }
                 vm.manuscriptCates = resp.data.cates;
                 vm.groupStatus = resp.data.groupStatus;
             }else if(resp.msg != '未登录'){
@@ -42,6 +46,8 @@ adminModule.controller('mDraftDetailCtrl', function ($scope, $cookies, req, md5,
             }
         });
     }
+    
+    
 
     //稿件详情模态框隐藏
     vm.manuscriptDetailModalHide = function (modalId) {

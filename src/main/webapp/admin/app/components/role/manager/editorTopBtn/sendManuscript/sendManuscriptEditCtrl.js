@@ -21,9 +21,9 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
         vm.msCityList = cityList.citylist;
         vm.cities = [];
         //默认激活的导航项为全部稿件
-        vm.acitiveSlideTit = 1;
+        vm.acitiveSlideTit = 0;
         //默认选中境内稿签
-        vm.locationType = 0;
+        vm.locationType =1;
         //默认不定价
         vm.selDraftPriceBtn = 0;
         //上传图片列表
@@ -91,6 +91,9 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
         vm.categoryNameStr = ''
        // 接收最终传递到编辑接口的分类id的变量
         vm.finalSortParam = '';
+        
+        //专题分类名称
+        vm.specialCategoryNameStr = [];
     }
     
     
@@ -319,12 +322,27 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
         initSetting();
 		getMasBaseUrl();
         getselCpCategories(function(category){
-            angular.forEach(category,function(item,index){
-                if(item.categoryName == '新闻类别'){
-                    vm.categories = item.categories;
-                    loadEditSortZTree();
-                }
-            });
+//            angular.forEach(category,function(item,index){
+//                if(item.categoryName == '新闻类别'){
+//                    vm.categories = item.categories;
+//                    loadEditSortZTree();
+//                }
+//            });
+        	if(vm.acitiveSlideTit==0){
+        		angular.forEach(category,function(item,index){
+                    if(item.categoryName == '新闻类别'){
+                        vm.categories = item.categories;
+                        loadEditSortZTree();
+                    }
+                });
+        	}else if(vm.acitiveSlideTit==1){
+        		angular.forEach(category,function(item,index){
+                    if(item.categoryName == '专题图片'){
+                        vm.categories = item.categories;
+                        loadEditSortZTree();
+                    }
+                });
+        	}
         });
         getManuscriptDetails(function(){
             showMenuscriptDetail();
@@ -371,6 +389,9 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
                 }
                 vm.manuscriptPicResult = resp.data.pics;
                 vm.manuscriptProperties = resp.data.properties;
+                
+                vm.acitiveSlideTit = vm.manuscriptProperties;//add by xiayunan@20180208
+                
                 vm.manuscriptPros = resp.data.pros;
                 vm.manuscriptAuthor = resp.data.author;
                 vm.authorId = resp.data.authorId;
@@ -424,6 +445,10 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
     function selectedEverSorts(){
         var treeObj = $.fn.zTree.getZTreeObj("edit_sort_tree");
         var nodes = treeObj.transformToArray(treeObj.getNodes());
+        // add by xiayunan@20180208 选中已经编辑的专题分类
+        var specialTreeObj = $.fn.zTree.getZTreeObj("edit_special_tree");
+        var specialNodes = specialTreeObj.transformToArray(specialTreeObj.getNodes());
+        
         if(vm.manuscriptCates && vm.manuscriptCates.length){
             for (var i=0, l=nodes.length; i < l; i++) {
                 for(var j = 0,Len = vm.manuscriptCates.length; j < Len; j++){
@@ -432,11 +457,27 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
                     }
                 }
             }
+            // add by xiayunan@20180208 选中已经编辑的专题分类
+            for (var i=0, l=specialNodes.length; i < l; i++) {
+                for(var j = 0,Len = vm.manuscriptCates.length; j < Len; j++){
+                    if(vm.manuscriptCates[j].id == specialNodes[i].id){
+                    	specialTreeObj.checkNode(specialNodes[i], true, true);
+                    }
+                }
+            }
+            
         }
     }
-    // 加载编辑分类树
+    // 加载编辑分类树 edit by xiayunan@20180208 添加专题分类
     function loadEditSortZTree(){
-        $.fn.zTree.init($("#edit_sort_tree"), setting, vm.selCpCategories);
+    	if(vm.acitiveSlideTit==0){
+    		$.fn.zTree.init($("#edit_sort_tree"), setting, vm.selCpCategories);
+    		$.fn.zTree.init($("#edit_special_tree"), setting, null);
+    	}else if(vm.acitiveSlideTit==1){
+    		$.fn.zTree.init($("#edit_sort_tree"), setting, vm.selCpCategories);
+    		$.fn.zTree.init($("#edit_special_tree"), setting, vm.selSpecialCategories);
+    	}
+       // $.fn.zTree.init($("#edit_sort_tree"), setting, vm.selCpCategories);
         selectedEverSorts();
     }
     // 编辑稿件分类模态框显示
@@ -456,6 +497,9 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
    function getChildNodesSortId(){
        var cateIdParamArr = [];
        var categoryNameArr  = [];
+       
+       var specialCateIdParamArr = [];
+       var specialCategoryNameArr  = [];
        var cateIdParamStr = '';
        var treeObj = $.fn.zTree.getZTreeObj("edit_sort_tree");
        var nodes = treeObj.getCheckedNodes(true); //获取选中的值
@@ -464,10 +508,26 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
            //if(!nodes[i].isParent){
                cateIdParamArr.push(nodes[i].id);
                categoryNameArr.push(nodes[i].categoryName);
-               cateIdParamStr = cateIdParamArr.join();
-               vm.categoryNameStr = categoryNameArr.join();
+//               cateIdParamStr = cateIdParamArr.join();
+//               vm.categoryNameStr = categoryNameArr.join();
            //}
        }
+       var specialTreeObj = $.fn.zTree.getZTreeObj("edit_special_tree");//专题类别树
+       var specialNodes = specialTreeObj.getCheckedNodes(true); //获取选中的值
+       for(var i = 0, nodesLen = specialNodes.length; i < nodesLen; i++){
+           // 排除父节点
+           //if(!nodes[i].isParent){
+               cateIdParamArr.push(specialNodes[i].id);
+               categoryNameArr.push(specialNodes[i].categoryName);
+               
+               specialCateIdParamArr.push(specialNodes[i].id);
+               specialCategoryNameArr.push(specialNodes[i].categoryName);
+               
+           //}
+       }
+       cateIdParamStr = cateIdParamArr.join();
+       vm.categoryNameStr = categoryNameArr.join();
+       vm.specialCategoryNameStr = specialCategoryNameArr.join();
        return cateIdParamStr;
    }
 
@@ -486,11 +546,30 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
 	langType:window.localStorage.lang}).success(function(resp){
             if(resp.code == '211'){
             	category = resp.data;
-            	angular.forEach(category, function (item, index) {
-                if (item.categoryName == '新闻类别') {
-                    vm.selCpCategories  = item.categories;
-	                }
-	            });
+//            	angular.forEach(category, function (item, index) {
+//            		if (item.categoryName == '新闻类别') {
+//            			vm.selCpCategories  = item.categories;
+//	                }
+//	            });
+            	if(vm.acitiveSlideTit==0){
+            		angular.forEach(category, function (item, index) {
+                		if (item.categoryName == '新闻类别') {
+                			vm.selCpCategories  = item.categories;
+    	                }
+    	            });
+            	}else if(vm.acitiveSlideTit==1){
+            		angular.forEach(category, function (item, index) {
+                		if (item.categoryName == '新闻类别') {
+                			vm.selCpCategories  = item.categories;
+    	                }
+                		if (item.categoryName == '专题图片') {
+                			vm.selSpecialCategories  = item.categories;
+                			
+    	                }
+    	            });
+            	}
+            	
+            	 console.log("<<<<<vm.acitiveSlideTit:"+vm.acitiveSlideTit);
                 if (callback) callback(resp.data);
             }else if(resp.msg != '未登录'){
                 layer.alert(resp.msg);
@@ -966,6 +1045,18 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
         if(vm.finalSortParam == ''){
             layer.alert('请选择稿件类别');
             return;
+        }
+        
+      //如果是专题图片，需选择专题类别
+        if(vm.acitiveSlideTit==1){
+        	 if(vm.specialCategoryNameStr == ''){
+                 layer.alert('请选择专题类别');
+                 return;
+             }
+        	 if(vm.specialCategoryNameStr.indexOf(",")!=-1){
+                 layer.alert('专题图片只能选择一个专题类别！');
+                 return;
+             }
         }
         
         

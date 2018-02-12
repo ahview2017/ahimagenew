@@ -1,9 +1,32 @@
 clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $state, $rootScope, $timeout, jugeGroupPos,$filter,modalOperate) {
     var vm = this;
+    
+    //获取对应栏目的稿件
+    vm.getMoreGroups = function (signId,page) {
+        req_getMoreGroups(signId,page);
+    };
+    
+    var mySwiper2 = new Swiper('#swiper-container2',{//一级导航栏
+        watchSlidesProgress : true,
+        watchSlidesVisibility : true,
+        slidesPerView : 4,
+        onTap: function(){
+            //mySwiper1.slideTo( mySwiper2.clickedIndex),
+            mySwiper3.slideTo( mySwiper2.clickedIndex)
+        }
+    })
     //初始化页面相关配置
     function initSetting() {
     	vm.currpage = 1;
 	    vm.currchnl = 3064;
+    	
+    	 //从cookie里取得存储的用户上次离开的页面地址
+    	//vm.currchnl = $cookies.get('client_chnl')==null?3064:$cookies.get('client_chnl');
+    	//vm.activeIndex =  $cookies.get('client_activeIndex')==null?0:$cookies.get('client_activeIndex');
+//    	updateNavPosition(),
+//        switchChnlTab();
+    	// console.log(" vm.currchnl:"+vm.currchnl );
+    	
 	   // vm.chnlArr = [3064,3077,3078,3079,3080,3081,3082,3083,3084];
 	    vm.chnlArr = [3064,3077,3078,3079,3080,3081,3101,3126,3103,3125,3083,3084,3085];//edit by xiayunan@20180119
 	    //点赞数
@@ -18,6 +41,9 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
                 }
             });
         });
+        
+        //updateNavPosition();
+        //switchChnlTab();
 
     }
     
@@ -316,9 +342,12 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
     
     function updateNavPosition(){
         $('#swiper-container2 .active-nav').removeClass('active-nav')
+        
         var activeNav = $('#swiper-container2 .swiper-slide').eq(mySwiper3.activeIndex).addClass('active-nav');
-
-
+        
+      //  var activeNav = $('#swiper-container2 .swiper-slide').eq(vm.activeIndex).addClass('active-nav');
+        //console.log("mySwiper3.activeIndex:"+mySwiper3.activeIndex);
+        
         if (!activeNav.hasClass('swiper-slide-visible')) {
             if (activeNav.index()>mySwiper2.activeIndex) {
                 var thumbsPerNav = Math.floor(mySwiper2.width/activeNav.width())-1
@@ -334,6 +363,8 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
     	initChnlData();//初始化各栏目数据
     	vm.currpage = 1;//切换导航栏目当前页置为1
     	var index = $('#swiper-container2 .active-nav').index();
+    	//var index = vm.activeIndex;//edit by xiayunan@20180202
+    	//console.log("index:"+index);
     	switch (parseInt(index)) {
 			case 0:
 		        vm.currchnl = vm.chnlArr[0];  //新闻图片
@@ -375,6 +406,8 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
 	        	vm.currchnl = vm.chnlArr[12];  //特别策划
 	            break;
     	}
+    	//$cookies.put("client_chnl", vm.currchnl, {path: '/'})
+    	$cookies.put("client_chnl", vm.currchnl);
     	
     }
 
@@ -382,22 +415,17 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
     var mySwiper1 = new Swiper('#swiper-container1',{//二级导航栏
         
     })*/
-    var mySwiper2 = new Swiper('#swiper-container2',{//一级导航栏
-        watchSlidesProgress : true,
-        watchSlidesVisibility : true,
-        slidesPerView : 4,
-        onTap: function(){
-            //mySwiper1.slideTo( mySwiper2.clickedIndex),
-            mySwiper3.slideTo( mySwiper2.clickedIndex)
-        }
-    })
+   
     
     var mySwiper3 = new Swiper('#swiper-container3',{
         onSlideChangeStart: function(){
             //updateNavPosition1(),
+//        	vm.activeIndex = mySwiper3.activeIndex;
+//        	$cookies.put("client_activeIndex", vm.activeIndex);//add by xiayunan@20180202
             updateNavPosition(),
             switchChnlTab()
         }
+    
     })
 
 
@@ -429,9 +457,6 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
 	  	vm.pageHeight = Math.max(document.body.scrollHeight,document.body.offsetHeight);
 	    vm.viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 0;
 	    vm.scrollHeight = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-	    //console.log("vm.pageHeight:"+vm.pageHeight);
-	    //console.log("vm.viewportHeight:"+vm.viewportHeight);
-	    //console.log("vm.scrollHeight:"+vm.scrollHeight);
     	//真实内容的高度
     	//var pageHeight = Math.max(document.body.scrollHeight,document.body.offsetHeight);
     	//视窗的高度
@@ -659,10 +684,7 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
     }
     
     
-    //获取对应栏目的稿件
-    vm.getMoreGroups = function (signId,page) {
-        req_getMoreGroups(signId,page);
-    };
+   
 	
 	//获取更多分类图片
     function req_getMoreGroups(signId,page){

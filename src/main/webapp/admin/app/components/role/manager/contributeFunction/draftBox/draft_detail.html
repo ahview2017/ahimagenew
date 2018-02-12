@@ -13,7 +13,7 @@
         <div class="smt-detail-operate smt-detail-spec-operate">
             <span ui-sref="role.manager.draftbox">返回</span>
             <span ng-hide="draftDetail.manuscriptDetail.isLocked == 1" ng-click="draftDetail.editSendManuscript()">编辑</span>
-            <span  ng-if="(draftDetail.manuscriptDetail.isLocked != 1) && (draftDetail.manuscriptDetail.groupStatus == 0)"  ng-click="draftDetail.commitModalShow('commit-confirm-modal')">提交</span>
+          <!--    <span  ng-if="(draftDetail.manuscriptDetail.isLocked != 1) && (draftDetail.manuscriptDetail.groupStatus == 0)"  ng-click="draftDetail.commitModalShow('commit-confirm-modal')">提交</span>-->
             <span ng-if="(draftDetail.manuscriptDetail.isLocked != 1) && (draftDetail.manuscriptDetail.groupStatus == 0)" ng-click="draftDetail.delModalShow('draft-groups-del-modal')">删除</span>
             <div class="smt-manage-box">
                 <p class="smt-manage-operate-detail smt-spec-manage-operate" ng-click="draftDetail.toggleMangeOperateCon()">管理</p>
@@ -46,6 +46,7 @@
                         <span class="smt-detail-term">人物</span>
                         <span class="ml10">{{draftDetail.manuscriptDetail.people}}</span>
                     </p>
+                    
                 </div>
                 <div class="oH">
                     <p class="w20p">
@@ -55,6 +56,12 @@
                     <p class="w20p">
                         <span class="smt-detail-term">稿件属性</span>
                         <span class="ml10">{{draftDetail.manuscriptDetail.properties | manuscriptFilter}}</span>
+                    </p>
+                     <p class="w20p">
+                        <span class="smt-detail-term">稿件类别</span>
+                        <span class="ml10" ng-repeat="item in draftDetail.manuscriptCates">
+                            <span>{{item.categoryName}}</span>
+                        </span>
                     </p>
                     <div class="oH" style="width:100%;">
                         <p class="w100p">
@@ -70,7 +77,7 @@
                     </div>
                 </div>
             </div>
-            <div class="smt-detail-pic">
+            <div class="smt-detail-pic" ng-if="draftDetail.picsFlag">
                 <div class="smt-detail-picItem oH" ng-repeat="item in draftDetail.manuscriptDetail.pics">
                     <div class="fll w30p">
                         <span>{{item.isCover | isCoverFilter}}</span><br/>

@@ -3,9 +3,6 @@
  */
 adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, $state, $rootScope, layerIfShow, cityList, Upload, $http, $filter,modalOperate,allModalMove, $window){
     var vm = this;
-   
-   
-
     //页面初始化相关配置
     function initSetting(){
         //默认激活的导航项为新闻图片
@@ -75,6 +72,9 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
         vm.hasSeledUNameFlag = false;
         //是否采用添加社外作者方式选择作者，默认无
         vm.addAuthorItemFlag = false;
+        
+        //专题分类名称
+        vm.specialCategoryNameStr = [];
     }
     //页面初始化
     function init(){
@@ -218,7 +218,14 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
     // 加载编辑分类树
     function loadEditSortZTree(){
 //    	layer.alert(vm.selCpCategories);
-        $.fn.zTree.init($("#edit_sort_tree"), setting, vm.selCpCategories);
+    	if(vm.acitiveSlideTit==0){
+    		$.fn.zTree.init($("#edit_sort_tree"), setting, vm.selCpCategories);
+    		$.fn.zTree.init($("#edit_special_tree"), setting, null);
+    	}else if(vm.acitiveSlideTit==1){
+    		$.fn.zTree.init($("#edit_sort_tree"), setting, vm.selCpCategories);
+    		$.fn.zTree.init($("#edit_special_tree"), setting, vm.selSpecialCategories);
+    	}
+        //$.fn.zTree.init($("#edit_sort_tree"), setting, vm.selCpCategories);
         selectedEverSorts();
     }
  // 确定编辑稿件分类
@@ -229,22 +236,43 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
         }
         $('#edit-sort-modal').modal('hide');
     }
-    // 获取子节点的分类id，多个用英文逗号隔开
+    
+    // 获取子节点的分类id，多个用英文逗号隔开  edit by xiayunan@20180208
     function getChildNodesSortId(){
         var cateIdParamArr = [];
         var categoryNameArr  = [];
+        
+        var specialCateIdParamArr = [];
+        var specialCategoryNameArr  = [];
         var cateIdParamStr = '';
-        var treeObj = $.fn.zTree.getZTreeObj("edit_sort_tree");
+       
+        var treeObj = $.fn.zTree.getZTreeObj("edit_sort_tree");//新闻类别树
+        
         var nodes = treeObj.getCheckedNodes(true); //获取选中的值
         for(var i = 0, nodesLen = nodes.length; i < nodesLen; i++){
             // 排除父节点
             //if(!nodes[i].isParent){
                 cateIdParamArr.push(nodes[i].id);
                 categoryNameArr.push(nodes[i].categoryName);
-                cateIdParamStr = cateIdParamArr.join();
-                vm.categoryNameStr = categoryNameArr.join();
+               // cateIdParamStr = cateIdParamArr.join();
+               // vm.categoryNameStr = categoryNameArr.join();
             //}
         }
+        
+        var specialTreeObj = $.fn.zTree.getZTreeObj("edit_special_tree");//专题类别树
+        var specialNodes = specialTreeObj.getCheckedNodes(true); //获取选中的值
+        for(var i = 0, nodesLen = specialNodes.length; i < nodesLen; i++){
+            // 排除父节点
+            //if(!nodes[i].isParent){
+                cateIdParamArr.push(specialNodes[i].id);
+                categoryNameArr.push(specialNodes[i].categoryName);
+                specialCateIdParamArr.push(specialNodes[i].id);
+                specialCategoryNameArr.push(specialNodes[i].categoryName);
+            //}
+        }
+        cateIdParamStr = cateIdParamArr.join();
+        vm.categoryNameStr = categoryNameArr.join();
+        vm.specialCategoryNameStr = specialCategoryNameArr.join();
         return cateIdParamStr;
     }
   //获取稿件分类信息
@@ -261,8 +289,12 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
     	            });
             	}else if(vm.acitiveSlideTit==1){
             		angular.forEach(category, function (item, index) {
-                		if (item.categoryName == '专题图片') {
+                		if (item.categoryName == '新闻类别') {
                 			vm.selCpCategories  = item.categories;
+    	                }
+                		if (item.categoryName == '专题图片') {
+                			vm.selSpecialCategories  = item.categories;
+                			
     	                }
     	            });
             	}
@@ -601,6 +633,10 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
     var displayed = [];
     //上传稿件请求
     function req_upMs(j){
+    	if(vm.upMenuscriptPicArr.length>=20){
+    		layer.alert("单次投稿最多只能上传20张图片！");
+    		return;
+    	}
         var formdata = new FormData();
         formdata.append('picFiles', vm.upMsFiles[j]);
         formdata.append("langType",lang);
@@ -749,12 +785,95 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
     
     //保存 存为草稿箱
     vm.saveManuscript = function(){
-        valid_manuscriptInfo(function(){
-            getPicDataParams();
+    	valid_draftBoxInfo(function(){
+    		getPicDataParams();
             vm.loadUpMs = layer.load(1);
-            req_saveManuscript('0');
+            req_saveDraftBox();
         });
     }
+    
+    
+    //保存草稿箱前的验证  add by xiayunan@20180206
+    function valid_draftBoxInfo(callback){
+        if(!vm.newManuscriptManuscript.title){
+            layer.alert('请填写标题');
+            return;
+        }
+        if(vm.newManuscriptManuscript.title && vm.newManuscriptManuscript.title.length > 100){
+            layer.alert('标题要少于100个字');
+            return;
+        }
+        if(!vm.newManuscriptManuscript.memo){
+            layer.alert('请填写稿件说明');
+            return;
+        }
+        if(vm.newManuscriptManuscript.memo && vm.newManuscriptManuscript.memo.length > 2000){
+            layer.alert('稿件说明要少于2000字');
+            return;
+        }
+        
+        //add by liu.jinfeng@20170912
+        vm.finalSortParam = getChildNodesSortId();
+        //获取地点参数
+        if(vm.locationType == 0){
+        	if(!vm.newManuscriptManuscript.selCounty){
+        		 vm.newManuscriptManuscript.place = vm.newManuscriptManuscript.selProv + ' ' + vm.newManuscriptManuscript.selCity;
+        	}else{
+        		vm.newManuscriptManuscript.place = vm.newManuscriptManuscript.selProv + ' ' + vm.newManuscriptManuscript.selCity+ ' ' + vm.newManuscriptManuscript.selCounty;
+        	}
+        }
+        if(vm.locationType == 1){
+            vm.newManuscriptManuscript.place = vm.newManuscriptManuscript.abroadPlace;
+        }
+       
+        if(callback) callback();
+    }
+    
+    
+    
+    //保存至草稿箱
+    function req_saveDraftBox(){
+        var picParam = angular.toJson(vm.manuscriptPicData,true);
+        var saveDraftGroupUrl = 'groupPicCtro/saveDraftBox.do';
+		var videoId = document.getElementById("selmasvideo").value;
+		//console.info("============videoId:"+videoId);
+        req.post(saveDraftGroupUrl,{
+            fTime: vm.nowfTime,
+            picData: picParam,
+            authorId:  vm.authorId + '',
+            author: vm.photoUserName,
+            title: vm.newManuscriptManuscript.title,
+            people: vm.newManuscriptManuscript.people,
+            keywords: vm.newManuscriptManuscript.keywords,
+            locationType: vm.locationType,
+            place: vm.newManuscriptManuscript.place,
+            memo: vm.newManuscriptManuscript.memo,
+            remark: vm.newManuscriptManuscript.remark,
+            langType: lang,
+            properties: vm.acitiveSlideTit,
+            roleId: vm.adminRoleId,
+            videoId:videoId,
+            cateIds: vm.finalSortParam
+        }).success(function(resp){
+            layer.close(vm.loadUpMs);
+            if(resp && resp.code == '211'){
+                layer.msg('操作成功');
+                $state.go('role.manager.draftbox');
+            }else if(resp && resp.msg != '未登录'){
+                layer.alert(resp.msg);
+            }
+        }).error(function(XMLHttpRequest, textStatus, errorThrown){
+        	if(textStatus==413){
+        		layer.alert("图文总量超过系统允许上限，请拆分传稿！");
+        	}
+            layer.close(vm.loadUpMs);
+            //todo 因为net::ERR_INCOMPLETE_CHUNKED_ENCODING错误暂时这么处理
+            $state.go('role.manager.draftbox');
+
+        });
+    }
+    
+    
 
 
     //提交
@@ -773,10 +892,10 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
                 layer.alert('人物要少于50字');
                 return;
             }
-             if(!vm.upMenuscriptPicArr[index].keywords){
-             layer.alert('请填写图片关键词！');
-             return;
-             }
+            if(!vm.upMenuscriptPicArr[index].keywords){
+            	layer.alert('请填写图片关键词！');
+            	return;
+            }
             if(vm.upMenuscriptPicArr[index].keywords && vm.upMenuscriptPicArr[index].keywords.length > 50){
                 layer.alert('关键词要少于50字');
                 return;
@@ -852,6 +971,19 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
             layer.alert('请选择稿件类别');
             return;
         }
+        
+        //如果是专题图片，需选择专题类别
+        if(vm.acitiveSlideTit==1){
+        	 if(vm.specialCategoryNameStr == ''){
+                 layer.alert('请选择专题类别');
+                 return;
+             }
+        	 if(vm.specialCategoryNameStr.indexOf(",")!=-1){
+                 layer.alert('专题图片只能选择一个专题类别！');
+                 return;
+             }
+        }
+        
         if((!vm.newManuscriptManuscript.selProv||!vm.newManuscriptManuscript.selCity) && (!vm.newManuscriptManuscript.abroadPlace)){
             layer.alert('请填写地点');
             return;
@@ -877,8 +1009,6 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
         	}else{
         		vm.newManuscriptManuscript.place = vm.newManuscriptManuscript.selProv + ' ' + vm.newManuscriptManuscript.selCity+ ' ' + vm.newManuscriptManuscript.selCounty;
         	}
-        	
-           
         }
         if(vm.locationType == 1){
             vm.newManuscriptManuscript.place = vm.newManuscriptManuscript.abroadPlace;
@@ -972,7 +1102,10 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
             }else if(resp && resp.msg != '未登录'){
                 layer.alert(resp.msg);
             }
-        }).error(function(){
+        }).error(function(XMLHttpRequest, textStatus, errorThrown){
+        	if(textStatus==413){
+        		layer.alert("图文总量超过系统允许上限，请拆分传稿！");
+        	}
             layer.close(vm.loadUpMs);
             //todo 因为net::ERR_INCOMPLETE_CHUNKED_ENCODING错误暂时这么处理
             if(type == '0'){

@@ -51,6 +51,8 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 		//存放资料库数组
 		vm.hadPubRowDataArray = [];
 		
+		vm.selCpCategories=[];
+		
 		//add by xiayunan@20180115
 		vm.chnlSearchFlag = false;//主栏目标识
 		vm.subChnlSeaFlag = false;//子栏目标识 
@@ -87,9 +89,12 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 		initSetting();
 		getSelCpCategories(function(category) {
 			angular.forEach(category, function(item, index) {
-				if(item.categoryName == '新闻图片') {
+				if(item.categoryName == '新闻类别'||item.categoryName == '专题图片'||item.categoryName == '新华社图片'||item.categoryName == '老照片') {
 					vm.categories = item.categories;
 				}
+//				if(item.categoryName == '新闻图片') {
+//					vm.categories = item.categories;
+//				}
 			});
 		});
 		lanmu();
@@ -327,7 +332,8 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 			getSignGroups(2, vm.cateId, 1, 1, false);
 		}
 	};
-
+	
+	
 	vm.chooseTwoClickType2 = function(acitiveSlideTit) {
 		vm.acitiveTwoSlideTit2 = acitiveSlideTit;
 		vm.pagination.current = 1;
@@ -887,14 +893,18 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 		}
 		if(name == '新闻图片') {
 			vm.properties = 0;
-			//pcataid = 1760;
+			pcataid = 1760;
 		} else if(name == '专题图片') {
 			vm.properties = 1;
-			//pcataid = 188;
+			pcataid = 188;
 		}else if(name == '老照片') {//add by xiayunan  2017-09-06
 			vm.properties = 2;
-			//pcataid = 100182651;
+			pcataid = 100182651;
+		}else if(name == '新华社图片') {//add by xiayunan  2017-09-06
+			vm.properties = 3;
+			pcataid = 100182663;
 		}
+		vm.cateId = pcataid;
 
 		if(vm.acitiveOneSlideTit == 1) {
 			getSignGroups(1, pcataid, 1, 0, false);//edit by hexx    修改默认为null的cataid 添加了cataid的值
@@ -909,7 +919,7 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 	 * 获取稿件分类信息
 	 */
 	function getSelCpCategories(callback) {
-		vm.selCpCategories;
+		
 		req.post('classification/selCpCategories.do', {
 			langType: window.localStorage.lang
 		}).success(function(resp) {
@@ -919,36 +929,40 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 				var catedata = [];
 				var categories = [];
 				if(classDataArray.length > 0) {
+					console.log("classDataArray.length:"+classDataArray.length);
 					for(var item = 0; item < classDataArray.length; item++) {
 						var itemObject = classDataArray[item];
 						//edit by xiayunan2017-09-05
 						if(itemObject.hasRight==1){
-							if(itemObject.categoryName == "新闻图片" || itemObject.categoryName == "专题图片"||itemObject.categoryName == "老照片") {
+							if(itemObject.categoryName == "新闻图片" || itemObject.categoryName == "专题图片"||itemObject.categoryName == "老照片"||itemObject.categoryName == "新华社图片") {
 								catedata.push(itemObject);
 							} 
 						}else{
-							if(itemObject.categoryName == "新闻图片" || itemObject.categoryName == "专题图片") {
+							if(itemObject.categoryName == "新闻图片" || itemObject.categoryName == "专题图片"|| itemObject.categoryName == "新华社图片") {
 								catedata.push(itemObject);
 							} 
 						}
 						if(itemObject.categoryName == '新闻类别') {
-							categories = itemObject.categories;
+							categories.push(itemObject);
 						}
 					}
+					
 					for(var item = 0; item < catedata.length; item++) {
 						var itemObject = catedata[item];
-						if(itemObject.hasRight==1){
-							if(itemObject.categoryName == "新闻图片" || itemObject.categoryName == "专题图片"||itemObject.categoryName == "老照片") {
-								catedata[item].categories = categories;
+						if(itemObject.categoryName == "新闻图片" ) {
+							if(categories.length>0){
+								catedata[item].categories = categories[0].categories;//新闻图片用的是新闻类别中的分类
 							}
-						}else{
-							if(itemObject.categoryName == "新闻图片" || itemObject.categoryName == "专题图片"){
-								catedata[item].categories = categories;
+						}else if(itemObject.categoryName == "专题图片"){
+							if(categories.length>0){
+								catedata[item].categories = catedata[item].categories.concat(categories[0].categories);//新闻图片用的是新闻类别中的分类
 							}
 						}
-
 					}
+					
+					
 					vm.selCpCategories = catedata;
+					console.log("vm.selCpCategories.length:"+vm.selCpCategories.length);
 				}
 				if(callback) callback(catedata);
 				//var subId = vm.selCpCategories[0]['categories'][0]['id'];

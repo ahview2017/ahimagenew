@@ -1,5 +1,6 @@
 <!--不是摄影师的时候-->
 <div class="manager-container clear"  ng-if="(admin_roleId == 1) || (admin_roleId == 2) || (admin_roleId == 4) || (admin_roleId == 63) || (admin_roleId == 26)">
+	<!--  外网取消头部导航栏
     <div class="editor-top-box w100p" ng-if="(admin_roleId == 2) || (admin_roleId == 3) || (admin_roleId == 63)">
         <ul class="oH">
             <li ng-repeat="item in accessObj.editorM | orderBy: 'sortId'" ng-if="(admin_roleId == 2 || admin_roleId == 63) && (accessObj.editorM.length != 0)">
@@ -10,12 +11,6 @@
                         {{item.RIGHT_NAME}}
                     </span>
                 </a>
-                <!--<img ng-src="{{topTtem.bgPic}}" class="tMenu-img" ng-if="currentStateName != topTtem.currentState"-->
-                     <!--ng-click="editor.jumpTopBtnView(topTtem.id,$index)"/>-->
-                <!--<img ng-src="{{topTtem.bgPicAct}}" class="tMenu-img" ng-if="currentStateName == topTtem.currentState"-->
-                     <!--ng-click="editor.jumpTopBtnView(topTtem.id,$index)"/>-->
-                <!--<span class="tMenu-name" ng-click="editor.jumpTopBtnView(topTtem.id)" ng-if="currentStateName != topTtem.currentState">{{topTtem.name}}</span>-->
-                <!--<span class="tMenu-name color-white" ng-click="editor.jumpTopBtnView(topTtem.id)" ng-if="currentStateName == topTtem.currentState">{{topTtem.name}}</span>-->
             </li>
             <li ng-repeat="item in accessObj.photographerM | orderBy: 'sortId'" ng-if="(admin_roleId == 3) && (accessObj.photographerM.length != 0)">
                 <a ng-click="manager.toggleTreeMenu(item.ID)">
@@ -24,12 +19,6 @@
                         {{item.RIGHT_NAME}}
                     </span>
                 </a>
-                <!--<img ng-src="{{topTtem.bgPic}}" class="tMenu-img" ng-if="currentStateName != topTtem.currentState"-->
-                <!--ng-click="editor.jumpTopBtnView(topTtem.id,$index)"/>-->
-                <!--<img ng-src="{{topTtem.bgPicAct}}" class="tMenu-img" ng-if="currentStateName == topTtem.currentState"-->
-                <!--ng-click="editor.jumpTopBtnView(topTtem.id,$index)"/>-->
-                <!--<span class="tMenu-name" ng-click="editor.jumpTopBtnView(topTtem.id)" ng-if="currentStateName != topTtem.currentState">{{topTtem.name}}</span>-->
-                <!--<span class="tMenu-name color-white" ng-click="editor.jumpTopBtnView(topTtem.id)" ng-if="currentStateName == topTtem.currentState">{{topTtem.name}}</span>-->
             </li>
             <li ng-if="(admin_roleId != 2) && (admin_roleId != 63)">
                 <a  ui-sref="role.manager.useGuide">
@@ -39,18 +28,10 @@
                     </span>
                 </a>
             </li>
-            <!--  
-            <li>
-                <a  ui-sref="role.manager.oldPhoto">
-                    <img src="admin/assets/img/role/zxs_ld_but_pica_07.png" class="tMenu-img"/>
-                    <span class="tMenu-name">
-                       老照片
-                    </span>
-                </a>
-            </li>
-            -->
         </ul>
     </div>
+    -->
+    
     <div class="dtb  w100p">
         <div class="manager-left-box dbtc">
             <div class="m-admin-menu">

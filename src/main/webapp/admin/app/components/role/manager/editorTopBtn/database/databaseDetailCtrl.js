@@ -144,6 +144,7 @@ adminModule.controller('mDatabaseDetailCtrl', function ($scope, $cookies, req, m
                 id_array.push($(this).val());//向数组中添加元素
             });
         var picIds=id_array.join(',');//将数组元素连接起来以构建一个字符串
+        
         if(id_array.length==0){
             layer.alert("请选择图片");
             return;

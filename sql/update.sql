@@ -87,7 +87,12 @@ CREATE INDEX cp_log_type_id
 ALTER TABLE cp_picture ADD INDEX cp_picture_GROUP_ID_DELETE_FLAG(GROUP_ID,DELETE_FLAG);	
 ALTER TABLE cp_pic_group_category ADD INDEX cp_pic_group_category_CATEGORY_ID_TYPE(CATEGORY_ID,TYPE);
 ALTER TABLE cp_pic_group_process ADD INDEX cp_pic_group_process_PICGROUP_ID_FLOW_TYPE(PICGROUP_ID,FLOW_TYPE);	
-ALTER TABLE cp_pic_allpath ADD INDEX cp_pic_allpath_TRAGET_ID_PIC_TYPE(PICGROUP_ID,PIC_TYPE);	
+ALTER TABLE cp_pic_allpath ADD INDEX cp_pic_allpath_TRAGET_ID_PIC_TYPE(PICGROUP_ID,PIC_TYPE);
+
+
+alter table cp_category add  ALLOW_SUBMISSIONS int(11) DEFAULT NULL  COMMENT '是否允许投稿，null:允许，0：允许，1：不允许';
+
+INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(421,1,'保存稿件至草稿箱','保存稿件至草稿箱','groupPicCtro/saveDraftBox',113,0,'admin',now(),NULL,'',0);
   
 
 

@@ -13,8 +13,10 @@
                 </label>
                 <span class="dib cursor user-add-btn role-del-btn"
                       ng-click="draftbox.draftDelModalShow('draft-del-modal')" translate>100043</span>
+                <!-- 
                 <span class="dib cursor user-add-btn role-modify-btn"
                       ng-click="draftbox.commitDraftModalShow('draft-commit-confirm-modal')" translate>100013</span>
+                 -->
             </div>
             <div class="user-hd-right flr">
                 <input class="user-search-input" placeholder="可根据稿件ID、标题、作者名 检索" 
@@ -56,7 +58,7 @@
                                  ui-sref="role.manager.draftDetail({id: item.ID})"/>
                         </td>
                         <td>{{item.PICTURE_COUNT}}</td>
-                        <td>{{item.TITLE}}</td>
+                        <td><a class="curp" ui-sref="role.manager.draftDetail({id: item.ID})">{{item.TITLE}}</a></td>
                         <td>
                                 <span ng-if="item.UPDATE_TIME">
                                     <p>{{item.UPDATE_TIME | date : 'yyyy-MM-dd'}}</p>
@@ -65,13 +67,17 @@
                             <span ng-if="!item.UPDATE_TIME">--------</span>
                         </td>
                         <td>
+                        	<!-- 
                             <img src="admin/assets/img/role/hook_success.png" class="cursor u-pwd-reset" width="18"
                                  height="18"
                                  title="提交"
                                  ng-click="draftbox.commitItemDraftModalShow(item,'draft-commit-confirm-modal')"/>
+                            -->
                             <img src="admin/assets/img/role/red_del.png" class="cursor" width="18" height="18"
                                  title="删除"
                                  ng-click="draftbox.delItemDraftModalShow(item,'draft-del-modal')"/>
+                                 
+                            
                         </td>
                     </tr>
                     </tbody>

@@ -4,15 +4,15 @@
         <div class="smt-detail fll">编辑稿件</div>
     </div>
     <div class="contribute-tit clear">
-        <div class="active-slide-item active-slide-nav fll"  ng-if="draftEdit.manuscriptProperties == 0">新闻图片</div>
-        <div class="active-slide-item active-slide-nav fll"
-             ng-if="draftEdit.manuscriptProperties == 1">专题图片</div>
+        <div  class="active-slide-item fll " ng-class="{ 'active-slide-nav' : draftEdit.acitiveSlideTit == 0}"  ng-click="draftEdit.chooseManuscriptType(0)">新闻图片</div>
+        <div  class="active-slide-item fll " ng-class="{ 'active-slide-nav' : draftEdit.acitiveSlideTit == 1}"  ng-click="draftEdit.chooseManuscriptType(1)">专题图片</div>
     </div>
     <div>
         <div class="smt-detail-operate">
             <!--<span ui-sref="role.manager.sendManuscriptDetail({id: edit.groupId})">返回</span>-->
             <span ng-click="draftEdit.returnSendManuscript()">返回</span>
             <span ng-click="draftEdit.saveEditManuscript()">保存</span>
+            <span ng-click="draftEdit.confirmCommit('commit-confirm-modal')">保存并提交</span>
         </div>
         <div class="c-new-manuscript-con clear">
             <div class="n-manuscript-container-top clear">
@@ -107,9 +107,25 @@
                                     <span class="draft-sign-txt cursor keyword-toggle" ng-click="draftEdit.copyKeyword()" id ="keyword-toggle-flag">关键字</span>
                                 </div>
                                 <div class="fll draft-signed-hd-right">
-                                    <input placeholder="选填，少于50字" class="draft-sign-input" ng-model="draftEdit.editManuscript.keywords"/>
+                                    <input placeholder="必填，少于50字" class="draft-sign-input" ng-model="draftEdit.editManuscript.keywords"/>
                                 </div>
                             </div>
+                            
+                            
+                            <!--add by xiayuanan@20180202 稿件类别模块 开始-->
+							<div class="draft-signed-hd-item clear">
+	                                <div class="fll draft-signed-hd-left">
+	                                    <span class="draft-sign-txt">稿件类别</span>
+	                                </div>
+	                                <div class="fll draft-signed-hd-right">
+	                                    <textarea type="text" class="edit-sort-input" data-toggle="modal" readonly
+	                                           ng-model="draftEdit.categoryNameStr"></textarea>
+	                                    <span class="ml10 edit-sort-sel-btn"   ng-click="draftEdit.editMsSortsModalShow()">选择</span>
+	                                </div>
+	                        </div>
+							<!-- 稿件类别模块 结束-->
+                            
+                            
                             <div class="draft-signed-hd-item clear">
                                 <div class="fll draft-signed-hd-left">
                                     <span class="draft-sign-txt">时间</span>
@@ -150,7 +166,7 @@
                 <span class="ms-edit-sort">排序</span>
                 <!--<span class="ms-edit-del">批量删除图片说明</span>-->
             </div>
-            <div class="n-manuscript-container-bottom clear">
+            <div class="n-manuscript-container-bottom clear" ng-if="draftEdit.picsFlag" >
                 <!--上传图片-->
                 <div  ui-sortable ng-model="draftEdit.upMenuscriptPicArr" class="cursor">
                     <div class="ms-pic-item clear cursor"  ng-repeat="item in draftEdit.upMenuscriptPicArr">
@@ -197,7 +213,7 @@
                                         <span>关键词</span>
                                     </div>
                                     <div class="ms-addpic-right fll">
-                                        <input placeholder="选填" class="draft-sign-input pic-keyword" ng-model="item.keywords"/>
+                                        <input placeholder="必填" class="draft-sign-input pic-keyword" ng-model="item.keywords"/>
                                     </div>
                                 </div>
                                 <div class="ms-addpic-item clear">
@@ -219,6 +235,24 @@
             </div>
         </div>
     </div>
+    
+    <!--提交弹框-->
+    <div class="common-modal-style" id="commit-confirm-modal" style="display:none">
+        <div class="role-add-con">
+            <div class="role-add-tit">
+                确认框
+            </div>
+            <div class="role-modal-con">
+                是否确认提交？
+            </div>
+            <div class="tac mt10">
+                <span class="dib cursor user-add-btn"  ng-click="draftEdit.confirmCommit('commit-confirm-modal')">确定</span>
+                <span class="dib cursor user-add-btn role-del-btn"  ng-click="draftEdit.manuscriptDetailModalHide('commit-confirm-modal')">取消</span>
+            </div>
+        </div>
+    </div>
+    
+    
     <!--社外作者添加弹框-->
     <div class="common-modal-style" id="edit-foreign-author-modal" style="display:none">
         <div class="role-add-con">
@@ -268,6 +302,36 @@
             <div class="tac">
                 <span class="dib cursor user-add-btn" ng-click="draftEdit.addForeignAuthor('edit-foreign-author-modal')">添加</span>
                 <span class="dib cursor user-add-btn role-del-btn" ng-click="draftEdit.editMenuscriptModalHide('edit-foreign-author-modal')">取消</span>
+            </div>
+        </div>
+    </div>
+    
+     <!--add by xiayuann@20180202编辑分类模态框-->
+    <div class="modal fade" id="edit-sort-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="role-add-con">
+                        <div class="role-add-tit clear" id="role-add-tit">
+                            <span class="fll">稿件类别</span>
+                            <span class="flr curp tit-close" data-dismiss="modal">×</span>
+                        </div>
+                        <div class="role-modal-con">
+			                <!--稿件类别-->
+                            <h3>新闻类别</h3>
+                            <ul id="edit_sort_tree" class="ztree" style="overflow: auto;height: 500px;"></ul>
+                            
+                            <hr/>
+			                <h3>专题类别</h3>
+			                <ul id="edit_special_tree" class="ztree" ></ul>
+                            
+                        </div>
+                        <div class="tac mt10">
+                            <span class="dib cursor user-add-btn"   ng-click="draftEdit.confirmEditMsSorts()">确定</span>
+                            <span class="dib cursor user-add-btn cancel-btn-color"  data-dismiss="modal">取消</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

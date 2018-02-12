@@ -23,7 +23,7 @@
                     <form action="/photo/classification/upCategory.do" id="editSortFormId"
                           name="editSortForm" method="post" enctype="multipart/form-data"
                           autocomplete="off" target="editSortFrame">
-                          <input type="hidden" name="langType" value="{{currentLang}}"/>
+                          <input type="hidden" name="langType" value="{{sortManage.currentLang}}"/>
                         <input type="hidden" name="categoryGrade" value="{{sortManage.addSortGrade}}"/>
                         <input type="hidden" class="u-sort-input" name="parentId"
                                value="{{sortManage.addSortParentId}}"/>
@@ -85,6 +85,22 @@
                                 </label>
                             </div>
                         </div>
+                        
+                        <!-- 允许投稿标识 add by xiayunan@20180130 -->
+                        <div class="u-sort-item clear">
+                            <div class="u-sort-tit fll">
+                                <span class="sort-star-color">*</span>
+                                <span>允许投稿</span>
+                            </div>
+                            <div class="u-sort-input-box fll">
+                                <select class="u-sort-input" name="allowSubmissions"
+                                        id="editSortAllowSub" ng-model="sortManage.allowSubmissions">
+                                    <option value="0" >是</option>
+                                    <option value="1">否</option>
+                                </select>
+                            </div>
+                        </div>
+                        
                         <div class="u-sort-item clear">
                             <div class="u-sort-tit fll">
                                 <span class="sort-star-color">*</span>

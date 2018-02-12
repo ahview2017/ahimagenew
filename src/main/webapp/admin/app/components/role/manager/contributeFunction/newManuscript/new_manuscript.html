@@ -136,7 +136,7 @@
 						</div>
 						<div class="draft-signed-hd-item clear">
 							<div class="fll draft-signed-hd-left">
-								<span ng-click="newManuscript.copyKeyword()" id ="keyword-toggle-flag" class="draft-sign-txt cursor keyword-toggle" translate>100025</span>
+								<span ng-click="newManuscript.copyKeyword()" id ="keyword-toggle-flag" class="draft-sign-txt cursor keyword-toggle" translate>关键词</span>
 							</div>
 							<div class="fll draft-signed-hd-right">
 								<input placeholder="必填，少于50字" class="draft-sign-input" ng-model="newManuscript.newManuscriptManuscript.keywords" />
@@ -358,7 +358,13 @@
                         </div>
                         <div class="role-modal-con">
                             <!--稿件类别-->
+                            <h3>新闻类别</h3>
                             <ul id="edit_sort_tree" class="ztree" style="overflow: auto;height: 500px;"></ul>
+                            
+                            <hr/>
+			                <h3>专题类别</h3>
+			                <ul id="edit_special_tree" class="ztree" ></ul>
+                            
                         </div>
                         <div class="tac mt10">
                             <span class="dib cursor user-add-btn"   ng-click="newManuscript.confirmEditMsSorts()">确定</span>

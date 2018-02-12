@@ -147,6 +147,7 @@ public class GroupPicController {
 		ResponseMessage result=new ResponseMessage();
 		try {
 			if(picFiles==null||picFiles.length==0){
+				request.getContentLength();
 				result.setCode(CommonConstant.FAILURECODE);
 				result.setMsg("请上传图片");
 				return result;
@@ -239,8 +240,6 @@ public class GroupPicController {
 			CommonValidation.checkParamBlank(fTime, "拍摄时间");
 			CommonValidation.checkParamBlank(roleId+"", "用户角色ID");
 			CommonValidation.checkParamBlank(Integer.toString(group.getLangType()), "稿件语种");
-			
-			log.info("<<<cateids:"+cateIds);
 			if(StringUtil.isEmpty(picData)){
 				result.setCode(CommonConstant.FAILURECODE);
 				result.setMsg("请上传图片");
@@ -289,6 +288,90 @@ public class GroupPicController {
 		}
 		return result;
 	}
+	
+	
+	
+	/**
+	 * 保存至草稿箱
+	 * @param request
+	 * @param picData 多张图片信息；json
+	 * @param group 稿件信息
+	 * @param isIpTc 是否为iptc图
+	 * @param isFlash 是否为flash上传
+	 * @param fTime 拍摄时间
+	 * @param type 0保存，1提交
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/saveDraftBox")
+	@LogInfo(content="保存稿件到草稿箱",opeType=2,logTypeCode=CommonConstant.PicGroupOperation)
+	public Object saveDraftBox(HttpServletRequest request,String picData,CpPicGroup group,Integer isIpTc,Integer isFlash,String fTime,Integer type,Integer roleId,String cateIds){
+		log.info("<<<开始保存稿件至草稿箱**********************");
+		ResponseMessage result=new ResponseMessage();
+		try {
+			CommonValidation.checkParamBlank(group.getTitle(), "稿件标题");
+//			CommonValidation.checkParamBlank(group.getKeywords(), "关键字");
+//			CommonValidation.checkParamBlank(group.getAuthor(), "稿件作者");
+//			CommonValidation.checkParamBlank(group.getAuthorId()+"", "稿件作者Id");
+			CommonValidation.checkParamBlank(group.getMemo(), "稿件说明");
+//			CommonValidation.checkParamBlank(fTime, "拍摄时间");
+//			CommonValidation.checkParamBlank(roleId+"", "用户角色ID");
+//			CommonValidation.checkParamBlank(Integer.toString(group.getLangType()), "稿件语种");
+//			if(StringUtil.isEmpty(picData)){
+//				result.setCode(CommonConstant.FAILURECODE);
+//				result.setMsg("请上传图片");
+//				return result;
+//			}
+			Gson gson = new Gson();  
+			
+			List<CpPicture> pics = gson.fromJson(picData, new TypeToken<List<CpPicture>>(){}.getType());
+//			if(pics==null||pics.size()==0){
+//				result.setCode(CommonConstant.FAILURECODE);
+//				result.setMsg("请上传图片");
+//				return result;
+//			}
+			if(StringUtil.isNotBlank(fTime)){
+				group.setFileTime(DateUtils.sdfLong.parse(fTime));
+			}
+//			boolean isIpTcB=isIpTc==null||isIpTc==0?false:true;//默认不iptc
+			boolean isIpTcB=true;
+//			boolean isFlashB=isFlash==null||isFlash==0?false:true;//默认不是flash组件上传
+			type=type==null?0:type;
+			String typeName=type==0?"保存":"提交";
+			group.setGoodsType(0);//普通图
+			if(group.getLangType() == null){
+				group.setLangType(0);//中文稿件
+			}
+			int a=flowService.makePicGroup(pics, group, isIpTcB,SessionUtils.getUser(request),SessionUtils.getSiteId(request),type,roleId,cateIds);
+			StringBuffer ids= new StringBuffer();
+			for (CpPicture pic : pics) {
+				ids.append(pic.getId()).append(",");
+			}
+			if(a>0){
+				result.setCode(CommonConstant.SUCCESSCODE);
+				result.setMsg(CommonConstant.SUCCESSSTRING);
+				result.setOther(String.format("%s稿件groupId=%s成功，包含图片picIds=%s",typeName,group.getId(), ids));
+			}else{
+				result.setCode(CommonConstant.FAILURECODE);
+				result.setMsg(CommonConstant.FILEERRORMSG);
+			}			
+		} catch (InvalidHttpArgumentException e) {
+			result.setCode(e.getCode());
+			result.setMsg(e.getMsg());
+		}catch(Exception e1){
+			e1.printStackTrace();
+			log.error("保存或提交稿件出错，"+e1.getMessage());
+			result.setCode(CommonConstant.EXCEPTIONCODE);
+			result.setMsg(CommonConstant.EXCEPTIONMSG+e1.getMessage());
+		}
+		return result;
+	}
+	
+	
+	
+	
+	
+	
 	/**
 	 * 保存或提交稿件：稿件不存在
 	 * @param request
@@ -594,6 +677,7 @@ public class GroupPicController {
 		ResponseMessage result=new ResponseMessage();
 		try {
 			CommonValidation.checkParamBlank(group.getId()+"", "稿件id");
+			log.info("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<cateIds:"+cateIds);
 			String res=flowService.checkAndEditGroup(picData, group, SessionUtils.getUser(request), fTime, SessionUtils.getSiteId(request), 0,cateIds,0);
 			result.setCode(CommonConstant.SUCCESSCODE);
 //			if(res!=null){
@@ -1529,14 +1613,14 @@ public class GroupPicController {
 					map.put("wmPath", CommonConstant.SMALLHTTPPath+ImgFileUtils.getWMPathByName(map.get("FILENAME").toString(),request));
 				}
 				//判断我的稿件是否入库 add by xiayunan@20180124
-				log.info("1111111111111111");
-					String columnId = map.get("CATEGORY_ID").toString();
-					log.info("<<<columnId:"+columnId);
-					String signBasecolumnId = sysConfigService.getDbSysConfig(SysConfigConstant.SIGN_BASE_COLUMN,1);
-					log.info("<<<signBasecolumnId:"+signBasecolumnId);
-					if(columnId!=null&&columnId.equals(signBasecolumnId)){
-						map.put("GROUP_STATUS", "8");
-					}
+//				String columnId = map.get("CATEGORY_ID").toString();
+//				log.info("<<<columnId:"+columnId);
+//				String signBasecolumnId = sysConfigService.getDbSysConfig(SysConfigConstant.SIGN_BASE_COLUMN,1);
+//				log.info("<<<signBasecolumnId:"+signBasecolumnId);
+//				if(columnId!=null&&columnId.equals(signBasecolumnId)){
+//					map.put("GROUP_STATUS", "8");
+//				}
+				
 //				if(map.containsKey("FILENAME")){
 //					map.put("wmPath", CommonConstant.SMALLHTTPPath+ImgFileUtils.getWMPathByName(map.get("FILENAME").toString(),request));
 //				}
@@ -1701,6 +1785,7 @@ public class GroupPicController {
 			if(signId!=null){
 				param.put("signId", signId);
 			}
+			
 			if(cateId!=null){
 				param.put("cateId", cateId);
 			}
@@ -2754,8 +2839,6 @@ public class GroupPicController {
            	group.setKeywords(keyWords);
            	String place = "安徽 合肥";
            	group.setPlace(place);
-           	log.info("<<<关键字:"+keyWords);
-           	log.info("<<<地点:"+place);
            	
 			CommonValidation.checkParamBlank(group.getTitle(), "稿件标题");
 			CommonValidation.checkParamBlank(group.getKeywords(), "关键字");

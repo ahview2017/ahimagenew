@@ -238,7 +238,7 @@ public class EnGroupPicDownService {
 					record.setSiteId(siteId);
 					record.setUserIP(UserUtils.getLocalIp(request));
 					record.setUserName(user.getUserName());
-					record.setDownLoadPrice(user.getBalanceBasePerprice());
+//					record.setDownLoadPrice(user.getBalanceBasePerprice());
 //					record.setSubscriberType((int)user.getSubscriptionType());
 					record.setEditUser(picGroup.getFristPfdUser());
 					record.setUserId(user.getId());
@@ -418,7 +418,7 @@ public class EnGroupPicDownService {
 							record.setSiteId(siteId);
 							record.setUserIP(UserUtils.getLocalIp(request));
 							record.setUserName(user.getUserName());
-							record.setDownLoadPrice(user.getBalanceBasePerprice());
+//							record.setDownLoadPrice(user.getBalanceBasePerprice());
 							record.setSubscriberType(Integer.parseInt(user.getSubscriptionType()==null?"0":user.getSubscriptionType()+"")); 
 							if (user.getSubscriptionType() == null) {
 								record.setSubscriberType(null);

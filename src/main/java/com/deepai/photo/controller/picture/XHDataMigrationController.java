@@ -75,7 +75,7 @@ public class XHDataMigrationController {
 	private CpPicGroupMapper cpPicGroupMapper;
 	public static final String SESSION_LANGTYPE = "session_langType";
 	private static final int FIRST_EDIT_ID = 409;
-	private static final int SECOND_EDIT_ID = 406;
+	private static final int SECOND_EDIT_ID = 409;
 	private static final int THIRD_EDIT_ID = 352;
 	private static final String AUTHOR_NAME = "新华社图片";
 	private static final int AUTHOR_ID = 409;
@@ -88,30 +88,22 @@ public class XHDataMigrationController {
 	//private static String logFileName = new SimpleDateFormat("yyyyMMdd").format(new Date())+".log";
 	static{  
 		 categoryMap = new HashMap<String, Integer>();  
-		 categoryMap.put("政治", 1761);
-		 categoryMap.put("经济", 1762);
-		 categoryMap.put("文化", 1764);
-		 categoryMap.put("体育", 1765);
-		 categoryMap.put("农业", 100182646);
-		 categoryMap.put("科技", 1763);
-		 categoryMap.put("教育", 100182645);
-		 categoryMap.put("医卫", 100182647);
-		 categoryMap.put("军事", 1768);
-		 categoryMap.put("法制", 1776);
-		 categoryMap.put("生态", 1769);
-		 categoryMap.put("社会", 1766);
-		 categoryMap.put("典型人物", 1773);
-		 categoryMap.put("重大事件", 1774);
-		 categoryMap.put("中央领导", 1775);
-		 categoryMap.put("省领导", 1777);
-		 categoryMap.put("外交", 100182648);
-		 categoryMap.put("旅游", 100182649);
-		 categoryMap.put("民族宗教", 1767);
-		 categoryMap.put("美术", 100182650);
-		 categoryMap.put("世界各地", 1770);
-		 categoryMap.put("新华社", 1771);
-		 categoryMap.put("历史资料", 1772);
-		 categoryMap.put("历史版面", 100182653);
+		 categoryMap.put("社会", 100182668);
+		 categoryMap.put("科技", 100182670);
+		 categoryMap.put("教育", 100182678);
+		 categoryMap.put("体育", 100182667);
+		 categoryMap.put("军事", 100182675);
+		 categoryMap.put("其它", 100182669);
+		 categoryMap.put("政治法律", 100182665);
+		 categoryMap.put("行业经济", 100182666);
+		 categoryMap.put("宏观经济", 100182671);
+		 categoryMap.put("生态环境", 100182673);
+		 categoryMap.put("组织指挥", 100182674);
+		 categoryMap.put("文化娱乐", 100182676);
+		 categoryMap.put("中央领导人", 100182677);
+		 categoryMap.put("医药卫生", 100182679);
+		 categoryMap.put("奥运会", 100182685);
+		 categoryMap.put("突发事件", 100182664);
 	}  
 	
 	
@@ -138,7 +130,6 @@ public class XHDataMigrationController {
         String logTimeStamp =  new SimpleDateFormat("yyyyMMdd").format(new Date())+"";
         String logFileName =logTimeStamp+".log";
 		String logPath = savePath+File.separator+logFileName;
-		log.info("<<<logPath"+logPath);
 		String rootPicPath = FILE_SEP+"mnt"+FILE_SEP+"input"+FILE_SEP+"photo"+FILE_SEP+logTimeStamp;//新华社共享目录路径
 		result = traverseFolder(rootPicPath,result,logPath);
 		log.info("============================新华社图片迁移结束！===========================");
@@ -257,7 +248,6 @@ public class XHDataMigrationController {
         					String content = "";//内容
         					String cateIdsStr = "";
         					
-        					
         					boolean flag = IsFileContensStr(logPath,file2.getName());//判断当前文件是否已经迁移成功
         					if(!flag){//当前文件没有迁移过
         						if(file2.getName().endsWith("xml")){
@@ -285,30 +275,42 @@ public class XHDataMigrationController {
         								keyWordsStr = keyWords.getKeywordText(0);//关键词
         							}
         							String categoryStr = descriptionMetaGroup.getSubjectCodes().getSubjectCode(1).getMainCode().getNameText(0);
-        							if(categoryStr.indexOf("体育")!=-1){
-        								categoryStr = "体育";
-        							}else if(categoryStr.indexOf("政治法律")!=-1){
-        								categoryStr = "政治";
+        							if(categoryStr.indexOf("社会")!=-1){
+        								categoryStr = "社会";
         							}else if(categoryStr.indexOf("科技")!=-1){
         								categoryStr = "科技";
+        							}else if(categoryStr.indexOf("教育")!=-1){
+        								categoryStr = "教育";
+        							}else if(categoryStr.indexOf("体育")!=-1){
+        								categoryStr = "体育";
         							}else if(categoryStr.indexOf("军事")!=-1){
         								categoryStr = "军事";
-        							}else if(categoryStr.indexOf("法制")!=-1){
-        								categoryStr = "法制";
-        							}else if(categoryStr.indexOf("经济")!=-1){
-        								categoryStr = "经济";
-        							}else if(categoryStr.indexOf("文化")!=-1){
-        								categoryStr = "文化";
-        							}else if(categoryStr.indexOf("环境")!=-1||categoryStr.indexOf("生态")!=-1){
-        								categoryStr = "生态";
-        							}else if(categoryStr.indexOf("民族")!=-1||categoryStr.indexOf("宗教")!=-1){
-        								categoryStr = "民族宗教";
-        							}else if(categoryStr.indexOf("国际")!=-1){
-        								categoryStr = "世界各地";
+        							}else if(categoryStr.indexOf("政治")!=-1){
+        								categoryStr = "政治法律";
+        							}else if(categoryStr.indexOf("行业经济")!=-1){
+        								categoryStr = "行业经济";
+        							}else if(categoryStr.indexOf("宏观经济")!=-1){
+        								categoryStr = "宏观经济";
+        							}else if(categoryStr.indexOf("生态环境")!=-1){
+        								categoryStr = "生态环境";
+        							}else if(categoryStr.indexOf("组织指挥")!=-1){
+        								categoryStr = "组织指挥";
+        							}else if(categoryStr.indexOf("文化娱乐")!=-1){
+        								categoryStr = "文化娱乐";
+        							}else if(categoryStr.indexOf("中央领导人")!=-1){
+        								categoryStr = "中央领导人";
+        							}else if(categoryStr.indexOf("宏观经济")!=-1){
+        								categoryStr = "宏观经济";
+        							}else if(categoryStr.indexOf("医药卫生")!=-1){
+        								categoryStr = "医药卫生";
+        							}else if(categoryStr.indexOf("奥运会")!=-1){
+        								categoryStr = "奥运会";
+        							}else if(categoryStr.indexOf("突发事件")!=-1){
+        								categoryStr = "突发事件";
         							}else{
-        								categoryStr = "社会";
+        								categoryStr = "其它";
         							}
-        							cateIdsStr = categoryMap.get(categoryStr)+","+categoryMap.get("新华社");
+        							cateIdsStr = categoryMap.get(categoryStr).toString();
         							
         							
         							ContentItem ContentItem = item.getContents().getContentItem(0);
@@ -345,7 +347,7 @@ public class XHDataMigrationController {
         							group.setPeople("");
         							group.setTitle(title);
         							group.setType((byte)1);
-        							group.setProperties((byte)0);
+        							group.setProperties((byte)3);
         							group.setFileTime(DateUtil.convertStringToDate(dateStr));
         							
         							boolean isIpTc = true;
@@ -383,9 +385,9 @@ public class XHDataMigrationController {
     								List<CpPicGroupCategory> list = new ArrayList<CpPicGroupCategory>();
     								list.add(cpPicGroupCategory);
     								String cateData = gson.toJson(list);
-    								System.out.println("cateData:"+cateData);
     								List<Map<String,Object>> cates = gson.fromJson(cateData, new TypeToken<List<Map<String,Object>>>(){}.getType());
     								//稿件签发
+    								
     								flowService.examByProofread(cpPicGroupMapper.selectByPrimaryKey(group.getId()),thirdEditUser, 3,cates);
     								result.setCode(CommonConstant.SUCCESSCODE);
     								result.setMsg(CommonConstant.SUCCESSSTRING);

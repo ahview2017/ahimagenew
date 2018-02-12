@@ -12,6 +12,8 @@ adminModule.controller('sortManageCtrl', function ($scope, $cookies, req, md5, $
     function init() {
         initSetting();
         getSortList();
+        vm.currentLang = window.localStorage.lang;// add by xiayunan@20180130
+       // vm.allowSubmissions = 1;
     }
 
  	init();
@@ -124,6 +126,9 @@ adminModule.controller('sortManageCtrl', function ($scope, $cookies, req, md5, $
             $("#editSortOrderId").val(treeNode['categoryOrder']);
             vm.caOrderEditModel = treeNode['categoryOrder'];
             $("#editSortTypeId").val(treeNode['showType'] + "");
+            $("#editSortAllowSub").val(treeNode['allowSubmissions'] + "");//允许投稿标识 add by xiayunan@20180130
+            //vm.allowSubmissions = treeNode['allowSubmissions']+ "";
+           // console.log("vm.allowSubmissions:"+(treeNode['allowSubmissions']+ ""));
             $("#editSortRecordId").val(treeNode['memo']);
             if(isEmptyObject(treeNode['image'])){
                 $('#editSortImageId').hide();
