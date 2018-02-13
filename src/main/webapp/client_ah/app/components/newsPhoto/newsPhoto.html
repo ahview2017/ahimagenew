@@ -29,26 +29,30 @@
         <div class="clear"></div>
 
         <!-- 时政 -->
-        <div class="newsPic_politics">
+        <div class="newsPic_politics" style="height:454px;">
             <div class="newsPic_politics_title">
                 <div class="newsPic_politics_title_box">
                     时政
                     <span><a ui-sref="root.moreSortList({sginId: 3068})">更多</a></span>
                 </div>
             </div>
-            <div class="newsPic_politics_cntent" ng-init="newsPhoto.getClientGroups(3068,7,0,2)">
-                <div class="newsPic_politics_cntent_lt" ng-repeat="item in newsPhoto.politics track by $index" ng-if="$first">
-                    <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
-						<img ng-src="{{item.filePath}}" alt="" width="471" height="337">
-					</a>
+            <div class="newsPic_politics_cntent" ng-init="newsPhoto.getClientGroups(3068,7,0,3)" style="height:386px;">
+                <div class="newsPic_politics_cntent_lt" style="border:1px solid #ccc;" ng-repeat="item in newsPhoto.politics track by $index" ng-if="$first">
+                    <div style="height:337px;width:469px;text-align:center;margin:0 auto">
+                        <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
+    						<img ng-src="{{item.filePath}}" alt="" style="max-width:469px;max-height:337px;">
+    					</a>
+                    </div>
                     <p class="split_string"><a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">{{item.TITLE}}</a></p>
                 </div>
                 <div class="newsPic_politics_cntent_rt">
                     <ul>
-                        <li ng-repeat="item in newsPhoto.politics track by $index" ng-if="!$first">
-                            <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
-								<img ng-src="{{item.filePath}}" alt="" width="228" height="146">
-							</a>
+                        <li ng-repeat="item in newsPhoto.politics track by $index" ng-if="!$first" style="margin-bottom:5px;border:1px solid #ccc;text-align:center;">
+                            <div style="height:146px;width:226px;text-align:center;margin:0 auto">
+                                <a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">
+    								<img ng-src="{{item.filePath}}" alt="" style="max-width:225px;max-height:146px;">
+    							</a>
+                            </div>
                             <p class="split_string"><a ui-sref="root.newDetailList({groupId: item.ID})" target="_blank">{{item.TITLE}}</a></p>
                         </li>
                     </ul>
