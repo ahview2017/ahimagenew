@@ -1,6 +1,7 @@
 package com.deepai.photo.controller.picture;
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,11 +10,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.dom4j.Document;
+import org.dom4j.io.XMLWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -69,6 +72,7 @@ import com.deepai.photo.mapper.CpPicGroupThumbsUpMapper;
 import com.deepai.photo.mapper.CpPictureMapper;
 import com.deepai.photo.mapper.CpRoleMapper;
 import com.deepai.photo.mapper.CpUserMapper;
+import com.deepai.photo.mapper.EnPicDownMapper;
 import com.deepai.photo.mapper.OtherMapper;
 import com.deepai.photo.service.admin.SysConfigService;
 import com.deepai.photo.service.admin.UserRoleRightService;
@@ -133,6 +137,9 @@ public class GroupPicController {
 	private CpColumnMapper columnMapper;
 	@Autowired
 	private CpRoleMapper cpRoleMapper;
+	@Resource
+	private EnPicDownMapper enPicDownMapper;
+	
 	public static final String SESSION_LANGTYPE = "session_langType";
 	/** 
 	 * 上传稿件图片，显示缩略图
@@ -2657,17 +2664,21 @@ public class GroupPicController {
 	 * @param request
 	 * @param response
 	 * @param groupId 稿件ID
+	 * @param type 稿件类型(新华社，报社)
+	 * @param flag 控制重复签报标识 0:允许 1：不允许
 	 * @return
 	 */
     @ResponseBody
     @RequestMapping("/signPic")
     public Object signPic(HttpServletRequest request,
-            HttpServletResponse response, Integer groupId,Integer type) {
+            HttpServletResponse response, Integer groupId,Integer type,Integer flag,String picIds) {
         ResponseMessage result = new ResponseMessage();
         CpUser user = SessionUtils.getUser(request);
         CommonValidation.checkParamBlank(groupId + "", "稿件id");
         CommonValidation.checkParamBlank(type + "", "签报类型");
-        
+        log.info("groupId:"+groupId);
+        log.info("type:"+type);
+        log.info("flag:"+flag);
         try {
             CpPicGroup group = aboutPictureMapper.selectGroupPics(groupId);
             if(group.getQbStatus()==1){
@@ -2676,25 +2687,42 @@ public class GroupPicController {
 //                result.setMsg("已经签报过不能再次签报!");
 //                return result;
             	//一个月内不能重复签报 add by xiayunan@20171213
-            	SimpleDateFormat sdfTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            	String fromTime = sdfTime.format(group.getQbTime());
-            	String toTime = sdfTime.format(new Date());
-            	long timeDiffer = DateTimeUtil.getTimeDifference(fromTime, toTime);
-            	if(timeDiffer<=30){
-            		 log.error("您上次的签报时间为"+fromTime+"，一个月内不能重复签报");
-                     result.setCode(CommonConstant.EXCEPTIONCODE);
-                     result.setMsg("您上次的签报时间为"+fromTime+"，一个月内不能重复签报!");
-                     return result;
+            	if(flag==1){
+            		SimpleDateFormat sdfTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                	String fromTime = sdfTime.format(group.getQbTime());
+                	log.info("fromTime:"+fromTime);
+                	String toTime = sdfTime.format(new Date());
+                	log.info("toTime:"+toTime);
+                	long timeDiffer = DateTimeUtil.getTimeDifference(toTime, fromTime);
+                	log.info("timeDiffer:"+timeDiffer);
+                	if(timeDiffer<=30){
+                		 log.error("您上次的签报时间为"+fromTime+"，距今不到一个月，是否重复签报？");
+                         result.setCode(213);//213为重复签报状态码
+                         result.setMsg("您上次的签报时间为"+fromTime+"，距今不到一个月，是否重复签报？");
+                         return result;
+                	}
             	}
+            	
             }
             group.setQbTime(new Date());
-            List<CpPicture> list = group.getPics();//pictureService.selectByGroupId(groupId);
+            
+            List<CpPicture> list = null;
+            log.info("picIds:"+picIds);
+            //add by xiayunan@20180224 选中图片签报
+            if(StringUtil.isBlank(picIds)){
+            	list = group.getPics();
+            }else{
+            	list = enPicDownMapper.selectByPrimaryKey(picIds);
+            }
+            //List<CpPicture> list = group.getPics();//pictureService.selectByGroupId(groupId);
             String sQbPath = ImageConfig.getQbPath(1, sysConfigService);
+            
             for (CpPicture pic : list) {
                 String fileName = pic.getFilename();
                 String filePath = ImageConfig.getFilePath(fileName, "B", 1,
                         sysConfigService);
                 // 判断附件是否存在
+                log.info("filePath:"+filePath);
                 if (ImgFileUtils.isFileExist(filePath)) {
                     // 目录不存在则新建
                     if (!ImgFileUtils.isFileExist(sQbPath)) {
@@ -2702,14 +2730,16 @@ public class GroupPicController {
                         file.mkdirs();
                     }
                     // 复制图片到签报地址
+                    log.info("qbPath:"+sQbPath + File.separator + fileName);
                     ImgFileUtils.copyFile(filePath,
                             sQbPath + File.separator + fileName);
-
                     //写入xml文件
                     Document doc = XMLUtils.createDoc(group,pic,type,user);
+                    log.info("targetFile:"+sQbPath+fileName.substring(0, fileName.lastIndexOf("."))+".xml");
                     XMLUtils.writeXML(doc, sQbPath+fileName.substring(0, fileName.lastIndexOf("."))+".xml");
                 }
             }
+            
             
             
             // 签过了更新状态
@@ -3073,7 +3103,7 @@ public class GroupPicController {
     @ResponseBody
     @RequestMapping("/signGroups")
     public Object signGroups(HttpServletRequest request,
-            HttpServletResponse response, String signIds,Integer type) {
+            HttpServletResponse response, String signIds,Integer type,Integer flag) {
         ResponseMessage result = new ResponseMessage();
         CpUser user = SessionUtils.getUser(request);
         CommonValidation.checkParamBlank(signIds + "", "稿件ids");
@@ -3087,16 +3117,22 @@ public class GroupPicController {
         		Integer groupId = Integer.valueOf(groupIdStr);
         		CpPicGroup group = aboutPictureMapper.selectGroupPics(groupId);
                 if(group.getQbStatus()==1){
-                	//一个月内不能重复签报 add by xiayunan@20171213
-                	SimpleDateFormat sdfTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                	String fromTime = sdfTime.format(group.getQbTime());
-                	String toTime = sdfTime.format(new Date());
-                	long timeDiffer = DateTimeUtil.getTimeDifference(fromTime, toTime);
-                	if(timeDiffer<=30){
-                		 log.error("您上次的签报时间为"+fromTime+"，一个月内不能重复签报!");
-                         result.setCode(CommonConstant.EXCEPTIONCODE);
-                         result.setMsg("您上次的签报时间为"+fromTime+"，一个月内不能重复签报!");
-                         return result;
+                	if(flag==1){
+	                	//一个月内不能重复签报 add by xiayunan@20171213
+	                	SimpleDateFormat sdfTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	                	String fromTime = sdfTime.format(group.getQbTime());
+	                	String toTime = sdfTime.format(new Date());
+	                	long timeDiffer = DateTimeUtil.getTimeDifference(fromTime, toTime);
+	                	if(timeDiffer<=30){
+	//                		 log.error("您上次的签报时间为"+fromTime+"，一个月内不能重复签报!");
+	//                         result.setCode(CommonConstant.EXCEPTIONCODE);
+	//                         result.setMsg("您上次的签报时间为"+fromTime+"，一个月内不能重复签报!");
+	//                         return result;
+	                		 log.error("稿件“"+group.getTitle()+"”上次的签报时间为"+fromTime+"，距今不到一个月，是否重复签报？");
+	                         result.setCode(213);//213为重复签报状态码
+	                         result.setMsg("稿件“"+group.getTitle()+"”上次的签报时间为"+fromTime+"，距今不到一个月，是否重复签报？");
+	                         return result;
+	                	}
                 	}
 //                    log.error("不能签报");
 //                    result.setCode(CommonConstant.EXCEPTIONCODE);
@@ -3106,6 +3142,7 @@ public class GroupPicController {
                 group.setQbTime(new Date());
                 List<CpPicture> list = group.getPics();//pictureService.selectByGroupId(groupId);
                 String sQbPath = ImageConfig.getQbPath(1, sysConfigService);
+                
                 for (CpPicture pic : list) {
                     String fileName = pic.getFilename();
                     String filePath = ImageConfig.getFilePath(fileName, "B", 1,

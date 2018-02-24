@@ -910,7 +910,7 @@ public class PhoneMSGController {
         Integer vilidate = (int) ((Math.random() * 9 + 1) * 100000);
         
         redisClientTemplate.set("MOBILE" + phoneNum + vilidate, vilidate + "");
-        redisClientTemplate.expire("MOBILE" + phoneNum + vilidate, 60 );
+        redisClientTemplate.expire("MOBILE" + phoneNum + vilidate, 60*10 );//修改过期时间为10分钟
         JSONObject resultObj = null;
         try {
             resultObj = phoneMSGUtils.sendMsgForNewArticle(phoneNum,vilidate,PhoneMSGUtils.TYPE_LOGIN_CODE);

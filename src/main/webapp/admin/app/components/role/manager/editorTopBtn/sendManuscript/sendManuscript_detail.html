@@ -24,6 +24,7 @@
              <span  ng-if="(detail.manuscriptDetail.deleteFlag == 0) && ((detail.dtType == 2)||(detail.dtType == 3)) && (detail.manuscriptDetail.groupStatus <= 2) && (detail.manuscriptDetail.isLocked != 1)"  ng-click="detail.commitModalShow('commit-confirm-modal', detail.manuscriptDetail.groupStatus)">提交</span>
             <span ng-if="(detail.manuscriptDetail.deleteFlag == 0) && (detail.dtType == 3) && (detail.manuscriptDetail.groupStatus == 3) && (detail.manuscriptDetail.isLocked != 1)" ng-click="detail.signModalShow('sign-manuscript-modal')">签发</span>
             <span ng-if="(detail.manuscriptDetail.deleteFlag == 0) && (detail.dtType == 3) && (detail.manuscriptDetail.groupStatus == 3) && (detail.manuscriptDetail.isLocked != 1)" ng-click="detail.signModalShow2('sign-manuscript-modal2')">签报</span>
+            <span  class="spanDatabaseBtn" id="checkAll" >全选<input id="checkAllInput" type="checkbox" class="all" name="all"></span>
             <span ng-hide="(detail.manuscriptDetail.deleteFlag == 1) || ((detail.manuscriptDetail.isLocked == 1) || (detail.dtType < detail.manuscriptDetail.groupStatus)) || ((detail.fristPfdUser != detail.uName) && (detail.dtType == 1))" ng-click="detail.delModalShow('commit-del-modal')">删除</span>
             <div class="smt-manage-box">
                 <p class="smt-manage-operate-detail smt-spec-manage-operate" ng-click="detail.toggleMangeOperateCon()">管理</p>
@@ -124,13 +125,13 @@
             <div class="smt-detail-pic">
                 <div class="smt-detail-picItem clearfloat" ng-repeat="item in detail.manuscriptDetail.pics"detail-show-middle-pic>
                     <div class="fll w30p smt-vm-parent">
-                        <span>{{item.isCover | isCoverFilter}}</span><br/>
+                        <span style="margin-right: 15px;">{{$index+1}}</span><span>{{item.isCover | isCoverFilter}}</span><br/>
+                        <input type="checkbox" name="check" class="check" value="{{item.id}}">
                         <img ng-src="{{item.smallPath}}" class="img-responsive parent_pic"/>
                         <div class='smt-wm-box' style="width: 500px;">
                         	<img ng-src="{{item.wmPath}}">
                         	<div class='showMiddlepics'>                                    		                                          		
                                 <table border='1' width='100%' cellpadding="10">
-                                    	        <caption >EXIF信息</caption>
                                     	        <tr>
                                     	           	<td>光圈数</td>
                                     	           	<td>{{item.exFnumber}}</td>
@@ -278,6 +279,23 @@
             </div>
         </div>
     </div>
+    
+    
+    
+    <!--确认签报弹框-->
+    <div class="common-modal-style2" id="commit-qd-modal" style="display:none">
+        <div class="role-add-con">
+            <div class="role-add-tit clear">
+            	<span class="fll" style="color: #333;">{{detail.qbmsg}}</span>
+            </div>
+            <div class="tac mt10">
+                <span class="dib cursor user-add-btn" ng-click="detail.confirmQbManuscript('commit-qd-modal')">确定</span>
+                <span class="dib cursor user-add-btn cancel-btn-color"   ng-click="detail.manuscriptDetailModalHide('commit-qd-modal')">取消</span>
+            </div>
+        </div>
+    </div>
+    
+    
     <!--留资弹框-->
     <div class="common-modal-style" id="Info-manuscript-modal" style="display:none">
         <div class="role-add-con">
@@ -337,7 +355,7 @@
         </div>
     </div>
     
-     <!--签报弹框-->
+    <!--签报弹框-->
     <div class="common-modal-style2" id="sign-manuscript-modal2"
          ng-mousemove="detail.moveModal('role-add-tit','sign-manuscript-modal2')"
          style="display:none;" >

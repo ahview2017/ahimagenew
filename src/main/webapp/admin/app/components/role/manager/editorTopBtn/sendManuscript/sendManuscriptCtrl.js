@@ -200,7 +200,8 @@ adminModule.controller('mSendManuscriptCtrl', function($scope, $cookies, req, md
     function signGroups(modalId,v){
 		req.post('groupPicCtro/signGroups.do ', {
 			signIds: vm.signIds,
-			type: v
+			type: v,
+			flag:1
 		}).success(function(resp) {
 			if(resp.code == '211') {
 				modalOperate.modalHide("sign-manuscript-modal2");//add by xiayunan@20171204 签报成功，隐藏弹框
@@ -209,11 +210,39 @@ adminModule.controller('mSendManuscriptCtrl', function($scope, $cookies, req, md
                 vm.selWaitMsIds = {};
 				layer.alert("签报成功");
 				return;
-			}else if(resp.msg != '未登录'){
-                layer.alert(resp.msg);
+			}else if(resp.code == '213'){
+                //layer.alert(resp.msg);
+				vm.qbmsg = resp.msg;
+				modalOperate.modalHide("sign-manuscript-modal2");
+				modalOperate.modalShow("commit-qd-modal");
              }
 		});
 	}
+    
+  //新增忽略重复签报入口 add by xiayunan@20180222
+	// 确认重复签报
+	vm.confirmQbManuscript = function(modalId) {
+		req_qbManuscript(modalId);
+	}
+	//确定重复签报请求
+	function req_qbManuscript(modalId) {
+		var v = $(":radio[name='checkpic']:checked").val(); 
+		req.post('groupPicCtro/signGroups.do ', {
+			signIds: vm.signIds,
+			type: v,
+			flag:0
+		}).success(function(resp) {
+			layer.close(vm.loadUpMs);
+			if(resp.code == '211') {
+				layer.alert("签报成功");
+				modalOperate.modalHide("sign-manuscript-modal2");//add by xiayunan@20171204 签报成功，隐藏弹框 
+				modalOperate.modalHide("commit-qd-modal");//add by xiayunan@20171204 签报成功，隐藏弹框 
+				return;
+			}
+			
+		});
+	}
+    
     
     // 稿件详情模态框隐藏
 	vm.manuscriptDetailModalHide = function(modalId) {
@@ -244,6 +273,11 @@ adminModule.controller('mSendManuscriptCtrl', function($scope, $cookies, req, md
         }
 		modalOperate.modalShow(modalId);
 	}
+	
+	
+	
+	
+	
 	
 	
 	//一键签库  add by xiayunan@20171215

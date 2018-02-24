@@ -697,7 +697,6 @@ clientModule.controller('newArticleCtrl', function ($scope, $cookies, req, md5, 
     
     //提交
     vm.commitManuscript = function(){
-    	console.log("<<<准备提交");
         valid_manuscriptInfo(function(){
             getPicDataParams();
             vm.loadUpMs = layer.load(1);

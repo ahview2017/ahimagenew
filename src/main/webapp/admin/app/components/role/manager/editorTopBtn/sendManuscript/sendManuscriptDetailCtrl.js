@@ -39,6 +39,13 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 	}
 
 	init();
+	
+	
+	//全选
+    $(".all").click(function(){
+        var xz = $(this).prop("checked");
+        $(".check").prop("checked", xz);
+    });
 
 	//获取Mas视频基础URL add by xiayunan 20170907
 	function getMasBaseUrl(){
@@ -438,25 +445,40 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 
 	}
 	
-//	add by liu.jinfeng@20170904
+	//	add by liu.jinfeng@20170904
 	vm.signModalShow2 = function(modalId) {
 		modalOperate.modalShow(modalId);
 	}
 	
 	// 签报
 	vm.signManuscript2 = function(modalId) {
+		//add by xiayunan@20180224  选择指定图片签报
+		 var id_array=new Array();
+        $('input[name="check"]:checked').each(function(){
+            id_array.push($(this).val());//向数组中添加元素
+        });
+	     var picIds=id_array.join(',');//将数组元素连接起来以构建一个字符串
+	     
+	     if(id_array.length==0){
+	         layer.alert("请选择要签报的图片");
+	         return;
+	     }
+		
+		
 		 var v = $(":radio[name='checkpic']:checked").val();  
 		 if(typeof(v)=="undefined"){
 			 layer.alert("请选择要签报的类型");
 			return;
 		 }
 		vm.loadUpMs = layer.load(1);
-		signManuscript2(modalId,v);
+		signManuscript2(modalId,v,picIds);
 	}
-	function signManuscript2(modalId,v){
+	function signManuscript2(modalId,v,picIds){
 		req.post('groupPicCtro/signPic.do ', {
 			groupId: vm.groupId,
-			type: v
+			type: v,
+			flag:1,
+			picIds:picIds
 		}).success(function(resp) {
 			layer.close(vm.loadUpMs);
 			if(resp.code == '211') {
@@ -464,9 +486,17 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 				modalOperate.modalHide("sign-manuscript-modal2");//add by xiayunan@20171204 签报成功，隐藏弹框 
 				return;
 			}
-			layer.alert(resp.msg);
+			if(resp.code == '213'){
+				vm.qbmsg = resp.msg;
+				modalOperate.modalHide("sign-manuscript-modal2");
+				modalOperate.modalShow("commit-qd-modal");
+			}
+			//layer.alert(resp.msg);
 		});
 	}
+	
+	
+	
 
 	
 	
@@ -608,6 +638,50 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 			}
 		});
 	}
+	
+	
+	//新增忽略重复签报入口 add by xiayunan@20180222
+	// 确认重复签报
+	vm.confirmQbManuscript = function(modalId) {
+		req_qbManuscript(modalId);
+	}
+	//确定重复签报请求
+	function req_qbManuscript(modalId) {
+		var v = $(":radio[name='checkpic']:checked").val(); 
+		
+		
+		var id_array=new Array();
+	    $('input[name="check"]:checked').each(function(){
+	        id_array.push($(this).val());//向数组中添加元素
+	    });
+	    var picIds=id_array.join(',');//将数组元素连接起来以构建一个字符串
+	     
+	    if(id_array.length==0){
+	        layer.alert("请选择要签报的图片");
+	        return;
+	    }
+		
+		req.post('groupPicCtro/signPic.do ', {
+			groupId: vm.groupId,
+			type: v,
+			flag:0,
+			picIds:picIds
+		}).success(function(resp) {
+			layer.close(vm.loadUpMs);
+			if(resp.code == '211') {
+				layer.alert("签报成功");
+				modalOperate.modalHide("sign-manuscript-modal2");//add by xiayunan@20171204 签报成功，隐藏弹框 
+				modalOperate.modalHide("commit-qd-modal");//add by xiayunan@20171204 签报成功，隐藏弹框 
+				return;
+			}
+			
+		});
+	}
+	
+	
+	
+	
+	
 
 	// 内部留资弹框
 	vm.innerLeaveInfo = function(modalId) {

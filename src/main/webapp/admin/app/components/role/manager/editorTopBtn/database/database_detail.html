@@ -101,6 +101,7 @@ input[type=checkbox], input[type=radio]{ zoom:1.5;}
                 <div class="db-detail-cont-item w100p mt20 ml3p fll"
                      ng-repeat="picItem in detail.dataBankObj.pics" detail-show-middle-pic>
                     <div class="dpicimg smt-vm-parent" >
+                    	<span style="margin-right: 15px;">{{$index+1}}</span><span>{{picItem.isCover | isCoverFilter}}</span><br/>
                         <input type="checkbox" name="check" class="check" value="{{picItem.id}}">
                         <img class="ms-detail-picture img-responsive parent_pic" ng-src="{{picItem.smallPath}}"
                              width="225" height="255"/>
@@ -401,6 +402,18 @@ input[type=checkbox], input[type=radio]{ zoom:1.5;}
         </div>
     </div>
 
+	<!--确认签报弹框-->
+    <div class="common-modal-style2" id="commit-qd-modal" style="display:none">
+        <div class="role-add-con">
+            <div class="role-add-tit clear">
+            	<span class="fll" style="color: #333;">{{detail.qbmsg}}</span>
+            </div>
+            <div class="tac mt10">
+                <span class="dib cursor user-add-btn" ng-click="detail.confirmQbManuscript('commit-qd-modal')">确定</span>
+                <span class="dib cursor user-add-btn cancel-btn-color"   ng-click="detail.manuscriptDetailModalHide('commit-qd-modal')">取消</span>
+            </div>
+        </div>
+    </div>
 
 
     <!--撤稿弹框-->

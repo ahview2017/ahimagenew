@@ -651,6 +651,18 @@
         </div>
     </div>
      
+     <!--确认签报弹框-->
+    <div class="common-modal-style2" id="commit-qd-modal" style="display:none">
+        <div class="role-add-con">
+            <div class="role-add-tit clear">
+            	<span class="fll" style="color: #333;">{{sendManuscript.qbmsg}}</span>
+            </div>
+            <div class="tac mt10">
+                <span class="dib cursor user-add-btn" ng-click="sendManuscript.confirmQbManuscript('commit-qd-modal')">确定</span>
+                <span class="dib cursor user-add-btn cancel-btn-color"   ng-click="sendManuscript.manuscriptDetailModalHide('commit-qd-modal')">取消</span>
+            </div>
+        </div>
+    </div>
      
      
      

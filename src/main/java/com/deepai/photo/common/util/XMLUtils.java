@@ -11,6 +11,7 @@ import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.OutputFormat;
+import org.dom4j.io.XMLWriter;
 
 import com.deepai.photo.bean.CpPicGroup;
 import com.deepai.photo.bean.CpPicture;
@@ -48,7 +49,7 @@ public class XMLUtils {
         Element root = DocumentHelper.createElement("News");
 
         Element eAuthor = DocumentHelper.createElement("Author");
-        eAuthor.setText(group.getAuthor());
+        eAuthor.setText(group.getTruename());//add by xiayunan@20180223 作者名改成真实姓名
 
         Element eTitle = DocumentHelper.createElement("Title");
         eTitle.setText(group.getTitle());
@@ -101,7 +102,8 @@ public class XMLUtils {
         org.dom4j.io.XMLWriter xw = new org.dom4j.io.XMLWriter(
         		new  FileOutputStream(targetFile), of);
         xw.write(doc);
-        xw.flush();
+        //xw.flush();
+        xw.close();//add by xiayunan@20180223
     }
     
     /**

@@ -152,7 +152,8 @@
 			</div>
 			<div class="ms-edit-btn">
 				<input type="checkbox" />全选
-				<span class="ms-edit-sort">排序</span>
+				
+				<!-- <span class="ms-edit-sort">排序</span> -->
 				<!--<span class="ms-edit-del">批量删除图片说明</span>-->
 			</div>
 			<div class="n-manuscript-container-bottom clear">
@@ -170,6 +171,7 @@
 							</div>
 							<div class="ms-details-pic fll" detail-show-middle-pic>
 								<div>
+									<span style="margin-right: 15px;">{{$index+1}}</span>
 									<select class="ms-pic-pictype" ng-model="item.isCover" ng-change="edit.changePicIsCover(item.isCover,$index)">
 										<option value="1">主图</option>
 										<option value="0">辅图</option>
