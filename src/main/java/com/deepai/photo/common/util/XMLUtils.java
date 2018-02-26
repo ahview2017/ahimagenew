@@ -49,6 +49,8 @@ public class XMLUtils {
         Element root = DocumentHelper.createElement("News");
 
         Element eAuthor = DocumentHelper.createElement("Author");
+        
+        logger.info("作者："+group.getTruename());
         eAuthor.setText(group.getTruename());//add by xiayunan@20180223 作者名改成真实姓名
 
         Element eTitle = DocumentHelper.createElement("Title");
@@ -73,7 +75,8 @@ public class XMLUtils {
         Element eBody = DocumentHelper.createElement("Body");
         eBody.setText(deleteAllHTMLTag(group.getTitle())+"\r\n    "+deleteAllHTMLTag(group.getMemo())+"\r\n    "+deleteAllHTMLTag(pic.getMemo())+"\r\n    "+deleteAllHTMLTag(group.getRemark()));//add by xiayunan@20171201
         Element eSender = DocumentHelper.createElement("Sender");
-        eSender.setText(user.getUserName());
+//        eSender.setText(user.getUserName());
+        eSender.setText(user.getTureName());
 
         root.add(eAuthor);
         root.add(eTime);
