@@ -760,6 +760,12 @@
 			<if test="query.paramStr !=null">
 				and (g.ID LIKE CONCAT('%',#{query.paramStr},'%') or g.TITLE LIKE CONCAT('%',#{query.paramStr},'%') or g.AUTHOR LIKE CONCAT('%',#{query.paramStr},'%') or g.PLACE LIKE CONCAT('%',#{query.paramStr},'%') or g.MEMO LIKE CONCAT('%',#{query.paramStr},'%') or g.KEYWORDS LIKE CONCAT('%',#{query.paramStr},'%') or g.REMARK LIKE CONCAT('%',#{query.paramStr},'%') )
 			</if>
+			<if test="query.paramStr1 !=null">
+				and (g.ID LIKE CONCAT('%',#{query.paramStr1},'%') or g.TITLE LIKE CONCAT('%',#{query.paramStr1},'%') or g.AUTHOR LIKE CONCAT('%',#{query.paramStr1},'%') or g.PLACE LIKE CONCAT('%',#{query.paramStr1},'%') or g.MEMO LIKE CONCAT('%',#{query.paramStr1},'%') or g.KEYWORDS LIKE CONCAT('%',#{query.paramStr1},'%') or g.REMARK LIKE CONCAT('%',#{query.paramStr1},'%') )
+			</if>
+			<if test="query.paramStr2 !=null">
+				and (g.ID LIKE CONCAT('%',#{query.paramStr2},'%') or g.TITLE LIKE CONCAT('%',#{query.paramStr2},'%') or g.AUTHOR LIKE CONCAT('%',#{query.paramStr2},'%') or g.PLACE LIKE CONCAT('%',#{query.paramStr2},'%') or g.MEMO LIKE CONCAT('%',#{query.paramStr2},'%') or g.KEYWORDS LIKE CONCAT('%',#{query.paramStr2},'%') or g.REMARK LIKE CONCAT('%',#{query.paramStr2},'%') )
+			</if>
 
 		</if>	
 		  	
@@ -835,6 +841,12 @@
 			</if>
 			<if test="query.paramStr !=null">
 				and (g.ID LIKE CONCAT('%',#{query.paramStr},'%') or g.TITLE LIKE CONCAT('%',#{query.paramStr},'%') or g.AUTHOR LIKE CONCAT('%',#{query.paramStr},'%') or g.PLACE LIKE CONCAT('%',#{query.paramStr},'%') or g.MEMO LIKE CONCAT('%',#{query.paramStr},'%') or g.KEYWORDS LIKE CONCAT('%',#{query.paramStr},'%') or g.REMARK LIKE CONCAT('%',#{query.paramStr},'%') )
+			</if>
+			<if test="query.paramStr1 !=null">
+				and (g.ID LIKE CONCAT('%',#{query.paramStr1},'%') or g.TITLE LIKE CONCAT('%',#{query.paramStr1},'%') or g.AUTHOR LIKE CONCAT('%',#{query.paramStr1},'%') or g.PLACE LIKE CONCAT('%',#{query.paramStr1},'%') or g.MEMO LIKE CONCAT('%',#{query.paramStr1},'%') or g.KEYWORDS LIKE CONCAT('%',#{query.paramStr1},'%') or g.REMARK LIKE CONCAT('%',#{query.paramStr1},'%') )
+			</if>
+			<if test="query.paramStr2 !=null">
+				and (g.ID LIKE CONCAT('%',#{query.paramStr2},'%') or g.TITLE LIKE CONCAT('%',#{query.paramStr2},'%') or g.AUTHOR LIKE CONCAT('%',#{query.paramStr2},'%') or g.PLACE LIKE CONCAT('%',#{query.paramStr2},'%') or g.MEMO LIKE CONCAT('%',#{query.paramStr2},'%') or g.KEYWORDS LIKE CONCAT('%',#{query.paramStr2},'%') or g.REMARK LIKE CONCAT('%',#{query.paramStr2},'%') )
 			</if>
 			
 		</if>

@@ -1894,6 +1894,26 @@ public class GroupPicController {
 			}
 			Integer pageNo = (page-1)*rows;//起始条数
 			Integer pageSize = page*rows;//结束条数
+			
+			// add by xiayunan@20180226 资料库多检索词精确检索
+			String paramStr= query.getParamStr();
+			if(paramStr.indexOf(" ")!=-1){
+				String[] arr = paramStr.split(" ");
+				if(arr.length>3){
+					result.setCode(215);
+					result.setMsg("检索框最多只能输入3个关键词");
+					return result;
+				}
+				for(int i=0;i<arr.length;i++){
+					if(i==0){
+						query.setParamStr(arr[0]);
+					}else if(i==1){
+						query.setParamStr1(arr[1]);
+					}else if(i==2){
+						query.setParamStr2(arr[2]);
+					}
+				}
+			}
 			param.put("pageNo", pageNo);
 			param.put("pageSize", pageSize);
 			param.put("orderBy", " g.SGIN_TIME desc");
@@ -1902,6 +1922,9 @@ public class GroupPicController {
 			//add by xiayunan@2017-09-26
 			int p = (count+rows-1)/rows;//总页数
 //			int p = (int)Math.ceil(count/rows);//总页数
+			
+//			
+			
 			List<Map<String,Object>> list=aboutPictureMapper.selectGroupsOnlySeach(param);
 			
 			for (Map<String,Object> map:list) {

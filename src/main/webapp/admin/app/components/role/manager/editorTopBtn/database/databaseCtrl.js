@@ -604,7 +604,10 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 				}
 				layer.close(vm.loadUpMs);
 				modalOperate.modalHide('database-manuscript-search-modal');
-			} else {
+			}else if(resp.code == '215' ){
+				layer.close(vm.loadUpMs);
+				layer.alert("检索库最多只能输入3个关键词！");
+			}else {
 				if(gType === 1) {
 					if(showType === 0) {
 						vm.hadPubRowDataArray = [];

@@ -24,7 +24,21 @@ public class GroupQuery {
     private Date endTime;//结束时间
     private Integer langType;//语言
     
-    private String paramStr;//简单查询 
+    public String getParamStr1() {
+		return paramStr1;
+	}
+	public void setParamStr1(String paramStr1) {
+		this.paramStr1 = paramStr1;
+	}
+	public String getParamStr2() {
+		return paramStr2;
+	}
+	public void setParamStr2(String paramStr2) {
+		this.paramStr2 = paramStr2;
+	}
+	private String paramStr;//简单查询 
+    private String paramStr1;//简单查询1 
+    private String paramStr2;//简单查询 2
     
 	public String getParamStr() {
 		return paramStr;
