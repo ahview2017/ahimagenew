@@ -1,6 +1,6 @@
 @charset:utf-8;
 a:hover,.login_left span a:hover,.hd_content_1 p a:hover,.slide_x .list p a:hover,.refresh span a:hover,.hfwy_content_1 p a:hover,.hfwy_content_2_1 p a:hover,.hfwy_content_2_2 p a:hover{color:#ee1c22;}
-.wrapper{width:100%;background:url(http://vi.ahnews.com.cn/photo/client_ah/assets/images_ah/year2018.jpg ) no-repeat center top;background-attachment: fixed;
+.wrapper{width:100%;background:#fff;background-attachment: fixed;
 }
 .main{width:100%;margin:0 auto;}
 .header{width:1200px;height:103px;margin:0px auto 15px auto;}
@@ -17,7 +17,7 @@ input[rel="index_submit"]{width:74px;height:42px;background: url("search_pic_03.
 .login_left span a{height:30px;width:40px;line-height: 30px;color:#a3a3a3;}
 .login_right span{height:30px;line-height: 30px;background:url("sjah_index_10.png") no-repeat center left;}
 .login_right span a{height:30px;width:40px;line-height: 30px;font-size: 16px;padding-left:32px;}
-.nav{width:1200px;background:#333;height:50px;margin: 0 auto;}
+.nav{width:100%;background:#333;height:50px;}
 .nav_content{width:1200px;margin:0 auto;height:50px;line-height:50px;position:relative;}
 .nav_content li.tab_li{float:left;width:106px;height:50px;}
 .nav_content li.tab_li img{margin-right:10px;margin-bottom:8px;}
