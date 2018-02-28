@@ -606,7 +606,7 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 				modalOperate.modalHide('database-manuscript-search-modal');
 			}else if(resp.code == '215' ){// add by xiayunan@20180226
 				layer.close(vm.loadUpMs);
-				layer.alert("检索库最多只能输入3个关键词！");
+				layer.alert("检索库最多只能输入5个关键词！");
 			}else {
 				if(gType === 1) {
 					if(showType === 0) {
@@ -725,6 +725,9 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 				}
 				layer.close(vm.loadUpMs);
 				modalOperate.modalHide('database-manuscript-search-modal');
+			}else if(resp.code == '215' ){// add by xiayunan@20180226
+				layer.close(vm.loadUpMs);
+				layer.alert("检索库最多只能输入5个关键词！");
 			} else {
 				if(gType === 1) {
 					if(showType === 0) {
@@ -903,7 +906,7 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 		}else if(name == '老照片') {//add by xiayunan  2017-09-06
 			vm.properties = 2;
 			pcataid = 100182651;
-		}else if(name == '新华社图片') {//add by xiayunan  2017-09-06
+		}else if(name == '新华社图片') {//add by xiayunan  2018-02-06
 			vm.properties = 3;
 			pcataid = 100182663;
 		}
@@ -922,7 +925,6 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 	 * 获取稿件分类信息
 	 */
 	function getSelCpCategories(callback) {
-		
 		req.post('classification/selCpCategories.do', {
 			langType: window.localStorage.lang
 		}).success(function(resp) {

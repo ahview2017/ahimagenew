@@ -39,9 +39,23 @@ public class GroupQuery {
 	private String paramStr;//简单查询 
     private String paramStr1;//简单查询1 
     private String paramStr2;//简单查询 2
+    private String paramStr3;//简单查询3 
+    private String paramStr4;//简单查询 4
     
 	public String getParamStr() {
 		return paramStr;
+	}
+	public String getParamStr3() {
+		return paramStr3;
+	}
+	public void setParamStr3(String paramStr3) {
+		this.paramStr3 = paramStr3;
+	}
+	public String getParamStr4() {
+		return paramStr4;
+	}
+	public void setParamStr4(String paramStr4) {
+		this.paramStr4 = paramStr4;
 	}
 	public void setParamStr(String paramStr) {
 		this.paramStr = paramStr;

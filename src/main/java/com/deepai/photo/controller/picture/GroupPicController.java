@@ -35,6 +35,7 @@ import com.deepai.photo.bean.CpPicGroupProcessExample.Criteria;
 import com.deepai.photo.bean.CpPicGroupThumbsUp;
 import com.deepai.photo.bean.CpPicture;
 import com.deepai.photo.bean.CpPictureExample;
+import com.deepai.photo.bean.CpRight;
 import com.deepai.photo.bean.CpRole;
 import com.deepai.photo.bean.CpRoleExample;
 import com.deepai.photo.bean.CpTopic;
@@ -70,6 +71,7 @@ import com.deepai.photo.mapper.CpPicGroupMapper;
 import com.deepai.photo.mapper.CpPicGroupProcessMapper;
 import com.deepai.photo.mapper.CpPicGroupThumbsUpMapper;
 import com.deepai.photo.mapper.CpPictureMapper;
+import com.deepai.photo.mapper.CpRightMapper;
 import com.deepai.photo.mapper.CpRoleMapper;
 import com.deepai.photo.mapper.CpUserMapper;
 import com.deepai.photo.mapper.EnPicDownMapper;
@@ -139,6 +141,8 @@ public class GroupPicController {
 	private CpRoleMapper cpRoleMapper;
 	@Resource
 	private EnPicDownMapper enPicDownMapper;
+	@Autowired
+	private CpRightMapper cpRightMapper;
 	
 	public static final String SESSION_LANGTYPE = "session_langType";
 	/** 
@@ -1792,7 +1796,6 @@ public class GroupPicController {
 			if(signId!=null){
 				param.put("signId", signId);
 			}
-			
 			if(cateId!=null){
 				param.put("cateId", cateId);
 			}
@@ -1868,9 +1871,17 @@ public class GroupPicController {
 			if(langType!=null){
 				param.put("langType", langType);
 			}
-			if(properties != null){
-				param.put("properties", properties);
+			
+			CpUser user = SessionUtils.getUser(request);
+			CpRight cpRight = cpRightMapper.selectByRightName("老照片管理");
+			boolean hasRight = false;
+			if(user!=null&&cpRight!=null){
+				hasRight = userRoleRightService.checkUserRightByRightId(user.getId(),cpRight.getId());
 			}
+			if(!hasRight){//如果没有老照片权限，只能看到新闻图片，专题图片，新华社图片
+				param.put("properties", "0,1,3");
+			}
+			
 			param.put("deleteFlag", 0);
 			if(signId!=null){
 				param.put("signId", signId);
@@ -1899,19 +1910,45 @@ public class GroupPicController {
 			String paramStr= query.getParamStr();
 			if(paramStr.indexOf(" ")!=-1){
 				String[] arr = paramStr.split(" ");
-				if(arr.length>3){
+				log.info("size:"+arr.length);
+				if(arr.length>5){
 					result.setCode(215);
-					result.setMsg("检索框最多只能输入3个关键词");
+					result.setMsg("检索框最多只能输入5个关键词");
 					return result;
 				}
 				for(int i=0;i<arr.length;i++){
 					if(i==0){
 						query.setParamStr(arr[0]);
-					}else if(i==1){
-						query.setParamStr1(arr[1]);
-					}else if(i==2){
-						query.setParamStr2(arr[2]);
+						log.info("arr[0]:"+arr[0]);
 					}
+					if(arr.length>1){
+						if(i==1){
+							query.setParamStr1(arr[1]);
+							log.info("arr[1]:"+arr[1]);
+						}
+					}
+					if(arr.length>2){
+						if(i==2){
+							query.setParamStr2(arr[2]);
+							log.info("arr[2]:"+arr[2]);
+						}
+						
+					}
+					if(arr.length>3){
+						if(i==3){
+							query.setParamStr3(arr[3]);
+							log.info("arr[3]:"+arr[3]);
+						}
+						
+					}
+					if(arr.length>4){
+						if(i==4){
+							query.setParamStr4(arr[4]);
+							log.info("arr[4]:"+arr[4]);
+						}
+						
+					}
+					
 				}
 			}
 			param.put("pageNo", pageNo);
@@ -1999,6 +2036,52 @@ public class GroupPicController {
 			}
 			Integer pageNo = (page-1)*rows;//起始条数
 			Integer pageSize = page*rows;//结束条数
+			
+			// add by xiayunan@20180226 资料库多检索词精确检索
+			String paramStr= query.getParamStr();
+			if(paramStr.indexOf(" ")!=-1){
+				String[] arr = paramStr.split(" ");
+				if(arr.length>5){
+					result.setCode(215);
+					result.setMsg("检索框最多只能输入5个关键词");
+					return result;
+				}
+				for(int i=0;i<arr.length;i++){
+					if(i==0){
+						query.setParamStr(arr[0]);
+						log.info("arr[0]:"+arr[0]);
+					}
+					if(arr.length>1){
+						if(i==1){
+							query.setParamStr1(arr[1]);
+							log.info("arr[1]:"+arr[1]);
+						}
+					}
+					if(arr.length>2){
+						if(i==2){
+							query.setParamStr2(arr[2]);
+							log.info("arr[2]:"+arr[2]);
+						}
+						
+					}
+					if(arr.length>3){
+						if(i==3){
+							query.setParamStr3(arr[3]);
+							log.info("arr[3]:"+arr[3]);
+						}
+						
+					}
+					if(arr.length>4){
+						if(i==4){
+							query.setParamStr4(arr[4]);
+							log.info("arr[4]:"+arr[4]);
+						}
+						
+					}
+					
+				}
+			}
+			
 			param.put("pageNo", pageNo);
 			param.put("pageSize", pageSize);
 			param.put("orderBy", " g.SGIN_TIME desc");
