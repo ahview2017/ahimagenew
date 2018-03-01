@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -1068,6 +1069,7 @@ public class GroupPicController {
 					}
 
 				}
+				
 				Timestamp date = new Timestamp((new Date()).getTime());
 				enSignColumnService.updateGroupStatus(groupId, date, userName);// 修改稿件的状态为4表示以签发
 			}else{
@@ -2614,9 +2616,22 @@ public class GroupPicController {
 			default:
 				break;
 			}
-			if(properties!=null){
-				param.put("properties",properties);
+			CpUser user = SessionUtils.getUser(request);
+			CpRight cpRight = cpRightMapper.selectByRightName("老照片管理");
+			boolean hasRight = false;
+			if(user!=null&&cpRight!=null){
+				hasRight = userRoleRightService.checkUserRightByRightId(user.getId(),cpRight.getId());
 			}
+			if(properties==0){
+				if(!hasRight){//如果没有老照片权限，只能看到新闻图片，专题图片，新华社图片
+					param.put("properties", "0,1");
+				}else{
+					param.put("properties", "0,1,2");
+				}
+			}else if(properties==1){
+				param.put("properties", "3");
+			}
+			
 			if(beginSginTime!=null && StringUtil.isNotBlank(beginSginTime)){
 				param.put("beginSginTime",DateUtils.getDateFromString(beginSginTime+" 00:00:00"));
 			}

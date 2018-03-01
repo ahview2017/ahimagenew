@@ -783,7 +783,6 @@
 	LEFT JOIN cp_picture p on g.COVER_PICTURE_ID=p.ID 
 	LEFT JOIN cp_pic_group_category c on c.GROUP_ID=g.ID
 	where g.SOURCE_ID=0  
-
 		<if test="siteId != null">
 			and g.SITE_ID=#{siteId} 
 		</if>
