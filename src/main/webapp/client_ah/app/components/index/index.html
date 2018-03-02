@@ -6,7 +6,22 @@
 
 	    <div class="main_box">
 	        <!-- 通栏广告0 index.onToShowAdTopicClick(index.adShowImageArray[0])-->
-
+	        <!-- 通栏广告 1-->
+            <div class="special_pic" ng-show="index.showFlag1">			
+					<a target="_blank">
+                    <img ng-src="{{index.adShowImageArray[1]['file']}}"
+                         ng-click="index.onToShowAdTopicClick(index.adShowImageArray[1])" width="1200" height="100">
+				    </a>
+			</div>
+			<!-- 通栏广告 2-->
+			<div class="special_pic" ng-show="index.showFlag2">			
+					<a target="_blank">
+                    <img ng-src="{{index.adShowImageArray[2]['file']}}"
+                         ng-click="index.onToShowAdTopicClick(index.adShowImageArray[2])" width="1200" height="100">
+				    </a>
+			</div>
+			
+			
 	        
 	        <!-- 头条 焦点大图 -->
 	        <div class="slideBox" id="slideBox">
@@ -34,16 +49,27 @@
 
             <div class="clear"></div>
 
-            <!-- 通栏广告1 -->
+            <!-- 通栏广告3 -->
            
-            <div class="special_pic" >
+            <div class="special_pic" ng-show="index.showFlag3" >
 				<a target="_blank">
-                    <img ng-click="index.onToShowAdTopicClick(index.adShowImageArray[0])" ng-src="{{index.adShowImageArray[0]['file']}}" width="1200" height="100">
+                    <img ng-click="index.onToShowAdTopicClick(index.adShowImageArray[3])" ng-src="{{index.adShowImageArray[3]['file']}}" width="1200" height="100">
                 </a>
 	        </div>
-	        <div class="clear" ></div>
 	        
-	       
+	        
+	        
+	        
+	       <!-- 通栏广告4 -->
+           
+            <div class="special_pic" ng-show="index.showFlag4">
+				<a target="_blank">
+                    <img ng-click="index.onToShowAdTopicClick(index.adShowImageArray[4])" ng-src="{{index.adShowImageArray[4]['file']}}" width="1200" height="100">
+                </a>
+	        </div>
+	        
+	        
+	       <div class="clear" ></div>
 
             <!-- 新闻 -->
             <div class="news_box">
@@ -65,17 +91,26 @@
                 </div>
             </div>
 
-            <div class="clear"></div>
             
-            <!-- 通栏广告 2-->
-           <!--  
-            <div class="middle_gg" ">			
-					<a target="_blank">
-                    <img ng-src="{{index.adShowImageArray[1]['file']}}"
-                         ng-click="index.onToShowAdTopicClick(index.adShowImageArray[1])" width="1200" height="100">
-				    </a>
-			</div>
-			-->
+            
+            <!-- 通栏广告5   -->
+           
+            <div class="special_pic" ng-show="index.showFlag5">
+				<a target="_blank">
+                    <img ng-click="index.onToShowAdTopicClick(index.adShowImageArray[5])" ng-src="{{index.adShowImageArray[5]['file']}}" width="1200" height="100">
+                </a>
+	        </div>
+	      
+	        
+	       <!-- 通栏广告6 -->
+           
+            <div class="special_pic" ng-show="index.showFlag6">
+				<a target="_blank">
+                    <img ng-click="index.onToShowAdTopicClick(index.adShowImageArray[6])" ng-src="{{index.adShowImageArray[6]['file']}}" width="1200" height="100">
+                </a>
+	        </div>
+	        
+	        <div class="clear"></div>
            
             <!-- 主要图片展示 -->
             <div class="beautiful_ah">
@@ -222,6 +257,9 @@
                 </div>
             </div>
 
+
+	       
+
 			<!-- 历史资料 -->
             <div class="clear"></div>
             <div class="history_box">
@@ -245,6 +283,28 @@
                     </ul>
                 </div>
             </div>
+            
+            
+            
+            <!-- 通栏广告7 -->
+           
+            <div class="special_pic" ng-show="index.showFlag7">
+				<a target="_blank">
+                    <img ng-click="index.onToShowAdTopicClick(index.adShowImageArray[7])" ng-src="{{index.adShowImageArray[7]['file']}}" width="1200" height="100">
+                </a>
+	        </div>
+	        
+	        
+	       <!-- 通栏广告8 -->
+           
+            <div class="special_pic" ng-show="index.showFlag8">
+				<a target="_blank">
+                    <img ng-click="index.onToShowAdTopicClick(index.adShowImageArray[8])" ng-src="{{index.adShowImageArray[8]['file']}}" width="1200" height="100">
+                </a>
+	        </div>
+	        
+	        
+	        
             <div class="clear"></div>
 
             <!-- 数字报刊 -->
@@ -266,5 +326,25 @@
             </div>
             
         </div>
+        
+        
+        
 		<div class="clear"></div>
+		<!-- 通栏广告9 -->
+           
+        <div class="special_pic"  ng-show="index.showFlag9">
+			<a target="_blank">
+                <img ng-click="index.onToShowAdTopicClick(index.adShowImageArray[9])" ng-src="{{index.adShowImageArray[9]['file']}}" width="1200" height="100">
+            </a>
+        </div>
+        
+        
+        
+       <!-- 通栏广告10 -->
+          
+        <div class="special_pic"  ng-show="index.showFlag10">
+			<a target="_blank">
+               <img ng-click="index.onToShowAdTopicClick(index.adShowImageArray[10])" ng-src="{{index.adShowImageArray[10]['file']}}" width="1200" height="100">
+            </a>
+        </div>
 		<script id="_trs_ta_js" src="//ta.trs.cn/c/js/ta.js?mpid=1485" async="async" defer="defer"></script>

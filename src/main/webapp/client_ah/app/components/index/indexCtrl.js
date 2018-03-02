@@ -183,6 +183,17 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
     //页面初始化
     function init() {
         initSetting();
+        
+        vm.showFlag1 = false;
+        vm.showFlag2 = false;
+        vm.showFlag3 = false;
+        vm.showFlag4 = false;
+        vm.showFlag5 = false;
+        vm.showFlag6 = false;
+        vm.showFlag7 = false;
+        vm.showFlag8 = false;
+        vm.showFlag9 = false;
+        vm.showFlag10 = false;
         //req_getClientPicture();
         //getClientGroupPics();
     }
@@ -310,6 +321,7 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
                 var adArray = resp.data;
                 vm.adShowImageArray = [];
                 var isEqualFlag = false;
+                console.log("<<<adArray.length:"+adArray.length);
                 for (var i = 1; i < 14; i++) {
                     for (var j = 0; j < adArray.length; j++) {
                         if (adArray[j]['position'] == i) {
@@ -324,6 +336,39 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
                         insertIndexArrayFun(vm.adShowImageArray, i - 1, {file: ""});
                     }
                 }
+                
+                //解决广告位为空时的空白div问题 add by xiayunan@20180302
+            	if(vm.adShowImageArray[1]['file']!=null&&vm.adShowImageArray[1]['display']==1){
+            		vm.showFlag1 = true;
+                }
+            	if(vm.adShowImageArray[2]['file']!=null&&vm.adShowImageArray[2]['display']==1){
+                	vm.showFlag2 = true;
+                }
+            	if(vm.adShowImageArray[3]['file']!=null&&vm.adShowImageArray[3]['display']==1){
+                	vm.showFlag3 = true;
+                }
+            	if(vm.adShowImageArray[4]['file']!=null&&vm.adShowImageArray[4]['display']==1){
+                	vm.showFlag4 = true;
+                }
+            	if(vm.adShowImageArray[5]['file']!=null&&vm.adShowImageArray[5]['display']==1){
+                	vm.showFlag5 = true;
+                }
+            	if(vm.adShowImageArray[6]['file']!=null&&vm.adShowImageArray[6]['display']==1){
+                	vm.showFlag6 = true;
+                }
+            	if(vm.adShowImageArray[7]['file']!=null&&vm.adShowImageArray[7]['display']==1){
+                	vm.showFlag7 = true;
+                }
+            	if(vm.adShowImageArray[8]['file']!=null&&vm.adShowImageArray[8]['display']==1){
+                	vm.showFlag8 = true;
+                }
+            	if(vm.adShowImageArray[9]['file']!=null&&vm.adShowImageArray[9]['display']==1){
+                	vm.showFlag9 = true;
+                }
+            	if(vm.adShowImageArray[10]['file']!=null&&vm.adShowImageArray[10]['display']==1){
+                	vm.showFlag10 = true;
+                }
+            	
             }else if(resp.msg != '未登录'){
                 layer.alert(resp.msg);
             }
