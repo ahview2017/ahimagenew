@@ -336,7 +336,7 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
                         insertIndexArrayFun(vm.adShowImageArray, i - 1, {file: ""});
                     }
                 }
-                
+               
                 //解决广告位为空时的空白div问题 add by xiayunan@20180302
             	if(vm.adShowImageArray[1]['file']!=null&&vm.adShowImageArray[1]['display']==1){
             		vm.showFlag1 = true;

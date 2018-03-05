@@ -23,6 +23,7 @@ $.post('adver/adverToHomePage.do', {}).success(function (resp) {
        if(adShowImageArray[0]['file']!=null&&adShowImageArray[0]['display']==1){
     	   $(".wrapper").css("background","url("+adShowImageArray[0]['file']+") no-repeat center top");
     	   $(".wrapper").css("background-attachment","fixed");
+    	   $(".backurl").attr("href",adShowImageArray[0]['url']);
        }
        
     }else if(resp.msg != '未登录'){

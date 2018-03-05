@@ -36,7 +36,7 @@
                         <th class="uinfo-hd-th"  style="width:10%;">缩略图</th>
                         <th class="uinfo-hd-th"  style="width:10%;">位置</th>
                         <!--<th class="uinfo-hd-th"  style="width:10%;">宽*高</th>-->
-                        <th class="uinfo-hd-th"  style="width:10%;">类型</th>
+                        <!-- <th class="uinfo-hd-th"  style="width:10%;">类型</th> -->
                         <th class="uinfo-hd-th"  style="width:18%;">链接</th>
                         <th class="uinfo-hd-th"  style="width:12%;">备注</th>
                         <th class="uinfo-hd-th"  style="width:10%;">状态</th>
@@ -56,7 +56,7 @@
                         <td  style="width:10%;"  class="wbba"><img ng-src="{{adItem.file}}" width="50px" height="40px"/></td>
                         <td  style="width:10%;"  class="wbba">{{adItem.position|adPositionFilter}}</td>
                         <!--<td  style="width:10%;"  class="wbba">{{adItem.bwidth|adWidthHeightFilter:adItem.bheight}}</td>-->
-                        <td  style="width:10%;"  class="wbba">{{adItem.style==1?"文字显示":"图片显示"}}</td>
+                        <!-- <td  style="width:10%;"  class="wbba">{{adItem.style==1?"文字显示":"图片显示"}}</td> -->
                         <td  style="width:18%;"  class="wbba">{{adItem.url}}</td>
                         <td  style="width:12%;"  class="wbba">{{adItem.remarks}}</td>
                         <td  style="width:10%;"  class="wbba">
@@ -121,6 +121,7 @@
                             <input type="text" class="adverse-remark-input fll" name="name"
                                    ng-model="advertisingManage.addAdNameModel"/>
                         </div>
+                        <!--  
                         <div class="role-form-info-bottom clear">
                             <div class="role-remark-txt fll">分类</div>
                             <select class="adverse-remark-input fll" name="style"
@@ -130,6 +131,7 @@
                                 <option value="2">文字链接</option>
                             </select>
                         </div>
+                        -->
                         <div class="role-form-info-bottom clear">
                             <div class="role-remark-txt fll">位置</div>
                             <select class="adverse-remark-input fll" name="position"
@@ -146,10 +148,13 @@
                                 <option value="9">第9广告位</option>
                                 <option value="10">第10广告位</option>
                                 <option value="11">第11广告位</option>
+                                <!--  
                                 <option value="12">第12广告位</option>
                                 <option value="13">第13广告位</option>
+                                -->
                             </select>
                         </div>
+                        <!--  
                         <div class="role-form-info-bottom clear">
                             <div class="role-remark-txt fll">专题页</div>
                             <select class="adverse-remark-input fll" name="topicId"
@@ -160,6 +165,7 @@
                                 </option>
                             </select>
                         </div>
+                        -->
                         <div class="role-form-info-bottom clear">
                             <div class="role-remark-txt fll">链接</div>
                             <input type="text" class="role-remark-input fll" name="url"
@@ -238,6 +244,7 @@
                             <input type="text" class="adverse-remark-input fll" name="name"
                                    ng-model="advertisingManage.editAdNameModel"/>
                         </div>
+                        <!--  
                         <div class="role-form-info-bottom clear">
                             <div class="role-remark-txt fll">分类</div>
                             <select class="adverse-remark-input fll" name="style"
@@ -247,6 +254,7 @@
                                 <option value="2">文字链接</option>
                             </select>
                         </div>
+                        -->
                         <div class="role-form-info-bottom clear">
                             <div class="role-remark-txt fll">位置</div>
                             <select class="adverse-remark-input fll" name="position"
@@ -263,10 +271,13 @@
                                 <option value="9">第9广告位</option>
                                 <option value="10">第10广告位</option>
                                 <option value="11">第11广告位</option>
+                                <!--  
                                 <option value="12">第12广告位</option>
                                 <option value="13">第13广告位</option>
+                                -->
                             </select>
                         </div>
+                        <!-- 
                         <div class="role-form-info-bottom clear">
                             <div class="role-remark-txt fll">专题页</div>
                             <select class="adverse-remark-input fll" name="topicId"
@@ -277,6 +288,7 @@
                                 </option>
                             </select>
                         </div>
+                         -->
                         <div class="role-form-info-bottom clear">
                             <div class="role-remark-txt fll">链接</div>
                             <input type="text" class="role-remark-input fll" name="url"
@@ -320,7 +332,7 @@
                                        ng-model="advertisingManage.editAdDisplayModel"/>
                                 <span class="adverse-txt-yes">YES</span>
                                 <input type="radio" name="display" value="2"
-                                       ng-model="advertisingManage.editdDisplayModel"/>
+                                       ng-model="advertisingManage.editAdDisplayModel"/>
                                 <span class="adverse-txt-yes">NO</span>
                             </div>
                         </div>

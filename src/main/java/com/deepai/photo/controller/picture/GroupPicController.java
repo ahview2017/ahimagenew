@@ -2299,6 +2299,51 @@ public class GroupPicController {
 			default:
 				break;
 			}
+			
+			
+			
+			
+			// add by xiayunan@20180226 资料库多检索词精确检索
+			String paramStr= query.getParamStr();
+			if(paramStr.indexOf(" ")!=-1){
+				String[] arr = paramStr.split(" ");
+				log.info("size:"+arr.length);
+				if(arr.length>5){
+					result.setCode(215);
+					result.setMsg("检索框最多只能输入5个关键词");
+					return result;
+				}
+				for(int i=0;i<arr.length;i++){
+					if(i==0){
+						query.setParamStr(arr[0]);
+					}
+					if(arr.length>1){
+						if(i==1){
+							query.setParamStr1(arr[1]);
+						}
+					}
+					if(arr.length>2){
+						if(i==2){
+							query.setParamStr2(arr[2]);
+						}
+						
+					}
+					if(arr.length>3){
+						if(i==3){
+							query.setParamStr3(arr[3]);
+						}
+						
+					}
+					if(arr.length>4){
+						if(i==4){
+							query.setParamStr4(arr[4]);
+						}
+						
+					}
+					
+				}
+			}
+			
 			param.put("query", query);
 			PageHelper.startPage(request);
 			List<Map<String,Object>> list=aboutPictureMapper.selectGroupsByQuery(param);

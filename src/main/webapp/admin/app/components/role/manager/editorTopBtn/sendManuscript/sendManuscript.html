@@ -153,7 +153,7 @@
                     <span ng-if="sendManuscript.variedtypeArr[0] ==3" class="dib cursor edt-merge-btn" ng-click="sendManuscript.delGroupsModalShow('del-groups-modal')">删除</span>
                 </div>
                 <div class="user-hd-right flr">
-                    <input class="user-search-input" placeholder="可根据稿件ID、标题、作者名 检索" ng-model="sendManuscript.search.paramStr"/>
+                    <input class="user-search-input" placeholder="可根据稿件ID、标题、作者名 检索" ng-model="sendManuscript.search.paramStr"  ng-keydown="sendManuscript.enterQuery($event)"/>
                     <img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic"
                          ng-click="sendManuscript.onSearchDataClick()"/>
                     <span class="dib cursor user-search-btn" ng-click="sendManuscript.advanceSearchModalShow('wait-manuscript-search-modal')">高级检索</span>
@@ -251,7 +251,7 @@
                 </div>
 
                 <div class="user-hd-right flr">
-                    <input class="user-search-input" placeholder="可根据稿件ID、标题、作者名 检索" ng-model="sendManuscript.search.paramStr"/>
+                    <input class="user-search-input" placeholder="可根据稿件ID、标题、作者名 检索" ng-model="sendManuscript.search.paramStr" ng-keydown="sendManuscript.enterQuery($event)"/>
                     <img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic"
                          ng-click="sendManuscript.onSearchDataClick()"/>
                     <span class="dib cursor user-search-btn" ng-click="sendManuscript.advanceSearchModalShow('wait-manuscript-search-modal')">高级检索</span>

@@ -194,20 +194,28 @@ adminModule.controller('advertisingManageCtrl', function ($scope, $cookies, req,
             layer.msg('请输入广告名称');
             return;
         }
+        /*
         if (!vm.addAdClassModel) {
             layer.msg('请选择广告分类');
             return;
         }
+        */
         if(!vm.addAdPositionModel){
            layer.alert('请选择位置');
             return;
         }
+        /*
         if(!vm.addAdTopicModel && !vm.addAdUrlModel){
             layer.alert('请在专题页和链接中选择一个');
             return;
         }
         if(vm.addAdTopicModel && vm.addAdUrlModel){
             layer.alert('专题页和链接只能选择一个');
+            return;
+        }
+        */
+        if(!vm.addAdUrlModel){
+            layer.alert('链接地址不能为空！');
             return;
         }
         /*if (!vm.addAdWidthModel) {
@@ -332,9 +340,10 @@ adminModule.controller('advertisingManageCtrl', function ($scope, $cookies, req,
      * 编辑信息
      */
     function showEditInformFun(editItemData) {
-
+    	
         vm.editAdNameModel = editItemData["name"];
-        vm.editAdClassModel = editItemData["style"] + "";
+        //去除广告位分类
+        //vm.editAdClassModel = editItemData["style"] + "";
         if(editItemData["position"]){
             vm.editAdPositionModel = editItemData["position"] + "";
         }else{
@@ -345,6 +354,7 @@ adminModule.controller('advertisingManageCtrl', function ($scope, $cookies, req,
         }else{
             vm.editAdTopicModel = '';
         }
+        console.log("vm.editAdTopicModel:"+vm.editAdTopicModel);
         vm.editAdUrlModel = editItemData["url"];
         //vm.editAdWidthModel = editItemData["bwidth"];
         //vm.editAdHeightModel = editItemData["bheight"];
@@ -358,10 +368,16 @@ adminModule.controller('advertisingManageCtrl', function ($scope, $cookies, req,
      * 编辑广告信息
      */
     vm.onEditAdInformClick = function () {
+    	/*
         if(vm.editAdTopicModel && vm.editAdUrlModel){
             layer.alert('专题页和链接只能选择一个');
             return;
         }
+        */
+    	if(!vm.editAdUrlModel){
+    		 layer.alert('链接地址不能为空');
+             return;
+    	}
         //$("#editAdInformFormId").submit();
         $("#editAdInformFormId").ajaxSubmit(function (resp) {
             if (resp.code == '211') {

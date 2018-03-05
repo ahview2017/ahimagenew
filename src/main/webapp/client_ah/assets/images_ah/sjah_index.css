@@ -6,13 +6,13 @@ a:hover,.login_left span a:hover,.hd_content_1 p a:hover,.slide_x .list p a:hove
 .header{width:1200px;height:103px;margin:0px auto 15px auto;}
 .header_left{width:330px;height:103px;background:url("sjah_index_03.png") no-repeat center center;}
 .header_right{width:770px;height:103px;}
-.search_box{width:504px;height:42px;margin:40px 0 21px 0;}
+.search_box{width:504px;height:42px;margin:10px 0 21px 0;}
 
 .input_text{width:427px;height:42px;background:url("sjah_index_06.png") no-repeat left center;border:none;float:left;font-size: 14px;padding-left: 8px;box-shadow: 0 2px 2px #e4e3e3;}
 input[rel="index_submit"]{width:74px;height:42px;background: url("search_pic_03.png") no-repeat center center;border:none;color:#fff;font-size:16px;float:left;margin-left:-8px;cursor:pointer;}
 
 
-.login{width:235px;height:30px;margin: 48px 0 33px 0;color:#a3a3a3;}
+.login{width:235px;height:30px;margin: 18px 0 33px 0;color:#a3a3a3;}
 .login_left span{height:30px;line-height: 30px;font-size: 16px;}
 .login_left span a{height:30px;width:40px;line-height: 30px;color:#a3a3a3;}
 .login_right span{height:30px;line-height: 30px;background:url("sjah_index_10.png") no-repeat center left;}

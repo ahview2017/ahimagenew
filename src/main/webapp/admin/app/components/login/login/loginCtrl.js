@@ -126,7 +126,8 @@ adminModule.controller('loginCtrl', function ($scope, $cookies, req, md5, $state
         //设置过期日期
         var expireDate = new Date();
 //        expireDate.setDate(expireDate.getDate() + 30);
-        expireDate.setDate(expireDate.getDate() + 180);
+       // expireDate.setDate(expireDate.getDate() + 180);
+        expireDate.setDate(expireDate.getDate() + 360);//修改登录超时时间为6个小时
         roleInfoSt = angular.toJson(roleInfo, true);
         //设置cookies
         $cookies.put("client_uid", userInfo.id, {path: '/'});

@@ -108,6 +108,15 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 	}
 
 	init();
+	
+	/**
+	 * 添加回车检索 add by xiayunan@20180305
+	 */
+	$('.user-search-input').bind('keypress', function (event) { 
+		   if (event.keyCode == "13") { 
+		       vm.onSearchModalShow();
+		   }
+	})
 
 	function lanmu() {
 		req.post('enColumn/showUpColumnAll.do', {
