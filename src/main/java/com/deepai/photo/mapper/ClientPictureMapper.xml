@@ -110,6 +110,7 @@
 	    <result column="FORUMS_TIME" property="forumsTime" jdbcType="TIMESTAMP" />
 	    <result column="REDUCE_PRICE" property="reducePrice" jdbcType="DECIMAL" />
 	    <result column="IS_COVER" property="isCover" jdbcType="INTEGER" />
+	    <result column="IS_SIGN" property="isSign" jdbcType="INTEGER" />
 	    <result column="GROUP_ID" property="groupId" jdbcType="INTEGER" />
 	    <result column="SORT_ID" property="sortId" jdbcType="INTEGER" />
     </collection>
@@ -310,7 +311,7 @@
 		g.*,
 		p.ID picId,p.MEMO pmemo,
 		p.FILENAME,p.KEYWORDS pKEYWORDS,p.AUTHOR_ID pAUTHOR_ID,p.AUTHOR_NAME pAUTHOR_NAME,
-	p.PICTURE_HEIGHT,p.PICTURE_WIDTH,p.PICTURE_LENGTH
+	p.PICTURE_HEIGHT,p.PICTURE_WIDTH,p.PICTURE_LENGTH,p.IS_SIGN
 	FROM
 		cp_pic_group g
 	LEFT JOIN cp_picture p ON g.ID = p.GROUP_ID
@@ -318,6 +319,7 @@
 		g.SOURCE_ID = 0
 	AND g.GROUP_STATUS = 4
 	AND p.DELETE_FLAG = 0
+	AND p.IS_SIGN != 1 
 	AND g.ID = #{0}
 	ORDER BY p.IS_COVER DESC,p.SORT_ID
   </select>

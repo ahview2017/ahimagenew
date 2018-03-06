@@ -123,6 +123,7 @@
 	    <result column="FORUMS_TIME" property="forumsTime" jdbcType="TIMESTAMP" />
 	    <result column="REDUCE_PRICE" property="reducePrice" jdbcType="DECIMAL" />
 	    <result column="IS_COVER" property="isCover" jdbcType="INTEGER" />
+	    <result column="IS_SIGN" property="isSign" jdbcType="INTEGER" />
 	    <result column="GROUP_ID" property="groupId" jdbcType="INTEGER" />
 	    <result column="SORT_ID" property="sortId" jdbcType="INTEGER" />
 	    <result column="ALL_PATH" property="oriAllPath" jdbcType="VARCHAR" />
@@ -1088,6 +1089,7 @@
 		p.EX_FNUMBER,
 		p.EX_ISO,
 		p.EX_MODEL,
+		p.IS_SIGN,
 		ca.ID cid,ca.CATEGORY_NAME,
 		po.OPERATE_USERNAME,po.ID poId,po.OPERATE_USER_ID,po.OPERATE_TIME,po.FLOW_TYPE
 	FROM

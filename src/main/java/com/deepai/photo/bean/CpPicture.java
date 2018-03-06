@@ -124,6 +124,16 @@ public class CpPicture {
     //add by liu.jinfeng@2017年9月14日 下午7:00:20
     private boolean bIsExif;
     private Integer videoid;//add by xiayunan 20170922
+    
+    private Integer isSign;//add by xiayunan 20180306
+
+	public Integer getIsSign() {
+		return isSign;
+	}
+
+	public void setIsSign(Integer isSign) {
+		this.isSign = isSign;
+	}
 
 	public Integer getVideoid() {
 		return videoid;

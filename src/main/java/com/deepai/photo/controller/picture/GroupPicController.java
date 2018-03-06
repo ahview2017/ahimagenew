@@ -838,10 +838,7 @@ public class GroupPicController {
 			log.info("执行查询稿件用时："+(endTime-startTime));
 			CpUser user= SessionUtils.getUser(request);
 			//校验稿件是否正在编辑
-			long startTime2 = System.currentTimeMillis();
 			CommonValidation.checkGroupSaveEdit(oldGroup,group.getId(),user);
-			long endTime2 = System.currentTimeMillis();
-			log.info("检验稿件是否正在编辑用时："+(endTime2-startTime2));
 			
 			if(oldGroup.getGroupStatus()!=4){
 				result.setCode(CommonConstant.FAILURECODE);

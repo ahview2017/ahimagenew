@@ -93,6 +93,8 @@ ALTER TABLE cp_pic_allpath ADD INDEX cp_pic_allpath_TRAGET_ID_PIC_TYPE(PICGROUP_
 alter table cp_category add  ALLOW_SUBMISSIONS int(11) DEFAULT NULL  COMMENT '是否允许投稿，null:允许，0：允许，1：不允许';
 
 INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(421,1,'保存稿件至草稿箱','保存稿件至草稿箱','groupPicCtro/saveDraftBox',113,0,'admin',now(),NULL,'',0);
+
+alter table cp_picture add  IS_SIGN int(11) default NULL COMMENT '图片是否允许签报标识,0:显示，1：隐藏';
   
 
 

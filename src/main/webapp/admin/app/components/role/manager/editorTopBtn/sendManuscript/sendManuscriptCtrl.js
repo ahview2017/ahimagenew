@@ -458,7 +458,7 @@ adminModule.controller('mSendManuscriptCtrl', function($scope, $cookies, req, md
             layer.alert('开始时间不能大于结束时间！');
             return;
         }
-        vm.loadUpMs = layer.load(1);
+       // vm.loadUpMs = layer.load(1);
         req.post('groupPicCtro/getWaitSignGroups.do',{
             page: pageNum,
             rows: vm.selPageRows,
@@ -477,16 +477,16 @@ adminModule.controller('mSendManuscriptCtrl', function($scope, $cookies, req, md
             langType: window.localStorage.lang
         }).success(function(resp){
             if(resp.code == '211'){
-            	layer.close(vm.loadUpMs);
+            	//layer.close(vm.loadUpMs);
                 vm.waitManuscriptList = resp.data;
                 modalOperate.modalHide(modalId);
                 vm.totalPages = resp.page;
                 vm.sendMsList_total = resp.other;
             }else if(resp.code == '215' ){// add by xiayunan@20180226
-				layer.close(vm.loadUpMs);
+				//layer.close(vm.loadUpMs);
 				layer.alert("检索库最多只能输入5个关键词！");
 			}else if(resp.msg != '未登录'){
-				layer.close(vm.loadUpMs);
+				//layer.close(vm.loadUpMs);
                 layer.alert(resp.msg);
             }
         });

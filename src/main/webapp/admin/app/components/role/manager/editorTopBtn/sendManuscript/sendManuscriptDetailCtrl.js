@@ -18,7 +18,6 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 	function initSetting() {
 		// 点击管理详情div是否展示的标识
 		vm.mangeOperateFlag = false;
-
 		// 存储签发参数的数组
 		vm.signReqParamData = [];
 		vm.signlanmu = [];

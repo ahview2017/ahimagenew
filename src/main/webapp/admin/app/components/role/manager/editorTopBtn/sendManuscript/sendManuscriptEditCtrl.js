@@ -94,6 +94,8 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
         
         //专题分类名称
         vm.specialCategoryNameStr = [];
+        
+        vm.isSign = 1;
     }
     
     
@@ -104,10 +106,10 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
     		return;
     	}
     	
-    	 if(vm.upMenuscriptPicArr.length == 0){
-             layer.alert('未选择图片，请上传后再进行复制!');
-             return;
-         }
+    	if(vm.upMenuscriptPicArr.length == 0){
+    		layer.alert('未选择图片，请上传后再进行复制!');
+    		return;
+    	}
     	var flag = $("#people-toggle-flag").hasClass("people-toggle");
     	if(flag){
     		$(".pic-people").val(vm.editManuscript.people);
@@ -302,6 +304,7 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
                 img: item.smallPath,
                 wmImg: item.wmPath,
                 isCover: item.isCover + '',
+                isSign: item.isSign==null?'0':item.isSign+'',//图片签网标识 add by xiayunan@20180306
                 sortId: item.sortId + '',
                 people: item.people,
                 keywords: item.keywords,
@@ -569,7 +572,6 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
     	            });
             	}
             	
-            	 console.log("<<<<<vm.acitiveSlideTit:"+vm.acitiveSlideTit);
                 if (callback) callback(resp.data);
             }else if(resp.msg != '未登录'){
                 layer.alert(resp.msg);
@@ -730,6 +732,7 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
                 vm.upMenuscriptPicArr[i].isCover = '0';
             }
             vm.upMenuscriptPicArr[index].isCover = '1';
+            vm.upMenuscriptPicArr[index].isSign= '0';//主图网站必须显示 add by xiayunan@20180306
         }
     }
     //选择境内外稿签
@@ -831,6 +834,7 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
                     img: item.smallPath,
                     wmImg: item.wmPath,
                     isCover: '0',
+                    isSign: '0',//图片签网标识 add by xiayunan@20180306
                     sortId: (index + 1) + '',
                     people: item.people,
                     keywords: item.keywords,
@@ -840,6 +844,7 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
                 //默认上传的第一个为主图
                 if(index == '0'){
                     vm.upMenuscriptPicArr[0].isCover = '1';
+                    vm.upMenuscriptPicArr[0].isSign = '0';//add by xiayunan@20180306
                 }
             });
         });
@@ -958,10 +963,12 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
                 authorName: vm.upMenuscriptPicArr[index].authorName || '',
                 memo: vm.upMenuscriptPicArr[index].memo || '',
                 isCover: vm.upMenuscriptPicArr[index].isCover,
+                isSign: vm.upMenuscriptPicArr[index].isSign,//图片签网标识 add by xiayunan@20180306
                 sortId: (index + 1) + '',
                 filmTime: vm.upMenuscriptPicArr[index].filmTime + ' 00:00:00'
             })
         });
+      
     }
     //获取地点参数
     function getPlaceParams(){
@@ -1067,8 +1074,18 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
         }
         //验证图片相关信息填写是否合格
         var validUpMsPicFlag = false;
+        
+        
         //验证图片列表相关信息
         for(var i = 0, len = vm.upMenuscriptPicArr.length; i < len; i++) {
+        	if(vm.upMenuscriptPicArr[i].isCover==1){
+        		validUpMsPicFlag = true;
+        		if(vm.upMenuscriptPicArr[i].isSign==1){
+        			layer.alert("主图必须选择网站显示！");
+        			return;
+        		}
+        	}
+        	
             if (vm.upMenuscriptPicArr[i].people && vm.upMenuscriptPicArr[i].people.length > 50) {
                 layer.alert('人物要少于50字');
                 return;
@@ -1086,7 +1103,10 @@ adminModule.controller('mSendManuscriptEditCtrl', function($scope,$sce,$cookies,
                 return;
             }
         }
-        validUpMsPicFlag = true;
+        if(!validUpMsPicFlag){
+        	layer.alert("请选择主图");
+        }
+        //validUpMsPicFlag = true;
         if(callback && validUpMsPicFlag) callback();
     }
     //编辑稿件请求

@@ -81,6 +81,7 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
         vm.finalSortParam = '';
         //专题分类名称
         vm.specialCategoryNameStr = [];
+        vm.isSign = 1;
     }
 
     
@@ -153,6 +154,7 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
                 img: item.smallPath,
                 wmImg:item.wmPath,
                 isCover: item.isCover + '',
+                isSign: item.isSign==null?'0':item.isSign+'',//图片签网标识 add by xiayunan@20180306
                 sortId: item.sortId + '',
                 people: item.people,
                 keywords: item.keywords,
@@ -547,6 +549,7 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
                 vm.upMenuscriptPicArr[i].isCover = '0';
             }
             vm.upMenuscriptPicArr[index].isCover = '1';
+            vm.upMenuscriptPicArr[index].isSign= '0';//主图网站必须显示 add by xiayunan@20180306
         }
     }
 
@@ -637,6 +640,7 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
                     img: item.smallPath,
                     wmImg:item.wmPath,
                     isCover: '0',
+                    isSign: '0',//图片签网标识 add by xiayunan@20180306
                     sortId: (index + 1) + '',
                     people: item.people,
                     keywords: item.keywords,
@@ -646,6 +650,7 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
                 //默认上传的第一个为主图
                 if(index == '0'){
                     vm.upMenuscriptPicArr[0].isCover = '1';
+                    vm.upMenuscriptPicArr[0].isSign = '0';//add by xiayunan@20180306
                 }
             });
         });
@@ -737,6 +742,7 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
                 authorName: vm.upMenuscriptPicArr[index].authorName || '',
                 memo: vm.upMenuscriptPicArr[index].memo || '',
                 isCover: vm.upMenuscriptPicArr[index].isCover,
+                isSign: vm.upMenuscriptPicArr[index].isSign,//图片签网标识 add by xiayunan@20180306
                 sortId: (index + 1) + '',
                 filmTime: vm.upMenuscriptPicArr[index].filmTime + ' 00:00:00'
             })
@@ -816,6 +822,14 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
         var validUpMsPicFlag = false;
         //验证图片列表相关信息
         for(var i = 0, len = vm.upMenuscriptPicArr.length; i < len; i++) {
+        	if(vm.upMenuscriptPicArr[i].isCover==1){
+        		validUpMsPicFlag = true;
+        		if(vm.upMenuscriptPicArr[i].isSign==1){
+        			layer.alert("主图必须选择网站显示！");
+        			return;
+        		}
+        	}
+        	
             if (vm.upMenuscriptPicArr[i].people && vm.upMenuscriptPicArr[i].people.length > 200) {
                 layer.alert('人物要少于200字');
                 return;
@@ -833,7 +847,9 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
                 return;
             }
         }
-        validUpMsPicFlag = true;
+        if(!validUpMsPicFlag){
+        	layer.alert("请选择主图");
+        }
         if(callback && validUpMsPicFlag) callback();
     }
     //保存稿件请求
