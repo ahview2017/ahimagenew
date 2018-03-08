@@ -75,6 +75,7 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 		vm.search.priceType = "";
 		vm.show = false;
 		vm.isHiden = false;
+		
 	}
 	//下载模态显示
 	vm.ModalShow = function(modalId) {
@@ -424,6 +425,7 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 			vm.subChnlSeaFlag = false;//子栏目标识 
 			vm.searchFlag = false;//检索标识
 		} else {
+
 			params = {
 				page: page,
 				rows: vm.selPageRows,
@@ -551,6 +553,11 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 			vm.subChnlSeaFlag = false;//子栏目标识 
 			//vm.chnlSearchFlag = false;//主栏目标识
 		} else {
+			//add by xiayunan@20180308
+			if(!vm.search.properties){
+				layer.alert("请选择稿件来源！");
+				return;
+			}
 			params = {
 				page: page,
 				rows: vm.selPageRows,

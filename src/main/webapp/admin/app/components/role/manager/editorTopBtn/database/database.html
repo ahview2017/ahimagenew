@@ -524,7 +524,7 @@
 							<span class="data-txt-type">稿件来源</span>
 							<select type="text" class="role-add-input" ng-model="database.search.properties">
 								<option value="">---请选择---</option>
-								<option value="0">本报图片</option>
+								<option value="0" ng-selected = "true" >本报图片</option>
 								<option value="1">新华社图片</option>
 							</select>
 						</div>
@@ -535,7 +535,7 @@
 							<input type="text" class="Wdate database-date-input" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" class="Wdate" ng-model="database.search.endSginTime" datepicker/>
 						</div>
 						<div class="fll database-search-part">
-							<span class="data-txt-type">文字作者</span>
+							<span class="data-txt-type">作者</span>
 							<input type="text" class="role-add-input" ng-model="database.search.author" />
 						</div>
 					</div>
@@ -554,20 +554,39 @@
 						</div>
 					</div>
 					<div class="role-form-info-top clear mt15">
+						<!--
 						<div class="fll database-search-part">
 							<span class="data-txt-type">图片作者</span>
 							<input type="text" class="role-add-input" ng-model="database.search.pAuthor" />
 						</div>
-						<div class="fll database-spec-search-part">
+						  -->
+						<div class="fll database-search-part">
 							<span class="data-txt-type">关键字</span>
 							<input type="text" class="role-add-input" ng-model="database.search.kewords" />
 						</div>
-						<div class="fll database-search-part">
+						<div class="fll database-spec-search-part">
 							<span class="data-txt-type">稿件编辑人</span>
 							<input type="text" class="role-add-input" ng-model="database.search.editor" />
 						</div>
+						
+						<div class="fll database-search-part">
+							<span class="data-txt-type">稿件ID</span>
+							<input type="text" class="role-add-input" ng-model="database.search.groupId" />
+						</div>
+						
+						<!--  
+						<div class="role-form-info-top clear mt15">
+							<div class="fll database-search-part">
+								<span class="data-txt-type">稿件ID</span>
+								<input type="text" class="role-add-input" ng-model="database.search.groupId" />
+							</div>
+						</div>
+						-->
+						
+						
 					</div>
 					<div class="role-form-info-top clear mt15">
+						<!--  
 						<div class="fll database-search-part">
 							<span class="data-txt-type">单/多图稿件</span>
 							<select type="text" class="role-add-input" ng-model="database.search.isPics">
@@ -576,25 +595,9 @@
 								<option value="1">多图稿件</option>
 							</select>
 						</div>
-						<div class="fll database-spec-search-part" ng-hide="database.show">
-							<span class="data-txt-type">所属栏目</span>
-							<select type="text" class="role-add-input" ng-change="database.isShow(1)" ng-model="database.search.sginId" >
-								<option value="">---请选择---</option>
-								<option value="{{sortDetails.id}}" ng-repeat="sortDetails in database.sortDetailsArray">{{sortDetails.name}}</option>
-								<option value="{{children.id}}" ng-repeat="children in database.children">{{children.name}}</option>
-							<!--	<option value="2">最新发布</option>
-								<option value="3">今日头条</option>
-								<option value="4">每日推荐</option>
-								<option value="5">一周最佳采用</option>
-								<option value="6">娱乐风尚</option>
-								<option value="7">财富经济</option>
-								<option value="8">台湾视角</option>
-								<option value="9">国际风采</option>
-								<option value="10">限价图片</option>
-								<option value="11">漫画图表</option>
-								<option value="12">两会</option>-->
-							</select>
-						</div>
+						-->
+						
+						<!--  
 						<div class="fll database-search-part">
 							<span class="data-txt-type">图片类型</span>
 							<select type="text" class="role-add-input" ng-model="database.search.goodsType">
@@ -606,6 +609,7 @@
 								<option value="4">fa图</option>
 							</select>
 						</div>
+						-->
 					</div>
 					<!--<div class="role-form-info-top clear mt15">-->
 					<!--&lt;!&ndash;<div class="fll database-search-part">&ndash;&gt;-->
@@ -626,19 +630,44 @@
 					<!--</div>-->
 					<!--</div>-->
 					<div class="role-form-info-top clear mt15">
+						<!--  
 						<div class="fll database-search-part">
 							<span class="data-txt-type">图片价格</span>
 							<input type="text" class="data-price-input" ng-model="database.search.samllPrice" />
 							<span>-</span>
 							<input type="text" class="data-price-input" ng-model="database.search.bigPrice" />
 						</div>
-						<div class="fll database-spec-search-part" ng-hide="database.isHiden">
+						-->
+						<div class="fll  database-search-part" ng-hide="database.isHiden">
 							<span class="data-txt-type">稿件类别</span>
 							<select class="address-sj" ng-change="database.isShow(2)" ng-model="database.search.cateId"
 									ng-options="city.id as city.categoryName  for city in database.categories">
 									<option value="">---请选择---</option>
 							</select>
 						</div>
+						
+						<div class="fll database-spec-search-part" ng-hide="database.show">
+							<span class="data-txt-type">所属栏目</span>
+							<select type="text" class="role-add-input" ng-change="database.isShow(1)" ng-model="database.search.sginId" >
+								<option value="">---请选择---</option>
+								<option value="{{sortDetails.id}}" ng-repeat="sortDetails in database.sortDetailsArray">{{sortDetails.name}}</option>
+								<option value="{{children.id}}" ng-repeat="children in database.children">{{children.name}}</option>
+							<!--	<option value="2">最新发布</option>
+								<option value="3">今日头条</option>
+								<option value="4">每日推荐</option>
+								<option value="5">一周最佳采用</option>
+								<option value="6">娱乐风尚</option>
+								<option value="7">财富经济</option>
+								<option value="8">台湾视角</option>
+								<option value="9">国际风采</option>
+								<option value="10">限价图片</option>
+								<option value="11">漫画图表</option>
+								<option value="12">两会</option>-->
+							</select>
+						</div>
+						
+						
+						<!-- 
 						<div class="fll database-search-part">
 							<span class="data-txt-type">图片打折</span>
 							<select type="text" class="role-add-input" ng-model="database.search.priceType">
@@ -648,17 +677,15 @@
 								<option value="2">不出售</option>
 							</select>
 						</div>
+						-->
 					</div>
+					<!-- 
 					<div class="clear mt15 tal">
 						<span class="data-txt-type">图片文件名</span>
 						<input type="text" class="database-file-name-input ml10" ng-model="database.search.fileName" />
 					</div>
-					<div class="role-form-info-top clear mt15">
-						<div class="fll database-search-part">
-							<span class="data-txt-type">稿件ID</span>
-							<input type="text" class="role-add-input" ng-model="database.search.groupId" />
-						</div>
-					</div>
+					-->
+					
 					<div class="clear mt15 tal">
 						<span class="data-txt-type">图片说明</span>
 						<textarea class="role-add-input" style="width: 310px;height: auto" ng-model="database.search.memo"></textarea>
