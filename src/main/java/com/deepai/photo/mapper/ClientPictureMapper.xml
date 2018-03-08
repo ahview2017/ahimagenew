@@ -319,7 +319,7 @@
 		g.SOURCE_ID = 0
 	AND g.GROUP_STATUS = 4
 	AND p.DELETE_FLAG = 0
-	AND p.IS_SIGN != 1 
+	AND (p.IS_SIGN = 0 or p.IS_SIGN is null)
 	AND g.ID = #{0}
 	ORDER BY p.IS_COVER DESC,p.SORT_ID
   </select>

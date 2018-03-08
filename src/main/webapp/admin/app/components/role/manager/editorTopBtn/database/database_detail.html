@@ -104,7 +104,7 @@ input[type=checkbox], input[type=radio]{ zoom:1.5;}
                     	<span style="margin-right: 15px;">{{$index+1}}</span><span>{{picItem.isCover | isCoverFilter}}</span><br/>
                         <input type="checkbox" name="check" class="check" value="{{picItem.id}}">
                         <img class="ms-detail-picture img-responsive parent_pic" ng-src="{{picItem.smallPath}}"
-                             width="225" height="255"/>
+                             width="200" height="225" style="max-width: 180px;max-height: 200px;"/>
                          <!-- add by xiayunan@20171214 小图放大 -->
                          <div class='smt-wm-box' style="width:500px">
                         	<img ng-src="{{picItem.wmPath}}">

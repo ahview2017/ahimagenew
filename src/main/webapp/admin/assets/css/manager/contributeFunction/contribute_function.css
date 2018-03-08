@@ -342,9 +342,6 @@
     background: #3399CC;
     color:#FFF;
 }
-.ms-details-pic{
-    width: 20%;.
-}
 .ms-details-desc{
     width: 30%;
     margin:0 3%;
@@ -381,7 +378,7 @@
     padding:10px;
 }
 .ms-detail-picture{
-    width: 100%;
+	max-width: 196px;
     max-height: 126px;
 }
 .ms-pic-item{
