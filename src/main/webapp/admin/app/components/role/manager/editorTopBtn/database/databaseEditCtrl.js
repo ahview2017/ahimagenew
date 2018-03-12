@@ -441,13 +441,23 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
     }
     // 加载编辑分类树
     function loadEditSortZTree(){
-    	if(vm.acitiveSlideTit==0){
-    		$.fn.zTree.init($("#edit_sort_tree"), setting, vm.selCpCategories);
-    		$.fn.zTree.init($("#edit_special_tree"), setting, null);
-    	}else if(vm.acitiveSlideTit==1){
+//    	if(vm.acitiveSlideTit==0){
+//    		$.fn.zTree.init($("#edit_sort_tree"), setting, vm.selCpCategories);
+//    		$.fn.zTree.init($("#edit_special_tree"), setting, null);
+//    	}else if(vm.acitiveSlideTit==1){
+//    		$.fn.zTree.init($("#edit_sort_tree"), setting, vm.selCpCategories);
+//    		$.fn.zTree.init($("#edit_special_tree"), setting, vm.selSpecialCategories);
+//    	}
+    	console.log("vm.acitiveSlideTit:"+vm.acitiveSlideTit);
+    	//add by xiayunan@20180309
+    	if(vm.acitiveSlideTit==1){//专题加载新闻类别，专题类别
     		$.fn.zTree.init($("#edit_sort_tree"), setting, vm.selCpCategories);
     		$.fn.zTree.init($("#edit_special_tree"), setting, vm.selSpecialCategories);
+    	}else{//新闻，老照片，新华社图片只加载新闻类别
+    		$.fn.zTree.init($("#edit_sort_tree"), setting, vm.selCpCategories);
+    		$.fn.zTree.init($("#edit_special_tree"), setting, null);
     	}
+    	
 //        $.fn.zTree.init($("#edit_sort_tree"), setting, vm.selCpCategories);
         selectedEverSorts();
     }
@@ -519,19 +529,36 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
 //                });
                 
                 
-                if(vm.acitiveSlideTit==0){
-            		angular.forEach(category, function (item, index) {
-                		if (item.categoryName == '新闻类别') {
-                			vm.selCpCategories  = item.categories;
-    	                }
-    	            });
-            	}else if(vm.acitiveSlideTit==1){
+//                if(vm.acitiveSlideTit==0){
+//            		angular.forEach(category, function (item, index) {
+//                		if (item.categoryName == '新闻类别') {
+//                			vm.selCpCategories  = item.categories;
+//    	                }
+//    	            });
+//            	}else if(vm.acitiveSlideTit==1){
+//            		angular.forEach(category, function (item, index) {
+//                		if (item.categoryName == '新闻类别') {
+//                			vm.selCpCategories  = item.categories;
+//    	                }
+//                		if (item.categoryName == '专题图片') {
+//                			vm.selSpecialCategories  = item.categories;
+//    	                }
+//    	            });
+//            	}
+                
+                if(vm.acitiveSlideTit==1){
             		angular.forEach(category, function (item, index) {
                 		if (item.categoryName == '新闻类别') {
                 			vm.selCpCategories  = item.categories;
     	                }
                 		if (item.categoryName == '专题图片') {
                 			vm.selSpecialCategories  = item.categories;
+    	                }
+    	            });
+            	}else{
+            		angular.forEach(category, function (item, index) {
+                		if (item.categoryName == '新闻类别') {
+                			vm.selCpCategories  = item.categories;
     	                }
     	            });
             	}

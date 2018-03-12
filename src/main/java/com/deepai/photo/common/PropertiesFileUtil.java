@@ -40,6 +40,28 @@ public class PropertiesFileUtil {
 		}
 	}
 	
+	
+	/**
+	 * 读取服务器路径
+	 * ProName property文件名称
+	 * key为property文件中的key。
+	 */
+	public  String QueryServerValue(String ProName,String key){
+		try {
+			Properties prop = new Properties();
+//			System.out.println(this.getClass().getClassLoader().getResource("").getPath());
+			String path=ProName;
+			prop.load(new FileInputStream(path));
+			//根据key值找到Value
+			String value = prop.getProperty(key);
+			return value;
+		} catch (IOException e) {
+			e.printStackTrace();
+			log.error("读取Properties文件失败!文件名:"+ProName+",Key值:"+key+".异常信息:"+e.toString());
+			return "";
+		}
+	}
+	
 	public static Properties getProperties(String fileName) {
 		Properties prop = new Properties();
 		InputStream in = PropertiesFileUtil.class.getResourceAsStream("/"

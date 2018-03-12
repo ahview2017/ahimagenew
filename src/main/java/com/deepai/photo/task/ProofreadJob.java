@@ -1,4 +1,6 @@
 package com.deepai.photo.task;
+import java.io.File;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClients;
@@ -8,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import com.deepai.photo.common.PropertiesFileUtil;
+import com.deepai.photo.common.StringUtil;
 import com.deepai.photo.mapper.CpFlowMapper;
 import com.deepai.photo.mapper.OtherMapper;
 import com.deepai.photo.service.picture.DownloadService;
@@ -103,16 +107,31 @@ public class ProofreadJob {
 	 * 每两个小时跑一次
 	 */
 	@Scheduled(cron="0 0 0/2 * * ?") 
+//	@Scheduled(cron="0 0/1 * * * ?") 
 	public void pushXHPhoto() {  
 		try {
-			log.info("开始推送新华社稿件");
-			String result = "";
-			HttpGet request = new HttpGet("http://192.168.81.6/photo/xhDataMigrationCtro/dataMigration.do");
-			HttpResponse response = HttpClients.createDefault().execute(request);
-			if(response.getStatusLine().getStatusCode()==200){
-				result = EntityUtils.toString(response.getEntity());
+			//add by xiayunan@20180308 添加推送新华社图片标识
+			PropertiesFileUtil fileUtil=new PropertiesFileUtil();
+			File file = new File("/opt/conf/ip.properties");
+			if(!file.exists()){
+				log.error("文件/opt/conf/ip.properties不存在");
+				throw new Exception("文件/opt/conf/ip.properties不存在");
 			}
-			log.info("<<<result:"+result);
+			boolean xinhuaflag=Boolean.valueOf(fileUtil.QueryServerValue("/opt/conf/ip.properties", "xinhuaflag"));
+			if(xinhuaflag){
+				log.info("开始推送新华社稿件");
+				String result = "";
+				String serverIp=String.valueOf(fileUtil.QueryValue("/ip.properties", "serverIp"));
+				if(StringUtil.isNotBlank(serverIp)){
+					HttpGet request = new HttpGet("http://"+serverIp+"/photo/xhDataMigrationCtro/dataMigration.do");
+					HttpResponse response = HttpClients.createDefault().execute(request);
+					if(response.getStatusLine().getStatusCode()==200){
+						result = EntityUtils.toString(response.getEntity());
+					}
+					log.info("<<<result:"+result);
+				}
+				
+			}
 		} catch (Exception e) {
 			log.error("定时任务出错："+e.getMessage());
 		}
