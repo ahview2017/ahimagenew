@@ -20,4 +20,9 @@ public interface GroupStatisticalMapper {
 	public List<CpGroupStatistical> GroupStatisticalForPlace(CpGroupStatistical cpGroupStatistical );
 
 	public List<CpGroupStatistical> GroupStatisticalForType(CpGroupStatistical cpGroupStatistical);
+	
+	public List<CpGroupStatistical> groupStatisticalForAuthor(CpGroupStatistical cpGroupStatistical);
+	
+	public List<CpGroupStatistical> groupStatisticalForCategory(CpGroupStatistical cpGroupStatistical);
+	
 }

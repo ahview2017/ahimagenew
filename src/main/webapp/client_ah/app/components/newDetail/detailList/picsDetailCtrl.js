@@ -92,6 +92,7 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
             if (resp.code == '211') {
                 vm.clientPictureDetail = resp.data;
                 vm.clientPictureDetail.pictureCount = vm.clientPictureDetail.pics.length; 
+                console.log("vm.clientPictureDetail.pics.length:"+vm.clientPictureDetail.pics.length);
                 vm.groupKeyWords = resp.data.keywords;
 				var videoId = resp.data.videoId;
 				vm.videoId = videoId;

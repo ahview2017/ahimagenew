@@ -16,7 +16,36 @@ public class CpGroupStatistical {
 	private Integer type;// 稿件类别
 	private String  place; //地域
 	private String  categaryName;//分类名
+	private String  downloadNum;//下载量
+	private String signNewspaperNum;//签报量
+	private String orderType;//排序类别
+	private String creator;//用户名
 	
+	public String getCreator() {
+		return creator;
+	}
+	public void setCreator(String creator) {
+		this.creator = creator;
+	}
+	public String getOrderType() {
+		return orderType;
+	}
+	public void setOrderType(String orderType) {
+		this.orderType = orderType;
+	}
+	
+	public String getSignNewspaperNum() {
+		return signNewspaperNum;
+	}
+	public void setSignNewspaperNum(String signNewspaperNum) {
+		this.signNewspaperNum = signNewspaperNum;
+	}
+	public String getDownloadNum() {
+		return downloadNum;
+	}
+	public void setDownloadNum(String downloadNum) {
+		this.downloadNum = downloadNum;
+	}
 	public String getCategaryName() {
 		return categaryName;
 	}

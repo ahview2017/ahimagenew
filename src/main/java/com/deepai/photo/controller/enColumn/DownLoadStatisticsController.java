@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.deepai.photo.bean.CpPictureDownloadrecord;
-import com.deepai.photo.common.StringUtil;
 import com.deepai.photo.common.constant.CommonConstant;
 import com.deepai.photo.common.pagehelper.PageHelper;
 import com.deepai.photo.common.pagehelper.PageInfo;

@@ -95,6 +95,14 @@ alter table cp_category add  ALLOW_SUBMISSIONS int(11) DEFAULT NULL  COMMENT '�
 INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(421,1,'保存稿件至草稿箱','保存稿件至草稿箱','groupPicCtro/saveDraftBox',113,0,'admin',now(),NULL,'',0);
 
 alter table cp_picture add  IS_SIGN int(11) default NULL COMMENT '图片是否允许签报标识,0:显示，1：隐藏';
+
+INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(422,0,'根据作者统计稿件','根据作者统计稿件','groupStatistical/GroupStatisticalForAuthorList',NULL,0,'admin',now(),3,'',0);
+
+alter table cp_picture_downloadrecord  modify column AUTHOR_LOGIN_NAME varchar(100) DEFAULT NULL COMMENT '作者登录名';
+
+ALTER TABLE cp_picture_downloadrecord ADD INDEX cp_ID_PIC_GROUP_ID(PICTURE_GROUP_ID,ID);
+
+INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(423,0,'类别统计稿件','类别统计稿件','groupStatistical/groupStatisticalForCategoryList',NULL,0,'admin',now(),3,'',0);
   
 
 

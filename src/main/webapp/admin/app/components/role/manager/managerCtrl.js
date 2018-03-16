@@ -173,6 +173,7 @@ adminModule.controller('managerCtrl',function($scope, $cookies, req, md5, $state
                 vm.toggleSaleMenuFlag = !vm.toggleSaleMenuFlag;
                 exceptSaleReset();
             }else if(vm.toggleTreeName == '投稿功能'){
+            	
                 vm.toggleMsMenuFlag = !vm.toggleMsMenuFlag;
                 exceptMsReset();
                 for(var i=0;i<$('.m-item-option').length;i++){
@@ -333,6 +334,12 @@ adminModule.controller('managerCtrl',function($scope, $cookies, req, md5, $state
                     break;
                 case 30:
                     $state.go('role.manager.onlineUser');
+                    break;
+                case 422:
+                    $state.go('role.manager.authorContributeStatistics');
+                    break;
+                case 423:
+                    $state.go('role.manager.categoryContributeStatistics');
                     break;
             }
         }

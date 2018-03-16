@@ -23,8 +23,15 @@ public class GroupQuery {
     private Date beginTime;//开始时间
     private Date endTime;//结束时间
     private Integer langType;//语言
+    private String creator;//用户名
     
-    public String getParamStr1() {
+    public String getCreator() {
+		return creator;
+	}
+	public void setCreator(String creator) {
+		this.creator = creator;
+	}
+	public String getParamStr1() {
 		return paramStr1;
 	}
 	public void setParamStr1(String paramStr1) {

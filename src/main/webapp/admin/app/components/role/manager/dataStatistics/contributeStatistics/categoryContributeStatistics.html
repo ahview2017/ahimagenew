@@ -1,0 +1,66 @@
+<div class="user-manager-container">
+    <div>
+        <h4 class="c-common-title ng-isolate-scope">类别稿件统计</h4>
+    </div>
+    <div>
+        <!--列表统计-->
+            <div class="c-user-table">
+                <div class="t-search-hd clear">
+                	<div class='downloaddata_search'>
+		            	<span class='downloaddata_search_left'>类别：</span>
+		            	<input type='text' ng-model='categoryContributeStatistics.categoryName'>
+		            </div>   
+                    <div class='downloaddata_search_time' style="margin-left: 20px;">
+		            	<span class='downloaddata_search_time_left'>稿件上传时间：</span>
+		            	<input type="text" class="Wdate" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" datepicker ng-model='categoryContributeStatistics.startTime'/>
+		                <span>至</span>
+		                <input type="text" class="Wdate" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" datepicker ng-model='categoryContributeStatistics.endTime'/>
+		            </div>
+		            <div class='downloaddata_search'>
+		            	<span class='downloaddata_search_left'>排序：</span>
+		            	<select ng-model='categoryContributeStatistics.orderByCase'>
+		            		<option value=''>---请选择---</option>
+		            		<option value='1'>发稿总量</option>
+		            		<option value='2'>签网量</option>
+		            		<option value='3'>签报量</option>
+		            	</select>
+		            </div>
+		            
+		             <span class='downloaddata_ri_right  downloaddata_search_btn' ng-click='categoryContributeStatistics.search()'>检索</span>
+                </div>
+                <div class="t-uinfo-bd">
+                    <div class="table-responsive">
+                        <table class="table table-bordered uInfo-table">
+                            <thead>
+                            <tr>
+                                <th class="uinfo-hd-th">类别</th>
+                                <th class="uinfo-hd-th">投稿篇数</th>
+                                <th class="uinfo-hd-th">投稿图片数</th>
+                                <th class="uinfo-hd-th">签发篇数</th>
+                                <th class="uinfo-hd-th">签发图片数</th>
+                                <th class="uinfo-hd-th">签报篇数</th>
+                                <th class="uinfo-hd-th">下载量</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="contributorItem in categoryContributeStatistics.contributorTableArray">
+                                <td>{{contributorItem.categaryName}}</td>
+                                <td>{{contributorItem.sendCount}}</td>
+                                <td>{{contributorItem.pictureCount}}</td>
+                                <td>{{contributorItem.throughCount}}</td>
+                                <td>{{contributorItem.throughPictureCount}}</td>
+                                <td>{{contributorItem.signNewspaperNum}}</td>
+                                <td>{{contributorItem.downloadNum}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- 分页 -->
+                    <div class="flr pr15">
+                        <ul class="pagination" id="paginationCbId"></ul>
+                    </div>
+                </div>
+            </div>
+        
+    </div>
+</div>

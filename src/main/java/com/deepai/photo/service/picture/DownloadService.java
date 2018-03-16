@@ -1057,6 +1057,8 @@ public class DownloadService {
 					record.setPictureSignTime(group.getSginTime());						
 					record.setPictureAuthor(group.getAuthor());
 					record.setAuthorLoginName(userName);//作者登录名
+					
+					logger.info("AUTHOR_LOGIN_NAME:"+userName);
 					record.setDownLoadPrice(user.getBalanceBasePerprice());
 					record.setPictureFileName(fileName);
 					record.setPictureFilePath(oriPicPath);
@@ -1082,6 +1084,8 @@ public class DownloadService {
 			}
 		}
 		//批量记录图片下载日志
+		
+		
 		clientPictureMapper.insertDownRecords(recordList);
 		try {
 			// 遍历所有列表里面的id之后将目录里面的文件进行压缩

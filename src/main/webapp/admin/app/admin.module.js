@@ -318,6 +318,21 @@ adminModule.config(function($stateProvider,$urlRouterProvider,$locationProvider)
             templateUrl: 'admin/app/components/role/manager/dataStatistics/contributeStatistics/contributeStatistics.html',
             controller: 'contributeStatisticsCtrl as contributeStatistics'
         })
+        
+        //管理员-作者稿件统计	add by xiyuanan@20180314
+        .state('role.manager.authorContributeStatistics', {
+            url:'/authorContributeStatistics',
+            templateUrl: 'admin/app/components/role/manager/dataStatistics/contributeStatistics/authorContributeStatistics.html',
+            controller: 'authorContributeStatisticsCtrl as authorContributeStatistics'
+        })
+        
+        //管理员-类别稿件统计	add by xiyuanan@20180316
+        .state('role.manager.categoryContributeStatistics', {
+            url:'/categoryContributeStatistics',
+            templateUrl: 'admin/app/components/role/manager/dataStatistics/contributeStatistics/categoryContributeStatistics.html',
+            controller: 'categoryContributeStatisticsCtrl as categoryContributeStatistics'
+        })
+        
         //管理员-下载统计，今日下载---内部下载
         .state('role.manager.downloaddataStatistics', {
             url:'/downloaddataStatistics/:rightId',
@@ -342,6 +357,10 @@ adminModule.config(function($stateProvider,$urlRouterProvider,$locationProvider)
             templateUrl: 'admin/app/components/role/manager/dataStatistics/remunerationStatistics/remunerationStatistics.html',
             controller: 'remunerationStatisticsCtrl as remunerationStatistics'
         })
+        
+        
+       
+        
         //管理员-用户信息统计
         .state('role.manager.userinfoStatistics', {
             url:'/userinfoStatistics',

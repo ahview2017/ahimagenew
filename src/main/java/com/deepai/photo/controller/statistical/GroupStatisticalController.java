@@ -19,6 +19,7 @@ import com.deepai.photo.bean.CpGroupStatistical;
 import com.deepai.photo.common.constant.CommonConstant;
 import com.deepai.photo.common.pagehelper.PageHelper;
 import com.deepai.photo.common.pojo.ResponseMessage;
+import com.deepai.photo.common.validation.CommonValidation;
 import com.deepai.photo.controller.admin.RightController;
 import com.deepai.photo.service.statistical.GroupStatisticalService;
 
@@ -61,6 +62,9 @@ public class GroupStatisticalController {
 		}
 		return result;
 	}
+	
+	
+	
 
 	/**
 	 * 按照作责名字搜索投稿统计
@@ -156,6 +160,9 @@ public class GroupStatisticalController {
 	}
 	
 	
+	
+	
+	
 	/**
 	 * 按照稿件类型查看投稿统计（列表形式）
 	 * @param request
@@ -213,4 +220,69 @@ public class GroupStatisticalController {
 		}
 		return result;
 	}
+	
+	
+	
+	/**
+	 * 按照作者，稿件上传时间搜索投稿统计
+	 * @author xiayunan
+	 * @date 2018年3月13日
+	 * @param request
+	 * @param response
+	 * @param cpGroupStatistical
+	 * @return
+	 */
+	@RequestMapping("GroupStatisticalForAuthorList")
+	@ResponseBody
+	public Object groupStatisticalForAuthorList(HttpServletRequest request, HttpServletResponse response,CpGroupStatistical cpGroupStatistical) {
+		ResponseMessage result = new ResponseMessage();
+		try {
+			PageHelper.startPage(request);
+			List<CpGroupStatistical> list = groupStatisticalService.groupStatisticalForAuthor(cpGroupStatistical);
+			PageHelper.addPages(result, list);
+			result.setCode(CommonConstant.SUCCESSCODE);
+			result.setMsg(CommonConstant.SUCCESSSTRING);
+			result.setData(list);
+			PageHelper.addPagesAndTotal(result, list);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			log.error("不能显示作者投稿统计，" + e1.getMessage());
+			result.setCode(CommonConstant.EXCEPTIONCODE);
+			result.setMsg(CommonConstant.EXCEPTIONMSG);
+		}
+		return result;
+	}
+	
+	
+	/**
+	 * 按照稿件类别进行投稿统计
+	 * @author xiayunan
+	 * @date 2018年3月13日
+	 * @param request
+	 * @param response
+	 * @param cpGroupStatistical
+	 * @return
+	 */
+	@RequestMapping("groupStatisticalForCategoryList")
+	@ResponseBody
+	public Object groupStatisticalForCategoryList(HttpServletRequest request, HttpServletResponse response,CpGroupStatistical cpGroupStatistical) {
+		ResponseMessage result = new ResponseMessage();
+		try {
+			PageHelper.startPage(request);
+			List<CpGroupStatistical> list = groupStatisticalService.groupStatisticalForCategory(cpGroupStatistical);
+			PageHelper.addPages(result, list);
+			result.setCode(CommonConstant.SUCCESSCODE);
+			result.setMsg(CommonConstant.SUCCESSSTRING);
+			result.setData(list);
+			PageHelper.addPagesAndTotal(result, list);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			log.error("不能显示作者投稿统计，" + e1.getMessage());
+			result.setCode(CommonConstant.EXCEPTIONCODE);
+			result.setMsg(CommonConstant.EXCEPTIONMSG);
+		}
+		return result;
+	}
+	
+	
 }
