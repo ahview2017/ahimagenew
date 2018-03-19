@@ -109,7 +109,7 @@ public class LogAspect {
 			log.setLogtypeId(logService.getLogTypeIdByCode(loginfo.get("logTypeCode").toString()));
 			log.setOpeIp(ip);
 			log.setOpeMemo(loginfo.get("memo").toString());
-			log.setOpeParam(params.toString());
+			log.setOpeParam(params.length()>5000?"":params.toString());
 			log.setOpeTime(new Date());
 			log.setOpeType((Byte)loginfo.get("opeType"));
 			if(user!=null){
