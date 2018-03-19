@@ -10,6 +10,14 @@ adminModule.controller('mSendManuscriptCtrl', function($scope, $cookies, req, md
     vm.moveModal = function(dragDiv,tagDiv) {
         allModalMove.modalMove(dragDiv,tagDiv);
     }
+  //下载模态显示
+	vm.ModalShow = function(modalId) {
+		modalOperate.modalShow(modalId);
+	};
+	//下载模态框隐藏
+	vm.ModalHide = function(modalId) {
+		modalOperate.modalHide(modalId);
+	};
     //初始化设置
     function initSetting(){
         //默认激活的导航项为新闻稿件
@@ -172,18 +180,22 @@ adminModule.controller('mSendManuscriptCtrl', function($scope, $cookies, req, md
         req_getWaitManuscript(1);
     }
     //下载图片
-    vm.downLoadPic = function (){
-    	var type=0;//只下载图
-        var id_array=new Array();
-            $('input:checked').each(function(){
-                id_array.push($(this).val());//向数组中添加元素
-            });
-        var picIds=id_array.join(',');//将数组元素连接起来以构建一个字符串
-        if(id_array.length==0){
-            layer.alert("请选择图片");
+    vm.downLoadPic = function (type){
+    	vm.selKeyArr = [];
+    	for(var key in vm.selWaitMsIds){
+            if(vm.selWaitMsIds[key]){
+                vm.selKeyArr.push(key);
+            }
+        }
+        var picIds=vm.selKeyArr.join(',');//将数组元素连接起来以构建一个字符串
+        if(!vm.selKeyArr.length){
+            layer.alert('请选择图片');
             return;
         }else{
-        	document.location = "/photo/enGroupPicDown/downSinglePic.do?picIds=" + picIds+"&type="+type;
+        	//document.location = "/photo/enGroupPicDown/downSinglePic.do?picIds=" + picIds+"&type="+type;
+        	alert("type:"+type);
+        	document.location = "/photo/enGroupPicDown/downGrouplePic.do?groupIds=" + picIds+"&type="+type+"&langType="+$scope.langType;
+        	
         }        
     }
     
@@ -687,6 +699,30 @@ adminModule.controller('mSendManuscriptCtrl', function($scope, $cookies, req, md
 				}
 			});
         }
+		
+	}
+	
+	/**
+	 *
+	 * @param type 0：至图片，1：图片及说明
+	 */
+	vm.downloadGroupPic = function(type) {
+		vm.selKeyArr = [];
+    	for(var key in vm.selWaitMsIds){
+            if(vm.selWaitMsIds[key]){
+                vm.selKeyArr.push(key);
+            }
+        }
+        var picIds=vm.selKeyArr.join(',');//将数组元素连接起来以构建一个字符串
+        if(!vm.selKeyArr.length){
+            layer.alert('请选择图片');
+            return;
+        }else{
+        	//document.location = "/photo/enGroupPicDown/downSinglePic.do?picIds=" + picIds+"&type="+type;
+  
+        	document.location = "/photo/enGroupPicDown/downGrouplePic.do?groupIds=" + picIds+"&type="+type+"&langType="+$scope.langType;
+        	
+        } 
 		
 	}
 

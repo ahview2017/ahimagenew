@@ -91,6 +91,16 @@
     /*height: auto;*/
 }
 
+#downpic-type-modal {
+    width: 482px;
+	height: 202px;
+	border-radius: 16px;
+	left: 40%;
+	right: 0;
+	top: 15%;
+}
+
+
 #wait-manuscript-search-modal,
 #internalRetentionModalId,
 #draftBoxModalId{

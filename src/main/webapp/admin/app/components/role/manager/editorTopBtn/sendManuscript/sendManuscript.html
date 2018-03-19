@@ -36,13 +36,16 @@
                 <div class="user-hd-left fll" ng-if="sendManuscript.variedtypeArr[0] == 1">
                     <input type="checkbox" ng-model="sendManuscript.newsPicselectedAll" ng-click="sendManuscript.checkAll(sendManuscript.newsPicselectedAll,0)"/>
                     <span class="user-check-txt">全选</span>
+                    <!--  
                     <span class="dib cursor edt-merge-btn" ng-click="sendManuscript.downLoadPic()">下载原图</span>
+                    -->
+                    <span class="dib cursor edt-merge-btn" ng-click="sendManuscript.ModalShow('downpic-type-modal')">下载原图</span>
                 </div>
                 <div class="user-hd-left fll" ng-if="sendManuscript.variedtypeArr[0] != 1">
                     <input type="checkbox" ng-model="sendManuscript.newsPicselectedAll" ng-click="sendManuscript.checkAll(sendManuscript.newsPicselectedAll,0)"/>
                     <span class="user-check-txt">全选</span>
                     <span class="dib cursor edt-merge-btn" ng-click="sendManuscript.mergeManuscriptModalShow('wait-manuscript-merge-modal')">稿件合并</span>
-                    <span class="dib cursor edt-merge-btn" ng-click="sendManuscript.downLoadPic()">下载原图</span>
+                    <span class="dib cursor edt-merge-btn" ng-click="sendManuscript.ModalShow('downpic-type-modal')">下载原图</span>
                     <span ng-if="sendManuscript.variedtypeArr[0] ==3" class="dib cursor edt-merge-btn" ng-click="sendManuscript.signModalShow2('sign-manuscript-modal2')">一键签报</span>
                     <span ng-if="sendManuscript.variedtypeArr[0] ==3" class="dib cursor edt-merge-btn" ng-click="sendManuscript.transferDatabaseModalShow('transfer-database-modal')">一键入库</span>
                     <span ng-if="sendManuscript.variedtypeArr[0] ==3" class="dib cursor edt-merge-btn" ng-click="sendManuscript.delGroupsModalShow('del-groups-modal')">删除</span>
@@ -138,7 +141,7 @@
             	<div class="user-hd-left fll" ng-if="sendManuscript.variedtypeArr[0] == 1">
                     <input type="checkbox" ng-model="sendManuscript.newsPicselectedAll" ng-click="sendManuscript.checkAll(sendManuscript.newsPicselectedAll,0)"/>
                     <span class="user-check-txt">全选</span>
-                    <span class="dib cursor edt-merge-btn" ng-click="sendManuscript.downLoadPic()">下载原图</span>
+                    <span class="dib cursor edt-merge-btn" ng-click="sendManuscript.ModalShow('downpic-type-modal')">下载原图</span>
                 </div>
                 <div class="user-hd-left fll" ng-if="sendManuscript.variedtypeArr[0] != 1">
                     <label for="checkAllSendMs">
@@ -147,7 +150,7 @@
                         <span class="user-check-txt cursor">全选</span>
                     </label>
                     <span class="dib cursor edt-merge-btn"  ng-click="sendManuscript.mergeManuscriptModalShow('wait-manuscript-merge-modal')">稿件合并</span>
-                    <span class="dib cursor edt-merge-btn" ng-click="sendManuscript.downLoadPic()">下载原图</span>
+                    <span class="dib cursor edt-merge-btn" ng-click="sendManuscript.ModalShow('downpic-type-modal')">下载原图</span>
                     <span ng-if="sendManuscript.variedtypeArr[0] ==3" class="dib cursor edt-merge-btn" ng-click="sendManuscript.signModalShow2('sign-manuscript-modal2')">一键签报</span>
                     <span ng-if="sendManuscript.variedtypeArr[0] ==3" class="dib cursor edt-merge-btn" ng-click="sendManuscript.transferDatabaseModalShow('transfer-database-modal')">一键入库</span>
                     <span ng-if="sendManuscript.variedtypeArr[0] ==3" class="dib cursor edt-merge-btn" ng-click="sendManuscript.delGroupsModalShow('del-groups-modal')">删除</span>
@@ -247,7 +250,7 @@
                     </label>
                     <span class="dib cursor edt-recover-btn" ng-click="sendManuscript.recoverPic()">恢复图片</span>
                     <span class="dib cursor edt-delete-btn" ng-click="sendManuscript.thoroughDelModalShow('wait-del-modal')">彻底删除</span>
-                    <span class="dib cursor edt-merge-btn" ng-click="sendManuscript.downLoadPic()">下载原图</span>
+                    <span class="dib cursor edt-merge-btn" ng-click="sendManuscript.ModalShow('downpic-type-modal')">下载原图</span>
                 </div>
 
                 <div class="user-hd-right flr">
@@ -682,6 +685,23 @@
             </div>
         </div>
     </div>
+    
+    <!--下载类别弹框-->
+	<div class="common-modal-style" id="downpic-type-modal" ng-mousemove="sendManuscript.moveModal('del-modal-tit','downpic-type-modal')"style="display:none">
+		<div class="role-add-con">
+			<div id="del-modal-tit" class="role-add-tit">
+				下载类别 <span class="flr curp tit-close" ng-click="sendManuscript.ModalHide('downpic-type-modal')">×</span>
+			</div>
+			<div class="role-modal-con">
+				请选择下载类别？<input type='hidden' ng-model='sendManuscript.deleFriendLinkId'>
+	
+			</div>
+			<div class="tac mt10">
+				<span class="dib cursor user-add-btn" ng-click="sendManuscript.downloadGroupPic(0)">组图</span>
+				<span class="dib cursor user-add-btn " ng-click="sendManuscript.downloadGroupPic(1)">图文</span>
+			</div>
+		</div>
+	</div>
     
     
 </div>
