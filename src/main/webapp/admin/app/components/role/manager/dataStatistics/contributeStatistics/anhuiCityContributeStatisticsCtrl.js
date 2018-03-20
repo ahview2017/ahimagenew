@@ -17,8 +17,8 @@ adminModule.controller('anhuiCityContributeStatisticsCtrl', function ($scope, $c
             page: page,
             rows: 10
         };
-        if (vm.pictureAuthor) {
-            paramsObj['author'] = vm.pictureAuthor;
+        if (vm.place) {
+            paramsObj['place'] = vm.place;
         } 
         if(vm.orderByCase){
         	paramsObj['orderType'] = vm.orderByCase;

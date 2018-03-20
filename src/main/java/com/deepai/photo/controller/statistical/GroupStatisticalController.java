@@ -300,6 +300,7 @@ public class GroupStatisticalController {
 		ResponseMessage result = new ResponseMessage();
 		try {
 			PageHelper.startPage(request);
+			
 			List<CpGroupStatistical> list = groupStatisticalService.groupStatisticalForAnHuiCity(cpGroupStatistical);
 			PageHelper.addPages(result, list);
 			result.setCode(CommonConstant.SUCCESSCODE);
