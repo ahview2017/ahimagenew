@@ -25,4 +25,9 @@ public interface GroupStatisticalMapper {
 	
 	public List<CpGroupStatistical> groupStatisticalForCategory(CpGroupStatistical cpGroupStatistical);
 	
+	public List<CpGroupStatistical> groupStatisticalForAnHuiCity(CpGroupStatistical cpGroupStatistical);
+	
+	
+	
+	
 }

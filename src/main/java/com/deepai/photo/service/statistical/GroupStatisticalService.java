@@ -47,7 +47,7 @@ public class GroupStatisticalService {
 	
 
 	/**
-	 * 根据作者名统计稿件发稿情况
+	 * 根据类别统计稿件发稿情况
 	 * @author xiayunan
 	 * @date 2018年3月13日
 	 * @param cpGroupStatistical
@@ -56,4 +56,17 @@ public class GroupStatisticalService {
 	public List<CpGroupStatistical> groupStatisticalForCategory(CpGroupStatistical cpGroupStatistical) {
 		return groupStatisticalMapper.groupStatisticalForCategory(cpGroupStatistical);
 	}
+	
+	/**
+	 * 根据作者名统计稿件发稿情况
+	 * @author xiayunan
+	 * @date 2018年3月13日
+	 * @param cpGroupStatistical
+	 * @return
+	 */
+	public List<CpGroupStatistical> groupStatisticalForAnHuiCity(CpGroupStatistical cpGroupStatistical) {
+		return groupStatisticalMapper.groupStatisticalForAnHuiCity(cpGroupStatistical);
+	}
+	
+	
 }

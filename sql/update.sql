@@ -103,6 +103,8 @@ alter table cp_picture_downloadrecord  modify column AUTHOR_LOGIN_NAME varchar(1
 ALTER TABLE cp_picture_downloadrecord ADD INDEX cp_ID_PIC_GROUP_ID(PICTURE_GROUP_ID,ID);
 
 INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(423,0,'类别统计稿件','类别统计稿件','groupStatistical/groupStatisticalForCategoryList',NULL,0,'admin',now(),3,'',0);
+
+INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(424,0,'地市统计稿件','地市统计稿件','groupStatistical/groupStatisticalForAnHuiCityList',NULL,0,'admin',now(),3,'',0);
   
 
 

@@ -106,8 +106,8 @@ public class ProofreadJob {
 	 * 定时推送新华社稿件
 	 * 每两个小时跑一次
 	 */
-	@Scheduled(cron="0 0 0/2 * * ?") 
-//	@Scheduled(cron="0 0/1 * * * ?") 
+//	@Scheduled(cron="0 0 0/2 * * ?") 
+	@Scheduled(cron="0 0/5 * * * ?") 
 	public void pushXHPhoto() {  
 		try {
 			//add by xiayunan@20180308 添加推送新华社图片标识
@@ -118,6 +118,7 @@ public class ProofreadJob {
 				throw new Exception("文件/opt/conf/ip.properties不存在");
 			}
 			boolean xinhuaflag=Boolean.valueOf(fileUtil.QueryServerValue("/opt/conf/ip.properties", "xinhuaflag"));
+			log.info("<<<xinhuaflag:"+xinhuaflag);
 			if(xinhuaflag){
 				log.info("开始推送新华社稿件");
 				String result = "";

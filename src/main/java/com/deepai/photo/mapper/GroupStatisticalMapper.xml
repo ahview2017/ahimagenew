@@ -244,4 +244,75 @@ select * from (	  select * from (
 	and  g.categaryName LIKE CONCAT ('%', #{categaryName}, '%')
 	</if>
 	</select> 
+	
+	<select id="groupStatisticalForAnHuiCity" resultType="com.deepai.photo.bean.CpGroupStatistical" >
+		select 
+			e.place,
+			e.sendCount,
+			e.pictureCount,
+			d.throughCount,
+			d.throughPictureCount,
+			e.signNewspaperNum,
+			j.downloadNum 
+		from (
+				SELECT
+					SUBSTR(c.PLACE, 4, 3) AS place,
+					COUNT(*) AS sendCount,
+					SUM(c.PICTURE_COUNT) AS pictureCount,
+					SUM(c.QBSTATUS) AS signNewspaperNum
+				FROM
+					cp_pic_group c
+				WHERE
+					c.SOURCE_ID = 0
+				AND c.PLACE LIKE '%安徽%'
+				AND c.DELETE_FLAG = 0
+				AND c.SITE_ID = 1
+				<if test="startTime != null and endTime != null"> 
+	  			 and  c.CREATE_TIME BETWEEN #{startTime} and #{endTime}  			
+	  			</if>
+				GROUP BY
+					SUBSTR(c.PLACE, 4, 2)
+			) e 
+			
+		LEFT JOIN (
+			SELECT
+				SUBSTR(PLACE, 4, 3) AS PLACE2,
+				COUNT(*) AS throughCount,
+				SUM(PICTURE_COUNT) AS throughPictureCount
+			FROM
+				cp_pic_group
+			WHERE
+				GROUP_STATUS = 4
+			AND SOURCE_ID = 0
+			AND DELETE_FLAG = 0
+			AND SITE_ID = 1
+			AND GROUP_STATUS = 4
+			AND PLACE LIKE '%安徽%'
+			GROUP BY
+				SUBSTR(PLACE, 4, 2)
+		) d ON e.place = d.PLACE2
+		LEFT JOIN (
+			SELECT
+				SUBSTR(PLACE, 4, 3) AS PLACE3,
+				count(*) AS downloadNum
+			FROM
+				cp_picture_downloadrecord i
+			LEFT JOIN cp_pic_group k ON k.ID = i.PICTURE_GROUP_ID
+			GROUP BY
+				SUBSTR(PLACE, 4, 2)
+		) j ON e.place = j.PLACE3
+		where 1=1 and place !=''
+		<if test="place!=null">
+	   		and place LIKE CONCAT ('%', #{place}, '%')
+	   </if>
+		<if test='orderType!=null and orderType=="1"'>
+	   		order by e.sendCount desc
+	    </if>
+	    <if test='orderType!=null and orderType=="2"'>
+	   		order by d.throughCount desc
+	    </if>
+	    <if test='orderType!=null and orderType=="3"'>
+	   		order by e.signNewspaperNum desc
+	    </if>
+	</select>
 </mapper>

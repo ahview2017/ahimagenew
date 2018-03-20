@@ -182,7 +182,7 @@ adminModule.controller('headCtrl',function($translate, $scope, $cookies, req, md
         //摄影师拥有的管理权限
         var photographerM = [110,113,121,'稿费统计',266,'使用指南',65,270];
         //数据统计数组
-        var dataStatisticsArr = [313,397,398,399,402,403,404,405,406,407,408,'图片下载统计','用户下载统计','签稿统计','稿酬统计','用户信息统计',422,423];
+        var dataStatisticsArr = [313,397,398,399,402,403,404,405,406,407,408,'图片下载统计','用户下载统计','签稿统计','稿酬统计','用户信息统计',422,423,424];
         for(var i = 0; i < accessList.length; i++){
             //系统管理
             if((sysManageArr.indexOf(accessList[i].ID) != -1)){

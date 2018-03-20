@@ -21,7 +21,7 @@ public class TrsSearchUtil {
 	      String tempWhere = "";
 	      if(keywordsArray.length>0){
 	    	  StringBuilder sb = new StringBuilder();
-	    	  sb.append("(AUTHOR_NAME,KEYWORDS,MEMO,TITLE,gtitle,gkeywords) += ")
+	    	  sb.append("(AUTHOR_NAME,KEYWORDS,MEMO,TITLE,gtitle,gkeywords,ID) += ")
 	    		.append("(");
 	    	  for (int i = 0; i < keywordsArray.length; i++){
 	    		  sb.append(keywordsArray[i]);

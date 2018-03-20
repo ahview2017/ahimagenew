@@ -333,6 +333,13 @@ adminModule.config(function($stateProvider,$urlRouterProvider,$locationProvider)
             controller: 'categoryContributeStatisticsCtrl as categoryContributeStatistics'
         })
         
+         //管理员-地市稿件统计	add by xiyunan@20180320
+        .state('role.manager.anhuiCityContributeStatistics', {
+            url:'/anhuiCityContributeStatistics',
+            templateUrl: 'admin/app/components/role/manager/dataStatistics/contributeStatistics/anhuiCityContributeStatistics.html',
+            controller: 'anhuiCityContributeStatisticsCtrl as anhuiCityContributeStatistics'
+        })
+        
         //管理员-下载统计，今日下载---内部下载
         .state('role.manager.downloaddataStatistics', {
             url:'/downloaddataStatistics/:rightId',
