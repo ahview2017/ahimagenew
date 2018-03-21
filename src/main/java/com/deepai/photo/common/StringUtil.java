@@ -775,6 +775,15 @@ public class StringUtil extends StringUtils {
 	    return count;
 	}
 	
+	public static boolean isNumeric(String str){
+	  for (int i = str.length();--i>=0;){  
+	       if (!Character.isDigit(str.charAt(i))){
+	          return false;
+	       }
+	   }
+	   return true;
+	 }
+	
 	public static void main(String[] args) {
 //		System.out.println(getAnonymous("syh"));
 //		System.out.println(decimalFormatComma(11));
@@ -783,7 +792,8 @@ public class StringUtil extends StringUtils {
 //		List<String> a = new ArrayList<String>();
 //		a.toArray(new String[a.size()]);
 		
-		System.out.println(appearNumber("管理员,值班编辑,签约摄影师,销售,订户,",","));
+//		System.out.println(appearNumber("管理员,值班编辑,签约摄影师,销售,订户,",","));
+		System.out.println(isNumeric("1213"));
 		
 	}
 }

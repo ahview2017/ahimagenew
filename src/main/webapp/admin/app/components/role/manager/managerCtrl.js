@@ -344,6 +344,9 @@ adminModule.controller('managerCtrl',function($scope, $cookies, req, md5, $state
                 case 424:
                     $state.go('role.manager.anhuiCityContributeStatistics');
                     break;
+                case 425:
+                    $state.go('role.manager.webColumnContributeStatistics');
+                    break;
             }
         }
 

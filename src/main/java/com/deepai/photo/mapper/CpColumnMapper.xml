@@ -77,8 +77,6 @@
 		where a.TYPE =1 and  b.pid = #{columnId}  and a.GROUP_ID = #{groupId}   ;
   </select>
   
-
-  
   
    <select id="selectBykeyNoPname" resultType="com.deepai.photo.bean.CpColumn">
 	     select

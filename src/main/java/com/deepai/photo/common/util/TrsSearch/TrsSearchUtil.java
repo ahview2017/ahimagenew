@@ -3,6 +3,8 @@ package com.deepai.photo.common.util.TrsSearch;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.deepai.photo.common.StringUtil;
+
 /**
  * 
  * @author xiayunan
@@ -21,8 +23,12 @@ public class TrsSearchUtil {
 	      String tempWhere = "";
 	      if(keywordsArray.length>0){
 	    	  StringBuilder sb = new StringBuilder();
-	    	  sb.append("(AUTHOR_NAME,KEYWORDS,MEMO,TITLE,gtitle,gkeywords,ID) += ")
-	    		.append("(");
+	    	  if(StringUtil.isNumeric(keyword)){
+	    		  sb.append("(AUTHOR_NAME,KEYWORDS,MEMO,TITLE,gtitle,gkeywords,ID) += ");
+	    	  }else{
+	    		  sb.append("(AUTHOR_NAME,KEYWORDS,MEMO,TITLE,gtitle,gkeywords) += ");
+	    	  }
+	    	  sb.append("(");
 	    	  for (int i = 0; i < keywordsArray.length; i++){
 	    		  sb.append(keywordsArray[i]);
 	    		  if(i<(keywordsArray.length-1)){

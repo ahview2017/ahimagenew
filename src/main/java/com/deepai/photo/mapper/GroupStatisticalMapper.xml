@@ -315,4 +315,88 @@ select * from (	  select * from (
 	   		order by e.signNewspaperNum desc
 	    </if>
 	</select>
+	
+	
+	<select id="groupStatisticalForWebSiteShowColumn" resultType="com.deepai.photo.bean.CpGroupStatistical" >
+		select j.NAME as categaryName,k.throughCount,k.throughPictureCount from (
+		SELECT
+			id,
+			NAME 
+		FROM
+			cp_column
+		WHERE
+			pid = 0
+		AND langType = 0
+		UNION
+			SELECT
+				id,
+				NAME
+			FROM
+				cp_column
+			WHERE
+				pid IN (
+					SELECT
+						id
+					FROM
+						cp_column
+					WHERE
+						pid = 0
+					AND langType = 0
+				)
+			UNION
+				SELECT
+					id,
+					NAME
+				FROM
+					cp_column a
+				WHERE
+					a.pid IN (
+						SELECT
+							d.id
+						FROM
+							(
+								SELECT
+									b.id
+								FROM
+									cp_column b
+								WHERE
+									b.pid IN (
+										SELECT
+											c.id
+										FROM
+											cp_column c
+										WHERE
+											c.pid = 0
+										AND c.langType = 0
+									)
+							) d
+				
+					) ) j 
+		LEFT JOIN (SELECT
+			b.CATEGORY_ID,
+			COUNT(*) AS throughCount,
+			SUM(PICTURE_COUNT) AS throughPictureCount
+		FROM
+			cp_pic_group a  LEFT JOIN cp_pic_group_category b on a.ID = b.GROUP_ID
+		WHERE
+			a.GROUP_STATUS = 4
+		AND a.SOURCE_ID = 0
+		AND a.DELETE_FLAG = 0
+		AND a.SITE_ID = 1
+		and b.TYPE = 1
+		<if test="startTime != null and endTime != null"> 
+			 and  a.CREATE_TIME BETWEEN #{startTime} and #{endTime}  			
+		</if>
+		GROUP BY b.CATEGORY_ID) k on j.id = k.CATEGORY_ID 
+		where 1=1 
+		<if test="categaryName!=null">
+	   		and NAME LIKE CONCAT ('%', #{categaryName}, '%')
+	   </if>
+		<if test='orderType!=null and orderType=="1"'>
+	   		order by k.throughCount desc
+	    </if>
+	</select>
+	
+	
+	
 </mapper>

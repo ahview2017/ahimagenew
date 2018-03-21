@@ -1,0 +1,56 @@
+<div class="user-manager-container">
+    <div>
+        <h4 class="c-common-title ng-isolate-scope">栏目稿件统计</h4>
+    </div>
+    <div>
+        <!--列表统计-->
+            <div class="c-user-table">
+                <div class="t-search-hd clear">
+                	<div class='downloaddata_search'>
+		            	<span class='downloaddata_search_left'>栏目名称：</span>
+		            	<input type='text' ng-model='webColumnContributeStatistics.categaryName'>
+		            </div>   
+                    <div class='downloaddata_search_time' style="margin-left: 20px;">
+		            	<span class='downloaddata_search_time_left'>稿件上传时间：</span>
+		            	<input type="text" class="Wdate" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" datepicker ng-model='webColumnContributeStatistics.startTime'/>
+		                <span>至</span>
+		                <input type="text" class="Wdate" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" datepicker ng-model='webColumnContributeStatistics.endTime'/>
+		            </div>
+		            <div class='downloaddata_search'>
+		            	<span class='downloaddata_search_left'>排序：</span>
+		            	<select ng-model='webColumnContributeStatistics.orderByCase'>
+		            		<option value=''>---请选择---</option>
+		            		<option value='1'>签网量</option>
+		            	</select>
+		            </div>
+		            
+		             <span class='downloaddata_ri_right  downloaddata_search_btn' ng-click='webColumnContributeStatistics.search()'>检索</span>
+                </div>
+                <div class="t-uinfo-bd">
+                    <div class="table-responsive">
+                        <table class="table table-bordered uInfo-table">
+                            <thead>
+                            <tr>
+                                <th class="uinfo-hd-th">栏目名称</th>
+                                <th class="uinfo-hd-th">签报篇数</th>
+                                <th class="uinfo-hd-th">签发图片数</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="contributorItem in webColumnContributeStatistics.contributorTableArray">
+                                <td>{{contributorItem.categaryName}}</td>
+                                <td>{{contributorItem.throughCount}}</td>
+                                <td>{{contributorItem.throughPictureCount}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- 分页 -->
+                    <div class="flr pr15">
+                        <ul class="pagination" id="paginationCbId"></ul>
+                    </div>
+                </div>
+            </div>
+        
+    </div>
+</div>

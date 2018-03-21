@@ -68,5 +68,18 @@ public class GroupStatisticalService {
 		return groupStatisticalMapper.groupStatisticalForAnHuiCity(cpGroupStatistical);
 	}
 	
+	/**
+	 * 网站展示栏目稿件统计
+	 * @author xiayunan
+	 * @date 2018年3月20日
+	 * @param cpGroupStatistical
+	 * @return
+	 */
+	public List<CpGroupStatistical> groupStatisticalForWebSiteShowColumn(CpGroupStatistical cpGroupStatistical) {
+		return groupStatisticalMapper.groupStatisticalForWebSiteShowColumn(cpGroupStatistical);
+	}
+	
+	
+	
 	
 }

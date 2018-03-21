@@ -27,7 +27,7 @@ public interface GroupStatisticalMapper {
 	
 	public List<CpGroupStatistical> groupStatisticalForAnHuiCity(CpGroupStatistical cpGroupStatistical);
 	
-	
+	public List<CpGroupStatistical> groupStatisticalForWebSiteShowColumn(CpGroupStatistical cpGroupStatistical);
 	
 	
 }

@@ -286,7 +286,7 @@ public class GroupStatisticalController {
 	
 	
 	/**
-	 * 按照作者，稿件安徽省属城市投稿统计
+	 * 按照安徽省属城市投稿统计
 	 * @author xiayunan
 	 * @date 2018年3月13日
 	 * @param request
@@ -302,6 +302,39 @@ public class GroupStatisticalController {
 			PageHelper.startPage(request);
 			
 			List<CpGroupStatistical> list = groupStatisticalService.groupStatisticalForAnHuiCity(cpGroupStatistical);
+			PageHelper.addPages(result, list);
+			result.setCode(CommonConstant.SUCCESSCODE);
+			result.setMsg(CommonConstant.SUCCESSSTRING);
+			result.setData(list);
+			PageHelper.addPagesAndTotal(result, list);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			log.error("不能显示作者投稿统计，" + e1.getMessage());
+			result.setCode(CommonConstant.EXCEPTIONCODE);
+			result.setMsg(CommonConstant.EXCEPTIONMSG);
+		}
+		return result;
+	}
+	
+	/**
+	 * 网站展示栏目投稿统计
+	 * @author xiayunan
+	 * @date 2018年3月13日
+	 * @param request
+	 * @param response
+	 * @param cpGroupStatistical
+	 * @return
+	 */
+	@RequestMapping("groupStatisticalForWebSiteShowColumnList")
+	@ResponseBody
+	public Object groupStatisticalForWebSiteShowColumnList(HttpServletRequest request, HttpServletResponse response,CpGroupStatistical cpGroupStatistical) {
+		ResponseMessage result = new ResponseMessage();
+		try {
+			
+			PageHelper.startPage(request);
+			log.info("<<<<<<<<<<<<开始栏目稿件统计......");
+			log.info("<<<<<<<<<<<<栏目名称......"+cpGroupStatistical.getCategaryName());
+			List<CpGroupStatistical> list = groupStatisticalService.groupStatisticalForWebSiteShowColumn(cpGroupStatistical);
 			PageHelper.addPages(result, list);
 			result.setCode(CommonConstant.SUCCESSCODE);
 			result.setMsg(CommonConstant.SUCCESSSTRING);
