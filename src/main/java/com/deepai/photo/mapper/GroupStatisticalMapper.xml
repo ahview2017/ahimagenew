@@ -20,117 +20,86 @@
 	</select>
 	
 	<select id="groupStatisticalForCategory" resultType="com.deepai.photo.bean.CpGroupStatistical">
-		select * from (select e.categaryName,e.sendCount,e.createTime,e.pictureCount,d.throughCount,d.throughPictureCount,e.signNewspaperNum,j.downloadNum  from (
-		select 
-			c.ID,
-			c.CREATE_TIME as createTime,
-			a.CATEGORY_ID as categary , 
-			b.CATEGORY_NAME as categaryName,  
-			COUNT(*) as sendCount ,
-			SUM(c.QBSTATUS) AS signNewspaperNum,
-			SUM(c.PICTURE_COUNT) as pictureCount 
-		from 
-			cp_pic_group c , cp_pic_group_category  a , cp_category b where
-		c.SOURCE_ID=0 and  c.DELETE_FLAG=0 and c.SITE_ID=1  and a.CATEGORY_ID=b.ID and a.GROUP_ID=c.ID   GROUP BY a.CATEGORY_ID )e
-		LEFT JOIN(
-		select
-			a.CATEGORY_ID as categary1, 
-			COUNT(*) as throughCount,
-			SUM(PICTURE_COUNT) as throughPictureCount 
-		from 
-			cp_pic_group_category  a , cp_category b ,cp_pic_group c 
-		where 
-			GROUP_STATUS=4	and	c.SOURCE_ID=0 and c.DELETE_FLAG=0 and c.SITE_ID=1 and c.GROUP_STATUS=4 and a.CATEGORY_ID=b.ID and a.GROUP_ID=c.ID GROUP BY a.CATEGORY_ID
-	)d on e.categary=d.categary1 
-		LEFT JOIN (
 		SELECT
-			i.PICTURE_GROUP_ID ,
-			count(*) AS downloadNum
-		FROM
-			cp_picture_downloadrecord i
-		GROUP BY
-			i.PICTURE_GROUP_ID) j on e.ID = j.PICTURE_GROUP_ID)g 
-	where 1=1 
-		<if test="startTime != null and endTime != null"> 
-  			and g.createTime BETWEEN #{startTime} and #{endTime}  			
-  		</if>
-		<if test="categaryName!=null">
-			and  g.categaryName LIKE CONCAT ('%', #{categaryName}, '%')
-		</if>
-		<if test='orderType!=null and orderType=="1"'>
-	   		order by e.sendCount desc
-	    </if>
-	    <if test='orderType!=null and orderType=="2"'>
-	   		order by d.throughCount desc
-	    </if>
-	    <if test='orderType!=null and orderType=="3"'>
-	   		order by e.signNewspaperNum desc
-	    </if>
+					a.CATEGORY_ID AS categary,
+					b.CATEGORY_NAME AS categaryName,
+					COUNT(1) AS sendCount,
+					SUM(c.PICTURE_COUNT) AS pictureCount,
+					sum(CASE  WHEN c.GROUP_STATUS = 4 THEN 1 ELSE 0 END) AS throughCount,
+					sum(CASE c.PICTURE_COUNT WHEN c.GROUP_STATUS = 4 THEN 1 ELSE 0 END) AS throughPictureCount,
+					SUM(c.QBSTATUS) AS signNewspaperNum,
+					SUM(c.downloadNum) AS downloadNum
+				FROM
+					(select e.ID ,d.downloadNum,PICTURE_COUNT,GROUP_STATUS,QBSTATUS,DELETE_FLAG,SOURCE_ID,SITE_ID,CREATE_TIME from cp_pic_group e left join (SELECT PICTURE_GROUP_ID ,count(1)  
+AS downloadNum FROM cp_picture_downloadrecord GROUP BY PICTURE_GROUP_ID) d on e.ID = d.PICTURE_GROUP_ID where  1=1 
+					<if test="startTime != null and endTime != null"> 
+						and e.CREATE_TIME BETWEEN #{startTime} and #{endTime}  			
+					</if>
+					) c,
+					cp_pic_group_category a,
+					cp_category b
+				WHERE
+					c.SOURCE_ID = 0
+				AND c.DELETE_FLAG = 0
+				AND c.SITE_ID = 1
+				AND a.CATEGORY_ID = b.ID
+				AND a.GROUP_ID = c.ID 
+				<if test="categaryName!=null">
+					and  b.CATEGORY_NAME  LIKE CONCAT ('%', #{categaryName}, '%')
+				</if>
+				GROUP BY
+					a.CATEGORY_ID
+				<if test='orderType!=null and orderType=="1"'>
+					order by sendCount desc
+				</if>
+				<if test='orderType!=null and orderType=="2"'>
+					order by throughCount desc
+				</if>
+				<if test='orderType!=null and orderType=="3"'>
+					order by signNewspaperNum desc
+				</if>
 	</select>
 	
 	<select id="groupStatisticalForAuthor" resultType="com.deepai.photo.bean.CpGroupStatistical">
-		select e.AUTHOR,e.sendCount,e.creator,e.pictureCount,d.throughCount,d.throughPictureCount,j.downloadNum,e.signNewspaperNum from (
 		SELECT
-		    c.ID,
 			c.AUTHOR,
 			c.AUTHOR_ID,
-			c.CREATOR as creator,
+			c.CREATOR AS creator,
 			c.CREATE_TIME,
 			COUNT(*) AS sendCount,
 			SUM(c.QBSTATUS) AS signNewspaperNum,
-			SUM(c.PICTURE_COUNT) AS pictureCount
+			SUM(c.PICTURE_COUNT) AS pictureCount,
+			sum(CASE  WHEN c.GROUP_STATUS = 4 THEN 1 ELSE 0 END) AS throughCount,
+			sum(CASE c.PICTURE_COUNT WHEN c.GROUP_STATUS = 4 THEN 1 ELSE 0 END) AS throughPictureCount,
+			SUM(c.downloadNum) AS downloadNum
 		FROM
-			cp_pic_group c
+			(select e.ID ,d.downloadNum,PICTURE_COUNT,GROUP_STATUS,QBSTATUS,DELETE_FLAG,SOURCE_ID,SITE_ID,CREATE_TIME,AUTHOR,AUTHOR_ID,CREATOR from cp_pic_group e left join (SELECT PICTURE_GROUP_ID ,count(1)  
+AS downloadNum FROM cp_picture_downloadrecord GROUP BY PICTURE_GROUP_ID) d on e.ID = d.PICTURE_GROUP_ID where 1=1 
+				<if test="startTime != null and endTime != null"> 
+					and e.CREATE_TIME BETWEEN #{startTime} and #{endTime}  			
+				</if>
+ 	) c
 		WHERE
 			c.SOURCE_ID = 0
 		AND c.DELETE_FLAG = 0
 		AND c.SITE_ID = 1
+		<if test='author!=null'>
+			and  c.AUTHOR  LIKE CONCAT ('%', #{author}, '%')
+		</if>
 		GROUP BY
 			c.AUTHOR
-		 )e 
-		LEFT JOIN
-		(
-		SELECT
-			AUTHOR,
-			AUTHOR_ID,
-			COUNT(*) AS throughCount,
-			SUM(PICTURE_COUNT) AS throughPictureCount
-		FROM
-			cp_pic_group
-		WHERE
-			GROUP_STATUS = 4
-		AND SOURCE_ID = 0
-		AND DELETE_FLAG = 0
-		AND SITE_ID = 1
-		GROUP BY
-				AUTHOR
-		) d ON e.AUTHOR = d.AUTHOR 
-		LEFT JOIN (
-		SELECT
-			i.PICTURE_GROUP_ID ,
-			count(*) AS downloadNum
-		FROM
-			cp_picture_downloadrecord i
-		GROUP BY
-			i.PICTURE_GROUP_ID) j on e.ID = j.PICTURE_GROUP_ID  
-		<where>
-			<if test="startTime != null and endTime != null"> 
-	  			 e.CREATE_TIME BETWEEN #{startTime} and #{endTime}  			
-	  		</if>
-	  		<if test="author!= null"> 
-	  			and e.AUTHOR like CONCAT ('%',#{author},'%')  			
-	  		</if>
-		</where>
-		<if test='orderType!=null and orderType=="1"'>
-	   		order by e.sendCount desc
-	    </if>
-	    <if test='orderType!=null and orderType=="2"'>
-	   		order by d.throughCount desc
-	    </if>
-	    <if test='orderType!=null and orderType=="3"'>
-	   		order by e.signNewspaperNum desc
-	    </if>
-		
+				<if test='orderType==null'>
+					order by sendCount desc
+				</if>
+				<if test='orderType!=null and orderType=="1"'>
+					order by sendCount desc
+				</if>
+				<if test='orderType!=null and orderType=="2"'>
+					order by throughCount desc
+				</if>
+				<if test='orderType!=null and orderType=="3"'>
+					order by signNewspaperNum desc
+				</if>
 	</select>
 	
 	
@@ -396,7 +365,122 @@ select * from (	  select * from (
 	   		order by k.throughCount desc
 	    </if>
 	</select>
+	<select id="groupStatisticalForPicDownload" resultType="com.deepai.photo.bean.CpGroupStatistical">
+			SELECT 
+				d.TURE_NAME as author,
+				sum(c.downloadNum) as downloadNum
+			FROM
+				(
+					SELECT
+						a.ID,
+						a.CREATE_TIME,
+						a.AUTHOR_ID,
+						b.downloadNum
+					FROM
+						cp_pic_group a
+					LEFT JOIN (
+						SELECT
+							i.PICTURE_GROUP_ID,
+							count(*) AS downloadNum
+						FROM
+							cp_picture_downloadrecord i
+						GROUP BY
+							i.PICTURE_GROUP_ID
+					) b ON a.ID = b.PICTURE_GROUP_ID 
+					where 1=1 
+					<if test="startTime != null and endTime != null"> 
+						 and  a.CREATE_TIME BETWEEN #{startTime} and #{endTime}  			
+					</if>
+				) c
+			LEFT JOIN cp_user d ON c.AUTHOR_ID = d.ID
+			WHERE
+				d.TURE_NAME != ''
+			<if test="author!=null">
+		   		and d.TURE_NAME LIKE CONCAT ('%', #{author}, '%')
+		   </if> 
+			GROUP BY
+				c.AUTHOR_ID
+			ORDER BY downloadNum desc
+	</select>
 	
-	
+	<select id="groupStatisticalForEditor" resultType="com.deepai.photo.bean.CpGroupStatistical">
+			SELECT
+				l.TURE_NAME as author,
+				m.firstSignNum,
+				m.secondSignNum,
+				m.thirdSignNum,
+				m.signNewspaperNum
+			FROM
+				(
+					SELECT
+						c.USER_NAME,c.TURE_NAME
+					FROM
+						cp_user c
+					LEFT JOIN cp_user_role d ON c.ID = d.USER_ID
+					WHERE
+						d.ROLE_ID = 2
+				) l
+			LEFT JOIN (
+				SELECT
+					e.OPERATE_USERNAME,
+					sum(
+						CASE
+						WHEN e.FLOW_TYPE = 1 THEN
+							1
+						ELSE
+							0
+						END
+					) AS firstSignNum,
+					sum(
+						CASE
+						WHEN e.FLOW_TYPE = 2 THEN
+							1
+						ELSE
+							0
+						END
+					) AS secondSignNum,
+					sum(
+						CASE
+						WHEN e.FLOW_TYPE = 3 THEN
+							1
+						ELSE
+							0
+						END
+					) AS thirdSignNum,
+					sum(
+						CASE
+						WHEN e.FLOW_TYPE = 19 THEN
+							1
+						ELSE
+							0
+						END
+					) AS signNewspaperNum
+				FROM
+					cp_pic_group a
+				LEFT JOIN cp_pic_group_process e ON a.ID = e.PICGROUP_ID
+				where 1=1 
+				<if test="startTime != null and endTime != null"> 
+					 and  a.CREATE_TIME BETWEEN #{startTime} and #{endTime}  			
+				</if> 
+				GROUP BY
+					OPERATE_USERNAME
+			) m ON l.USER_NAME = m.OPERATE_USERNAME
+			where 1=1 
+				<if test="author!=null">
+						and l.USER_NAME LIKE CONCAT ('%', #{author}, '%')
+				 </if>
+				<if test='orderType!=null and orderType=="1"'>
+					order by m.firstSignNum desc
+				</if>
+				<if test='orderType!=null and orderType=="2"'>
+					order by m.secondSignNum desc
+				</if>
+				<if test='orderType!=null and orderType=="3"'>
+					order by m.thirdSignNum desc
+				</if> 
+				<if test='orderType!=null and orderType=="4"'>
+					order by m.signNewsPaperNum desc
+				</if> 
+	</select>
 	
 </mapper>

@@ -1,30 +1,26 @@
-picDownContributeStatistics/**
+/**
  * Created by Sun on 2016/12/2.
  */
-adminModule.controller('webColumnContributeStatisticsCtrl', function ($scope, $cookies, req, md5, $state, $rootScope) {
+adminModule.controller('picDownloadContributeStatisticsCtrl', function ($scope, $cookies, req, md5, $state, $rootScope) {
     var vm = this;
     //初始化相关配置
 	function initSetting() {
 		//getContributorTableData(1,1);
 	}
+	initSetting();
 	
-	
-    
     /**
      * 获取投稿统计表格数据
      */
     function getContributorTableData(page,type) {
-        var searchUrl = "groupStatistical/groupStatisticalForWebSiteShowColumnList.do";
+        var searchUrl = "groupStatistical/groupStatisticalForPicDownloadList.do";
         var paramsObj = {
             page: page,
             rows: 10
         };
-        if (vm.categaryName) {
-            paramsObj['categaryName'] = vm.categaryName;
+        if (vm.author) {
+            paramsObj['author'] = vm.author;
         } 
-        if(vm.orderByCase){
-        	paramsObj['orderType'] = vm.orderByCase;
-        }
         if((vm.startTime&&!vm.endTime)||(!vm.startTime&&vm.endTime)){
         	layer.alert("开始时间和结束时间都不能为空！");
         	layer.close(vm.loadUpMs);
@@ -71,8 +67,6 @@ adminModule.controller('webColumnContributeStatisticsCtrl', function ($scope, $c
      * 点击搜索
      */
     vm.search = function () {
-
-    	
     	vm.loadUpMs = layer.load(1);
         getContributorTableData(1, 1);
     };

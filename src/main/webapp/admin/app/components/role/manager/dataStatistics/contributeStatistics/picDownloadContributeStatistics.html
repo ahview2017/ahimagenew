@@ -1,0 +1,48 @@
+<div class="user-manager-container">
+    <div>
+        <h4 class="c-common-title ng-isolate-scope">图片下载统计</h4>
+    </div>
+    <div>
+        <!--列表统计-->
+            <div class="c-user-table">
+                <div class="t-search-hd clear">
+                	<div class='downloaddata_search' style="width: 30%;">
+		            	<span class='downloaddata_search_left'>用户名称：</span>
+		            	<input type='text' ng-model='picDownloadContributeStatistics.author'>
+		            </div>   
+                    <div class='downloaddata_search_time' style="margin-left: 20px;">
+		            	<span class='downloaddata_search_time_left'>稿件上传时间：</span>
+		            	<input type="text" class="Wdate" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" datepicker ng-model='picDownloadContributeStatistics.startTime'/>
+		                <span>至</span>
+		                <input type="text" class="Wdate" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" datepicker ng-model='picDownloadContributeStatistics.endTime'/>
+		            </div>
+
+		            
+		             <span style="margin-right: 20px;" class='downloaddata_ri_right  downloaddata_search_btn' ng-click='picDownloadContributeStatistics.search()'>检索</span>
+                </div>
+                <div class="t-uinfo-bd">
+                    <div class="table-responsive">
+                        <table class="table table-bordered uInfo-table">
+                            <thead>
+                            <tr>
+                                <th class="uinfo-hd-th">用户名称</th>
+                                <th class="uinfo-hd-th">下载量</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="contributorItem in picDownloadContributeStatistics.contributorTableArray">
+                                <td>{{contributorItem.author}}</td>
+                                <td>{{contributorItem.downloadNum}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- 分页 -->
+                    <div class="flr pr15">
+                        <ul class="pagination" id="paginationCbId"></ul>
+                    </div>
+                </div>
+            </div>
+        
+    </div>
+</div>

@@ -347,6 +347,12 @@ adminModule.controller('managerCtrl',function($scope, $cookies, req, md5, $state
                 case 425:
                     $state.go('role.manager.webColumnContributeStatistics');
                     break;
+                case 426:
+                    $state.go('role.manager.picDownloadContributeStatistics');
+                    break;
+                case 427:
+                    $state.go('role.manager.editorContributeStatistics');
+                    break;
             }
         }
 

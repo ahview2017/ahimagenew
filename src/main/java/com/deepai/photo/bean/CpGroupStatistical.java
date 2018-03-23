@@ -20,6 +20,28 @@ public class CpGroupStatistical {
 	private String signNewspaperNum;//签报量
 	private String orderType;//排序类别
 	private String creator;//用户名
+	private String firstSignNum;//一审量
+	private String secondSignNum;//二审量
+	private String thirdSignNum;//三审量
+	public String getFirstSignNum() {
+		return firstSignNum;
+	}
+	public void setFirstSignNum(String firstSignNum) {
+		this.firstSignNum = firstSignNum;
+	}
+	public String getSecondSignNum() {
+		return secondSignNum;
+	}
+	public void setSecondSignNum(String secondSignNum) {
+		this.secondSignNum = secondSignNum;
+	}
+	public String getThirdSignNum() {
+		return thirdSignNum;
+	}
+	public void setThirdSignNum(String thirdSignNum) {
+		this.thirdSignNum = thirdSignNum;
+	}
+	
 	
 	public String getCreator() {
 		return creator;

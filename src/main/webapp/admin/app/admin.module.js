@@ -319,6 +319,13 @@ adminModule.config(function($stateProvider,$urlRouterProvider,$locationProvider)
             controller: 'contributeStatisticsCtrl as contributeStatistics'
         })
         
+        //管理员-图片下载统计	add by xiyunan@20180321
+        .state('role.manager.picDownloadContributeStatistics', {
+            url:'/picDownloadContributeStatistics',
+            templateUrl: 'admin/app/components/role/manager/dataStatistics/contributeStatistics/picDownloadContributeStatistics.html',
+            controller: 'picDownloadContributeStatisticsCtrl as picDownloadContributeStatistics'
+        })
+        
         //管理员-栏目稿件统计	add by xiyunan@20180321
         .state('role.manager.webColumnContributeStatistics', {
             url:'/webColumnContributeStatistics',
@@ -345,6 +352,14 @@ adminModule.config(function($stateProvider,$urlRouterProvider,$locationProvider)
             url:'/anhuiCityContributeStatistics',
             templateUrl: 'admin/app/components/role/manager/dataStatistics/contributeStatistics/anhuiCityContributeStatistics.html',
             controller: 'anhuiCityContributeStatisticsCtrl as anhuiCityContributeStatistics'
+        })
+        
+        
+         //管理员-地市稿件统计	add by xiyunan@20180320
+        .state('role.manager.editorContributeStatistics', {
+            url:'/editorContributeStatistics',
+            templateUrl: 'admin/app/components/role/manager/dataStatistics/contributeStatistics/editorContributeStatistics.html',
+            controller: 'editorContributeStatisticsCtrl as editorContributeStatistics'
         })
         
         

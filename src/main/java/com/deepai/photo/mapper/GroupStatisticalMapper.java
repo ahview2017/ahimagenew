@@ -30,4 +30,11 @@ public interface GroupStatisticalMapper {
 	public List<CpGroupStatistical> groupStatisticalForWebSiteShowColumn(CpGroupStatistical cpGroupStatistical);
 	
 	
+	public List<CpGroupStatistical> groupStatisticalForPicDownload(CpGroupStatistical cpGroupStatistical);
+
+	public List<CpGroupStatistical> groupStatisticalForEditor(CpGroupStatistical cpGroupStatistical);
+	
+	
+	
+	
 }

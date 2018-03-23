@@ -332,8 +332,6 @@ public class GroupStatisticalController {
 		try {
 			
 			PageHelper.startPage(request);
-			log.info("<<<<<<<<<<<<开始栏目稿件统计......");
-			log.info("<<<<<<<<<<<<栏目名称......"+cpGroupStatistical.getCategaryName());
 			List<CpGroupStatistical> list = groupStatisticalService.groupStatisticalForWebSiteShowColumn(cpGroupStatistical);
 			PageHelper.addPages(result, list);
 			result.setCode(CommonConstant.SUCCESSCODE);
@@ -349,6 +347,67 @@ public class GroupStatisticalController {
 		return result;
 	}
 	
+	/**
+	 * 图片下载统计
+	 * @author xiayunan
+	 * @date 2018年3月13日
+	 * @param request
+	 * @param response
+	 * @param cpGroupStatistical
+	 * @return
+	 */
+	@RequestMapping("groupStatisticalForPicDownloadList")
+	@ResponseBody
+	public Object groupStatisticalForPicDownloadList(HttpServletRequest request, HttpServletResponse response,CpGroupStatistical cpGroupStatistical) {
+		ResponseMessage result = new ResponseMessage();
+		try {
+			
+			PageHelper.startPage(request);
+			List<CpGroupStatistical> list = groupStatisticalService.groupStatisticalForPicDownload(cpGroupStatistical);
+			PageHelper.addPages(result, list);
+			result.setCode(CommonConstant.SUCCESSCODE);
+			result.setMsg(CommonConstant.SUCCESSSTRING);
+			result.setData(list);
+			PageHelper.addPagesAndTotal(result, list);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			log.error("不能显示图片下载统计，" + e1.getMessage());
+			result.setCode(CommonConstant.EXCEPTIONCODE);
+			result.setMsg(CommonConstant.EXCEPTIONMSG);
+		}
+		return result;
+	}
+	
+	/**
+	 * 编辑人员审核情况统计
+	 * @author xiayunan
+	 * @date 2018年3月22日
+	 * @param request
+	 * @param response
+	 * @param cpGroupStatistical
+	 * @return
+	 */
+	@RequestMapping("groupStatisticalForEditorList")
+	@ResponseBody
+	public Object groupStatisticalForEditorList(HttpServletRequest request, HttpServletResponse response,CpGroupStatistical cpGroupStatistical) {
+		ResponseMessage result = new ResponseMessage();
+		try {
+			
+			PageHelper.startPage(request);
+			List<CpGroupStatistical> list = groupStatisticalService.groupStatisticalForEditor(cpGroupStatistical);
+			PageHelper.addPages(result, list);
+			result.setCode(CommonConstant.SUCCESSCODE);
+			result.setMsg(CommonConstant.SUCCESSSTRING);
+			result.setData(list);
+			PageHelper.addPagesAndTotal(result, list);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			log.error("不能显示图片下载统计，" + e1.getMessage());
+			result.setCode(CommonConstant.EXCEPTIONCODE);
+			result.setMsg(CommonConstant.EXCEPTIONMSG);
+		}
+		return result;
+	}
 	
 	
 	

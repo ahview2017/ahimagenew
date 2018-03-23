@@ -107,6 +107,10 @@ INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`D
 INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(424,0,'地市统计稿件','地市统计稿件','groupStatistical/groupStatisticalForAnHuiCityList',NULL,0,'admin',now(),3,'',0);
 
 INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(425,0,'栏目统计稿件','栏目统计稿件','groupStatistical/groupStatisticalForWebSiteShowColumnList',NULL,0,'admin',now(),3,'',0);
+
+INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(426,0,'图片下载统计','图片下载统计','groupStatistical/groupStatisticalForPicDownloadList',NULL,0,'admin',now(),3,'',0);
+
+INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(427,0,'审核人员统计','图片下载统计','groupStatistical/groupStatisticalForEditorList',NULL,0,'admin',now(),3,'',0);
   
 
 

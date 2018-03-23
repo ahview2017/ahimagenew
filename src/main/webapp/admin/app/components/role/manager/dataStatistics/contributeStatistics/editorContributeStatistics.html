@@ -1,0 +1,63 @@
+<div class="user-manager-container">
+    <div>
+        <h4 class="c-common-title ng-isolate-scope">审核人员统计</h4>
+    </div>
+    <div>
+        <!--列表统计-->
+            <div class="c-user-table">
+                <div class="t-search-hd clear">
+                	<div class='downloaddata_search'>
+		            	<span class='downloaddata_search_left'>审核人员：</span>
+		            	<input type='text' ng-model='editorContributeStatistics.author'>
+		            </div>   
+                    <div class='downloaddata_search_time' style="margin-left: 20px;">
+		            	<span class='downloaddata_search_time_left'>稿件上传时间：</span>
+		            	<input type="text" class="Wdate" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" datepicker ng-model='editorContributeStatistics.startTime'/>
+		                <span>至</span>
+		                <input type="text" class="Wdate" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" datepicker ng-model='editorContributeStatistics.endTime'/>
+		            </div>
+		            <div class='downloaddata_search'>
+		            	<span class='downloaddata_search_left'>排序：</span>
+		            	<select ng-model='editorContributeStatistics.orderByCase'>
+		            		<option value=''>---请选择---</option>
+		            		<option value='1'>一审数量</option>
+		            		<option value='2'>二审数量</option>
+		            		<option value='3'>三审数量</option>
+		            		<option value='4'>签报数量</option>
+		            	</select>
+		            </div>
+		            
+		             <span class='downloaddata_ri_right  downloaddata_search_btn' ng-click='editorContributeStatistics.search()'>检索</span>
+                </div>
+                <div class="t-uinfo-bd">
+                    <div class="table-responsive">
+                        <table class="table table-bordered uInfo-table">
+                            <thead>
+                            <tr>
+                                <th class="uinfo-hd-th">审核人员</th>
+                                <th class="uinfo-hd-th">一审数量</th>
+                                <th class="uinfo-hd-th">二审数量</th>
+                                <th class="uinfo-hd-th">三审签发数量</th>
+                                <th class="uinfo-hd-th">签报数量</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="contributorItem in editorContributeStatistics.contributorTableArray">
+                            	<td>{{contributorItem.author}}</td>
+                                <td>{{contributorItem.firstSignNum}}</td>
+                                <td>{{contributorItem.secondSignNum}}</td>
+                                <td>{{contributorItem.thirdSignNum}}</td>
+                                <td>{{contributorItem.signNewspaperNum}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- 分页 -->
+                    <div class="flr pr15">
+                        <ul class="pagination" id="paginationCbId"></ul>
+                    </div>
+                </div>
+            </div>
+        
+    </div>
+</div>

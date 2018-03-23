@@ -79,6 +79,34 @@ public class GroupStatisticalService {
 		return groupStatisticalMapper.groupStatisticalForWebSiteShowColumn(cpGroupStatistical);
 	}
 	
+	/**
+	 * 网站图片下载统计
+	 * @author xiayunan
+	 * @date 2018年3月20日
+	 * @param cpGroupStatistical
+	 * @return
+	 */
+	public List<CpGroupStatistical> groupStatisticalForPicDownload(CpGroupStatistical cpGroupStatistical) {
+		return groupStatisticalMapper.groupStatisticalForPicDownload(cpGroupStatistical);
+	}
+	
+	
+	/**
+	 * 编辑审核情况统计
+	 * @author xiayunan
+	 * @date 2018年3月22日
+	 * @param cpGroupStatistical
+	 * @return
+	 */
+	public List<CpGroupStatistical> groupStatisticalForEditor(CpGroupStatistical cpGroupStatistical) {
+		return groupStatisticalMapper.groupStatisticalForEditor(cpGroupStatistical);
+	}
+	
+	
+	
+	
+	
+	
 	
 	
 	

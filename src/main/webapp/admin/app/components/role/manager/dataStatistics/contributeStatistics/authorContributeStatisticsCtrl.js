@@ -23,14 +23,13 @@ adminModule.controller('authorContributeStatisticsCtrl', function ($scope, $cook
         if(vm.orderByCase){
         	paramsObj['orderType'] = vm.orderByCase;
         }
-        if(vm.startTime&&vm.endTime){
-        	paramsObj['startTime'] = vm.startTime;
-        	paramsObj['endTime'] = vm.endTime;
-        }else{
-        	
+        if((vm.startTime&&!vm.endTime)||(!vm.startTime&&vm.endTime)){
         	layer.alert("开始时间和结束时间都不能为空！");
         	layer.close(vm.loadUpMs);
         	return;
+        }else if(vm.startTime&&vm.endTime){
+        	paramsObj['startTime'] = vm.startTime;
+        	paramsObj['endTime'] = vm.endTime;
         }
         req.post(searchUrl, paramsObj).success(function (resp) {
             if (resp.code == '211') {
