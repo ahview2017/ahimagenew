@@ -102,6 +102,19 @@ public class GroupStatisticalService {
 		return groupStatisticalMapper.groupStatisticalForEditor(cpGroupStatistical);
 	}
 	
+	/**
+	 * 用户投稿情况统计
+	 * @author xiayunan
+	 * @date 2018年3月22日
+	 * @param cpGroupStatistical
+	 * @return
+	 */
+	public List<CpGroupStatistical> groupStatisticalForUserList(CpGroupStatistical cpGroupStatistical) {
+		return groupStatisticalMapper.groupStatisticalForUser(cpGroupStatistical);
+	}
+	
+	
+	
 	
 	
 	

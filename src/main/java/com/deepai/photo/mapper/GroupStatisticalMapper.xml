@@ -483,4 +483,94 @@ select * from (	  select * from (
 				</if> 
 	</select>
 	
+	
+	<select id="groupStatisticalForUser" resultType="com.deepai.photo.bean.CpGroupStatistical">
+			SELECT
+				c.USER_NAME as author,
+				c.ROLE_NAME as roleName,
+				COUNT(*) AS sendCount,
+				SUM(c.QBSTATUS) AS signNewspaperNum,
+				SUM(c.PICTURE_COUNT) AS pictureCount,
+				sum(
+					CASE
+					WHEN c.GROUP_STATUS = 4 THEN
+						1
+					ELSE
+						0
+					END
+				) AS throughCount,
+				sum(
+					CASE c.PICTURE_COUNT
+					WHEN c.GROUP_STATUS = 4 THEN
+						1
+					ELSE
+						0
+					END
+				) AS throughPictureCount,
+				SUM(c.downloadNum) AS downloadNum
+			FROM
+				(
+					SELECT
+						e.ID,
+						f.USER_NAME,
+						f.ROLE_NAME,
+						d.downloadNum,
+						PICTURE_COUNT,
+						GROUP_STATUS,
+						QBSTATUS,
+						DELETE_FLAG,
+						e.SOURCE_ID,
+						e.SITE_ID,
+						e.CREATE_TIME,
+						e.AUTHOR,
+						e.AUTHOR_ID,
+						e.CREATOR
+					FROM
+						cp_pic_group e 
+					LEFT JOIN (select d.ID,d.USER_NAME,group_concat(d.ROLE_NAME) as ROLE_NAME from (
+			select a.ID,a.USER_NAME,c.ROLE_NAME from cp_user a LEFT JOIN cp_user_role b on a.ID = b.USER_ID  left join cp_role c on b.ROLE_ID = c.ID
+			) d group by d.USER_NAME) f 
+					on e.AUTHOR_ID = f.ID  
+					LEFT JOIN (
+						SELECT
+							PICTURE_GROUP_ID,
+							count(1) AS downloadNum
+						FROM
+							cp_picture_downloadrecord
+						GROUP BY
+							PICTURE_GROUP_ID
+					) d ON e.ID = d.PICTURE_GROUP_ID
+					where 1= 1 
+					<if test="startTime != null and endTime != null"> 
+						 and  e.CREATE_TIME BETWEEN #{startTime} and #{endTime}  			
+					</if>
+				) c
+			WHERE
+				c.SOURCE_ID = 0
+			AND c.DELETE_FLAG = 0
+			AND c.SITE_ID = 1
+			AND c.USER_NAME!=''
+			<if test="roleName!=null">
+					AND c.ROLE_NAME LIKE CONCAT ('%', #{roleName}, '%')
+			 </if>
+			 <if test="author!=null">
+					AND c.USER_NAME LIKE CONCAT ('%', #{author}, '%')
+			 </if>
+			  
+			GROUP BY
+				c.USER_NAME
+			<if test='orderType!=null and orderType=="1"'>
+		   		order by sendCount desc
+		    </if>
+		    <if test='orderType!=null and orderType=="2"'>
+		   		order by throughCount desc
+		    </if>
+		    <if test='orderType!=null and orderType=="3"'>
+		   		order by signNewspaperNum desc
+		    </if>
+	</select>
+	
+	
+	
+	
 </mapper>

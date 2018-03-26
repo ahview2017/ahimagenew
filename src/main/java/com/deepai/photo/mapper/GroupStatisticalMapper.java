@@ -34,6 +34,9 @@ public interface GroupStatisticalMapper {
 
 	public List<CpGroupStatistical> groupStatisticalForEditor(CpGroupStatistical cpGroupStatistical);
 	
+	public List<CpGroupStatistical> groupStatisticalForUser(CpGroupStatistical cpGroupStatistical);
+	
+	
 	
 	
 	

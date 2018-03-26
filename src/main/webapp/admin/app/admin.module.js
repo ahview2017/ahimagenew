@@ -362,6 +362,13 @@ adminModule.config(function($stateProvider,$urlRouterProvider,$locationProvider)
             controller: 'editorContributeStatisticsCtrl as editorContributeStatistics'
         })
         
+        //管理员-用户稿件统计	add by xiyunan@20180326
+        .state('role.manager.userContributeStatistics', {
+            url:'/userContributeStatistics',
+            templateUrl: 'admin/app/components/role/manager/dataStatistics/contributeStatistics/userContributeStatistics.html',
+            controller: 'userContributeStatisticsCtrl as userContributeStatistics'
+        })
+        
         
         //管理员-下载统计，今日下载---内部下载
         .state('role.manager.downloaddataStatistics', {

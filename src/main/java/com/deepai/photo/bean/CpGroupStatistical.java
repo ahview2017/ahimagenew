@@ -6,6 +6,7 @@ package com.deepai.photo.bean;
  */
 public class CpGroupStatistical {
 	private String author; // 作者
+	private String roleName; // 角色名
 	private Integer sendCount; // 投稿次数
 	private Integer pictureCount; // 图片数量
 	private Integer throughCount; // 投稿通过数量
@@ -23,6 +24,13 @@ public class CpGroupStatistical {
 	private String firstSignNum;//一审量
 	private String secondSignNum;//二审量
 	private String thirdSignNum;//三审量
+	
+	public String getRoleName() {
+		return roleName;
+	}
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
+	}
 	public String getFirstSignNum() {
 		return firstSignNum;
 	}

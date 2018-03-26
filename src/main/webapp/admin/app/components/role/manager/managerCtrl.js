@@ -353,6 +353,9 @@ adminModule.controller('managerCtrl',function($scope, $cookies, req, md5, $state
                 case 427:
                     $state.go('role.manager.editorContributeStatistics');
                     break;
+                case 428:
+                    $state.go('role.manager.userContributeStatistics');
+                    break;
             }
         }
 
