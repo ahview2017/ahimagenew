@@ -786,7 +786,7 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
     //保存 存为草稿箱
     vm.saveManuscript = function(){
     	valid_draftBoxInfo(function(){
-    		getPicDataParams();
+    		getDraftboxPicDataParams();
             vm.loadUpMs = layer.load(1);
             req_saveDraftBox();
         });
@@ -922,6 +922,25 @@ adminModule.controller('newManuscriptCtrl',function($scope, $cookies, req, md5, 
             })
         });
     }
+    
+    
+    //获取图片的相关参数
+    function getDraftboxPicDataParams(){
+        angular.forEach(vm.upMenuscriptPicArr,function(item,index){
+            vm.manuscriptPicData.push({
+                id: item.id + '',
+                people: vm.upMenuscriptPicArr[index].people || '',
+                keywords: vm.upMenuscriptPicArr[index].keywords || '',
+                authorId:  vm.authorId + '',
+                authorName: vm.upMenuscriptPicArr[index].authorName || '',
+                memo: vm.upMenuscriptPicArr[index].memo || '',
+                isCover: vm.upMenuscriptPicArr[index].isCover,
+                sortId: (index + 1) + '',
+                filmTime: vm.upMenuscriptPicArr[index].filmTime + ' 00:00:00'
+            })
+        });
+    }
+    
     //改变主图副图
     vm.changePicIsCover = function(isCover,index){
         if(isCover == '1'){

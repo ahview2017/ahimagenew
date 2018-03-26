@@ -337,6 +337,7 @@ public class GroupPicController {
 			Gson gson = new Gson();  
 			
 			List<CpPicture> pics = gson.fromJson(picData, new TypeToken<List<CpPicture>>(){}.getType());
+			
 //			if(pics==null||pics.size()==0){
 //				result.setCode(CommonConstant.FAILURECODE);
 //				result.setMsg("请上传图片");
