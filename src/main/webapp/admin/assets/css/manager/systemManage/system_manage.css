@@ -26,6 +26,56 @@
     margin-left: 34px;
     border: 0;
 }
+
+.user-del-btn{
+    width: 68px;
+    height: 30px;
+    line-height: 30px;
+    background: #F00C0C;
+    text-align: center;
+    color: #FFF;
+    border-radius: 16px;
+    margin-left: 34px;
+    border: 0;
+}
+
+.user-open-btn{
+    width: 68px;
+    height: 30px;
+    line-height: 30px;
+    background: #19F00C;
+    text-align: center;
+    color: #FFF;
+    border-radius: 16px;
+    margin-left: 34px;
+    border: 0;
+}
+
+.user-forbit-btn{
+    width: 68px;
+    height: 30px;
+    line-height: 30px;
+    background: #CA0CF0;
+    text-align: center;
+    color: #FFF;
+    border-radius: 16px;
+    margin-left: 34px;
+    border: 0;
+}
+
+.user-export-btn{
+    width: 68px;
+    height: 30px;
+    line-height: 30px;
+    background: #0CC0F0;
+    text-align: center;
+    color: #FFF;
+    border-radius: 16px;
+    margin-left: 34px;
+    border: 0;
+}
+
+
 .push-add-btn{
     width: 112px;
     height: 30px;

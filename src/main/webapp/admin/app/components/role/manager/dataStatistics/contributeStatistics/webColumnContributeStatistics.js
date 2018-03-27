@@ -1,4 +1,4 @@
-picDownContributeStatistics/**
+/**
  * Created by Sun on 2016/12/2.
  */
 adminModule.controller('webColumnContributeStatisticsCtrl', function ($scope, $cookies, req, md5, $state, $rootScope) {

@@ -2,6 +2,25 @@
 	<div class="c-common-titbox">
 		<role-common-tit value="{{userManage.reMyRoleName}}"></role-common-tit>
 	</div>
+	
+	<div class="contribute-tit clear">
+		<div class="active-slide-item fll" ng-class="{ 'active-slide-nav' : userManage.acitiveSlideTitForCategory == 1}" 
+             ng-click="userManage.chooseManuscriptType(1)">已开通
+		</div>
+		<div class="active-slide-item fll" ng-class="{ 'active-slide-nav' : userManage.acitiveSlideTitForCategory == 2}" 
+		     ng-hide="userManage.adminRoleId == 3" 
+             ng-click="userManage.chooseManuscriptType(2)">正申请
+		</div>
+		<div class="active-slide-item fll" ng-class="{ 'active-slide-nav' : userManage.acitiveSlideTitForCategory == 3}" 
+		     ng-hide="(userManage.adminRoleId == 2) || (userManage.adminRoleId == 3) || (userManage.adminRoleId == 4)" 
+             ng-click="userManage.chooseManuscriptType(3)">已删除
+		</div>
+		<div class="active-slide-item fll" ng-class="{ 'active-slide-nav' : userManage.acitiveSlideTitForCategory == 4}" 
+             ng-click="userManage.chooseManuscriptType(4)">已禁用
+		</div>
+	</div>
+	
+	
 	<div class="c-user-table">
 		<div class="t-search-hd clear">
 			<div class="user-hd-left fll">
@@ -10,9 +29,12 @@
 						   ng-click="userManage.onCheckAllClick()"/>
 					<span class="user-check-txt  cursor">全选</span>
 				</label>
-				<span class="dib cursor user-add-btn" ng-click="userManage.userAddModalShow('user-add-modal')">添加</span>
-				<span class="dib cursor user-add-btn role-del-btn" ng-click="userManage.onShowDeleteModelClick(0,null)">删除</span>
-				<span class="dib cursor user-add-btn" ng-click="userManage.userModalShow('user-export-modal')">导出</span>
+				<span class="dib cursor user-add-btn" ng-click="userManage.userAddModalShow('user-add-modal')" >添加</span>
+				<span class="dib cursor user-del-btn" ng-click="userManage.onChangeUserStatusModelClick(3)" ng-if="userManage.acitiveSlideTitForCategory ==1||userManage.acitiveSlideTitForCategory ==2||userManage.acitiveSlideTitForCategory ==4">删除</span>
+				<span class="dib cursor user-del-btn" ng-click="userManage.onShowDeleteModelClick(0,null)" ng-if="userManage.acitiveSlideTitForCategory ==3">彻底删除</span>
+				<span class="dib cursor user-open-btn " ng-click="userManage.onChangeUserStatusModelClick(1)" ng-if="userManage.acitiveSlideTitForCategory ==3||userManage.acitiveSlideTitForCategory ==2||userManage.acitiveSlideTitForCategory ==4">开通</span>
+				<span class="dib cursor user-forbit-btn" ng-click="userManage.onChangeUserStatusModelClick(4)" ng-if="userManage.acitiveSlideTitForCategory ==1">禁用</span>
+				<span class="dib cursor user-export-btn" ng-click="userManage.userModalShow('user-export-modal')">导出</span>
 			</div>
 			<div class="user-hd-right flr">
 				<!--用户管理需要搜索用户类型-->
@@ -2020,14 +2042,14 @@
 				</div>
 			</div>
 		</div>
-		<!--删除用户弹框-->
+		<!--彻底删除用户弹框-->
 		<div class="common-modal-style" id="userDelModalId" ng-mousemove="userManage.modalMove('del-modal-tit','userDelModalId')" style="display:none">
 			<div class="role-add-con">
 				<div id="del-modal-tit" class="role-add-tit">
-					删除提醒
+					彻底删除提醒
 				</div>
 				<div class="role-modal-con">
-					你确定要删除该用户吗？
+					你确定彻底删除该用户吗？
 				</div>
 				<div class="tac mt10">
 					<span class="dib cursor user-add-btn" ng-click="userManage.onDeleteUserDataClick()">确定</span>
@@ -2035,5 +2057,57 @@
 				</div>
 			</div>
 		</div>
+		
+		
+		<!--删除用户弹框-->
+		<div class="common-modal-style" id="userLogicallyDelModalId" ng-mousemove="userManage.modalMove('logically-del-modal-tit','userLogicallyDelModalId')" style="display:none">
+			<div class="role-add-con">
+				<div id="logically-del-modal-tit" class="role-add-tit">
+					删除提醒
+				</div>
+				<div class="role-modal-con">
+					您确定删除该用户吗？
+				</div>
+				<div class="tac mt10">
+					<span class="dib cursor user-add-btn" ng-click="userManage.onUpdateUserStatusClick(2)">确定</span>
+					<span class="dib cursor user-add-btn role-del-btn" ng-click="userManage.userModalHide('userLogicallyDelModalId')">取消</span>
+				</div>
+			</div>
+		</div>
+		
+		<!--禁用用户弹框-->
+		<div class="common-modal-style" id="userForbitModalId" ng-mousemove="userManage.modalMove('forbit-modal-tit','userForbitModalId')" style="display:none">
+			<div class="role-add-con">
+				<div id="forbit-modal-tit" class="role-add-tit">
+					禁用提醒
+				</div>
+				<div class="role-modal-con">
+					您确定禁用该用户吗？
+				</div>
+				<div class="tac mt10">
+					<span class="dib cursor user-add-btn" ng-click="userManage.onUpdateUserStatusClick(3)">确定</span>
+					<span class="dib cursor user-add-btn role-del-btn" ng-click="userManage.userModalHide('userForbitModalId')">取消</span>
+				</div>
+			</div>
+		</div>
+		
+		<!--开通用户弹框-->
+		<div class="common-modal-style" id="userOpenModalId" ng-mousemove="userManage.modalMove('open-modal-tit','userOpenModalId')" style="display:none">
+			<div class="role-add-con">
+				<div id="open-modal-tit" class="role-add-tit">
+					开通提醒
+				</div>
+				<div class="role-modal-con">
+					您确定开通该用户吗？
+				</div>
+				<div class="tac mt10">
+					<span class="dib cursor user-add-btn" ng-click="userManage.onUpdateUserStatusClick(0)">确定</span>
+					<span class="dib cursor user-add-btn role-del-btn" ng-click="userManage.userModalHide('userOpenModalId')">取消</span>
+				</div>
+			</div>
+		</div>
+		
+		
+		
 	</div>
 </div>

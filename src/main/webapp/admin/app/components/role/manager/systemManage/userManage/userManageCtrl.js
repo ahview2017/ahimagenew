@@ -116,6 +116,9 @@ adminModule.controller('userManageCtrl', function($scope, $cookies, req, md5, $s
 	function initSetting() {
 		//默认激活的导航项为全部稿件
 		vm.acitiveSlideTit = 1;
+		vm.checkedDataParamsId = "";
+		vm.checkedDataParamsArr = [];
+		vm.acitiveSlideTitForCategory = 1;
 		//是否允许下载数组
 		vm.editDownIsAgreeArr = [{
 				name: '允许',
@@ -170,12 +173,14 @@ adminModule.controller('userManageCtrl', function($scope, $cookies, req, md5, $s
 		}
 		if(vm.reMyRoleId == 2) {
 			vm.isReMyRoleIdFlag = true;
-			vm.reMyRoleName = "摄影师管理";
+			//vm.reMyRoleName = "摄影师管理";
+			vm.reMyRoleName = "用户管理";
 
 		}
 		if(vm.reMyRoleId == 4) {
 			vm.isReMyRoleIdFlag = true;
-			vm.reMyRoleName = "订户管理";
+			//vm.reMyRoleName = "订户管理";
+			vm.reMyRoleName = "用户管理";
 		}
 		//检索标示
 		vm.searchType = 0;
@@ -206,12 +211,34 @@ adminModule.controller('userManageCtrl', function($scope, $cookies, req, md5, $s
 	function init() {
 		initSetting();
 		getDownLevelList();
-		getUserManageData(vm.isReMyRoleIdFlag, vm.searchType, false, vm.pagination.current, "");
+//		getUserManageData(vm.isReMyRoleIdFlag, vm.searchType,false,vm.pagination.current, "");
+		getActiveUserManageData(vm.isReMyRoleIdFlag, vm.searchType,vm.pagination.current,false);
 		getRoleList();
 		getRoleOption();
 	}
 
 	init();
+	
+	
+	
+	//选择激活的导航项
+	vm.chooseManuscriptType = function(acitiveSlideTit) {
+		vm.acitiveSlideTitForCategory = acitiveSlideTit;
+		//默认当前页1
+		vm.pagination.current = 1;
+		//站内信总条数
+//		vm.msgList_total = 0;
+//		//电子邮件总条数
+//		vm.msgEailList_total = 0;
+//		//网站留言总条数
+//		vm.msgNetList_total = 0;
+//		//网站公告总条数
+//		vm.siteNoticeList_total = 0;
+//		//手机短信总条数
+//		vm.SMSList_total = 0;
+		getActiveUserManageData(vm.isReMyRoleIdFlag, vm.searchType,vm.pagination.current,false);
+		
+	};
 
 	function getRoleOption() {
 		req.post("roleCtro/getRoleByQuery.do", {
@@ -309,7 +336,7 @@ adminModule.controller('userManageCtrl', function($scope, $cookies, req, md5, $s
 	});
 
 	/**
-	 * 点击删除
+	 * 点击彻底删除
 	 */
 	vm.deleteDataParamsId = "";
 	vm.onShowDeleteModelClick = function(deleteType, mineDeleteId) {
@@ -332,6 +359,40 @@ adminModule.controller('userManageCtrl', function($scope, $cookies, req, md5, $s
 			}
 		}
 	};
+	
+	/**
+	 * add by xiayunan@20180327
+	 * 修改用户状态
+	 */
+	vm.onChangeUserStatusModelClick = function(changedStatus) {
+		var paramsId = "";
+		for(var c = 0; c < vm.checkBoxArray.length; c++) {
+			var checkBoxItem = vm.checkBoxArray[c];
+			if(checkBoxItem != false) {
+				paramsId += checkBoxItem + ",";
+			}
+		}
+		if(paramsId != "") {
+			vm.checkedDataParamsId = paramsId.substr(0, paramsId.length - 1);
+			switch(changedStatus){
+				case 1:
+					vm.userModalShow('userOpenModalId');
+					break;
+				case 3:
+					vm.userModalShow('userLogicallyDelModalId');
+					break;
+				case 4:
+					vm.userModalShow('userForbitModalId');
+					break;
+			}
+			
+			
+		} else {
+			layer.alert("请选择要删除的用户");
+		}
+	};
+	
+	
 
 	/**
 	 * 删除用户
@@ -344,11 +405,84 @@ adminModule.controller('userManageCtrl', function($scope, $cookies, req, md5, $s
 			if(resp.code == '211') {
 				layer.msg('删除成功');
 				vm.userModalHide('userDelModalId');
-				getUserManageData(vm.isReMyRoleIdFlag, vm.searchType, false, 1, "");
+				//edit by xiayunan@20180327
+				//getUserManageData(vm.isReMyRoleIdFlag, vm.searchType, false, 1, "");
+				getActiveUserManageData(vm.isReMyRoleIdFlag, vm.searchType,vm.pagination.current,false);
 			} else if(resp.msg != '未登录') {
 				layer.alert(resp.msg);
 			}
 		});
+	};
+	
+	/**
+	 * 更新用户状态
+	 */
+	vm.onUpdateUserStatusClick = function(status) {
+		if(vm.checkedDataParamsId){
+			if(vm.checkedDataParamsId.indexOf(",")!=-1){
+				vm.checkedDataParamsArr = vm.checkedDataParamsId.split(",");
+				if(vm.checkedDataParamsArr.length>0){
+					for(var i=0;i<vm.checkedDataParamsArr.length;i++){
+						$.ajaxSettings.async = false;  
+						$.post('userCtro/updateUser.do', {
+							id: vm.checkedDataParamsArr[i],
+							userStatus: status,
+							userToken: vm.userToken,
+						}).success(function(resp) {
+							if(resp.code == '211') {
+								switch(status){
+									case 0:
+										vm.userModalHide('userOpenModalId');
+										break;
+									case 2:
+										vm.userModalHide('userLogicallyDelModalId');
+										break;
+									case 3:
+										vm.userModalHide('userForbitModalId');
+										break;
+								}
+								if(i==vm.checkedDataParamsArr.length-1){
+									layer.alert("修改成功！");
+								}
+								getActiveUserManageData(vm.isReMyRoleIdFlag, vm.searchType,vm.pagination.current,false);
+							} else if(resp.msg != '未登录') {
+								layer.alert(resp.msg);
+							}
+						});
+					}
+					$.ajaxSettings.async = true;  
+				}
+			}else{
+				console.log("vm.checkedDataParamsId:"+vm.checkedDataParamsId);
+				req.post('userCtro/updateUser.do', {
+					id: vm.checkedDataParamsId,
+					userStatus: status,
+					userToken: vm.userToken,
+				}).success(function(resp) {
+					if(resp.code == '211') {
+						switch(status){
+							case 0:
+								vm.userModalHide('userOpenModalId');
+								break;
+							case 2:
+								vm.userModalHide('userLogicallyDelModalId');
+								break;
+							case 3:
+								vm.userModalHide('userForbitModalId');
+								break;
+						}
+						layer.alert("修改成功！");
+						getActiveUserManageData(vm.isReMyRoleIdFlag, vm.searchType,vm.pagination.current,false);
+					} else if(resp.msg != '未登录') {
+						layer.alert(resp.msg);
+					}
+				});
+				
+			}
+			
+			
+		}
+		
 	};
 
 	/**
@@ -466,6 +600,7 @@ adminModule.controller('userManageCtrl', function($scope, $cookies, req, md5, $s
 			userInfo: downloadStr,
 			userToken: vm.userToken
 		};
+		
 		if(isSearch == 1) {
 			paramsObj['userName'] = vm.search.userName;
 			paramsObj['userId'] = vm.search.userId;
@@ -569,6 +704,80 @@ adminModule.controller('userManageCtrl', function($scope, $cookies, req, md5, $s
 			});
 		}
 	}
+	
+	
+	
+	/**
+	 * 获取用户数据
+	 * @author xiayunan
+	 * @date 2018年3月26日
+	 * @param roleShowFlag 角色信息
+	 * @param isSearch 检索类型
+	 * @param isDownload 是否下载
+	 * @param pageNumber 页数
+	 * @param downloadStr 下载字符串
+	 */
+	function getActiveUserManageData(roleShowFlag, isSearch, pageNumber, downloadStr) {
+		var searchUrl = "userCtro/getUserByQuery.do";
+		var paramsObj = {
+			page: pageNumber,
+			rows: vm.selPageRows,
+			userInfo: downloadStr,
+			userToken: vm.userToken
+		};
+		
+		if(roleShowFlag) {
+			//userRightId为用户权限id,用户管理:206,摄影师：276，订户管理：277
+			if(vm.userRightId == 276) {
+				//当摄影师管理下搜索的是摄影师
+				//paramsObj['roleId'] = 3;
+				paramsObj['roleId'] = 98;//add by xiayunan@20171110  摄影师管理下搜索的是签约摄影家
+				paramsObj['userStatus'] = 0;//摄影师管理下搜索的为用户状态为已开通的摄影名家和艺术家
+				paramsObj['orderTime'] = 2;
+			}
+			if(vm.userRightId == 277) {
+				//当订户管理时搜索的订户
+				paramsObj['roleId'] = 5;
+			}
+		}
+		switch(vm.acitiveSlideTitForCategory){
+			case 1:
+				paramsObj['userStatus'] = 0;
+				break;
+			case 2:
+				paramsObj['userStatus'] = 1;
+				break;
+			case 3:
+				paramsObj['userStatus'] = 2;
+				break;
+			case 4:
+				paramsObj['userStatus'] = 3;
+				break;
+		}
+		
+		req.post(searchUrl, paramsObj).success(function(resp) {
+			if(resp.code == '211') {
+				vm.userManageArray = resp.data;
+				$rootScope.user_namecolor = vm.userManageArray; //设置摄影师被禁用时样式
+				vm.userList_total = resp.other;
+				vm.pagination.current = pageNumber;
+				vm.totalPages = resp.page;
+				if(isSearch == 1) {
+					vm.searchType = 1;
+					modalOperate.modalHide('user-search-modal');
+				} else if(isSearch == 2) {
+					vm.searchType = 2;
+				} else {
+					vm.searchType = 0;
+				}
+			} else if(resp.msg != '未登录') {
+				layer.alert(resp.msg);
+			}
+		});
+	}
+	
+	
+	
 
 	/**
 	 * 格式化时间
@@ -1429,7 +1638,8 @@ adminModule.controller('userManageCtrl', function($scope, $cookies, req, md5, $s
 				$('#update-uinfo-save-btn').prop('disabled', false);
 				layer.alert('编辑用户成功');	
 				modalOperate.modalHide('user-info-modal');
-				getUserManageData(vm.isReMyRoleIdFlag, vm.searchType, false, vm.pagination.current, "");
+				//getUserManageData(vm.isReMyRoleIdFlag, vm.searchType, false, vm.pagination.current, "");
+				getActiveUserManageData(vm.isReMyRoleIdFlag, vm.searchType,vm.pagination.current,false);
 			    vm.editUserTypeArray = [];
 			    vm.editdirectionstr='';
 			} else if(resp.msg != '未登录') {
