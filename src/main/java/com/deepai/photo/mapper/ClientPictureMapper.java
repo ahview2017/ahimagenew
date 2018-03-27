@@ -42,4 +42,7 @@ public interface ClientPictureMapper {
 	public List<CpPictureDownloadrecord> downloadrecordByQuery(CpPictureDownloadrecord cpPictureDownloadrecord);
 	//删除
 	public void delete(int id); 
+	
+	public Map<String,Object> selectDatabaseGroupsCountAndPicCount()throws Exception;
+	
 }

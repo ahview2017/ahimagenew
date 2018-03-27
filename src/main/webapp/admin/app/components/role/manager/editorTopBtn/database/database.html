@@ -1,6 +1,15 @@
 <div class="user-manager-container" id='manager-containers'>
 	<div class="oH edt-dbTit bdn">
 		<role-common-tit value="资料库" class="fll"></role-common-tit>
+		
+		<div style="margin: 4px 50px;">
+			<span style="margin-left: 20px;font-size: 16px;">共有稿件</span>
+			<span style="font-size: 16px;color:red;">{{database.groupCount}}</span>
+			<span style="font-size: 16px;">篇，图片</span>
+			<span style="font-size: 16px;color:red;">{{database.picCount}}</span>
+			<span style="font-size: 16px;">张</span>
+		</div>
+		
 		<div class="user-hd-right flr">
 			<input class="user-search-input" placeholder="可查询稿件ID、标题、作者名"
 					 ng-model="database.searchDataModel" />

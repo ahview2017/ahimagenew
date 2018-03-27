@@ -113,6 +113,8 @@ INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`D
 INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(427,0,'审核人员统计','图片下载统计','groupStatistical/groupStatisticalForEditorList',NULL,0,'admin',now(),3,'',0);
 
 INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(428,0,'用户统计稿件','用户统计稿件','groupStatistical/groupStatisticalForUserList',NULL,0,'admin',now(),3,'',0);
+
+INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(429,1,'资料库搜索稿件列表','资料库搜索稿件列表','groupPicCtro/getDatabaseGroupsCountAndPicCount',245,0,'admin',now(),NULL,'',0);
   
 
 

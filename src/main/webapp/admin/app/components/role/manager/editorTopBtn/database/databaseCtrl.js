@@ -22,6 +22,9 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 		vm.search = {
 			priceType: '0'
 		};
+		
+		vm.groupCount = 0;
+		vm.picCount = 0;
 
 		/**
 		 * 栏目编辑选择稿件
@@ -106,9 +109,26 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 			getSignGroups(2, 1760, 1, 0, false);//列表方式展示 edit by hexx
 			getSignGroups(2, 1760, 1, 1, false);
 		}
+		getDatebaseGroupAndPicCount();
 	}
 
 	init();
+	
+	
+	
+	//获取Mas视频基础URL add by xiayunan 20170907
+	function getDatebaseGroupAndPicCount(){
+		req.get('groupPicCtro/getDatabaseGroupsCountAndPicCount.do').success(function(resp) {
+			if(resp.code == '211') {
+				vm.groupCount = resp.data.groupCount;
+				vm.picCount = resp.data.picCount;
+			}else if(resp.msg != '未登录') {
+				layer.alert(resp.msg);
+			}
+		});
+	}
+	
+	
 	
 	/**
 	 * 添加回车检索 add by xiayunan@20180305

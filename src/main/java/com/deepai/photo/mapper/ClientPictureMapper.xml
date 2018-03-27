@@ -466,6 +466,12 @@
   	SELECT o.ID detailId,o.ORDER_NO,o.PIC_ID pid,o.FILENAME,o.GROUP_ID from cp_order_detail o where o.ORDER_ID=#{orderId}
   </select>
   
+  <!-- 查询资料库总稿件数以及图片数 add by xiayunan@20180327 -->
+  <select id="selectDatabaseGroupsCountAndPicCount"  resultType="map">
+      select count(*) as groupCount,SUM(PICTURE_COUNT) as picCount from cp_pic_group where  SOURCE_ID=0 and DELETE_FLAG=0 and SITE_ID=1 and GROUP_STATUS=4 ;
+  </select>
+  
+  
   <!-- 查询我下载的图片 -->
   <select id="selectMyDownPics" parameterType="map" resultType="map">
     SELECT d.ID,d.DOWNLOAD_TIME,if(IFNULL(p.AUTHOR_NAME,'')='',g.AUTHOR,p.AUTHOR_NAME) AUTHOR,

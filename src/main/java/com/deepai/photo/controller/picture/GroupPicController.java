@@ -3382,6 +3382,35 @@ public class GroupPicController {
 		}
 		return result;
 	}
+	
+	
+	/**
+	 * 获取资料库稿件数以及图片数
+	 * @param request
+	 * @param sginId
+	 * @param limit
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/getDatabaseGroupsCountAndPicCount")
+	public Object getDatabaseGroupsCountAndPicCount(HttpServletRequest request){
+		ResponseMessage result=new ResponseMessage();
+		try {
+			Map<String,Object> param=clientPictureMapper.selectDatabaseGroupsCountAndPicCount();
+			result.setCode(CommonConstant.SUCCESSCODE);
+			result.setMsg(CommonConstant.SUCCESSSTRING);
+			result.setData(param);
+		} catch (InvalidHttpArgumentException e) {
+			result.setCode(e.getCode());
+			result.setMsg(e.getMsg());
+		}catch(Exception e1){
+			e1.printStackTrace();
+			log.error("查询资料库总稿件数，"+e1.getMessage());
+			result.setCode(CommonConstant.EXCEPTIONCODE);
+			result.setMsg(CommonConstant.EXCEPTIONMSG);
+		}
+		return result;
+	}
     
 	
 	
