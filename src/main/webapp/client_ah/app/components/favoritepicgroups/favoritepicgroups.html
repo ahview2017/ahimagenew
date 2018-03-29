@@ -1,0 +1,42 @@
+<div class="gailan_content">
+        <div class="gailan_title">
+            <div class="title_box">
+                <span>
+                	我的收藏
+                </span>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="gailan_mainPic">
+                <ul>
+                    <li dir-paginate="item in favoritepicgroups.getMoreGroupsList | itemsPerPage: favoritepicgroups.itemsPerPage"
+                     total-items="favoritepicgroups.favoritepicgroups_total"
+                     current-page="favoritepicgroups.pagination.current">
+                        <a ui-sref="root.newDetailList({groupId: item.GROUPID})" target="_blank">
+							<img ng-src="{{item.filePath}}"></a><!--width:285px;max-height:179px-->
+                        <p><a title="{{item.TITLE}}（{{item.PICTURE_COUNT}}张）" href="">{{item.TITLE}}（{{item.PICTURE_COUNT}}张）</a></p>
+                    </li>
+                </ul>
+        </div>
+
+        <div class="gailan_curpage_bottom clear">
+                <div class="photo-record-page left">
+                    <span>共找到</span>
+                    <span class="color_red ng-binding">{{favoritepicgroups.favoritepicgroups_total}}</span>
+                    <span>条记录</span>
+                </div>
+                <div class="photo-now-page left">
+                    <span>第 </span>
+                    <span class="ng-binding">{{favoritepicgroups.pagination.current}}</span>
+                    <span>/</span>
+                    <span class="ng-binding">{{favoritepicgroups.totalPages}}</span>
+                    <span>页</span>
+                </div>
+                <div class="photo-jump-page right">
+					<dir-pagination-controls on-page-change="favoritepicgroups.pageChanged(newPageNumber)"
+						template-url="client_ah/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+					</dir-pagination-controls>
+                </div>
+            </div>
+    </div>
+	<script id="_trs_ta_js" src="//ta.trs.cn/c/js/ta.js?mpid=1485" async="async" defer="defer"></script>

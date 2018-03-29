@@ -66,6 +66,17 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             }
         })
         
+        //我的收藏
+        .state('root.favoritepicgroups', {
+            url:'/favoritepicgroups',
+            views:{
+                'main@':{
+                    templateUrl: 'client_ah/app/components/favoritepicgroups/favoritepicgroups.html',
+                    controller: 'favoritepicgroupsCtrl as favoritepicgroups'
+                }
+            }
+        })
+        
         
         //摄影名家列表页
         .state('root.photographerList', {
@@ -122,6 +133,8 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
                 }
             }
         })
+        
+         
         
         
         //活动报道

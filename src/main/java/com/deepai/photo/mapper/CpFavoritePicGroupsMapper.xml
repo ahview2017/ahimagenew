@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deepai.photo.mapper.CpFavoritePicGroupsMapper" >
+	<resultMap id="CpFavoritePicGroups" type="com.deepai.photo.bean.CpFavoritePicGroups" >
+	    <id column="ID" property="id" jdbcType="INTEGER" />
+	    <result column="CRTIME" property="crtime" jdbcType="TIMESTAMP" />
+	    <result column="USERID" property="userId" jdbcType="INTEGER" />
+	    <result column="GROUPID" property="groupId" jdbcType="INTEGER" />
+	    <result column="STATUS" property="status" jdbcType="INTEGER" />
+	    <result column="APPEND" property="append" jdbcType="VARCHAR" />
+ 	 </resultMap>
+  	 <sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	 <!-- 插入稿件点赞记录-->
+	 <insert id="insertSelective" parameterType="com.deepai.photo.bean.CpFavoritePicGroups">
+			<selectKey resultType="java.lang.Integer" keyProperty="id"
+				order="AFTER">
+				SELECT LAST_INSERT_ID()
+			</selectKey>
+			insert into cp_favorite_pic_group
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+				<if test="crtime != null">
+					CRTIME,
+				</if>
+				<if test="userId != null">
+					USERID,
+				</if>
+				<if test="groupId != null">
+					GROUPID,
+				</if>
+				<if test="status != null">
+					STATUS,
+				</if>
+				<if test="append != null">
+					APPEND,
+				</if>
+			</trim>
+			<trim prefix="values (" suffix=")" suffixOverrides=",">
+				<if test="crtime != null">
+					#{crtime,jdbcType=TIMESTAMP},
+				</if>
+				<if test="userId != null">
+					#{userId,jdbcType=INTEGER},
+				</if>
+				<if test="groupId != null">
+					#{groupId,jdbcType=INTEGER},
+				</if>
+				<if test="status != null">
+					#{status,jdbcType=INTEGER},
+				</if>
+				<if test="append != null">
+					#{append,jdbcType=VARCHAR},
+				</if>
+			</trim>
+	  </insert>
+  
+	  
+	  <select id="getFavoriteCountByUserIdAndGroupId" parameterType="com.deepai.photo.bean.CpFavoritePicGroups"  resultType="com.deepai.photo.bean.CpFavoritePicGroups">
+	  	select * from cp_favorite_pic_group 
+	  		where 1=1
+	  		<if test="groupId !=null">
+	  			and GROUPID =#{groupId} 
+	  		</if>
+	  		<if test="userId !=null">
+	  			and USERID =#{userId} 
+	  		</if>
+	  </select>
+	  
+	  
+	  <!-- 更改当前稿件收藏状态-->
+	  <update id="updateFavoritePicGroupsStatus" parameterType="com.deepai.photo.bean.CpFavoritePicGroups">
+	  	update cp_favorite_pic_group set 
+	  	<if test="status!=null">
+  			 STATUS =#{status} 
+  		</if>
+	  	where 1=1 
+	  		<if test="groupId !=null">
+	  			and GROUPID =#{groupId} 
+	  		</if>
+	  		<if test="userId !=null">
+	  			and USERID =#{userId} 
+	  		</if>
+	  </update> 
+	  
+	  <!-- 查询我的稿件 -->
+	  <select id="getFavoriteCountByUserId" resultType="map" parameterType="com.deepai.photo.bean.CpFavoritePicGroups"  >
+	  	SELECT
+			a.GROUPID,a.USERID,a.`STATUS` as STATUS,b.TITLE,b.PICTURE_COUNT,c.FILENAME 
+		FROM
+			cp_favorite_pic_group a
+		LEFT JOIN cp_pic_group b ON a.GROUPID = b.ID
+		LEFT JOIN cp_picture c ON b.COVER_PICTURE_ID = c.ID
+		WHERE 1=1 and STATUS = 0 
+			<if test="userId !=null">
+	  			and USERID =#{userId} 
+	  		</if>
+	  </select>
+</mapper>

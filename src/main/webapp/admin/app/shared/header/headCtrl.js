@@ -43,7 +43,7 @@ adminModule.controller('headCtrl',function($translate, $scope, $cookies, req, md
         getUserName();
         req_changeUserRole(function(){
             getAccessList();
-            req_getWaitMsNum();
+            // req_getWaitMsNum();//add by xiayunan@20180328 不获取待发稿件数量，提高速度
         });
         req_getSendMsg();
     }
@@ -115,7 +115,7 @@ adminModule.controller('headCtrl',function($translate, $scope, $cookies, req, md
         vm.adminRoleName = $cookies.get('admin_roleName');
         req_changeUserRole(function(){
             getAccessList();
-            req_getWaitMsNum();
+           // req_getWaitMsNum();//add by xiayunan@20180328 不获取待发稿件数量，提高速度
         });
     }
     //绑定页面单击事件，关闭角色切换的div

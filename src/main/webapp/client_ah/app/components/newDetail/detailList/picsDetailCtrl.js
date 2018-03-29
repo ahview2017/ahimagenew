@@ -24,6 +24,9 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
         //是否点过赞
         vm.isThumbsUp = false;
         
+        //是否收藏
+        vm.isCollect = false;
+        
         //是否显示购物车
         vm.showStatus = 0;
         
@@ -34,6 +37,7 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
         
         
         getMasBaseUrl();
+        showCollectStatus();
     }
 
     
@@ -41,6 +45,37 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
     	saveGroupPicThumbsUp();
     };
 
+    
+    /**
+     * 稿件收藏 add by xiayunan@20180329
+     */
+    vm.collectGroup = function(){
+    	req.post('favoriteGroupPics/addFavoriteGroupPics.do', {
+            groupId: vm.groupId,
+         }).success(function (resp) {
+             if(resp.code == '529') {
+	           	 layer.alert("收藏成功！");
+	           	 vm.isCollect = true;
+             }else if(resp.code == '528'){
+	           	 layer.alert("取消收藏成功！");
+	           	vm.isCollect = false;
+             }else if(resp.code == '520'){
+                 layer.alert(resp.msg);
+             }
+         });
+    };
+    
+    function showCollectStatus(){
+    	req.post('favoriteGroupPics/selectFavoriteCollectStatus.do', {
+            groupId: vm.groupId,
+         }).success(function (resp) {
+             if(resp.code == '211') {
+	           	 if(resp.data.flag =='0'){
+	           		 vm.isCollect = true;
+	           	 }
+             }
+         });
+    }
 
 
     
@@ -92,7 +127,6 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
             if (resp.code == '211') {
                 vm.clientPictureDetail = resp.data;
                 vm.clientPictureDetail.pictureCount = vm.clientPictureDetail.pics.length; 
-                console.log("vm.clientPictureDetail.pics.length:"+vm.clientPictureDetail.pics.length);
                 vm.groupKeyWords = resp.data.keywords;
 				var videoId = resp.data.videoId;
 				vm.videoId = videoId;

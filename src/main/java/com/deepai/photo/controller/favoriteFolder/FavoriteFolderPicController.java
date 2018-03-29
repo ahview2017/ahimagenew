@@ -1,6 +1,5 @@
 package com.deepai.photo.controller.favoriteFolder;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.deepai.photo.bean.CpFavoriteFolderPic;
-import com.deepai.photo.bean.CpLanmu;
-import com.deepai.photo.bean.CpTopic;
 import com.deepai.photo.bean.CpUser;
 import com.deepai.photo.common.annotation.LogInfo;
 import com.deepai.photo.common.annotation.SkipAuthCheck;
@@ -25,7 +22,6 @@ import com.deepai.photo.common.constant.SysConfigConstant;
 import com.deepai.photo.common.pagehelper.PageHelper;
 import com.deepai.photo.common.pojo.ResponseMessage;
 import com.deepai.photo.common.util.SessionUtils;
-import com.deepai.photo.controller.admin.RightController;
 import com.deepai.photo.mapper.CpPicGroupMapper;
 import com.deepai.photo.service.admin.SysConfigService;
 import com.deepai.photo.service.favoriteFolder.FavoriteFolderPicService;

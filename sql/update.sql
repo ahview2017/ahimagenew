@@ -115,6 +115,16 @@ INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`D
 INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(428,0,'用户统计稿件','用户统计稿件','groupStatistical/groupStatisticalForUserList',NULL,0,'admin',now(),3,'',0);
 
 INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(429,1,'资料库搜索稿件列表','资料库搜索稿件列表','groupPicCtro/getDatabaseGroupsCountAndPicCount',245,0,'admin',now(),NULL,'',0);
+
+CREATE TABLE `cp_favorite_pic_group` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT COMMENT '稿件收藏ID',
+  `CRTIME` timestamp NULL DEFAULT NULL COMMENT '收藏时间',
+  `USERID` int(11) DEFAULT NULL COMMENT '用户ID',
+  `GROUPID` int(11) DEFAULT NULL COMMENT '稿件ID',
+  `STATUS` tinyint(4) DEFAULT '0' COMMENT '收藏状态，0：收藏，1：取消收藏',
+  `APPEND` varchar(255) DEFAULT NULL COMMENT '预留字段',
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='稿件收藏记录表';
   
 
 
