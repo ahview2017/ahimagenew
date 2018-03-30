@@ -106,17 +106,25 @@ public class FavoriteGroupPicsController {
 	 */
 	@ResponseBody
 	@RequestMapping("selectFavoriteCollectStatus")
+	@SkipAuthCheck
 	@SkipLoginCheck
 	public Object selectFavoriteCollectStatus(HttpServletRequest request,Integer groupId) {
 		ResponseMessage result=new ResponseMessage();
 		try {
 			CommonValidation.checkParamBlank(groupId+"", "稿件id");
 			CpUser user = SessionUtils.getUser(request);
+			Map<Object,Object> resultMap = new HashMap<Object,Object>();
+			if(user==null){
+				result.setCode(CommonConstant.SUCCESSCODE);
+				result.setMsg(CommonConstant.SUCCESSSTRING);
+				resultMap.put("flag", 1);
+				return resultMap;
+			}
 			CpFavoritePicGroups cpFavoritePicGroups = new CpFavoritePicGroups();
 			cpFavoritePicGroups.setGroupId(groupId);
 			cpFavoritePicGroups.setUserId(user.getId());
 			CpFavoritePicGroups qCpFavoritePicGroups = cpFavoritePicGroupsMapper.getFavoriteCountByUserIdAndGroupId(cpFavoritePicGroups);
-			Map<Object,Object> resultMap = new HashMap<Object,Object>();
+			
 			if(qCpFavoritePicGroups!=null){//如果已经有收藏记录，则更新收藏状态
 				int status = qCpFavoritePicGroups.getStatus();
 				if(status==0){
