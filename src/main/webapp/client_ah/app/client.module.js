@@ -160,7 +160,17 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             }
         })
         
-       
+         //安徽新闻奖
+        .state('root.ahxwj', {
+            url:'/ahxwj',
+            views:{
+                'main@':{
+                    templateUrl: 'client_ah/app/components/ahxwj/ahxwj.html',
+                    controller: 'ahxwjCtrl as ahxwj'
+                }
+            }
+        })
+        
          
         
         //详情列表页
