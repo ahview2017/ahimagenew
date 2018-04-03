@@ -89,6 +89,18 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             }
         })
         
+        
+        //安徽新闻奖获奖名单
+        .state('root.ahnewswinnerslist', {
+            url:'/ahnewswinnerslist',
+            views:{
+                'main@':{
+                    templateUrl: 'client_ah/app/components/ahnewswinnerslist/ahnewswinnerslist.html',
+                    controller: 'ahnewswinnerslistCtrl as ahnewswinnerslist'
+                }
+            }
+        })
+        
          //摄影名家详情页
         .state('root.photographerdetail', {
             url:'/photographerDetail/:userId?:sginId?',

@@ -1,0 +1,118 @@
+li{list-style: none;}
+*{margin: 0px; padding:0px;}
+.clear{
+	clear:both;
+}
+.section1120180402{
+	width: 1200px;
+	margin: 0 auto;
+}
+.section180402{
+	color: #666b6b;
+}
+.pingxuan20180402{
+	text-align: center;
+	
+	color: black;
+	margin-top: 30px;
+}
+.time180402{
+	font-size: 14px;
+	float: left;
+	margin-left: 76px;
+	margin-top: 40px;
+	color: #666b6b;
+}
+.fenxiang0402{
+	float: right;
+margin-top: 40px;
+}
+.gongshi20180402{
+	color: #0084cb;
+	text-align: center;
+}
+.gongshi20180402>h3{
+	font-size: 25px;
+	margin: 30px;
+}
+.yidengjiang20180402{
+	margin:0 auto;
+}
+.yidengjiang20180402>ul{
+	width: 1200px;
+	margin-top: 25px;
+
+}
+.tongyi20180402>li{
+	float: left;
+	border:1px solid #e6e6e6;
+	width: 280px;
+	height: 288px;
+	margin-top: 15px;
+	margin-right: 15px;
+	text-align: center;
+	/*
+	position:relative;
+	*/
+}
+.tongyi20180402>li>p{
+	text-align: center;
+	line-height:30px;
+	/*
+	position:absolute;
+	left: 50%; 
+    top: 80%;
+	transform: translateX(-50%);
+	-ms-transform: translateX(-50%);
+	-moz-transform: translateX(-50%);
+	-webkit-transform: translateX(-50%);
+	-o-transform: translateX(-50%);
+	*/
+}
+.tongyi20180402>li>a>img{
+	width: 235px;	
+}
+.yidengjiang20180402>ul>li>p{
+	margin-top: 10px;
+}
+.table20180402{
+	width: 
+}
+.table-big20180402{
+	margin: 0 auto
+}
+.table-big20180402 tr td{
+	height: 50px;
+	border:1px solid  #2c2c2c;
+	text-align: center;
+	line-height: 30px;
+}
+.table20180402{
+	width: 400px;
+	height: 30px;
+}
+.yancolor20180402{
+	color: #00639e;
+}
+.last-li20180402 li{
+	margin-right: 40px;
+}
+
+.last-li20180402>li img{
+	margin-top: 15px;
+	width: 173px;
+	height: 173px;
+}
+.jiangxiang20180402{
+	background: url(j20180402.png) left no-repeat;
+}
+
+
+
+
+
+
+
+
+
+
