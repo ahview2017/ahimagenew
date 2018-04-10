@@ -3,15 +3,19 @@ package com.deepai.photo.common.util.image;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -20,6 +24,7 @@ import java.util.Map;
 
 import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
+import javax.imageio.ImageReadParam;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -35,10 +40,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.deepai.photo.bean.CpPicture;
-import com.deepai.photo.bean.CpWaterMarkPicture;
 import com.deepai.photo.common.constant.SysConfigConstant;
 import com.deepai.photo.common.listener.SpringContextUtil;
-import com.deepai.photo.common.util.NumberUtils;
 import com.deepai.photo.common.util.SessionUtils;
 import com.deepai.photo.service.admin.SysConfigService;
 import com.drew.imaging.jpeg.JpegMetadataReader;
@@ -2768,4 +2771,147 @@ public class ImageAnalyseUtil {
 
 		return image;
 	}
+	
+	
+	
+	
+	/**
+	 * @author xiayunan
+	 * @date 2018年4月3日
+	 * @description 裁剪图片
+	 * @param alterdImage
+	 * @param x1
+	 * @param x2
+	 * @param y1
+	 * @param y2
+	 * @return
+	 * @throws Exception
+	 */
+	public static BufferedImage cropImage(BufferedImage alterdImage,int x1, int x2, int y1, int y2) throws Exception {
+		int width = alterdImage.getWidth();
+        int height = alterdImage.getHeight();
+        if (x1 == -1) {
+        	x1 = 0;
+        }
+        if (y1 == -1) {
+        	y1 = 0;
+        }
+        if (x2 == -1) {
+        	x2 = width - 1;
+        }
+        if (y2 == -1) {
+            y2 = height - 1;
+        }
+        BufferedImage result = new BufferedImage(x2 - x1, y2 - y1, 4);
+        for (int x = x1; x < x2; ++x) {
+            for (int y = y1; y < y2; ++y) {
+                int rgb = alterdImage.getRGB(x, y);
+                result.setRGB(x - x1, y - y1, rgb);
+            }
+        }
+        return result;
+        
+	}
+	
+	/**
+	 * @author xiayunan
+	 * @date 2018年4月3日
+	 * @description MultipartFile转BufferedImage文件
+	 * @param file
+	 * @return
+	 * @throws Exception
+	 */
+	public static BufferedImage InputImage(File file) throws Exception {
+		BufferedImage srcImage = null;  
+        try {  
+            FileInputStream in = new FileInputStream(file);;
+            srcImage = javax.imageio.ImageIO.read(in);  
+        } catch (IOException e) {
+            logger.error("读取图片文件出错！" + e.getMessage());  
+        }
+        return srcImage; 
+	}
+	
+	
+	
+	 /** 
+	  * @author xiayunan
+	  * @date 2018年4月7日
+      * @param srcFile源文件 
+      * @param outFile输出文件 
+      * @param x坐标 
+      * @param y坐标 
+      * @param width宽度 
+      * @param height高度 
+      * @return 
+      * @描述 —— 裁剪图片 
+     */  
+    public static boolean cutPic(String srcFile, String outFile, int x, int y,  
+            int width, int height) {  
+        FileInputStream is = null;  
+        ImageInputStream iis = null;  
+        try {  
+            // 如果源图片不存在  
+            if (!new File(srcFile).exists()) {  
+                return false;  
+            }  
+  
+            // 读取图片文件  
+            is = new FileInputStream(srcFile);  
+  
+            // 获取文件格式  
+            String ext = srcFile.substring(srcFile.lastIndexOf(".") + 1);  
+  
+            // ImageReader声称能够解码指定格式  
+            Iterator<ImageReader> it = ImageIO.getImageReadersByFormatName(ext);  
+            ImageReader reader = it.next();  
+  
+            // 获取图片流  
+            iis = ImageIO.createImageInputStream(is);  
+  
+            // 输入源中的图像将只按顺序读取  
+            reader.setInput(iis, true);  
+  
+            // 描述如何对流进行解码  
+            ImageReadParam param = reader.getDefaultReadParam();  
+  
+            // 图片裁剪区域  
+            Rectangle rect = new Rectangle(x, y, width, height);  
+  
+            // 提供一个 BufferedImage，将其用作解码像素数据的目标  
+            param.setSourceRegion(rect);  
+  
+            // 使用所提供的 ImageReadParam 读取通过索引 imageIndex 指定的对象  
+            BufferedImage bi = reader.read(0, param);  
+  
+            // 保存新图片  
+            File tempOutFile = new File(outFile);  
+            if (!tempOutFile.exists()) {  
+                tempOutFile.mkdirs();  
+            }  
+            ImageIO.write(bi, ext, new File(outFile));  
+            return true;  
+        } catch (Exception e) {  
+            e.printStackTrace();  
+            return false;  
+        } finally {  
+            try {  
+                if (is != null) {  
+                    is.close();  
+                }  
+                if (iis != null) {  
+                    iis.close();  
+                }  
+            } catch (IOException e) {  
+                e.printStackTrace();  
+                return false;  
+            }  
+        }  
+    }  
+    
+    public static void main(String[] args) {
+    	cutPic("D:\\照片\\九华山\\IMG_0537.JPG","D:\\照片\\九华山\\111.JPG",131,207,448,261);
+    	System.out.println("裁图成功！");
+	}
+	
 }

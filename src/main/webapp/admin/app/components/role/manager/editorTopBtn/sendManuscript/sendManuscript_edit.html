@@ -14,6 +14,9 @@
             <span ng-click="edit.returnSendModalShow('return-confirm-modal')">返回</span>
             <span ng-click="edit.saveEditManuscript()">保存</span>
             <span ng-click="edit.cleanWord()" style="width: 108px;">一键清除样式</span>
+            <!--  
+            <span ng-click="edit.picCutShow('edit-piccut-modal')">图片裁剪</span>
+            --> 
         </div>
         <div class="c-new-manuscript-con clear">
             <div class="n-manuscript-container-top clear">
@@ -59,6 +62,7 @@
                             </form>
                             <!--<img ng-repeat="image in images" ng-src="{{ image }}" width="100" height="100"/>-->
                             <!--<img ng-src="{{filepreview}}" width="100" height="100" class="img-responsive" ng-show="filepreview"/>-->
+                            
                         </div>
                         <div class="fll manuscript-add-video">
 							<input id="selmasvideo" class="draft-sign-input clear" type="hidden" name="videoFile"  />
@@ -199,15 +203,18 @@
                 &lt;!&ndash;<span class="ms-edit-del">批量删除图片说明</span>&ndash;&gt;
             </div>-->
             <div class="n-manuscript-container-bottom clear">
+            	
                 <!--上传信息盒子-->
                 <div class="ms-upinfo-box"></div>
                 <!--上传图片-->
                 <div ui-sortable ng-model="edit.upMenuscriptPicArr" style="margin-bottom: 300px;">
                     <div class="ms-pic-item clear cursor"  ng-repeat="item in edit.upMenuscriptPicArr">
                         <div>
-                            <div class="clear">
-                                <a class="newscript-pic-del cursor" ng-click="edit.removePicItem($index)">x</a>
-                            </div>
+                        	<span id = "cropBtn" ng-if="item.isCover==1" ng-click="edit.picCutShow('edit-piccut-modal')" ></span> 
+                        	<div class="clear">
+			                    <a class="newscript-pic-del cursor" ng-click="edit.removePicItem($index)">x</a>
+			                </div>
+                        	
                             <div class="ms-editDet-checkbox fll">
                                 <input type="checkbox"/>
                             </div>
@@ -362,6 +369,42 @@
             </div>
         </div>
     </div>
+    
+    
+    
+    <!--图片裁剪弹框-->
+    <div class="crop-modal-style" id="edit-piccut-modal"
+         ng-mousemove="edit.moveModal('transfer-database-tit','edit-piccut-modal')"
+          style="display:none">
+        <div class="role-add-con">
+            <div id="edit-piccut-modal" class="role-add-tit">
+               图片裁剪
+            </div>
+            <div class="role-modal-con">
+			<img ng-src="edit.coverPicPath" src="{{edit.coverPicPath}}" id="target" alt="[Jcrop Example]" />
+				  <form id="coords"
+				    class="coords"
+				    onsubmit="return false;"
+				    action="/photo/groupPicCtro/CutAndUpPic.do">
+					    <div class="inline-labels">
+					    <label>X1 <input  type="text" size="4" id="x1" name="x1" ng-model="edit.x1"  /></label>
+					    <label>Y1 <input  type="text" size="4" id="y1" name="y1" ng-model="edit.y1"	/></label>
+					    <label>X2 <input  type="text" size="4" id="x2" name="x2" ng-model="edit.x2"	/></label>
+					    <label>Y2 <input  type="text" size="4" id="y2" name="y2" ng-model="edit.y2" /></label>
+					    <label>W <input  type="text" size="4" id="w" name="w" ng-model="edit.width"	/></label>
+					    <label>H <input  type="text" size="4" id="h" name="h" ng-model="edit.height" /></label>
+					    </div>
+				  </form>
+            </div>
+            <!--  -->
+            <div class="tac mt10">
+                <span class="dib cursor user-add-btn" ng-click="edit.cropAndUpPic()">确定</span>
+                <span class="dib cursor user-add-btn" ng-click="edit.picCutHide('edit-piccut-modal')">取消</span>
+            </div>
+        </div>
+    </div>
+    
+    
 
     <!--编辑分类模态框-->
     <div class="modal fade" id="edit-sort-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

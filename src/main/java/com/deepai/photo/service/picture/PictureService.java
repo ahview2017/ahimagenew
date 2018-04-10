@@ -177,7 +177,13 @@ public class PictureService {
 	public CpPicture uploadOnePic(MultipartFile picFile,String filename,int siteId, Integer userId) throws Exception{
 		//原图存放路径
 		String oriPath=sysConfigService.getDbSysConfig(SysConfigConstant.DEFAULT_CLASSIFICATION_PATH, siteId);
+		
+		logger.info("单张图oriPath:"+oriPath);
+		logger.info("单张图filename:"+filename);
+		
 		oriPath=initFullPathNoFile(oriPath, filename);
+		
+		logger.info("处理过的单张图oriPath:"+oriPath);
 		//上传原图并返回全途径
 		String oriAllPath=FileUpload.fileUpName(picFile, oriPath, filename);
 		int height = 0;
@@ -332,12 +338,41 @@ public class PictureService {
 	private String opeTmpSmall(String Path,int width,int height,boolean syn,int siteId)throws Exception{
 		int picSize =width>height?width:height;
 		String fileName = ImgFileUtils.getFileName(Path);//文件名
+		System.out.println("<<<fileName:"+fileName);
+		int smallPicSize=Integer.parseInt(sysConfigService.getDbSysConfig(SysConfigConstant.SMALL_PIC_SIZE, siteId));//系统配置小图大小
+		String smallPicPath=sysConfigService.getDbSysConfig(SysConfigConstant.SMALL_PIC_PATH, siteId);//系统配置小图路径
+		String allPath=initFullPathByOrder(smallPicPath,fileName);
+		if (smallPicSize<= picSize) {
+			ImageAnalyseUtil.gmAlterImg(smallPicSize, Path, allPath, width,height,syn);
+		} else {
+			ImgFileUtils.makeDirectory(allPath);
+			ImgFileUtils.copyFile(Path, allPath);
+		}
+		return allPath;
+	}
+	
+	
+	/**
+	 * @author xiayunan
+	 * @description 处理小图，若图大则生成小图
+	 * @param Path 原图地址
+	 * @param width 原图宽
+	 * @param height 原图高
+	 * @param syn
+	 * @param siteId
+	 * @return
+	 * @throws Exception
+	 */
+	private String opeCropTmpSmall(String Path,int width,int height,boolean syn,int siteId)throws Exception{
+		int picSize =width>height?width:height;
+		String fileName = ImgFileUtils.getFileName(Path);//文件名
 		if (fileName.toLowerCase().indexOf("tif") >= fileName.length() - 4) {
 			fileName = fileName.substring(0, fileName.length() - 3) + "jpg";
 		}
 		int smallPicSize=Integer.parseInt(sysConfigService.getDbSysConfig(SysConfigConstant.SMALL_PIC_SIZE, siteId));//系统配置小图大小
 		String smallPicPath=sysConfigService.getDbSysConfig(SysConfigConstant.SMALL_PIC_PATH, siteId);//系统配置小图路径
-		String allPath=initFullPathByOrder(smallPicPath,fileName);
+		String allPath=initCropFullPathByOrder(smallPicPath,fileName);
+		logger.info("<<<allPath:"+allPath);
 		if (smallPicSize<= picSize) {
 			ImageAnalyseUtil.gmAlterImg(smallPicSize, Path, allPath, width,height,syn);
 		} else {
@@ -373,6 +408,39 @@ public class PictureService {
 		}
 		return tempp;
 	}
+	
+	
+	
+	/**
+	 * @author xiayunan
+	 * @param root 文件夹路径
+	 * @param fileName 文件名
+	 * @return 文件全路径
+	 */
+	public String initCropFullPathByOrder(String root, String fileName) {
+		String tempp = root;
+		if(System.getProperty("os.name").toUpperCase().indexOf("WINDOWS") != -1){
+			if (tempp.lastIndexOf(CommonConstant.oneSprit) != tempp.length() - 1) {
+				tempp += CommonConstant.oneSprit;
+			}
+			if (tempp.lastIndexOf(CommonConstant.doubleSprit) == tempp.length() - 1) {
+				tempp=tempp.substring(0, tempp.length()-1);
+				tempp += CommonConstant.oneSprit;
+			}
+			tempp=tempp + fileName.substring(5, 9) + CommonConstant.oneSprit
+					+ fileName.substring(5, 13) + CommonConstant.oneSprit + fileName;
+		}else{
+			if (tempp.lastIndexOf(CommonConstant.oneSprit) != tempp.length() - 1) {
+				tempp += CommonConstant.oneSprit;
+			}
+			tempp=tempp + fileName.substring(5, 9) + CommonConstant.oneSprit
+					+ fileName.substring(5, 13) + CommonConstant.oneSprit + fileName;
+		}
+		return tempp;
+	}
+	
+	
+	
 	/**
 	 * @param root 文件夹路径
 	 * @return 文件路径
@@ -767,4 +835,166 @@ public class PictureService {
 	        System.out.println(file2.getAbsolutePath());
 	}
 	//TODO（查询）
+	
+	
+	
+	/**
+	 * 裁剪图片上传单张图，保存图片原图和小图
+	 * @param picFile
+	 * @param oriPath
+	 * @param filename
+	 * @param siteId
+	 * @throws Exception
+	 */
+	public CpPicture uploadOneCropPic(String orifileName,String filename,int siteId, Integer userId) throws Exception{
+		//原图存放路径
+		String oriPath=sysConfigService.getDbSysConfig(SysConfigConstant.DEFAULT_CLASSIFICATION_PATH, siteId);
+		oriPath=initFullPathNoFile(oriPath, orifileName);
+		//上传原图并返回全途径
+		String oriAllPath=FileUpload.fileUpNameByInputStream(new FileInputStream(new File(oriPath+File.separator+filename)), oriPath, filename);
+		
+		logger.info("<<<oriAllPath:"+oriAllPath);
+		int height = 0;
+		int width = 0;
+		String time=null;
+		IMOperation op = new IMOperation();
+		op.format("%w#%h#%[EXIF:DateTimeOriginal]");
+		op.addImage(oriAllPath);
+		IdentifyCmd identifyCmd = new IdentifyCmd(true);
+
+		// add by xia.yunan@20170906
+		identifyCmd.setSearchPath(sysConfigService.getDbSysConfig(
+                SysConfigConstant.LOCAL_GM_PATH, 1));
+		ArrayListOutputConsumer output = new ArrayListOutputConsumer();
+		identifyCmd.setOutputConsumer(output);
+		
+		
+		identifyCmd.run(op);
+		ArrayList<String> out = output.getOutput();
+		String wNh = null;
+		if (out.size() > 0) {
+			wNh = out.get(0);
+			String arr[]=wNh.split("#");
+			width = Integer.parseInt(arr[0]);
+			height = Integer.parseInt(arr[1]);
+			//上传图片宽高限制
+//			String minWidth=sysConfigService.getDbSysConfig(SysConfigConstant.PICTUREMINWIDTH, siteId);//最小宽
+//			if(width<Integer.valueOf(minWidth)){
+//				throw new InvalidHttpArgumentException(CommonConstant.FAILURECODE, String.format("图片宽不能小于【%s】像素", minWidth));
+//			}
+			
+//			String minHeight=sysConfigService.getDbSysConfig(SysConfigConstant.PICTUREMINHEIGHT, siteId);//最小高
+//			if(height<Integer.valueOf(minHeight)){
+//				throw new InvalidHttpArgumentException(CommonConstant.FAILURECODE, String.format("图片高不能小于【%s】像素", minHeight));
+//			}
+			if(arr.length>2){
+				time = arr[2];
+			}			
+		}
+		CpPicture pic = new CpPicture();
+		//处理小图，返回小图原路径
+		String smallAllPath=opeTmpSmall(oriAllPath, width, height, false,siteId);
+		logger.info("<<<smallAllPath:"+smallAllPath);
+		if (width > height) {
+			pic.setOrientation(CommonConstant.BYTE0);//横
+		} else if (width == height) {
+			pic.setOrientation(CommonConstant.BYTE2);//方
+		} else {
+			pic.setOrientation(CommonConstant.BYTE1);//竖
+		}
+		if (filename.toLowerCase().lastIndexOf("tif") >= filename.length() - 4) {
+			filename = filename.substring(0, filename.length() - 3) + "jpg";
+		}
+		File saveFile = new File(oriAllPath);
+		
+		// add by liu.jinfeng@20170914
+        if (!rightService.checkUserRight(userId, "uploadpic")) {
+
+            Directory EXIFInfo = ImageAnalyseUtil
+                    .extratEXIFFromFile(oriAllPath);
+            // 权限判断。如果没有设置权限的话不允许上传没有Exif信息的图片
+            // exif信息不存在时候给出提示信息（包括型号、快门、光圈、感光度、拍摄时间。同时没有时候不让保存）
+            if ((null == EXIFInfo) || (EXIFInfo
+                    .getString(ExifDirectory.TAG_MODEL) == null// 型号
+                    && EXIFInfo
+                            .getString(ExifDirectory.TAG_EXPOSURE_TIME) == null// 快门
+                    && EXIFInfo
+                            .getString(ExifDirectory.TAG_ISO_EQUIVALENT) == null// 感光度
+                    && EXIFInfo.getString(ExifDirectory.TAG_FNUMBER) == null// 光圈
+                    && EXIFInfo.getString(
+                            ExifDirectory.TAG_DATETIME_ORIGINAL) == null)) {// 时间
+                pic.setbIsExif(false);
+                return pic;
+            }
+        }
+        //其他情况设为true
+        pic.setbIsExif(true);
+		
+		//上传图片大小限制
+        
+        
+        //裁图取消大小限制
+//		String minM=sysConfigService.getDbSysConfig(SysConfigConstant.PICTUREMINLENGTH, siteId);
+//		Integer minMI=Integer.valueOf(minM);//图片大小 最小限制 单位KB
+//		Long minL=minMI * 1024L;//单位字节
+//		
+//		if(saveFile.length()<minL){
+//			throw new InvalidHttpArgumentException(CommonConstant.FAILURECODE, String.format("图片大小不能小于【%s】KB", minM));
+//		}
+//		String maxM=sysConfigService.getDbSysConfig(SysConfigConstant.PICTUREMAXLENGTH, siteId);
+//		Integer maxMI=Integer.valueOf(maxM);//图片大小 最大限制 单位KB
+//		Long maxL=maxMI * 1024L;//单位字节
+//		if(saveFile.length()>maxL){
+//			throw new InvalidHttpArgumentException(CommonConstant.FAILURECODE, String.format("图片大小不能超过【%s】KB", maxM));
+//		}
+		
+		pic.setPictureHeight(height);
+		pic.setPictureWidth(width);
+		pic.setFilename(filename);
+		pic.setPictureLength(saveFile.length());
+		pic.setSourcePictureName(filename);
+		if(time!=null&&!time.equals("unknown")){
+			if("0000:00:00 00:00:00".equals(time)){
+				pic.setFilmTime(new Date());
+			}else{
+				time=time.replaceFirst(":", "-").replaceFirst(":", "-");
+				pic.setFilmTime(DateUtils.sdfLongTimePlus.parse(time));
+			}
+		}else{
+			pic.setFilmTime(new Date());
+		}
+		pic.setCreateTime(new Date());
+		pic.setSiteId(siteId);
+		// 标识缩略图图片状态，组件上传成功后需改过来
+		pic.setPictureState(-1);
+		/*if(groupId!=null){
+			pic.setGroupId(groupId);
+		}*/
+		pic.setDeleteFlag(CommonConstant.BYTE0);
+		cpPictureMapper.insertSelective(pic);
+		//记录图片全路径
+		addPicAllPath(oriAllPath, 3, pic.getId());//原图
+		addPicAllPath(smallAllPath, 2, pic.getId());//小图
+		//生成中图
+		int mediumSize=Integer.valueOf(sysConfigService.getDbSysConfig(SysConfigConstant.MEDIUM_PIC_SIZE, siteId));
+		String mediumPath=sysConfigService.getDbSysConfig(SysConfigConstant.MEDIUM_PIC_PATH, siteId);
+		String mediumAllPath=initFullPathByOrder(mediumPath, filename);
+		int picSize =width>height?width:height;
+		if (mediumSize <= picSize) {
+			ImageAnalyseUtil.gmAlterImg(mediumSize, oriAllPath, 
+					initFullPathByOrder(mediumPath,filename), width,height,false);
+		} else {
+			ImgFileUtils.makeDirectory(mediumAllPath);
+			ImgFileUtils.copyFile(oriAllPath, mediumAllPath);
+		}
+		addPicAllPath(mediumAllPath, 1, pic.getId());
+		try{
+			pic.setIsIptc(CommonConstant.BYTE1);
+			pic.setCreateTime(new Date());
+			File oriFile=new File(oriAllPath);
+			pic=loadInfoByIPTC(pic, oriFile);
+		}catch(Exception iptce){
+		}
+		return pic;
+	}
 }

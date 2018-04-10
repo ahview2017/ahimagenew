@@ -1393,4 +1393,32 @@ public class ImgFileUtils {
                     fileName.substring(0, 8)+CommonConstant.doubleSprit+fileName;
         }
     }
+    
+    
+    /**
+     * @author xiayunan
+     * @description 模糊查询文件夹中包含字符串的文件
+     * @param path
+     * @param str
+     * @return
+     */
+    public static boolean delFilesByPath(String path,String str){
+    	  boolean b=false;
+    	  File file = new File(path);
+    	  
+    	  File[] tempFile = file.listFiles();
+    	  System.out.println("tempFile.length:"+tempFile.length);
+    	  for(int i = 0; i < tempFile.length; i++){
+    	   if(tempFile[i].getName().startsWith(str)||tempFile[i].getName().endsWith(str)){
+    	    boolean del=deleteFile(path+tempFile[i].getName());
+    	    if(del){
+    	     b=true;
+    	    }
+    	   }
+    	  }
+    	  return b;
+    	 }
+    
+    
+   
 }

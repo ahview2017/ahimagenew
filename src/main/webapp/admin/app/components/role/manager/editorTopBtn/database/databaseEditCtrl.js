@@ -82,6 +82,8 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
         //专题分类名称
         vm.specialCategoryNameStr = [];
         vm.isSign = 1;
+        vm.coverPicPath = "";
+        vm.fileName = "";
     }
 
     
@@ -207,6 +209,152 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
     
     
     
+  //图片裁剪模态框显示	add by xiayunan@20180402
+    vm.picCutShow = function(modalId){
+        modalOperate.modalShow(modalId);
+        
+        /************  图片裁剪 start *****************/
+        
+        
+    	jQuery(function($){
+    		
+    	    var jcrop_api;
+
+    	    $('#target').Jcrop({
+    	      onChange:   showCoords,
+    	      onSelect:   showCoords,
+    	      boxWidth:600,
+    	      onRelease:  clearCoords
+    	    },function(){
+    	      jcrop_api = this;
+    	    });
+    	    
+    	    $('#coords').on('change','input',function(e){
+    	      var x1 = $('#x1').val(),
+    	          x2 = $('#x2').val(),
+    	          y1 = $('#y1').val(),
+    	          y2 = $('#y2').val();
+    	      jcrop_api.setSelect([x1,y1,x2,y2]);
+    	    });
+
+    	  });
+    	  
+
+    	  function showCoords(c)
+    	  {
+    	    $('#x1').val(c.x);
+    	    $('#y1').val(c.y);
+    	    $('#x2').val(c.x2);
+    	    $('#y2').val(c.y2);
+    	    $('#w').val(c.w);
+    	    $('#h').val(c.h);
+    	  };
+
+    	  function clearCoords()
+    	  {
+    	    $('#coords input').val('');
+    	  };
+    	  
+    	  
+    	
+    	/************  图片裁剪 end   ****************/
+        
+        
+    }
+    
+    vm.picCutHide = function(modalId){
+        modalOperate.modalHide(modalId);
+    }
+    
+    /**
+     * 裁剪并上传请求
+     * @returns
+     */
+    vm.cropAndUpPic = function(){
+        var formdata = new FormData();
+        console.log("vm.manuscriptPicResult.length:"+vm.manuscriptPicResult.length);
+        console.log("vm.manuscriptPicResult[0]:"+vm.manuscriptPicResult[0]);
+        //formdata.append("picFile", vm.manuscriptPicResult[0]);
+        //formdata.append("picFile", vm.upMsFiles[0]);
+        formdata.append("langType",lang);
+        formdata.append("x1",$('#x1').val());
+        formdata.append("x2",$('#x2').val());
+        formdata.append("y1",$('#y1').val());
+        formdata.append("y2",$('#y2').val());
+        formdata.append("width",$('#w').val());
+        formdata.append("height",$('#h').val());
+        formdata.append("oriPicPath",vm.coverPicPath);
+        formdata.append("fileName",vm.fileName);
+        $.ajax({
+            type: "POST",
+            data: formdata,
+            url: "/photo/groupPicCtro/CutAndUpPic.do" + '?time=' + new Date().getTime(),
+            cache: false,
+            contentType: false,     //必须false才会自动加上正确的Content-Type
+            processData: false,     //必须false才会避开jQuery对formdata的默认处理
+            async: true
+        }).success(function (resp) {
+            if(resp.code && resp.code == '211'){
+                vm.uploadCropEditPicList = resp.data;//vm.uploadCropEditPicList为裁剪图片列表
+                vm.bIsExif = true;
+                uploadedCropPicCallback();
+                if(!vm.bIsExif){
+                	layer.alert("上传不包含Exif信息的图片失败");
+                }
+                layer.alert("裁图成功");
+            }else if(resp.msg != '未登录'){
+                layer.alert(resp.msg);
+            }
+        }).error(function (resp) {
+        });
+    }
+    
+    function uploadedCropPicCallback(){
+    	if(vm.uploadCropEditPicList){
+    		angular.forEach(vm.upMenuscriptPicArr,function(item,index){
+    			if(item.img.indexOf("crop")!=-1){
+    				vm.isExit = true;
+    				vm.upMenuscriptPicArr[index].id = vm.uploadCropEditPicList.id + '';
+    				vm.upMenuscriptPicArr[index].filmTime = $filter('date')(vm.uploadCropEditPicList.filmTime,'yyyy-MM-dd');
+    				vm.upMenuscriptPicArr[index].img = vm.uploadCropEditPicList.smallPath;
+    				vm.upMenuscriptPicArr[index].wmImg = vm.uploadCropEditPicList.wmPath;
+    				vm.upMenuscriptPicArr[index].isCover = '1';
+    				vm.upMenuscriptPicArr[index].isSign = '0';
+    				vm.upMenuscriptPicArr[index].people = vm.uploadCropEditPicList.people;
+    				vm.upMenuscriptPicArr[index].keywords = vm.uploadCropEditPicList.keywords;
+    				vm.upMenuscriptPicArr[index].authorName = vm.uploadCropEditPicList.authorName;
+    				vm.upMenuscriptPicArr[index].memo = vm.uploadCropEditPicList.memo;
+    				
+    				 //默认上传的第一个为主图
+                    vm.upMenuscriptPicArr[0].isCover = '0';
+                    vm.upMenuscriptPicArr[0].isSign = '1';//add by xiayunan@20180306
+    			}
+    			
+    		});
+    		if(!vm.isExit){
+    			vm.upMenuscriptPicArr.push({//
+                    id: vm.uploadCropEditPicList.id + '',
+                    filmTime: $filter('date')(vm.uploadCropEditPicList.filmTime,'yyyy-MM-dd'),
+                    img: vm.uploadCropEditPicList.smallPath,
+                    wmImg: vm.uploadCropEditPicList.wmPath,
+                    isCover: '1',
+                    isSign: '0',//图片签网标识 add by xiayunan@20180306
+                    sortId: (0) + '',
+                    people: vm.uploadCropEditPicList.people,
+                    keywords: vm.uploadCropEditPicList.keywords,
+                    authorName: vm.uploadCropEditPicList.authorName,
+                    memo: vm.uploadCropEditPicList.memo
+                })
+                //默认上传的第一个为主图
+                vm.upMenuscriptPicArr[0].isCover = '0';
+                vm.upMenuscriptPicArr[0].isSign = '1';//add by xiayunan@20180306
+    		}
+    	}
+    	
+    }
+    
+    
+    
 
 
     //获取稿件详情
@@ -216,12 +364,16 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
         }).success(function(resp){
             if(resp.code == '211'){
                 vm.manuscriptDetail = resp.data;
+                
+                vm.coverPicPath = vm.manuscriptDetail.pics[0].wmPath;
+                vm.coverPicPath = vm.coverPicPath.replace("watermarkedmedium","classification");
+                vm.fileName = vm.manuscriptDetail.pics[0].filename;
+                
                 vm.groupStatus = resp.data.groupStatus;
                 vm.manuscriptPlaceArr = resp.data.place.split(' ');
                 vm.manuscriptPicResult = resp.data.pics;
                 vm.manuscriptProperties = resp.data.properties;
                 
-                console.log("vm.manuscriptProperties:"+vm.manuscriptProperties);
                 vm.acitiveSlideTit = vm.manuscriptProperties;
                 vm.manuscriptPros = resp.data.pros;
                 vm.manuscriptAuthor = resp.data.author;

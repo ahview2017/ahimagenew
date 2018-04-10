@@ -658,6 +658,20 @@
     background-color: #FFF;
 }
 
+.crop-modal-style{
+    position: fixed;
+    z-index: 999;
+    /*margin: auto;*/
+    left: 25%;
+    right: 10%;
+    /*top: 15%;*/
+    top: 10px;
+    /*bottom: 0;*/
+    border: 1px solid #3399cc;
+    background-color: #FFF;
+    width:650px
+}
+
 .common-modal-style2{
     position: absolute;
     z-index: 999;
@@ -669,6 +683,18 @@
     /*bottom: 0;*/
     border: 1px solid #3399cc;
     background-color: #FFF;
+}
+
+#cropBtn{
+    width: 40px;
+    height:20px;
+    color: #00FF00;
+    background: #0000 url("../../../img/role/cropPic.png") 0 0 no-repeat;
+    padding: 4px;
+    margin: 10px;
+    float: left;
+    text-align: center;
+    cursor: pointer;
 }
 
 .send-model-style{

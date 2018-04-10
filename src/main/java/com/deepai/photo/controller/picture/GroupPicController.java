@@ -1,23 +1,22 @@
 package com.deepai.photo.controller.picture;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.dom4j.Document;
-import org.dom4j.io.XMLWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.deepai.photo.bean.CpColumn;
+import com.deepai.photo.bean.CpCropPic;
 import com.deepai.photo.bean.CpGroupPush;
 import com.deepai.photo.bean.CpPicAllpath;
 import com.deepai.photo.bean.CpPicGroup;
@@ -58,6 +58,7 @@ import com.deepai.photo.common.util.XMLUtils;
 import com.deepai.photo.common.util.date.DateTimeUtil;
 import com.deepai.photo.common.util.date.DateUtils;
 import com.deepai.photo.common.util.html.HtmlUtil;
+import com.deepai.photo.common.util.image.ImageAnalyseUtil;
 import com.deepai.photo.common.util.image.ImageConfig;
 import com.deepai.photo.common.util.image.ImgFileUtils;
 import com.deepai.photo.common.util.json.JsonUtil;
@@ -164,7 +165,6 @@ public class GroupPicController {
 				result.setMsg("请上传图片");
 				return result;
 			}
-			
 			CpUser user = SessionUtils.getUser(request);
 			List<CpPicture> resData=pictureService.uploadMorePic(picFiles,  SessionUtils.getSiteId(request), user.getId());
 			
@@ -183,6 +183,120 @@ public class GroupPicController {
 		}
 		return result;
 	}
+	
+	
+	
+	/**
+	 * 
+	 * @author xiayunan
+	 * @date 2018年4月7日
+	 * @decription 裁剪并上传图片
+	 * @param request
+	 * @param response
+	 * @param picFile
+	 * @param langType
+	 * @param cpCropPic
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/CutAndUpPic")
+	@LogInfo(content="上传图片",opeType=0,logTypeCode=CommonConstant.Picture)
+	public ResponseMessage CutAndUpPicForGroup(HttpServletRequest request,HttpServletResponse response,@RequestParam(required = false, value = "picFile")MultipartFile  picFile,Integer langType,CpCropPic cpCropPic){
+		ResponseMessage result=new ResponseMessage();
+		try {
+			
+			int x1 = Integer.valueOf(StringUtil.isBlank(cpCropPic.getX1())?"0":cpCropPic.getX1().indexOf(".")!=-1?cpCropPic.getX1().substring(0,cpCropPic.getX1().indexOf(".")):cpCropPic.getX1());
+			int y1 = Integer.valueOf(StringUtil.isBlank(cpCropPic.getY1())?"0":cpCropPic.getY1().indexOf(".")!=-1?cpCropPic.getY1().substring(0,cpCropPic.getY1().indexOf(".")):cpCropPic.getY1());
+			int w = Integer.valueOf(StringUtil.isBlank(cpCropPic.getWidth())?"0":cpCropPic.getWidth().indexOf(".")!=-1?cpCropPic.getWidth().substring(0,cpCropPic.getWidth().indexOf(".")):cpCropPic.getWidth());
+			int h = Integer.valueOf(StringUtil.isBlank(cpCropPic.getHeight())?"0":cpCropPic.getHeight().indexOf(".")!=-1?cpCropPic.getHeight().substring(0,cpCropPic.getHeight().indexOf(".")):cpCropPic.getHeight());
+			log.info("<<<x1:"+cpCropPic.getX1());
+			log.info("<<<y1:"+cpCropPic.getY1());
+			log.info("<<<w:"+cpCropPic.getWidth());
+			log.info("<<<h:"+cpCropPic.getHeight());
+			log.info("oriPicPath:"+cpCropPic.getOriPicPath());
+			log.info("fileName:"+cpCropPic.getFileName());
+			if(cpCropPic.getFileName()==null){
+				request.getContentLength();
+				result.setCode(CommonConstant.FAILURECODE);
+				result.setMsg("请上传图片");
+				return result;
+			}
+			
+			//裁剪图片
+			String fileName = cpCropPic.getFileName();
+			String oriPath=sysConfigService.getDbSysConfig(SysConfigConstant.DEFAULT_CLASSIFICATION_PATH, SessionUtils.getSiteId(request));
+			oriPath=pictureService.initFullPathNoFile(oriPath, fileName)+fileName;//获取原图路径
+			log.info("处理后oriPath："+oriPath);
+			
+			//判断裁图是否存在，若存在，删除之前生成的一系列图片
+			String blurFileName = fileName.substring(0,fileName.indexOf("."))+"_crop";
+			String classificationDir = pictureService.initFullPathNoFile(sysConfigService.getDbSysConfig(SysConfigConstant.DEFAULT_CLASSIFICATION_PATH, SessionUtils.getSiteId(request)), fileName);//原图
+			log.info("classificationDir:"+classificationDir);
+			ImgFileUtils.delFilesByPath(classificationDir,blurFileName);
+			//大图
+			String bigDir = pictureService.initFullPathNoFile(sysConfigService.getDbSysConfig(SysConfigConstant.BIG_PIC_PATH, SessionUtils.getSiteId(request)), fileName);
+			log.info("bigDir:"+bigDir);
+			ImgFileUtils.delFilesByPath(bigDir,blurFileName);
+			//中图
+			String mediumDir = pictureService.initFullPathNoFile(sysConfigService.getDbSysConfig(SysConfigConstant.MEDIUM_PIC_PATH, SessionUtils.getSiteId(request)), fileName);
+			log.info("mediumDir:"+mediumDir);
+			ImgFileUtils.delFilesByPath(mediumDir,blurFileName);
+			//小图
+			String smallDir = pictureService.initFullPathNoFile(sysConfigService.getDbSysConfig(SysConfigConstant.SMALL_PIC_PATH, SessionUtils.getSiteId(request)), fileName);
+			log.info("smallDir:"+smallDir);
+			ImgFileUtils.delFilesByPath(smallDir,blurFileName);
+			
+			//水印中图
+			String watermakerMediumDir = pictureService.initFullPathNoFile(sysConfigService.getDbSysConfig(SysConfigConstant.WATERMARKEDMEDIUM_PIC_PATH, SessionUtils.getSiteId(request)), fileName);
+			log.info("watermakerMediumDir:"+watermakerMediumDir);
+			ImgFileUtils.delFilesByPath(watermakerMediumDir,blurFileName);
+			
+			
+			
+			String alteredFileName = fileName.substring(0,fileName.indexOf("."))+"_crop"+(int)(Math.random()*1000000+100000)+fileName.substring(fileName.indexOf("."),fileName.length());
+			String alteredFilePath = oriPath.substring(0,oriPath.lastIndexOf(File.separator)) + File.separator + alteredFileName;
+			
+			log.info("alteredFilePath:"+alteredFilePath);
+			boolean cropResult = ImageAnalyseUtil.cutPic(oriPath, alteredFilePath, x1,y1, w, h);
+			if(!cropResult){
+				result.setCode(CommonConstant.FAILURECODE);
+				result.setMsg("裁图失败！");
+				return result;
+			}else{
+				log.info("裁图成功");
+			}
+			
+			
+			
+			
+			//上传图片
+			CpUser user = SessionUtils.getUser(request);
+			CpPicture cpPicture=pictureService.uploadOneCropPic(fileName,alteredFileName,SessionUtils.getSiteId(request), user.getId());
+			cpPicture.setSmallPath(CommonConstant.SMALLHTTPPath+ImgFileUtils.getSamllPathByName(alteredFileName,request));
+//			pic.setWmPath(CommonConstant.WATERMEDIUM+ImgFileUtils.getWMPathByName(filename, request));
+			String wmPath = CommonConstant.SMALLHTTPPath+ImgFileUtils.getWMPathByName(alteredFileName,request);
+			cpPicture.setWmPath(wmPath);
+			
+			//todo 将裁剪的图片变为主图，并且网站设为显示，被裁剪的原图变为辅图并且网站不显示
+			
+			result.setCode(CommonConstant.SUCCESSCODE);
+			result.setMsg(CommonConstant.SUCCESSSTRING);
+			result.setData(cpPicture);
+			result.setOther(String.format("上传图片=%s", cpPicture));
+		} catch (InvalidHttpArgumentException e) {
+			result.setCode(e.getCode());
+			result.setMsg(e.getMsg());
+		} catch(Exception e1){
+			e1.printStackTrace();
+			log.error("上传图片出错，"+e1.getMessage());
+			result.setCode(CommonConstant.EXCEPTIONCODE);
+			result.setMsg(CommonConstant.EXCEPTIONMSG);
+		}
+		return result;
+	}
+	
+	
+	
 	
 	/** 
 	 * 手机版上传稿件图片，显示缩略图
@@ -3412,6 +3526,13 @@ public class GroupPicController {
 		return result;
 	}
     
+	
+	public static void main(String[] args) {
+//		String name = "20180306000004a.jpg";
+//		System.out.println(name.substring(0,name.indexOf("."))+"_crop"+name.substring(name.indexOf("."),name.length()));
+		System.out.println((int)(Math.random()*1000000+100000));
+		
+	}
 	
 	
 }
