@@ -240,26 +240,62 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
     	  });
     	  
 
-    	  function showCoords(c)
-    	  {
-    	    $('#x1').val(c.x);
-    	    $('#y1').val(c.y);
-    	    $('#x2').val(c.x2);
-    	    $('#y2').val(c.y2);
-    	    $('#w').val(c.w);
-    	    $('#h').val(c.h);
-    	  };
-
-    	  function clearCoords()
-    	  {
-    	    $('#coords input').val('');
-    	  };
     	  
     	  
     	
     	/************  图片裁剪 end   ****************/
         
         
+    }
+    
+
+	  function showCoords(c)
+	  {
+	    $('#x1').val(c.x);
+	    $('#y1').val(c.y);
+	    $('#x2').val(c.x2);
+	    $('#y2').val(c.y2);
+	    $('#w').val(c.w);
+	    $('#h').val(c.h);
+	  };
+
+	  function clearCoords()
+	  {
+	    $('#coords input').val('');
+	  };
+    
+    
+    vm.initAspectRadio = function(){
+    	if (!parseInt($('#aspect-radio').val())){
+    	  	layer.alert('请填写需要初始化的宽高比');
+    	  	return false;
+    	}; 
+    	jQuery(function($){
+    	    var jcrop_api;
+    	    $('#target').Jcrop({
+    	      onChange:   showCoords,
+    	      onSelect:   showCoords,
+    	      aspectRatio: vm.aspectRadio,
+    	      boxWidth:600,
+    	      onRelease:  clearCoords
+    	    },function(){
+    	      jcrop_api = this;
+    	    });
+    	    
+    	    $('#coords').on('change','input',function(e){
+    	      var x1 = $('#x1').val(),
+    	          x2 = $('#x2').val(),
+    	          y1 = $('#y1').val(),
+    	          y2 = $('#y2').val();
+    	      jcrop_api.setSelect([x1,y1,x2,y2]);
+    	    });
+
+    	  });
+    	
+    	
+    	  
+
+    	
     }
     
     vm.picCutHide = function(modalId){
@@ -271,11 +307,11 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
      * @returns
      */
     vm.cropAndUpPic = function(){
+    	if (!parseInt($('#w').val())){
+    	  	layer.alert('请选择裁剪区域');
+    	  	return false;
+    	}; 
         var formdata = new FormData();
-        console.log("vm.manuscriptPicResult.length:"+vm.manuscriptPicResult.length);
-        console.log("vm.manuscriptPicResult[0]:"+vm.manuscriptPicResult[0]);
-        //formdata.append("picFile", vm.manuscriptPicResult[0]);
-        //formdata.append("picFile", vm.upMsFiles[0]);
         formdata.append("langType",lang);
         formdata.append("x1",$('#x1').val());
         formdata.append("x2",$('#x2').val());

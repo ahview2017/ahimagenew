@@ -299,19 +299,28 @@
             <div id="edit-piccut-modal" class="role-add-tit">
                图片裁剪
             </div>
-            <div class="role-modal-con">
+            <div class="crop-modal-con">
 			<img ng-src="edit.coverPicPath" src="{{edit.coverPicPath}}" id="target" alt="[Jcrop Example]" />
 				  <form id="coords"
 				    class="coords"
 				    onsubmit="return false;"
-				    action="/photo/groupPicCtro/CutAndUpPic.do">
-					    <div class="inline-labels">
-					    <label>X1 <input  type="text" size="4" id="x1" name="x1" ng-model="edit.x1"  /></label>
-					    <label>Y1 <input  type="text" size="4" id="y1" name="y1" ng-model="edit.y1"	/></label>
-					    <label>X2 <input  type="text" size="4" id="x2" name="x2" ng-model="edit.x2"	/></label>
-					    <label>Y2 <input  type="text" size="4" id="y2" name="y2" ng-model="edit.y2" /></label>
-					    <label>W <input  type="text" size="4" id="w" name="w" ng-model="edit.width"	/></label>
-					    <label>H <input  type="text" size="4" id="h" name="h" ng-model="edit.height" /></label>
+				    action="/photo/groupPicCtro/CutAndUpPic.do" style="margin-top:12px;">
+					    <div class="inline-labels" style="margin-left: -28px;">
+					    <label class="crop-label">左上角横坐标 <input  type="text" size="5" id="x1" name="x1" ng-model="edit.x1"  /></label>
+					    <label class="crop-label">左上角纵坐标 <input  type="text" size="5" id="y1" name="y1" ng-model="edit.y1"	/></label>
+					    <label class="crop-label">右下角横坐标 <input  type="text" size="5" id="x2" name="x2" ng-model="edit.x2"	/></label>
+					    <label class="crop-label">右下角纵坐标 <input  type="text" size="5" id="y2" name="y2" ng-model="edit.y2" /></label>
+					    </div>
+					    <div class="inline-labels" >
+					    
+					    <!--  
+					    <label class="crop-label">宽度 <input  type="text" size="5" id="w" name="w" ng-model="edit.width"	/></label>
+					    <label class="crop-label">高度 <input  type="text" size="5" id="h" name="h" ng-model="edit.height" /></label>
+					    -->
+					    <input  type="hidden" size="5" id="w" name="w" ng-model="edit.width"	/>
+					    <input  type="hidden" size="5" id="h" name="h" ng-model="edit.height" />
+					    <label class="crop-label">宽高比 <input  type="text" size="5" id="aspect-radio" name="aspect-radio" ng-model="edit.aspectRadio" /></label>
+					    <label class="crop-label"><span class="dib cursor aspect-radio-btn" ng-click="edit.initAspectRadio()">按宽高比裁剪</span></label>
 					    </div>
 				  </form>
             </div>
