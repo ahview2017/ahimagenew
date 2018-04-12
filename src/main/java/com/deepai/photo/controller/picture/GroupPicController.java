@@ -205,6 +205,8 @@ public class GroupPicController {
 		ResponseMessage result=new ResponseMessage();
 		try {
 			
+			CommonValidation.checkParamBlank(cpCropPic.getOriPicId()+"", "被裁剪图片ID");
+			
 			int x1 = Integer.valueOf(StringUtil.isBlank(cpCropPic.getX1())?"0":cpCropPic.getX1().indexOf(".")!=-1?cpCropPic.getX1().substring(0,cpCropPic.getX1().indexOf(".")):cpCropPic.getX1());
 			int y1 = Integer.valueOf(StringUtil.isBlank(cpCropPic.getY1())?"0":cpCropPic.getY1().indexOf(".")!=-1?cpCropPic.getY1().substring(0,cpCropPic.getY1().indexOf(".")):cpCropPic.getY1());
 			int w = Integer.valueOf(StringUtil.isBlank(cpCropPic.getWidth())?"0":cpCropPic.getWidth().indexOf(".")!=-1?cpCropPic.getWidth().substring(0,cpCropPic.getWidth().indexOf(".")):cpCropPic.getWidth());
@@ -271,7 +273,7 @@ public class GroupPicController {
 			
 			//上传图片
 			CpUser user = SessionUtils.getUser(request);
-			CpPicture cpPicture=pictureService.uploadOneCropPic(fileName,alteredFileName,SessionUtils.getSiteId(request), user.getId());
+			CpPicture cpPicture=pictureService.uploadOneCropPic(cpCropPic.getOriPicId(),fileName,alteredFileName,SessionUtils.getSiteId(request), user.getId());
 			cpPicture.setSmallPath(CommonConstant.SMALLHTTPPath+ImgFileUtils.getSamllPathByName(alteredFileName,request));
 //			pic.setWmPath(CommonConstant.WATERMEDIUM+ImgFileUtils.getWMPathByName(filename, request));
 			String wmPath = CommonConstant.SMALLHTTPPath+ImgFileUtils.getWMPathByName(alteredFileName,request);

@@ -846,7 +846,7 @@ public class PictureService {
 	 * @param siteId
 	 * @throws Exception
 	 */
-	public CpPicture uploadOneCropPic(String orifileName,String filename,int siteId, Integer userId) throws Exception{
+	public CpPicture uploadOneCropPic(Integer oriPicId,String orifileName,String filename,int siteId, Integer userId) throws Exception{
 		//原图存放路径
 		String oriPath=sysConfigService.getDbSysConfig(SysConfigConstant.DEFAULT_CLASSIFICATION_PATH, siteId);
 		oriPath=initFullPathNoFile(oriPath, orifileName);
@@ -963,7 +963,7 @@ public class PictureService {
 		}else{
 			pic.setFilmTime(new Date());
 		}
-		pic.setCreateTime(new Date());
+//		pic.setCreateTime(new Date());
 		pic.setSiteId(siteId);
 		// 标识缩略图图片状态，组件上传成功后需改过来
 		pic.setPictureState(-1);
@@ -993,6 +993,14 @@ public class PictureService {
 			pic.setCreateTime(new Date());
 			File oriFile=new File(oriAllPath);
 			pic=loadInfoByIPTC(pic, oriFile);
+			
+			//设置被裁剪图片图片信息 add by xiayunan@20180412
+			CpPicture oriPicture = cpPictureMapper.selectByPrimaryKey(oriPicId);
+			pic.setCreateTime(oriPicture.getCreateTime());
+			pic.setPeople(oriPicture.getPeople());
+			pic.setKeywords(oriPicture.getKeywords());
+			pic.setAuthorName(oriPicture.getAuthorName());
+			pic.setMemo(oriPicture.getMemo());
 		}catch(Exception iptce){
 		}
 		return pic;

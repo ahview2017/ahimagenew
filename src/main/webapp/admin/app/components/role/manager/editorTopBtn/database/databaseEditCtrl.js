@@ -84,6 +84,7 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
         vm.isSign = 1;
         vm.coverPicPath = "";
         vm.fileName = "";
+        vm.oriPicId = 0;
     }
 
     
@@ -311,6 +312,7 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
     	  	layer.alert('请选择裁剪区域');
     	  	return false;
     	}; 
+    	vm.loadUpMs = layer.load(1);
         var formdata = new FormData();
         formdata.append("langType",lang);
         formdata.append("x1",$('#x1').val());
@@ -321,6 +323,7 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
         formdata.append("height",$('#h').val());
         formdata.append("oriPicPath",vm.coverPicPath);
         formdata.append("fileName",vm.fileName);
+        formdata.append("oriPicId",vm.oriPicId);
         $.ajax({
             type: "POST",
             data: formdata,
@@ -330,6 +333,7 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
             processData: false,     //必须false才会避开jQuery对formdata的默认处理
             async: true
         }).success(function (resp) {
+        	layer.close(vm.loadUpMs);
             if(resp.code && resp.code == '211'){
                 vm.uploadCropEditPicList = resp.data;//vm.uploadCropEditPicList为裁剪图片列表
                 vm.bIsExif = true;
@@ -338,10 +342,12 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
                 	layer.alert("上传不包含Exif信息的图片失败");
                 }
                 layer.alert("裁图成功");
+                modalOperate.modalHide('edit-piccut-modal');//隐藏裁图框
             }else if(resp.msg != '未登录'){
                 layer.alert(resp.msg);
             }
         }).error(function (resp) {
+        	layer.close(vm.loadUpMs);
         });
     }
     
@@ -350,6 +356,7 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
     		angular.forEach(vm.upMenuscriptPicArr,function(item,index){
     			if(item.img.indexOf("crop")!=-1){
     				vm.isExit = true;
+    				
     				vm.upMenuscriptPicArr[index].id = vm.uploadCropEditPicList.id + '';
     				vm.upMenuscriptPicArr[index].filmTime = $filter('date')(vm.uploadCropEditPicList.filmTime,'yyyy-MM-dd');
     				vm.upMenuscriptPicArr[index].img = vm.uploadCropEditPicList.smallPath;
@@ -360,15 +367,14 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
     				vm.upMenuscriptPicArr[index].keywords = vm.uploadCropEditPicList.keywords;
     				vm.upMenuscriptPicArr[index].authorName = vm.uploadCropEditPicList.authorName;
     				vm.upMenuscriptPicArr[index].memo = vm.uploadCropEditPicList.memo;
-    				
-    				 //默认上传的第一个为主图
-                    vm.upMenuscriptPicArr[0].isCover = '0';
-                    vm.upMenuscriptPicArr[0].isSign = '1';//add by xiayunan@20180306
     			}
     			
     		});
     		if(!vm.isExit){
-    			vm.upMenuscriptPicArr.push({//
+    			for(var i = 0; i <  vm.upMenuscriptPicArr.length; i++){
+                    vm.upMenuscriptPicArr[i].isCover = '0';
+                }
+    			vm.upMenuscriptPicArr.unshift({//
                     id: vm.uploadCropEditPicList.id + '',
                     filmTime: $filter('date')(vm.uploadCropEditPicList.filmTime,'yyyy-MM-dd'),
                     img: vm.uploadCropEditPicList.smallPath,
@@ -381,9 +387,6 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
                     authorName: vm.uploadCropEditPicList.authorName,
                     memo: vm.uploadCropEditPicList.memo
                 })
-                //默认上传的第一个为主图
-                vm.upMenuscriptPicArr[0].isCover = '0';
-                vm.upMenuscriptPicArr[0].isSign = '1';//add by xiayunan@20180306
     		}
     	}
     	
@@ -404,7 +407,7 @@ adminModule.controller('mDatabaseEditCtrl', function($scope, $cookies, req, md5,
                 vm.coverPicPath = vm.manuscriptDetail.pics[0].wmPath;
                 vm.coverPicPath = vm.coverPicPath.replace("watermarkedmedium","classification");
                 vm.fileName = vm.manuscriptDetail.pics[0].filename;
-                
+                vm.oriPicId = vm.manuscriptDetail.pics[0].id;
                 vm.groupStatus = resp.data.groupStatus;
                 vm.manuscriptPlaceArr = resp.data.place.split(' ');
                 vm.manuscriptPicResult = resp.data.pics;

@@ -15,8 +15,15 @@ public class CpCropPic {
 	private String height;//裁剪过的图片高度
 	private String oriPicPath;//原始图片尺寸
 	private String fileName;//原始图片名称
+	private Integer oriPicId;//原始图片ID
 	public String getFileName() {
 		return fileName;
+	}
+	public Integer getOriPicId() {
+		return oriPicId;
+	}
+	public void setOriPicId(Integer oriPicId) {
+		this.oriPicId = oriPicId;
 	}
 	public void setFileName(String fileName) {
 		this.fileName = fileName;

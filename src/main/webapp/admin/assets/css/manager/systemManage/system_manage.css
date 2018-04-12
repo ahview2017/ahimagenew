@@ -701,7 +701,6 @@
     width: 40px;
     height:20px;
     color: #00FF00;
-    background: #0000 url("../../../img/role/cropPic.png") 0 0 no-repeat;
     padding: 4px;
     margin: 10px;
     float: left;
@@ -764,6 +763,11 @@
 }
 .role-add-tit{
     padding-bottom: 15px;
+    font-size: 18px;
+    color:#3399CC;
+}
+
+.crop-add-tit{
     font-size: 18px;
     color:#3399CC;
 }

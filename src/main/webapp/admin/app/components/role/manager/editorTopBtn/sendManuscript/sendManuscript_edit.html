@@ -210,7 +210,7 @@
                 <div ui-sortable ng-model="edit.upMenuscriptPicArr" style="margin-bottom: 300px;">
                     <div class="ms-pic-item clear cursor"  ng-repeat="item in edit.upMenuscriptPicArr">
                         <div>
-                        	<span id = "cropBtn" ng-if="item.isCover==1" ng-click="edit.picCutShow('edit-piccut-modal')" ></span> 
+                        	<span id = "cropBtn" ng-if="item.isCover==1" ng-click="edit.picCutShow('edit-piccut-modal')" ><img src="/photo/admin/assets/img/role/cropPic.png"></span> 
                         	<div class="clear">
 			                    <a class="newscript-pic-del cursor" ng-click="edit.removePicItem($index)">x</a>
 			                </div>
@@ -377,7 +377,7 @@
          ng-mousemove="edit.moveModal('transfer-database-tit','edit-piccut-modal')"
           style="display:none">
         <div class="role-add-con">
-            <div id="edit-piccut-modal" class="role-add-tit">
+            <div id="edit-piccut-modal" class="crop-add-tit">
                图片裁剪
             </div>
             <div class="crop-modal-con">
@@ -406,7 +406,7 @@
 				  </form>
             </div>
             <!--  -->
-            <div class="tac mt10">
+            <div class="tac mt10" style="margin-top: -5px;">
                 <span class="dib cursor user-add-btn" ng-click="edit.cropAndUpPic()">确定</span>
                 <span class="dib cursor user-add-btn" ng-click="edit.picCutHide('edit-piccut-modal')">取消</span>
             </div>
@@ -436,7 +436,7 @@
 			                <h3>专题类别</h3>
 			                <ul id="edit_special_tree" class="ztree" ></ul>
                         </div>
-                        <div class="tac mt10">
+                        <div class="tac mt10" style="margin-top:-5px;">
                             <span class="dib cursor user-add-btn"   ng-click="edit.confirmEditMsSorts()">确定</span>
                             <span class="dib cursor user-add-btn cancel-btn-color"  data-dismiss="modal">取消</span>
                         </div>
