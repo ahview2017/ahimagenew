@@ -458,9 +458,9 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
         var charLen = /^.{8,16}$/;
         var pwdHintQue = /^.{0,20}$/;
         var regEmail = /^([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+(\.[a-zA-Z]{2,3})+$/;
+        var regChinese = /^[\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/ ;
         //验证用户信息
         if(!valid_Info()) return;
-        console.log("vm.contactAddress:"+vm.contactAddress);
         if(!vm.contactAddress){
         	layer.alert('请输入通讯地址');
             return;
@@ -503,6 +503,10 @@ clientModule.controller('headerCtrl', function($scope, $cookies, req, md5,
         }
         if(form.realName.$error.required){
             layer.alert('请填写真实姓名');
+            return;
+        }
+        if(!(regChinese.test(vm.realName))){
+            layer.alert('真实姓名请填写中文！');
             return;
         }
         if(!vm.IdNumber||!(idNumExp.test(vm.IdNumber))){
