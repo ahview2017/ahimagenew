@@ -1682,7 +1682,6 @@ public class GroupPicController {
 		return result;
 	}
 	
-	//TODO(查询稿件)
 	/**
 	 * 获取我的稿件：全部、已签、待签、已删、被退
 	 * @param request
@@ -1935,10 +1934,13 @@ public class GroupPicController {
 			param.put("pageSize", pageSize);
 			param.put("orderBy", " g.SGIN_TIME desc");
 			param.put("query", query);
-			int count = aboutPictureMapper.selectCountGroups(param);//总条数
+			
+//			int count = aboutPictureMapper.selectCountGroups(param);//总条数
+			
 			//add by xiayunan@2017-09-26
-			int p = (count+rows-1)/rows;//总页数
-//			int p = (int)Math.ceil(count/rows);//总页数
+//			int p = (count+rows-1)/rows;//总页数
+			
+//			PageHelper.startPage(request);
 			List<Map<String,Object>> list=aboutPictureMapper.selectGroups(param);
 			for (Map<String,Object> map:list) {
 				if(map.containsKey("FILENAME")){
@@ -1948,10 +1950,11 @@ public class GroupPicController {
 					map.put("watermarkedmediumPath",CommonConstant.SMALLHTTPPath + ImgFileUtils.getWMPathByName(map.get("FILENAME").toString(),request)); 
 				}
 			}
+//			PageHelper.addPagesAndTotal(result, list);
 			result.setCode(CommonConstant.SUCCESSCODE);
 			result.setMsg(CommonConstant.SUCCESSSTRING);
-			result.setPage(p);
-			result.setOther(count);
+//			result.setPage(p);
+//			result.setOther(count);
 			result.setData(list);
 		} catch (InvalidHttpArgumentException e) {
 			result.setCode(e.getCode());
@@ -1964,6 +1967,83 @@ public class GroupPicController {
 		}
 		return result;
 	}
+	
+	
+	/**
+	 * 获取资料库稿件
+	 * @param request
+	 * @param gType  0全部，1已发布，2已撤稿件
+	 * @param query  高级检索
+	 * @param signId 签发分类id
+	 * @param cateId 稿件分类id
+	 * @return 
+	 */
+	@ResponseBody
+	@RequestMapping("/getSginGroupCount")
+	public Object getSginGroupCount(HttpServletRequest request,GroupQuery query, Integer gType,Integer signId,Integer cateId, Integer langType, Integer properties, Integer page, Integer rows){
+		ResponseMessage result=new ResponseMessage();
+		try {
+			Map<String,Object> param=new HashMap<String, Object>();
+			int siteId=SessionUtils.getSiteId(request);
+			if(siteId!=1){
+				param.put("siteId", siteId);
+			}
+			if(langType!=null){
+				param.put("langType", langType);
+			}
+			if(properties != null){
+				param.put("properties", properties);
+			}
+			param.put("deleteFlag", 0);
+			if(signId!=null){
+				param.put("signId", signId);
+			}
+			if(cateId!=null){
+				param.put("cateId", cateId);
+			}
+			gType=gType==null?0:gType;
+			switch (gType) {
+			case 0://全部稿件
+				param.put("statusS", "4,6");
+				break;
+			case 1://已发布
+				param.put("status", 4);
+				break;
+			case 2://被撤稿件
+				param.put("status", 6);
+				break;
+			default:
+				break;
+			}
+			Integer pageNo = (page-1)*rows;//起始条数
+			Integer pageSize = page*rows;//结束条数
+			param.put("pageNo", pageNo);
+			param.put("pageSize", pageSize);
+			param.put("orderBy", " g.SGIN_TIME desc");
+			param.put("query", query);
+			
+			int count = aboutPictureMapper.selectCountGroups(param);//总条数
+			
+			//add by xiayunan@2017-09-26
+			int p = (count+rows-1)/rows;//总页数
+			
+			result.setCode(CommonConstant.SUCCESSCODE);
+			result.setMsg(CommonConstant.SUCCESSSTRING);
+			result.setPage(p);
+			result.setOther(count);
+		} catch (InvalidHttpArgumentException e) {
+			result.setCode(e.getCode());
+			result.setMsg(e.getMsg());
+		}catch(Exception e1){
+			e1.printStackTrace();
+			log.error("查询资料库稿件，"+e1.getMessage());
+			result.setCode(CommonConstant.EXCEPTIONCODE);
+			result.setMsg(CommonConstant.EXCEPTIONMSG);
+		}
+		return result;
+	}
+	
+	
 	
 	/**
 	 * 获取资料库稿件
@@ -2024,9 +2104,8 @@ public class GroupPicController {
 			
 			// add by xiayunan@20180226 资料库多检索词精确检索
 			String paramStr= query.getParamStr();
-			if(paramStr.indexOf(" ")!=-1){
+			if(paramStr!=null&&paramStr.indexOf(" ")!=-1){
 				String[] arr = paramStr.split(" ");
-				log.info("size:"+arr.length);
 				if(arr.length>5){
 					result.setCode(215);
 					result.setMsg("检索框最多只能输入5个关键词");
@@ -2035,32 +2114,27 @@ public class GroupPicController {
 				for(int i=0;i<arr.length;i++){
 					if(i==0){
 						query.setParamStr(arr[0]);
-						log.info("arr[0]:"+arr[0]);
 					}
 					if(arr.length>1){
 						if(i==1){
 							query.setParamStr1(arr[1]);
-							log.info("arr[1]:"+arr[1]);
 						}
 					}
 					if(arr.length>2){
 						if(i==2){
 							query.setParamStr2(arr[2]);
-							log.info("arr[2]:"+arr[2]);
 						}
 						
 					}
 					if(arr.length>3){
 						if(i==3){
 							query.setParamStr3(arr[3]);
-							log.info("arr[3]:"+arr[3]);
 						}
 						
 					}
 					if(arr.length>4){
 						if(i==4){
 							query.setParamStr4(arr[4]);
-							log.info("arr[4]:"+arr[4]);
 						}
 						
 					}
@@ -2104,6 +2178,140 @@ public class GroupPicController {
 		}
 		return result;
 	}	
+	
+	
+	/**
+	 * 获取搜索稿件总数
+	 * 获取结果集总数和查询结果分离，加快查询速度
+	 * 
+	 * @param request
+	 * @param gType  0全部，1已发布，2已撤稿件
+	 * @param query  高级检索
+	 * @param signId 签发分类id
+	 * @param cateId 稿件分类id
+	 * @return 
+	 */
+	@ResponseBody
+	@RequestMapping("/getSginGroupOnlySeachCount")
+	public Object getSginGroupOnlySeachCount(HttpServletRequest request,GroupQuery query, Integer gType,Integer signId,Integer cateId, Integer langType, Integer properties, Integer page, Integer rows){
+		ResponseMessage result=new ResponseMessage();
+		try {
+			Map<String,Object> param=new HashMap<String, Object>();
+			int siteId=SessionUtils.getSiteId(request);
+			if(siteId!=1){
+				param.put("siteId", siteId);
+			}
+			if(langType!=null){
+				param.put("langType", langType);
+			}
+			
+			CpUser user = SessionUtils.getUser(request);
+			CpRight cpRight = cpRightMapper.selectByRightName("老照片管理");
+			boolean hasRight = false;
+			if(user!=null&&cpRight!=null){
+				hasRight = userRoleRightService.checkUserRightByRightId(user.getId(),cpRight.getId());
+			}
+			if(!hasRight){//如果没有老照片权限，只能看到新闻图片，专题图片，新华社图片
+				param.put("properties", "0,1,3");
+			}
+			
+			param.put("deleteFlag", 0);
+			if(signId!=null){
+				param.put("signId", signId);
+			}
+			if(cateId!=null){
+				param.put("cateId", cateId);
+			}
+			gType=gType==null?0:gType;
+			switch (gType) {
+			case 0://全部稿件
+				param.put("statusS", "4,6");
+				break;
+			case 1://已发布
+				param.put("status", 4);
+				break;
+			case 2://被撤稿件
+				param.put("status", 6);
+				break;
+			default:
+				break;
+			}
+			Integer pageNo = (page-1)*rows;//起始条数
+			Integer pageSize = page*rows;//结束条数
+			
+			// add by xiayunan@20180226 资料库多检索词精确检索
+			String paramStr= query.getParamStr();
+			if(paramStr!=null&&paramStr.indexOf(" ")!=-1){
+				String[] arr = paramStr.split(" ");
+				log.info("size:"+arr.length);
+				if(arr.length>5){
+					result.setCode(215);
+					result.setMsg("检索框最多只能输入5个关键词");
+					return result;
+				}
+				for(int i=0;i<arr.length;i++){
+					if(i==0){
+						query.setParamStr(arr[0]);
+					}
+					if(arr.length>1){
+						if(i==1){
+							query.setParamStr1(arr[1]);
+						}
+					}
+					if(arr.length>2){
+						if(i==2){
+							query.setParamStr2(arr[2]);
+						}
+						
+					}
+					if(arr.length>3){
+						if(i==3){
+							query.setParamStr3(arr[3]);
+						}
+						
+					}
+					if(arr.length>4){
+						if(i==4){
+							query.setParamStr4(arr[4]);
+						}
+						
+					}
+					
+				}
+			}
+			param.put("pageNo", pageNo);
+			param.put("pageSize", pageSize);
+			param.put("orderBy", " g.SGIN_TIME desc");
+			param.put("query", query);
+			int count = aboutPictureMapper.selectCountGroupsOnlySeach(param);//总条数
+			//add by xiayunan@2017-09-26
+			int p = (count+rows-1)/rows;//总页数
+			result.setCode(CommonConstant.SUCCESSCODE);
+			result.setMsg(CommonConstant.SUCCESSSTRING);
+			result.setPage(p);
+			result.setOther(count);
+		} catch (InvalidHttpArgumentException e) {
+			result.setCode(e.getCode());
+			result.setMsg(e.getMsg());
+		}catch(Exception e1){
+			e1.printStackTrace();
+			log.error("查询资料库稿件，"+e1.getMessage());
+			result.setCode(CommonConstant.EXCEPTIONCODE);
+			result.setMsg(CommonConstant.EXCEPTIONMSG);
+		}
+		return result;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * 获取资料库子栏目稿件
 	 * @param request
@@ -2155,7 +2363,132 @@ public class GroupPicController {
 			
 			// add by xiayunan@20180226 资料库多检索词精确检索
 			String paramStr= query.getParamStr();
-			if(paramStr.indexOf(" ")!=-1){
+			if(paramStr!=null&&paramStr.indexOf(" ")!=-1){
+				String[] arr = paramStr.split(" ");
+				if(arr.length>5){
+					result.setCode(215);
+					result.setMsg("检索框最多只能输入5个关键词");
+					return result;
+				}
+				for(int i=0;i<arr.length;i++){
+					if(i==0){
+						query.setParamStr(arr[0]);
+					}
+					if(arr.length>1){
+						if(i==1){
+							query.setParamStr1(arr[1]);
+						}
+					}
+					if(arr.length>2){
+						if(i==2){
+							query.setParamStr2(arr[2]);
+						}
+						
+					}
+					if(arr.length>3){
+						if(i==3){
+							query.setParamStr3(arr[3]);
+						}
+						
+					}
+					if(arr.length>4){
+						if(i==4){
+							query.setParamStr4(arr[4]);
+						}
+						
+					}
+					
+				}
+			}
+			
+			param.put("pageNo", pageNo);
+			param.put("pageSize", pageSize);
+			param.put("orderBy", " g.SGIN_TIME desc");
+			param.put("query", query);
+			int count = aboutPictureMapper.selectCountSubGroups(param);//总条数
+			//add by xiayunan@2017-09-26
+			int p = (count+rows-1)/rows;//总页数
+//			int p = (int)Math.ceil(count/rows);//总页数
+			
+			
+			List<Map<String,Object>> list=aboutPictureMapper.selectSubGroups(param);
+			for (Map<String,Object> map:list) {
+				if(map.containsKey("FILENAME")){
+					map.put("samllPath", CommonConstant.SMALLHTTPPath+ImgFileUtils.getSamllPathByName(map.get("FILENAME").toString(),request));
+				}
+				if(map.containsKey("FILENAME")){
+					map.put("watermarkedmediumPath",CommonConstant.SMALLHTTPPath + ImgFileUtils.getWMPathByName(map.get("FILENAME").toString(),request)); 
+				}
+			}
+			result.setCode(CommonConstant.SUCCESSCODE);
+			result.setMsg(CommonConstant.SUCCESSSTRING);
+			result.setPage(p);
+			result.setOther(count);
+			result.setData(list);
+		} catch (InvalidHttpArgumentException e) {
+			result.setCode(e.getCode());
+			result.setMsg(e.getMsg());
+		}catch(Exception e1){
+			e1.printStackTrace();
+			log.error("查询资料库稿件，"+e1.getMessage());
+			result.setCode(CommonConstant.EXCEPTIONCODE);
+			result.setMsg(CommonConstant.EXCEPTIONMSG);
+		}
+		return result;
+	}
+	
+	/**
+	 * 获取资料库子栏目稿件总数
+	 * @param request
+	 * @param gType  0全部，1已发布，2已撤稿件
+	 * @param query  高级检索
+	 * @param signId 签发分类id
+	 * @param cateId 稿件分类id
+	 * @return 
+	 */
+	@ResponseBody
+	@RequestMapping("/getSginSubGroupCount")
+	public Object getSginSubGroupCount(HttpServletRequest request,GroupQuery query, Integer gType,Integer signId,Integer cateId, Integer langType, Integer properties, Integer page, Integer rows){
+		ResponseMessage result=new ResponseMessage();
+		try {
+			Map<String,Object> param=new HashMap<String, Object>();
+			int siteId=SessionUtils.getSiteId(request);
+			if(siteId!=1){
+				param.put("siteId", siteId);
+			}
+			if(langType!=null){
+				param.put("langType", langType);
+			}
+			if(properties != null){
+				param.put("properties", properties);
+			}
+			param.put("deleteFlag", 0);
+			if(signId!=null){
+				param.put("signId", signId);
+			}
+			if(cateId!=null){
+				param.put("cateId", cateId);
+			}
+			gType=gType==null?0:gType;
+			switch (gType) {
+			case 0://全部稿件
+				param.put("statusS", "4,6");
+				break;
+			case 1://已发布
+				param.put("status", 4);
+				break;
+			case 2://被撤稿件
+				param.put("status", 6);
+				break;
+			default:
+				break;
+			}
+			Integer pageNo = (page-1)*rows;//起始条数
+			Integer pageSize = page*rows;//结束条数
+			
+			// add by xiayunan@20180226 资料库多检索词精确检索
+			String paramStr= query.getParamStr();
+			if(paramStr!=null&&paramStr.indexOf(" ")!=-1){
 				String[] arr = paramStr.split(" ");
 				if(arr.length>5){
 					result.setCode(215);
@@ -2205,21 +2538,11 @@ public class GroupPicController {
 			int count = aboutPictureMapper.selectCountSubGroups(param);//总条数
 			//add by xiayunan@2017-09-26
 			int p = (count+rows-1)/rows;//总页数
-//			int p = (int)Math.ceil(count/rows);//总页数
-			List<Map<String,Object>> list=aboutPictureMapper.selectSubGroups(param);
-			for (Map<String,Object> map:list) {
-				if(map.containsKey("FILENAME")){
-					map.put("samllPath", CommonConstant.SMALLHTTPPath+ImgFileUtils.getSamllPathByName(map.get("FILENAME").toString(),request));
-				}
-				if(map.containsKey("FILENAME")){
-					map.put("watermarkedmediumPath",CommonConstant.SMALLHTTPPath + ImgFileUtils.getWMPathByName(map.get("FILENAME").toString(),request)); 
-				}
-			}
+//			
 			result.setCode(CommonConstant.SUCCESSCODE);
 			result.setMsg(CommonConstant.SUCCESSSTRING);
 			result.setPage(p);
 			result.setOther(count);
-			result.setData(list);
 		} catch (InvalidHttpArgumentException e) {
 			result.setCode(e.getCode());
 			result.setMsg(e.getMsg());
@@ -2231,6 +2554,8 @@ public class GroupPicController {
 		}
 		return result;
 	}
+	
+	
 	
 	
 	
@@ -2413,15 +2738,10 @@ public class GroupPicController {
 			default:
 				break;
 			}
-			
-			
-			
-			
 			// add by xiayunan@20180226 资料库多检索词精确检索
 			String paramStr= query.getParamStr();
 			if(paramStr.indexOf(" ")!=-1){
 				String[] arr = paramStr.split(" ");
-				log.info("size:"+arr.length);
 				if(arr.length>5){
 					result.setCode(215);
 					result.setMsg("检索框最多只能输入5个关键词");

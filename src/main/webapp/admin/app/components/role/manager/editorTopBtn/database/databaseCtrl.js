@@ -102,13 +102,13 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 			});
 		});
 		lanmu();
-		if(vm.acitiveOneSlideTit == 1) {
+		//if(vm.acitiveOneSlideTit == 1) {
 			getSignGroups(1, 1760, 1, 0, false);//列表方式展示 edit by hexx
-			getSignGroups(1, 1760, 1, 1, false);
-		} else if(vm.acitiveOneSlideTit == 2) {
-			getSignGroups(2, 1760, 1, 0, false);//列表方式展示 edit by hexx
-			getSignGroups(2, 1760, 1, 1, false);
-		}
+			//getSignGroups(1, 1760, 1, 1, false);
+		//} else if(vm.acitiveOneSlideTit == 2) {
+			//getSignGroups(2, 1760, 1, 0, false);//列表方式展示 edit by hexx
+			//getSignGroups(2, 1760, 1, 1, false);
+		//}
 		getDatebaseGroupAndPicCount();
 	}
 
@@ -116,7 +116,7 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 	
 	
 	
-	//获取Mas视频基础URL add by xiayunan 20170907
+	//获取资料库稿件、图片总数 add by xiayunan@20180320
 	function getDatebaseGroupAndPicCount(){
 		req.get('groupPicCtro/getDatabaseGroupsCountAndPicCount.do').success(function(resp) {
 			if(resp.code == '211') {
@@ -127,7 +127,6 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 			}
 		});
 	}
-	
 	
 	
 	/**
@@ -355,11 +354,17 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 		vm.pagination.current = 1;
 		initSearchSetting();
 		if(vm.acitiveOneSlideTit == 1) {
-			getSignGroups(1, vm.cateId, 1, 0, false);
-			getSignGroups(1, vm.cateId, 1, 1, false);
+			if(vm.acitiveTwoSlideTit1==1){
+				getSignGroups(1, vm.cateId, 1, 0, false);
+			}else{
+				getSignGroups(1, vm.cateId, 1, 1, false);
+			}
 		} else if(vm.acitiveOneSlideTit == 2) {
-			getSignGroups(2, vm.cateId, 1, 0, false);
-			getSignGroups(2, vm.cateId, 1, 1, false);
+			if(vm.acitiveTwoSlideTit1==1){
+				getSignGroups(2, vm.cateId, 1, 0, false);
+			}else{
+				getSignGroups(2, vm.cateId, 1, 1, false);
+			}
 		}
 	};
 	
@@ -368,11 +373,17 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 		vm.acitiveTwoSlideTit2 = acitiveSlideTit;
 		vm.pagination.current = 1;
 		if(vm.acitiveOneSlideTit == 1) {
-			getSignGroups(1, vm.cateId, 1, 0, false);
-			getSignGroups(1, vm.cateId, 1, 1, false);
+			if(vm.acitiveTwoSlideTit1==1){
+				getSignGroups(1, vm.cateId, 1, 0, false);
+			}else{
+				getSignGroups(1, vm.cateId, 1, 1, false);
+			}
 		} else if(vm.acitiveOneSlideTit == 2) {
-			getSignGroups(2, vm.cateId, 1, 0, false);
-			getSignGroups(2, vm.cateId, 1, 1, false);
+			if(vm.acitiveTwoSlideTit1==1){
+				getSignGroups(2, vm.cateId, 1, 0, false);
+			}else{
+				getSignGroups(2, vm.cateId, 1, 1, false);
+			}
 		}
 	};
 	/**
@@ -417,7 +428,7 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 	}
 
 	/**
-	 * 获取资料库列表
+	 * 获取资料库已撤稿件列表
 	 * @param gType     1已发布，2已撤稿件
 	 * @param cateId    分类id:区分分类Id，如果为-100则表示搜索全部
 	 * @param page      第几页
@@ -441,6 +452,7 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 				langType: window.localStorage.lang
 			};
 			reqUrl = 'groupPicCtro/getSginGroup.do';
+			reqCountUrl = 'groupPicCtro/getSginGroupCount.do';
 			vm.chnlSearchFlag = true;//主栏目标识
 			vm.subChnlSeaFlag = false;//子栏目标识 
 			vm.searchFlag = false;//检索标识
@@ -481,29 +493,46 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 		     	params['cateId'] = cateId;
 		 }*/
 		vm.loadUpMs = layer.load(1);
+		
+		req.post(reqCountUrl, params).success(function(resp) {
+			if(resp.code == '211' ) {
+				vm.totalPages = resp.page;
+				vm.databaseList_total = resp.other;
+			}
+		})
+		
+		
 		req.post(reqUrl, params).success(function(resp) {
 			if(resp.code == '211' && resp.data != [] && resp.data.length > 0) {
 				if(gType === 1) {
 					if(showType === 0) {
 						vm.hadPubRowDataArray = resp.data;
-						vm.totalPages = resp.page;
-						vm.databaseList_total = resp.other;
+						if(reqUrl.indexOf("GroupComplex")!=-1){
+							vm.totalPages = resp.page;
+							vm.databaseList_total = resp.other;
+						}
 
 					} else {
 						vm.hadPubTableDataArray = resp.data;
-						vm.totalPages = resp.page;
-						vm.databaseList_total = resp.other;
+						if(reqUrl.indexOf("GroupComplex")!=-1){
+							vm.totalPages = resp.page;
+							vm.databaseList_total = resp.other;
+						}
 					}
 				}
 				if(gType === 2) {
 					if(showType === 0) {
 						vm.hadBackRowDataArray = resp.data;
-						vm.totalPages = resp.page;
-						vm.databaseList_total = resp.other;
+						if(reqUrl.indexOf("GroupComplex")!=-1){
+							vm.totalPages = resp.page;
+							vm.databaseList_total = resp.other;
+						}
 					} else {
 						vm.hadBackTableDataArray = resp.data;
-						vm.totalPages = resp.page;
-						vm.databaseList_total = resp.other;
+						if(reqUrl.indexOf("GroupComplex")!=-1){
+							vm.totalPages = resp.page;
+							vm.databaseList_total = resp.other;
+						}
 					}
 				}
 				layer.close(vm.loadUpMs);
@@ -535,7 +564,7 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 	
 
 	/**
-	 * 资料库获取稿件 
+	 * 资料库获取已发布稿件 
 	 * @param gType
 	 * @param cateId
 	 * @param page
@@ -563,10 +592,12 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 			// add by xiayunan@20180115 普通检索和资料库列表分开
 			if(isOnlySearch){
 				reqUrl = 'groupPicCtro/getSginGroupOnlySeach.do';//普通检索
+				reqCountUrl = 'groupPicCtro/getSginGroupOnlySeachCount.do';
 				vm.searchFlag = true;//检索标识
 				vm.chnlSearchFlag = false;//主栏目标识
 			}else{
 				reqUrl = 'groupPicCtro/getSginGroup.do';//资料库列表
+				reqCountUrl = 'groupPicCtro/getSginGroupCount.do';//普通检索
 				vm.chnlSearchFlag = true;//主栏目标识
 				vm.searchFlag = false;//检索标识
 			}
@@ -613,29 +644,47 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 		     	params['cateId'] = cateId;
 		 }*/
 		vm.loadUpMs = layer.load(1);
+		
+		req.post(reqCountUrl, params).success(function(resp) {
+			if(resp.code == '211' ) {
+				vm.totalPages = resp.page;
+				vm.databaseList_total = resp.other;
+			}
+		})
+		
 		req.post(reqUrl, params).success(function(resp) {
 			if(resp.code == '211' && resp.data != [] && resp.data.length > 0) {
 				if(gType === 1) {
 					if(showType === 0) {
+						
 						vm.hadPubRowDataArray = resp.data;
-						vm.totalPages = resp.page;
-						vm.databaseList_total = resp.other;
+						if(reqUrl.indexOf("GroupComplex")!=-1){
+							vm.totalPages = resp.page;
+							vm.databaseList_total = resp.other;
+						}
+						
 
 					} else {
 						vm.hadPubTableDataArray = resp.data;
-						vm.totalPages = resp.page;
-						vm.databaseList_total = resp.other;
+						if(reqUrl.indexOf("GroupComplex")!=-1){
+							vm.totalPages = resp.page;
+							vm.databaseList_total = resp.other;
+						}
 					}
 				}
 				if(gType === 2) {
 					if(showType === 0) {
 						vm.hadBackRowDataArray = resp.data;
-						vm.totalPages = resp.page;
-						vm.databaseList_total = resp.other;
+						if(reqUrl.indexOf("GroupComplex")!=-1){
+							vm.totalPages = resp.page;
+							vm.databaseList_total = resp.other;
+						}
 					} else {
 						vm.hadBackTableDataArray = resp.data;
-						vm.totalPages = resp.page;
-						vm.databaseList_total = resp.other;
+						if(reqUrl.indexOf("GroupComplex")!=-1){
+							vm.totalPages = resp.page;
+							vm.databaseList_total = resp.other;
+						}
 					}
 				}
 				layer.close(vm.loadUpMs);
@@ -695,6 +744,7 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 				langType: window.localStorage.lang
 			};
 			reqUrl = 'groupPicCtro/getSginSubGroup.do';
+			reqCountUrl = 'groupPicCtro/getSginSubGroupCount.do';//普通检索
 			vm.chnlSearchFlag = false;//主栏目标识
 			vm.subChnlSeaFlag = true;//子栏目标识 
 			vm.searchFlag = false;//检索标识
@@ -729,34 +779,49 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 			vm.ifAdvanceSearchFlag = true;
 			reqUrl = 'groupPicCtro/getGroupComplex.do';
 		}
-		/* if (cateId != -100) {
-		     	params['properties'] = vm.acitiveOneSlideTit;
-		     	params['cateId'] = cateId;
-		 }*/
 		vm.loadUpMs = layer.load(1);
+		
+		req.post(reqCountUrl, params).success(function(resp) {
+			if(resp.code == '211' ) {
+				vm.totalPages = resp.page;
+				vm.databaseList_total = resp.other;
+			}
+		})
 		req.post(reqUrl, params).success(function(resp) {
 			if(resp.code == '211' && resp.data != [] && resp.data.length > 0) {
 				if(gType === 1) {
 					if(showType === 0) {
 						vm.hadPubRowDataArray = resp.data;
-						vm.totalPages = resp.page;
-						vm.databaseList_total = resp.other;
+						if(reqUrl.indexOf("GroupComplex")!=-1){
+							vm.totalPages = resp.page;
+							vm.databaseList_total = resp.other;
+						}
+
 
 					} else {
 						vm.hadPubTableDataArray = resp.data;
-						vm.totalPages = resp.page;
-						vm.databaseList_total = resp.other;
+						if(reqUrl.indexOf("GroupComplex")!=-1){
+							vm.totalPages = resp.page;
+							vm.databaseList_total = resp.other;
+						}
+
 					}
 				}
 				if(gType === 2) {
 					if(showType === 0) {
 						vm.hadBackRowDataArray = resp.data;
-						vm.totalPages = resp.page;
-						vm.databaseList_total = resp.other;
+						if(reqUrl.indexOf("GroupComplex")!=-1){
+							vm.totalPages = resp.page;
+							vm.databaseList_total = resp.other;
+						}
+
 					} else {
 						vm.hadBackTableDataArray = resp.data;
-						vm.totalPages = resp.page;
-						vm.databaseList_total = resp.other;
+						if(reqUrl.indexOf("GroupComplex")!=-1){
+							vm.totalPages = resp.page;
+							vm.databaseList_total = resp.other;
+						}
+
 					}
 				}
 				layer.close(vm.loadUpMs);
@@ -797,45 +862,73 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 		if(vm.acitiveOneSlideTit == 1) {
 			//alert("vm.chnlSearchFlag:"+vm.chnlSearchFlag);
 			if(vm.chnlSearchFlag){
-				getSignGroups(1, vm.cateId, pageNumber, 0, vm.ifAdvanceSearchFlag);
-				getSignGroups(1, vm.cateId, pageNumber, 1, vm.ifAdvanceSearchFlag);
+				console.log("<<<<<vm.chnlSearchFlag:"+vm.chnlSearchFlag);
+				if(vm.acitiveTwoSlideTit1==1){
+					getSignGroups(1, vm.cateId, pageNumber, 0, vm.ifAdvanceSearchFlag);
+				}else{
+					getSignGroups(1, vm.cateId, pageNumber, 1, vm.ifAdvanceSearchFlag);
+				}
 			}else if(vm.subChnlSeaFlag){
-				getSignSubGroups(1, vm.cateId, pageNumber, 0, false);
-				getSignSubGroups(1, vm.cateId, pageNumber, 1, false);
+				if(vm.acitiveTwoSlideTit1==1){
+					getSignSubGroups(1, vm.cateId, pageNumber, 0, false);
+				}else{
+					getSignSubGroups(1, vm.cateId, pageNumber, 1, false);
+				}
+				
 			}else if(vm.searchFlag){
-				getSignGroups(1, vm.cateId, pageNumber, 0, vm.ifAdvanceSearchFlag,true);
-				getSignGroups(1, vm.cateId, pageNumber, 1, vm.ifAdvanceSearchFlag,true);
+				if(vm.acitiveTwoSlideTit1==1){
+					getSignGroups(1, vm.cateId, pageNumber, 0, vm.ifAdvanceSearchFlag,true);
+				}else{
+					getSignGroups(1, vm.cateId, pageNumber, 1, vm.ifAdvanceSearchFlag,true);
+				}
 			}
 			
 //			getSignGroups(1, vm.cateId, pageNumber, 0, vm.ifAdvanceSearchFlag);
 //			getSignGroups(1, vm.cateId, pageNumber, 1, vm.ifAdvanceSearchFlag);
 		} else if(vm.acitiveOneSlideTit == 2) {
 			if(vm.chnlSearchFlag){
-				getSignGroups(2, vm.cateId, pageNumber, 0, vm.ifAdvanceSearchFlag);
-				getSignGroups(2, vm.cateId, pageNumber, 1, vm.ifAdvanceSearchFlag);
+				if(vm.acitiveTwoSlideTit1==1){
+					getSignGroups(2, vm.cateId, pageNumber, 0, vm.ifAdvanceSearchFlag);
+				}else{
+					getSignGroups(2, vm.cateId, pageNumber, 1, vm.ifAdvanceSearchFlag);
+				}
 			}else if(vm.subChnlSeaFlag){
-				getSignSubGroups(2, vm.cateId, pageNumber, 0, false);
-				getSignSubGroups(2, vm.cateId, pageNumber, 1, false);
+				if(vm.acitiveTwoSlideTit1==1){
+					getSignSubGroups(2, vm.cateId, pageNumber, 0, false);
+				}else{
+					getSignSubGroups(2, vm.cateId, pageNumber, 1, false);
+				}
 			}else if(vm.searchFlag){
-				getSignGroups(2, vm.cateId, pageNumber, 0, vm.ifAdvanceSearchFlag,true);
-				getSignGroups(2, vm.cateId, pageNumber, 1, vm.ifAdvanceSearchFlag,true);
+				if(vm.acitiveTwoSlideTit1==1){
+					getSignGroups(2, vm.cateId, pageNumber, 0, vm.ifAdvanceSearchFlag,true);
+				}else{
+					getSignGroups(2, vm.cateId, pageNumber, 1, vm.ifAdvanceSearchFlag,true);
+				}
 			}
 			
-//			getSignGroups(2, vm.cateId, pageNumber, 0, vm.ifAdvanceSearchFlag);
-//			getSignGroups(2, vm.cateId, pageNumber, 1, vm.ifAdvanceSearchFlag);
 		}
 	};
+	
+	
+	
 
 	//普通搜索
 	vm.onSearchModalShow = function() {
 		vm.pagination.current = 1;
 		vm.ifAdvanceSearchFlag = false;
 		if(vm.acitiveOneSlideTit == 1) {
-			getSignGroups(1, vm.cateId, 1, 0, vm.ifAdvanceSearchFlag,true);
-			getSignGroups(1, vm.cateId, 1, 1, vm.ifAdvanceSearchFlag,true);
+			if(vm.acitiveTwoSlideTit1==1){
+				getSignGroups(1, vm.cateId, 1, 0, vm.ifAdvanceSearchFlag,true);
+			}else{
+				getSignGroups(1, vm.cateId, 1, 1, vm.ifAdvanceSearchFlag,true);
+			}
+			
 		} else if(vm.acitiveOneSlideTit == 2) {
-			getSignGroups(2, vm.cateId, 1, 0, vm.ifAdvanceSearchFlag,true);
-			getSignGroups(2, vm.cateId, 1, 1, vm.ifAdvanceSearchFlag,true);
+			if(vm.acitiveTwoSlideTit1==1){
+				getSignGroups(2, vm.cateId, 1, 0, vm.ifAdvanceSearchFlag,true);
+			}else{
+				getSignGroups(2, vm.cateId, 1, 1, vm.ifAdvanceSearchFlag,true);
+			}
 		}
 	};
 
@@ -854,11 +947,17 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 		vm.sureHighSearchFlag = true;
 		//getSignGroups();
 		if(vm.acitiveOneSlideTit == 1) {
-			getSignGroups(1, vm.cateId, 1, 0, true);
-			getSignGroups(1, vm.cateId, 1, 1, true);
+			if(vm.acitiveTwoSlideTit1==1){
+				getSignGroups(1, vm.cateId, 1, 0, true);
+			}else{
+				getSignGroups(1, vm.cateId, 1, 1, true);
+			}
 		} else if(vm.acitiveOneSlideTit == 2) {
-			getSignGroups(2, vm.cateId, 1, 0, true);
-			getSignGroups(2, vm.cateId, 1, 1, true);
+			if(vm.acitiveTwoSlideTit1==1){
+				getSignGroups(2, vm.cateId, 1, 0, true);
+			}else{
+				getSignGroups(2, vm.cateId, 1, 1, true);
+			}
 		}
 	};
 	vm.isShow = function(show){

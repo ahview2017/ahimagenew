@@ -185,7 +185,7 @@
 						</div>
 					</div>
 				</div>
-				<div ng-show="database.acitiveTwoSlideTit1 == 2">
+				<div ng-if="database.acitiveTwoSlideTit1 == 2">
 					<div class="t-uinfo-bd">
 						<div class="table-responsive min-height">
 							<table class="table table-bordered uInfo-table">
@@ -279,7 +279,7 @@
 		</div>
 	</div>
 	<!-- 已撤稿件 -->
-	<div ng-show="database.acitiveOneSlideTit == 2">
+	<div ng-if="database.acitiveOneSlideTit == 2">
 		<div class="database-tit clear">
 			<div class="active-slide-item fll database-tit1" 
 			     ng-class="{ 'database-tit1-active' : database.acitiveTwoSlideTit2 == 1}" 
@@ -311,7 +311,7 @@
 				</div>
 			</div>
 			<div class="fll database-right-box">
-				<div ng-show="database.acitiveTwoSlideTit2 == 1">
+				<div ng-if="database.acitiveTwoSlideTit2 == 1">
 					<div>
 						<div class="database-cont div_box" ng-repeat="dbItem in database.hadBackRowDataArray">
 							<p><input type="checkbox" ng-model="database.selCheckback[dbItem.ID]" name="checkBack" class="checkBack" style="margin-right: 20px" value="{{dbItem.ID}}">

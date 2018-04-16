@@ -127,6 +127,10 @@ CREATE TABLE `cp_favorite_pic_group` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='稿件收藏记录表';
 
 INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(430,1,'图片裁剪并上传','图片裁剪并上传','groupPicCtro/CutAndUpPic',123,0,'admin',now(),NULL,'',0);
+
+INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(431,1,'获取资料库近三天稿件总数','获取资料库近三天稿件总数','groupPicCtro/getSginGroupCount',245,0,'admin',now(),NULL,'',0);
+INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(432,1,'获取资料库稿件普通检索总数','获取资料库稿件普通检索总数','groupPicCtro/getSginGroupOnlySeachCount',245,0,'admin',now(),NULL,'',0);
+INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(433,1,'获取资料库稿件子栏目稿件总数','获取资料库稿件子栏目稿件总数','groupPicCtro/getSginSubGroupCount',245,0,'admin',now(),NULL,'',0);
   
 
 

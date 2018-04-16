@@ -3,6 +3,7 @@
  */
 adminModule.controller('mSendManuscriptCtrl', function($scope, $cookies, req, md5, $state, $rootScope, layerIfShow ,modalOperate, getMyDuty, allModalMove, $stateParams, $window, $document){
     var vm = this;
+    console.log("待审列表请求进入！");
     // 获取用户名
 	vm.uName = $cookies.get('admin_uname');
 	$scope.langType = window.localStorage.lang;

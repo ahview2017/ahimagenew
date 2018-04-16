@@ -565,11 +565,13 @@ adminModule.config(function($stateProvider,$urlRouterProvider,$locationProvider)
          * num 稿件位置
          * oldId 原稿件id ，在更多稿件替换的时候需要
          * */
+        
         .state('role.manager.database', {
             url:'/database/:columnId?/:columnTemplate?/:num?/:oldId?/:topicId?/:lanmuId?/',
             templateUrl: 'admin/app/components/role/manager/editorTopBtn/database/database.html',
             controller: 'mDatabaseCtrl as database'
         })
+        
 
        //管理员-资料库--详情
         /**
