@@ -388,7 +388,19 @@ adminModule.controller('userManageCtrl', function($scope, $cookies, req, md5, $s
 			
 			
 		} else {
-			layer.alert("请选择要删除的用户");
+			switch(changedStatus){
+				case 1:
+					layer.alert("请选择要开通的用户");
+					break;
+				case 3:
+					layer.alert('请选择要删除的用户');
+					break;
+				case 4:
+					layer.alert('请选择要禁用的用户');
+					break;
+			}
+			
+			
 		}
 	};
 	
@@ -511,7 +523,8 @@ adminModule.controller('userManageCtrl', function($scope, $cookies, req, md5, $s
 	};
 	//页数变化
 	vm.pageChanged = function(pageNumber) {
-		getUserManageData(vm.isReMyRoleIdFlag, vm.searchType, false, pageNumber, "");
+		//getUserManageData(vm.isReMyRoleIdFlag, vm.searchType, false, pageNumber, "");
+		getActiveUserManageData(vm.isReMyRoleIdFlag, vm.searchType,vm.pagination.current,false);
 
 	};
 	//联系方式切换
