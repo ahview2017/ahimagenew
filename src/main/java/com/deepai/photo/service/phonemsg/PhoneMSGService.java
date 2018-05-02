@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.deepai.photo.bean.CpEmail;
+import com.deepai.photo.bean.CpMassSMSRecord;
 import com.deepai.photo.bean.CpPhoneMsg;
 import com.deepai.photo.bean.CpPhoneMsgExample;
 import com.deepai.photo.bean.CpPhoneMsgExample.Criteria;
@@ -45,6 +46,7 @@ public class PhoneMSGService {
 	public void add(CpPhoneMsg cpPhoneMsg2) {
 		cpPhoneMsgMapper.insertSelective(cpPhoneMsg2);
 	}
+	
 
 	public CpPhoneMsg detail(int id) {
 		return cpPhoneMsgMapper.selectByPrimaryKey(id);

@@ -1,9 +1,12 @@
 package com.deepai.photo.mapper;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.deepai.photo.bean.CpMassSMSRecord;
 import com.deepai.photo.bean.CpPhoneMsg;
 import com.deepai.photo.bean.CpPhoneMsgExample;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
 public interface CpPhoneMsgMapper {
     int countByExample(CpPhoneMsgExample example);
@@ -27,4 +30,7 @@ public interface CpPhoneMsgMapper {
     int updateByPrimaryKeySelective(CpPhoneMsg record);
 
     int updateByPrimaryKey(CpPhoneMsg record);
+    
+    int addMassSmsRecord(CpMassSMSRecord cpMassSMSRecord);
+    
 }

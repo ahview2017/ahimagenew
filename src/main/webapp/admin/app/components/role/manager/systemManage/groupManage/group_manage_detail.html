@@ -21,8 +21,11 @@
                         </div>
                     	<ul class='group_box_ul clearfloat role-add-con-height'>
                     		<li ng-repeat='groupallUser in groupManageDetail.getGroupManagementUser'>
+                    			<!--  
                     			<span class='group_username'>{{groupallUser.USER_NAME}}</span>
-                    			<span title='从该组移除此用户' class='group_delete'ng-click='groupManageDetail.deleteGroupmeber(groupallUser.userId)'>X</span>
+                    			-->
+                    			<span class='group_username'>{{groupallUser.TURE_NAME}}</span>
+                    			<span title='从该组移除此用户' class='group_delete'ng-click='groupManageDetail.deleteGroupmeber(groupallUser.ID)'>X</span>
                     		</li>                 		
                     	</ul>
                     	<!--群组成员的分页-->
@@ -64,7 +67,9 @@
                     		<li dir-paginate="allUser in groupManageDetail.groupUser | itemsPerPage: groupManageDetail.selPageRows"
                             total-items="groupManageDetail.userList_total"
                             current-page="groupManageDetail.pagination.current">
-                    			<span class='group_username'>{{allUser.USER_NAME}}</span>
+                            	
+                    			<!-- <span class='group_username'>{{allUser.USER_NAME}}</span> -->
+                    			<span class='group_username'>{{allUser.TURE_NAME}}</span>
                     			<span title='添加到此组' class='group_adduser' ng-click='groupManageDetail.addGroupUser(allUser.ID)'>+</span>
                     		</li>                    		
                     	</ul>

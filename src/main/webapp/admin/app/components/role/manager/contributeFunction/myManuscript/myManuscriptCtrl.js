@@ -11,6 +11,8 @@ adminModule.controller('myManuscriptCtrl',function($scope,$cookies,req,md5,$stat
     }
 
     function initSetting(){
+    	//中英文标记
+		vm.langTypeFlag = window.localStorage.lang;
         //默认激活的导航项为全部稿件
         vm.acitiveSlideTit = 1;
         //默认
@@ -40,6 +42,9 @@ adminModule.controller('myManuscriptCtrl',function($scope,$cookies,req,md5,$stat
         };
         //默认每页6条
         vm.selPageRows = '6';
+        
+        //选中稿件id集合
+        vm.selGroupIds = {};
     }
     function initSearchSetting(){
         //搜索对象
@@ -152,6 +157,7 @@ adminModule.controller('myManuscriptCtrl',function($scope,$cookies,req,md5,$stat
         getMymanuscript(vm.gType,1);
     }
 
+    
 
     //我的稿件模态框隐藏
     vm.myManuscriptModalHide = function(modalId){
@@ -199,5 +205,52 @@ adminModule.controller('myManuscriptCtrl',function($scope,$cookies,req,md5,$stat
             }
         });
     }
+    
+    //add by xiayunan@20180428
+    /********************我的稿件下载 start *************************/
+    
+    //全选
+    vm.checkAllMyManuscript = function (checkAll) {
+        angular.forEach(vm.mymanuscriptList, function (item, index) {
+            if (checkAll) {
+                vm.selGroupIds[item.ID] = true;
+            } else {
+                vm.selGroupIds[item.ID] = false;
+            }
+        });
+        
+    };
+    
+    
+    /**
+	 * 下载(组图，图文) 
+	 * @param type 0：至图片，1：图片及说明
+	 */
+	vm.downloadGroupPic = function(type) {
+		var id_array = new Array(); //存放稿件的id
+		$('input[name="check"]:checked').each(function() {
+			id_array.push($(this).val()); //向数组中添加元素
+		});
+		var groupIds = id_array.join(','); //将数组元素连接起来以构建一个字符串
+		if(id_array.length == 0) {
+			layer.alert("请选择图片");
+			modalOperate.modalHide("database-type-modal");
+			return;
+		}
+		//document.location = "/enGroupPicDown/downGrouplePic.do?groupIds=" + groupIds + "&type=" + type+"&langType="+vm.langTypeFlag;
+		 document.location = "/photo/enGroupPicDown/downGrouplePic.do?groupIds=" + groupIds + "&type=" + type+"&langType="+vm.langTypeFlag;
+		 modalOperate.modalHide("database-type-modal");
+	}
+    
+	//下载模态显示
+	vm.ModalShow = function(modalId) {
+		modalOperate.modalShow(modalId);
+	};
+	//下载模态框隐藏
+	vm.ModalHide = function(modalId) {
+		modalOperate.modalHide(modalId);
+	};
+    
+    /********************我的稿件下载 end   *************************/
 
 });

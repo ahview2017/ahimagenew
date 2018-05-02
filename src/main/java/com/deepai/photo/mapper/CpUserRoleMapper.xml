@@ -261,4 +261,16 @@
   <select id="findEmailByUserEmail"  resultType="com.deepai.photo.bean.CpUser" parameterType="string">
    select * from cp_user c where c.EMAIL_BIND=#{email}
   </select>
+  
+  <select id="findUserRole"  resultType="com.deepai.photo.bean.CpUserRole"  parameterType="map" >
+    select * from cp_user_role c where 1=1 
+      <if test="roleId != null" >
+         and ROLE_ID = #{roleId,jdbcType=INTEGER}
+      </if>
+      <if test="userId != null" >
+         and USER_ID = #{userId,jdbcType=INTEGER}
+      </if>
+  </select>
+   
+
 </mapper>

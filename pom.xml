@@ -10,6 +10,7 @@
 	<properties>  
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>  
+
 	<dependencies> 
 		<dependency>
 			<groupId>commons-io</groupId>
@@ -376,7 +377,7 @@
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
 				<extensions>true</extensions>
-			</plugin>
+			</plugin> 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
@@ -394,6 +395,7 @@
 				</configuration>
 				<version>2.1.1</version>
 			</plugin>
+			
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>

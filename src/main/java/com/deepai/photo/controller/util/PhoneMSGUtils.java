@@ -62,6 +62,9 @@ public class PhoneMSGUtils {
     
     /** 手机版投稿发送验证码 */
     public static final String TYPE_PHONE_CODE = "5";
+    
+    /** 管理员群发短信 */
+    public static final String MASS_SMS_CODE = "6";
 
     /**
      * 发送短信通知
@@ -222,7 +225,7 @@ public class PhoneMSGUtils {
      * @return 1 成功 ；0 失败
      * @throws Exception
      */
-    private String send(String phone, String content) throws Exception {
+    public String send(String phone, String content) throws Exception {
         URL endpoint = new URL(phoneUrl);
 
         SendMsgComponent service = new SendMsgComponentLocator();

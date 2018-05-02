@@ -53,7 +53,7 @@ public class EnGroupManagementController {
 			result.setMsg(CommonConstant.SUCCESSSTRING);
 		} catch (Exception e) {
 			e.printStackTrace();
-			log.error("添加群组用户询失败：" + e.getMessage());
+			log.error("添加群组用户失败：" + e.getMessage());
 			result.setCode(CommonConstant.EXCEPTIONCODE);
 			result.setMsg(CommonConstant.EXCEPTIONMSG);
 		}
@@ -78,7 +78,7 @@ public class EnGroupManagementController {
 			result.setMsg(CommonConstant.SUCCESSSTRING);
 		} catch (Exception e) {
 			e.printStackTrace();
-			log.error("添加群组用户询失败：" + e.getMessage());
+			log.error("删除群组用户失败：" + e.getMessage());
 			result.setCode(CommonConstant.EXCEPTIONCODE);
 			result.setMsg(CommonConstant.EXCEPTIONMSG);
 		}

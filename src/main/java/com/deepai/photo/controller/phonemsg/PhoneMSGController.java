@@ -3,7 +3,12 @@ package com.deepai.photo.controller.phonemsg;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
@@ -13,13 +18,16 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.jsoup.helper.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.deepai.photo.bean.CpMassSMSRecord;
 import com.deepai.photo.bean.CpPhoneMsg;
 import com.deepai.photo.bean.CpUser;
+import com.deepai.photo.bean.EnGroupManagement;
 import com.deepai.photo.common.annotation.LogInfo;
 import com.deepai.photo.common.annotation.SkipAuthCheck;
 import com.deepai.photo.common.annotation.SkipLoginCheck;
@@ -30,11 +38,15 @@ import com.deepai.photo.common.pojo.ResponseMessage;
 import com.deepai.photo.common.redis.RedisClientTemplate;
 import com.deepai.photo.common.util.MyStringUtil;
 import com.deepai.photo.common.util.SessionUtils;
+import com.deepai.photo.common.util.date.DateUtils;
 import com.deepai.photo.common.util.encrypt.Coder;
 import com.deepai.photo.common.util.encrypt.MD5Util2;
 import com.deepai.photo.common.validation.CommonValidation;
 import com.deepai.photo.controller.util.PhoneMSGUtils;
+import com.deepai.photo.mapper.CpBasicMapper;
+import com.deepai.photo.mapper.CpMassSMSRecordMapper;
 import com.deepai.photo.mapper.CpUserMapper;
+import com.deepai.photo.mapper.EnGroupManagementMapper;
 import com.deepai.photo.service.admin.SysConfigService;
 import com.deepai.photo.service.admin.UserRoleRightService;
 import com.deepai.photo.service.phonemsg.PhoneMSGService;
@@ -60,12 +72,20 @@ public class PhoneMSGController {
 
     @Autowired
     private CpUserMapper cpUserMapper;
+    
+    @Autowired
+    private CpMassSMSRecordMapper cpMassSMSRecordMapper;
 
     @Autowired
     private RedisClientTemplate redisClientTemplate;
 
     @Autowired
     private PhoneMSGUtils phoneMSGUtils;
+    @Autowired
+	private CpBasicMapper basicMapper;
+    
+    @Autowired
+	private EnGroupManagementMapper groupManagementMapper;
 
     private String result2 = "false";
 
@@ -932,5 +952,373 @@ public class PhoneMSGController {
         result.setMsg(CommonConstant.SUCCESSSTRING);
         return result;
     }
+    
+    /**
+     * 短信群发添加
+     * @author xiayunan
+     * @param request
+     * @param cpMassSMSRecord
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/addMassSMSRecord")
+    public Object addMassSMSRecord(HttpServletRequest request,
+    		CpMassSMSRecord cpMassSMSRecord) {
+    	log.info("<<<<<<<<<开始进行短信群发添加");
+        ResponseMessage result = new ResponseMessage();
+        try {
+	        CommonValidation.checkParamBlank(cpMassSMSRecord.getMsgContent(), "短信内容");
+	        CpUser user = (CpUser)SessionUtils.getUser(request);
+	        if(user==null){
+	        	result.setCode(CommonConstant.NOTLOGINCODE);
+	            result.setMsg(CommonConstant.NOTLOGINMSG);
+	            return result;
+	        }
+	        cpMassSMSRecord.setSender(user.getTureName());
+	        if(!StringUtil.isBlank(cpMassSMSRecord.getPhoneReceiverUser())){
+	        	cpMassSMSRecord.setReceiverType(0);
+	        }
+	        if(!StringUtil.isBlank(cpMassSMSRecord.getPhoneReceiverGroup())){
+	        	cpMassSMSRecord.setReceiverType(1);
+	        }
+	        cpMassSMSRecord.setCrtime(new Date());
+	        cpMassSMSRecordMapper.insertSelective(cpMassSMSRecord);	
+            result.setCode(CommonConstant.SUCCESSCODE);
+            result.setMsg(CommonConstant.SUCCESSSTRING);
+            result.setData(cpMassSMSRecord);
+        } catch (Exception e1) {
+            e1.printStackTrace();
+            log.error("新增短信群发记录失败， " + e1.getMessage());
+            result.setCode(CommonConstant.EXCEPTIONCODE);
+            result.setMsg(CommonConstant.EXCEPTIONMSG);
+        }
+        return result;
+    }
+    
+    
+    /**
+     * 显示所有群发短信信息
+     * 
+     * @param request
+     * @param response
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/showMassSMS")
+    @LogInfo(content = "显示短信群发", opeType = 2, logTypeCode = CommonConstant.PhoneMsg)
+    public Object showMassSMS(HttpServletRequest request,
+            HttpServletResponse response) {
+        ResponseMessage result = new ResponseMessage();
+        List<CpUser> receiveUsers = null;
+        List<EnGroupManagement> receivegroups = null;
+        try {
+            PageHelper.startPage(request);
+            List<CpMassSMSRecord> lists = cpMassSMSRecordMapper.showMassSMS();
+            if(lists.size()>0){
+            	 for(CpMassSMSRecord cpMassSMSRecord:lists){
+            		 String userIds = cpMassSMSRecord.getPhoneReceiverUser();
+            		 if(!StringUtil.isBlank(userIds)){
+            			 String[] userIdsArr = userIds.split(",");
+            			 receiveUsers = new ArrayList<CpUser>();
+            			 for(String userId:userIdsArr){
+            				 CpUser cpUser = cpUserMapper.selectByPrimaryKey(Integer.valueOf(userId));
+            				 receiveUsers.add(cpUser);
+            			 }
+            			 cpMassSMSRecord.setUsers(receiveUsers);
+            		 }
+            		 
+            		 String groupIds = cpMassSMSRecord.getPhoneReceiverGroup();
+            		 if(!StringUtil.isBlank(groupIds)){
+            			 String[] GroupsIdsArr = groupIds.split(",");
+            			 receivegroups = new ArrayList<EnGroupManagement>();
+            			 for(String groupId:GroupsIdsArr){
+            				 EnGroupManagement enGroupManagement =  groupManagementMapper.selectById(Integer.valueOf(groupId));
+            				 receivegroups.add(enGroupManagement);
+            			 }
+            			 cpMassSMSRecord.setGroups(receivegroups);
+            		 }
+                 }
+            }
+            PageHelper.addPages(result, lists);
+            result.setCode(CommonConstant.SUCCESSCODE);
+            result.setMsg(CommonConstant.SUCCESSSTRING);
+            result.setData(lists);
+            PageHelper.addPagesAndTotal(result, lists);
+        } catch (Exception e1) {
+            e1.printStackTrace();
+            log.error("无法获取短信列表，" + e1.getMessage());
+            result.setCode(CommonConstant.EXCEPTIONCODE);
+            result.setMsg(CommonConstant.EXCEPTIONMSG);
+        }
+        return result;
+    }
+    
+    
+    /**
+     * 更新短信群发记录
+     * @author xiayunan
+     * @param request
+     * @param cpMassSMSRecord
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/updateMassSMSRecord")
+    public Object updateMassSMSRecord(HttpServletRequest request,
+    		CpMassSMSRecord cpMassSMSRecord) {
+    	log.info("<<<<<<<<<开始更新短信群发记录");
+        ResponseMessage result = new ResponseMessage();
+        try {
+	        CommonValidation.checkParamBlank(cpMassSMSRecord.getMsgContent(), "短信内容");
+	        CpUser user = (CpUser)SessionUtils.getUser(request);
+	        if(user==null){
+	        	result.setCode(CommonConstant.NOTLOGINCODE);
+	            result.setMsg(CommonConstant.NOTLOGINMSG);
+	            return result;
+	        }
+	        cpMassSMSRecord.setAuditor(user.getTureName());
+	        cpMassSMSRecord.setUpdateTime(new Date());
+	        cpMassSMSRecordMapper.updateByPrimaryKeySelective(cpMassSMSRecord);
+            result.setCode(CommonConstant.SUCCESSCODE);
+            result.setMsg(CommonConstant.SUCCESSSTRING);
+            result.setData(cpMassSMSRecord);
+        } catch (Exception e1) {
+            e1.printStackTrace();
+            log.error("新增短信群发记录失败， " + e1.getMessage());
+            result.setCode(CommonConstant.EXCEPTIONCODE);
+            result.setMsg(CommonConstant.EXCEPTIONMSG);
+        }
+        return result;
+    }
+    
+    /**
+     * 删除短信群发记录
+     * @author xiayunan
+     * @param request
+     * @param cpMassSMSRecord
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/deleteMassSMSRecord")
+    public Object deleteMassSMSRecord(HttpServletRequest request,
+    		String recordId) {
+    	log.info("<<<<<<<<<开始删除短信群发记录");
+        ResponseMessage result = new ResponseMessage();
+        try {
+	        CommonValidation.checkParamBlank(recordId, "短信群发记录ID");
+	        String[] split = recordId.split(",");
+			for (String i : split) {
+				cpMassSMSRecordMapper.deleteByPrimaryKey(Integer.parseInt(i));
+			}
+            result.setCode(CommonConstant.SUCCESSCODE);
+            result.setMsg(CommonConstant.SUCCESSSTRING);
+        } catch (Exception e1) {
+            e1.printStackTrace();
+            log.error("删除短信群发记录失败， " + e1.getMessage());
+            result.setCode(CommonConstant.EXCEPTIONCODE);
+            result.setMsg(CommonConstant.EXCEPTIONMSG);
+        }
+        return result;
+    }
+    
+    /**
+     * 查询短信群发记录
+     * @param request
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/searchMassSMSRecordById")
+    public Object searchMassSMSRecordById(HttpServletRequest request,
+    		String id) {
+    	log.info("<<<<<<<<<开始查询短信群发记录");
+        ResponseMessage result = new ResponseMessage();
+        try {
+	        CommonValidation.checkParamBlank(id, "短信群发记录ID");
+	        CpMassSMSRecord cpMassSMSRecord = cpMassSMSRecordMapper.selectMassSMSById(Integer.parseInt(id));
+            result.setCode(CommonConstant.SUCCESSCODE);
+            result.setMsg(CommonConstant.SUCCESSSTRING);
+            result.setData(cpMassSMSRecord);
+        } catch (Exception e1) {
+            e1.printStackTrace();
+            log.error("查询短信群发记录失败， " + e1.getMessage());
+            result.setCode(CommonConstant.EXCEPTIONCODE);
+            result.setMsg(CommonConstant.EXCEPTIONMSG);
+        }
+        return result;
+    }
+    
+   /**
+    * @description 搜索群发短信
+    * @author xiayunan
+    * @param request
+    * @param response
+    * @param cpMassSMSRecord
+    * @param searchParamStr
+    * @param timeFrom
+    * @param timeTo
+    * @return
+    */
+    @ResponseBody
+    @RequestMapping("/searchMassSMS")
+    public Object searchMassSMS(HttpServletRequest request,
+            HttpServletResponse response, CpMassSMSRecord cpMassSMSRecord,String searchName,String timeFrom,String timeTo) {
+        ResponseMessage result = new ResponseMessage();
+        try {
+        	log.info("开始检索短信群发记录!");
+            PageHelper.startPage(request);
+            Map<String, Object> map=new HashMap<String, Object>();
+    		if (!StringUtil.isBlank(searchName)) {
+    			  map.put("searchName", searchName);
+    		}
+    		if(cpMassSMSRecord.getStatus()!=null){
+    			map.put("status", cpMassSMSRecord.getStatus()+"");
+    		}
+    		if(!StringUtil.isBlank(timeFrom)){
+    			map.put("timeFrom", DateUtils.fromStringToDate("yyyy-MM-dd",timeFrom));
+    		}
+    		if(!StringUtil.isBlank(timeTo)){
+    			map.put("timeTo", DateUtils.fromStringToDate("yyyy-MM-dd",timeTo));
+    		}
+    		if(!StringUtil.isBlank(cpMassSMSRecord.getSender())){
+    			map.put("sender", cpMassSMSRecord.getSender());
+    		}
+            List<CpMassSMSRecord> list = cpMassSMSRecordMapper.search(map);
+            PageHelper.addPages(result, list);
+            result.setCode(CommonConstant.SUCCESSCODE);
+            result.setMsg(CommonConstant.SUCCESSSTRING);
+            result.setData(list);
+            PageHelper.addPagesAndTotal(result, list);
+        } catch (Exception e1) {
+            e1.printStackTrace();
+            log.error("搜索短信失败，" + e1.getMessage());
+            result.setCode(CommonConstant.EXCEPTIONCODE);
+            result.setMsg(CommonConstant.EXCEPTIONMSG);
+        }
+        return result;
+    }
+    
+    /**
+     * 群发短信
+     * @param request
+     * @param response
+     * @param recordId
+     * @return
+     */
+     @ResponseBody
+     @RequestMapping("/sendMassSMS")
+     public Object sendMassSMS(HttpServletRequest request,
+             HttpServletResponse response, Integer recordId) {
+         ResponseMessage result = new ResponseMessage();
+         List<Map<String, Object>> userList = null;
+         List<Map<String, Object>> groupUserList = null;
+//         Set<Integer> userSet = new HashSet<Integer>();//短信群发用户Id总容器
+         Set<String> phoneNumSet = new HashSet<String>();//用户手机号总容器
+         CpPhoneMsg cpPhoneMsg = new CpPhoneMsg();
+         try {
+             log.info("开始发送短信!");
+         	 CommonValidation.checkParamBlank(recordId+"", "短信群发记录ID");
+         	 log.info("<<<记录ID："+recordId);
+         	 CpMassSMSRecord cpMassSMSRecord =  cpMassSMSRecordMapper.selectMassSMSById(recordId);
+         	 log.info("userNames:"+cpMassSMSRecord.getPhoneReceiverUser());
+         	 
+         	 
+         	 String recerverUserNames = cpMassSMSRecord.getPhoneReceiverUser();
+         	 if(!StringUtil.isBlank(recerverUserNames)){
+         		String[] recerverUserArr  = recerverUserNames.split(",");
+            	 for(int i = 0;i<recerverUserArr.length;i++){
+            		 String iUserName = recerverUserArr[i];
+            		 Map<String, Object> param = new HashMap<String, Object>();
+            		 if(!StringUtil.isBlank(iUserName)){
+            			param.put("userName", iUserName);
+            			userList = basicMapper.getUserAll(param);
+            		 }
+            		 if(userList.size()>0){
+            			 for(Map<String, Object> map:userList){
+            				//userSet.add((Integer)(map.get("ID")));
+            				phoneNumSet.add((String)map.get("TEL_BIND"));
+            			 }
+            		 }
+            	 }
+         	 }
+         	 //将群组中所有的用户加入群发用户ID总容器
+         	 log.info("userGroups:"+cpMassSMSRecord.getPhoneReceiverGroup());
+         	 String recerverGroupsIds = cpMassSMSRecord.getPhoneReceiverGroup();
+         	 if(!StringUtil.isBlank(recerverGroupsIds)){
+         		String[] recerverGroupsArr  = recerverGroupsIds.split(",");
+         		log.info("recerverGroupsArr.size:"+recerverGroupsArr.length);
+            	 for(String groupId:recerverGroupsArr){
+            		groupUserList = groupManagementMapper.getGroupManagementUser(Integer.valueOf(groupId), "");
+            		log.info("groupUserList.size:"+groupUserList.size());
+            		if(groupUserList.size()>0){
+           			 for(Map<String, Object> map:groupUserList){
+           				//userSet.add((Integer)(map.get("ID")));
+           				phoneNumSet.add((String)map.get("TEL_BIND"));
+           			 }
+           		 }
+            	 }
+         	 }
+         	if(phoneNumSet.size()==0){
+         		result.setCode(518);
+                result.setMsg("接受对象的手机号集合为空，请核对后再发生");
+                return result;
+         	} 
+         	 //log.info("用户ID集合："+userSet.toString());
+         	log.info("用户手机号集合："+phoneNumSet.toString());
+         	String massSmsContent = cpMassSMSRecord.getMsgContent();
+         	log.info("<<<massSmsContent:"+massSmsContent);
+         	if(!StringUtil.isBlank(massSmsContent)&&massSmsContent.length()<=60){
+         		//TODO 群发短信
+         		for (String phone : phoneNumSet) {
+         			try {
+         				cpPhoneMsg.setSender(cpMassSMSRecord.getSender());
+             			cpPhoneMsg.setContent(massSmsContent);
+                        String msgResult = phoneMSGUtils.send(phone, massSmsContent);
+                        log.info("<<<msgResult:"+msgResult);
+                        if (msgResult.equals("1")) {
+                            cpPhoneMsg.setStatus(0); // 发送成功
+                            phoneMSGService.add(cpPhoneMsg);
+                            result.setCode(CommonConstant.SUCCESSCODE);
+                            result.setMsg(CommonConstant.SUCCESSSTRING);
+                        } else {
+                            cpPhoneMsg.setStatus(2); // 发送失败
+                            phoneMSGService.add(cpPhoneMsg);
+                            result.setCode(CommonConstant.EXCEPTIONCODE);
+                            result.setMsg("短信发送失败");
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        result.setCode(CommonConstant.EXCEPTIONCODE);
+                        cpPhoneMsg.setStatus(2); // 发送失败
+                        phoneMSGService.add(cpPhoneMsg);
+                        log.error("短信发送失败， ", e);
+                        result.setMsg("短信发送失败");
+                    }
+         		}
+         	}else{
+         		 result.setCode(CommonConstant.EXCEPTIONCODE);
+                 result.setMsg("短信内容为空或总字数超过60，请核对后再进行发送！");
+                 return result;
+         	}
+         } catch (Exception e1) {
+             e1.printStackTrace();
+             log.error("发送短信失败，" + e1.getMessage());
+             result.setCode(CommonConstant.EXCEPTIONCODE);
+             result.setMsg(CommonConstant.EXCEPTIONMSG);
+         }
+         return result;
+     }
+    
 
+    public static void main(String[] args) {
+		Set<Integer> set = new HashSet<Integer>();
+		set.add(4);
+		set.add(4);
+		set.add(5);
+		set.add(6);
+		System.out.println(set.toString());
+		
+		
+		System.out.println("安徽报业集团短消息中安徽报业集团短消息中安徽报业集团短消息中安徽报业集团短消息中安徽报业集团短消息中安徽报业集团短消息中1".length());
+		
+	}
 }

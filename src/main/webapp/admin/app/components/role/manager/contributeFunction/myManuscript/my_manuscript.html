@@ -12,6 +12,17 @@
     </div>
     <div class="c-user-table">
         <div class="t-search-hd clear">
+        	<div class="user-hd-left fll">
+                <label for="checkAllDraft">
+                    <input type="checkbox" ng-model="myManuscript.checkedAllMyManuscript" id="checkedAllMyManuscript"
+                           ng-click="myManuscript.checkAllMyManuscript(myManuscript.checkedAllMyManuscript)"/>
+                    <span class="user-check-txt cursor" translate>全选</span>
+                </label>
+                <span class="dib cursor user-add-btn role-del-btn"
+                     ng-click="myManuscript.ModalShow('download-type-modal')"  translate>下载</span>
+             
+            </div>
+        
             <div class="user-hd-right flr">
                 <input class="user-search-input" ng-model="myManuscript.search.paramStr"
                        placeholder="可根据稿件ID、标题、作者名 检索" ng-keydown="myManuscript.enterQuery($event)"/>
@@ -25,6 +36,8 @@
                 <table  class="table table-bordered uInfo-table">
                     <thead>
                     <tr>
+                    	<th class="uinfo-hd-th">
+                        </th>
                         <th class="uinfo-hd-th" translate>100045</th>
                         <th class="uinfo-hd-th" translate>100046</th>
                         <th class="uinfo-hd-th" translate>100047</th>
@@ -40,6 +53,9 @@
                     <tr dir-paginate="item in myManuscript.mymanuscriptList | itemsPerPage: myManuscript.selPageRows"
                         total-items="myManuscript.myMsList_total"
                         current-page="myManuscript.pagination.current" show-middle-pic>
+                        	<td>
+	                            <input type="checkbox" class="check" name="check" value="{{item.ID}}" ng-model="myManuscript.selGroupIds[item.ID]"/>
+	                        </td>
                             <td>{{item.ID}}</td>
                             <td>
                                {{item.GOODS_TYPE | draftImgTypeFilter}}
@@ -206,4 +222,20 @@
             </div>
         </div>
     </div>
+    
+    <!--下载类别弹框-->
+	<div class="common-modal-style" id="download-type-modal" ng-mousemove="myManuscript.moveModal('del-modal-tit','download-type-modal')"style="display:none">
+		<div class="role-add-con">
+			<div id="del-modal-tit" class="role-add-tit">
+				下载类别 <span class="flr curp tit-close" ng-click="myManuscript.ModalHide('download-type-modal')">×</span>
+			</div>
+			<div class="role-modal-con">
+				请选择下载类别？
+			</div>
+			<div class="tac mt10">
+				<span class="dib cursor user-add-btn" ng-click="myManuscript.downloadGroupPic(0)">组图</span>
+				<span class="dib cursor user-add-btn " ng-click="myManuscript.downloadGroupPic(1)">图文</span>
+			</div>
+		</div>
+	</div>
 </div>

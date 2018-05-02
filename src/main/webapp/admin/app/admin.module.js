@@ -186,6 +186,7 @@ adminModule.config(function($stateProvider,$urlRouterProvider,$locationProvider)
             templateUrl: 'admin/app/components/role/manager/systemManage/msgManage/msg_manage.html',
             controller: 'msgManageCtrl as msgManage'
         })
+        
         //管理员-网站信息管理
         .state('role.manager.webInfoManage', {
             url:'/webInfoManage',

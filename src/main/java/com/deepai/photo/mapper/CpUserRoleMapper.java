@@ -1,10 +1,13 @@
 package com.deepai.photo.mapper;
 
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.deepai.photo.bean.CpUser;
 import com.deepai.photo.bean.CpUserRole;
 import com.deepai.photo.bean.CpUserRoleExample;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
 public interface CpUserRoleMapper {
     int countByExample(CpUserRoleExample example);
@@ -44,4 +47,6 @@ public interface CpUserRoleMapper {
 	List<CpUser> findUserByPhone(String phoneNum);
 
 	CpUser findEmailByUserEmail(String email);
+	
+	CpUserRole findUserRole(Map<String,Object> map);
 }

@@ -25,6 +25,9 @@ adminModule.controller('msgManageCtrl', function($scope, $cookies, req, md5, $st
 		vm.msgNetAdArray = [];
 		//存放手机短信数组
 		vm.msgPhoneArray = [];
+		
+		//存放手机群发短信数组
+		vm.massSMSArray = [];
 		//站内信总条数
 		vm.msgList_total = 0;
 		//电子邮件总条数
@@ -49,6 +52,7 @@ adminModule.controller('msgManageCtrl', function($scope, $cookies, req, md5, $st
 		vm.searchType_th= 2;
 		vm.searchType_f = 2;
 		vm.searchType_s = 2;
+		vm.searchType_ma = 2;
 
 		//站内信搜索输入框默认值
 		vm.msgMallSearchModel = '';
@@ -60,35 +64,52 @@ adminModule.controller('msgManageCtrl', function($scope, $cookies, req, md5, $st
 		vm.isMsgNetAdHadAllCheck = '';
 		//手机短信搜索输入框默认值
 		vm.msgPhoneSearchModel = '';
-
+		//手机短信群发搜索输入框默认值
+		vm.massSMSSearchModel = '';
+		
+		//add by xiayunan@20180418 短信群发权限控制
+		vm.isMsgEditor = false;//是否是短信编辑人员
+		vm.isMsgAssessor = false;//是否是短信审核人员
+		checkMsgEditor();
+		checkMsgAssessor();
+		
+		vm.getGroupManagementUser = [];
+		
+		vm.verifyStatus = "0";
+		vm.oriMassSmsStatus = "0";
+		vm.isEditMassSMS = false;
 	}
 
 
-	//页数变化
-	/*vm.pageChanged = function (pageNumber) {
-	 switch(parseInt(vm.acitiveSlideTit)){
-	 //站内信
-	 case 1:
-	 getMsgMallTableData(pageNumber, 1);
-	 break;
-	 //电子邮件
-	 case 2:
-	 getMsgEmailTableData(pageNumber, 1);
-	 break;
-	 //网站留言
-	 case 3:
-	 getMsgNetInTableData(pageNumber, 1);
-	 break;
-	 //网站公告
-	 case 4:
-	 getMsgNetAdTableData(pageNumber, 1);
-	 break;
-	 //手机短信
-	 case 5:
-	 getMsgPhoneTableData(pageNumber, 1);
-	 break;
-	 }
-	 };*/
+	
+	/**
+	 * 校验当前用户是否是短信编辑人员
+	 * @returns
+	 */
+	function checkMsgEditor(){
+		 req.post('userCtro/checkUserRole.do', {
+	            roleId:100
+	        }).success(function (resp) {
+	            if (resp.code == '211') {
+	                vm.isMsgEditor = resp.data;
+	            } 
+	        });
+	}
+	
+	/**
+	 * 校验当前用户是否是短信审核人员
+	 * @returns
+	 */
+	function checkMsgAssessor(){
+		 req.post('userCtro/checkUserRole.do', {
+	            roleId:101
+	        }).success(function (resp) {
+	            if (resp.code == '211') {
+	                vm.isMsgAssessor = resp.data;
+	            } 
+	        });
+	}
+	
 
 	//页数变化
 	vm.pageChanged = function(pageNumber) {
@@ -112,6 +133,10 @@ adminModule.controller('msgManageCtrl', function($scope, $cookies, req, md5, $st
 			//手机短信
 			case 5:
 				getMsgPhoneTableData(pageNumber, 1, vm.searchType_s);
+				break;
+			//短信群发
+			case 6:
+				getMassSMSTableData(pageNumber, 1, vm.searchType_ma);
 				break;
 		}
 	};
@@ -173,7 +198,7 @@ adminModule.controller('msgManageCtrl', function($scope, $cookies, req, md5, $st
 	}
 
 
-
+	
 	//初始化电子邮件分类对象相关配置
 	function initAcceptObj(){
 		//默认选中的数据
@@ -192,6 +217,51 @@ adminModule.controller('msgManageCtrl', function($scope, $cookies, req, md5, $st
 			smartButtonMaxItems: 2
 		};
 	}
+	
+	
+	
+	//初始化短信群发用户组分类对象相关配置
+	function initAcceptGroupObj(){
+		//默认选中的数据
+		vm.selReceptGroupObjArr = [];
+		//默认显示文本
+		vm.defaultReceptGroupObj = {
+			buttonDefaultText: '请选择'
+		};
+		//默认设置
+		vm.receptGroupObjSettings = {
+			displayProp: 'text',
+			idProp: 'id',
+			showCheckAll: false,
+			showUncheckAll: false,
+			scrollable: true,
+			smartButtonMaxItems: 2
+		};
+	}
+	
+	//初始化短信群发用户组分类对象相关配置
+	function initAcceptEditGroupObj(){
+		//默认选中的数据
+		vm.selReceptEditGroupObjArr = [];
+		//默认显示文本
+		vm.defaultReceptEditGroupObj = {
+			buttonDefaultText: '请选择'
+		};
+		//默认设置
+		vm.receptEditGroupObjSettings = {
+			displayProp: 'text',
+			idProp: 'id',
+			showCheckAll: false,
+			showUncheckAll: false,
+			scrollable: true,
+			smartButtonMaxItems: 2
+		};
+	}
+	
+	
+	
+	
+	
 	//获取电子邮件分类对象数据
 	function getAcceptObjData(callback) {
 		req.post('groupManagementCtrl/getGroupManagementAll.do', {}).success(function(resp) {
@@ -208,6 +278,8 @@ adminModule.controller('msgManageCtrl', function($scope, $cookies, req, md5, $st
 		initSetting();
 		initEdit();
 		initAcceptObj();
+		initAcceptGroupObj();
+		initAcceptEditGroupObj();
 		switch(parseInt(vm.acitiveSlideTit)) {
 			//站内信
 			case 1:
@@ -228,6 +300,10 @@ adminModule.controller('msgManageCtrl', function($scope, $cookies, req, md5, $st
 			//手机短信
 			case 5:
 				getMsgPhoneTableData(1, 1, 0);
+				break;
+			//短信群发
+			case 6:
+				getMassSMSTableData(1, 1, 0);
 				break;
 		}
 		/*getMsgMallTableData(1, 1, 2);
@@ -318,6 +394,9 @@ adminModule.controller('msgManageCtrl', function($scope, $cookies, req, md5, $st
 			case 5:
 				getMsgPhoneTableData(1, 1);
 				break;
+			case 6:
+				getMassSMSTableData(1, 1);
+				break;
 		}
 	};
 	//电子邮件
@@ -399,6 +478,46 @@ adminModule.controller('msgManageCtrl', function($scope, $cookies, req, md5, $st
 				vm.msgPhoneConModel = "";
 				vm.msgModalHide('short-msg-add-modal');
 				vm.msgModalHide('msg-msg-sele-modal');
+				break;
+			case 6:
+				vm.selectedUsers = "";
+				vm.selectedUserIds = "";
+				vm.selReceptGroupObjArr =[];
+				vm.massSMSContentModel = "";
+				//TODO 隐藏短信群发高级检索弹框
+//				vm.msgModalHide('msg-msg-sele-modal');
+				vm.msgModalHide('mass-sms-add-modal');
+
+				break;
+			case 7:
+//				vm.msgPhoneReModel = "";
+//				vm.msgPhoneConModel = "";
+				
+				//TODO 隐藏短信群发高级检索弹框
+//				vm.msgModalHide('msg-msg-sele-modal');
+				vm.selectAllName = "";
+				vm.getGroupManagementUser = [];
+				vm.msgModalHide('user-add-modal');
+				break;
+			case 8:
+//				vm.msgPhoneReModel = "";
+//				vm.msgPhoneConModel = "";
+				
+				//TODO 隐藏短信群发高级检索弹框
+//				vm.msgModalHide('msg-msg-sele-modal');
+				
+				vm.editUsers = "";
+				vm.selReceptEditGroupObjArr = [];
+				vm.editMsgContent="";
+				vm.editMsgSuggestion  = "";
+				vm.editVerifyStatus  = "0";
+				vm.oriMassSmsStatus  = "0";
+				vm.currEditMassSMSIndex = "";
+				vm.isEditMassSMS = false;
+				vm.msgModalHide('mass-sms-edit-modal');
+				break;
+			case 9:
+				vm.msgModalHide('mass-sms-sele-modal');
 				break;
 		}
 	};
@@ -518,6 +637,7 @@ adminModule.controller('msgManageCtrl', function($scope, $cookies, req, md5, $st
 					paramsId += checkBoxItem + ",";
 				}
 			}
+			
 			if(paramsId != "") {
 				vm.deleteMsgMallParamsId = paramsId.substr(0, paramsId.length - 1);
 				vm.msgModalShow('msg-letter-del-modal');
@@ -1500,4 +1620,556 @@ adminModule.controller('msgManageCtrl', function($scope, $cookies, req, md5, $st
 	};
 
 	/* ------------------手机短信结束------------------------- */
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//短信群发 add by xiayunan@20180423
+	/* ------------------短信群发开始 ------------------------- */
+	
+	vm.searchUser = function() {
+		if(vm.getGroupManagementUser.length>0){
+			if(!vm.selectGroupName){
+				angular.forEach(vm.getGroupManagementUser,function(item,index){
+						item.FLAG = '0';
+				});
+			}else{
+				angular.forEach(vm.getGroupManagementUser,function(item,index){
+					if( item.TURE_NAME.indexOf(vm.selectGroupName)== -1){
+						item.FLAG = '1';
+					}
+				});
+			}
+		}
+	};
+	
+	
+	//修改群组成员弹框		
+	vm.getUserAll = function() {
+		//群组所有成员
+		req.post("userCtro/getUserAll.do", {
+			groupId: $stateParams.groupId,
+			userName: vm.selectAllName //查询用户
+		}).success(function(resp) {
+			if(resp.code == '211') {
+				vm.groupUser = resp.data;
+				vm.totalPages = resp.page;
+				vm.userList_total = resp.other;
+			} else if(resp.msg != '未登录') {
+				layer.alert(resp.msg);
+			}
+		});
+		
+	};
+	
+	//添加组成员
+	vm.addGroupUser = function(userId,trueName) {
+		if(vm.getGroupManagementUser.length>0){
+			 var repeatFlag = false;
+			 angular.forEach(vm.getGroupManagementUser,function(item,index){
+			     if(item.ID==userId){
+			    	 repeatFlag = true;
+			 	 }
+	         });
+		}
+		if(repeatFlag){
+			 layer.alert("不允许重复添加用户！");
+		}else{
+			 vm.getGroupManagementUser.push({
+	             ID: userId+'',
+	             TURE_NAME: trueName,
+	             FLAG: '0'//检索标识
+	         })
+		}
+		
+	}
+	
+	//移除组成员
+	vm.deleteGroupmeber = function(userId) {
+		 angular.forEach(vm.getGroupManagementUser,function(item,index){
+		     if(item.ID==userId){
+		    	 vm.getGroupManagementUser.splice(index, 1);
+		 	 }
+         });
+	}
+	
+	//添加用户弹窗分页
+	vm.userPageChanged = function(pageNumber) {
+		vm.pagination.current = pageNumber;
+		getallUserList(pageNumber, 1);
+	};
+
+	function getallUserList(curPage, type) {
+		req.post('userCtro/getUserAll.do', {
+			page: curPage,
+			rows: vm.selPageRows,
+			groupId: $stateParams.groupId,
+			userName: vm.selectAllName //查询用户
+		}).success(function(resp) {
+			if(resp.code == '211') {
+				vm.groupUser = resp.data;
+				vm.totalPages = resp.page;
+				vm.userList_total = resp.other;
+			} else if(resp.msg != '未登录') {
+				layer.alert(resp.msg);
+			}
+		});
+	}
+	
+	
+	vm.save=function(){
+		//TODO
+		var userIdsStr = '';
+		var userNamesStr = '';
+		if(vm.getGroupManagementUser.length>0){
+			angular.forEach(vm.getGroupManagementUser,function(item,index){
+				if(index == vm.getGroupManagementUser.length - 1){
+					userIdsStr += item.ID;
+					userNamesStr +=item.TURE_NAME;
+				}else{
+					userIdsStr += item.ID+",";
+					userNamesStr +=item.TURE_NAME+",";
+				}
+	        });
+		}
+		vm.selectedUsers = userNamesStr;
+		vm.selectedUserIds = userIdsStr;
+		
+		if(vm.isEditMassSMS){
+			vm.editUsers = userNamesStr;
+			vm.editUserIds = userIdsStr;
+		}
+		
+		
+		
+		
+		//返回消息管理
+		vm.onCloseCurrentModalClick(7);
+	}
+	
+	//消息模态框显示
+	vm.userModalShow = function(modalId) {
+		if(vm.editUsers){
+			angular.forEach(vm.massSMSArray[vm.currEditMassSMSIndex].users, function(item, index) {
+				vm.getGroupManagementUser.push({
+					 ID: item.id,
+		             TURE_NAME: item.tureName,
+		             FLAG: '0'//检索标识
+		         })
+			});
+		}
+		modalOperate.modalShow(modalId);
+		vm.getUserAll();
+	};
+	
+	//消息模态框显示
+	vm.addMassModalShow = function(modalId) {
+		modalOperate.modalShow(modalId);
+		vm.getUserAll();
+	};
+	
+	//消息模态框显示
+	vm.massModalShow = function(modalId) {
+		modalOperate.modalShow(modalId);
+	};
+	
+	//消息模态框显示
+	vm.delModalShow = function(modalId,itemId) {
+		modalOperate.modalShow(modalId);
+		vm.currEditMassSMSId = itemId;
+	};
+	
+	//获取接受对象参数
+	function getAcceptGroupObjParams(){
+		var ParamArr = [];
+		for(var i = 0,len = vm.selReceptGroupObjArr.length; i < len; i++){
+			for(var attr in vm.selReceptGroupObjArr[i]){
+				ParamArr.push(vm.selReceptGroupObjArr[i][attr]);
+			}
+		}
+		return ParamArr.toString();
+	}
+	
+	//获取编辑接受对象参数
+	function getAcceptEditGroupObjParams(){
+		var ParamArr = [];
+		for(var i = 0,len = vm.selReceptEditGroupObjArr.length; i < len; i++){
+			for(var attr in vm.selReceptEditGroupObjArr[i]){
+				ParamArr.push(vm.selReceptEditGroupObjArr[i][attr]);
+			}
+		}
+		return ParamArr.toString();
+	}
+	
+	vm.addMassSMS = function(){
+		if(!vm.selectedUsers&&!getAcceptGroupObjParams()) {
+			layer.alert("请选择用户或群组！");
+			return;
+		}
+		/*
+		if(vm.selectedUsers&&getAcceptGroupObjParams()){
+			layer.alert('只能选择用户或群组作为接受对象！');
+			return;
+		}
+		*/
+		if(!vm.massSMSContentModel) {
+			layer.alert("请填写短信内容！");
+			return;
+		}
+		if(vm.massSMSContentModel.length > 60) {
+			layer.alert("短信内容不能超过60个字！");
+			return;
+		}
+		
+		
+		req.post('phonemsg/addMassSMSRecord.do', {
+			phoneReceiverUser: vm.selectedUserIds,
+			phoneReceiverGroup: getAcceptGroupObjParams(),
+			msgContent:vm.massSMSContentModel
+		}).success(function(resp) {
+			if(resp.code == '211') {
+				layer.alert('添加群发短信成功');
+				vm.onCloseCurrentModalClick(6);
+				getMassSMSTableData(1, 1, 2);
+				//getMsgEmailTableData(false, "", 1, 1,0);
+				//getMsgEmailTableData(1, 1, 0);
+			} else if(resp.msg != '未登录') {
+				layer.alert(resp.msg);
+			}
+		});
+		
+		
+		
+	}
+	
+	/**
+	 * 更新短信群发记录
+	 */
+	vm.updateMassSMS = function(){
+		if(!vm.editUsers&&!getAcceptEditGroupObjParams()) {
+			layer.alert("请选择用户或群组！");
+			return;
+		}
+		/*
+		if(vm.editUsers&&getAcceptEditGroupObjParams()){
+			layer.alert('只能选择用户或群组作为接受对象！');
+			return;
+		}
+		*/
+		if(!vm.editMsgContent) {
+			layer.alert("请填写短信内容！");
+			return;
+		}
+		if(vm.editMsgContent.length > 60) {
+			layer.alert("短信内容不能超过60个字！");
+			return;
+		}
+		
+		if(vm.isMsgAssessor){
+			if(!vm.editMsgSuggestion&&vm.editVerifyStatus=='2') {
+				layer.alert("审核意见不能为空！");
+				return;
+			}
+			
+			if(vm.editMsgSuggestio&&vm.editMsgSuggestion.length > 200) {
+				layer.alert("审核意见不能超过200个字！");
+				return;
+			}
+		}
+		req.post('phonemsg/updateMassSMSRecord.do', {
+			phoneReceiverUser: vm.editUserIds,
+			phoneReceiverGroup: getAcceptEditGroupObjParams(),
+			msgContent:vm.editMsgContent,
+			msgSuggestion:vm.editMsgSuggestion,
+			status:vm.editVerifyStatus,
+			id:vm.currEditMassSMSId
+		}).success(function(resp) {
+			if(resp.code == '211') {
+				layer.alert('更新记录成功！');
+				vm.onCloseCurrentModalClick(8);
+				getMassSMSTableData(1, 1, 2);
+				//getMsgEmailTableData(false, "", 1, 1,0);
+				//getMsgEmailTableData(1, 1, 0);
+			} else if(resp.msg != '未登录') {
+				layer.alert(resp.msg);
+			}
+		});
+		
+		
+		
+	}
+	
+	
+	/**
+	 * 删除短信群发记录
+	 */
+	vm.deleteMassSMS = function(){	
+		req.post('phonemsg/deleteMassSMSRecord.do', {
+			recordId:vm.deleteMassSMSParamsId
+		}).success(function(resp) {
+			if(resp.code == '211') {
+				vm.adminMsgModalHide('mass-sms-del-modal');
+				layer.alert('删除记录成功！');
+				getMassSMSTableData(1, 1, 2);
+				
+				//getMsgEmailTableData(false, "", 1, 1,0);
+				//getMsgEmailTableData(1, 1, 0);
+			} else if(resp.msg != '未登录') {
+				layer.alert(resp.msg);
+			}
+		});
+	}
+	
+	
+	
+	/**
+	 * 删除短信群发记录
+	 */
+	//vm.deleteMassSMSParamsId = "";
+	vm.onShowDeleteMassSMSModelClick = function(deleteType, mineDeleteId) {
+		if(deleteType == -1) {
+			vm.deleteMassSMSParamsId = mineDeleteId;
+			vm.msgModalShow('mass-sms-del-modal');
+		} else {
+			var paramsId = "";
+			for(var c = 0; c < vm.checkBoxMassSMSArray.length; c++) {
+				var checkBoxItem = vm.checkBoxMassSMSArray[c];
+				if(checkBoxItem != false) {
+					paramsId += checkBoxItem + ",";
+				}
+			}
+			
+			alert("paramsId:"+paramsId);
+			if(paramsId != "") {
+				vm.deleteMassSMSParamsId = paramsId.substr(0, paramsId.length - 1);
+				alert("vm.deleteMassSMSParamsId:"+vm.deleteMassSMSParamsId);
+				vm.msgModalShow('mass-sms-del-modal');
+			} else {
+				layer.alert("请选择要删除的短信");
+			}
+		}
+	};
+	
+	
+	/**
+	 * 处理全选
+	 */
+	vm.checkBoxMassSMSArray = [];
+	vm.isMassSMSHadAllCheck = false;
+	vm.onMassSMSCheckAllClick = function() {
+		if(vm.isMassSMSHadAllCheck) {
+			vm.checkBoxMassSMSArray = vm.massSMSArray.map(function(item) {
+				return item.id
+			});
+		} else {
+			vm.checkBoxMassSMSArray = vm.massSMSArray.map(function(item) {
+				return false
+			});
+		}
+	};
+
+	/**
+	 * 监听每一个选项的改变
+	 */
+	$scope.$watchCollection('msgManage.checkBoxMassSMSArray', function(newC) {
+		if(newC.every(function(item) {
+				return item != false;
+			})) {
+			vm.isMassSMSHadAllCheck = true;
+		} else {
+			vm.isMassSMSHadAllCheck = false;
+		}
+	});
+
+	
+	
+	/**
+	 * 消息管理-短信群发表格数据 add by xiayunan@20180424
+	 */
+	function getMassSMSTableData(page, type, isSearch) {
+		var searchUrl = "";
+		var paramsObj = {
+			page: page,
+			rows: vm.selPageRows
+		};
+		if(vm.massSMSSearchModel && isSearch == 0) {//普通检索
+			searchUrl = "phonemsg/searchMassSMS.do";
+			paramsObj['searchName'] = vm.massSMSSearchModel;
+			vm.searchType_ma=0;
+		}else if(isSearch == 1) {//高级检索
+			searchUrl = "phonemsg/searchMassSMS.do";
+			vm.searchType_ma=1;
+			paramsObj = {
+				page: page,
+				rows: vm.selPageRows,
+				searchName: vm.searchParamsStr,
+				sender: vm.massSmsSender,
+				status: vm.massSmsStatus
+			};
+		}else {//获取列表数据
+			searchUrl = "phonemsg/showMassSMS.do";
+			vm.searchType_ma=2;
+		}
+		req.post(searchUrl, paramsObj).success(function(resp) {
+			if(resp.code == '211') {
+				vm.massSMSArray = resp.data;
+				
+				angular.forEach(vm.massSMSArray, function(massItem, index) {
+					var userNames = "";
+					var groupNames = "";
+					angular.forEach(massItem.users, function(item, i) {
+						if(i == massItem.users.length - 1){
+							userNames +=item.tureName;
+						}else{
+							userNames +=item.tureName+",";
+						}
+						
+					});
+					angular.forEach(massItem.groups, function(item, i) {
+						if(i == massItem.groups.length - 1){
+							groupNames +=item.groupName;
+						}else{
+							groupNames +=item.groupName+",";
+						}
+						
+					});
+					massItem.userNames = userNames;
+					massItem.groupNames = groupNames;
+				});
+				
+				vm.SMStotalPages = resp.page;
+				vm.SMSList_total = resp.other;
+			} else if(resp.msg != '未登录') {
+				layer.alert(resp.msg);
+			}
+		});
+	}
+	
+	
+	vm.onShowMassSMSEditModelClick  = function(modalId,id, index){
+		modalOperate.modalShow(modalId);
+		vm.currEditMassSMSId = id;
+		vm.currEditMassSMSIndex = index;
+		
+		vm.isEditMassSMS = true;
+		//TODO 获取当前记录的数据，赋值给编辑页面相应控件
+		//vm.editUsers = vm.massSMSArray[index].phoneReceiverUser;
+		var userNamesArr= [];
+		var userIdsArr = [];
+		angular.forEach(vm.massSMSArray[index].users, function(item, index) {
+			userNamesArr.push(item.tureName);
+			userIdsArr.push(item.id);
+		});
+		vm.editUsers = userNamesArr.toString();
+		vm.editUserIds = userIdsArr.toString();
+		//vm.selReceptEditGroupObjArr = vm.massSMSArray[index].phoneReceiverGroup==''?vm.massSMSArray[index].phoneReceiverGroup:vm.massSMSArray[index].phoneReceiverGroup.split(",");
+		//vm.selReceptEditGroupObjArr = [{'id':6,'text':'短信群组'},{'id':47,'text':'短信1'}];
+		if(vm.massSMSArray[index].phoneReceiverGroup){
+			var idArr = [];
+			if(vm.massSMSArray[index].phoneReceiverGroup.indexOf(",")!=-1){
+				idArr = vm.massSMSArray[index].phoneReceiverGroup.split(",");
+				for(var i = 0,len = idArr.length; i < len; i++){
+						vm.selReceptEditGroupObjArr.push({
+							'id':parseInt(idArr[i])
+						});
+				}
+			}else{
+				vm.selReceptEditGroupObjArr.push({
+					'id':parseInt(vm.massSMSArray[index].phoneReceiverGroup)
+				});
+			}
+		}
+		vm.editMsgContent = vm.massSMSArray[index].msgContent;
+		vm.editMsgSuggestion = vm.massSMSArray[index].msgSuggestion;
+//		vm.selReceptEditGroupObjArr = [{'id':'6'},{'id':'47'}];
+		vm.editVerifyStatus = vm.massSMSArray[index].status+"";
+		vm.oriMassSmsStatus = vm.massSMSArray[index].status+"";
+		
+		
+	} 
+	
+	vm.sendMassSMS = function(){
+		
+		//校验当前群发短信审核状态
+		if(vm.oriMassSmsStatus!=1){
+			layer.alert("短信未审核通过，无法发送！");
+			return;
+		}
+		
+		//TODO 发送短信
+		vm.loadUpMs = layer.load(1);
+		req.post('phonemsg/sendMassSMS.do', {
+			recordId:vm.currEditMassSMSId 
+		}).success(function(resp) {
+			if(resp.code == '211') {
+				
+				layer.close(vm.loadUpMs);
+				vm.onCloseCurrentModalClick(8)
+				layer.alert('短信发送成功！');
+				getMassSMSTableData(1, 1, 2);
+			} else if(resp.msg != '未登录') {
+				layer.alert(resp.msg);
+			}
+		});
+	}
+	
+
+	vm.choseMassSMSStatus = function(){
+		if(!vm.isMsgAssessor){
+			layer.alert("非短信审核人员不可改变审核状态！");
+			return;
+		}
+	}
+	
+	/**
+	 * 回车搜索
+	 */
+	vm.onEnterSearchMassSMSClick = function(e) {
+		var keyCode = window.event ? e.keyCode : e.which;
+		if(keyCode == 13) {
+			vm.onSearchMassSMSDataClick();
+		}
+	};
+	
+	vm.onSearchMassSMSDataClick = function(){
+		getMassSMSTableData(1, 1, 0);
+	}
+	
+	/*
+	 * 手机短信高级检索
+	 */
+	vm.massSmsAdvanceSearch = function() {
+		if(!vm.timeFrom && !vm.timeTo) {
+			//搜索之前把当前页重置为1
+			vm.pagination.current = 1;
+			getMassSMSTableData(1, 1, 1);
+			$('#msg-msg-sele-modal').hide();
+			vm.searchParamsStr = '';
+			vm.massSmsSender = '';
+			vm.massSmsStatus = '';
+			vm.timeFrom = '';
+			vm.timeTo = '';
+		} else if(vm.timeFrom && vm.timeTo) {
+			//搜索之前把当前页重置为1
+			vm.pagination.current = 1;
+			getMassSMSTableData(1, 1, 1);
+			$('#msg-msg-sele-modal').hide();
+			vm.searchParamsStr = '';
+			vm.massSmsSender = '';
+			vm.massSmsStatus = '';
+			vm.timeFrom = '';
+			vm.timeTo = '';
+		} else {
+			layer.alert("请输入完整的时间区间作为检索条件");
+		}
+	};
+	
+	
+	/* ------------------短信群发结束------------------------- */
 });

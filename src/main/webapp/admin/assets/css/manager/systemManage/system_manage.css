@@ -670,6 +670,21 @@
     background-color: #FFF;
 }
 
+.mass-sms-modal-style{
+    position: absolute;
+    z-index: 999;
+    /*margin: auto;*/
+    left: 15%;
+    right: 10%;
+    /*top: 15%;*/
+    top: 190px;
+    /*bottom: 0;*/
+    border: 1px solid #3399cc;
+    background-color: #FFF;
+}
+
+
+
 .crop-modal-style{
     position: fixed;
     z-index: 999;
@@ -908,6 +923,19 @@
     position: relative !important;
     z-index: 999;
 }
+
+.user-remark-input{
+    width:72%;
+    position: relative !important;
+    z-index: 999;
+}
+
+.user-remark-input div{
+    width: 100% !important;
+}
+
+
+
 .adverse-thumbnail-input{
     width:26%;
 }
@@ -2226,6 +2254,16 @@
     right: 0;
     top: 40%;
 }
+
+#download-type-modal{
+	width: 482px;
+    height: 202px;
+    border-radius: 16px;
+    left: 20%;
+    right: 0;
+    top: 15%;
+}
+
 #internalRetention-type-modal{
 	width: 482px;
     height: 202px;

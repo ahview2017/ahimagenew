@@ -22,6 +22,13 @@
 		     ng-hide="msgManage.adminRoleId == 3" 
              ng-click="msgManage.chooseManuscriptType(5)">手机短信
 		</div>
+		
+		<!-- 短信群发 add by xiayunan@20180417 -->
+		<div class="active-slide-item fll" ng-class="{ 'active-slide-nav' : msgManage.acitiveSlideTit == 6}" 
+		     ng-show="msgManage.isMsgEditor ||msgManage.isMsgAssessor" 
+             ng-click="msgManage.chooseManuscriptType(6)">短信群发
+		</div>
+		
 	</div>
 	<!--站内信-->
 	<div class="c-user-table" ng-show="msgManage.acitiveSlideTit == 1">
@@ -1157,4 +1164,420 @@
 			</div>
 		</div>
 	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!--短信群发-->
+	<div class="c-user-table" ng-show="msgManage.acitiveSlideTit == 6">
+		<div class="t-search-hd clear">
+			<div class="user-hd-left fll">
+				<label for="checkAllMassSMS">
+                    <input type="checkbox" ng-model="msgManage.isMassSMSHadAllCheck"
+                           id="checkAllMassSMS"
+                           ng-click="msgManage.onMassSMSCheckAllClick()"/>
+                    <span class="user-check-txt">全选</span>
+                </label>
+				<span class="dib cursor user-add-btn" 
+					  ng-click="msgManage.addMassModalShow('mass-sms-add-modal')">新建</span>
+				<span class="dib cursor user-add-btn msg-del-btn" 
+				      ng-click="msgManage.onShowDeleteMassSMSModelClick(0,null)">批量删除</span>
+			</div>
+			<div class="user-hd-right flr">
+				
+				<input class="user-search-input" ng-model="msgManage.massSMSSearchModel" 
+				       placeholder="可查询短信内容" 
+					   ng-keydown="msgManage.onEnterSearchMassSMSClick($event)" />
+				<img src="admin/assets/img/role/zxs_search.png" class="user-serach-pic" 
+					 ng-click="msgManage.onSearchMassSMSDataClick()" />
+				<span class="dib cursor user-search-btn" ng-click="msgManage.massModalShow('mass-sms-sele-modal')">高级检索</span>
+			</div>
+		</div>
+		
+		
+		<div class="table-responsive">
+				<table class="table table-bordered uInfo-table">
+					<thead>
+						<tr>
+							<th class="uinfo-hd-th" style="width:6%;"></th>
+							<th class="uinfo-hd-th" style="width:28%;">短信内容</th>
+							<th class="uinfo-hd-th" style="width:12%;">发送者</th>
+							<th class="uinfo-hd-th" style="width:12%;">接受用户</th>
+							<th class="uinfo-hd-th" style="width:20%;">接受群组</th>
+	                        <th class="uinfo-hd-th" style="width:12%;">审核状态</th>
+	                        <th class="uinfo-hd-th"  style="width:10%;">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr dir-paginate="msgPhoneItem in msgManage.massSMSArray | itemsPerPage: msgManage.selPageRows" 
+							total-items="msgManage.SMSList_total" 
+							current-page="msgManage.pagination.current" 
+							ng-init="msgManage.checkBoxMassSMSArray[$index] = false">
+							<td style="width:6%;" class="wbba">
+								<input type="checkbox" ng-model="msgManage.checkBoxMassSMSArray[$index]" 
+								       ng-true-value="{{msgPhoneItem.id}}" ng-false-value="false" />
+							</td>
+							<td  style="width:28%;" class="wbba">{{msgPhoneItem.msgContent}}</td>
+							<td  style="width:12%;" class="wbba">{{msgPhoneItem.sender}}</td>
+							<td  style="width:12%;" class="wbba">{{msgPhoneItem.userNames}}</td>
+							<td  style="width:12%;" class="wbba">{{msgPhoneItem.groupNames}}</td>
+							<td  style="width:12%;" class="wbba">{{msgPhoneItem.status|massSMSStatusFilter}}</td>
+							<td  style="width:10%;" class="wbba">
+								<img src="admin/assets/img/role/look_user_info.png" class="cursor" width="20" height="20" 
+									 title="修改" 
+									 ng-click="msgManage.onShowMassSMSEditModelClick('mass-sms-edit-modal',msgPhoneItem.id,$index)" />
+								<img src="admin/assets/img/role/red_del.png" class="cursor" width="20" height="20"
+									 title="删除" 
+									 ng-click="msgManage.delModalShow('mass-sms-del-modal',msgPhoneItem.id)" />
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!-- 分页 -->
+			<div class="paging-con-box mt10 clear">
+				<div class="photo-record-page fll">
+					<select ng-model="msgManage.selPageRows" class="mr10">
+						<option value="50">50</option>
+						<option value="40">40</option>
+						<option value="30">30</option>
+						<option value="20">20</option>
+						<option value="10">10</option>
+					</select>
+					<span>共找到</span>
+					<span class="color_red">{{msgManage.SMSList_total}}</span>
+					<span>条记录</span>
+				</div>
+				<div class="photo-now-page fll">
+					<span>第 </span>
+					<span>{{msgManage.pagination.current}}</span>
+					<span>/</span>
+					<span>{{msgManage.SMStotalPages}} </span>
+					<span>页</span>
+				</div>
+				<div class="photo-jump-page flr">
+					<dir-pagination-controls on-page-change="msgManage.pageChanged(newPageNumber)" 
+											 template-url="admin/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+					</dir-pagination-controls>
+				</div>
+			</div>
+		
+		
+		
+		
+		<!--短信群发添加弹框-->
+		<div class="common-modal-style" id="mass-sms-add-modal" ng-mousemove="msgManage.moveModal('add5-modal-tit','mass-sms-add-modal')" style="display:none">
+			<div class="role-add-con">
+				<div id="add5-modal-tit" class="role-add-tit oH">
+					<span class="fll">短信群发</span>
+					<span class="flr curp tit-close" 
+						  ng-click="msgManage.onCloseCurrentModalClick(6)">×</span>
+				</div>
+				<div class="role-add-main msg-content-box">
+					<div class="role-add-form-info advertise-add-form-info clear">
+						<div class="role-form-info-bottom clear">
+							<div class="msg-remark-txt fll">选择用户</div>
+							<input type="text" class="user-remark-input fll" 
+							       ng-model="msgManage.selectedUsers" />
+							<span class="flr curp tit-close" ng-click="msgManage.addMassModalShow('user-add-modal')" style="margin-right: 35px;">      
+							<img src="admin/assets/img/role/group_upd_name.png" class="cursor goup_update"
+                                   width="20" height="20" title="修改群组成员" ui-sref='role.manager.msgManage'/>
+                               </span>
+						</div>
+						
+						<div class="role-form-info-bottom clear">
+							<div class="msg-remark-txt fll">选择群组</div>
+							<div class="user-remark-input fll">
+								<div  ng-dropdown-multiselect options="msgManage.selCpCategories"  class="user-remark-input fll"
+								 selected-model="msgManage.selReceptGroupObjArr" extra-settings="msgManage.receptGroupObjSettings"
+								 translation-texts="msgManage.defaultReceptGroupObj">
+							</div>
+							</div>
+							
+						</div>
+						
+						<div class="role-form-info-bottom clear">
+							<div class="msg-remark-txt fll">信息内容</div>
+							<textarea class="web-info-area fll" 
+							          ng-model="msgManage.massSMSContentModel" maxlength="60"></textarea>
+						</div>
+						<!--  
+						<div class="role-form-info-bottom clear">
+							<div class="msg-remark-txt fll">审核意见</div>
+							<textarea class="web-info-area fll" 
+							          ng-model="msgManage.msgPhoneSuggestion"></textarea>
+						</div>
+						
+						<div class="role-form-info-bottom clear">
+							<div class="msg-remark-txt fll">审核状态</div>
+							<div class="user-remark-input fll">
+								<select ng-model="msgManage.verifyStatus" ng-change="msgManage.choseVerifyStatus()" style="width:100%;">
+                                    <option value="0">未审核</option>
+                                    <option value="1">审核通过</option>
+                                    <option value="2">审核不通过</option>
+                                </select>
+                               </div>
+						</div>
+						-->
+					</div>
+				</div>
+				<div class="tac" style="margin-top: 80px;">
+					<input type="button" class="dib cursor user-add-btn"
+					       ng-disabled="msgManage.isOnSendPhoneClickFlag"
+						   ng-class="{'user-add-btn-no-click':msgManage.isOnSendPhoneClickFlag}"
+						   ng-click="msgManage.addMassSMS()" value="提交审核" />
+				    <span class="dib cursor user-add-btn role-del-btn" 
+					       ng-click="msgManage.onCloseCurrentModalClick(6)">取消</span>
+				</div>
+			</div>
+		</div>
+		
+		
+		<!--短信群发高级检索弹出框-->
+		<div class="mass-sms-modal-style absolute_left" id="mass-sms-sele-modal" style="display:none;">
+			<div class="user-add-con">
+				<div id="search-modal-tit" class="role-add-tit oH">
+					<span class="fll">高级检索</span>
+					<span class="flr curp tit-close" ng-click="msgManage.onCloseCurrentModalClick(9)">×</span>
+				</div>
+				<div class="role-add-main">
+					<div class="user-form-info clear">
+						<div class="user-form-info-top clear">
+							<div class="fll user-form-part clear">
+								<div class="user-search-left_o  fll">短信内容</div>
+								<div class="user-search-right fll">
+									<input type="text" class="user-add-input" ng-model="msgManage.searchParamsStr" />
+								</div>
+							</div>
+							<div class="fll user-form-part clear">
+								<div class="user-search-left_o fll">发送者</div>
+								<div class="user-search-right fll">
+									<input type="text" class="user-add-input" ng-model="msgManage.massSmsSender" />
+								</div>
+							</div>
+							<div class="fll user-form-part clear">
+								<div class="fll user-search-left_o">状态</div>
+								<div class="fll user-search-right">
+                                   <select class="user-add-input" ng-model="msgManage.massSmsStatus">
+                                       <option value="">请选择</option>
+                                       <option value="0">未审核</option>
+                                       <option value="1">审核通过</option>
+                                       <option value="2">审核不通过</option>
+                                   </select>
+                               </div>
+							</div>
+						</div>
+						<div class="user-form-info-top clear">
+							<div class="fll user-form-part clear">
+								<div class="user-search-left_o  fll">发送时间</div>
+								<div class="user-search-right fll">
+									<input type="text" class="Wdate user-add-input_o" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" class="Wdate" ng-model="msgManage.timeFrom" datepicker/>
+								</div>
+							</div>
+							<div class="fll user-form-part clear">									
+								<div class="user-search-left_o  fll">结束时间</div>
+								<div class="user-search-right fll">
+								    <input type="text" class="Wdate user-add-input_o" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" class="Wdate" ng-model="msgManage.timeTo" datepicker/>
+								</div>
+							</div>
+						</div>
+						<div class="tar mt10">
+							<span class="dib cursor user-high-search-btn" ng-click="msgManage.massSmsAdvanceSearch()">检索</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!--短信群发编辑弹框-->
+		<div class="common-modal-style" id="mass-sms-edit-modal" ng-mousemove="msgManage.moveModal('add5-modal-tit','mass-sms-edit-modal')" style="display:none">
+			<div class="role-add-con">
+				<div id="add5-modal-tit" class="role-add-tit oH">
+					<span class="fll">短信群发</span>
+					<span class="flr curp tit-close" 
+						  ng-click="msgManage.onCloseCurrentModalClick(8)">×</span>
+				</div>
+				<div class="role-add-main msg-content-box">
+					<div class="role-add-form-info advertise-add-form-info clear">
+						<!-- -->
+						<div class="role-form-info-bottom clear">
+							<div class="msg-remark-txt fll">选择用户</div>
+							<input type="text" class="user-remark-input fll" 
+							       ng-model="msgManage.editUsers" />
+							<span class="flr curp tit-close" ng-click="msgManage.userModalShow('user-add-modal')" style="margin-right: 35px;">      
+							<img src="admin/assets/img/role/group_upd_name.png" class="cursor goup_update"
+                                   width="20" height="20" title="修改群组成员" ui-sref='role.manager.msgManage'/>
+                               </span>
+						</div>
+						
+						<div class="role-form-info-bottom clear">
+							<div class="msg-remark-txt fll">选择群组</div>
+							<div class="user-remark-input fll">
+								<div  ng-dropdown-multiselect options="msgManage.selCpCategories"  class="user-remark-input fll"
+								 selected-model="msgManage.selReceptEditGroupObjArr" extra-settings="msgManage.receptEditGroupObjSettings"
+								 translation-texts="msgManage.defaultReceptEditGroupObj">
+								</div>
+							</div>
+						</div>
+						
+						<div class="role-form-info-bottom clear">
+							<div class="msg-remark-txt fll">信息内容</div>
+							<textarea class="web-info-area fll" 
+							          ng-model="msgManage.editMsgContent" maxlength="60"></textarea>
+						</div>
+						
+						<div class="role-form-info-bottom clear">
+							<div class="msg-remark-txt fll">审核意见</div>
+							<textarea class="web-info-area fll" 
+							          ng-model="msgManage.editMsgSuggestion" maxlength="200"></textarea>
+						</div>
+						
+						<div class="role-form-info-bottom clear">
+							<div class="msg-remark-txt fll">审核状态</div>
+							<div class="user-remark-input fll">
+								<select ng-model="msgManage.editVerifyStatus" ng-change="msgManage.choseMassSMSStatus()" style="width:100%;">
+                                    <option value="0">未审核</option>
+                                    <option value="1">审核通过</option>
+                                    <option value="2">审核不通过</option>
+                                </select>
+                               </div>
+						</div>
+					</div>
+				</div>
+				<div class="tac">
+					<!--<input type="button" class="dib cursor user-add-btn"-->
+					<!--ng-disabled="msgManage.isOnSendPhoneClickFlag"-->
+					<!--ng-class="{'user-add-btn-no-click':msgManage.isOnSendPhoneClickFlag}"-->
+					<!--ng-click="msgManage.onAddMsgPhoneClick(1)" value="保存"/>-->
+					
+					<input type="button" class="dib cursor user-add-btn"
+					       ng-disabled="msgManage.isOnSendPhoneClickFlag"
+						   ng-class="{'user-add-btn-no-click':msgManage.isOnSendPhoneClickFlag}"
+						   ng-click="msgManage.sendMassSMS()" value="发送" 
+						   ng-show="msgManage.isMsgEditor"/>
+					<input type="button" class="dib cursor user-add-btn"
+					       ng-disabled="msgManage.isOnSendPhoneClickFlag"
+						   ng-class="{'user-add-btn-no-click':msgManage.isOnSendPhoneClickFlag}"
+						   ng-click="msgManage.updateMassSMS()" value="确定" 
+						   ng-show="msgManage.isMsgAssessor"/>
+				    <span class="dib cursor user-add-btn role-del-btn" 
+					       ng-click="msgManage.onCloseCurrentModalClick(8)">取消</span>
+				</div>
+			</div>
+		</div>
+		
+		
+		<!--群发短信删除弹框-->
+		<div class="common-modal-style" id="mass-sms-del-modal" 
+			 ng-mousemove="msgManage.moveModal('del5-modal-tit','mass-sms-del-modal')"
+				 style="display:none">
+			<div class="role-add-con">
+				<div id="del5-modal-tit" class="role-add-tit">
+					删除提醒
+				</div>
+				<div class="role-modal-con">
+					你确定要删除该消息吗？
+				</div>
+				<div class="tac mt10">
+					<span class="dib cursor user-add-btn" 
+						ng-click="msgManage.deleteMassSMS()">确定</span>
+					<span class="dib cursor user-add-btn role-del-btn" 
+						ng-click="msgManage.adminMsgModalHide('mass-sms-del-modal')">取消</span>
+				</div>
+			</div>
+		</div>
+		
+		
+		<!--添加用户弹框-->
+        <div class="common-modal-style common-modal-style-width group_con group_upd fenye" id="user-add-modal" ng-mousemove="msgManage.moveModal('add5-modal-tit','mass-sms-add-modal')" style="display:none">
+            <div class="role-add-con">
+                <div id="add-modal-tit" class="user-add-tit clear">
+                    <span class="fll">新添用户</span>
+                    <span class="flr curp tit-close" ng-click='msgManage.onCloseCurrentModalClick(7)'>×</span>
+                </div>
+                <div class='clearfloat'>
+                	<!--群组现有成员-->
+                    <div class='group_box margin_r'>
+                    	<h3 class='clearfloat'>群发用户成员</h3>
+                    	<div class="user-hd-right flr">
+                              <input ng-model='msgManage.selectGroupName' placeholder="可查询群组内成员"/>
+                              <img src="admin/assets/img/role/zxs_search.png" ng-click='msgManage.searchUser()'/>                
+                        </div>
+                    	<ul class='group_box_ul clearfloat role-add-con-height'>
+                    		<li ng-repeat='groupallUser in msgManage.getGroupManagementUser' ng-if = 'groupallUser.FLAG==0'  >
+                    			<!--  
+                    			<span class='group_username'>{{groupallUser.USER_NAME}}</span>
+                    			-->
+                    			<span class='group_username'>{{groupallUser.TURE_NAME}}</span>
+                    			<span title='从该组移除此用户' class='group_delete'ng-click='msgManage.deleteGroupmeber(groupallUser.ID)'>X</span>
+                    		</li>                 		
+                    	</ul>
+                    	<!--群组成员的分页-->
+                    	
+                    </div>
+                    <!--所有成员-->
+                    <div class='group_box'>
+                    	<h3 class='clearfloat'>所有用户</h3>
+                    	<div class="user-hd-right flr">
+                              <input ng-model='msgManage.selectAllName' placeholder="可查询所有用户"/>
+                              <img src="admin/assets/img/role/zxs_search.png" ng-click='msgManage.getUserAll()'/>                
+                        </div>
+                    	<ul class='group_box_ul clearfloat role-add-con-height'>   <!--ng-repeat='allUser in msgManage.groupUser' -->                		
+                    		<li dir-paginate="allUser in msgManage.groupUser | itemsPerPage: msgManage.selPageRows"
+                            total-items="msgManage.userList_total"
+                            current-page="msgManage.pagination.current">
+                    			<!-- <span class='group_username'>{{allUser.USER_NAME}}</span> -->
+                    			<span class='group_username'>{{allUser.TURE_NAME}}</span>
+                    			<span title='添加到此组' class='group_adduser' ng-click='msgManage.addGroupUser(allUser.ID,allUser.TURE_NAME)'>+</span>
+                    		</li>                    		
+                    	</ul>
+                    	<div class="mt10 clear">
+                            <div class="fll group_fenye_l">
+                                 <select ng-model="msgManage.selPageRows" class="mr10">
+                                     <option value="50">50</option>
+                                     <option value="40">40</option>
+                                     <option value="30">30</option>
+                                     <option value="20">20</option>
+                                     <option value="10">10</option>
+                                 </select>
+                                 <span>共找到</span>
+                                 <span class="color_red">{{msgManage.userList_total}}</span>
+                                 <span>条记录</span>
+                            </div>
+                            <div class="flr">
+                                 <span>第 </span>
+                                 <span>{{msgManage.pagination.current}}</span>
+                                 <span>/</span>
+                                 <span>{{msgManage.totalPages}}</span>
+                                  <span>页</span>
+                            </div><br>
+                            <div class="mt15 flr group_fenye_r clearfloat">
+                               <dir-pagination-controls on-page-change="msgManage.userPageChanged(newPageNumber)"
+                                             template-url="admin/assets/libs/angular-dirPagination/dirPagination.tpl.html">
+                               </dir-pagination-controls>
+                            </div>
+                         </div>
+                    </div>
+                </div>
+                <div class="tac mt10">
+                        <span class="dib cursor user-add-btn" ng-click='msgManage.save()'>保存</span>
+                    <span class="dib cursor user-add-btn role-del-btn btn_cancel"  ng-click='msgManage.onCloseCurrentModalClick(7)'>取消</span>
+                </div>
+            </div>
+        </div>        
+		  
+		
+		
 </div>

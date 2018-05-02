@@ -133,6 +133,33 @@ INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`D
 INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(433,1,'获取资料库稿件子栏目稿件总数','获取资料库稿件子栏目稿件总数','groupPicCtro/getSginSubGroupCount',245,0,'admin',now(),NULL,'',0);
   
 
+CREATE TABLE `cp_mass_sms_record` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `SENDER` varchar(255) DEFAULT NULL COMMENT '发送者真实姓名',
+  `AUDITOR` varchar(255) DEFAULT NULL COMMENT '审核人员真实姓名',
+  `RECEIVER_TYPE` int(11) DEFAULT NULL COMMENT '接受对象类型：0：用户，1：用户组',
+  `PHONE_RECEIVER_USER` varchar(255) DEFAULT NULL COMMENT '接受用户',
+  `PHONE_RECEIVER_GROUP` varchar(255) DEFAULT NULL COMMENT '接受组',
+  `MSG_CONTENT` varchar(255) DEFAULT NULL COMMENT '群发短信内容',
+  `MSG_SUGGESTION` varchar(255) DEFAULT NULL COMMENT '审核意见',
+  `STATUS` int(11) DEFAULT '0' COMMENT '审核状态： 0:未审核，1：审核通过，2：审核不通过',
+  `CRTIME` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `UPDATETIME` timestamp  NULL DEFAULT  NULL COMMENT '更新时间',
+  `REMARK` varchar(255) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8 COMMENT='短信群发记录表';
+
+INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(434,1,'新增短信群发记录','新增短信群发记录','phonemsg/addMassSMSRecord',65,0,'admin',now(),NULL,'',0);
+INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(435,1,'显示短信群发记录','显示短信群发记录','phonemsg/showMassSMS',65,0,'admin',now(),NULL,'',0);
+INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(436,1,'更新短信群发记录','更新短信群发记录','phonemsg/updateMassSMSRecord',65,0,'admin',now(),NULL,'',0);
+INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(437,1,'删除短信群发记录','删除短信群发记录','phonemsg/deleteMassSMSRecord',65,0,'admin',now(),NULL,'',0);
+
+INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(438,1,'查询短信群发记录','查询短信群发记录','phonemsg/searchMassSMSRecordById',65,0,'admin',now(),NULL,'',0);
+INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(439,1,'搜索短信群发记录','搜索短信群发记录','phonemsg/searchMassSMS',65,0,'admin',now(),NULL,'',0);
+INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(440,1,'短信群发','短信群发','phonemsg/searchMassSMS',65,0,'admin',now(),NULL,'',0);
+
+
+
 
 
 

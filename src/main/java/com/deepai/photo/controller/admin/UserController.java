@@ -1,7 +1,6 @@
 package com.deepai.photo.controller.admin;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -23,8 +22,8 @@ import com.deepai.photo.bean.CpLog;
 import com.deepai.photo.bean.CpRole;
 import com.deepai.photo.bean.CpUser;
 import com.deepai.photo.bean.CpUserBank;
-import com.deepai.photo.bean.CpUserBankExample;
 import com.deepai.photo.bean.CpUserExample;
+import com.deepai.photo.bean.CpUserRole;
 import com.deepai.photo.common.StringUtil;
 import com.deepai.photo.common.annotation.LogInfo;
 import com.deepai.photo.common.annotation.SkipAuthCheck;
@@ -39,7 +38,6 @@ import com.deepai.photo.common.util.MathUtil;
 import com.deepai.photo.common.util.SessionUtils;
 import com.deepai.photo.common.util.date.DateUtils;
 import com.deepai.photo.common.util.encrypt.Coder;
-import com.deepai.photo.common.util.json.JsonUtil;
 import com.deepai.photo.common.validation.CommonValidation;
 import com.deepai.photo.controller.email.MailController;
 import com.deepai.photo.controller.instant.StationMessiageController;
@@ -48,6 +46,7 @@ import com.deepai.photo.mapper.CpBasicMapper;
 import com.deepai.photo.mapper.CpLogMapper;
 import com.deepai.photo.mapper.CpUserBankMapper;
 import com.deepai.photo.mapper.CpUserMapper;
+import com.deepai.photo.mapper.CpUserRoleMapper;
 import com.deepai.photo.mapper.OtherMapper;
 import com.deepai.photo.service.admin.BasicInfoService;
 import com.deepai.photo.service.admin.LogService;
@@ -67,6 +66,8 @@ public class UserController {
 	private Logger log = Logger.getLogger(UserController.class);
 	@Autowired
 	private CpUserMapper cpUserMapper;
+	@Autowired
+	private CpUserRoleMapper cpUserRoleMapper;
 	@Autowired
 	private CpBasicMapper basicMapper;
 	@Autowired
@@ -346,8 +347,9 @@ public class UserController {
 	}
 
 	/**
-	 * 查询所有的用户
-	 * 
+	 * 查询所有的用户 ，返回用户名、真实姓名
+	 * @author xiayunan
+	 * @date 2018年4月17日 
 	 * @param request
 	 * @param response
 	 */
@@ -387,6 +389,10 @@ public class UserController {
 		}
 		return result;
 	}
+	
+	
+	
+	
 
 	/**
 	 * 用户切换角色
@@ -1604,6 +1610,53 @@ public class UserController {
 		return result;
 	}
 	
-	
+	/**
+	 * @author xiayunan
+	 * @date 2018年4月18日
+	 * @description 查询用户是否具有某一角色
+	 * @param request
+	 * @param userId
+	 * @param roleId
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/checkUserRole")
+	@SkipAuthCheck
+	@SkipLoginCheck
+	public Object checkUserRole(HttpServletRequest request,String roleId) {
+		ResponseMessage result = new ResponseMessage();
+		try {
+			CommonValidation.checkParamBlank(roleId, "角色Id");
+			Map<String, Object> param = new HashMap<String, Object>();
+			CpUser cpUser = (CpUser)SessionUtils.getUser(request);
+			if(cpUser==null){
+				result.setCode(CommonConstant.NOTLOGINCODE);
+				result.setMsg(CommonConstant.NOTLOGINMSG);
+				result.setData(false);
+				return result;
+			}
+			param.put("userId",cpUser.getId());
+			param.put("roleId", roleId);
+			CpUserRole cpUserRole = cpUserRoleMapper.findUserRole(param);
+			if(cpUserRole!=null){
+				result.setData(true);
+			}else{
+				result.setData(false);
+			}
+			result.setCode(CommonConstant.SUCCESSCODE);
+			result.setMsg(CommonConstant.SUCCESSSTRING);
+			
+		} catch (InvalidHttpArgumentException e) {
+			e.printStackTrace();
+			result.setCode(e.getCode());
+			result.setMsg(e.getMsg());
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			log.error("查询用户角色出错，" + e1.getMessage());
+			result.setCode(CommonConstant.EXCEPTIONCODE);
+			result.setMsg(CommonConstant.EXCEPTIONMSG);
+		}
+		return result;
+	}
 	
 }

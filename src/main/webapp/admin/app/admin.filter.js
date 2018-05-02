@@ -212,6 +212,25 @@ angular.module('admin.filter', [])
             return result;
         }
     })
+    
+    //消息管理-短信状态类型
+    .filter('massSMSStatusFilter', function () {
+        return function (input) {
+            var result = "";
+            switch (parseInt(input)) {
+                case 0:
+                    result = "未审核";
+                    break;
+                case 1:
+                    result = "审核通过";
+                    break;
+                case 2:
+                    result = "审核不通过";
+                    break;
+            }
+            return result;
+        }
+    })
 
     //消息管理-站内信操作状态
     .filter('msgWorkStatusFilter', function () {

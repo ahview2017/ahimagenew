@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.deepai.photo.mapper.CpMassSMSRecordMapper" >
+	<resultMap id="CpMassSMSRecord" type="com.deepai.photo.bean.CpMassSMSRecord" >
+	    <id column="ID" property="id" jdbcType="INTEGER" />
+	    <result column="RECEIVER_TYPE" property="receiverType" jdbcType="INTEGER" />
+	    <result column="PHONE_RECEIVER_USER" property="phoneReceiverUser" jdbcType="VARCHAR" />
+	    <result column="PHONE_RECEIVER_GROUP" property="phoneReceiverGroup" jdbcType="VARCHAR" />
+	    <result column="MSG_CONTENT" property="msgContent" jdbcType="VARCHAR" />
+	    <result column="MSG_SUGGESTION" property="msgSuggestion" jdbcType="VARCHAR" />
+	    <result column="CRTIME" property="crtime" jdbcType="TIMESTAMP" />
+	    <result column="UPDATETIME" property="updateTime" jdbcType="TIMESTAMP" />
+	    <result column="SENDER" property="sender" jdbcType="VARCHAR" />
+	    <result column="AUDITOR" property="auditor" jdbcType="VARCHAR" />
+	    <result column="STATUS" property="status" jdbcType="INTEGER" />
+	    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+ 	 </resultMap>
+ 	 <sql id="Example_Where_Clause" >
+	    <where >
+	      <foreach collection="oredCriteria" item="criteria" separator="or" >
+	        <if test="criteria.valid" >
+	          <trim prefix="(" suffix=")" prefixOverrides="and" >
+	            <foreach collection="criteria.criteria" item="criterion" >
+	              <choose >
+	                <when test="criterion.noValue" >
+	                  and ${criterion.condition}
+	                </when>
+	                <when test="criterion.singleValue" >
+	                  and ${criterion.condition} #{criterion.value}
+	                </when>
+	                <when test="criterion.betweenValue" >
+	                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+	                </when>
+	                <when test="criterion.listValue" >
+	                  and ${criterion.condition}
+	                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+	                    #{listItem}
+	                  </foreach>
+	                </when>
+	              </choose>
+	            </foreach>
+	          </trim>
+	        </if>
+	      </foreach>
+	    </where>
+	  </sql>
+  	  <sql id="Base_Column_List" >
+	    ID, SENDER, CRTIME, RECEIVER_TYPE, PHONE_RECEIVER_USER, PHONE_RECEIVER_GROUP, MSG_CONTENT,MSG_SUGGESTION,STATUS,REMARK
+	  </sql>
+	  
+	  
+	  <select id="showMassSMS" resultMap="CpMassSMSRecord" parameterType="com.deepai.photo.bean.CpMassSMSRecord">
+		SELECT * from cp_mass_sms_record c order by CRTIME DESC
+	  </select>
+	  
+	  <select id="selectMassSMSById" resultMap="CpMassSMSRecord" parameterType="java.lang.Integer">
+	      select * from cp_mass_sms_record where id=#{id}
+	  </select>
+	  
+	  <select id="search" resultMap="CpMassSMSRecord" parameterType="map" >
+		  SELECT * from cp_mass_sms_record c where 1=1 
+		  <if test="map.searchName!=null">
+		  and  c.MSG_CONTENT like CONCAT('%',#{map.searchName},'%')
+		  </if>
+		  <if test="map.timeFrom!=null">
+		  <![CDATA[ and DATE_FORMAT(c.CRTIME, '%Y-%m-%d') >=  DATE_FORMAT(#{map.timeFrom}, '%Y-%m-%d')]]>
+		  </if>
+		  <if test="map.timeTo!=null">
+		  <![CDATA[ and DATE_FORMAT(c.CRTIME, '%Y-%m-%d') <=  DATE_FORMAT(#{map.timeTo}, '%Y-%m-%d')]]>
+		  </if> 
+		  <if test="map.status!=null">
+		  and c.STATUS=#{map.status}
+		  </if>
+		  <if test="map.sender!=null">
+		  and c.SENDER like CONCAT('%',#{map.sender},'%')
+		  </if>
+		 ORDER BY c.CRTIME DESC
+	  </select>
+	  
+	  
+	  <update id="updateByPrimaryKeySelective" parameterType="com.deepai.photo.bean.CpMassSMSRecord" >
+	    update cp_mass_sms_record
+	    <set >
+	      <if test="auditor != null" >
+	        AUDITOR = #{auditor,jdbcType=VARCHAR},
+	      </if>
+	      <if test="receiverType != null" >
+	        RECEIVER_TYPE = #{receiverType,jdbcType=INTEGER},
+	      </if>
+	      <if test="phoneReceiverUser != null" >
+	        PHONE_RECEIVER_USER = #{phoneReceiverUser,jdbcType=VARCHAR},
+	      </if>
+	      <if test="phoneReceiverGroup != null" >
+	        PHONE_RECEIVER_GROUP = #{phoneReceiverGroup,jdbcType=VARCHAR},
+	      </if>
+	      <if test="msgContent != null" >
+	        MSG_CONTENT = #{msgContent,jdbcType=VARCHAR},
+	      </if>
+	      <if test="msgSuggestion != null" >
+	        MSG_SUGGESTION = #{msgSuggestion,jdbcType=VARCHAR},
+	      </if>
+	      <if test="sender != null" >
+	        SENDER = #{sender,jdbcType=VARCHAR},
+	      </if>
+	      <if test="status != null" >
+	        STATUS = #{status,jdbcType=INTEGER},
+	      </if>
+	      <if test="updateTime != null" >
+	        UPDATETIME = #{updateTime,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="remark != null" >
+	        REMARK = #{remark,jdbcType=INTEGER},
+	      </if>
+	    </set>
+	    where ID = #{id,jdbcType=INTEGER}
+	 </update>
+	  
+	 <!-- 插入短信群发-->
+	 <insert id="insertSelective" parameterType="com.deepai.photo.bean.CpMassSMSRecord">
+			<selectKey resultType="java.lang.Integer" keyProperty="id"
+				order="AFTER">
+				SELECT LAST_INSERT_ID()
+			</selectKey>
+			insert into cp_mass_sms_record
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+				<if test="crtime != null">
+					CRTIME,
+				</if>
+				<if test="sender != null">
+					SENDER,
+				</if>
+				<if test="receiverType != null">
+					RECEIVER_TYPE,
+				</if>
+				<if test="status != null">
+					STATUS,
+				</if>
+				<if test="phoneReceiverUser != null">
+					PHONE_RECEIVER_USER,
+				</if>
+				<if test="phoneReceiverGroup != null">
+					PHONE_RECEIVER_GROUP,
+				</if>
+				<if test="msgContent != null">
+					MSG_CONTENT,
+				</if>
+				<if test="msgSuggestion != null">
+					MSG_SUGGESTION,
+				</if>
+				<if test="remark != null">
+					REMARK,
+				</if>
+			</trim>
+			<trim prefix="values (" suffix=")" suffixOverrides=",">
+				<if test="crtime != null">
+					#{crtime,jdbcType=TIMESTAMP},
+				</if>
+				<if test="sender != null">
+					#{sender,jdbcType=VARCHAR},
+				</if>
+				<if test="receiverType != null">
+					#{receiverType,jdbcType=VARCHAR},
+				</if>
+				<if test="status != null">
+					#{status,jdbcType=INTEGER},
+				</if>
+				<if test="phoneReceiverUser != null">
+					#{phoneReceiverUser,jdbcType=VARCHAR},
+				</if>
+				<if test="phoneReceiverGroup != null">
+					#{phoneReceiverGroup,jdbcType=VARCHAR},
+				</if>
+				<if test="msgContent != null">
+					#{msgContent,jdbcType=VARCHAR},
+				</if>
+				<if test="msgSuggestion != null">
+					#{msgSuggestion,jdbcType=VARCHAR},
+				</if>
+				<if test="remark != null">
+					#{remark,jdbcType=VARCHAR},
+				</if>
+			</trim>
+	  </insert>
+	  
+	  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+	    delete from cp_mass_sms_record
+	    where ID = #{id,jdbcType=INTEGER}
+	  </delete>
+</mapper>
