@@ -1325,5 +1325,140 @@ adminModule.controller('mDatabaseCtrl', function($scope, $cookies, req, md5, $st
 			specialId: vm.topicId
 		});
 	}
+	
+	
+	/*******************资料库添加三级节点 start*************************/
+	/**
+	 * 点击展开或收缩菜单 
+	 */
+	var thirdNodecount = 0;
+	vm.hadPubPosition = -1;
+	
+	vm.hadPubThirdNavFunc = function(name,categories,itemId,position) {
+		if(categories!=''){
+			var pcataid = 1760;
+			if(thirdNodecount % 2 == 0) {
+				vm.thirdNavActiveMenu = name;
+			} else {
+				vm.thirdNavActiveMenu = '';
+			}
+			vm.hadPubPosition = -1;
+			/*
+			if(name == '新闻图片') {
+				vm.properties = 0;
+				pcataid = 1760;
+			} else if(name == '专题图片') {
+				vm.properties = 1;
+				pcataid = 188;
+			}else if(name == '老照片') {//add by xiayunan  2017-09-06
+				vm.properties = 2;
+				pcataid = 100182651;
+			}else if(name == '新华社图片') {//add by xiayunan  2018-02-06
+				vm.properties = 3;
+				pcataid = 100182663;
+			}
+			vm.cateId = pcataid;
+
+			if(vm.acitiveOneSlideTit == 1) {
+				getSignGroups(1, pcataid, 1, 0, false);//edit by hexx    修改默认为null的cataid 添加了cataid的值
+				getSignGroups(1, pcataid, 1, 1, false);			
+			} else if(vm.acitiveOneSlideTit == 2) {
+				getSignGroups(2, pcataid, 1, 1, false);
+				getSignGroups(2, pcataid, 1, 0, false);
+			}
+			*/
+			thirdNodecount++;
+		}else{
+			vm.hadPubPosition = position;
+			vm.category = itemId;
+			getSignSubGroups(1, itemId, 1, 0, false);
+			getSignSubGroups(1, itemId, 1, 1, false);
+		}
+		
+		
+	};
+	
+	/**
+	 * 点击展示已发布分类详情
+	 */
+	vm.thirdHadPubPosition = -1;
+	vm.onShowThirdHadPubDetailClick = function(itemId, position) {
+		vm.thirdHadPubPosition = position;
+		vm.category = itemId;
+		getSignSubGroups(1, itemId, 1, 0, false);
+		getSignSubGroups(1, itemId, 1, 1, false);
+	};
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	var hadBackThirdNodecount = 0;
+	vm.hadBackPosition = -1;
+	vm.hadBackThirdNavFunc = function(name,categories,itemId,position) {
+		if(categories!=''){
+			var pcataid = 1760;
+			if(hadBackThirdNodecount % 2 == 0) {
+				vm.thirdNavActiveMenu = name;
+			} else {
+				vm.thirdNavActiveMenu = '';
+			}
+			vm.hadBackPosition = -1;
+			/*
+			if(name == '新闻图片') {
+				vm.properties = 0;
+				pcataid = 1760;
+			} else if(name == '专题图片') {
+				vm.properties = 1;
+				pcataid = 188;
+			}else if(name == '老照片') {//add by xiayunan  2017-09-06
+				vm.properties = 2;
+				pcataid = 100182651;
+			}else if(name == '新华社图片') {//add by xiayunan  2018-02-06
+				vm.properties = 3;
+				pcataid = 100182663;
+			}
+			vm.cateId = pcataid;
+
+			if(vm.acitiveOneSlideTit == 1) {
+				getSignGroups(1, pcataid, 1, 0, false);//edit by hexx    修改默认为null的cataid 添加了cataid的值
+				getSignGroups(1, pcataid, 1, 1, false);			
+			} else if(vm.acitiveOneSlideTit == 2) {
+				getSignGroups(2, pcataid, 1, 1, false);
+				getSignGroups(2, pcataid, 1, 0, false);
+			}
+			*/
+			hadBackThirdNodecount++;
+		}else{
+			vm.hadBackPosition = position;
+			vm.category = itemId;
+			getSignSubGroups(2, itemId, 1, 0, false);
+			getSignSubGroups(2, itemId, 1, 1, false);
+		}
+		
+		
+	};
+	
+	/**
+	 * 点击展示已发布分类详情
+	 */
+	vm.thirdHadBackPosition = -1;
+	vm.onShowThirdHadBackDetailClick = function(itemId, position) {
+		vm.thirdHadBackPosition = position;
+		vm.category = itemId;
+		getSignSubGroups(2, itemId, 1, 0, false);
+		getSignSubGroups(2, itemId, 1, 1, false);
+	};
+	
+	
+	
+	
+	/*******************资料库添加三级节点 end*************************/
 
 });

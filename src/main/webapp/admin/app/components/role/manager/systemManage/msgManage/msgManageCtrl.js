@@ -1944,11 +1944,8 @@ adminModule.controller('msgManageCtrl', function($scope, $cookies, req, md5, $st
 					paramsId += checkBoxItem + ",";
 				}
 			}
-			
-			alert("paramsId:"+paramsId);
 			if(paramsId != "") {
 				vm.deleteMassSMSParamsId = paramsId.substr(0, paramsId.length - 1);
-				alert("vm.deleteMassSMSParamsId:"+vm.deleteMassSMSParamsId);
 				vm.msgModalShow('mass-sms-del-modal');
 			} else {
 				layer.alert("请选择要删除的短信");
@@ -2113,7 +2110,11 @@ adminModule.controller('msgManageCtrl', function($scope, $cookies, req, md5, $st
 				vm.onCloseCurrentModalClick(8)
 				layer.alert('短信发送成功！');
 				getMassSMSTableData(1, 1, 2);
-			} else if(resp.msg != '未登录') {
+			}else if(resp.code == '510') {
+				layer.close(vm.loadUpMs);
+				layer.alert('短信发送失败！');
+			}else if(resp.msg != '未登录') {
+				layer.close(vm.loadUpMs);
 				layer.alert(resp.msg);
 			}
 		});

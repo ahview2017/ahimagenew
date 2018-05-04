@@ -66,16 +66,36 @@
 						<div class="m-sale-manage cursor datashow" ng-click="database.navFunc(item.categoryName)">
 							<span class="m-market-manage">{{item.categoryName}}</span>
 						</div>
+						
 						<div ng-repeat="each in item.categories" 
-							 ng-show="database.navActiveMenu == item.categoryName" 							
+							 ng-show="database.navActiveMenu == item.categoryName" 	
+							 ng-click="database.hadPubThirdNavFunc(each.categoryName,each.categories,each.id,$index)">			
+							 <!--  			
 							 ng-click="database.onShowHadPubDetailClick(each.id,$index)">
+							 -->
 							 <p class="m-item-option tac" 
 							    ng-class="{'m-item-option-check':$index==database.hadPubPosition}">
 								<a class="m-item-name">
-									<span>{{each.categoryName}}</span>
+									<span >{{each.categoryName}}</span>
 								</a>
-							</p>
+							 </p>
+							 
+							 
+						 <!-- 三级栏目节点 add by xiayunan@20180504 -->
+							 <div ng-repeat="thirdnode in each.categories" 
+								 ng-show="database.thirdNavActiveMenu == each.categoryName" 							
+								 ng-click="database.onShowThirdHadPubDetailClick(thirdnode.id,$index);$event.stopPropagation();">
+								 <p class="m-item-option tac" 
+								    ng-class="{'m-item-option-check':$index==database.thirdHadPubPosition}">
+									<a class="m-item-name">
+										<span style="font-size: 12px;">{{thirdnode.categoryName}}</span>
+									</a>
+								 </p>
+							</div>
+							
 						</div>
+						
+						
 					</div>
 				</div>
 			</div>
@@ -297,6 +317,8 @@
 						<div class="m-sale-manage cursor" ng-click="database.navFunc(item.categoryName)">
 							<span class="m-market-manage">{{item.categoryName}}</span>
 						</div>
+						
+						<!--  
 						<div ng-repeat="each in item.categories" 
 							 ng-show="database.navActiveMenu == item.categoryName" 
 							 ng-click="database.onShowHadBackDetailClick(each.id,$index)">
@@ -306,7 +328,44 @@
 									<span>{{each.categoryName}}</span>
 								</a>
 							</p>
+							
+	
 						</div>
+						-->
+						
+						
+						<div ng-repeat="each in item.categories" 
+							 ng-show="database.navActiveMenu == item.categoryName" 	
+							 ng-click="database.hadBackThirdNavFunc(each.categoryName,each.categories,each.id,$index)">			
+							 <!--  			
+							 ng-click="database.onShowHadPubDetailClick(each.id,$index)">
+							 -->
+							 <p class="m-item-option tac" 
+							    ng-class="{'m-item-option-check':$index==database.hadBackPosition}">
+								<a class="m-item-name">
+									<span >{{each.categoryName}}</span>
+								</a>
+							 </p>
+							 
+							 
+						 <!-- 三级栏目节点 add by xiayunan@20180504 -->
+							 <div ng-repeat="thirdnode in each.categories" 
+								 ng-show="database.thirdNavActiveMenu == each.categoryName" 							
+								 ng-click="database.onShowThirdHadBackDetailClick(thirdnode.id,$index);$event.stopPropagation();">
+								 <p class="m-item-option tac" 
+								    ng-class="{'m-item-option-check':$index==database.thirdHadBackPosition}">
+									<a class="m-item-name">
+										<span style="font-size: 12px;">{{thirdnode.categoryName}}</span>
+									</a>
+								 </p>
+							</div>
+							
+						</div>
+						
+						
+						
+						
+						
 					</div>
 				</div>
 			</div>
