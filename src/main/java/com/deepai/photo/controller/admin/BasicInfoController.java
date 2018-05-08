@@ -26,6 +26,7 @@ import com.deepai.photo.common.constant.CommonConstant;
 import com.deepai.photo.common.constant.SysConfigConstant;
 import com.deepai.photo.common.pagehelper.PageHelper;
 import com.deepai.photo.common.pojo.ResponseMessage;
+import com.deepai.photo.common.redis.RedisClientTemplate;
 import com.deepai.photo.common.util.SessionUtils;
 import com.deepai.photo.common.util.date.DateUtils;
 import com.deepai.photo.common.util.encrypt.Coder;
@@ -53,6 +54,8 @@ public class BasicInfoController {
 	private CpUserMapper cpUserMapper;
 	@Autowired
 	private SysConfigService sysConfigService;
+	@Autowired
+    private RedisClientTemplate redisClientTemplate;
 	@Autowired
 	private CpUserBankMapper cpUserBankMapper;
 	@Value("#{configProperties['ipAdd']}")
@@ -97,10 +100,22 @@ public class BasicInfoController {
 	@ResponseBody
 	@RequestMapping("/upCpUserBasicInfo")
 	@LogInfo(content = "修改基本的信息", opeType = 2, logTypeCode = CommonConstant.User)
-	public Object upCpUserBasicInfo(HttpServletRequest request, CpUser cpUser) {
+	public Object upCpUserBasicInfo(HttpServletRequest request, CpUser cpUser,String valiCode) {
 		ResponseMessage result = new ResponseMessage();
 		try {
+			
+			CommonValidation.checkParamBlank(valiCode, "验证码");
 			CpUser user = SessionUtils.getUser(request);
+			//add by liu.jinfeng@2017年9月7日 上午10:36:23 增加验证码校验
+            String redisCode = redisClientTemplate.get("USERINFO"+user.getTureName()+valiCode);
+            
+            log.info("<<<redisCode:"+redisCode);
+            log.info("<<<valiCode:"+valiCode);
+            if(redisCode==null||!redisCode.equals(valiCode)){
+                result.setCode(CommonConstant.EXCEPTIONCODE);
+                result.setMsg("验证码无效，请重新输入验证码");
+                return result;
+            }
 			cpUser.setId(user.getId());
 			cpUserMapper.updateByPrimaryKeySelective(cpUser);
 			result.setCode(CommonConstant.SUCCESSCODE);
@@ -170,12 +185,24 @@ public class BasicInfoController {
 	@ResponseBody
 	@RequestMapping("/upPassword")
 	@LogInfo(content = "修改用户密码", opeType = 2, logTypeCode = CommonConstant.User)
-	public Object upPassword(HttpServletRequest request, String password, String newPassword) {
+	public Object upPassword(HttpServletRequest request, String password, String newPassword,String valiCode) {
 		ResponseMessage result = new ResponseMessage();
 		try {
 			CommonValidation.checkParamBlank(password, "当前密码");
 			CommonValidation.checkParamBlank(newPassword, "新密码");
+			CommonValidation.checkParamBlank(valiCode, "验证码");
 			CpUser cpUser = SessionUtils.getUser(request);
+			
+			//add by liu.jinfeng@2017年9月7日 上午10:36:23 增加验证码校验
+            String redisCode = redisClientTemplate.get("USERPWD"+cpUser.getTureName()+valiCode);
+            log.info("<<<redisCode:"+redisCode);
+            log.info("<<<valiCode:"+valiCode);
+            if(redisCode==null||!redisCode.equals(valiCode)){
+                result.setCode(CommonConstant.EXCEPTIONCODE);
+                result.setMsg("验证码无效，请重新输入验证码");
+                return result;
+            }
+			
 			String p1 = Coder.encryptBASE64(Coder.reverse(password));
 			String p2 = cpUser.getPassword();
 			/*
@@ -214,10 +241,20 @@ public class BasicInfoController {
 	@ResponseBody
 	@RequestMapping("/upCpUserPayType")
 	@LogInfo(content = "设置支付方式", opeType = 2, logTypeCode = CommonConstant.User)
-	public Object upCpUserPayType(HttpServletRequest request, CpUser user) {
+	public Object upCpUserPayType(HttpServletRequest request, CpUser user,String valiCode) {
 		ResponseMessage result = new ResponseMessage();
 		try {
+			CommonValidation.checkParamBlank(valiCode, "验证码");
 			CpUser cpUser = SessionUtils.getUser(request);
+			//add by liu.jinfeng@2017年9月7日 上午10:36:23 增加验证码校验
+            String redisCode = redisClientTemplate.get("PAYINFO"+cpUser.getTureName()+valiCode);
+            log.info("<<<redisCode:"+redisCode);
+            log.info("<<<valiCode:"+valiCode);
+            if(redisCode==null||!redisCode.equals(valiCode)){
+                result.setCode(CommonConstant.EXCEPTIONCODE);
+                result.setMsg("验证码无效，请重新输入验证码");
+                return result;
+            }
 			user.setUpdateUser(cpUser.getUserName());
 			user.setUpdateTime(new Date());
 			user.setSiteId(SessionUtils.getSiteId(request));

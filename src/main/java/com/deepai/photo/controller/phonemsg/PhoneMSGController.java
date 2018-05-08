@@ -1307,7 +1307,84 @@ public class PhoneMSGController {
          }
          return result;
      }
-    
+     
+     
+     /**
+      * 
+      * 修改用户信息码发送手机验证码
+      * @author xiayunan
+      * @date 2018年5月7日  
+      * @param request
+      * @param type 0:更新用户信息 ;1:更新密码;2:更新支付信息
+      * @throws HttpException
+      * @throws IOException
+      */
+     @ResponseBody
+     @RequestMapping("/sendPhoneVilidateForUpUserInfo")
+     @SkipLoginCheck
+     @SkipAuthCheck
+     public Object sendPhoneVilidateForUpUserInfo(HttpServletRequest request,Integer type)
+             throws HttpException, IOException {
+         ResponseMessage result = new ResponseMessage();
+         try {
+        	CpUser user = (CpUser)SessionUtils.getUser(request);
+ 	        if(user==null){
+ 	        	result.setCode(CommonConstant.NOTLOGINCODE);
+ 	            result.setMsg(CommonConstant.NOTLOGINMSG);
+ 	            return result;
+ 	        }
+ 	        String userName = user.getTureName();
+            // 生成六位验证码发送到手机
+            Integer vilidate = (int) ((Math.random() * 9 + 1) * 100000);
+            JSONObject resultObj = null;
+            
+            log.info("<<<type:"+type);
+            log.info("<<<phonenum:"+user.getTelBind());
+            switch (type) {
+            case 0:
+                redisClientTemplate.set("USERINFO" + userName + vilidate,
+                         vilidate + "");
+                redisClientTemplate.expire("USERINFO" + userName + vilidate, 60 * 2);
+
+                resultObj = phoneMSGUtils.sendMsg(user.getTelBind(),
+                         PhoneMSGUtils.UPDATE_USERINFO_CODE,vilidate);
+                break;
+            case 1:
+            	redisClientTemplate.set("USERPWD" + userName + vilidate,
+                        vilidate + "");
+                redisClientTemplate.expire("USERPWD" + userName + vilidate, 60 * 2);
+
+                resultObj = phoneMSGUtils.sendMsg(user.getTelBind(),
+                        PhoneMSGUtils.UPDATE_PASSWORD_CODE,vilidate);
+                break;
+            case 2:
+            	redisClientTemplate.set("PAYINFO" + userName + vilidate,
+                        vilidate + "");
+                redisClientTemplate.expire("PAYINFO" + userName + vilidate, 60 * 2);
+
+                resultObj = phoneMSGUtils.sendMsg(user.getTelBind(),
+                        PhoneMSGUtils.UPDATE_PAYINFO_CODE,vilidate);
+                break;
+            default:
+                break;
+            }
+            log.info("code:"+resultObj.getString("code"));
+            if (null == resultObj || resultObj.getString("code").equals("0")) {// 失败
+                 result.setCode(CommonConstant.EXCEPTIONCODE);
+                 result.setMsg(CommonConstant.EXCEPTIONMSG);
+            } else {
+                 result.setCode(CommonConstant.SUCCESSCODE);
+                 result.setMsg(CommonConstant.SUCCESSSTRING);
+            }
+         } catch (Exception e1) {
+             e1.printStackTrace();
+             log.error("修改用户信息发送短信验证码失败， " + e1.getMessage());
+             result.setCode(CommonConstant.EXCEPTIONCODE);
+             result.setMsg(CommonConstant.EXCEPTIONMSG);
+         }
+         return result;
+     }
+     
 
     public static void main(String[] args) {
 		Set<Integer> set = new HashSet<Integer>();

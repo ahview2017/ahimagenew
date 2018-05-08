@@ -130,6 +130,15 @@ public class SysConfigConstant {
    /**禁止显示购物车栏目ID*/
    public static final String FORBIT_SHOPPING_COLUMN = "FORBIT_SHOPPING_COLUMN";
    
+   /**修改用户信息发送短信模版*/
+   public static final String UPDATE_USERINFO_SEND = "UPDATE_USERINFO_SEND";
+   
+   /**修改用户密码发送短信模版*/
+   public static final String UPDATE_PASSWORD_SEND = "UPDATE_PASSWORD_SEND";
+   
+   /**修改用户支付信息发送短信模版*/
+   public static final String UPDATE_PAYINFO_SEND = "UPDATE_PAYINFO_SEND";
+   
    
    
 }

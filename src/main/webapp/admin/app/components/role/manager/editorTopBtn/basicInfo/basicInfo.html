@@ -125,6 +125,15 @@
                             {{basicInfo.baseInformObj.regDate|date:'yyyy-MM-dd HH:mm:ss'}}
                         </div>
                     </div>
+                     <div class="info-show-item">
+                        <div>
+                            <span class="info-show-name">验证码</span>
+                        </div>
+                        <div class="info-show-details">
+                            <input style="width:45%;" type="text"  class="basic-spec-bottom-line"  ng-model="basicInfo.baseInformObj.valiCode"/>
+                            <span  ng-click="basicInfo.sendmsg()" style="color: #3680c2;margin-left:10px;"><a href="javascript:void(0);" ng-click="basicInfo.sendmsg()" id="code">获取验证码</a></span>
+                        </div>
+                    </div>
                 </div>
                 <div class="info-show-right flr">
                     <div class="info-show-item">
@@ -167,6 +176,9 @@
                             <input type="text"  class="basic-spec-bottom-line"  ng-model="basicInfo.baseInformObj.emailContact"/>
                         </div>
                     </div>
+                    
+                   
+                    
                 </div>
             </div>
             <div class="tac">
@@ -203,6 +215,16 @@
                            ng-model="basicInfo.confirmPwd"/>
                 </div>
             </div>
+            <div class="modify-pwd-item">
+                <div>
+                    <span class="info-show-name">验证码</span>
+                </div>
+                <div class="info-show-details" style="margin-bottom:20px;">
+                    <input  style="width:40%" type="text"  class="basic-spec-bottom-line"  ng-model="basicInfo.valiCode2"/>
+                    <span  ng-click="basicInfo.sendmsg2()" style="color: #3680c2;margin-left:10px;"><a href="javascript:void(0);" ng-click="basicInfo.sendmsg2()" id="code2">获取验证码</a></span>
+                </div>
+            </div>
+            
             <p class="tac">
                 <span class="dib cursor save-basic-info"
                       ng-click="basicInfo.onBaseInfoUpdatePwdClick()">保存</span>
@@ -246,6 +268,15 @@
                            <!--ng-model="basicInfo.biAccountBank"/>-->
                     <input readonly  type="text" class="info-modify-pwd-input"
                            value='中国邮政储蓄银行'/>
+                </div>
+            </div>
+            <div class="modify-pwd-item">
+                <div>
+                    <span class="info-show-name">验证码</span>
+                </div>
+                <div class="info-show-details" style="margin-bottom:20px;">
+                    <input  style="width:40%" type="text"  class="basic-spec-bottom-line"  ng-model="basicInfo.valiCode3"/>
+                    <span  ng-click="basicInfo.sendmsg3()" style="color: #3680c2;margin-left:10px;"><a href="javascript:void(0);" ng-click="basicInfo.sendmsg3()" id="code3">获取验证码</a></span>
                 </div>
             </div>
             <p class="tac">

@@ -158,6 +158,8 @@ INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`D
 INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(439,1,'搜索短信群发记录','搜索短信群发记录','phonemsg/searchMassSMS',65,0,'admin',now(),NULL,'',0);
 INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(440,1,'短信群发','短信群发','phonemsg/sendMassSMS',65,0,'admin',now(),NULL,'',0);
 
+INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(441,1,'更新用户信息发送验证码','更新用户信息发送验证码','phonemsg/sendPhoneVilidateForUpUserInfo',65,0,'admin',now(),NULL,'',0);
+
 
 
 

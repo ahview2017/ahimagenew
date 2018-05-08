@@ -65,6 +65,15 @@ public class PhoneMSGUtils {
     
     /** 管理员群发短信 */
     public static final String MASS_SMS_CODE = "6";
+    
+    /** 修改用户信息发送验证码 */
+    public static final String UPDATE_USERINFO_CODE = "7";
+    
+    /** 修改用户密码发送验证码 */
+    public static final String UPDATE_PASSWORD_CODE = "8";
+    
+    /** 修改用户支付信息发送验证码*/
+    public static final String UPDATE_PAYINFO_CODE = "9";
 
     /**
      * 发送短信通知
@@ -125,6 +134,15 @@ public class PhoneMSGUtils {
         case TYPE_FORGET_CODE:
             result = sendPhoneCode(phone, TYPE_FORGET_CODE,valicode);
             break;
+        case UPDATE_USERINFO_CODE:
+            result = sendPhoneCode(phone, UPDATE_USERINFO_CODE,valicode);
+            break; 
+        case UPDATE_PASSWORD_CODE:
+            result = sendPhoneCode(phone, UPDATE_PASSWORD_CODE,valicode);
+            break; 
+        case UPDATE_PAYINFO_CODE:
+            result = sendPhoneCode(phone, UPDATE_PAYINFO_CODE,valicode);
+            break; 
         default:
             break;
         }
@@ -190,6 +208,18 @@ public class PhoneMSGUtils {
         case TYPE_PHONE_CODE:
             sContent = sysConfigService
                     .getDbSysConfig(SysConfigConstant.MSG_PHONE_CODE, 1);
+            break;
+        case UPDATE_USERINFO_CODE:
+            sContent = sysConfigService
+                    .getDbSysConfig(SysConfigConstant.UPDATE_USERINFO_SEND, 1);
+            break;
+        case UPDATE_PASSWORD_CODE:
+            sContent = sysConfigService
+                    .getDbSysConfig(SysConfigConstant.UPDATE_PASSWORD_SEND, 1);
+            break;
+        case UPDATE_PAYINFO_CODE:
+            sContent = sysConfigService
+                    .getDbSysConfig(SysConfigConstant.UPDATE_PAYINFO_SEND, 1);
             break;
         default:
             break;

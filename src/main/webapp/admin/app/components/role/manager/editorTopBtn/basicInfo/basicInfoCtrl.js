@@ -179,6 +179,10 @@ adminModule.controller('mEdtBasicInfoCtrl', function ($scope, $cookies, req, md5
             layer.alert("请输入正确格式的联系邮箱");
             return;
         }
+        if (!vm.baseInformObj.valiCode) {
+            layer.alert("请输入验证码");
+            return;
+         }
         req.post('basicInfo/upCpUserBasicInfo.do', {
             tureName: vm.baseInformObj.tureName,
             emailBind: vm.baseInformObj.emailBind,
@@ -188,7 +192,8 @@ adminModule.controller('mEdtBasicInfoCtrl', function ($scope, $cookies, req, md5
             unitName: vm.baseInformObj.unitName,
             address: vm.baseInformObj.address,
             telContact: vm.baseInformObj.telContact,
-            emailContact: vm.baseInformObj.emailContact
+            emailContact: vm.baseInformObj.emailContact,
+            valiCode: vm.baseInformObj.valiCode
         }).success(function (resp) {
             if (resp.code == '211') {
                 layer.alert("保存成功");
@@ -223,9 +228,14 @@ adminModule.controller('mEdtBasicInfoCtrl', function ($scope, $cookies, req, md5
             layer.alert("两次输入的密码不一致");
             return;
         }
+        if (!vm.valiCode2) {
+            layer.alert("验证码不能为空！");
+            return;
+        }
         req.post('basicInfo/upPassword.do', {
             password: md5.createHash(vm.currentPwd),
-            newPassword: md5.createHash(vm.newPwd)
+            newPassword: md5.createHash(vm.newPwd),
+            valiCode: vm.valiCode2
         }).success(function (resp) {
             if (resp.code == '211') {
                 layer.alert('修改密码成功');
@@ -259,6 +269,11 @@ adminModule.controller('mEdtBasicInfoCtrl', function ($scope, $cookies, req, md5
             layer.alert("请输入正确格式的卡户主身份证");
             return;
         }
+        
+        if (!vm.valiCode3) {
+            layer.alert("请输入验证码！");
+            return;
+        }
         // if (!vm.biAccountBank) {
         //     layer.alert("请输入开户行");
         //     return;
@@ -268,7 +283,8 @@ adminModule.controller('mEdtBasicInfoCtrl', function ($scope, $cookies, req, md5
             bankUsername: vm.biAccountName,
             bankIdCard: vm.biAccountIdCard,
             // bankName: vm.biAccountBank
-            bankName: '中国邮政储蓄银行'
+            bankName: '中国邮政储蓄银行',
+            valiCode:vm.valiCode3
         }).success(function (resp) {
             if (resp.code == '211') {
                 layer.alert("设置支付方式成功");
@@ -278,5 +294,114 @@ adminModule.controller('mEdtBasicInfoCtrl', function ($scope, $cookies, req, md5
         });
     };
 
+	
+    
+    // 发送验证码
+	var clock = '';
+	var nums = 60;
+	var start = true;
+	vm.sendmsg = function(form) {
+		if (nums == 60 && start) {
+			start = false;
+			$("#code").removeAttr('ng-click');
+			$("#code").attr('disabled', "true");
+			$("#code").html(nums + '秒后可重新获取');
+			clock = setInterval(doLoop, 1000); // 一秒执行一次
+			req.post('phonemsg/sendPhoneVilidateForUpUserInfo.do', {
+				type : 0
+			}).success(function(resp) {
+				if (resp.code != '211') {
+					layer.alert(resp.msg);
+				}
+			});
+
+		}
+	}
+	
+	function doLoop() {
+		nums--;
+		if (nums > 0) {
+			$("#code").html(nums + '秒后可重新获取');
+		} else {
+			clearInterval(clock); // 清除js定时器
+			$("#code").html('获取验证码');
+			$("#code").attr('ng-click', 'basicInfo.sendmsg()');
+			$("#code").removeAttr('disabled');
+			nums = 60; // 重置时间
+			start = true;
+		}
+	}
+	
+	// 发送验证码
+	var clock2 = '';
+	var nums2 = 60;
+	var start2 = true;
+	vm.sendmsg2 = function(form) {
+		if (nums2 == 60 && start2) {
+			start2 = false;
+			$("#code2").removeAttr('ng-click');
+			$("#code2").attr('disabled', "true");
+			$("#code2").html(nums2 + '秒后可重新获取');
+			clock2 = setInterval(doLoop2, 1000); // 一秒执行一次
+			req.post('phonemsg/sendPhoneVilidateForUpUserInfo.do', {
+				type : 1
+			}).success(function(resp) {
+				if (resp.code != '211') {
+					layer.alert(resp.msg);
+				}
+			});
+
+		}
+	}
+	
+	function doLoop2() {
+		nums2--;
+		if (nums2 > 0) {
+			$("#code2").html(nums2 + '秒后可重新获取');
+		} else {
+			clearInterval(clock2); // 清除js定时器
+			$("#code2").html('获取验证码');
+			$("#code2").attr('ng-click', 'basicInfo.sendmsg2()');
+			$("#code2").removeAttr('disabled');
+			nums2 = 60; // 重置时间
+			start2 = true;
+		}
+	}
+	
+	
+	var clock3 = '';
+	var nums3 = 60;
+	var start3 = true;
+	vm.sendmsg3 = function(form) {
+		if (nums3 == 60 && start3) {
+			start3 = false;
+			$("#code3").removeAttr('ng-click');
+			$("#code3").attr('disabled', "true");
+			$("#code3").html(nums3 + '秒后可重新获取');
+			clock = setInterval(doLoop3, 1000); // 一秒执行一次
+			req.post('phonemsg/sendPhoneVilidateForUpUserInfo.do', {
+				type : 2
+			}).success(function(resp) {
+				if (resp.code != '211') {
+					layer.alert(resp.msg);
+				}
+			});
+
+		}
+	}
+	
+	function doLoop3() {
+		nums3--;
+		if (nums3 > 0) {
+			$("#code3").html(nums3 + '秒后可重新获取');
+		} else {
+			clearInterval(clock3); // 清除js定时器
+			$("#code3").html('获取验证码');
+			$("#code3").attr('ng-click', 'basicInfo.sendmsg3()');
+			$("#code3").removeAttr('disabled');
+			nums3 = 60; // 重置时间
+			start3 = true;
+		}
+	}
 
 });
