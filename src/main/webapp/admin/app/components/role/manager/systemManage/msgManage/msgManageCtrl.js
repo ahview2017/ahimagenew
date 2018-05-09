@@ -2173,4 +2173,10 @@ adminModule.controller('msgManageCtrl', function($scope, $cookies, req, md5, $st
 	
 	
 	/* ------------------短信群发结束------------------------- */
+	
+	
+	
+	
+	
+	
 });

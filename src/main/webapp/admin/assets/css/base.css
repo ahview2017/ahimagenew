@@ -36,6 +36,11 @@ textarea {
 ul li{
   list-style: none;
 }
+.multi-select li{
+  list-style: none;
+  margin-left: 10px;
+  margin-top: 8px;
+}
 img{
   border: none;
 }
