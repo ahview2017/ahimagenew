@@ -41,8 +41,10 @@
                         <td  style="width:8%;"  class="wbba">{{orderItem.totalPrice}}</td>
                         <td  style="width:8%;"  class="wbba">{{orderItem.orderStatus|omPriceStateFilter}}</td>
                         <td style="width:10%;"  class="wbba">
+                        	<!--  add by xiayunan@20180510 订单模块未开启 先隐藏
                             <img src="admin/assets/img/role/look_info.png"
                                  title="查看图片" class="cursor" width="20" height="20" ng-click="orderManage.lookPic(orderItem.id)"/>
+                             -->
                             <img src="admin/assets/img/role/down.png"
                                  title="下载图片" class="cursor u-pwd-reset" width="20" height="20"
                                  ng-click="orderManage.downOrderPic(orderItem.id)"/>
