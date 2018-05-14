@@ -36,7 +36,15 @@
                                     换一张</a>
                             </div>
                         </div>
+                        <!--  
                         <div class="m-f-pwd cursor" ng-click="login.goFindPwd()">找回密码</div>
+                        -->
+                        <div class="m-f-pwd cursor" >
+                        	<span >
+	                            <input type="checkbox" name="rememberMe" id="rememberMe" ng-model="nextLoginRemember"  tabindex="4">
+	                            <label for="rememberMe">下次自动登录</label>
+	                        </span>
+                        </div>
                         <div class="m-dz-btn clear">
                             <button class="m-btn-dz btn-login" type="submit" ng-click="login.loginIn()">登录</button>
                             <!--<button class="m-btn-dz btn-register">注册</button>-->

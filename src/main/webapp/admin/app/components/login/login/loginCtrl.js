@@ -20,6 +20,15 @@ adminModule.controller('loginCtrl', function ($scope, $cookies, req, md5, $state
         vm.cookie_latestHash = $cookies.get('latest_hash');
 
         vm.validCodeImg ='/photo/yanzheng.do?tm='+Math.random();
+        
+        //下次自动登录 add by xiayunan@20180514
+        vm.nextLoginRemember = false;
+        vm.rmbUser = $cookies.get('rmbUser');
+        if (vm.rmbUser) {
+        	vm.nextLoginRemember = true;
+        	vm.user.name = $cookies.get('rmbUsername');
+        	vm.user.pwd = $cookies.get('rmbPassword');
+        }
     }
 
     init();
@@ -78,6 +87,19 @@ adminModule.controller('loginCtrl', function ($scope, $cookies, req, md5, $state
 
     //登录请求
     function req_login() {
+    	//下次自动登录 add by xiayunan@20180514
+    	var expireDate = new Date();
+    	expireDate.setDate(expireDate.getDate() + 10080);//用户名，密码缓存时间为7天
+    	if (vm.nextLoginRemember) {
+	      $cookies.put("rmbUser", "true", {expires: expireDate, path: '/'});
+	      $cookies.put("rmbUsername", vm.user.name, {expires: expireDate, path: '/'});
+	      $cookies.put("rmbPassword", vm.user.pwd, {expires: expireDate, path: '/'});
+    	}else {
+    	  $cookies.put("rmbUser", "false", {path: '/'});
+  	      $cookies.put("rmbUsername", "", {path: '/'});
+  	      $cookies.put("rmbPassword", "", {path: '/'});
+	    }
+    	
         var saltPwdMix = md5.createHash(vm.user.pwd) + vm.loginSalt;
         vm.finalPwd = md5.createHash(saltPwdMix);
         req.post('login/doLogin.do', {
