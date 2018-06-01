@@ -712,15 +712,39 @@ public class DateTimeUtil {
 		return days;
 	}
 	
+	/**
+	 * 判断一个字符串是不是一个合法的日期格式
+	 * @author xiayunan
+	 * @date 2018年5月28日
+	 * @param str
+	 * @return
+	 */
+	public static boolean isValidNormalDate(String str) {
+	      boolean convertSuccess=true;
+	      // 指定日期格式为四位年/两位月份/两位日期，注意yyyy/MM/dd区分大小写；
+	      SimpleDateFormat format = new SimpleDateFormat(TIME_FORMAT_NORMAL);
+	       try {
+	          format.setLenient(false);
+	          format.parse(str);
+	       } catch (ParseException e) {
+	           // e.printStackTrace();
+	    	   // 如果throw java.text.ParseException或者NullPointerException，就说明格式不对
+	           convertSuccess=false;
+	       } 
+	       return convertSuccess;
+	}
+	
+	
 	public static void main(String[] args) {
 		try{
-			System.out.println(getLastDayOfMonth(getNowDateNormalString()));
-			System.out.println(getFirstDayOfMonth(getNowDateNormalString()));
-			System.out.println(getIntervalMonthLater("2012-08-03",2));
-			System.out.println(getIntervalDaysLater(getNowDateNormalString(),0));
-			System.out.println(getIntervalDaysLater(getNowDateNormalString(),1));
-			System.out.println(getIntervalDaysLater(getNowDateNormalString(),2));
-			System.out.println(getNowYearMonthString());
+//			System.out.println(getLastDayOfMonth(getNowDateNormalString()));
+//			System.out.println(getFirstDayOfMonth(getNowDateNormalString()));
+//			System.out.println(getIntervalMonthLater("2012-08-03",2));
+//			System.out.println(getIntervalDaysLater(getNowDateNormalString(),0));
+//			System.out.println(getIntervalDaysLater(getNowDateNormalString(),1));
+//			System.out.println(getIntervalDaysLater(getNowDateNormalString(),2));
+//			System.out.println(getNowYearMonthString());
+			System.out.println(isValidNormalDate("2018-05-28 10:51:38"));
 		}catch(Exception e){
 			e.printStackTrace();
 		}

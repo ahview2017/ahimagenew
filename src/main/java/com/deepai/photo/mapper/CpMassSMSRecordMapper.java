@@ -14,6 +14,7 @@ public interface CpMassSMSRecordMapper {
 	void updateByPrimaryKeySelective(CpMassSMSRecord cpMassSMSRecord);
 	//根据ID删除指定群发短信
 	int deleteByPrimaryKey(Integer id);
+	
 	//根据ID查找指定群发短信
 	CpMassSMSRecord  selectMassSMSById(Integer id);
 	//群发短信检索以及高级检索

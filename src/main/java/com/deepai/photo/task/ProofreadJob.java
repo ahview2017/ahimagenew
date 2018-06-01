@@ -1,5 +1,11 @@
 package com.deepai.photo.task;
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -10,10 +16,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import com.deepai.photo.bean.CpMassSMSRecord;
+import com.deepai.photo.bean.CpMsgTimer;
 import com.deepai.photo.common.PropertiesFileUtil;
 import com.deepai.photo.common.StringUtil;
 import com.deepai.photo.mapper.CpFlowMapper;
+import com.deepai.photo.mapper.CpMassSMSRecordMapper;
+import com.deepai.photo.mapper.CpMsgTimerMapper;
 import com.deepai.photo.mapper.OtherMapper;
+import com.deepai.photo.service.phonemsg.PhoneMSGService;
 import com.deepai.photo.service.picture.DownloadService;
 import com.deepai.photo.service.picture.FlowService;
 @Service
@@ -27,6 +38,14 @@ public class ProofreadJob {
 	private DownloadService downloadService;
 	@Autowired
 	private OtherMapper otherMapper;
+	@Autowired
+	private CpMsgTimerMapper cpMsgTimerMapper;
+	@Autowired
+	private CpMassSMSRecordMapper cpMassSMSRecordMapper;
+    @Autowired
+    private PhoneMSGService phoneMSGService;
+    
+    
 	
     /**
      * 自动将过期校审配置设置为不启动状态
@@ -138,10 +157,71 @@ public class ProofreadJob {
 		}
 	}  
 	
+	/**
+	 * 定时扫描短信群发,执行定时任务
+	 * 每两个小时跑一次
+	 */
+//	@Scheduled(cron="0 0 0/2 * * ?") 
+	@Scheduled(cron="0 0/1 * * * ?") 
+	public void sendMassSMS() {  
+		log.info("扫描短信群发定时任务开始！！！");
+		List<CpMsgTimer> lists = null;
+		Set<String> phoneNumSet = new HashSet<String>();
+		try {
+			lists =  cpMsgTimerMapper.selectMassSMSTasks();
+			if(lists.size()>0){
+				for(CpMsgTimer iTimer:lists){
+					if(iTimer!=null){
+						int massSmsId = iTimer.getClassId();//群发短信记录ID
+						CpMassSMSRecord cpMassSMSRecord =  cpMassSMSRecordMapper.selectMassSMSById(massSmsId);
+						if(cpMassSMSRecord!=null&&cpMassSMSRecord.getStatus()==1){//稿件审核状态为审核通过开始发售短信
+							 Date executeTime = iTimer.getExecuteTime();
+							 //当前时间和执行时间相等，执行定时任务
+							 if(executeTime!=null&&(System.currentTimeMillis()-executeTime.getTime())/(1000*60)==0){
+								 phoneNumSet = phoneMSGService.getPhoneNumSet(massSmsId);
+								 if(phoneNumSet.size()==0){
+					         		 throw new Exception("接受对象的手机号集合为空，请核对后再发生");
+					         	 } 
+								 String massSmsContent = cpMassSMSRecord.getMsgContent();
+					         	 if(StringUtil.isBlank(massSmsContent)||massSmsContent.length()>60){
+					         		 throw new Exception("短信内容为空或总字数超过60，请核对后再进行发送！");
+					         	 }
+					         	 boolean isSuccess = phoneMSGService.sendMassSMS(massSmsId,phoneNumSet);
+					         	 if(isSuccess){
+					         		 log.info("短信发送成功！！！");
+					         		 CpMsgTimer cpMsgTimer = new CpMsgTimer();
+					         		 cpMsgTimer.setId(iTimer.getId());
+					         		 cpMsgTimer.setStatus(1);
+					         		 log.info("开始更新定时任务执行状态！");
+					         		 cpMsgTimerMapper.updateByPrimaryKey(cpMsgTimer);
+					         		 log.info("更新定时任务执行状态成功！");
+					         		 //短信发送成功更新定时任务状态为已执行;
+					         	 }else{
+					         		 log.info("短信发送失败，请检查短信内容是否含有特殊字符或者字数超出限制！！！");
+					         	 }
+							 }
+						}
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 	
 	
-	
-	
-	
+	public static void main(String[] args) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		try {
+			long l1 = sdf.parse("2018-05-29 15:06:23").getTime();
+			long l2= sdf.parse("2018-05-29 10:49:23").getTime();
+			
+			System.out.println("l1:"+l1);
+			System.out.println((System.currentTimeMillis()-l1)/(1000*60));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 } 

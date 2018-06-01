@@ -24,8 +24,22 @@ public class CpMassSMSRecord {
 		private Date crtime;//创建时间
 	    private Date updateTime;//更新时间
 	    private String remark;//备注 
+	    private String filePath;//号码簿文件路径
+	    private String executeTime;//执行时间
 	    
-	    public List<EnGroupManagement> getGroups() {
+	    public String getExecuteTime() {
+			return executeTime;
+		}
+		public void setExecuteTime(String executeTime) {
+			this.executeTime = executeTime;
+		}
+		public String getFilePath() {
+			return filePath;
+		}
+		public void setFilePath(String filePath) {
+			this.filePath = filePath;
+		}
+		public List<EnGroupManagement> getGroups() {
 			return groups;
 		}
 		public void setGroups(List<EnGroupManagement> groups) {

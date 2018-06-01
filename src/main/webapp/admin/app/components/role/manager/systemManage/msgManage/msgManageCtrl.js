@@ -92,6 +92,7 @@ adminModule.controller('msgManageCtrl', function($scope, $cookies, req, md5, $st
 	        }).success(function (resp) {
 	            if (resp.code == '211') {
 	                vm.isMsgEditor = resp.data;
+	                
 	            } 
 	        });
 	}
@@ -484,6 +485,7 @@ adminModule.controller('msgManageCtrl', function($scope, $cookies, req, md5, $st
 				vm.selectedUserIds = "";
 				vm.selReceptGroupObjArr =[];
 				vm.massSMSContentModel = "";
+				vm.sendTime = "";
 				//TODO 隐藏短信群发高级检索弹框
 //				vm.msgModalHide('msg-msg-sele-modal');
 				vm.msgModalHide('mass-sms-add-modal');
@@ -509,6 +511,7 @@ adminModule.controller('msgManageCtrl', function($scope, $cookies, req, md5, $st
 				vm.editUsers = "";
 				vm.selReceptEditGroupObjArr = [];
 				vm.editMsgContent="";
+				vm.editSendTime="";
 				vm.editMsgSuggestion  = "";
 				vm.editVerifyStatus  = "0";
 				vm.oriMassSmsStatus  = "0";
@@ -1782,6 +1785,8 @@ adminModule.controller('msgManageCtrl', function($scope, $cookies, req, md5, $st
 	//消息模态框显示
 	vm.delModalShow = function(modalId,itemId) {
 		modalOperate.modalShow(modalId);
+		
+		alert("itemId:"+itemId)
 		vm.currEditMassSMSId = itemId;
 	};
 	
@@ -1807,9 +1812,48 @@ adminModule.controller('msgManageCtrl', function($scope, $cookies, req, md5, $st
 		return ParamArr.toString();
 	}
 	
+	
+	
+	function upUsersInfoFile(callback){
+		 var formdata = new FormData();
+	     var file = document.querySelector('input[type=file]').files[0];
+	     formdata.append('myFile', file); 
+	     $.ajax({
+	            type: "POST",
+	            data: formdata,
+	            url: "/photo/phonemsg/upFile.do",
+	            cache: false,
+	            contentType: false,     //必须false才会自动加上正确的Content-Type
+	            processData: false,     //必须false才会避开jQuery对formdata的默认处理
+	            async: true
+	        }).success(function (resp) {
+	        		if(resp.code == '211') {
+	        			if(callback)callback(resp.data);
+//					layer.alert('添加群发短信成功');
+//					vm.onCloseCurrentModalClick(6);
+//					getMassSMSTableData(1, 1, 2);
+					//getMsgEmailTableData(false, "", 1, 1,0);
+					//getMsgEmailTableData(1, 1, 0);
+				} else if(resp.msg != '未登录') {
+					layer.alert(resp.msg);
+				}else{
+					layer.alert(resp.msg);
+				}
+	        }).error(function (resp) {
+	        		layer.alert(resp.msg);
+	        });
+	     
+	     
+	}
+	
+	
+	
+	
+	
+	
 	vm.addMassSMS = function(){
-		if(!vm.selectedUsers&&!getAcceptGroupObjParams()) {
-			layer.alert("请选择用户或群组！");
+		if(!vm.selectedUsers&&!getAcceptGroupObjParams()&&!document.querySelector('input[type=file]').files[0]) {
+			layer.alert("请选择用户、群组或者导入号码簿！");
 			return;
 		}
 		/*
@@ -1827,11 +1871,43 @@ adminModule.controller('msgManageCtrl', function($scope, $cookies, req, md5, $st
 			return;
 		}
 		
+		if(document.querySelector('input[type=file]').files[0]){
+			upUsersInfoFile(function(filePath){
+				req.post('phonemsg/addMassSMSRecord.do', {
+					phoneReceiverUser: vm.selectedUserIds,
+					phoneReceiverGroup: getAcceptGroupObjParams(),
+					msgContent:vm.massSMSContentModel,
+					filePath:filePath,
+					sendTime:vm.sendTime
+				}).success(function(resp) {
+					if(resp.code == '211') {
+						layer.alert('添加群发短信成功');
+						vm.onCloseCurrentModalClick(6);
+						getMassSMSTableData(1, 1, 2);
+						//getMsgEmailTableData(false, "", 1, 1,0);
+						//getMsgEmailTableData(1, 1, 0);
+					} else if(resp.msg != '未登录') {
+						layer.alert(resp.msg);
+					}
+				});
+			});
+			
+		}else{
+			addMassSMSRecord("");
+		}
+		
+		
+	}
+	
+	function addMassSMSRecord(filePath){
+		alert("filePath:"+filePath);
 		
 		req.post('phonemsg/addMassSMSRecord.do', {
 			phoneReceiverUser: vm.selectedUserIds,
 			phoneReceiverGroup: getAcceptGroupObjParams(),
-			msgContent:vm.massSMSContentModel
+			msgContent:vm.massSMSContentModel,
+			filePath:filePath,
+			sendTime:vm.sendTime
 		}).success(function(resp) {
 			if(resp.code == '211') {
 				layer.alert('添加群发短信成功');
@@ -1843,17 +1919,17 @@ adminModule.controller('msgManageCtrl', function($scope, $cookies, req, md5, $st
 				layer.alert(resp.msg);
 			}
 		});
-		
-		
-		
 	}
+	
+	
+	
 	
 	/**
 	 * 更新短信群发记录
 	 */
 	vm.updateMassSMS = function(){
-		if(!vm.editUsers&&!getAcceptEditGroupObjParams()) {
-			layer.alert("请选择用户或群组！");
+		if(!vm.editUsers&&!getAcceptEditGroupObjParams()&&(!document.querySelector('input[type=file]').files[0] && !vm.editFilePath )) {
+			layer.alert("请选择用户、群组或导入号码簿！");
 			return;
 		}
 		/*
@@ -1882,13 +1958,16 @@ adminModule.controller('msgManageCtrl', function($scope, $cookies, req, md5, $st
 				return;
 			}
 		}
+		
+		
 		req.post('phonemsg/updateMassSMSRecord.do', {
 			phoneReceiverUser: vm.editUserIds,
 			phoneReceiverGroup: getAcceptEditGroupObjParams(),
 			msgContent:vm.editMsgContent,
 			msgSuggestion:vm.editMsgSuggestion,
 			status:vm.editVerifyStatus,
-			id:vm.currEditMassSMSId
+			id:vm.currEditMassSMSId,
+			sendTime:vm.editSendTime
 		}).success(function(resp) {
 			if(resp.code == '211') {
 				layer.alert('更新记录成功！');
@@ -1931,7 +2010,7 @@ adminModule.controller('msgManageCtrl', function($scope, $cookies, req, md5, $st
 	/**
 	 * 删除短信群发记录
 	 */
-	//vm.deleteMassSMSParamsId = "";
+	vm.deleteMassSMSParamsId = "";
 	vm.onShowDeleteMassSMSModelClick = function(deleteType, mineDeleteId) {
 		if(deleteType == -1) {
 			vm.deleteMassSMSParamsId = mineDeleteId;
@@ -2082,7 +2161,9 @@ adminModule.controller('msgManageCtrl', function($scope, $cookies, req, md5, $st
 				});
 			}
 		}
+		vm.editFilePath = vm.massSMSArray[index].filePath;
 		vm.editMsgContent = vm.massSMSArray[index].msgContent;
+		vm.editSendTime = vm.massSMSArray[index].executeTime;
 		vm.editMsgSuggestion = vm.massSMSArray[index].msgSuggestion;
 //		vm.selReceptEditGroupObjArr = [{'id':'6'},{'id':'47'}];
 		vm.editVerifyStatus = vm.massSMSArray[index].status+"";
@@ -2105,7 +2186,6 @@ adminModule.controller('msgManageCtrl', function($scope, $cookies, req, md5, $st
 			recordId:vm.currEditMassSMSId 
 		}).success(function(resp) {
 			if(resp.code == '211') {
-				
 				layer.close(vm.loadUpMs);
 				vm.onCloseCurrentModalClick(8)
 				layer.alert('短信发送成功！');

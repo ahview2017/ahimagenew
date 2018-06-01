@@ -98,6 +98,10 @@ public class SysConfigConstant {
     // add by xia.yunan 2017-12-18
     public static String SIGN_BASE_COLUMN = "SIGN_BASE_COLUMN";
     
+    //add by xiayunan@20180522
+    public	static String 	DEFAULT_FILE_PATH="DEFAULT_FILE_PATH"	;//	默认文件路径
+    
+    
 	public static Map<String,String> config;
 	
     /** 注册发送短信模版 */
@@ -138,6 +142,8 @@ public class SysConfigConstant {
    
    /**修改用户支付信息发送短信模版*/
    public static final String UPDATE_PAYINFO_SEND = "UPDATE_PAYINFO_SEND";
+   
+  
    
    
    

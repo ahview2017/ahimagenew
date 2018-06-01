@@ -1,32 +1,53 @@
 package com.deepai.photo.service.phonemsg;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.jsoup.helper.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.deepai.photo.bean.CpEmail;
 import com.deepai.photo.bean.CpMassSMSRecord;
 import com.deepai.photo.bean.CpPhoneMsg;
 import com.deepai.photo.bean.CpPhoneMsgExample;
 import com.deepai.photo.bean.CpPhoneMsgExample.Criteria;
+import com.deepai.photo.common.constant.CommonConstant;
+import com.deepai.photo.common.constant.SysConfigConstant;
+import com.deepai.photo.common.util.io.excel.ExcelReader;
+import com.deepai.photo.common.util.io.upload.FileUpload;
+import com.deepai.photo.common.validation.CommonValidation;
+import com.deepai.photo.controller.util.PhoneMSGUtils;
+import com.deepai.photo.mapper.CpBasicMapper;
+import com.deepai.photo.mapper.CpMassSMSRecordMapper;
 import com.deepai.photo.mapper.CpPhoneMsgMapper;
 import com.deepai.photo.mapper.CpUserMapper;
 import com.deepai.photo.mapper.CpUserRoleMapper;
+import com.deepai.photo.mapper.EnGroupManagementMapper;
+import com.deepai.photo.service.admin.SysConfigService;
 
 /**
  * * @author huqiankai: *
@@ -34,12 +55,24 @@ import com.deepai.photo.mapper.CpUserRoleMapper;
 @Service
 @Transactional(readOnly = false, rollbackFor=Exception.class)
 public class PhoneMSGService {
+	private Logger logger=Logger.getLogger(PhoneMSGService.class) ;
 	@Autowired
 	private CpPhoneMsgMapper cpPhoneMsgMapper;
 	@Autowired
 	private CpUserMapper cpUserMapper;
 	@Autowired
 	private CpUserRoleMapper cpUserRoleMapper;
+	@Autowired
+	private SysConfigService sysConfigService;
+	@Autowired
+    private CpMassSMSRecordMapper cpMassSMSRecordMapper;
+	@Autowired
+	private CpBasicMapper basicMapper;
+	@Autowired
+	private EnGroupManagementMapper groupManagementMapper;
+	@Autowired
+    private PhoneMSGUtils phoneMSGUtils;
+    
 	@Value("${phonseUrl}")
 	private String phoneUrl;
 	
@@ -133,7 +166,177 @@ public class PhoneMSGService {
 	}
 
 	
+	/**
+	 * 上传文件
+	 * @return 文件路径
+	 */
+	public String upOneFile(String filename,int siteId,MultipartFile picFile) {
+		//原图存放路径
+		String oriAllPath = "";
+		try {
+			
+			filename = filename.substring(0, filename.lastIndexOf("."))+"_"+new SimpleDateFormat("HHmmss").format(new Date())+filename.substring(filename.lastIndexOf("."),filename.length());
+			
+			String oriPath = sysConfigService.getDbSysConfig(SysConfigConstant.DEFAULT_FILE_PATH, siteId);
+			logger.info("文件oriPath:"+oriPath);
+			logger.info("文件filename:"+filename);
+			oriPath=initFullPathNoFile(oriPath, filename);
+			logger.info("处理过的文件oriPath:"+oriPath);
+			//上传原图并返回全途径
+			oriAllPath=FileUpload.fileUpName(picFile, oriPath, filename);
+			logger.info("生成文件的全路径oriAllPath:"+oriAllPath);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return oriAllPath;
+	}
 	
+	
+	/**
+	 * 生成文件全路径
+	 * @author xiayunan
+	 * @date 2018年5月22日
+	 * @param root 文件夹路径
+	 * @return 文件路径
+	 */
+	public String initFullPathNoFile(String root,String fileName) {
+		String tempp = root;
+		Calendar now = Calendar.getInstance();  
+        String year = now.get(Calendar.YEAR)+"";   
+        String month =String.format("%02d",  now.get(Calendar.MONTH) + 1)+"";   
+        String day =String.format("%02d",  now.get(Calendar.DAY_OF_MONTH))+"";  
+		if(System.getProperty("os.name").toUpperCase().indexOf("WINDOWS") != -1){
+			if (tempp.lastIndexOf(CommonConstant.doubleSprit) != tempp.length() - 1) {
+				tempp += CommonConstant.doubleSprit;
+			}
+			tempp=tempp + year + CommonConstant.doubleSprit
+					+ month + CommonConstant.doubleSprit+ day + CommonConstant.doubleSprit ;
+		}else{
+			if (tempp.lastIndexOf(CommonConstant.oneSprit) != tempp.length() - 1) {
+				tempp += CommonConstant.oneSprit;
+			}
+			tempp=tempp + year + CommonConstant.oneSprit
+					+ month + CommonConstant.oneSprit+ day + CommonConstant.oneSprit ;
+		}
+		return tempp;
+	}
+	
+	 /**
+	  * 获取短信群发记录中用户，用户组，号码簿的去重用户号码集合
+	  * @param recordId
+	  * @return
+	 * @throws Exception 
+	  */
+	 public Set<String> getPhoneNumSet(Integer recordId) throws Exception {
+		 List<Map<String, Object>> userList = null;
+         List<Map<String, Object>> groupUserList = null;
+         String[] columnDataArr = null;
+         Set<String> phoneNumSet = new HashSet<String>();//用户手机号总容器
+         logger.info("开始发送短信!");
+         CpMassSMSRecord cpMassSMSRecord =  cpMassSMSRecordMapper.selectMassSMSById(recordId);
+         //查询用户号码簿
+         String userNumFilePath =  cpMassSMSRecord.getFilePath();
+         logger.info("<<<开始查询电话簿号码");
+         logger.info("<<<userNumFilePath："+userNumFilePath);
+         if(!StringUtil.isBlank(userNumFilePath)){
+	         ExcelReader reader = new ExcelReader(userNumFilePath);
+	         reader.getAllData(0);
+	         if(reader.getSheetCount()>0){
+	     		columnDataArr = reader.getColumnData(0,1);
+     			for(int i=1;i<columnDataArr.length;i++){
+     				logger.info("号码："+columnDataArr[i]);
+     				phoneNumSet.add(columnDataArr[i]);
+     			}
+     		 }
+     	 }
+     	 //将接收用户加入群发用户ID总容器
+     	 String recerverUserNames = cpMassSMSRecord.getPhoneReceiverUser();
+     	 
+     	 logger.info("<<<recerverUserNames："+recerverUserNames);
+     	 
+     	 if(!StringUtil.isBlank(recerverUserNames)){
+     		String[] recerverUserArr  = recerverUserNames.split(",");
+     		 logger.info("<<<recerverUserArr.length："+recerverUserArr.length);
+        	 for(int i = 0;i<recerverUserArr.length;i++){
+        		 String iUserName = recerverUserArr[i];
+        		 logger.info("iUserName:"+iUserName);
+        		 Map<String, Object> param = new HashMap<String, Object>();
+        		 if(!StringUtil.isBlank(iUserName)){
+        			param.put("userName", iUserName);
+        			userList = basicMapper.getUserAll(param);
+        		 }
+        		 logger.info("userList.size():"+userList.size());
+        		 if(userList.size()>0){
+        			 for(Map<String, Object> map:userList){
+        				//userSet.add((Integer)(map.get("ID")));
+        				phoneNumSet.add((String)map.get("TEL_BIND"));
+        			 }
+        		 }
+        	 }
+     	 }
+     	 
+     	 
+     	 //将群组中所有的用户加入群发用户ID总容器
+     	 logger.info("userGroups:"+cpMassSMSRecord.getPhoneReceiverGroup());
+     	 String recerverGroupsIds = cpMassSMSRecord.getPhoneReceiverGroup();
+     	 if(!StringUtil.isBlank(recerverGroupsIds)){
+     		String[] recerverGroupsArr  = recerverGroupsIds.split(",");
+     		logger.info("recerverGroupsArr.size:"+recerverGroupsArr.length);
+        	 for(String groupId:recerverGroupsArr){
+        		groupUserList = groupManagementMapper.getGroupManagementUser(Integer.valueOf(groupId), "");
+        		logger.info("groupUserList.size:"+groupUserList.size());
+        		if(groupUserList.size()>0){
+       			 for(Map<String, Object> map:groupUserList){
+       				//userSet.add((Integer)(map.get("ID")));
+       				phoneNumSet.add((String)map.get("TEL_BIND"));
+       			 }
+       		 }
+        	 }
+     	 }
+     	
+     	logger.info("用户手机号集合："+phoneNumSet.toString());
+     	
+     	return phoneNumSet;
+	 }
+	 
+	 
+	 /**
+	  * 发送短信
+	  * @param recordId
+	  * @param phoneNumSet
+	  * @return 发送状态码
+	  */
+	 public boolean sendMassSMS(Integer recordId,Set<String> phoneNumSet){
+		 CpPhoneMsg cpPhoneMsg = new CpPhoneMsg();
+		 CpMassSMSRecord cpMassSMSRecord =  cpMassSMSRecordMapper.selectMassSMSById(recordId);
+		 String massSmsContent = cpMassSMSRecord.getMsgContent();
+	     logger.info("<<<massSmsContent:"+massSmsContent);
+ 		 //TODO 群发短信
+ 		 for (String phone : phoneNumSet) {
+ 			try {
+ 				cpPhoneMsg.setSender(cpMassSMSRecord.getSender());
+     			cpPhoneMsg.setContent(massSmsContent);
+                String msgResult = phoneMSGUtils.send(phone, massSmsContent);
+                logger.info("<<<msgResult:"+msgResult);
+                if (msgResult.equals("1")) {
+                    cpPhoneMsg.setStatus(0); // 发送成功
+                    add(cpPhoneMsg);
+                } else {
+                    cpPhoneMsg.setStatus(2); // 发送失败
+                    add(cpPhoneMsg);
+                    return false;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+ 		 }
+	     return true;
+	 }
+	 
+	 
+	 
 
 
 	/**
@@ -158,8 +361,42 @@ public class PhoneMSGService {
 	 * @throws UnsupportedEncodingException 
 	 */
 	public static void main(String[] args) throws UnsupportedEncodingException {
-        PhoneMSGService service = new PhoneMSGService();
-        service.sendSMS("13770784187", "测试", "photo", "Ahrb9265_");
+//        PhoneMSGService service = new PhoneMSGService();
+//        service.sendSMS("13770784187", "测试", "photo", "Ahrb9265_");
+		
+//		String str = "号码簿.xlsx";
+//		
+//		System.out.println(str.substring(0, str.lastIndexOf(".")));
+//		System.out.println( str.substring(str.lastIndexOf("."),str.length()));
+//		System.out.println(str.substring(0, str.lastIndexOf("."))+"_"+new SimpleDateFormat("HHmmss").format(new Date())+str.substring(str.lastIndexOf("."),str.length()));
+		
+		try{  
+			System.out.println("开始进行HTTP请求...");
+            URL url = new URL("http://60.173.0.46:8088/temp/checkText");  
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();  
+            // 设置doOutput属性为true表示将使用此urlConnection写入数据  
+            urlConnection.setDoOutput(true);  
+            // 定义待写入数据的内容类型，我们设置为application/x-www-form-urlencoded类型  
+            urlConnection.setRequestProperty("content-type", "application/x-www-form-urlencoded");  
+            // 得到请求的输出流对象  
+            OutputStreamWriter out = new OutputStreamWriter(urlConnection.getOutputStream());  
+            // 把数据写入请求的Body  
+            out.write("中华人民大师的萨达撒大所撒大所多法轮功");  
+            out.flush();  
+            out.close(); 
+            // 从服务器读取响应  
+            InputStream inputStream = urlConnection.getInputStream();  
+            String encoding = urlConnection.getContentEncoding();  
+            String body = IOUtils.toString(inputStream, encoding);  
+            if(urlConnection.getResponseCode()==200){
+            	System.out.println("数据返回成功");
+            	System.out.println("body:"+body);
+            }else{
+            	System.out.println("数据返回异常");
+            }
+        }catch(IOException e){
+        	e.printStackTrace();
+        }
     }
 	
 }

@@ -160,8 +160,23 @@ INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`D
 
 INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(441,1,'更新用户信息发送验证码','更新用户信息发送验证码','phonemsg/sendPhoneVilidateForUpUserInfo',65,0,'admin',now(),NULL,'',0);
 
+INSERT INTO `cp_right` (`ID`,`TYPE`,`RIGHT_NAME`,`MEMO`,`TARGET_VALUE`,`P_ID`,`DELETE_FLAG`,`UPDATE_USER`,`UPDATE_TIME`,`STANDBY1`,`STANDBY2`,`LANG_TYPE`)VALUES(442,1,'短信群发上传文件','短信群发上传文件','phonemsg/upFile',65,0,'admin',now(),NULL,'',0);
+alter table cp_mass_sms_record add  FILE_PATH varchar(255) DEFAULT NULL COMMENT '号码簿文件路径';
 
-
+CREATE TABLE `cp_msg_timer` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `TYPE` int(11) DEFAULT '0' COMMENT '外连表类型：0：短信群发，1：TODO',
+  `CLASS_ID` int(11) DEFAULT NULL COMMENT '外表记录ID',
+  `STATUS` int(11) DEFAULT '0' COMMENT '执行状态： 0:未执行，1：已执行',
+  `CREATE_TIME` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `CREATE_USER` varchar(255) DEFAULT NULL COMMENT '创建用户',
+  `UPDATE_TIME` timestamp NULL DEFAULT NULL COMMENT '更新时间',
+  `UPDATE_USER` varchar(255) DEFAULT NULL COMMENT '更新用户',
+  `EXECUTE_TIME` timestamp  NULL DEFAULT  NULL COMMENT '执行时间',
+  `DELETE_FLAG` int(11) DEFAULT '0' COMMENT '删除标识',
+  `REMARK` varchar(255) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8 COMMENT='定时任务记录表';
 
 
 

@@ -14,6 +14,7 @@
 	    <result column="AUDITOR" property="auditor" jdbcType="VARCHAR" />
 	    <result column="STATUS" property="status" jdbcType="INTEGER" />
 	    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+	    <result column="FILE_PATH" property="filePath" jdbcType="VARCHAR" />
  	 </resultMap>
  	 <sql id="Example_Where_Clause" >
 	    <where >
@@ -119,7 +120,7 @@
 	 <insert id="insertSelective" parameterType="com.deepai.photo.bean.CpMassSMSRecord">
 			<selectKey resultType="java.lang.Integer" keyProperty="id"
 				order="AFTER">
-				SELECT LAST_INSERT_ID()
+				SELECT LAST_INSERT_ID() as id
 			</selectKey>
 			insert into cp_mass_sms_record
 			<trim prefix="(" suffix=")" suffixOverrides=",">
@@ -150,6 +151,9 @@
 				<if test="remark != null">
 					REMARK,
 				</if>
+				<if test="filePath != null">
+					FILE_PATH,
+				</if>
 			</trim>
 			<trim prefix="values (" suffix=")" suffixOverrides=",">
 				<if test="crtime != null">
@@ -179,6 +183,9 @@
 				<if test="remark != null">
 					#{remark,jdbcType=VARCHAR},
 				</if>
+				<if test="filePath != null">
+					#{filePath,jdbcType=VARCHAR},
+				</if>
 			</trim>
 	  </insert>
 	  
@@ -186,4 +193,6 @@
 	    delete from cp_mass_sms_record
 	    where ID = #{id,jdbcType=INTEGER}
 	  </delete>
+	  
+	 
 </mapper>

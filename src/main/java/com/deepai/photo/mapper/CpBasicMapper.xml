@@ -128,7 +128,7 @@
  select ID,USER_NAME,TURE_NAME,TEL_BIND from cp_user t 
     <where>
   		<if test="userName != null">
-  			 (t.USER_NAME like CONCAT('%',#{userName},'%') or t.TURE_NAME  like CONCAT('%',#{userName},'%') ) and  t.ID not in( select user_id from cp_group_management_user where group_id=#{groupId})
+  			 (t.USER_NAME like CONCAT('%',#{userName},'%') or t.TURE_NAME  like CONCAT('%',#{userName},'%') or t.ID  like CONCAT('%',#{userName},'%') ) and  t.ID not in( select user_id from cp_group_management_user where group_id=#{groupId})
   		</if>  
   		<if test="userName == null">
   			 t.ID not in( select user_id from cp_group_management_user where group_id=#{groupId})

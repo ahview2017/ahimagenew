@@ -170,10 +170,14 @@ public class ExcelReader {
 	 */
 	public String[] getColumnData(int sheetIndex, int colIndex) {
 		String[] dataArray = null;
+		System.out.println("this.getColumnNum(sheetIndex):"+this.getColumnNum(sheetIndex));
 		if (colIndex > this.getColumnNum(sheetIndex)) {
+			System.out.println("11111111111111111111");
 			return dataArray;
 		} else {
 			if (this.dataList != null && this.dataList.size() > 0) {
+				System.out.println("222222222222222222");
+				System.out.println("this.getRowNum(sheetIndex):"+this.getRowNum(sheetIndex));
 				dataArray = new String[this.getRowNum(sheetIndex) + 1];
 				int index = 0;
 				for (String[] rowData : dataList) {

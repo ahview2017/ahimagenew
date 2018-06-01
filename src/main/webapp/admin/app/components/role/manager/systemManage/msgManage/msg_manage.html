@@ -1238,9 +1238,15 @@
 								<img src="admin/assets/img/role/look_user_info.png" class="cursor" width="20" height="20" 
 									 title="修改" 
 									 ng-click="msgManage.onShowMassSMSEditModelClick('mass-sms-edit-modal',msgPhoneItem.id,$index)" />
+								<!--  	 
 								<img src="admin/assets/img/role/red_del.png" class="cursor" width="20" height="20"
 									 title="删除" 
 									 ng-click="msgManage.delModalShow('mass-sms-del-modal',msgPhoneItem.id)" />
+								-->
+								<img src="admin/assets/img/role/red_del.png" class="cursor" width="20" height="20"
+									 title="删除" 
+									 ng-click="msgManage.onShowDeleteMassSMSModelClick(-1,msgPhoneItem.id)" />
+								
 							</td>
 						</tr>
 					</tbody>
@@ -1287,6 +1293,15 @@
 				</div>
 				<div class="role-add-main msg-content-box">
 					<div class="role-add-form-info advertise-add-form-info clear">
+					
+						<div class="role-form-info-bottom clear">
+							<div class="msg-remark-txt fll">导入号码</div>
+							<div class="user-remark-input fll">
+								<input type="file" file-model="myFile"  name="myFile" multiple  id="myFile" style="width: 65%;display: inline;">
+								<a href="/photo/file/号码簿.xlsx" src="/photo/file/号码簿.xlsx" style="width: 35%;display: block;float:right;">号码簿模板.xlsx</a>
+							</div>
+						</div>
+					
 						<div class="role-form-info-bottom clear">
 							<div class="msg-remark-txt fll">选择用户</div>
 							<input type="text" class="user-remark-input fll" 
@@ -1307,11 +1322,28 @@
 							</div>
 						</div>
 						
+						
+						
 						<div class="role-form-info-bottom clear">
 							<div class="msg-remark-txt fll">信息内容</div>
-							<textarea class="web-info-area fll" 
+							<input class="web-info-area fll" 
 							          ng-model="msgManage.massSMSContentModel" maxlength="60"></textarea>
 						</div>
+						
+						<div class="role-form-info-bottom clear">
+							<div class="msg-remark-txt fll">定时发送</div>
+							<input type="text" class="user-remark-input fll" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss'});" class="Wdate" ng-model="msgManage.sendTime" datepicker/>
+						</div>
+						
+						
+						<!-- 
+							<div class="user-search-left_o  fll">发送时间</div>
+									<div class="user-search-right fll">
+										<input type="text" class="Wdate user-add-input_o" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'});" class="Wdate" ng-model="msgManage.timeFrom" datepicker/>
+									</div>
+									 -->
+						
+						
 						<!--  
 						<div class="role-form-info-bottom clear">
 							<div class="msg-remark-txt fll">审核意见</div>
@@ -1410,6 +1442,14 @@
 				</div>
 				<div class="role-add-main msg-content-box">
 					<div class="role-add-form-info advertise-add-form-info clear">
+					
+						<div class="role-form-info-bottom clear">
+							<div class="msg-remark-txt fll">选择表格</div>
+							<div class="user-remark-input fll">
+								<input type="file" file-model="myFile"  name="myFile" multiple  id="myFile" style="width: 65%;float:left;">
+								<a ng-href="{{msgManage.editFilePath}}" ng-src="{{msgManage.editFilePath}}" style="width: 35%;display: block;float:right;"  ng-show="msgManage.editFilePath">号码簿.xlsx</a>
+							</div>
+						</div>
 						<!-- -->
 						<div class="role-form-info-bottom clear">
 							<div class="msg-remark-txt fll">选择用户</div>
@@ -1435,6 +1475,10 @@
 							<div class="msg-remark-txt fll">信息内容</div>
 							<textarea class="web-info-area fll" 
 							          ng-model="msgManage.editMsgContent" maxlength="60"></textarea>
+						</div>
+						<div class="role-form-info-bottom clear">
+							<div class="msg-remark-txt fll">定时发送</div>
+							<input type="text" class="user-remark-input fll" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss'});" class="Wdate" ng-model="msgManage.editSendTime" datepicker/>
 						</div>
 						
 						<div class="role-form-info-bottom clear">
