@@ -3,7 +3,6 @@
  */
 clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, md5, $state, $rootScope, $stateParams, getFullText, $timeout,jugeGroupPos) {
     var vm = this;
-    
     //从路由取得稿件id
     vm.groupId = $stateParams.groupId;
 
@@ -34,6 +33,7 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
         //默认页
         $scope.page = 1;
         
+        vm.videoId = 0;
         
         
         getMasBaseUrl();
@@ -45,6 +45,28 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
     	saveGroupPicThumbsUp();
     };
 
+    
+    $(function () {
+        $timeout(function () {
+            $(".detial_content_pic").slide({
+                mainCell:".picDetails_bd ul",
+                effect:"fold",
+                autoPlay:false 
+            });
+            $(".detial_content_pic").slide({
+                titCell:".tit ul",
+                mainCell:".hd ul",
+                prevCell:".next1",
+                nextCell:".prev1",
+                autoPage:true,
+                effect:"left",
+                autoPlay:false,
+                scroll:6,
+                vis:6
+            });
+        }, 180);
+    });
+    
     
     /**
      * 稿件收藏 add by xiayunan@20180329
@@ -125,15 +147,15 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
 			signId:vm.sginId
         }).success(function (resp) {
             if (resp.code == '211') {
-                vm.clientPictureDetail = resp.data;
-                vm.clientPictureDetail.pictureCount = vm.clientPictureDetail.pics.length; 
-                vm.groupKeyWords = resp.data.keywords;
-				var videoId = resp.data.videoId;
-				vm.videoId = videoId;
+            	var videoId = resp.data.videoId;
+            	vm.videoId = videoId;
 				if(videoId!=0&&vm.masBaseUrl){
 					vm.masUrl = vm.masBaseUrl+"&method=exPlay&type=vod&id="+videoId;
 					vm.masUrl = $sce.trustAsResourceUrl(vm.masUrl);
 				}
+                vm.clientPictureDetail = resp.data;
+                vm.clientPictureDetail.pictureCount = vm.clientPictureDetail.pics.length; 
+                vm.groupKeyWords = resp.data.keywords;
 				
 				document.title = vm.clientPictureDetail.title +"-安徽新闻网·视觉安徽";
 				vm.showStatus = resp.data.showStatus;
@@ -168,12 +190,33 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
         initSetting();
         getThumbsUpCount();
         getClientGroupPics(function(){
-            req_getFullText(1);
+           // req_getFullText(1);
         });
         
 		
 
     }
+    
+  
+    
+//    angular.element(window).bind('load', function() {  
+//    	$(".detial_content_pic").slide({
+//            mainCell:".picDetails_bd ul",
+//            effect:"fold",
+//            autoPlay:false 
+//        });
+//        $(".detial_content_pic").slide({
+//            titCell:".tit ul",
+//            mainCell:".hd ul",
+//            prevCell:".next1",
+//            nextCell:".prev1",
+//            autoPage:true,
+//            effect:"left",
+//            autoPlay:false,
+//            scroll:6,
+//            vis:6
+//        }); 
+//    });
 
     init();
 
@@ -238,26 +281,7 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
     //         });
     //     }, 1000);
     // });
-    $(function () {
-        $timeout(function () {
-            $(".detial_content_pic").slide({
-                mainCell:".picDetails_bd ul",
-                effect:"fold",
-                autoPlay:false 
-            });
-            $(".detial_content_pic").slide({
-                titCell:".tit ul",
-                mainCell:".hd ul",
-                prevCell:".next1",
-                nextCell:".prev1",
-                autoPage:true,
-                effect:"left",
-                autoPlay:false,
-                scroll:6,
-                vis:6
-            });
-        }, 1000);
-    });
+   
 
 
     //判断是否选择了数据
@@ -283,27 +307,27 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
 
     //弹出微信
     
-        //alert("太棒了，赞一个！");
-        var qrcode = new QRCode(document.getElementById("qrcode"), {
-            width : 100,
-            height : 100
-        });
+    //alert("太棒了，赞一个！");
+    var qrcode = new QRCode(document.getElementById("qrcode"), {
+        width : 100,
+        height : 100
+    });
 
-        function makeCode2() {      
-            var locurl = document.location.href;
-            locurl = locurl.replace("index","index_m");
-            qrcode.makeCode(locurl);
-        }
+    function makeCode2() {      
+        var locurl = document.location.href;
+        locurl = locurl.replace("index","index_m");
+        qrcode.makeCode(locurl);
+    }
 
-        vm.popwin = function(){
-        // alert("太棒了，赞一个！");
-            makeCode2();
-            $("#codeoutr").css("display","block");
-        };
-        vm.popclose = function(){
+    vm.popwin = function(){
+    // alert("太棒了，赞一个！");
+        makeCode2();
+        $("#codeoutr").css("display","block");
+    };
+    vm.popclose = function(){
 
-            $("#codeoutr").css("display","none");
-        }
+        $("#codeoutr").css("display","none");
+    }
 
         
 
@@ -585,20 +609,22 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
     getWebPublishData();
 
     //获取首页签发的稿件请求
-    req_getClientGroups(25);
-    function req_getClientGroups(signId) {
-        req.post('getPicture/getClientGroups.do', {
-            sginId: signId,
-            limit: 10
-        }).success(function (resp) {
-            if (resp.code == '211') {
-                //5一周最佳采用
-                if (signId == 25) {
-                    vm.bestUse = jugeGroupPos.jugeGroupPos(25,resp.data);
-                }
-            }else if(resp.msg != '未登录'){
-                layer.alert(resp.msg);
-            }
-        });
-    }
+    
+//    req_getClientGroups(25);
+//    function req_getClientGroups(signId) {
+//        req.post('getPicture/getClientGroups.do', {
+//            sginId: signId,
+//            limit: 10
+//        }).success(function (resp) {
+//            if (resp.code == '211') {
+//                //5一周最佳采用
+//                if (signId == 25) {
+//                    vm.bestUse = jugeGroupPos.jugeGroupPos(25,resp.data);
+//                }
+//            }else if(resp.msg != '未登录'){
+//                layer.alert(resp.msg);
+//            }
+//        });
+//    }
+    
 });
