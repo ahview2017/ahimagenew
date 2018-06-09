@@ -64,7 +64,7 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
                 scroll:6,
                 vis:6
             });
-        }, 180);
+        }, 580);
     });
     
     

@@ -377,9 +377,9 @@ public class PhoneMSGService {
             // 设置doOutput属性为true表示将使用此urlConnection写入数据  
             urlConnection.setDoOutput(true);  
             // 定义待写入数据的内容类型，我们设置为application/x-www-form-urlencoded类型  
-            urlConnection.setRequestProperty("content-type", "application/x-www-form-urlencoded");  
+            urlConnection.setRequestProperty("content-type", "application/x-www-form-urlencoded;charset=UTF-8");  
             // 得到请求的输出流对象  
-            OutputStreamWriter out = new OutputStreamWriter(urlConnection.getOutputStream());  
+            OutputStreamWriter out = new OutputStreamWriter(urlConnection.getOutputStream(),"UTF-8");  
             // 把数据写入请求的Body  
             out.write("中华人民大师的萨达撒大所撒大所多法轮功");  
             out.flush();  
@@ -393,6 +393,8 @@ public class PhoneMSGService {
             	System.out.println("body:"+body);
             }else{
             	System.out.println("数据返回异常");
+            	int a =Integer.parseInt("1");
+            	System.out.println("{ \"content\": \"\", \"code\":\"1002\"  }");
             }
         }catch(IOException e){
         	e.printStackTrace();

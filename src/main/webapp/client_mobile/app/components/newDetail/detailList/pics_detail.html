@@ -19,33 +19,22 @@
 	
 	
 	<div class="picsBox" ng-show="picsDetail.videoId==0">
+		 
+		 
 		<div class="demo-gallery" data-pswp-uid="1" ng-init="picsDetail.clientPictureDetail({groupId: picsDetail.single.id})">
 			 <a ng-repeat="item in picsDetail.clientPictureDetail.pics" ng-href="{{item.filePath}}" data-size="{{item.allSize}}" data-med="{{item.filePath}}" data-med-size="{{item.allSize}}" class="demo-gallery__img--main">
 	     		 <img ng-src="{{item.filePath}}" alt="">
 	     		 <figure class="picdemo">{{item.memo}}</figure>
-	    	</a>
-	    	<!--  
-	    	 <a href="http://192.168.18.85/zh/watermarkedmedium1200/2017/20170906/20170906001289a.jpg" data-size="1600x1600" data-med="http://192.168.18.85/zh/watermarkedmedium1200/2017/20170906/20170906001289a.jpg" data-med-size="1024x683" >
-	     		 <img src="http://192.168.18.85/zh/watermarkedmedium1200/2017/20170906/20170906001289a.jpg" alt="">
-	     		 <figure>动车穿越大湖名城动车穿越大湖名城穿越大湖名城动车穿越大湖名穿越大湖名城动车穿越大湖名动车穿越大湖名城11</figure>
-	    	</a>
-	    	 <a href="http://192.168.18.85/zh/watermarkedmedium1200/2017/20170906/20170906001289a.jpg" data-size="1600x1600" data-med="http://192.168.18.85/zh/watermarkedmedium1200/2017/20170906/20170906001289a.jpg" data-med-size="1024x683">
-	     		 <img src="http://192.168.18.85/zh/watermarkedmedium1200/2017/20170906/20170906001289a.jpg" alt="">
-	     		 <figure>动车穿越大湖名城动车穿越大湖名城穿越大湖名城动车穿越大湖名穿越大湖名城动车穿越大湖名动车穿越大湖名城11</figure>
-	    	</a>
-	    	 <a href="http://192.168.18.85/zh/watermarkedmedium1200/2017/20170906/20170906001289a.jpg" data-size="1600x1600" data-med="http://192.168.18.85/zh/watermarkedmedium1200/2017/20170906/20170906001289a.jpg" data-med-size="1024x683">
-	     		 <img src="http://192.168.18.85/zh/watermarkedmedium1200/2017/20170906/20170906001289a.jpg" alt="">
-	     		 <figure>动车穿越大湖名城动车穿越大湖名城穿越大湖名城动车穿越大湖名穿越大湖名城动车穿越大湖名动车穿越大湖名城11</figure>
-	    	</a>
-	    	-->
-	    	
+	    	</a>	
 	   </div>
+	   
+	   
 	   
 	   <div id="nativeShare"></div>  
 	
-		<!-- 移动端photoswipe效果 add by xiayunan@20171025
+		<!-- 移动端photoswipe效果 add by xiayunan@20171025-->
+		<!--  
 		<ul id="auto-loop" class="gallery" ng-init="picsDetail.clientPictureDetail({groupId: picsDetail.single.id})">
-			
 			<li ng-repeat="item in picsDetail.clientPictureDetail.pics" ng-data-src="{{item.filePath}}" data-src="{{item.filePath}}">
 				<img ng-src="{{item.filePath}}"/>
 				<div class="abs_words">
@@ -53,7 +42,8 @@
 				</div>
 			</li>
 		</ul>
-		 -->
+		-->
+		 
 	</div>
 	<div class="back_top" id="back-to-top"></div>
 </div>
