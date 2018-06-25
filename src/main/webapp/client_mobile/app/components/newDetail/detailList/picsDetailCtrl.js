@@ -15,6 +15,8 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
 		    	$("#back-to-top").fadeOut(200); 
 		    } 
 	    }); 
+	   // $ (window).unbind ('scroll');
+	    //alert("ah");
 	    //当点击跳转链接后，回到页面顶部位置 
 	    $("#back-to-top").click(function(){ 
 		    $('body,html').animate({scrollTop:0},100); 
@@ -22,9 +24,64 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
 		}); 
 	}); 
     
+    /*** 顶部搜索框控制js
+    首先将搜索框隐藏 ***/
+    $("#searchBox").hide(); 
+    //当滚动条的位置处于距顶部0像素时，向下滑动屏幕，出现搜索框；向上滑动屏幕搜索框消失；
+        var startX, startY; 
+        document.addEventListener('touchstart',function (ev) {  
+            startX = ev.touches[0].pageX;  
+            startY = ev.touches[0].pageY;  
+        }, false);  
+  
+        document.addEventListener('touchend',function (ev) {  
+            var endX, endY;  
+            endX = ev.changedTouches[0].pageX;  
+            endY = ev.changedTouches[0].pageY;  
+            var direction = GetSlideDirection(startX, startY, endX, endY);
+            if ($(window).scrollTop()==0){ 
+                if(direction==2){
+                    $("#searchBox").fadeIn(500);
+                }else if(direction==1){
+                    $("#searchBox").fadeOut(500);
+                }
+            }else{ 
+                $("#searchBox").fadeOut(500); 
+            }      
+        }, false);  
+
+
+        //滑动处理  
+        function GetSlideDirection(startX, startY, endX, endY) {  
+            var dy = startY - endY;  
+            //var dx = endX - startX;  
+            var result = 0;  
+            if(dy>0) {//向上滑动  
+                result=1;  
+            }else if(dy<0){//向下滑动  
+                result=2;  
+            }  
+            else{  
+                result=0;  
+            }  
+            return result;  
+        }   
     
     
     
+      //手机版检索
+        vm.doSearch = function(){
+        	//校验检索词是否为空
+        	if(!vm.searchStr){
+        		layer.alert("请输入检索词");
+        		return;
+        	}
+        	//window.location.href = "/photo/index_m.html#/searchGroup/?searchStr="+vm.searchStr;
+        	$cookies.put("searchStr", vm.searchStr);
+        	$state.go('root.searchGroup',{searchStr:vm.searchStr});
+        	
+        	
+        }
   
 
 
@@ -73,7 +130,7 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
 
                // if(callback) callback();
             }else if(resp.msg != '未登录'){
-                layer.alert(resp.msg);
+                //layer.alert(resp.msg);
             }
         });
     }
@@ -81,6 +138,7 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
     //页面初始化
     function init() {
         initSetting();
+        checkHref();
         getClientGroupPics();
         getMasBaseUrl();
 		
@@ -89,6 +147,15 @@ clientModule.controller('picsDetailCtrl', function ($scope,$sce,$cookies, req, m
     init();
 
 
+    function checkHref(){
+    	var href = window.location.href;
+    	if(href.indexOf("&")!=-1){
+    		href = href.substring(0,href.indexOf("&"));
+        	window.location.href = href;
+    	}
+    	
+    	 
+    }
 
 	//获取Mas视频基础URL add by xiayunan 20170907
 	function getMasBaseUrl(){

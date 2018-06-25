@@ -101,6 +101,9 @@ public class SysConfigConstant {
     //add by xiayunan@20180522
     public	static String 	DEFAULT_FILE_PATH="DEFAULT_FILE_PATH"	;//	默认文件路径
     
+    //add by xiayunan@20180613
+    public	static String 	MOBILE_COLUMN_IDS="MOBILE_COLUMN_IDS"	;//视觉安徽手机版栏目ID集合
+    
     
 	public static Map<String,String> config;
 	

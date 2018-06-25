@@ -127,6 +127,7 @@
 	    <result column="GROUP_ID" property="groupId" jdbcType="INTEGER" />
 	    <result column="SORT_ID" property="sortId" jdbcType="INTEGER" />
 	    <result column="ALL_PATH" property="oriAllPath" jdbcType="VARCHAR" />
+	    <result column="IS_SIGN_PAPER" property="isSignPaper" jdbcType="INTEGER" />
     </collection>
   </resultMap>
   <!-- 根据ID批量删除下载级别 -->
@@ -1088,6 +1089,7 @@
 		p.EX_ISO,
 		p.EX_MODEL,
 		p.IS_SIGN,
+		p.IS_SIGN_PAPER,
 		ca.ID cid,ca.CATEGORY_NAME,
 		po.OPERATE_USERNAME,po.ID poId,po.OPERATE_USER_ID,po.OPERATE_TIME,po.FLOW_TYPE
 	FROM

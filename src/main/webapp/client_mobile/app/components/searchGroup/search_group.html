@@ -1,0 +1,48 @@
+<div class="header_title">
+    <a href="/photo/index_m.html"></a>
+
+</div>
+<div class="header_contributions" style="cursor:pointer;line-height:40px;height:40px;right:10px;font-size:18px;position:absolute;top:0;color:#fff;text-align:center;">
+<a href="/photo/index_m.html#/newArticle/"  style="color: #fff;" ></a>
+</div>
+
+<!-- 搜索框 -->
+ <div id="searchBox" class="searchBox" style="display: none;">
+     <div class="formBox">
+         <input id="search_con" type="text" name="" class="form_txt"  ng-model="searchGroup.searchStr">
+         <input type="button" name="" value="" class="form_btn" ng-click="searchGroup.doSearch()">
+     </div>
+ </div> 
+ <!-- 搜索框 -->
+ 
+ <div class="conLists" ng-init="searchGroup.getMoreGroups(1)">
+     <ul>
+         <li ng-repeat="item in searchGroup.searchGroups track by $index">
+             <a  ui-sref="root.newDetailList({groupId: item.ID})">
+                 <img ng-src="{{item.filePath}}" />
+                 <i>{{item.PICTURE_COUNT}}图</i>
+             </a>
+             <p>{{item.TITLE}}</p>
+             <p class="li_second_p">
+                 <span>{{item.columnName}}</span>{{item.AUTHOR}}摄
+                 <b class="noThumbsUp" ng-if="!item.isThumbsUp" ng-click="searchGroup.thumbsUp(item.ID,$index)">{{item.thumbsUpCount||0}}</b>
+                 <b class="thumbsUp" ng-if="item.isThumbsUp||vm.isThumbUp" ng-click="searchGroup.thumbsUp(item.ID,$index)">{{item.thumbsUpCount||0}}</b>
+                 <div class="clear"></div>
+             </p>
+         </li>
+     </ul>
+ </div>
+        
+		
+       
+<div class="back_top" id="back-to-top"></div>
+<script id="_trs_ta_js" src="//ta.trs.cn/c/js/ta.js?mpid=1727" async="async" defer="defer"></script>
+
+	
+	
+	
+
+	
+
+	
+	

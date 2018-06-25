@@ -6,6 +6,16 @@
 		<div class="header_contributions" style="cursor:pointer;line-height:40px;height:40px;right:10px;font-size:18px;position:absolute;top:0;color:#fff;text-align:center;">
 			<a href="/photo/index_m.html#/newArticle/"  style="color: #fff;" ></a>
 		</div>
+		
+		<!-- 搜索框 -->
+        <div id="searchBox" class="searchBox" style="display: none;">
+            <div class="formBox">
+                <input id="search_con" type="text" name="" class="form_txt"  ng-model="index.searchStr">
+                <input type="button" name="" value="" class="form_btn" ng-click="index.doSearch()">
+            </div>
+        </div> 
+        <!-- 搜索框 -->
+		
         <div class="swiper-container" id="swiper-container2">
             <div class="swiper-wrapper">
                 <div class="swiper-slide swiper-slide-visible active-nav">新闻图片</div>

@@ -114,9 +114,25 @@ public class CpPicGroup {
 	private boolean isThumbsUp;//该稿件是否点过赞
 	
 	private Date qbTime;//签报时间
+	
+	private boolean signWebSite;//是否签网(只要有一个已签栏目为显示则认为已签网)
 	    
 	
-    public Date getQbTime() {
+
+
+	public void setSignWebSite(boolean signWebSite) {
+		this.signWebSite = signWebSite;
+	}
+	
+	public boolean getSignWebSite() {
+		return signWebSite;
+	}
+
+	public void setThumbsUp(boolean isThumbsUp) {
+		this.isThumbsUp = isThumbsUp;
+	}
+
+	public Date getQbTime() {
 		return qbTime;
 	}
 

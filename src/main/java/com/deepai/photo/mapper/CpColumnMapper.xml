@@ -8,6 +8,7 @@
 		<result column="order_id" property="orderId" jdbcType="INTEGER" />
 		<result column="pid" property="pid" jdbcType="INTEGER" />
 		<result column="type" property="type" jdbcType="INTEGER" />
+		<result column="state" property="state" jdbcType="INTEGER" />
 		<result column="max_configurable_sign_position" property="signPosition" jdbcType="INTEGER" />
         <collection property="children" column="id" ofType="com.deepai.photo.bean.CpColumn" javaType="java.util.ArrayList" select="selectChildrenListById" />
 	</resultMap>

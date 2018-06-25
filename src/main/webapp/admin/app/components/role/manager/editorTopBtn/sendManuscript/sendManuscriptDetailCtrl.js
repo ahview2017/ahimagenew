@@ -449,7 +449,7 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 		modalOperate.modalShow(modalId);
 	}
 	
-	// 签报
+	//签报
 	vm.signManuscript2 = function(modalId) {
 		//add by xiayunan@20180224  选择指定图片签报
 		 var id_array=new Array();
@@ -462,8 +462,6 @@ adminModule.controller('mManuscriptDetailCtrl', function($scope,$sce, $cookies, 
 	         layer.alert("请选择要签报的图片");
 	         return;
 	     }
-		
-		
 		 var v = $(":radio[name='checkpic']:checked").val();  
 		 if(typeof(v)=="undefined"){
 			 layer.alert("请选择要签报的类型");

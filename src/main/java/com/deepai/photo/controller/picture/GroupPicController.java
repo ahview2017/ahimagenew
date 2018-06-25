@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.deepai.photo.bean.CpCategory;
 import com.deepai.photo.bean.CpColumn;
 import com.deepai.photo.bean.CpCropPic;
 import com.deepai.photo.bean.CpGroupPush;
@@ -1738,18 +1739,28 @@ public class GroupPicController {
 					map.put("samllPath", CommonConstant.SMALLHTTPPath+ImgFileUtils.getSamllPathByName(map.get("FILENAME").toString(),request));
 					map.put("wmPath", CommonConstant.SMALLHTTPPath+ImgFileUtils.getWMPathByName(map.get("FILENAME").toString(),request));
 				}
-				//判断我的稿件是否入库 add by xiayunan@20180124
-//				String columnId = map.get("CATEGORY_ID").toString();
-//				log.info("<<<columnId:"+columnId);
-//				String signBasecolumnId = sysConfigService.getDbSysConfig(SysConfigConstant.SIGN_BASE_COLUMN,1);
-//				log.info("<<<signBasecolumnId:"+signBasecolumnId);
-//				if(columnId!=null&&columnId.equals(signBasecolumnId)){
-//					map.put("GROUP_STATUS", "8");
-//				}
 				
-//				if(map.containsKey("FILENAME")){
-//					map.put("wmPath", CommonConstant.SMALLHTTPPath+ImgFileUtils.getWMPathByName(map.get("FILENAME").toString(),request));
-//				}
+				//判断我的稿件是否入库 add by xiayunan@20180621
+				String groupId = map.get("ID").toString();
+				Map<String,Object> judgeSignWebSiteMap = new HashMap<String,Object>();
+				judgeSignWebSiteMap.put("type", 1);
+				judgeSignWebSiteMap.put("groupId", groupId);
+				List<CpPicGroupCategory> cates=categoryMapper.selectHasSignColumn(judgeSignWebSiteMap);
+				boolean isSignWebSite = false;
+				for(CpPicGroupCategory CpPicGroupCategory:cates){
+					if(CpPicGroupCategory!=null){
+						int columnId = CpPicGroupCategory.getCategoryId();
+						CpColumn cpColumn = columnMapper.selectBykeyNoPname(columnId);
+						if(cpColumn!=null){
+							isSignWebSite = cpColumn.getState()==1?true:false;
+						}
+					}
+				}
+				if(map.containsKey("GROUP_STATUS")&&"4".equals(map.get("GROUP_STATUS").toString())){
+					if(!isSignWebSite){
+						map.put("GROUP_STATUS", "8");
+					}
+				}
  			}
 			PageHelper.addPages(result, list);
 			result.setCode(CommonConstant.SUCCESSCODE);
@@ -2943,6 +2954,25 @@ public class GroupPicController {
 				group.setBackRemark(logs1.get(0).getOperateMemo());
 
 			}
+			
+			//判断稿件是否签网，判断标准：所签栏目中至少一个为网站显示栏目则判定为签网状态
+			
+			Map<String,Object> map = new HashMap<String,Object>();
+			map.put("type", 1);
+			map.put("groupId", groupId);
+			List<CpPicGroupCategory> cates=categoryMapper.selectHasSignColumn(map);
+			boolean isSignWebSite = false;
+			for(CpPicGroupCategory CpPicGroupCategory:cates){
+				if(CpPicGroupCategory!=null){
+					int columnId = CpPicGroupCategory.getCategoryId();
+					CpColumn cpColumn = columnMapper.selectBykeyNoPname(columnId);
+					if(cpColumn!=null){
+						isSignWebSite = cpColumn.getState()==1?true:false;
+					}
+				}
+			}
+			group.setSignWebSite(isSignWebSite);
+			
 			result.setMsg(res);
 			result.setCode(CommonConstant.SUCCESSCODE);
 			result.setData(group);
@@ -3282,10 +3312,6 @@ public class GroupPicController {
         try {
             CpPicGroup group = aboutPictureMapper.selectGroupPics(groupId);
             if(group.getQbStatus()==1){
-//            	log.error("不能签报");
-//                result.setCode(CommonConstant.EXCEPTIONCODE);
-//                result.setMsg("已经签报过不能再次签报!");
-//                return result;
             	//一个月内不能重复签报 add by xiayunan@20171213
             	if(flag==1){
             		SimpleDateFormat sdfTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -3337,6 +3363,12 @@ public class GroupPicController {
                     Document doc = XMLUtils.createDoc(group,pic,type,user);
                     log.info("targetFile:"+sQbPath+fileName.substring(0, fileName.lastIndexOf("."))+".xml");
                     XMLUtils.writeXML(doc, sQbPath+fileName.substring(0, fileName.lastIndexOf("."))+".xml");
+                    
+                    //更新图片签报状态为已签报  add by xiayunan@20180619
+                    log.info("<<<开始更新图片签报状态");
+                    pic.setIsSignPaper(1);
+                    pictureMapper.updateByPrimaryKeySelective(pic);
+                    log.info("<<<更新图片签报状态完成");
                 }
             }
             
@@ -3761,6 +3793,11 @@ public class GroupPicController {
                         //写入xml文件
                         Document doc = XMLUtils.createDoc(group,pic,type,user);
                         XMLUtils.writeXML(doc, sQbPath+fileName.substring(0, fileName.lastIndexOf("."))+".xml");
+                        log.info("<<<开始更新图片签报状态");
+                        pic.setIsSignPaper(1);
+                        pictureMapper.updateByPrimaryKeySelective(pic);
+                        log.info("<<<更新图片签报状态完成");
+                        
                     }
                 }
                 

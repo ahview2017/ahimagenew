@@ -126,6 +126,16 @@ public class CpPicture {
     private Integer videoid;//add by xiayunan 20170922
     
     private Integer isSign;//add by xiayunan 20180306
+    
+    private Integer isSignPaper;//是否签报 (0:未签报;1:已签报;)add by xiayunan 20180619
+
+	public Integer getIsSignPaper() {
+		return isSignPaper;
+	}
+
+	public void setIsSignPaper(Integer isSignPaper) {
+		this.isSignPaper = isSignPaper;
+	}
 
 	public Integer getIsSign() {
 		return isSign;

@@ -98,6 +98,7 @@ adminModule.controller('mDatabaseDetailCtrl', function ($scope, $cookies, req, m
             if (resp.code == '211') {
             	layer.close(vm.loadUpMs);
                 vm.dataBankObj = resp.data;
+                //alert(" vm.dataBankObj.signWebsite:"+vm.dataBankObj.signWebsite);
                 var cateArray = vm.dataBankObj['cates'];
                 vm.dataBankType = "";
                 vm.dataBankTypeArr = [];

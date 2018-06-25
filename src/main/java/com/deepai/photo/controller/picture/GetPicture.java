@@ -339,6 +339,102 @@ public class GetPicture {
 		return result;
 	}
 	
+	
+	
+	
+	/**
+	 * 手机版检索稿件
+	 * @author xiayunan
+	 * @date 2018年6月13日
+	 * @param request
+	 * @param sginId
+	 * @param cateId
+	 * @param parameter
+	 * @param pType
+	 * @param timeType
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/getMobileSearchGroups")
+	@SkipLoginCheck
+	public Object getMobileSearchGroups(HttpServletRequest request,String sginId,Integer cateId,String parameter,Integer pType,Integer timeType){
+		ResponseMessage result=new ResponseMessage();
+		try {
+			Map<String,Object> param=new HashMap<String, Object>();
+			pType=pType==null?0:pType;
+			param.put("pType", pType);
+			if(parameter!=null && !parameter.equals("")){
+				param.put("parameter", parameter);
+			}
+			timeType=timeType==null?2:timeType;//默认为不限
+			param.put("timeType", timeType);
+			
+			String signIdsStr = sysConfigService.getDbSysConfig(SysConfigConstant.MOBILE_COLUMN_IDS, 1);
+			logger.info("signIdsStr:"+signIdsStr);
+			if(signIdsStr!=null){
+				param.put("sginId", signIdsStr);
+			}
+			if(cateId!=null){
+				param.put("cateId", cateId);
+			}
+			PageHelper.startPage(request);
+			List<Map<String,Object>> list=clientPictureMapper.selectMoreGroup(param);
+			PageHelper.addPagesAndTotal(result, list);
+			String ip = IPUtil.getRemoteAddr(request);
+			CommonValidation.checkParamBlank(ip, "点赞者ip");
+			for (Map<String,Object> map:list) {
+				if(map.containsKey("FILENAME")){
+                    map.put("filePath", CommonConstant.SMALLHTTPPath+ImgFileUtils.getPathByNameAndSize(map.get("FILENAME").toString(),request,2));
+				}
+				int columnId = (Integer)map.get("CATEGORY_ID");
+				int groupId = (Integer)map.get("ID");
+				Map<Object,Object> queryMap = new HashMap<Object,Object>();
+				queryMap.put("columnId", columnId);
+				queryMap.put("groupId", groupId);
+				List<CpColumn> cpColumnList = cpColumnMapper.selectById(queryMap);
+				if(cpColumnList.size()>0){
+					map.put("columnName",cpColumnList.get(0).getName());
+				}else{
+					map.put("columnName",cpColumnMapper.selectBykeyNoPname(columnId).getName());
+				}
+				//获取点赞数  add by xiayunan@20171107
+				int thumbsUpCount = cpPicGroupThumbsUpMapper.getGroupThumbsUpCount(groupId);
+				map.put("thumbsUpCount",thumbsUpCount);
+				
+				//判断当前IP对当前稿件是否点过赞
+				Map<Object,Object> sParamMap = new HashMap<Object,Object>();
+				sParamMap.put("groupId", groupId);
+				sParamMap.put("ip", ip);
+				int judgeCount = cpPicGroupThumbsUpMapper.getThumbsUpCountByIpAndGroupId(sParamMap);
+				if(judgeCount>0){
+					map.put("isThumbsUp",true);
+				}else{
+					map.put("isThumbsUp",false);
+				}
+				
+			}
+			result.setCode(CommonConstant.SUCCESSCODE);
+			result.setMsg(CommonConstant.SUCCESSSTRING);
+			result.setData(list);
+		} catch (InvalidHttpArgumentException e) {
+			result.setCode(e.getCode());
+			result.setMsg(e.getMsg());
+		}catch(Exception e1){
+			e1.printStackTrace();
+			logger.error("查询clint更多稿件，"+e1.getMessage());
+			result.setCode(CommonConstant.EXCEPTIONCODE);
+			result.setMsg(CommonConstant.EXCEPTIONMSG);
+		}
+		return result;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * 获取客户端首页稿件
 	 * @param request

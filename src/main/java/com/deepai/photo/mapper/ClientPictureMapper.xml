@@ -269,6 +269,9 @@
 			<if test="pType == 2">
 				and g.TITLE  like CONCAT('%',#{parameter},'%')
 			</if>
+			<if test="pType == 3">
+				and (g.TITLE  like CONCAT('%',#{parameter},'%') or g.AUTHOR  like CONCAT('%',#{parameter},'%'))
+			</if>
 		</if>
 		<if test="timeType ==0">
 			and g.SGIN_TIME > date_add(now(),interval-7 day)

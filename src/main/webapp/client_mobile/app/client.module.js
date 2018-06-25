@@ -57,6 +57,18 @@ clientModule.config(function($stateProvider,$urlRouterProvider,$locationProvider
             }
         })
         
+         //新建稿件页面
+        .state('root.searchGroup', {
+            url:'/searchGroup/',
+            views:{
+                'main@':{
+                    templateUrl: 'client_mobile/app/components/searchGroup/search_group.html',
+                    controller: 'searchGroupCtrl as searchGroup'
+                }
+            }
+        })
+        
+        
         //图片列表页
         .state('root.photolist', {
             url:'/photolist/:type?',

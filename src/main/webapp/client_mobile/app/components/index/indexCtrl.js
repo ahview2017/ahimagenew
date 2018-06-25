@@ -2,39 +2,64 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
     var vm = this;
     
     
+    /*** 顶部搜索框控制js 首先将搜索框隐藏 ***/
+    $("#searchBox").hide(); 
+
+    //当滚动条的位置处于距顶部0像素以下时，跳转链接出现，否则消失 
+    var startX, startY; 
+
+    document.addEventListener('touchstart',function (ev) {  
+            startX = ev.touches[0].pageX;  
+            startY = ev.touches[0].pageY;  
+        }, false);  
+  
+        document.addEventListener('touchend',function (ev) {  
+        var endX, endY;  
+        endX = ev.changedTouches[0].pageX;  
+        endY = ev.changedTouches[0].pageY;  
+        var direction = GetSlideDirection(startX, startY, endX, endY);
+        if ($(window).scrollTop()==0){ 
+            if(direction==2){
+                $("#searchBox").fadeIn(500);
+            }else if(direction==1){
+                $("#searchBox").fadeOut(500);
+            }
+        }else{ 
+            $("#searchBox").fadeOut(500); 
+        }      
+    }, false);  
+
+
+    //滑动处理  
+    function GetSlideDirection(startX, startY, endX, endY) {  
+        var dy = startY - endY;  
+        //var dx = endX - startX;  
+        var result = 0;  
+        if(dy>0) {//向上滑动  
+            result=1;  
+        }else if(dy<0){//向下滑动  
+            result=2;  
+        }  
+        else{  
+            result=0;  
+        }  
+        return result;  
+    }
     
-    
-    
-    /**************** 自动跳转到手机版 Start	****************/
-    //检测平台
-//    var system ={
-//		win : false,
-//		mac : false,
-//		xll : false
-//	};
-//	var p = navigator.platform;
-//	system.win = p.indexOf("Win") == 0;
-//	system.mac = p.indexOf("Mac") == 0;
-//	system.x11 = (p == "X11") || (p.indexOf("Linux") == 0);
-//	//跳转语句
-//	var url=document.location.href;
-//	var pcurl="/index";
-//	var moblieurl="/index_m";
-//	var tourl="";
-//
-//	if(system.win||system.mac||system.xll){//跳转到pc
-//		tourl=url.replace(moblieurl,pcurl);
-//	}else{
-//		//跳转到手机
-//		tourl=url.replace(pcurl,moblieurl);
-//		window.location.href=tourl;
-//	}
-	 /**************** 自动跳转到手机版 Start	****************/
-    
-    
-    
-    
-    
+    //手机版检索
+    vm.doSearch = function(){
+    	//校验检索词是否为空
+    	if(!vm.searchStr){
+    		layer.alert("请输入检索词");
+    		return;
+    	}
+    	//window.location.href = "/photo/index_m.html#/searchGroup/?searchStr="+vm.searchStr;
+    	$cookies.put("searchStr", vm.searchStr);
+    	$state.go('root.searchGroup',{searchStr:vm.searchStr});
+    	
+    	
+    }
+ 
     //获取对应栏目的稿件
     vm.getMoreGroups = function (signId,page) {
         req_getMoreGroups(signId,page);
@@ -53,7 +78,8 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
     function initSetting() {
     	vm.currpage = 1;
 	    vm.currchnl = 3064;
-    	
+    	vm.currpageForSearch = 1;
+    	vm.isSearch = false;
     	 //从cookie里取得存储的用户上次离开的页面地址
     	//vm.currchnl = $cookies.get('client_chnl')==null?3064:$cookies.get('client_chnl');
     	//vm.activeIndex =  $cookies.get('client_activeIndex')==null?0:$cookies.get('client_activeIndex');
@@ -396,6 +422,7 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
     function switchChnlTab(){
     	initChnlData();//初始化各栏目数据
     	vm.currpage = 1;//切换导航栏目当前页置为1
+    	vm.currpageForSearch = 1;
     	var index = $('#swiper-container2 .active-nav').index();
     	//var index = vm.activeIndex;//edit by xiayunan@20180202
     	//console.log("index:"+index);
@@ -467,7 +494,7 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
     $("#back-to-top").hide(); 
     //当滚动条的位置处于距顶部100像素以下时，跳转链接出现，否则消失 
     $(function () { 
-	    $(window).scroll(function(){ 
+	     $(window).scroll(function(){ 
 		    if ($(window).scrollTop()>100){ 
 		    	$("#back-to-top").fadeIn(200); 
 		    }else{ 
@@ -488,19 +515,24 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
 	
   //手机版滚动监听事件 add by xiayunan@20171023
   function scrollFn(){
-	  	vm.pageHeight = Math.max(document.body.scrollHeight,document.body.offsetHeight);
-	    vm.viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 0;
-	    vm.scrollHeight = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-    	//真实内容的高度
-    	//var pageHeight = Math.max(document.body.scrollHeight,document.body.offsetHeight);
-    	//视窗的高度
-    	//var viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 0;
-    	//隐藏的高度
-    	//var scrollHeight = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-    	if(vm.pageHeight - vm.viewportHeight - vm.scrollHeight < 650){//如果满足触发条件，执行
-    		vm.currpage++;
-    		req_appendMoreGroups(vm.currchnl,vm.currpage);
-    	}
+	  	var href = window.location.href;
+	  	if(href.indexOf("newDetail")==-1){//细缆页不执行滚动出发事件
+	  		vm.pageHeight = Math.max(document.body.scrollHeight,document.body.offsetHeight);
+		    vm.viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 0;
+		    vm.scrollHeight = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+	    	//真实内容的高度
+	    	//var pageHeight = Math.max(document.body.scrollHeight,document.body.offsetHeight);
+	    	//视窗的高度
+	    	//var viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 0;
+	    	//隐藏的高度
+	    	//var scrollHeight = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+	    	if(vm.pageHeight - vm.viewportHeight - vm.scrollHeight < 650){//如果满足触发条件，执行
+	    		vm.currpage++;
+	    		req_appendMoreGroups(vm.currchnl,vm.currpage);
+	    	}
+	  		
+	  	}
+	  	
     }
   
 
@@ -727,7 +759,7 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
             //cateId: cateId,
             rows: 3, //每页条数
             page: page,  //当前页码
-            //parameter: vm.tempSortsData.keyWord,
+            parameter: vm.searchStr,
             pType: 0,
             timeType: 2
         }).success(function(resp){
@@ -736,7 +768,6 @@ clientModule.controller('indexCtrl', function ($scope, $cookies, req, md5, $stat
 				if (signId == 3064) {
 					vm.newsPhotoMobile = resp.data;
 					//vm.newsPhotoMobile = jugeGroupPos.jugeGroupPos(3064,resp.data);
-					console.log(vm.newsPhotoMobile);
 					//vm.currchnl = 3064;
                 }
 				

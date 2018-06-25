@@ -178,6 +178,8 @@ CREATE TABLE `cp_msg_timer` (
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8 COMMENT='定时任务记录表';
 
+alter table cp_picture add  IS_SIGN_PAPER int(11) default NULL COMMENT '图片是否允许签报标识,0:未签报，1：签报';
+
 
 
 
