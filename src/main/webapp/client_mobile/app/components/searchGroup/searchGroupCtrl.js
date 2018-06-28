@@ -47,7 +47,7 @@ clientModule.controller('searchGroupCtrl', function ($scope, $cookies, req, md5,
   
     //手机版检索
     vm.doSearch = function(){
-    	vm.isSearch = true;
+    	vm.isSearch = false;
     	//校验检索词是否为空
     	if(!vm.searchStr){
     		layer.alert("请输入检索词");
@@ -68,7 +68,7 @@ clientModule.controller('searchGroupCtrl', function ($scope, $cookies, req, md5,
     	vm.currpage = 1;
 	    //vm.currchnl = 3064;
     	vm.currpageForSearch = 1;
-    	vm.isSearch = false;
+    	vm.isSearch = false;//默认检索来自当前页，若来自其他也没见则会true
 	    //点赞数
         vm.thumbsUpCount = 0;
 	    vm.pageHeight = Math.max(document.body.scrollHeight,document.body.offsetHeight);
