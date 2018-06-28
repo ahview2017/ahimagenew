@@ -104,7 +104,7 @@ input[type=checkbox], input[type=radio]{ zoom:1.5;}
                     	<span style="margin-right: 15px;">{{$index+1}}</span><span>{{picItem.isCover | isCoverFilter}}</span><br/>
                         <input type="checkbox" name="check" class="check" value="{{picItem.id}}" style="margin-right:10px;">
                          
-                        <img src="/photo/admin/assets/img/role/signpaper.png" style=" margin-bottom:13px;width: 18px;" >
+                        <img src="/photo/admin/assets/img/role/signpaper.png" style=" margin-bottom:13px;width: 18px;" ng-if="picItem.isSignPaper ==1" >
                         <img src="/photo/admin/assets/img/role/signwebsite.png" style="margin-bottom:13px;width: 18px;margin-left: 2px;" ng-if="detail.dataBankObj.signWebSite" >
                         <img src="/photo/admin/assets/img/role/pichide.png" style="margin-bottom:13px;width: 18px;margin-left: 2px;" ng-if="picItem.isSign ==1">
                         <img class="ms-detail-picture img-responsive parent_pic" ng-src="{{picItem.smallPath}}"

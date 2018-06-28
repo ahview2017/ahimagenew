@@ -1943,7 +1943,7 @@ public class GroupPicController {
 			Integer pageSize = page*rows;//结束条数
 			param.put("pageNo", pageNo);
 			param.put("pageSize", pageSize);
-			param.put("orderBy", " g.SGIN_TIME desc");
+			param.put("orderby", " g.SGIN_TIME desc");
 			param.put("query", query);
 			
 //			int count = aboutPictureMapper.selectCountGroups(param);//总条数
