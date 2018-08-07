@@ -21,6 +21,8 @@ public class OnloadStart extends HttpServlet{
 	//系统启动后，调用的方法,初始化系统配置
 	public void init() throws ServletException{
 		try {
+			
+			
 //	RedisClientTemplate redisClientTemplate=(RedisClientTemplate)SpringContextUtil.getBean("redisClientTemplate");
 			PropertiesFileUtil fileUtil=new PropertiesFileUtil();
 			

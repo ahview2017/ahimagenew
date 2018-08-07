@@ -15,6 +15,7 @@ import com.deepai.photo.common.util.SessionUtils;
  */
 public class MySessionListener implements HttpSessionListener {
 
+
 	public void sessionCreated(HttpSessionEvent event)  { 
 //		System.out.println("---");
 	}

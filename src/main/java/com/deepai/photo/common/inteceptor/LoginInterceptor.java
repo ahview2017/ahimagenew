@@ -15,13 +15,11 @@ import com.deepai.photo.common.StringUtil;
 import com.deepai.photo.common.annotation.SkipAuthCheck;
 import com.deepai.photo.common.annotation.SkipLoginCheck;
 import com.deepai.photo.common.constant.CommonConstant;
-import com.deepai.photo.common.constant.Constants;
 import com.deepai.photo.common.pojo.ResponseMessage;
 import com.deepai.photo.common.redis.RedisClientTemplate;
 import com.deepai.photo.common.util.RudderIOHandler;
 import com.deepai.photo.common.util.SessionUtils;
 import com.deepai.photo.common.util.json.GsonUtil;
-import com.deepai.photo.controller.util.UserUtils;
 import com.deepai.photo.service.admin.UserRoleRightService;
 
 /**
@@ -171,4 +169,6 @@ public class LoginInterceptor implements HandlerInterceptor{
 			redisClientTemplate.lpush(CommonConstant.ONLINUSERLIST, redisId);
 		}
 	}
+
+
 }
